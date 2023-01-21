@@ -6,6 +6,7 @@ generates:
     schema: '../../schema.graphql'
     documents:
       - ./graphql/**/(!(*.d)).ts
+      - '!./graphql/composeDB/**'
     plugins:
       - typescript
       - typescript-operations

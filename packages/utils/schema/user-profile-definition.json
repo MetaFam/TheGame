@@ -1,0 +1,180 @@
+{
+  "models": {
+    "ProfileName": {
+      "id": "kjzl6hvfrbw6c611df6yls00vce2g3x76t7kua44k6jsofr7xub9qy7iza9718v",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileEmoji": {
+      "id": "kjzl6hvfrbw6c7eno5ue31qq2ywfvobhaiiu9rxwfafjqvuxtatt91pesp7mu40",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileAvatar": {
+      "id": "kjzl6hvfrbw6c6o34x55ca2oa5ko5mldytbr2320py86qvrs4yf7pr88o4m580c",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileDescription": {
+      "id": "kjzl6hvfrbw6c6xikbiqrtumzk5l1k2enj2w3yno644p7povs39wuf1lvu2jdc6",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileTimeZone": {
+      "id": "kjzl6hvfrbw6c9pkdtwjs3ak2fka0rpebxto9gml02mefo0czpgokeoqc2uqefp",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileHeaderBackground": {
+      "id": "kjzl6hvfrbw6c9s8zpbmmj6lrnm73ks9oobn70sce71hejvxjb1fx8t5l5qdqao",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileURL": {
+      "id": "kjzl6hvfrbw6c9g0neo47z94stkotuea91rd4y5pedmy67cip0nomb0vbfobvcv",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileAvailability": {
+      "id": "kjzl6hvfrbw6c7s6zhsxulvn6ugxhby0t4w6rziyrvzvvf9vfjt6smq58kmra5k",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileUsername": {
+      "id": "kjzl6hvfrbw6calqjyhxfpw2pnytry4ib32jq1wg0ry27jvh1hituge276tswfs",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileSquareBackground": {
+      "id": "kjzl6hvfrbw6c5l2dqk9oru8v329tqf13yjabrg61rwas90nb5kdkztsaswy2hu",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileGenderIdentity": {
+      "id": "kjzl6hvfrbw6c7ms00q12n3z5a8dwdb7l75cwcor3mv5x90mfknb55usyjtcbof",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileDisposition": {
+      "id": "kjzl6hvfrbw6cae7bdmyu9wsjbodwqeyazlctp8dpxzx2jzwn7ozk2l8hoxoi44",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileHomeLocation": {
+      "id": "kjzl6hvfrbw6c7ck11p31yejfjrw88qtnmxhhikyw186ihrrktluvype2y5h09s",
+      "accountRelation": { "type": "single" }
+    }
+  },
+  "objects": {
+    "ProfileName": { "name": { "type": "string", "required": true } },
+    "ProfileEmoji": { "emoji": { "type": "string", "required": true } },
+    "ProfileAvatarImageMetadata": {
+      "size": { "type": "integer", "required": false },
+      "width": { "type": "integer", "required": true },
+      "height": { "type": "integer", "required": true },
+      "ipfsUrl": { "type": "string", "required": true },
+      "mimeType": { "type": "string", "required": true }
+    },
+    "ProfileAvatar": {
+      "original": {
+        "type": "reference",
+        "refType": "object",
+        "refName": "ProfileAvatarImageMetadata",
+        "required": true
+      },
+      "alternatives": {
+        "type": "list",
+        "required": false,
+        "item": {
+          "type": "reference",
+          "refType": "object",
+          "refName": "ProfileAvatarImageMetadata",
+          "required": false
+        }
+      }
+    },
+    "ProfileDescription": {
+      "description": { "type": "string", "required": true }
+    },
+    "ProfileTimeZone": { "timeZone": { "type": "string", "required": true } },
+    "ProfileHeaderBackgroundImageMetadata": {
+      "size": { "type": "integer", "required": false },
+      "width": { "type": "integer", "required": true },
+      "height": { "type": "integer", "required": true },
+      "ipfsUrl": { "type": "string", "required": true },
+      "mimeType": { "type": "string", "required": true }
+    },
+    "ProfileHeaderBackground": {
+      "original": {
+        "type": "reference",
+        "refType": "object",
+        "refName": "ProfileHeaderBackgroundImageMetadata",
+        "required": true
+      },
+      "alternatives": {
+        "type": "list",
+        "required": false,
+        "item": {
+          "type": "reference",
+          "refType": "object",
+          "refName": "ProfileHeaderBackgroundImageMetadata",
+          "required": false
+        }
+      }
+    },
+    "ProfileURL": { "url": { "type": "string", "required": true } },
+    "ProfileAvailability": {
+      "weeklyHours": { "type": "integer", "required": true }
+    },
+    "ProfileUsername": { "username": { "type": "string", "required": true } },
+    "ProfileSquareBackgroundImageMetadata": {
+      "size": { "type": "integer", "required": false },
+      "width": { "type": "integer", "required": true },
+      "height": { "type": "integer", "required": true },
+      "ipfsUrl": { "type": "string", "required": true },
+      "mimeType": { "type": "string", "required": true }
+    },
+    "ProfileSquareBackground": {
+      "original": {
+        "type": "reference",
+        "refType": "object",
+        "refName": "ProfileSquareBackgroundImageMetadata",
+        "required": true
+      },
+      "alternatives": {
+        "type": "list",
+        "required": false,
+        "item": {
+          "type": "reference",
+          "refType": "object",
+          "refName": "ProfileSquareBackgroundImageMetadata",
+          "required": false
+        }
+      }
+    },
+    "ProfileGenderIdentity": {
+      "gender": { "type": "string", "required": false },
+      "pronouns": { "type": "string", "required": false }
+    },
+    "ProfileDisposition": {
+      "explorerType": { "type": "string", "required": false },
+      "fiveColorDisposition": { "type": "string", "required": false }
+    },
+    "ProfileHomeLocation": {
+      "homeLocation": { "type": "string", "required": true }
+    }
+  },
+  "enums": {},
+  "accountData": {
+    "profileName": { "type": "node", "name": "ProfileName" },
+    "profileEmoji": { "type": "node", "name": "ProfileEmoji" },
+    "profileAvatar": { "type": "node", "name": "ProfileAvatar" },
+    "profileDescription": { "type": "node", "name": "ProfileDescription" },
+    "profileTimeZone": { "type": "node", "name": "ProfileTimeZone" },
+    "profileHeaderBackground": {
+      "type": "node",
+      "name": "ProfileHeaderBackground"
+    },
+    "profileUrl": { "type": "node", "name": "ProfileURL" },
+    "profileAvailability": { "type": "node", "name": "ProfileAvailability" },
+    "profileUsername": { "type": "node", "name": "ProfileUsername" },
+    "profileSquareBackground": {
+      "type": "node",
+      "name": "ProfileSquareBackground"
+    },
+    "profileGenderIdentity": {
+      "type": "node",
+      "name": "ProfileGenderIdentity"
+    },
+    "profileDisposition": { "type": "node", "name": "ProfileDisposition" },
+    "profileHomeLocation": { "type": "node", "name": "ProfileHomeLocation" }
+  }
+}

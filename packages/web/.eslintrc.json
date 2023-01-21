@@ -1,5 +1,6 @@
 {
   "extends": ["plugin:@next/next/recommended"],
+  "ignorePatterns": ["graphql/**"],
   "rules": {
     "no-console": [
       "error",
