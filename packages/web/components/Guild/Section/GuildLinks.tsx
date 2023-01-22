@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   IconButton,
+  Link,
   MetaTileLinkWrapper,
   Text,
   VStack,
