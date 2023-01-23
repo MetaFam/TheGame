@@ -37,8 +37,6 @@ type Props = {
   index?: number;
 };
 
-const MAX_BIO_LENGTH = 240;
-
 export const PlayerTile: React.FC<Props> = ({
   player,
   isPatron = false,
@@ -47,10 +45,6 @@ export const PlayerTile: React.FC<Props> = ({
   index,
 }) => {
   const description = getPlayerDescription(player);
-  const displayDescription =
-    typeof description === 'string' && description.length > MAX_BIO_LENGTH
-      ? `${description?.substring(0, MAX_BIO_LENGTH - 9)}…`
-      : description;
 
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
 
@@ -81,7 +75,7 @@ export const PlayerTile: React.FC<Props> = ({
             <Heading
               size="lg"
               color="white"
-              bgColor="landingGlassDark"
+              bgColor="whiteAlpha.100"
               backdropFilter="blur(10px)"
               lineHeight={1.8}
               justifyContent="center"
@@ -91,21 +85,27 @@ export const PlayerTile: React.FC<Props> = ({
               borderRadius={10}
               fontFamily="body"
               fontWeight={400}
+              textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the logo/avatar is white
             >
               {getPlayerName(player)}
             </Heading>
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
-          <Flex direction="column" mb="auto">
-            {displayDescription && (
-              <VStack spacing={2} align="stretch">
+          {/**
+           * The mb="auto" pushes the last block (DAO memberships/Contact) down to the bottom of the tile
+           */}
+          <Flex direction="column" gap={2} mb="auto">
+            {description && (
+              <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">About</Text>
-                <Text fontSize="sm">{displayDescription}</Text>
+                <Text fontSize="sm" noOfLines={4}>
+                  {description}
+                </Text>
               </VStack>
             )}
             {!!player.skills?.length && (
-              <VStack spacing={2} align="stretch">
+              <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">Skills</Text>
                 <SkillsTags
                   skills={player.skills.map(({ Skill: s }) => s) as Skill[]}
@@ -118,9 +118,9 @@ export const PlayerTile: React.FC<Props> = ({
 
           <Flex justifyContent="space-between" pointerEvents="none">
             {!!memberships.length && (
-              <VStack spacing={2} align="stretch">
+              <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">Member of</Text>
-                <HStack mt={2} position="relative" zIndex={1}>
+                <HStack mt={0} position="relative" zIndex={1}>
                   {loading ? (
                     <LoadingState mb={6} />
                   ) : (
@@ -138,9 +138,9 @@ export const PlayerTile: React.FC<Props> = ({
             )}
 
             {!!player.accounts?.length && (
-              <VStack spacing={2} align="stretch">
+              <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">Contact</Text>
-                <HStack mt={2} pointerEvents="all">
+                <HStack mt={1} pointerEvents="all">
                   <PlayerContacts {...{ player }} disableBrightId />
                 </HStack>
               </VStack>
