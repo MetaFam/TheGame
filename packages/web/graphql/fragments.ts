@@ -58,10 +58,10 @@ export const PlayerFragment = /* GraphQL */ `
       }
     }
 
-    brightid_status {
-      unique
-      contextIds
-    }
+    # brightid_status {
+    #   unique
+    #   contextIds
+    # }
   }
 `;
 
