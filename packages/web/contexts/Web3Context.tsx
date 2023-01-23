@@ -9,6 +9,7 @@ import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
 import { getResolver as getKeyResolver } from 'key-did-resolver';
+import ethers from 'ethers';
 import {
   clearToken,
   clearWalletConnect,
@@ -39,6 +40,7 @@ export type Web3ContextType = {
   connecting: boolean;
   connected: boolean;
   isMetaMask: boolean;
+  ENS: Maybe<string>;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
@@ -52,6 +54,7 @@ export const Web3Context = createContext<Web3ContextType>({
   connecting: false,
   connected: false,
   isMetaMask: false,
+  ENS: null,
 });
 
 const [web3Modal, ceramic] =
@@ -101,6 +104,7 @@ type Web3State = {
   address: Maybe<string>;
   chainId: Maybe<string>;
   authToken: Maybe<string>;
+  ENS: Maybe<string>;
 };
 
 const DID_METHOD = '3ID' as string; // 'PKH'
@@ -109,13 +113,14 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
   children,
 }) => {
-  const [{ wallet, provider, chainId, address, authToken }, setWeb3State] =
+  const [{ wallet, provider, chainId, address, authToken, ENS }, setWeb3State] =
     useState<Web3State>({
       wallet: null,
       provider: null,
       address: null,
       chainId: null,
       authToken: null,
+      ENS: null,
     });
   const [connecting, setConnecting] = useState(false);
 
@@ -248,6 +253,8 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     [provider],
   );
 
+  //TO-DO: Build ENS query
+
   return (
     <Web3Context.Provider
       value={{
@@ -261,6 +268,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         authToken,
         chainId,
         isMetaMask,
+        ENS,
       }}
     >
       {children}
