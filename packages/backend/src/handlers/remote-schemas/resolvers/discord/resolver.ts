@@ -39,25 +39,28 @@ export const getDiscordServerMemberRoles: QueryResolvers['getDiscordServerMember
 
     if (guildDiscordId == null || playerDiscordId == null) return [];
 
-    const discordClient = await createDiscordClient();
-    const discordGuild = await discordClient.guilds.fetch(guildDiscordId);
+    try {
+      const discordClient = await createDiscordClient();
+      const discordGuild = await discordClient.guilds.fetch(guildDiscordId);
 
-    if (discordGuild != null) {
-      await discordGuild.members.fetch(playerDiscordId);
-      await discordGuild.roles.fetch();
-      const member = discordGuild.members.cache.get(playerDiscordId);
+      if (discordGuild != null) {
+        await discordGuild.members.fetch(playerDiscordId);
+        await discordGuild.roles.fetch();
+        const member = discordGuild.members.cache.get(playerDiscordId);
 
-      if (member == null) return [];
+        if (member == null) return [];
 
-      // these are returned in descending order by position
-      // (meaning, most significant role is first)
-      return member.roles.cache.map((role: Role) => ({
-        id: role.id,
-        position: role.position,
-        name: role.name,
-      }));
+        // these are returned in descending order by position
+        // (meaning, most significant role is first)
+        return member.roles.cache.map((role: Role) => ({
+          id: role.id,
+          position: role.position,
+          name: role.name,
+        }));
+      }
+    } catch (err) {
+      console.error({ err });
     }
-
     return [];
   };
 

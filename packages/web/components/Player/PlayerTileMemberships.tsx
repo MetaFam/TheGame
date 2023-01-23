@@ -1,41 +1,32 @@
 import { MetaTag, Text, VStack, Wrap, WrapItem } from '@metafam/ds';
-import { Player } from 'graphql/autogen/types';
-import React, { useMemo } from 'react';
+import { GuildMembership } from 'graphql/getMemberships';
+import React from 'react';
 
 type Props = {
-  player: Player;
+  memberships: Array<GuildMembership>;
 };
 
 const SHOW_MEMBERSHIPS = 4;
 
-export const PlayerTileMemberships: React.FC<Props> = ({ player }) => {
-  const displayMemberships = useMemo(
-    () => player.guilds?.filter(({ Guild: { name } }) => !!name) ?? [],
-    [player.guilds],
-  );
-  return displayMemberships.length > 0 ? (
-    <VStack spacing={1} align="stretch">
-      <Text textStyle="caption">MEMBER OF</Text>
+export const PlayerTileMemberships: React.FC<Props> = ({ memberships }) =>
+  memberships.length === 0 ? null : (
+    <VStack spacing={2} align="stretch" mt={2}>
+      <Text textStyle="caption">Guilds</Text>
       <Wrap>
-        {displayMemberships
-          .slice(0, SHOW_MEMBERSHIPS)
-          .map((member, i: number) => (
-            <WrapItem key={member.guildId || i}>
-              <MetaTag size="md" fontWeight="normal">
-                {member.Guild.name}
-              </MetaTag>
-            </WrapItem>
-          ))}
-        {displayMemberships.length > SHOW_MEMBERSHIPS && (
+        {memberships.slice(0, SHOW_MEMBERSHIPS).map((member, i: number) => (
+          <WrapItem key={member.memberId || i}>
+            <MetaTag size="md" fontWeight="normal">
+              {member.title}
+            </MetaTag>
+          </WrapItem>
+        ))}
+        {memberships.length > SHOW_MEMBERSHIPS && (
           <WrapItem>
             <MetaTag size="md" fontWeight="normal">
-              {`+${
-                (player.daohausMemberships?.length ?? 0) - SHOW_MEMBERSHIPS
-              }`}
+              {`+${memberships.length - SHOW_MEMBERSHIPS}`}
             </MetaTag>
           </WrapItem>
         )}
       </Wrap>
     </VStack>
-  ) : null;
-};
+  );

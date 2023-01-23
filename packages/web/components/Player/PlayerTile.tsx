@@ -4,17 +4,19 @@ import {
   HStack,
   Link,
   LoadingState,
+  MetaTag,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
   Text,
   VStack,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
 import type { Maybe } from '@metafam/utils';
 import { PatronRank } from 'components/Patron/PatronRank';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
-import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Quest/Skills';
 import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
@@ -45,17 +47,27 @@ export const PlayerTile: React.FC<Props> = ({
   index,
 }) => {
   const description = getPlayerDescription(player);
-
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
-
   const [loading, setLoading] = useState(true);
+  const daosRef = React.useRef<HTMLDivElement>(null);
+  const [limit, setLimit] = useState(12);
 
   useEffect(() => {
-    getAllMemberships(player).then((all) => {
+    getAllMemberships(player).then(({ all }) => {
       setLoading(false);
       setMemberships(all);
     });
   }, [player]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = daosRef.current?.scrollWidth;
+      setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));
+    };
+    setTimeout(handleResize, 500);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <Link
@@ -63,7 +75,7 @@ export const PlayerTile: React.FC<Props> = ({
       _hover={{ textDecoration: 'none' }}
       href={getPlayerURL(player)}
     >
-      <MetaTile minW={'300px'} height="full" width="full" cursor="pointer">
+      <MetaTile minW="300px" height="full" width="full" cursor="pointer">
         <MetaTileHeader>
           {isPatron && typeof index === 'number' && pSeedPrice ? (
             <PatronRank patron={player as Patron} {...{ pSeedPrice, index }} />
@@ -92,9 +104,6 @@ export const PlayerTile: React.FC<Props> = ({
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
-          {/**
-           * The mb="auto" pushes the last block (DAO memberships/Contact) down to the bottom of the tile
-           */}
           <Flex direction="column" gap={2} mb="auto">
             {description && (
               <VStack spacing={1} align="stretch">
@@ -105,40 +114,51 @@ export const PlayerTile: React.FC<Props> = ({
               </VStack>
             )}
             {!!player.skills?.length && (
-              <VStack spacing={1} align="stretch">
+              <VStack spacing={2} align="stretch" mt={2}>
                 <Text textStyle="caption">Skills</Text>
                 <SkillsTags
                   skills={player.skills.map(({ Skill: s }) => s) as Skill[]}
                 />
               </VStack>
             )}
-
-            <PlayerTileMemberships {...{ player }} />
           </Flex>
 
           <Flex justifyContent="space-between" pointerEvents="none">
-            {!!memberships.length && (
-              <VStack spacing={1} align="stretch">
-                <Text textStyle="caption">Member of</Text>
-                <HStack mt={0} position="relative" zIndex={1}>
-                  {loading ? (
-                    <LoadingState mb={6} />
-                  ) : (
-                    memberships
-                      .slice(0, 3)
-                      .map((membership) => (
-                        <DAOMembershipSmall
-                          {...{ membership }}
-                          key={membership.address}
-                        />
-                      ))
-                  )}
-                </HStack>
-              </VStack>
-            )}
+            <VStack spacing={2} align="stretch" ref={daosRef}>
+              {!!memberships.length && (
+                <>
+                  <Text textStyle="caption">Member of</Text>
+                  <HStack mt={2} position="relative" zIndex={1}>
+                    {loading ? (
+                      <LoadingState mb={6} />
+                    ) : (
+                      <Wrap overflow="visible">
+                        {memberships
+                          .slice(
+                            0,
+                            memberships.length >= limit ? limit - 1 : limit,
+                          )
+                          .map((membership) => (
+                            <WrapItem key={membership.address ?? Math.random()}>
+                              <DAOMembershipSmall {...{ membership }} />
+                            </WrapItem>
+                          ))}
+                        {memberships.length > limit && (
+                          <WrapItem>
+                            <MetaTag size="sm" fontWeight="normal" h={8}>
+                              {`+${memberships.length - limit + 1}`}
+                            </MetaTag>
+                          </WrapItem>
+                        )}
+                      </Wrap>
+                    )}
+                  </HStack>
+                </>
+              )}
+            </VStack>
 
             {!!player.accounts?.length && (
-              <VStack spacing={1} align="stretch">
+              <VStack spacing={2}>
                 <Text textStyle="caption">Contact</Text>
                 <HStack mt={1} pointerEvents="all">
                   <PlayerContacts {...{ player }} disableBrightId />
