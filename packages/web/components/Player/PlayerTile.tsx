@@ -21,7 +21,7 @@ import { SkillsTags } from 'components/Quest/Skills';
 import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import type { Patron } from 'graphql/types';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   getPlayerDescription,
   getPlayerName,
@@ -59,15 +59,16 @@ export const PlayerTile: React.FC<Props> = ({
     });
   }, [player]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const width = daosRef.current?.scrollWidth;
-      setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));
-    };
-    setTimeout(handleResize, 500);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+  const handleResize = useCallback(() => {
+    const width = daosRef.current?.scrollWidth;
+    setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));
   }, []);
+
+  useEffect(() => {
+    const elem = daosRef.current;
+    elem?.addEventListener('resize', handleResize);
+    return () => elem?.removeEventListener('resize', handleResize);
+  }, [handleResize]);
 
   return (
     <Link
@@ -136,7 +137,7 @@ export const PlayerTile: React.FC<Props> = ({
                         {memberships
                           .slice(
                             0,
-                            memberships.length >= limit ? limit - 1 : limit,
+                            memberships.length > limit ? limit - 1 : limit,
                           )
                           .map((membership) => (
                             <WrapItem key={membership.address ?? Math.random()}>
