@@ -41,7 +41,9 @@
     "web": "yarn --cwd packages/web/",
     "ds": "yarn --cwd packages/design-system/",
     "release": "standard-version",
-    "composedb:server": "yarn composedb graphql:server --graphiql ./packages/utils/schema/user-profile-definition.json"
+    "composedb:create-composite": "composedb composite:create packages/utils/schema/user-profile.graphql -o packages/utils/schema/user-profile-composite.json",
+    "composedb:create-definition": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/schema/user-profile-definition.json",
+    "composedb:graphql-server": "composedb graphql:server --graphiql packages/utils/schema/user-profile-definition.json"
   },
   "workspaces": [
     "packages/*"
