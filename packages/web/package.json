@@ -9,7 +9,9 @@
     "start": "next start",
     "typecheck": "tsc",
     "precommit": "yarn lint-staged",
-    "generate": "graphql-codegen",
+    "generate": "yarn generate:graphql",
+    "generate:graphql": "graphql-codegen",
+    "generate:composedb": "composedb composite:compile ../../packages/utils/schema/user-profile-composite.json ./graphql/composeDB/autogen/definition.ts",
     "prepare": "yarn generate"
   },
   "dependencies": {
