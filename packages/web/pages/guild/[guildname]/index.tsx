@@ -45,20 +45,11 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
         url={`https://my.metagame.wtf/guild/${guild.guildname}`}
         img={`${guild.logo}`}
       />
-      <Box
-        background={`url(${getGuildCoverImageFull()}) no-repeat`}
-        bgSize="cover"
-        bgPos="center"
-        h={72}
-        position="absolute"
-        w="full"
-      />
       <Flex
         w="full"
         h="min-content"
         direction="column"
         align="center"
-        pt={12}
         px={[0, 4, 8]}
       >
         <Grid {...{ guild }} />
@@ -153,7 +144,7 @@ export const Grid: React.FC<Props> = ({ guild }): ReactElement => {
         persisting,
         allBoxOptions,
         displayComponent: GuildSection,
-        pt: canAdministerGuild ? 0 : '4rem',
+        // pt: canAdministerGuild ? 0 : '4rem',
       }}
     />
   );

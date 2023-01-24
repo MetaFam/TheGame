@@ -7,6 +7,7 @@ import {
   Link,
   MetaTileLinkWrapper,
   Text,
+  VStack,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
@@ -14,7 +15,14 @@ import { LinkGuild } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { GuildFragment } from 'graphql/autogen/types';
 import React from 'react';
-import { FaDiscord, FaGithub, FaGlobe, FaTwitter } from 'react-icons/fa';
+import {
+  FaDiscord,
+  FaExternalLinkAlt,
+  FaGithub,
+  FaGlobe,
+  FaHome,
+  FaTwitter,
+} from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 
@@ -40,59 +48,86 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
     guild.githubUrl ||
     guild.twitterUrl;
 
+  const links = {
+    websiteUrl: {
+      label: 'Visit our website',
+      link: guild.websiteUrl,
+      icon: <FaHome />,
+    },
+    discordInviteUrl: {
+      label: 'Join our Discord server',
+      link: guild.discordInviteUrl,
+      icon: <FaDiscord />,
+    },
+    githubUrl: {
+      label: 'Check our work on GitHub',
+      link: guild.githubUrl,
+      icon: <FaGithub />,
+    },
+    twitterUrl: {
+      label: 'Find us on Twitter',
+      link: guild.twitterUrl,
+      icon: <FaTwitter />,
+    },
+  };
+
   return (
-    <ProfileSection title="Links" type={BoxTypes.GUILD_LINKS} editing={editing}>
+    <ProfileSection
+      title="Social"
+      type={BoxTypes.GUILD_LINKS}
+      editing={editing}
+    >
       {hasIconLink && (
-        <Wrap mb={4}>
-          {guild.websiteUrl && (
-            <WrapItem>
-              <Link href={guild.websiteUrl} target="_blank" rel="noreferrer">
-                <IconButton
-                  aria-label="Website"
-                  icon={<FaGlobe />}
-                  {...linkButtonProps}
-                />
-              </Link>
-            </WrapItem>
-          )}
-          {guild.discordInviteUrl && (
-            <WrapItem>
-              <Link
-                href={guild.discordInviteUrl}
+        <VStack mb={4} w="full">
+          {Object.entries(links).map(([key, value]) => {
+            if (!guild[key as keyof GuildFragment]) return '';
+            return (
+              <a
+                href={value.link || ''}
                 target="_blank"
                 rel="noreferrer"
+                style={{ width: '100%' }}
+                role="group"
+                key={key}
               >
-                <IconButton
-                  aria-label="Discord Server"
-                  icon={<FaDiscord />}
-                  {...linkButtonProps}
-                />
-              </Link>
-            </WrapItem>
-          )}
-          {guild.githubUrl && (
-            <WrapItem>
-              <Link href={guild.githubUrl} target="_blank" rel="noreferrer">
-                <IconButton
-                  aria-label="Github"
-                  icon={<FaGithub />}
-                  {...linkButtonProps}
-                />
-              </Link>
-            </WrapItem>
-          )}
-          {guild.twitterUrl && (
-            <WrapItem>
-              <Link href={guild.twitterUrl} target="_blank" rel="noreferrer">
-                <IconButton
-                  aria-label="Twitter"
-                  icon={<FaTwitter />}
-                  {...linkButtonProps}
-                />
-              </Link>
-            </WrapItem>
-          )}
-        </Wrap>
+                <Flex
+                  justifyContent="start"
+                  alignContent="center"
+                  color={'violet'}
+                  width={'full'}
+                  px={4}
+                  py={3}
+                  background={'blackAlpha.300'}
+                  transition={'ease-in-out'}
+                  transitionDuration={'300'}
+                  _hover={{
+                    background: 'blackAlpha.500',
+                  }}
+                  _active={{
+                    background: 'blackAlpha.700',
+                  }}
+                  rounded={'md'}
+                >
+                  <Box my="auto" ml={2}>
+                    {value.icon}
+                  </Box>
+                  <Text mx="auto" fontWeight={600}>
+                    {value.label}
+                  </Text>
+                  <Box
+                    my="auto"
+                    mr={1}
+                    opacity={0}
+                    _groupHover={{ opacity: 0.8 }}
+                    _groupActive={{ opacity: 1 }}
+                  >
+                    <FaExternalLinkAlt fill="currentColor" />
+                  </Box>
+                </Flex>
+              </a>
+            );
+          })}
+        </VStack>
       )}
       <Wrap justify="space-between" w="full" spacing={4} mb={2}>
         {guild.daos?.map((dao, index) => {
@@ -174,26 +209,79 @@ export const GuildLinksSmall: React.FC<GuildLinkSmall> = ({ guild }) => {
     <Wrap>
       {hasIconLink && (
         <Wrap mb={4}>
-          {mediaLinks.map(
-            ({ url, label, icon }) =>
-              url && (
-                <MetaTileLinkWrapper>
-                  <IconButton
-                    onClick={() => {
-                      if (url) {
-                        window?.open(url, '_blank')?.focus();
-                      }
-                    }}
-                    aria-label={label}
-                    minW={6}
-                    w={6}
-                    h={6}
-                    borderRadius="full"
-                    {...{ icon, ...linkButtonProps }}
-                  />
-                </MetaTileLinkWrapper>
-              ),
-          )}
+          {guild.websiteUrl ? (
+            <MetaTileLinkWrapper>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (guild.websiteUrl)
+                    window?.open(guild.websiteUrl, '_blank')?.focus();
+                }}
+                aria-label="Discord Server"
+                icon={<FaGlobe />}
+                minW={6}
+                w={6}
+                h={6}
+                borderRadius="full"
+                {...linkButtonProps}
+              />
+              Website
+            </MetaTileLinkWrapper>
+          ) : null}
+          {guild.discordInviteUrl ? (
+            <MetaTileLinkWrapper>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (guild.discordInviteUrl)
+                    window?.open(guild.discordInviteUrl, '_blank')?.focus();
+                }}
+                aria-label="Discord Server"
+                icon={<FaDiscord />}
+                minW={6}
+                w={6}
+                h={6}
+                borderRadius="full"
+                {...linkButtonProps}
+              />
+            </MetaTileLinkWrapper>
+          ) : null}
+          {guild.githubUrl ? (
+            <MetaTileLinkWrapper>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (guild.githubUrl)
+                    window?.open(guild.githubUrl, '_blank')?.focus();
+                }}
+                aria-label="Github"
+                icon={<FaGithub />}
+                minW={6}
+                w={6}
+                h={6}
+                borderRadius="full"
+                {...linkButtonProps}
+              />
+            </MetaTileLinkWrapper>
+          ) : null}
+          {guild.twitterUrl ? (
+            <MetaTileLinkWrapper>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (guild.twitterUrl)
+                    window?.open(guild.twitterUrl, '_blank')?.focus();
+                }}
+                aria-label="Twitter"
+                icon={<FaTwitter />}
+                minW={6}
+                w={6}
+                h={6}
+                borderRadius="full"
+                {...linkButtonProps}
+              />
+            </MetaTileLinkWrapper>
+          ) : null}
         </Wrap>
       )}
     </Wrap>
