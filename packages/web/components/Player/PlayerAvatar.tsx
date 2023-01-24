@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps } from '@metafam/ds';
+import { Avatar, AvatarProps, useToast } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import { useProfileField } from 'lib/hooks';
@@ -24,6 +24,8 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
     player,
     getter: getPlayerName,
   });
+  const toast = useToast();
+
   const attrs = {
     src: src ?? image ?? undefined,
     name: name ?? undefined,
@@ -35,5 +37,20 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
     attrs.bg = 'transparent';
   }
 
-  return <Avatar {...attrs} {...{ ref }} />;
+  return (
+    <Avatar
+      title={`ETH Address: ${player.ethereumAddress}`}
+      onClick={() => {
+        navigator.clipboard.writeText(player.ethereumAddress);
+        toast({
+          title: 'Copied to Clipboard',
+          description: player.ethereumAddress,
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        });
+      }}
+      {...{ ref, ...attrs }}
+    />
+  );
 });

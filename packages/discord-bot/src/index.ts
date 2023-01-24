@@ -12,6 +12,7 @@ export const createDiscordClient = async (): Promise<Client> => {
   }
 
   await client.login(CONFIG.discordBotToken);
+
   return client;
 };
 
