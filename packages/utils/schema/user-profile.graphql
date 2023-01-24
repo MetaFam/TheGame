@@ -6,7 +6,7 @@ type ProfileName
 type ProfileAvatar
   @createModel(
     accountRelation: SINGLE
-    description: "An image and optional fallback images representing your avatar"
+    description: "A square image, and optional fallback images, representing your avatar"
   ) {
   original: ImageMetadata!
   alternatives: [ImageMetadata] @list(maxLength: 3)
@@ -15,9 +15,9 @@ type ProfileAvatar
 type ProfileDescription
   @createModel(
     accountRelation: SINGLE
-    description: "A short profile bio / blurb / description"
+    description: "A Markdown-formatted short profile bio / blurb / description"
   ) {
-  description: String! @string(maxLength: 420)
+  description: String! @string(maxLength: 42000)
 }
 
 type ProfileEmoji
@@ -34,7 +34,16 @@ type ProfileHeaderBackground
   alternatives: [ImageMetadata] @list(maxLength: 3)
 }
 
-type ProfileURL
+type ProfileBackground
+  @createModel(
+    accountRelation: SINGLE
+    description: "A square image (1:1 ratio) and optional fallback images to be used as a page background"
+  ) {
+  original: ImageMetadata!
+  alternatives: [ImageMetadata] @list(maxLength: 3)
+}
+
+type ProfileHomepage
   @createModel(
     accountRelation: SINGLE
     description: "Your home on the internet"
@@ -64,19 +73,10 @@ type ProfileTimeZone
   timeZone: String! @string(maxLength: 127)
 }
 
-type ProfileSquareBackground
-  @createModel(
-    accountRelation: SINGLE
-    description: "An image (1:1 ratio) and optional fallback images to be used as a page background"
-  ) {
-  original: ImageMetadata!
-  alternatives: [ImageMetadata] @list(maxLength: 3)
-}
-
 type ProfileAvailability
   @createModel(
     accountRelation: SINGLE
-    description: "Some data indicating how available you are to take on additional work"
+    description: "Data indicating how available you are to take on additional work"
   ) {
   weeklyHours: Int! @int(min: 0, max: 168)
 }
@@ -84,10 +84,10 @@ type ProfileAvailability
 type ProfileGenderIdentity
   @createModel(
     accountRelation: SINGLE
-    description: "Some data indicating your gender identity"
+    description: "Data indicating your gender identity"
   ) {
-  pronouns: String @string(maxLength: 255)
-  gender: String @string(maxLength: 42)
+  pronouns: String @string(maxLength: 420)
+  gender: String @string(maxLength: 420)
 }
 
 type ProfileDisposition
@@ -99,13 +99,19 @@ type ProfileDisposition
   fiveColorDisposition: String @string(minLength: 1, maxLength: 5)
   # pattern: "^(Pioneer|Settler|Town Planner)$"
   explorerType: String @string(maxLength: 12)
+  # Myers-Briggs Type Indicator
+  mbti: String @string(maxLength: 4)
+  enneagram: String @string(maxLength: 12)
 }
 
 type ImageMetadata {
-  # pattern: "^ipfs:(//)?.+$"
-  ipfsUrl: String! @string(maxLength: 150)
+  url: String! @string(maxLength: 420)
   mimeType: String! @string(maxLength: 50)
-  width: Int! @int(min: 1)
-  height: Int! @int(min: 1)
-  size: Int @int(min: 1)
+  size: Int @int(min: 0)
+
+  # Dimensions for raster images
+  width: Int @int(min: 0)
+  height: Int @int(min: 0)
+  # For vector images
+  aspectRatio: Float @float(min: 0, max: 1)
 }

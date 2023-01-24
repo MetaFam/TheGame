@@ -108,7 +108,8 @@ type Web3State = {
   authToken: Maybe<string>;
 };
 
-const DID_METHOD = '3ID' as string; // 'PKH'
+// const DID_METHOD = '3ID' as string;
+const DID_METHOD = 'PKH' as string;
 
 export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
