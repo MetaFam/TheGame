@@ -33,14 +33,20 @@ export const useSaveProfileToComposeDB = ({
       }
       // execute the mutation
       try {
-        await composeDBClient.executeQuery(
+        const response = await composeDBClient.executeQuery(
           mutationComposeDBCreateProfileUsername,
           {
-            content: {
-              username,
+            input: {
+              content: {
+                username,
+              },
             },
           },
         );
+        if (response.error) {
+          setStatus('There was an error saving this field');
+          console.error(response.error);
+        }
       } catch (e) {
         console.error(e);
       }
