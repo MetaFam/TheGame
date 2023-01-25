@@ -32,6 +32,7 @@ import {
 } from 'lib/hooks/players';
 import { useIsSticky } from 'lib/hooks/useIsSticky';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { getAddressFromName } from 'utils/ensHelpers';
 import { SkillOption } from 'utils/skillHelpers';
 
 const Form = chakra.form;
@@ -66,6 +67,18 @@ export const PlayerFilter: React.FC<Props> = ({
   const [sortOption, setSortOption] = useState<ValueType>(
     sortOptionsMap[SortOption.SEASON_XP],
   );
+
+  // Get ADDRESS from ENS, temporary.
+
+  useEffect(() => {
+    const resolveName = async () => {
+      if (search.includes('.')) {
+        const address = await getAddressFromName(search);
+        setQueryVariable('search', `%${address!}%`);
+      }
+    };
+    resolveName();
+  }, [search, setQueryVariable]);
 
   const MIN_SEARCH_LENGTH = 2; // The text in the search box should be at least this long before a search is triggered
 
