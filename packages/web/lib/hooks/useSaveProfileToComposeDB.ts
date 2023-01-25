@@ -43,9 +43,9 @@ export const useSaveProfileToComposeDB = ({
             },
           },
         );
-        if (response.error) {
+        if (response.errors) {
           setStatus('There was an error saving this field');
-          console.error(response.error);
+          console.error(response.errors);
         }
       } catch (e) {
         console.error(e);
