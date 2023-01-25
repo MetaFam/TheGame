@@ -116,7 +116,10 @@ export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
 
 export const getPSeedPrice = async (): Promise<number> => {
   const { data, error } = await client
-    .query<GetPSeedPriceQuery, GetPSeedPriceQueryVariables>(getPSeedPriceQuery)
+    .query<GetPSeedPriceQuery, GetPSeedPriceQueryVariables>(
+      getPSeedPriceQuery,
+      {},
+    )
     .toPromise();
 
   if (data?.getPSeedInfo?.priceUsd == null) {

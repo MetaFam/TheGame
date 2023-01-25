@@ -45,7 +45,7 @@ export const colors: {
 export type PersonalityInfo = Maybe<Record<string, PersonalityOption>>;
 
 export const getPersonalityInfo = async (): Promise<PersonalityInfo> => {
-  const { data, error } = await client.query(AspectsQuery).toPromise();
+  const { data, error } = await client.query(AspectsQuery, {}).toPromise();
 
   if (error) throw error;
   if (!data) throw new Error('Data isn’t set.');
