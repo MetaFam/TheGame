@@ -14,7 +14,7 @@ export const GetPlayerTypes = /* GraphQL */ `
 
 export const getPlayerRoles = async () => {
   const { data, error } = await client
-    .query<GetPlayerRolesQuery>(GetPlayerTypes)
+    .query<GetPlayerRolesQuery>(GetPlayerTypes, {})
     .toPromise();
 
   if (!data) {

@@ -245,7 +245,7 @@ export const WizardPane = <T,>({
               })
             : children}
           <FormErrorMessage style={{ justifyContent: 'center' }}>
-            {errors[field]?.message}
+            {errors[field]?.message?.toString()}
           </FormErrorMessage>
         </Box>
       </FormControl>
