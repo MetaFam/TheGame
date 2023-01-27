@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { LayoutData } from 'utils/boxTypes';
+import { getAddressFromName } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
@@ -190,6 +191,10 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
+
+  // Used to detect whether ENS is available
+  let user;
+
   if (username == null) {
     return {
       redirect: {
@@ -199,7 +204,15 @@ export const getStaticProps = async (
     };
   }
 
-  const player = await getPlayer(username);
+  // If username in url includes a . attempt to resolve ENS
+  if (username.includes('.')) {
+    user = await getAddressFromName(username);
+  } else {
+    // Else use url query param to get player
+    user = username.toLocaleLowerCase();
+  }
+
+  const player = await getPlayer(user);
 
   return {
     props: {
