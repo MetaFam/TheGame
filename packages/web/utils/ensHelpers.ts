@@ -6,7 +6,7 @@ const mainnetProvider = new ethers.providers.JsonRpcProvider(
 
 export const getAddressFromName = async (ens: string) => {
   const address = await mainnetProvider.resolveName(ens);
-  const data = address?.length === 42 ? address : ens; 
+  const data = address?.length === 42 ? address : ens;
   return data;
 };
 
