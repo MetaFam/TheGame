@@ -18,9 +18,9 @@ import { useProfileField, useUser } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import { getAddressFromName } from 'utils/ensHelpers';
 import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { LayoutData } from 'utils/boxTypes';
+import { getAddressFromName } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
@@ -57,7 +57,6 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (router.isFallback) {
     return <LoadingState />;
   }
-  console.log(player, 'player');
 
   if (!player) return <Page404 />;
 
@@ -223,4 +222,3 @@ export const getStaticProps = async (
     revalidate: 1,
   };
 };
-
