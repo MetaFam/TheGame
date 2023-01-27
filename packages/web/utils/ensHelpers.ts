@@ -6,5 +6,6 @@ export const getAddressFromName = async (ens: string) => {
     'https://eth.llamarpc.com',
   );
   const address = await mainnetProvider.resolveName(ens);
-  return address;
+  const data = address?.length === 42 ? address : ens; 
+  return data;
 };
