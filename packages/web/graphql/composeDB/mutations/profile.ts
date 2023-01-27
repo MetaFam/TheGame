@@ -1,8 +1,20 @@
-export const mutationComposeDBCreateProfileUsername = /* GraphQL */ `
-  mutation ComposeDBCreateProfileUsername($input: CreateProfileUsernameInput!) {
-    createProfileUsername(input: $input) {
+export const mutationComposeDBCreateProfileName = /* GraphQL */ `
+  mutation ComposeDBCreateProfileName($input: CreateProfileNameInput!) {
+    createProfileName(input: $input) {
       document {
-        username
+        name
+      }
+    }
+  }
+`;
+
+export const mutationComposeDBCreateProfileDescription = /* GraphQL */ `
+  mutation ComposeDBCreateProfileDescription(
+    $input: CreateProfileDescriptionInput!
+  ) {
+    createProfileDescription(input: $input) {
+      document {
+        description
       }
     }
   }
