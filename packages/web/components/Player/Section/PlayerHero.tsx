@@ -28,6 +28,7 @@ import { useProfileField, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
+import { getNameFromAddress } from 'utils/ensHelpers';
 import {
   getPlayerMeetwithWalletCalendarUrl,
   getPlayerName,
@@ -239,6 +240,18 @@ const Name: React.FC<DisplayComponentProps> = ({
     player,
     getter: getPlayerName,
   });
+
+  /* let ens: string = '';
+
+  useEffect(() => {
+    const resolveENS = async () => {
+      if (!player || !player.ethereumAddress) {
+        return;
+      }
+      ens = await getNameFromAddress(player.ethereumAddress);
+    };
+    resolveENS();
+  }, [player?.ethereumAddress]) */
 
   return (
     <Wrapper>

@@ -192,9 +192,8 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
-
-  //Used to detect whether ENS is available
-  let user
+  // Used to detect whether ENS is available
+  let user;
 
   if (username == null) {
     return {
@@ -205,12 +204,12 @@ export const getStaticProps = async (
     };
   }
 
-  //If username in url includes a . attempt to resolve ENS
+  // If username in url includes a . attempt to resolve ENS
   if (username.includes('.')) {
     user = await getAddressFromName(username);
   } else {
-    //Else use url query param to get player
-    user = username;
+    // Else use url query param to get player
+    user = username.toLocaleLowerCase();
   }
 
   const player = await getPlayer(user);
