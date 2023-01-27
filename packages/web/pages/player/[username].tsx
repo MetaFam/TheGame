@@ -106,6 +106,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (router.isFallback) {
     return <LoadingState />;
   }
+  console.log(player, 'player');
 
   if (isValidating && !playerData) return <LoadingState />;
   if (
@@ -250,6 +251,10 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
+
+  //Used to detect whether ENS is available
+  let user
+
   if (username == null) {
     return {
       redirect: {
@@ -259,7 +264,15 @@ export const getStaticProps = async (
     };
   }
 
-  const player = await getPlayer(username);
+  //If username in url includes a . attempt to resolve ENS
+  if (username.includes('.')) {
+    user = await getAddressFromName(username);
+  } else {
+    //Else use url query param to get player
+    user = username;
+  }
+
+  const player = await getPlayer(user);
 
   return {
     props: {
