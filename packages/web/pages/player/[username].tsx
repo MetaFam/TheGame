@@ -18,9 +18,9 @@ import { useProfileField, useUser } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import { getAddressFromName } from 'utils/ensHelpers';
 import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { LayoutData } from 'utils/boxTypes';
+import { getAddressFromName } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
@@ -57,7 +57,6 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (router.isFallback) {
     return <LoadingState />;
   }
-  console.log(player, 'player');
 
   if (!player) return <Page404 />;
 
@@ -193,8 +192,8 @@ export const getStaticProps = async (
 ) => {
   const username = context.params?.username;
 
-  //Used to detect whether ENS is available
-  let user
+  // Used to detect whether ENS is available
+  let user;
 
   if (username == null) {
     return {
@@ -205,12 +204,12 @@ export const getStaticProps = async (
     };
   }
 
-  //If username in url includes a . attempt to resolve ENS
+  // If username in url includes a . attempt to resolve ENS
   if (username.includes('.')) {
     user = await getAddressFromName(username);
   } else {
-    //Else use url query param to get player
-    user = username;
+    // Else use url query param to get player
+    user = username.toLocaleLowerCase();
   }
 
   const player = await getPlayer(user);
@@ -224,4 +223,3 @@ export const getStaticProps = async (
     revalidate: 1,
   };
 };
-
