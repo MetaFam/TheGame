@@ -106,7 +106,6 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (router.isFallback) {
     return <LoadingState />;
   }
-  console.log(player, 'player');
 
   if (isValidating && !playerData) return <LoadingState />;
   if (
@@ -251,8 +250,9 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
-  // Used to detect whether ENS is available
-  let user;
+
+  //Used to detect whether ENS is available
+  let user
 
   if (username == null) {
     return {
@@ -282,4 +282,3 @@ export const getStaticProps = async (
     revalidate: 1,
   };
 };
-
