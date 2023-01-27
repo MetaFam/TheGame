@@ -55,7 +55,7 @@ import {
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useProfileField, useSaveCeramicProfile, useWeb3 } from 'lib/hooks';
-import { useSaveProfileToComposeDB } from 'lib/hooks/useSaveProfileToComposeDB';
+import { useSaveToComposeDB } from 'lib/hooks/useSaveToComposeDB';
 import { useRouter } from 'next/router';
 import type { ChangeEvent, FocusEvent, PropsWithChildren } from 'react';
 import React, {
@@ -131,7 +131,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     watch,
     formState: { errors, dirtyFields },
   } = useForm();
-  const { ceramic, address, chainId } = useWeb3();
+  const { address, chainId } = useWeb3();
   const toast = useToast();
   const description = watch('description');
   const remaining = useMemo(
@@ -146,7 +146,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     [player],
   );
 
-  const saveUsername = useSaveProfileToComposeDB();
+  const saveUsername = useSaveToComposeDB({});
 
   const fields = Object.fromEntries(
     Object.keys(AllProfileFields).map((key) => {
