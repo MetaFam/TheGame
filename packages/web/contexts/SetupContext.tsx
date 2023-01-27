@@ -9,6 +9,8 @@ import React, {
 } from 'react';
 import { SetupOptions } from 'utils/setupOptions';
 
+import { ComposeDBContextProvider } from './ComposeDBContext';
+
 const urlPrefix = '/profile/setup/';
 
 type SetupContextType = {
@@ -69,17 +71,19 @@ export const SetupContextProvider: React.FC<PropsWithChildren> = ({
   }, [router, options, stepIndex]);
 
   return (
-    <SetupContext.Provider
-      value={{
-        options,
-        stepIndex,
-        onNextPress,
-        onBackPress,
-        nextButtonLabel,
-      }}
-    >
-      {children}
-    </SetupContext.Provider>
+    <ComposeDBContextProvider>
+      <SetupContext.Provider
+        value={{
+          options,
+          stepIndex,
+          onNextPress,
+          onBackPress,
+          nextButtonLabel,
+        }}
+      >
+        {children}
+      </SetupContext.Provider>
+    </ComposeDBContextProvider>
   );
 };
 
