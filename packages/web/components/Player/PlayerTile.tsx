@@ -21,7 +21,8 @@ import { SkillsTags } from 'components/Quest/Skills';
 import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import type { Patron } from 'graphql/types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getNameFromAddress } from 'utils/ensHelpers';
 import {
   getPlayerDescription,
   getPlayerName,
@@ -48,6 +49,7 @@ export const PlayerTile: React.FC<Props> = ({
 }) => {
   const description = getPlayerDescription(player);
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
+  const [linkURL, setLinkURL] = useState<string>();
   const [loading, setLoading] = useState(true);
   const daosRef = React.useRef<HTMLDivElement>(null);
   const [limit, setLimit] = useState(12);
@@ -59,24 +61,22 @@ export const PlayerTile: React.FC<Props> = ({
     });
   }, [player]);
 
-  const handleResize = useCallback(() => {
-    const width = daosRef.current?.scrollWidth;
-    setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));
-  }, []);
-
   useEffect(() => {
-    const elem = daosRef.current;
-    elem?.addEventListener('resize', handleResize);
-    return () => elem?.removeEventListener('resize', handleResize);
-  }, [handleResize]);
+    if (!player?.ethereumAddress) return;
+
+    async function getURL() {
+      const ens = await getNameFromAddress(player?.ethereumAddress);
+      const ensURL = `https://my.metagame.wtf/player/${ens}`;
+      const addressURL = getPlayerURL(player);
+      setLinkURL(addressURL === ensURL ? addressURL : ensURL);
+      return addressURL === ensURL ? addressURL : ensURL;
+    }
+    getURL();
+  }, [player]);
 
   return (
-    <Link
-      role="group"
-      _hover={{ textDecoration: 'none' }}
-      href={getPlayerURL(player)}
-    >
-      <MetaTile minW="300px" height="full" width="full" cursor="pointer">
+    <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
+      <MetaTile minW={'300px'} height="full" width="full" cursor="pointer">
         <MetaTileHeader>
           {isPatron && typeof index === 'number' && pSeedPrice ? (
             <PatronRank patron={player as Patron} {...{ pSeedPrice, index }} />
