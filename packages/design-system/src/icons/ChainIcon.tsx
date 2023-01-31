@@ -37,13 +37,15 @@ export const ChainIcon: React.FC<Props & IconProps> = ({
     return { Icon: EthereumIcon, name: 'Mainnet' };
   })();
 
+  const icon = <info.Icon {...props} />;
+
   if (tooltip) {
     return (
       <Tooltip label={`on ${info.name}`} hasArrow>
-        <info.Icon {...props} />
+        {icon}
       </Tooltip>
     );
   }
 
-  return <info.Icon {...props} />;
+  return icon;
 };

@@ -18,9 +18,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@ceramicnetwork/common": "^2.10.0",
-    "@ceramicnetwork/http-client": "^2.5.0",
-    "@ceramicnetwork/stream-caip10-link": "^2.8.0",
+    "@ceramicnetwork/common": "^2.18.0",
+    "@ceramicnetwork/http-client": "^2.15.0",
+    "@ceramicnetwork/stream-caip10-link": "^2.13.0",
     "@datamodels/identity-accounts-web": "^0.2.0",
     "@datamodels/identity-profile-basic": "^0.2.0",
     "@glazed/datamodel": "^0.3.1",
@@ -30,7 +30,7 @@
     "@graphql-tools/schema": "8.3.2",
     "@metafam/discord-bot": "0.1.0",
     "@metafam/utils": "1.0.1",
-    "@self.id/3box-legacy": "0.2.0",
+    "@self.id/3box-legacy": "^0.3.0",
     "@types/react-redux": "^7.1.24",
     "bluebird": "3.7.2",
     "body-parser": "1.19.2",
