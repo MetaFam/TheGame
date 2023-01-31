@@ -1,4 +1,3 @@
-import createEmotionServer from '@emotion/server/create-instance';
 import Document, {
   DocumentContext,
   DocumentInitialProps,
@@ -9,27 +8,11 @@ import Document, {
 } from 'next/document';
 import React from 'react';
 
-import emotionCache from '../lib/emotionCache';
-
-const { extractCritical } = createEmotionServer(emotionCache);
-
 class MetaDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
-    const initialProps = await Document.getInitialProps(ctx);
-    const styles = extractCritical(initialProps.html);
-    return {
-      ...initialProps,
-      styles: [
-        initialProps.styles,
-        <style
-          key="emotion-css"
-          dangerouslySetInnerHTML={{ __html: styles.css }}
-          data-emotion-css={styles.ids.join(' ')}
-        />,
-      ],
-    };
+    return Document.getInitialProps(ctx);
   }
 
   // eslint-disable-next-line class-methods-use-this
