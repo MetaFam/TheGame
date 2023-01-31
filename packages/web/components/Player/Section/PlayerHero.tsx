@@ -28,7 +28,6 @@ import { useProfileField, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
-import { getNameFromAddress } from 'utils/ensHelpers';
 import {
   getPlayerMeetwithWalletCalendarUrl,
   getPlayerName,
@@ -39,13 +38,15 @@ const MAX_BIO_LENGTH = 240;
 type HeroProps = {
   player: Player;
   editing?: boolean;
+  ens?: string;
 };
 type DisplayComponentProps = {
   player?: Maybe<Player>;
   Wrapper?: React.FC;
+  ens?: string;
 };
 
-export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
+export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
   const { user } = useUser();
 
   const isOwnProfile = user ? user.id === player?.id : null;
@@ -89,7 +90,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       </Flex>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
-          <Name {...{ player }} />
+          <Name {...{ player, ens }}/>
         </Box>
 
         <Description {...{ player }} />
@@ -232,27 +233,9 @@ const Description: React.FC<DisplayComponentProps> = ({
 };
 
 const Name: React.FC<DisplayComponentProps> = ({
-  player,
+  ens,
   Wrapper = React.Fragment,
 }) => {
-  const { name } = useProfileField({
-    field: 'name',
-    player,
-    getter: getPlayerName,
-  });
-
-  /* let ens: string = '';
-
-  useEffect(() => {
-    const resolveENS = async () => {
-      if (!player || !player.ethereumAddress) {
-        return;
-      }
-      ens = await getNameFromAddress(player.ethereumAddress);
-    };
-    resolveENS();
-  }, [player?.ethereumAddress]) */
-
   return (
     <Wrapper>
       <Text
@@ -262,13 +245,13 @@ const Name: React.FC<DisplayComponentProps> = ({
         textOverflow="ellipsis"
         whiteSpace="nowrap"
         overflowX="hidden"
-        title={name ?? undefined}
+        title={ens ?? undefined}
       >
-        {name}
+        {ens}
       </Text>
     </Wrapper>
-  );
-};
+  )
+}
 
 const Availability: React.FC<DisplayComponentProps> = ({
   player,

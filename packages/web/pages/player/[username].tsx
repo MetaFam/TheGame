@@ -20,7 +20,7 @@ import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { LayoutData } from 'utils/boxTypes';
-import { getAddressFromName } from 'utils/ensHelpers';
+import { getAddressFromName, getNameFromAddress } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
@@ -32,9 +32,10 @@ import {
 
 type Props = {
   player: Player;
+  ens?: string;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
   const router = useRouter();
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
@@ -110,7 +111,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
             }
           : {})}
       >
-        <Grid {...{ player }} />
+        <Grid {...{ player, ens }} />
       </Flex>
     </PageContainer>
   );
@@ -118,8 +119,10 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
 export default PlayerPage;
 
-export const Grid: React.FC<Props> = ({ player }): ReactElement => {
+export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
   const { user, fetching } = useUser();
+
+  console.log(ens, 'username')
 
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
@@ -162,6 +165,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         allBoxOptions: ALL_BOXES,
         displayComponent: PlayerSection,
         pt: isOwnProfile ? 0 : '4rem',
+        ens,
       }}
     />
   );
@@ -193,7 +197,10 @@ export const getStaticProps = async (
   const username = context.params?.username;
 
   // Used to detect whether ENS is available
-  let user;
+  let user = {
+    address: '',
+    ens: '',
+  };
 
   if (username == null) {
     return {
@@ -206,19 +213,22 @@ export const getStaticProps = async (
 
   // If username in url includes a . attempt to resolve ENS
   if (username.includes('.')) {
-    user = await getAddressFromName(username);
+    user.address = await getAddressFromName(username);
+    user.ens = username;
   } else {
     // Else use url query param to get player
-    user = username.toLocaleLowerCase();
+    user.address = username.toLocaleLowerCase();
+    user.ens = await getNameFromAddress(username);
   }
 
-  const player = await getPlayer(user);
+  const player = await getPlayer(user.address);
 
   return {
     props: {
       player: player ?? null, // must be serializable
       key: username.toLowerCase(),
       hideTopMenu: !player,
+      ens: user.ens,
     },
     revalidate: 1,
   };
