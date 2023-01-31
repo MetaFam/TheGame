@@ -122,8 +122,6 @@ export default PlayerPage;
 export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
   const { user, fetching } = useUser();
 
-  console.log(ens, 'username')
-
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
   const isOwnProfile = useMemo(
@@ -197,7 +195,7 @@ export const getStaticProps = async (
   const username = context.params?.username;
 
   // Used to detect whether ENS is available
-  let user = {
+  const user = {
     address: '',
     ens: '',
   };
@@ -216,7 +214,6 @@ export const getStaticProps = async (
     user.address = await getAddressFromName(username);
     user.ens = username;
   } else {
-    // Else use url query param to get player
     user.address = username.toLocaleLowerCase();
     user.ens = await getNameFromAddress(username);
   }
