@@ -20,6 +20,7 @@ import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import type { Patron } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
+import { getNameFromAddress } from 'utils/ensHelpers';
 import {
   getPlayerDescription,
   getPlayerName,
@@ -47,6 +48,7 @@ export const PlayerTile: React.FC<Props> = ({
   const description = getPlayerDescription(player);
 
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
+  const [linkURL, setLinkURL] = useState<string>();
 
   const [loading, setLoading] = useState(true);
 
@@ -57,12 +59,21 @@ export const PlayerTile: React.FC<Props> = ({
     });
   }, [player]);
 
+  useEffect(() => {
+    if (!player?.ethereumAddress) return;
+
+    async function getURL() {
+      const ens = await getNameFromAddress(player?.ethereumAddress);
+      const ensURL = `https://my.metagame.wtf/player/${ens}`;
+      const addressURL = getPlayerURL(player);
+      setLinkURL(addressURL === ensURL ? addressURL : ensURL);
+      return addressURL === ensURL ? addressURL : ensURL;
+    }
+    getURL();
+  }, [player]);
+
   return (
-    <Link
-      role="group"
-      _hover={{ textDecoration: 'none' }}
-      href={getPlayerURL(player)}
-    >
+    <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
       <MetaTile minW={'300px'} height="full" width="full" cursor="pointer">
         <MetaTileHeader>
           {isPatron && typeof index === 'number' && pSeedPrice ? (
