@@ -4,6 +4,7 @@ import {
   useProfileContext,
 } from 'contexts/ProfileWizardContext';
 import { mutationComposeDBCreateProfileName } from 'graphql/composeDB/mutations/profile';
+import { composeDBDocumentProfileName } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -12,7 +13,8 @@ import { WizardPane } from './WizardPane';
 
 export const SetupName: React.FC = () => (
   <ProfileWizardContextProvider
-    query={mutationComposeDBCreateProfileName}
+    documentIndexName={composeDBDocumentProfileName}
+    mutationQuery={mutationComposeDBCreateProfileName}
     field="name"
   >
     <WizardPane title="Name" prompt="Hey! What's your name? 🙃">

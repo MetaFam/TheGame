@@ -1,8 +1,13 @@
 import { useToast } from '@metafam/ds';
-import { HasuraProfileProps, Maybe, Optional } from '@metafam/utils';
-import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
+import {
+  ComposeDBField,
+  ComposeDBFieldValue,
+  Maybe,
+  Optional,
+} from '@metafam/utils';
 import { CeramicError } from 'lib/errors';
-import { useProfileField, useWeb3 } from 'lib/hooks';
+import { useWeb3 } from 'lib/hooks';
+import { useQueryFromComposeDB } from 'lib/hooks/useQueryFromComposeDB';
 import { useSaveToComposeDB } from 'lib/hooks/useSaveToComposeDB';
 import {
   createContext,
@@ -18,48 +23,75 @@ import { errorHandler } from 'utils/errorHandler';
 
 import { useSetupFlow } from './SetupContext';
 
-export type ProfileWizardContextType<T = string> = {
-  current: T;
+// set the form value, either directly or with the return
+// value of another function that provides the previous value
+export type FormValueSetter<T = ComposeDBFieldValue> = (
+  valueOrFunction: T | ((prev: Optional<Maybe<T>>) => Maybe<T>),
+) => void;
+
+export type ProfileWizardContextType<T = ComposeDBFieldValue> = {
+  current: Optional<T>;
   dirty: boolean;
   errored: boolean;
-  field: keyof HasuraProfileProps | 'roles' | 'skills';
+  field: ComposeDBField;
   loading: boolean;
   onSubmit: SubmitHandler<any>;
-  setter: (arg: T | ((prev: Optional<Maybe<T>>) => Maybe<T>)) => void;
+  setter: FormValueSetter<T>;
   status?: Maybe<string | ReactElement>;
 };
 
-export const ProfileWizardContext = createContext<ProfileWizardContextType>(
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  undefined!,
+const ProfileWizardContext = createContext<ProfileWizardContextType | null>(
+  null,
 );
 
 export type ProfileWizardContextProviderOptions = PropsWithChildren<{
-  field: keyof HasuraProfileProps | 'roles' | 'skills';
-  query: string;
+  field: ComposeDBField;
+  documentIndexName: string;
+  mutationQuery: string;
   fetching?: boolean;
   onClose?: () => void;
 }>;
 
 export const ProfileWizardContextProvider: React.FC<
   ProfileWizardContextProviderOptions
-> = ({ children, field, query, fetching = false, onClose = null }) => {
+> = ({
+  children,
+  field,
+  documentIndexName,
+  mutationQuery,
+  fetching = false,
+  onClose = null,
+}) => {
   const { onNextPress } = useSetupFlow();
   const toast = useToast();
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
   const { connected } = useWeb3();
 
-  const { value: existing, user } = useProfileField({
+  const { error, result: existing } = useQueryFromComposeDB<string>({
+    indexName: documentIndexName,
     field,
   });
 
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: 'Could not load your data',
+        description: error.message,
+        status: 'error',
+        isClosable: true,
+        duration: 12000,
+      });
+      errorHandler(error);
+    }
+  }, [error, toast]);
+
+  // This is set to any because HasuraProfileProps wasn't working
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formMethods = useForm<any>();
   const {
     setValue,
     watch,
     formState: { errors, dirtyFields },
-    // This is set to any because HasuraProfileProps wasn't working
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = formMethods;
   const current = watch(field, existing);
   const dirty = current !== existing || dirtyFields[field];
@@ -68,8 +100,10 @@ export const ProfileWizardContextProvider: React.FC<
     setValue(field, existing);
   }, [existing, field, setValue]);
 
-  const saveToComposeDB = useSaveToComposeDB({ query, setStatus });
-  const [, invalidateCache] = useInsertCacheInvalidationMutation();
+  const saveToComposeDB = useSaveToComposeDB({
+    query: mutationQuery,
+    setStatus,
+  });
 
   const persist = useCallback(
     async (values: any) => {
@@ -81,13 +115,8 @@ export const ProfileWizardContextProvider: React.FC<
 
       setStatus('Saving to Ceramic…');
       await saveToComposeDB({ values: mutationPayload });
-
-      if (user) {
-        setStatus('Invalidating Cache…');
-        await invalidateCache({ playerId: user.id });
-      }
     },
-    [invalidateCache, saveToComposeDB, user],
+    [saveToComposeDB],
   );
 
   const onSubmit = useCallback(
@@ -152,5 +181,16 @@ export const ProfileWizardContextProvider: React.FC<
   );
 };
 
-export const useProfileContext = (): ProfileWizardContextType =>
-  useContext(ProfileWizardContext);
+export function useProfileContext<ComposeDBFieldValue>() {
+  const context = useContext<ProfileWizardContextType<ComposeDBFieldValue>>(
+    ProfileWizardContext as unknown as React.Context<
+      ProfileWizardContextType<ComposeDBFieldValue>
+    >,
+  );
+  if (!context) {
+    throw new Error(
+      'useProfileContext must be used under ProfileWizardContextProvider',
+    );
+  }
+  return context;
+}

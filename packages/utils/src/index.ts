@@ -4,6 +4,8 @@ import extendedProfileModel from './ExtendedProfileModel.json' assert { type: 'j
 
 export * from './arrayHelpers.js';
 export * from './ceramic.js';
+export * from './colorHelpers.js';
+export * from './composeDBProfileFields.js';
 export * as Constants from './constants.js';
 export * as did from './did/index.js';
 export * as DiscordUtil from './discordHelpers.js';

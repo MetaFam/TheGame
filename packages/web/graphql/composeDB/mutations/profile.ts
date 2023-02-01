@@ -19,3 +19,16 @@ export const mutationComposeDBCreateProfileDescription = /* GraphQL */ `
     }
   }
 `;
+
+export const mutationComposeDBCreateProfileDisposition = /* GraphQL */ `
+  mutation ComposeDBCreateProfileDisposition(
+    $input: CreateProfileDispositionInput!
+  ) {
+    createProfileDisposition(input: $input) {
+      document {
+        fiveColorDisposition
+        explorerType
+      }
+    }
+  }
+`;
