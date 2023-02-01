@@ -22,6 +22,7 @@ import {
   ExtendedProfileObjects,
   ExtendedProfileStrings,
   HasuraProfileProps,
+  maskFor,
   simplifyAliases,
   Values,
 } from '@metafam/utils';
@@ -34,7 +35,6 @@ import {
   Profile_Update_Column,
   UpdateIdxProfileResponse,
 } from '../../../lib/autogen/hasura-sdk.js';
-import { maskFor } from '../../../lib/colorHelpers.js';
 import { client } from '../../../lib/hasuraClient.js';
 import { handleMeetWithWalletIntegration } from '../meetwithwallet/handler.js';
 

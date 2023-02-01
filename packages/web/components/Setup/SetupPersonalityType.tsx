@@ -8,25 +8,30 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { Maybe, Optional } from '@metafam/utils';
+import { maskFor, Maybe, Optional } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
+import {
+  ProfileWizardContextProvider,
+  useProfileContext,
+} from 'contexts/ProfileWizardContext';
+import { mutationComposeDBCreateProfileDisposition } from 'graphql/composeDB/mutations/profile';
+import { composeDBDocumentProfileDisposition } from 'graphql/composeDB/queries/profile';
 import {
   getPersonalityInfo,
   images as MaskImages,
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { dispositionFor } from 'utils/playerHelpers';
 
-import { ProfileWizardPane } from './ProfileWizardPane';
-import { MaybeModalProps, WizardPaneCallbackProps } from './WizardPane';
+import { WizardPane } from './WizardPane';
 
 export type ColorButtonsProps = {
   mask: number;
-  setMask: (
-    bit: number | ((prev: Optional<Maybe<number>>) => Maybe<number>),
-  ) => void;
+  setMask: (bit: (prev: Optional<Maybe<string>>) => Maybe<string>) => void;
   types: NonNullable<PersonalityInfo>;
   disabled: boolean;
 };
@@ -82,9 +87,12 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
               cursor="pointer"
               height="auto"
               onClick={() =>
-                setMask((previous) =>
-                  toggleBit({ base: previous ?? undefined, bit }),
-                )
+                setMask((previous) => {
+                  const previousMask = maskFor(previous);
+                  return dispositionFor(
+                    toggleBit({ base: previousMask ?? undefined, bit }),
+                  );
+                })
               }
               ref={(input) => {
                 if (idx === 0 && !input?.getAttribute('focused-once')) {
@@ -131,27 +139,14 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
   </Wrap>
 );
 
-export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
-  buttonLabel,
-  onClose,
-  title = 'Personality Type',
-}) => {
-  const field = 'colorMask';
-
-  const [types, setTypes] =
-    useState<Maybe<Record<number, PersonalityOption>>>(null);
-
-  useEffect(() => {
-    const load = async () => {
-      setTypes(await getPersonalityInfo());
-    };
-    load();
-  }, []);
-
-  return (
-    <ProfileWizardPane
-      {...{ field, buttonLabel, onClose }}
-      title={title}
+export const SetupPersonalityType: React.FC = () => (
+  <ProfileWizardContextProvider
+    documentIndexName={composeDBDocumentProfileDisposition}
+    mutationQuery={mutationComposeDBCreateProfileDisposition}
+    field="fiveColorDisposition"
+  >
+    <WizardPane
+      title="Personality Type"
       prompt={
         <Text textAlign="center" maxW="30rem">
           <Text as="span">Please select what defines you. </Text>
@@ -159,7 +154,7 @@ export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
             href="//humanparts.medium.com/the-mtg-color-wheel-c9700a7cf36d"
             isExternal
           >
-            Wtf is this?
+            WTF is this?
           </MetaLink>
           <Text as="span"> Not sure what type you are? Take </Text>
           <MetaLink
@@ -179,40 +174,55 @@ export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
         </Text>
       }
     >
-      {({
-        register,
-        loading,
-        current = 0,
-        setter,
-      }: WizardPaneCallbackProps<number>) => {
-        if (types == null) {
-          return (
-            <Text fontStyle="italic" textAlign="center">
-              Loading Personality Information…
-            </Text>
-          );
-        }
+      <PersonalityTypeField />
+    </WizardPane>
+  </ProfileWizardContextProvider>
+);
 
-        return (
-          <Stack align="center" mt={10}>
-            <Input type="hidden" {...register(field, {})} />
-            <ColorButtons
-              mask={current}
-              setMask={setter}
-              disabled={loading}
-              {...{ types }}
-            />
-            {!loading && (
-              <ColorBar
-                {...{ types, loading }}
-                mask={current ?? null}
-                mt={5}
-                w="min(90vw, 30rem)"
-              />
-            )}
-          </Stack>
-        );
-      }}
-    </ProfileWizardPane>
+const PersonalityTypeField: React.FC = () => {
+  const { register } = useFormContext();
+  const { current, field, loading, setter } = useProfileContext<string>();
+
+  const [types, setTypes] =
+    useState<Maybe<Record<number, PersonalityOption>>>(null);
+
+  const currentAsMask = useMemo(
+    () => (current ? maskFor(current) ?? 0 : 0),
+    [current],
+  );
+
+  useEffect(() => {
+    const load = async () => {
+      setTypes(await getPersonalityInfo());
+    };
+    load();
+  }, []);
+
+  if (types == null) {
+    return (
+      <Text fontStyle="italic" textAlign="center">
+        Loading Personality Information…
+      </Text>
+    );
+  }
+
+  return (
+    <Stack align="center" mt={10}>
+      <Input type="hidden" {...register(field, {})} />
+      <ColorButtons
+        mask={currentAsMask}
+        setMask={setter}
+        disabled={loading}
+        {...{ types }}
+      />
+      {!loading && (
+        <ColorBar
+          {...{ types, loading }}
+          mask={currentAsMask ?? null}
+          mt={5}
+          w="min(90vw, 30rem)"
+        />
+      )}
+    </Stack>
   );
 };

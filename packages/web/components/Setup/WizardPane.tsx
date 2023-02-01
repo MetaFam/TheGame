@@ -104,7 +104,7 @@ export const WizardPane = ({
             <Spinner thickness="4px" speed="1.25s" size="lg" mr={4} />
             <Text>
               {(() => {
-                if (!connected) return 'Authenticating…';
+                if (!connected) return 'Connecting to Ceramic…';
                 if (validating) return 'Validating…';
                 return 'Loading Current Value…';
               })()}
