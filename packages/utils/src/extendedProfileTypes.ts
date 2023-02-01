@@ -167,3 +167,13 @@ export const Strings = {
   ...BasicProfileStrings,
   ...ExtendedProfileStrings,
 } as const;
+
+export type ComposeDBFieldValue = string | number;
+
+export const ProfileMapping = {
+  name: 'name',
+  description: 'description',
+  colorMask: 'fiveColorDisposition',
+} as const;
+
+export type ComposeDBField = Values<typeof ProfileMapping>;

@@ -9,6 +9,6 @@
     "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
   "references": [{ "path": "../utils" }, { "path": "../discord-bot" }],
-  "include": ["src/**/*.ts", "src/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.json", "../utils/src/colorHelpers.ts"],
   "exclude": ["tests/", "dist/", "coverage/", "node_modules/"]
 }
