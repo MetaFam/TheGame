@@ -1,4 +1,4 @@
-import { Maybe } from '@metafam/utils';
+import { Maybe } from './extendedProfileTypes';
 
 export const maskFor = (disposition?: Maybe<string>) => {
   if (disposition == null) return null;

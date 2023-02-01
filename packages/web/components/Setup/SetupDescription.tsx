@@ -4,6 +4,7 @@ import {
   useProfileContext,
 } from 'contexts/ProfileWizardContext';
 import { mutationComposeDBCreateProfileDescription } from 'graphql/composeDB/mutations/profile';
+import { composeDBDocumentProfileDescription } from 'graphql/composeDB/queries/profile';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -11,7 +12,8 @@ import { WizardPane } from './WizardPane';
 
 export const SetupDescription: React.FC = () => (
   <ProfileWizardContextProvider
-    query={mutationComposeDBCreateProfileDescription}
+    documentIndexName={composeDBDocumentProfileDescription}
+    mutationQuery={mutationComposeDBCreateProfileDescription}
     field="description"
   >
     <WizardPane
