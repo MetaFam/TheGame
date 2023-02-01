@@ -1,4 +1,5 @@
 import { MetaTheme } from '@metafam/ds';
+import { ComposeDBField } from '@metafam/utils';
 import {
   DiscordRole,
   Maybe,
@@ -64,3 +65,17 @@ export type GuildMetadata = {
 };
 
 export type ContractError = Error & { reason?: string };
+
+export type ComposeDBDocumentNode<FieldValue> = {
+  [key in ComposeDBField]: FieldValue;
+} & {
+  id: string;
+};
+
+export type ComposeDBDocumentEdge<FieldValue> = {
+  node: ComposeDBDocumentNode<FieldValue>;
+};
+
+export type ComposeDBDocumentQueryResult<FieldValue> = {
+  edges: ComposeDBDocumentEdge<FieldValue>[];
+};
