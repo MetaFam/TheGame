@@ -32,3 +32,15 @@ export const mutationComposeDBCreateProfileDisposition = /* GraphQL */ `
     }
   }
 `;
+
+export const mutationComposeDBCreateProfileTimeZone = /* GraphQL */ `
+  mutation ComposeDBCreateProfileTimeZone($input: CreateProfileTimeZoneInput!) {
+    createProfileTimeZone(input: $input) {
+      document {
+        iana
+        utcOffset
+        abbreviation
+      }
+    }
+  }
+`;
