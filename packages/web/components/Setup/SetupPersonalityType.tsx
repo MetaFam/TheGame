@@ -8,13 +8,14 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { maskFor, Maybe, Optional } from '@metafam/utils';
+import {
+  composeDBProfileFieldFiveColorDisposition,
+  maskFor,
+  Maybe,
+  Optional,
+} from '@metafam/utils';
 import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
-import {
-  ProfileWizardContextProvider,
-  useProfileContext,
-} from 'contexts/ProfileWizardContext';
 import { mutationComposeDBCreateProfileDisposition } from 'graphql/composeDB/mutations/profile';
 import { composeDBDocumentProfileDisposition } from 'graphql/composeDB/queries/profile';
 import {
@@ -23,13 +24,18 @@ import {
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/usePlayerSetupSaveToComposeDB';
+import { useQueryFromComposeDB } from 'lib/hooks/useQueryFromComposeDB';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { dispositionFor } from 'utils/playerHelpers';
 
+import { useShowToastOnQueryError } from './SetupProfile';
 import { WizardPane } from './WizardPane';
 
-export type ColorButtonsProps = {
+const field = composeDBProfileFieldFiveColorDisposition;
+
+type ColorButtonsProps = {
   mask: number;
   setMask: (bit: (prev: Optional<Maybe<string>>) => Maybe<string>) => void;
   types: NonNullable<PersonalityInfo>;
@@ -52,7 +58,7 @@ const toggleBit = ({
   return base | bit; // otherwise set it
 };
 
-export const ColorButtons: React.FC<ColorButtonsProps> = ({
+const ColorButtons: React.FC<ColorButtonsProps> = ({
   mask,
   setMask,
   types,
@@ -139,49 +145,80 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
   </Wrap>
 );
 
-export const SetupPersonalityType: React.FC = () => (
-  <ProfileWizardContextProvider
-    documentIndexName={composeDBDocumentProfileDisposition}
-    mutationQuery={mutationComposeDBCreateProfileDisposition}
-    field="fiveColorDisposition"
-  >
-    <WizardPane
-      title="Personality Type"
-      prompt={
-        <Text textAlign="center" maxW="30rem">
-          <Text as="span">Please select what defines you. </Text>
-          <MetaLink
-            href="//humanparts.medium.com/the-mtg-color-wheel-c9700a7cf36d"
-            isExternal
-          >
-            WTF is this?
-          </MetaLink>
-          <Text as="span"> Not sure what type you are? Take </Text>
-          <MetaLink
-            href="//dysbulic.github.io/5-color-radar/#/explore/"
-            isExternal
-          >
-            a quick exam
-          </MetaLink>
-          <Text as="span"> or </Text>
-          <MetaLink
-            href="//dysbulic.github.io/5-color-radar/#/test/"
-            isExternal
-          >
-            a longer quiz
-          </MetaLink>
-          .
-        </Text>
-      }
-    >
-      <PersonalityTypeField />
-    </WizardPane>
-  </ProfileWizardContextProvider>
-);
+export const SetupPersonalityType: React.FC = () => {
+  const {
+    error,
+    fetching,
+    result: existing,
+  } = useQueryFromComposeDB<string>({
+    indexName: composeDBDocumentProfileDisposition,
+    field,
+  });
 
-const PersonalityTypeField: React.FC = () => {
-  const { register } = useFormContext();
-  const { current, field, loading, setter } = useProfileContext<string>();
+  useShowToastOnQueryError(error);
+
+  const formMethods = useForm<{ [field]: string | undefined }>();
+  const {
+    watch,
+    setValue,
+    formState: { dirtyFields },
+  } = formMethods;
+
+  useEffect(() => {
+    setValue(field, existing);
+  }, [existing, setValue]);
+
+  const current = watch(field, existing);
+  const dirty = current !== existing || !!dirtyFields[field];
+
+  const { onSubmit, status } = usePlayerSetupSaveToComposeDB<string>({
+    mutationQuery: mutationComposeDBCreateProfileDisposition,
+    isChanged: dirty,
+  });
+
+  return (
+    <FormProvider {...formMethods}>
+      <WizardPane
+        {...{ field, onSubmit, status }}
+        title="Personality Type"
+        prompt={
+          <Text textAlign="center" maxW="30rem">
+            <Text as="span">Please select what defines you. </Text>
+            <MetaLink
+              href="//humanparts.medium.com/the-mtg-color-wheel-c9700a7cf36d"
+              isExternal
+            >
+              WTF is this?
+            </MetaLink>
+            <Text as="span"> Not sure what type you are? Take </Text>
+            <MetaLink
+              href="//dysbulic.github.io/5-color-radar/#/explore/"
+              isExternal
+            >
+              a quick exam
+            </MetaLink>
+            <Text as="span"> or </Text>
+            <MetaLink
+              href="//dysbulic.github.io/5-color-radar/#/test/"
+              isExternal
+            >
+              a longer quiz
+            </MetaLink>
+            .
+          </Text>
+        }
+      >
+        <PersonalityTypeField current={current} fetching={fetching} />
+      </WizardPane>
+    </FormProvider>
+  );
+};
+
+const PersonalityTypeField: React.FC<{
+  current: string | undefined;
+  fetching: boolean;
+}> = ({ current, fetching }) => {
+  const { register, setValue } = useFormContext();
 
   const [types, setTypes] =
     useState<Maybe<Record<number, PersonalityOption>>>(null);
@@ -189,6 +226,13 @@ const PersonalityTypeField: React.FC = () => {
   const currentAsMask = useMemo(
     () => (current ? maskFor(current) ?? 0 : 0),
     [current],
+  );
+
+  const setter = useCallback(
+    (val: (prev: Optional<Maybe<string>>) => Maybe<string>) => {
+      setValue(field, val(current));
+    },
+    [current, setValue],
   );
 
   useEffect(() => {
@@ -212,12 +256,12 @@ const PersonalityTypeField: React.FC = () => {
       <ColorButtons
         mask={currentAsMask}
         setMask={setter}
-        disabled={loading}
+        disabled={fetching}
         {...{ types }}
       />
-      {!loading && (
+      {!fetching && (
         <ColorBar
-          {...{ types, loading }}
+          {...{ types, loading: fetching }}
           mask={currentAsMask ?? null}
           mt={5}
           w="min(90vw, 30rem)"

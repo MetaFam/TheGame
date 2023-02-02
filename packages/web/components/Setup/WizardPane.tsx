@@ -11,10 +11,10 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { ComposeDBProfileFieldMutationValue, Maybe } from '@metafam/utils';
 import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
-import { useProfileContext } from 'contexts/ProfileWizardContext';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useWeb3 } from 'lib/hooks';
 import type { ReactNode } from 'react';
@@ -27,13 +27,20 @@ export type MaybeModalProps = {
   title?: string | ReactElement;
 };
 
-export type WizardPaneProps = {
+export type WizardPanePromptProps = {
   title?: string | ReactElement;
   prompt?: string | ReactElement;
-  buttonLabel?: string | ReactElement;
-  onClose?: () => void;
-  children: ReactNode;
 };
+
+export type WizardPaneProps<T = ComposeDBProfileFieldMutationValue> =
+  WizardPanePromptProps & {
+    field: string;
+    buttonLabel?: string | ReactElement;
+    onSubmit: (values: Record<string, T>) => Promise<void>;
+    status?: Maybe<string | ReactElement>;
+    onClose?: () => void;
+    children: ReactNode;
+  };
 
 export type WizardPaneOnSaveProps = {
   query: string;
@@ -41,32 +48,35 @@ export type WizardPaneOnSaveProps = {
   setStatus: (msg: string) => void;
 };
 
-export type PaneProps = WizardPaneProps & {
-  fetching?: boolean;
-  authenticating?: boolean;
-  onSave?: ({
-    query,
-    values,
-    setStatus,
-  }: WizardPaneOnSaveProps) => Promise<void>;
-  children: ReactNode;
-};
+export type PaneProps<T = ComposeDBProfileFieldMutationValue> =
+  WizardPaneProps<T> & {
+    fetching?: boolean;
+    authenticating?: boolean;
+    onSave?: ({
+      query,
+      values,
+      setStatus,
+    }: WizardPaneOnSaveProps) => Promise<void>;
+    children: ReactNode;
+  };
 
-export const WizardPane = ({
+export const WizardPane = <T,>({
+  field,
   title,
   prompt,
   buttonLabel,
+  onSubmit,
+  status,
   onClose,
   fetching = false,
   children,
-}: PaneProps) => {
+}: PaneProps<T>) => {
   const { nextButtonLabel } = useSetupFlow();
   const { connecting, connected, chainId } = useWeb3();
   const {
     handleSubmit,
     formState: { errors, isValidating: validating },
   } = useFormContext();
-  const { errored, field, onSubmit, status } = useProfileContext();
 
   if ((!connecting && !connected) || (chainId != null && chainId !== '0x1')) {
     return (
@@ -85,20 +95,11 @@ export const WizardPane = ({
       align="center"
       pb={8}
     >
-      <HeadComponent title={`MetaGame: Setting ${title}`} />
-      {title && <MetaHeading textAlign="center">{title}</MetaHeading>}
-      {prompt && (
-        <Box maxW="25rem" {...(title ? {} : { mt: [0, -4] })}>
-          {typeof prompt === 'string' ? (
-            <Text mb={0} textAlign="center">
-              {prompt}
-            </Text>
-          ) : (
-            prompt
-          )}
-        </Box>
-      )}
-      <FormControl isInvalid={errored} isDisabled={!connected || fetching}>
+      <WizardPanePrompt {...{ title, prompt }} />
+      <FormControl
+        isInvalid={!!errors[field]}
+        isDisabled={!connected || fetching}
+      >
         {(!connected || fetching || validating) && (
           <Flex justify="center" align="center" my={8}>
             <Spinner thickness="4px" speed="1.25s" size="lg" mr={4} />
@@ -146,3 +147,24 @@ export const WizardPane = ({
     </FlexContainer>
   );
 };
+
+export const WizardPanePrompt: React.FC<WizardPanePromptProps> = ({
+  title,
+  prompt,
+}) => (
+  <>
+    <HeadComponent title={`MetaGame: Setting ${title}`} />
+    {title && <MetaHeading textAlign="center">{title}</MetaHeading>}
+    {prompt && (
+      <Box maxW="25rem" {...(title ? {} : { mt: [0, -4] })}>
+        {typeof prompt === 'string' ? (
+          <Text mb={0} textAlign="center">
+            {prompt}
+          </Text>
+        ) : (
+          prompt
+        )}
+      </Box>
+    )}
+  </>
+);

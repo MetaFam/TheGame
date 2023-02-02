@@ -34,6 +34,7 @@ const composeDBClient =
   typeof window === 'undefined'
     ? null
     : new ComposeClient({ ceramic: CONFIG.ceramicURL, definition });
+
 export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
