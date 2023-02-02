@@ -18,7 +18,13 @@ import { useProfileField, useUser } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { LayoutData } from 'utils/boxTypes';
 import { getAddressFromName } from 'utils/ensHelpers';
 import {
@@ -36,6 +42,9 @@ type Props = {
 
 export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
+  const { user } = useUser();
+  const [ens, setENS] = useState('');
+
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
     player,
@@ -47,6 +56,16 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     getter: getPlayerBackgroundFull,
   });
   const [, invalidateCache] = useInvalidateCache();
+
+  useEffect(() => {
+    const resolveName = async () => {
+      if (user) {
+        const name = await getNameFromAddress(user?.ethereumAddress);
+        setENS(name);
+      }
+    };
+    resolveName();
+  }, [user]);
 
   useEffect(() => {
     if (player?.id) {
