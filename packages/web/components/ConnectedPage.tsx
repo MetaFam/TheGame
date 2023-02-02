@@ -1,11 +1,10 @@
 import { Center, Link, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
-import { getNameFromAddress } from 'utils/ensHelpers';
+import React from 'react';
 import { errorHandler } from 'utils/errorHandler';
 
-type PlayerPageType = React.FC<{ player: Player; ens: string }>;
+type PlayerPageType = React.FC<{ player: Player }>;
 
 export const ConnectedPage: React.FC<{
   page: PlayerPageType;
@@ -13,18 +12,7 @@ export const ConnectedPage: React.FC<{
 }> = ({ page: Page, pageLabel = 'this page' }) => {
   const { connect, connecting, connected } = useWeb3();
   const { user, fetching, error } = useUser();
-  const [ens, setENS] = useState('');
   const mounted = useMounted();
-
-  useEffect(() => {
-    const resolveName = async () => {
-      if (user) {
-        const name = await getNameFromAddress(user?.ethereumAddress);
-        setENS(name);
-      }
-    };
-    resolveName();
-  }, [user]);
 
   if (!mounted || (!connecting && !connected)) {
     return (
@@ -49,7 +37,7 @@ export const ConnectedPage: React.FC<{
   }
 
   if (user) {
-    return <Page player={user} ens={ens} />;
+    return <Page player={user} />;
   }
 
   if (error) {
