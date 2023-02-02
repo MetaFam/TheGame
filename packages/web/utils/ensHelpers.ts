@@ -1,8 +1,9 @@
+import { CONFIG } from 'config';
 import { ethers } from 'ethers';
 
-const mainnetProvider = new ethers.providers.JsonRpcProvider(
-  'https://eth.llamarpc.com',
-);
+const { mainnetRPC } = CONFIG;
+
+const mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetRPC);
 
 export const getAddressFromName = async (ens: string) => {
   const address = await mainnetProvider.resolveName(ens);
