@@ -92,7 +92,13 @@ export const MegaMenuHeader: React.FC = () => {
           {isOpen ? (
             <CloseIcon fontSize="2xl" color="#FFF" />
           ) : (
-            <HamburgerIcon fontSize="3xl" color="#FFF" />
+            // max-width set in style attribute because the unstyled version
+            // is flashing at 100% width on load
+            <HamburgerIcon
+              fontSize="3xl"
+              color="#FFF"
+              style={{ maxWidth: '2rem' }}
+            />
           )}
         </Flex>
         <Flex
@@ -109,7 +115,6 @@ export const MegaMenuHeader: React.FC = () => {
             bottom="auto"
           />
           <DesktopNavLinks />
-          {/* <Search /> */}
           <Box
             textAlign="right"
             display={{ base: 'none', lg: 'block' }}

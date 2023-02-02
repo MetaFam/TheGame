@@ -13,6 +13,7 @@ type PlayerProfilePictureProps = AvatarProps & {
 export const PlayerProfilePicture: React.FC<PlayerProfilePictureProps> = ({
   player: user,
   src: source,
+  ...props
 }) => {
   const player = user as Player;
   const { value: image } = useProfileField({
@@ -23,5 +24,5 @@ export const PlayerProfilePicture: React.FC<PlayerProfilePictureProps> = ({
 
   const src = source ?? image ?? undefined;
 
-  return <SquareImage {...{ src }} />;
+  return <SquareImage {...{ src, ...props }} />;
 };

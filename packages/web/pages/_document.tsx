@@ -12,8 +12,7 @@ class MetaDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
+    return Document.getInitialProps(ctx);
   }
 
   // eslint-disable-next-line class-methods-use-this

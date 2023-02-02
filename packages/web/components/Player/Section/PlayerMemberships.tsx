@@ -147,7 +147,7 @@ export const DAOMembershipSmall: React.FC<DAOListingProps> = ({
         onClick={(e) => {
           e.preventDefault();
           if (guildname != null) {
-            window.location.href = guildname;
+            window.location.href = `/guild/${guildname}`;
           } else if (daoURL != null) {
             window?.open(daoURL, '_blank')?.focus();
           }
@@ -166,6 +166,8 @@ export const DAOMembershipSmall: React.FC<DAOListingProps> = ({
             w={6}
             h={6}
             borderRadius="full"
+            _hover={{ transform: 'scale(4)' }}
+            transition="transform 0.2s"
           />
         ) : (
           <ChainIcon {...{ chain, tooltip: false }} boxSize={9} p={2} />
@@ -223,7 +225,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getAllMemberships(player).then((all) => {
+    getAllMemberships(player).then(({ all }) => {
       setLoading(false);
       setMemberships(all);
     });

@@ -5,8 +5,9 @@ type SquareImageProps = AvatarProps & {
   src?: string;
 };
 
-export const SquareImage: React.FC<SquareImageProps> = ({ src }) => (
+export const SquareImage: React.FC<SquareImageProps> = ({ src, ...props }) => (
   <Flex
+    {...props}
     position="relative"
     mt="0 !important"
     _after={{

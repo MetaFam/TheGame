@@ -28,10 +28,13 @@ const Analytics: React.FC = () => (
   <>
     <script
       async
+      defer
       src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
     />
     <script
       type="text/javascript"
+      async
+      defer
       dangerouslySetInnerHTML={{
         __html: `
                 window.dataLayer = window.dataLayer || [];

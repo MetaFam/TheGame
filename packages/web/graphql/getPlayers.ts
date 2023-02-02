@@ -37,7 +37,6 @@ import { Client } from 'urql';
       where: $where
     ) {
       ...PlayerFragment
-      ...PlayerDaoMembershipFragment
     }
     player_aggregate(where: $where) {
       aggregate {
@@ -46,7 +45,6 @@ import { Client } from 'urql';
     }
   }
   ${PlayerFragment}
-  ${PlayerDaoMembershipFragment}
 `;
 
 export const PLAYER_LIMIT = 9;

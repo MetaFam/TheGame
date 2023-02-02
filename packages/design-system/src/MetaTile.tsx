@@ -43,12 +43,10 @@ type MetaTileProps = {
   maxTilt?: number;
 };
 
-export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
-  noTilt = false,
-  maxTilt = 6,
-  children,
-  ...props
-}) => {
+export const MetaTile = React.forwardRef<
+  HTMLDivElement,
+  FlexProps & MetaTileProps
+>(({ noTilt = false, maxTilt = 6, children, ...props }, fwdRef) => {
   const tilt = useRef<Maybe<HTMLDivElement>>(null);
 
   useEffect(() => {
@@ -66,7 +64,15 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
       h="full"
       w="full"
       borderRadius="8px"
-      ref={tilt}
+      ref={(elem) => {
+        tilt.current = elem;
+        if (typeof fwdRef === 'function') {
+          fwdRef(elem);
+        } else if (fwdRef) {
+          // eslint-disable-next-line no-param-reassign
+          fwdRef.current = elem;
+        }
+      }}
     >
       <Flex
         direction="column"
@@ -86,7 +92,7 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
       </Flex>
     </Flex>
   );
-};
+});
 
 export const MetaTileLinkWrapper: React.FC<PropsWithChildren> = ({
   children,

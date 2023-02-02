@@ -49,14 +49,13 @@ export const PlayerTile: React.FC<Props> = ({
 }) => {
   const description = getPlayerDescription(player);
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
-
   const [linkURL, setLinkURL] = useState<string>();
   const [loading, setLoading] = useState(true);
   const daosRef = React.useRef<HTMLDivElement>(null);
   const [limit, setLimit] = useState(12);
 
   useEffect(() => {
-    getAllMemberships(player).then((all) => {
+    getAllMemberships(player).then(({ all }) => {
       setLoading(false);
       setMemberships(all);
     });
@@ -73,7 +72,7 @@ export const PlayerTile: React.FC<Props> = ({
     }
     getURL();
   }, [player]);
-
+ 
   const handleResize = useCallback(() => {
     const width = daosRef.current?.scrollWidth;
     setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));

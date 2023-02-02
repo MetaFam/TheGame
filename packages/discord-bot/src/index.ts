@@ -7,7 +7,12 @@ export const createDiscordClient = async (): Promise<Client> => {
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS],
   });
 
+  if (!CONFIG.discordBotToken) {
+    throw new Error('$DISCORD_BOT_TOKEN not set.');
+  }
+
   await client.login(CONFIG.discordBotToken);
+
   return client;
 };
 

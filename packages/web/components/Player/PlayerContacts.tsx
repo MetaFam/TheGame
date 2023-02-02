@@ -28,6 +28,7 @@ export const PlayerContacts: React.FC<Props> = ({
                   if (link) window?.open(link, '_blank')?.focus();
                 }}
                 aria-label="Twitter"
+                title={`Twitter: ${acc.identifier}`}
                 icon={<FaTwitter />}
                 minW={6}
                 w={6}
@@ -47,7 +48,8 @@ export const PlayerContacts: React.FC<Props> = ({
                   e.preventDefault();
                   if (link) window?.open(link, '_blank')?.focus();
                 }}
-                aria-label="Github"
+                aria-label="GitHub"
+                title={`Github: ${acc.identifier}`}
                 icon={<FaGithub />}
                 minW={6}
                 w={6}

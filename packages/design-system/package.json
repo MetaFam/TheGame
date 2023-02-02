@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "type": "module",
   "main": "dist/ds.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/ds.js"
