@@ -56,7 +56,7 @@ export const PlayerTile: React.FC<Props> = ({
   const [limit, setLimit] = useState(12);
 
   useEffect(() => {
-    getAllMemberships(player).then(({ all }) => {
+    getAllMemberships(player).then((all) => {
       setLoading(false);
       setMemberships(all);
     });
