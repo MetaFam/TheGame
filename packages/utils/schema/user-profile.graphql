@@ -70,7 +70,12 @@ type ProfileTimeZone
     accountRelation: SINGLE
     description: "The time zone you are typically in. This can be represented in any many ways; e.g. `GMT-8:00`, `Pacific Time`, `PST`"
   ) {
-  timeZone: String! @string(maxLength: 127)
+  # e.g. America/Denver
+  iana: String! @string(maxLength: 127)
+  # e.g. -7 (Denver) or 5.75 (Kathmandu)
+  utcOffset: Float @float(min: -12, max: 14)
+  # e.g. MST
+  abbreviation: String @string(minLength: 3, maxLength: 4)
 }
 
 type ProfileAvailability

@@ -16,13 +16,10 @@ import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
 import { useMounted, useOverridableField, useUser } from 'lib/hooks';
 import React, { useEffect, useMemo, useState } from 'react';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
-import {
-  MaybeModalProps,
-  WizardPane,
-  WizardPaneCallbackProps,
-} from './WizardPane';
+import { MaybeModalProps, WizardPane } from './WizardPane';
 
 export type SetupSkillsProps = {
   isEdit?: boolean;
@@ -71,19 +68,20 @@ const styles: typeof multiSelectStyles = {
   }),
 };
 
+const field = 'skills';
+
 export const SetupSkills: React.FC<MaybeModalProps> = ({
   onClose,
   buttonLabel,
   title = 'Skills',
 }) => {
-  const field = 'skills';
   const mounted = useMounted();
   const [choices, setChoices] = useState<Array<CategoryOption>>();
   const { user } = useUser();
   const { value: strippedSkills, setter: setValue } = useOverridableField<
     Array<SkillOption>
   >({
-    field: 'skills',
+    field,
     loaded: !!user,
   });
   const modal = !!onClose;
@@ -127,7 +125,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
     fetchSkills();
   }, []);
 
-  const onSave = async ({
+  const onSubmit = async ({
     values: { skills: skillList },
     setStatus,
   }: {
@@ -152,51 +150,53 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
     }
   };
 
+  const formMethods = useForm<{ [field]: string | undefined }>();
+
   return (
-    <WizardPane<Array<SkillOption>>
-      {...{ field, onClose, onSave, buttonLabel }}
-      title={title}
-      prompt="What are your super&#xAD;powers?"
-      fetching={!user}
-      value={skills}
-    >
-      {({
-        register,
-        setter,
-        current,
-      }: WizardPaneCallbackProps<Array<SkillOption>>) => {
-        const { ref: registerRef, onChange, ...props } = register(field, {});
+    <FormProvider {...formMethods}>
+      <WizardPane
+        {...{ field, onClose, onSubmit, buttonLabel }}
+        title={title}
+        prompt="What are your super&#xAD;powers?"
+        fetching={!user}
+      >
+        <SetupSkillsInput />
+      </WizardPane>
+    </FormProvider>
+  );
+};
 
-        if (choices == null || !mounted) {
-          return (
-            <Flex w="full" align="center" justify="center">
-              <Spinner />
-              <Text>Loading Options…</Text>
-            </Flex>
-          );
-        }
+const SetupSkillsInput: React.FC = () => {
+  const { register } = useFormContext();
+  const { ref: registerRef, onChange, ...props } = register(field, {});
 
-        return (
-          <Center w="full" alignItems="stretch">
-            <SelectSearch
-              isMulti
-              {...{ styles }}
-              onChange={(newValue) => {
-                const values = newValue as unknown as Array<SkillOption>;
-                setter(values);
-              }}
-              options={choices as LabeledOptions<string>[]}
-              value={current}
-              autoFocus
-              closeMenuOnSelect={false}
-              placeholder="Add your skills…"
-              menuShouldScrollIntoView={true}
-              menuPlacement={modal ? 'auto' : 'top'}
-              {...props}
-            />
-          </Center>
-        );
-      }}
-    </WizardPane>
+  if (choices == null || !mounted) {
+    return (
+      <Flex w="full" align="center" justify="center">
+        <Spinner />
+        <Text>Loading Options…</Text>
+      </Flex>
+    );
+  }
+
+  return (
+    <Center w="full" alignItems="stretch">
+      <SelectSearch
+        isMulti
+        {...{ styles }}
+        onChange={(newValue) => {
+          const values = newValue as unknown as Array<SkillOption>;
+          setter(values);
+        }}
+        options={choices as LabeledOptions<string>[]}
+        value={current}
+        autoFocus
+        closeMenuOnSelect={false}
+        placeholder="Add your skills…"
+        menuShouldScrollIntoView={true}
+        menuPlacement={modal ? 'auto' : 'top'}
+        {...props}
+      />
+    </Center>
   );
 };
