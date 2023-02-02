@@ -28,10 +28,7 @@ import { useProfileField, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
-import {
-  getPlayerMeetwithWalletCalendarUrl,
-  getPlayerName,
-} from 'utils/playerHelpers';
+import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -90,7 +87,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
       </Flex>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
-          <Name {...{ player, ens }}/>
+          <Name {...{ player, ens }} />
         </Box>
 
         <Description {...{ player }} />
@@ -235,23 +232,21 @@ const Description: React.FC<DisplayComponentProps> = ({
 const Name: React.FC<DisplayComponentProps> = ({
   ens,
   Wrapper = React.Fragment,
-}) => {
-  return (
-    <Wrapper>
-      <Text
-        fontSize="xl"
-        fontFamily="heading"
-        mb={1}
-        textOverflow="ellipsis"
-        whiteSpace="nowrap"
-        overflowX="hidden"
-        title={ens ?? undefined}
-      >
-        {ens}
-      </Text>
-    </Wrapper>
-  )
-}
+}) => (
+  <Wrapper>
+    <Text
+      fontSize="xl"
+      fontFamily="heading"
+      mb={1}
+      textOverflow="ellipsis"
+      whiteSpace="nowrap"
+      overflowX="hidden"
+      title={ens ?? undefined}
+    >
+      {ens}
+    </Text>
+  </Wrapper>
+);
 
 const Availability: React.FC<DisplayComponentProps> = ({
   player,

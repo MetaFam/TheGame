@@ -74,7 +74,7 @@ export const PlayerFilter: React.FC<Props> = ({
     const resolveName = async () => {
       if (search.includes('.')) {
         const address = await getAddressFromName(search);
-        setQueryVariable('search', `%${address}%`);
+        setQueryVariable('search', address);
       }
     };
     resolveName();
