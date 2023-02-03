@@ -148,7 +148,7 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
                   break;
                 }
                 default: {
-                  console.info({ fromKey, toKey });
+                  console.info('Unrecognized Key', { fromKey, toKey });
                 }
               }
             }
