@@ -265,10 +265,11 @@ export const getStaticProps = async (
 
   // If username in url includes a . attempt to resolve ENS
   if (username.includes('.')) {
-    user = await getAddressFromName(username);
+    user.address = await getAddressFromName(username);
+    user.ens = username;
   } else {
-    // Else use url query param to get player
-    user = username.toLocaleLowerCase();
+    user.address = username.toLocaleLowerCase();
+    user.ens = await getNameFromAddress(username);
   }
 
   const player = await getPlayer(user);
