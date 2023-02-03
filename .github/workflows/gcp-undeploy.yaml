@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Set up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0.6.0
+        uses: google-github-actions/setup-gcloud@v1.1.0
         with:
           project_id: ${{env.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
