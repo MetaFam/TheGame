@@ -267,8 +267,7 @@ export const getStaticProps = async (
   if (username.includes('.')) {
     user.address = await getAddressFromName(username);
     user.ens = username;
-  }
-  if (username.length === 42) {
+  } else if (username.length === 42) {
     user.address = username.toLocaleLowerCase();
     user.ens = await getNameFromAddress(username);
   } else {
