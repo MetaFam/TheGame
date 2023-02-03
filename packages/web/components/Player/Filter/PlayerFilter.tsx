@@ -68,8 +68,6 @@ export const PlayerFilter: React.FC<Props> = ({
     sortOptionsMap[SortOption.SEASON_XP],
   );
 
-  // Get ADDRESS from ENS, temporary.
-
   useEffect(() => {
     const resolveName = async () => {
       if (search.includes('.')) {
