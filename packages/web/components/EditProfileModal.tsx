@@ -138,6 +138,13 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     () => MAX_DESC_LEN - (description?.length ?? 0),
     [description],
   );
+  const metagamer = useMemo(
+    () =>
+      !!player?.guilds.some(
+        ({ Guild: { guildname } }) => guildname === 'metafam',
+      ),
+    [player],
+  );
 
   const fields = Object.fromEntries(
     Object.keys(AllProfileFields).map((key) => {
@@ -547,13 +554,21 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 key: 'backgroundImageURL',
                 title: 'Page Background',
                 description:
-                  'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.',
+                  // eslint-disable-next-line prefer-template
+                  'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.' +
+                  (metagamer
+                    ? ''
+                    : '\nOnly available to MetaGame players and patrons.'),
               },
             ].map(({ key, title, description: spec }) => (
               <GridItem flex={1} alignItems="center" h="10em" {...{ key }}>
                 <FormControl isInvalid={errors[key]} h="full">
                   <Tooltip label={spec}>
-                    <Label htmlFor={key} userSelect="none" whiteSpace="nowrap">
+                    <Label
+                      htmlFor={key}
+                      userSelect="none"
+                      whiteSpace="break-spaces"
+                    >
                       {title}
                       <InfoIcon ml={2} />
                     </Label>

@@ -49,7 +49,6 @@ export const ExtendedProfileStrings = {
   // a library.
   timeZone: 'timeZone',
   explorerTypeTitle: 'explorerType',
-  meetWithWalletDomain: 'meetWithWalletDomain',
 } as const;
 // Objects are handled specially in the save function.
 // There is a switch on the key and specific code for
@@ -72,6 +71,7 @@ export const StringProfileFields = {
 export const AllProfileFields = {
   ...BasicProfileFields,
   ...ExtendedProfileFields,
+  meetWithWalletDomain: 'meetWithWalletDomain',
 } as const;
 
 export const ReversedProfileFields = Object.fromEntries(
@@ -144,7 +144,7 @@ export type CeramicEPStrings = {
 
 export type ExtendedProfile = CeramicEPImages &
   CeramicEPStrings &
-  CeramicEPObjects;
+  CeramicEPObjects & { meetWithWalletDomain?: string };
 
 export type CeramicProfileProps = BasicProfile & ExtendedProfile;
 
