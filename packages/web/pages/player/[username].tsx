@@ -42,7 +42,7 @@ type Props = {
   ens?: string;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player }) => {
   const router = useRouter();
   const { user } = useUser();
   const [userENS, setENS] = useState('');
@@ -81,6 +81,13 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   });
 
   const [, invalidateCache] = useInvalidateCache();
+  const metagamer = useMemo(
+    () =>
+      player?.guilds.some(
+        ({ Guild: { guildname } }) => guildname === 'metafam',
+      ),
+    [player],
+  );
 
   useEffect(() => {
     const resolveName = async () => {
@@ -117,14 +124,14 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     return <Page404 />;
   if (!playerData && router.pathname === '/me') return <Page404 />;
 
-  const banner = background ? '' : bannerURL;
+  const banner = metagamer && background ? '' : bannerURL;
 
   return (
     <PageContainer
       p={0}
       h="100%"
       position="relative"
-      {...(background
+      {...(metagamer && background
         ? {
             bg: `url('${background}') no-repeat`,
             bgSize: 'cover',
@@ -161,7 +168,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         align="center"
         pt={12}
         px={[0, 4, 8]}
-        {...(background
+        {...(metagamer && background
           ? {
               bg: `url('${background}') no-repeat`,
               bgSize: 'cover',

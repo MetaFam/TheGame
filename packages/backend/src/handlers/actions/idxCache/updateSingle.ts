@@ -36,7 +36,7 @@ import {
 } from '../../../lib/autogen/hasura-sdk.js';
 import { maskFor } from '../../../lib/colorHelpers.js';
 import { client } from '../../../lib/hasuraClient.js';
-import { handledMeetWithWalletIntegration } from '../meetwithwallet/index.js';
+import { handleMeetWithWalletIntegration } from '../meetwithwallet/handler.js';
 
 export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
   const accountLinks: string[] = [];
@@ -102,27 +102,25 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
     if (did) {
       extendedProfile = await store.get('extendedProfile', did);
 
-      if (!extendedProfile) {
+      if (extendedProfile == null) {
         console.debug(`No Extended Profile For: ${ethereumAddress} (${did})`);
       } else {
         Object.entries(ExtendedProfileStrings).forEach(
-          async ([hasuraId, ceramicId]) => {
+          ([hasuraId, ceramicId]) => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileStrings>;
             const toKey = hasuraId as keyof typeof ExtendedProfileStrings;
 
             if (extendedProfile?.[fromKey] != null) {
-              if (
-                !(await handledMeetWithWalletIntegration(
-                  playerId,
-                  fromKey,
-                  extendedProfile,
-                ))
-              ) {
-                values[toKey] = (extendedProfile[fromKey] as string) ?? null;
-              }
+              values[toKey] = (extendedProfile[fromKey] as string) ?? null;
             }
           },
         );
+        if (extendedProfile.meetWithWalletDomain != null) {
+          await handleMeetWithWalletIntegration(
+            playerId,
+            extendedProfile.meetWithWalletDomain,
+          );
+        }
         Object.entries(ExtendedProfileImages).forEach(
           ([hasuraId, ceramicId]) => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;

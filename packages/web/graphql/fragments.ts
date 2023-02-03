@@ -46,6 +46,12 @@ export const PlayerFragment = /* GraphQL */ `
       type
     }
 
+    guilds {
+      Guild {
+        guildname
+      }
+    }
+
     # brightid_status {
     #   unique
     #   contextIds
