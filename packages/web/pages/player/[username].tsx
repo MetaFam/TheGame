@@ -40,10 +40,10 @@ type Props = {
   player: Player;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
-  const [ens, setENS] = useState('');
+  const [userENS, setENS] = useState('');
 
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
@@ -59,13 +59,16 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
   useEffect(() => {
     const resolveName = async () => {
-      if (user) {
+      if (user && !ens) {
         const name = await getNameFromAddress(user?.ethereumAddress);
         setENS(name);
       }
+      if (ens) {
+        setENS(ens);
+      }
     };
     resolveName();
-  }, [user]);
+  }, [user, ens]);
 
   useEffect(() => {
     if (player?.id) {
@@ -129,7 +132,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
             }
           : {})}
       >
-        <Grid {...{ player }} />
+        <Grid {...{ player, ens: userENS }} />
       </Flex>
     </PageContainer>
   );
@@ -139,7 +142,6 @@ export default PlayerPage;
 
 export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const { user, fetching } = useUser();
-
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
   const isOwnProfile = useMemo(
@@ -226,12 +228,10 @@ export const getStaticProps = async (
   if (username.includes('.')) {
     user.address = await getAddressFromName(username);
     user.ens = username;
-  } else if (username.length === 42) {
+  }
+  if (username.length === 42) {
     user.address = username.toLocaleLowerCase();
-    user.ens = await getNameFromAddress(username);
-  } else {
-    user.address = username;
-    user.ens = '';
+    user.ens = await getNameFromAddress(username.toLocaleLowerCase());
   }
 
   const player = await getPlayer(user);
