@@ -60,6 +60,18 @@ export const PlayerTile: React.FC<Props> = ({
     });
   }, [player]);
 
+  useEffect(() => {
+    if (!player?.ethereumAddress) return;
+    async function getURL() {
+      const ens = await getNameFromAddress(player?.ethereumAddress);
+      const ensURL = `https://my.metagame.wtf/player/${ens}`;
+      const addressURL = getPlayerURL(player);
+      setLinkURL(addressURL === ensURL ? addressURL : ensURL);
+      return addressURL === ensURL ? addressURL : ensURL;
+    }
+    getURL();
+  }, [player]);
+ 
   const handleResize = useCallback(() => {
     const width = daosRef.current?.scrollWidth;
     setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));
