@@ -41,7 +41,7 @@ type Props = {
   player: Player;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
   const [userENS, setENS] = useState('');
@@ -87,6 +87,9 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         const userPlayer = await getPlayer(user?.ethereumAddress);
         setPlayerData(userPlayer as Player);
         setENS(name || '');
+      }
+      if (ens) {
+        setENS(ens);
       }
     };
     const getURL = async () => {
@@ -267,12 +270,10 @@ export const getStaticProps = async (
   if (username.includes('.')) {
     user.address = await getAddressFromName(username);
     user.ens = username;
-  } else if (username.length === 42) {
+  }
+  if (username.length === 42) {
     user.address = username.toLocaleLowerCase();
-    user.ens = await getNameFromAddress(username);
-  } else {
-    user.address = username;
-    user.ens = '';
+    user.ens = await getNameFromAddress(username.toLocaleLowerCase());
   }
 
   const player = await getPlayer(user);
