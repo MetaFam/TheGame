@@ -63,16 +63,49 @@ export const PlayerTile: React.FC<Props> = ({
 
   useEffect(() => {
     if (!player?.ethereumAddress) return;
-
     async function getURL() {
+      let link = '';
       const ens = await getNameFromAddress(player?.ethereumAddress);
       const ensURL = `https://my.metagame.wtf/player/${ens}`;
-      const addressURL = getPlayerURL(player);
-      setLinkURL(addressURL === ensURL ? addressURL : ensURL);
-      return addressURL === ensURL ? addressURL : ensURL;
+      const playerURL = getPlayerURL(player);
+      // get url params from url strings, 7 is length of word player + /
+      const ensURLParam = ensURL.substring(ensURL.indexOf('player') + 7);
+      let playerURLParam = '';
+      if (playerURL) {
+        playerURLParam = playerURL.substring(playerURL.indexOf('player') + 7);
+      }
+
+      if (playerURLParam !== '' && playerURLParam.length !== 42 && playerURL) {
+        setLinkURL(playerURL);
+        link = playerURL;
+      }
+      if (playerURLParam.length === 42 && ensURLParam.length !== 42) {
+        setLinkURL(ensURL);
+        link = ensURL;
+      }
+      if (
+        playerURLParam?.length === 42 &&
+        playerURLParam?.length === ensURLParam.length
+      ) {
+        setLinkURL(ensURL);
+        link = ensURL;
+      }
+
+      return link;
     }
     getURL();
   }, [player]);
+
+  const handleResize = useCallback(() => {
+    const width = daosRef.current?.scrollWidth;
+    setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));
+  }, []);
+
+  useEffect(() => {
+    const elem = daosRef.current;
+    elem?.addEventListener('resize', handleResize);
+    return () => elem?.removeEventListener('resize', handleResize);
+  }, [handleResize]);
 
   return (
     <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
