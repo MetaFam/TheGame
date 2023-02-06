@@ -1,9 +1,9 @@
-import { CONFIG } from 'config';
+//import { CONFIG } from 'config';
 import { ethers } from 'ethers';
+//const { mainnetRPC } = CONFIG;
 
-const { mainnetRPC } = CONFIG;
-
-const mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetRPC);
+//replace this with the mainnetRPC from above after testing and adding env, uncomment both mainnetRPC and CONFIG
+const mainnetProvider = new ethers.providers.JsonRpcProvider('https://ethereum.publicnode.com');
 
 export const getAddressFromName = async (ens: string) => {
   const address = await mainnetProvider.resolveName(ens);
