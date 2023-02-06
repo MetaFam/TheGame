@@ -233,6 +233,7 @@ const Description: React.FC<DisplayComponentProps> = ({
 
 const Name: React.FC<DisplayComponentProps> = ({
   player,
+  ens,
   Wrapper = React.Fragment,
 }) => {
   const { name } = useProfileField({
@@ -241,17 +242,7 @@ const Name: React.FC<DisplayComponentProps> = ({
     getter: getPlayerName,
   });
 
-  /* let ens: string = '';
-
-  useEffect(() => {
-    const resolveENS = async () => {
-      if (!player || !player.ethereumAddress) {
-        return;
-      }
-      ens = await getNameFromAddress(player.ethereumAddress);
-    };
-    resolveENS();
-  }, [player?.ethereumAddress]) */
+  if (!name) return <></>;
 
   return (
     <Wrapper>
@@ -262,9 +253,9 @@ const Name: React.FC<DisplayComponentProps> = ({
         textOverflow="ellipsis"
         whiteSpace="nowrap"
         overflowX="hidden"
-        title={name ?? undefined}
+        title={name.includes('…') ? ens : name}
       >
-        {name}
+        {name.includes('…') ? ens : name}
       </Text>
     </Wrapper>
   );
