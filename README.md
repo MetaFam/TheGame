@@ -112,7 +112,7 @@ yarn hasura:seed-db
 2. Populate the database with the initial dataset:
 
 ```shell script
-curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts?force=true
+curl -X POST http://localhost:4000/actions/syncSourceCredAccounts?force=true
 ```
 
 **Rebuild backend services**

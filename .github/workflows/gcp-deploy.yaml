@@ -111,6 +111,7 @@ jobs:
           echo "FRONTEND_URL=\
           https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
           echo "DB_PASSWORD=$(head -c 48 /dev/urandom | tr -cd [:alnum:])" >> $GITHUB_ENV
+
       - name: Those Variables May Now Be Interpolated
         id: second
         run: |
@@ -122,6 +123,7 @@ jobs:
           https://${{env.BACKEND_HOST}}/actions/syncSourceCredAccounts?force=true" >> $GITHUB_ENV
           echo "DB_HOST=\
           /${{env.DB_NAME}}?host=/cloudsql/${{env.CLOUDSQL_CONNECTION_NAME}}" >> $GITHUB_ENV
+
       - name: And That Result Again In Another Step
         id: third
         run: |
@@ -133,6 +135,7 @@ jobs:
           ${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "FRONTEND_TAG=\
           ${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
+
   delete-db:
     name: Delete SQL User & Database
     runs-on: ubuntu-latest
@@ -151,6 +154,7 @@ jobs:
         run: |
           gcloud -q sql users delete ${{needs.env.outputs.DB_NAME}} \
             -i ${{needs.env.outputs.CLOUDSQL_INSTANCE_NAME}}
+
       - name: "Delete Database: ${{needs.env.outputs.DB_NAME}}"
         continue-on-error: true
         run: |
@@ -164,6 +168,7 @@ jobs:
             dropdb -h /tmp/cloudsql/${{needs.env.outputs.CLOUDSQL_CONNECTION_NAME}} \
             -U postgres ${{needs.env.outputs.DB_NAME}} -f
           kill $PID
+
   create-db:
     name: Create New SQL User & Database
     runs-on: ubuntu-latest
@@ -182,10 +187,12 @@ jobs:
           gcloud -q sql users create ${{needs.env.outputs.DB_NAME}} \
             -i ${{needs.env.outputs.CLOUDSQL_INSTANCE_NAME}} \
             --password ${{needs.env.outputs.DB_PASSWORD}}
+
       - name: "Create Database: ${{needs.env.outputs.DB_NAME}}"
         run: |
           gcloud -q sql databases create ${{needs.env.outputs.DB_NAME}} \
             -i ${{needs.env.outputs.CLOUDSQL_INSTANCE_NAME}}
+
   undeploy-backend:
     name: Undeploy Backend
     runs-on: ubuntu-latest
@@ -204,6 +211,7 @@ jobs:
         run: |
           gcloud -q run services delete ${{needs.env.outputs.BACKEND_SERVICE}} \
             --region ${{needs.env.outputs.CLOUDRUN_REGION}}
+
   delete-backend:
     name: Delete Backend Container Image
     runs-on: ubuntu-latest
@@ -287,6 +295,7 @@ jobs:
             --set-env-vars SOURCECRED_LEDGER_BRANCH=master \
             --set-env-vars GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
             --set-env-vars DISCORD_BOT_TOKEN=${{secrets.DISCORD_BOT_TOKEN}}
+
   undeploy-hasura:
     name: Undeploy Hasura
     runs-on: ubuntu-latest
@@ -305,6 +314,7 @@ jobs:
         run: |
           gcloud -q run services delete ${{needs.env.outputs.HASURA_SERVICE}} \
             --region ${{needs.env.outputs.CLOUDRUN_REGION}}
+
   delete-hasura:
     name: Delete Hasura Container Image
     runs-on: ubuntu-latest
@@ -394,6 +404,7 @@ jobs:
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=${{needs.env.outputs.HASURA_SECRET}} \
             --set-env-vars HASURA_GRAPHQL_SERVER_PORT=${{needs.env.outputs.HASURA_PORT}} \
             --set-env-vars HASURA_GRAPHQL_ENABLE_CONSOLE=true
+
   undeploy-frontend:
     name: Undeploy Frontend
     runs-on: ubuntu-latest
@@ -412,6 +423,7 @@ jobs:
         run: |
           gcloud -q run services delete ${{needs.env.outputs.FRONTEND_SERVICE}} \
             --region ${{needs.env.outputs.CLOUDRUN_REGION}}
+
   delete-frontend:
     name: Delete Frontend Container Image
     runs-on: ubuntu-latest
@@ -493,6 +505,7 @@ jobs:
             --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
             --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
             --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
+
   seed-db:
     name: Seed Database
     runs-on: ubuntu-latest
@@ -513,6 +526,7 @@ jobs:
           SOURCE_GRAPHQL_URL="${{needs.env.outputs.GRAPHQL_URL}}" \
             ACCOUNT_SYNC_URL="${{needs.env.outputs.SC_SYNC_URL}}" \
             yarn hasura:seed-db
+
   finish-deployment:
     name: Finish Deployment
     runs-on: ubuntu-latest
