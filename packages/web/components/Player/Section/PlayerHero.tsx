@@ -28,7 +28,10 @@ import { useProfileField, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
-import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
+import {
+  getPlayerMeetwithWalletCalendarUrl,
+  getPlayerName,
+} from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -230,23 +233,35 @@ const Description: React.FC<DisplayComponentProps> = ({
 };
 
 const Name: React.FC<DisplayComponentProps> = ({
+  player,
   ens,
   Wrapper = React.Fragment,
-}) => (
-  <Wrapper>
-    <Text
-      fontSize="xl"
-      fontFamily="heading"
-      mb={1}
-      textOverflow="ellipsis"
-      whiteSpace="nowrap"
-      overflowX="hidden"
-      title={ens ?? undefined}
-    >
-      {ens}
-    </Text>
-  </Wrapper>
-);
+}) => {
+  const { name } = useProfileField({
+    field: 'name',
+    player,
+    getter: getPlayerName,
+  });
+
+  if (!name) return <></>;
+
+  // Display ens, if name does include ('…'), this is used to shorten ethereum addresses.
+  return (
+    <Wrapper>
+      <Text
+        fontSize="xl"
+        fontFamily="heading"
+        mb={1}
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+        overflowX="hidden"
+        title={name.includes('…') ? ens : name}
+      >
+        {name.includes('…') ? ens : name}
+      </Text>
+    </Wrapper>
+  );
+};
 
 const Availability: React.FC<DisplayComponentProps> = ({
   player,
