@@ -28,7 +28,6 @@ import { useProfileField, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
-import { getNameFromAddress } from 'utils/ensHelpers';
 import {
   getPlayerMeetwithWalletCalendarUrl,
   getPlayerName,
