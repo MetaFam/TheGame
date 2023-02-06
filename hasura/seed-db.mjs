@@ -263,7 +263,7 @@ async function startSeeding() {
         count: idx + 1,
         variables: {
           playerId,
-          username: player.profile?.username?.replace(/\./g, '_') ?? null,
+          username: player.profile?.username ?? null,
           availableHours: player.profile?.availableHours ?? null,
           timeZone: player.profile?.timeZone ?? null,
           colorMask: player.profile?.colorMask ?? null,
