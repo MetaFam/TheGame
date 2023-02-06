@@ -51,6 +51,5 @@
     "spacetime-informal": "0.6.1",
     "vanilla-tilt": "1.7.3",
     "vite": "^3.1.8"
-  },
-  "devDependencies": {}
+  }
 }
