@@ -44,6 +44,7 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
   const [userENS, setENS] = useState('');
+  const [linkURL, setLinkURL] = useState<string>();
 
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
@@ -67,6 +68,11 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
         setENS(ens);
       }
     };
+    const getPlayer = async () => {
+      const url = await getPlayerURL(player)
+      setLinkURL(url)
+    }
+    getPlayer()
     resolveName();
   }, [user, ens]);
 
@@ -101,7 +107,7 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
       <HeadComponent
         title={`MetaGame Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
-        url={getPlayerURL(player, { rel: false })}
+        url={linkURL}
         img={getPlayerImage(player)}
       />
       {banner && (
