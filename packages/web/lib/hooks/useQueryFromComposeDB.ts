@@ -1,4 +1,4 @@
-import { ComposeDBField, Optional } from '@metafam/utils';
+import { ComposeDBField, ComposeDBFieldValue, Optional } from '@metafam/utils';
 import { useComposeDB } from 'contexts/ComposeDBContext';
 import { ComposeDBDocumentQueryResult } from 'graphql/types';
 import { CeramicError } from 'lib/errors';
@@ -9,7 +9,7 @@ const genericFetchError = new CeramicError(
   'An unexpected error occurred when querying Ceramic.',
 );
 // todo load from hasura as a fallback ?
-export const useQueryFromComposeDB = <T>({
+export const useQueryFromComposeDB = <T extends ComposeDBFieldValue>({
   indexName,
   field,
 }: {
