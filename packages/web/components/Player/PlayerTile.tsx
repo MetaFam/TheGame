@@ -80,7 +80,6 @@ export const PlayerTile: React.FC<Props> = ({
   }, [player])
 
   return (
-    //@ts-ignore
     <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
       <MetaTile minW="300px" height="full" width="full" cursor="pointer">
         <MetaTileHeader>
