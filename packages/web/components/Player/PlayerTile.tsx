@@ -21,8 +21,7 @@ import { SkillsTags } from 'components/Quest/Skills';
 import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import type { Patron } from 'graphql/types';
-import React, { useEffect, useState } from 'react';
-import { getNameFromAddress } from 'utils/ensHelpers';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   getPlayerDescription,
   getPlayerName,
@@ -61,41 +60,6 @@ export const PlayerTile: React.FC<Props> = ({
     });
   }, [player]);
 
-  useEffect(() => {
-    if (!player?.ethereumAddress) return;
-    async function getURL() {
-      let link = '';
-      const ens = await getNameFromAddress(player?.ethereumAddress);
-      const ensURL = `https://my.metagame.wtf/player/${ens}`;
-      const playerURL = getPlayerURL(player);
-      // get url params from url strings, 7 is length of word player + /
-      const ensURLParam = ensURL.substring(ensURL.indexOf('player') + 7);
-      let playerURLParam = '';
-      if (playerURL) {
-        playerURLParam = playerURL.substring(playerURL.indexOf('player') + 7);
-      }
-
-      if (playerURLParam !== '' && playerURLParam.length !== 42 && playerURL) {
-        setLinkURL(playerURL);
-        link = playerURL;
-      }
-      if (playerURLParam.length === 42 && ensURLParam.length !== 42) {
-        setLinkURL(ensURL);
-        link = ensURL;
-      }
-      if (
-        playerURLParam?.length === 42 &&
-        playerURLParam?.length === ensURLParam.length
-      ) {
-        setLinkURL(ensURL);
-        link = ensURL;
-      }
-
-      return link;
-    }
-    getURL();
-  }, [player]);
-
   const handleResize = useCallback(() => {
     const width = daosRef.current?.scrollWidth;
     setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));
@@ -107,7 +71,16 @@ export const PlayerTile: React.FC<Props> = ({
     return () => elem?.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
+  useEffect(() => {
+    const getPlayer = async () => {
+      const url = await getPlayerURL(player)
+      setLinkURL(url)
+    }
+    getPlayer()
+  }, [player])
+
   return (
+    //@ts-ignore
     <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
       <MetaTile minW={'300px'} height="full" width="full" cursor="pointer">
         <MetaTileHeader>
