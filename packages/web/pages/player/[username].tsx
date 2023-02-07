@@ -275,6 +275,10 @@ export const getStaticProps = async (
     user.address = username.toLocaleLowerCase();
     user.ens = await getNameFromAddress(username.toLocaleLowerCase());
   }
+  if (!username.includes('.') && username.length !== 42) {
+    user.address = username;
+    user.ens = username;
+  }
 
   const player = await getPlayer(user);
 
@@ -287,3 +291,4 @@ export const getStaticProps = async (
     revalidate: 1,
   };
 };
+
