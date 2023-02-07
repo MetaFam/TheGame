@@ -137,13 +137,10 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
         : {})}
     >
       <HeadComponent
-        title={`MetaGame Profile: ${getPlayerName(playerData)}`}
-        description={(getPlayerDescription(playerData) ?? '').replace(
-          '\n',
-          ' ',
-        )}
+        title={`MetaGame Profile: ${getPlayerName(player)}`}
+        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
-        img={getPlayerImage(playerData)}
+        img={getPlayerImage(player)}
       />
       {banner && (
         <Box
