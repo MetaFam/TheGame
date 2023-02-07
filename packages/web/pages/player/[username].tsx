@@ -68,13 +68,13 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
         setENS(ens);
       }
     };
-    const getPlayer = async () => {
+    const getURL = async () => {
       const url = await getPlayerURL(player)
       setLinkURL(url)
     }
-    getPlayer()
+    getURL()
     resolveName();
-  }, [user, ens]);
+  }, [user, ens, player]);
 
   useEffect(() => {
     if (player?.id) {
