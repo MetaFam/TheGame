@@ -43,7 +43,7 @@ type Props = {
 export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
-  const [userENS, setENS] = useState('');
+  const [userENS, setENS] = useState(ens);
   const [linkURL, setLinkURL] = useState<string>();
 
   const { value: bannerURL } = useProfileField({
