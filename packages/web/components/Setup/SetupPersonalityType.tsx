@@ -67,7 +67,7 @@ const ColorButtons: React.FC<ColorButtonsProps> = ({
   <Wrap spacing={[3, 7]} maxW="60rem" w="100%" justify="center">
     {Object.entries(MaskImages)
       .reverse()
-      .map(([bitString, image], idx) => {
+      .map(([bitString, image]) => {
         const type = types[bitString];
 
         if (!type) {
@@ -100,12 +100,6 @@ const ColorButtons: React.FC<ColorButtonsProps> = ({
                   );
                 })
               }
-              ref={(input) => {
-                if (idx === 0 && !input?.getAttribute('focused-once')) {
-                  input?.focus();
-                  input?.setAttribute('focused-once', 'true');
-                }
-              }}
               transition="background 0.25s, filter 0.75s"
               bg={selected ? 'purpleBoxDark' : 'purpleBoxLight'}
               _hover={{ filter: 'hue-rotate(25deg)' }}
