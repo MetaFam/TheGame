@@ -44,3 +44,15 @@ export const mutationComposeDBCreateProfileTimeZone = /* GraphQL */ `
     }
   }
 `;
+
+export const mutationComposeDBCreateProfileAvailability = /* GraphQL */ `
+  mutation ComposeDBCreateProfileAvailability(
+    $input: CreateProfileAvailabilityInput!
+  ) {
+    createProfileAvailability(input: $input) {
+      document {
+        weeklyHours
+      }
+    }
+  }
+`;
