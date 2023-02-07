@@ -1,9 +1,11 @@
-//import { CONFIG } from 'config';
+// import { CONFIG } from 'config';
 import { ethers } from 'ethers';
 import { getPlayer } from 'graphql/getPlayer';
 
-//replace this with the mainnetRPC from above after testing and adding env, uncomment both mainnetRPC and CONFIG
-const mainnetProvider = new ethers.providers.JsonRpcProvider('https://ethereum.publicnode.com');
+// replace this with the mainnetRPC from above after testing and adding env, uncomment both mainnetRPC and CONFIG
+const mainnetProvider = new ethers.providers.JsonRpcProvider(
+  'https://ethereum.publicnode.com',
+);
 
 export const getAddressForENS = async (ens: string) => {
   if (!ens) return null;
