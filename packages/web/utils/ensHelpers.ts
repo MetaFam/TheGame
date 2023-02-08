@@ -8,14 +8,21 @@ const mainnetProvider = new ethers.providers.JsonRpcProvider(
 );
 
 export const getAddressForENS = async (ens: string) => {
-  if (ens) return null;
-  const address = await mainnetProvider.resolveName(ens);
-  return address;
+  if (!ens) return null;
+  try {
+    const address = await mainnetProvider.resolveName(ens);
+    return address;
+  } catch (error) {
+    return null;
+  }
 };
 
 export const getENSForAddress = async (address: string | undefined) => {
   if (!address) return null;
-  const name = await mainnetProvider.lookupAddress(address);
-  return name;
+  try {
+    const name = await mainnetProvider.lookupAddress(address);
+    return name;
+  } catch {
+    return null;
+  }
 };
-
