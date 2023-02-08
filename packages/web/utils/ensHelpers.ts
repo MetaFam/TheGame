@@ -7,12 +7,14 @@ const mainnetProvider = new ethers.providers.JsonRpcProvider(
   'https://ethereum.publicnode.com',
 );
 
-export const getAddressFromName = async (ens: string) => {
+export const getAddressForENS = async (ens: string) => {
+  if (ens) return null;
   const address = await mainnetProvider.resolveName(ens);
-  return address?.length === 42 ? address : ens;
+  return address;
 };
 
-export const getNameFromAddress = async (address: string) => {
+export const getENSForAddress = async (address: string | undefined) => {
+  if (!address) return null;
   const name = await mainnetProvider.lookupAddress(address);
-  return name || address;
+  return name;
 };
