@@ -242,7 +242,7 @@ export const getStaticProps = async (
   // If username in url includes a . attempt to resolve ENS
   if (username.includes('.')) {
     const address = await getAddressForENS(username);
-    user.address = address || username;
+    user.address = address?.toLowerCase() || username;
     user.ens = username;
   }
   if (ethers.utils.isAddress(username.toLowerCase())) {

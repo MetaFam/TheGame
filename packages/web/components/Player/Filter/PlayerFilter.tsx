@@ -32,7 +32,7 @@ import {
 } from 'lib/hooks/players';
 import { useIsSticky } from 'lib/hooks/useIsSticky';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { getAddressFromName } from 'utils/ensHelpers';
+import { getAddressForENS } from 'utils/ensHelpers';
 import { SkillOption } from 'utils/skillHelpers';
 
 const Form = chakra.form;
@@ -71,7 +71,7 @@ export const PlayerFilter: React.FC<Props> = ({
   useEffect(() => {
     const resolveName = async () => {
       if (search.includes('.')) {
-        const address = await getAddressFromName(search);
+        const address = await getAddressForENS(search);
         setQueryVariable('search', address);
       }
     };
