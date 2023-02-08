@@ -19,7 +19,7 @@ import {
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import moment from 'moment';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
@@ -32,7 +32,13 @@ type Props = {
   quest: QuestWithCompletionFragment;
 };
 
+type MapType = {
+  [id: string]: string | undefined;
+};
+
 export const QuestCompletions: React.FC<Props> = ({ quest }) => {
+  const [urls, setURLs] = useState<MapType>({});
+
   const { user } = useUser();
   const toast = useToast();
   const [alertSubmission, setAlertSubmission] =
@@ -70,6 +76,22 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
     });
   }, [alertSubmission, updateQuestCompletion, toast]);
 
+  useEffect(() => {
+    if (!quest.quest_completions) return;
+    const extractURLs = async () => {
+      quest.quest_completions.forEach(async ({ player }) => {
+        const url = await getPlayerURL(player);
+        setURLs({ ...urls, [player.ethereumAddress]: url });
+      });
+    };
+    extractURLs();
+  }, [quest.quest_completions]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const getURL = (address: string) => {
+    const result = urls[address] ? urls[address] : address;
+    return result;
+  };
+
   return (
     <Box>
       <VStack spacing={4}>
@@ -93,7 +115,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                   <i>
                     by{' '}
                     <MetaLink
-                      as={getPlayerURL(player)}
+                      as={getURL(player.ethereumAddress)}
                       href="/player/[username]"
                     >
                       {getPlayerName(player)}
