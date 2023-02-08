@@ -73,11 +73,11 @@ export const PlayerTile: React.FC<Props> = ({
 
   useEffect(() => {
     const getPlayer = async () => {
-      const url = await getPlayerURL(player)
-      setLinkURL(url)
-    }
-    getPlayer()
-  }, [player])
+      const url = await getPlayerURL(player);
+      setLinkURL(url);
+    };
+    getPlayer();
+  }, [player]);
 
   return (
     <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
