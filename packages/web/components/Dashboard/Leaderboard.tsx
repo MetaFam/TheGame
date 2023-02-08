@@ -19,10 +19,15 @@ import {
   sortOptionsMap,
   usePlayerFilter,
 } from 'lib/hooks/players';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
+type MapType = {
+  [id: string]: string | undefined;
+};
+
 export const Leaderboard: React.FC = () => {
+  const [urls, setURLs] = useState<MapType>({});
   const { players, fetching, error, queryVariables, setQueryVariable } =
     usePlayerFilter();
 
@@ -40,6 +45,22 @@ export const Leaderboard: React.FC = () => {
   const [sortOption, setSortOption] = useState<LabeledValue<string>>(
     sortOptionsMap[SortOption.SEASON_XP],
   );
+
+  useEffect(() => {
+    if (!players) return;
+    const extractURLs = async () => {
+      players.forEach(async (p) => {
+        const url = await getPlayerURL(p);
+        setURLs({ ...urls, [p.ethereumAddress]: url });
+      });
+    };
+    extractURLs();
+  }, [players]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const getURL = (address: string) => {
+    const result = urls[address] ? urls[address] : address;
+    return result;
+  };
 
   return (
     <Flex direction="column" p={6} w="100%">
@@ -99,7 +120,7 @@ export const Leaderboard: React.FC = () => {
                 return (
                   <MetaLink
                     key={`player-chip-${p.id}`}
-                    as={getPlayerURL(p)}
+                    as={getURL(p.ethereumAddress)}
                     href="/player/[username]"
                     w="100%"
                     color="white"
