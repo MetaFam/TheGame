@@ -76,7 +76,7 @@ export const formatIfAddress = (username = ''): string =>
     opts: { rel?: boolean; default?: string } = {},
   ) => {
     let { username } = player?.profile ?? {};
-    username ??= await getNameFromAddress(player?.ethereumAddress!);
+    username ??= await getNameFromAddress(player?.ethereumAddress);
     username ??= player?.ethereumAddress;
     const { rel: relative = true } = opts;
     if (username) {
