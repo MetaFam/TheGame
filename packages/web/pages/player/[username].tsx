@@ -246,7 +246,7 @@ export const getStaticProps = async (
   }
   if (
     !username.includes('.') &&
-    ethers.utils.isAddress(username.toLowerCase())
+    !ethers.utils.isAddress(username.toLowerCase())
   ) {
     user.address = username;
     user.ens = username;
