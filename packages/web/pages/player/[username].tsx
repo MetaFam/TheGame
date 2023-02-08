@@ -7,6 +7,7 @@ import {
   DEFAULT_PLAYER_LAYOUT_DATA,
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
+import { ethers } from 'ethers';
 import {
   Player,
   useInsertCacheInvalidationMutation as useInvalidateCache,
@@ -265,14 +266,19 @@ export const getStaticProps = async (
 
   // If username in url includes a . attempt to resolve ENS
   if (username.includes('.')) {
-    user.address = await getAddressFromName(username);
+    const address = await getAddressForENS(username);
+    user.address = address || username;
     user.ens = username;
   }
-  if (username.length === 42) {
+  if (ethers.utils.isAddress(username.toLowerCase())) {
     user.address = username.toLocaleLowerCase();
-    user.ens = await getNameFromAddress(username.toLocaleLowerCase());
+    const ens = await getENSForAddress(username.toLocaleLowerCase());
+    user.ens = ens || username;
   }
-  if (!username.includes('.') && username.length !== 42) {
+  if (
+    !username.includes('.') &&
+    ethers.utils.isAddress(username.toLowerCase())
+  ) {
     user.address = username;
     user.ens = username;
   }
@@ -288,4 +294,3 @@ export const getStaticProps = async (
     revalidate: 1,
   };
 };
-
