@@ -26,4 +26,3 @@ export const getENSForAddress = async (address: string | undefined) => {
     return null;
   }
 };
-
