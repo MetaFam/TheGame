@@ -7,6 +7,7 @@ import {
   DEFAULT_PLAYER_LAYOUT_DATA,
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
+import { ethers } from 'ethers';
 import {
   Player,
   useInsertCacheInvalidationMutation as useInvalidateCache,
@@ -26,7 +27,7 @@ import React, {
   useState,
 } from 'react';
 import { LayoutData } from 'utils/boxTypes';
-import { getAddressFromName } from 'utils/ensHelpers';
+import { getAddressForENS, getENSForAddress } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
@@ -43,7 +44,7 @@ type Props = {
 export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
-  const [userENS, setENS] = useState(ens);
+  const [userENS, setENS] = useState('');
   const [linkURL, setLinkURL] = useState<string>();
 
   const { value: bannerURL } = useProfileField({
@@ -61,18 +62,20 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
   useEffect(() => {
     const resolveName = async () => {
       if (user && !ens) {
-        const name = await getNameFromAddress(user?.ethereumAddress);
-        setENS(name);
+        const name = await getENSForAddress(user?.ethereumAddress);
+        if (name) {
+          setENS(name);
+        }
       }
       if (ens) {
         setENS(ens);
       }
     };
     const getURL = async () => {
-      const url = await getPlayerURL(player)
-      setLinkURL(url)
-    }
-    getURL()
+      const url = await getPlayerURL(player);
+      setLinkURL(url);
+    };
+    getURL();
     resolveName();
   }, [user, ens, player]);
 
@@ -232,14 +235,19 @@ export const getStaticProps = async (
 
   // If username in url includes a . attempt to resolve ENS
   if (username.includes('.')) {
-    user.address = await getAddressFromName(username);
+    const address = await getAddressForENS(username);
+    user.address = address || username;
     user.ens = username;
   }
-  if (username.length === 42) {
+  if (ethers.utils.isAddress(username.toLowerCase())) {
     user.address = username.toLocaleLowerCase();
-    user.ens = await getNameFromAddress(username.toLocaleLowerCase());
+    const ens = await getENSForAddress(username.toLocaleLowerCase());
+    user.ens = ens || username;
   }
-  if (!username.includes('.') && username.length !== 42) {
+  if (
+    !username.includes('.') &&
+    ethers.utils.isAddress(username.toLowerCase())
+  ) {
     user.address = username;
     user.ens = username;
   }
@@ -255,4 +263,3 @@ export const getStaticProps = async (
     revalidate: 1,
   };
 };
-
