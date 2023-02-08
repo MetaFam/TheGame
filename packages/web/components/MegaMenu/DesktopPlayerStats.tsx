@@ -147,3 +147,4 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
     </Flex>
   );
 };
+
