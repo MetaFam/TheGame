@@ -59,7 +59,7 @@ export const Leaderboard: React.FC = () => {
 
   const getURL = (address: string) => {
     const result = urls[address] ? urls[address] : address;
-    return result;
+    return !result?.includes('.') ? `player/${result}` : result;
   };
 
   return (
@@ -120,7 +120,7 @@ export const Leaderboard: React.FC = () => {
                 return (
                   <MetaLink
                     key={`player-chip-${p.id}`}
-                    as={getURL(p.ethereumAddress)}
+                    as={`${getURL(p.ethereumAddress)}`}
                     href="/player/[username]"
                     w="100%"
                     color="white"

@@ -89,7 +89,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
 
   const getURL = (address: string) => {
     const result = urls[address] ? urls[address] : address;
-    return result;
+    return !result?.includes('.') ? `player/${result}` : result;
   };
 
   return (
