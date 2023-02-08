@@ -1,3 +1,4 @@
+import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,
   Button,
@@ -57,9 +58,11 @@ export type PaneProps<T = string> = WizardPaneProps<T> & {
   authenticating?: boolean;
   onSave?: ({
     values,
+    images,
     setStatus,
   }: {
     values: Record<string, unknown>;
+    images: Record<string, Maybe<ImageSources>>;
     setStatus: (msg: string) => void;
   }) => Promise<void>;
   children: ReactNode | ((props: WizardPaneCallbackProps<T>) => ReactNode);
@@ -100,6 +103,9 @@ export const WizardPane = <T,>({
   const onSubmit = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (values: any) => {
+      console.log('WizardPane onSubmit', { values }, dirty);
+      // { profileImageURL: File }
+
       try {
         if (!dirty) {
           setStatus('No Change. Skipping Save…');
@@ -108,7 +114,19 @@ export const WizardPane = <T,>({
           });
         } else if (onSave) {
           setStatus('Saving…');
-          await onSave({ values, setStatus });
+          console.log('saving in WizardPane ');
+          // here save to web3.storage
+          // pass on images
+          // or do I first save to web3.storage, and pass the ipfs link here?
+          const images = {};
+          // handle profileImageURL upload
+          // if (values.profileImageURL) {
+          // upload to IPFS
+
+          // pass the images to onSave
+          // create ceramic object
+
+          await onSave({ values, images, setStatus });
         }
 
         (onClose ?? onNextPress).call(this);
@@ -134,6 +152,7 @@ export const WizardPane = <T,>({
       if (val instanceof Function) {
         next = val(current);
       }
+      console.log(`setter: ${field} ${val}`);
       setValue(field, next);
     },
     [current, field, setValue],

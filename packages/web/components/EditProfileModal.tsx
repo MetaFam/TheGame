@@ -344,6 +344,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 1,
               );
             });
+            // object requried by ceramic
             images[key as keyof typeof Images] = {
               original: {
                 src: `ipfs://${response[tKey]}`,
@@ -404,6 +405,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
       setStatus(null);
     }
   };
+
+  console.log(`endpoints: ${JSON.stringify(endpoints.profileImageURL.val)}`);
 
   if (chainId !== '0x1') {
     return (
@@ -478,7 +481,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                           : 'transparent'
                       }
                     />
-                    <Center>
+                    <Center cursor="pointer">
                       {endpoints.profileImageURL.loading &&
                         (endpoints.profileImageURL.val == null ? (
                           <Image
@@ -525,6 +528,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                         onBlur={() =>
                           endpoints.profileImageURL.setActive(false)
                         }
+                        cursor="pointer"
                       />
                     )}
                   />
@@ -608,6 +612,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                             maxW="100%"
                             minH="100%"
                             position="absolute"
+                            cursor="pointer"
                             accept="image/*"
                             top={0}
                             bottom={0}

@@ -40,6 +40,8 @@ export const useProfileField = <T extends ProfileValueType = string>({
   const owner = user ? user.id === player?.id : null;
   const key = field as keyof Profile;
   let value = player?.profile?.[key];
+  console.log(`player?.profile: ${JSON.stringify(player?.profile)}`);
+
   let setter: Maybe<(val: unknown) => void> = null;
   let atom = owner ? getJotaiState(field) : null;
   if (!atom && owner) {

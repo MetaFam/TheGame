@@ -39,6 +39,7 @@ export const SetupName: React.FC = () => {
             message: 'Maximum length is 150 characters.',
           },
         });
+        console.log('name props: ', JSON.stringify(props));
 
         return (
           <Flex justify="center" mt={5}>

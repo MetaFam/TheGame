@@ -50,6 +50,11 @@ export class SetupOptions {
       sectionIndex: 0,
     },
     {
+      label: 'Profile Picture',
+      slug: 'profilePicture',
+      sectionIndex: 0,
+    },
+    {
       label: 'Personality Type',
       slug: 'personalityType',
       sectionIndex: 0,
