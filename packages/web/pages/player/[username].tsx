@@ -50,20 +50,21 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
   const username = router.query.username as string;
 
-  const {
-    data: profileInfo,
-    isValidating,
-    error,
-  } = useSWR(username, getPlayerData, {
-    revalidateOnFocus: false,
-  });
+  const { data: profileInfo, isValidating } = useSWR(
+    username.includes('.') ? username : null,
+    getPlayerData,
+    {
+      revalidateOnFocus: false,
+    },
+  );
 
   useEffect(() => {
+    if (playerData) return;
     if (profileInfo && profileInfo.playerProfile && profileInfo.ens) {
       setPlayerData(profileInfo.playerProfile as Player);
       setENS(profileInfo.ens);
     }
-  }, [profileInfo]);
+  }, [profileInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
@@ -107,7 +108,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   }
 
   if (isValidating && !playerData) return <LoadingState />;
-  if (!playerData && error) return <Page404 />;
+  if (!playerData && !isValidating) return <Page404 />;
 
   const banner = background ? '' : bannerURL;
 
@@ -257,7 +258,7 @@ export const getStaticProps = async (
     props: {
       player: player ?? null, // must be serializable
       key: username.toLowerCase(),
-      hideTopMenu: !player,
+      hideTopMenu: false,
     },
     revalidate: 1,
   };
