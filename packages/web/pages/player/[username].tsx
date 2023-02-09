@@ -260,7 +260,7 @@ export const getStaticProps = async (
       key: username.toLowerCase(),
       hideTopMenu: !player,
     },
-    revalidate: 1,
+    revalidate: 5,
   };
 };
 
