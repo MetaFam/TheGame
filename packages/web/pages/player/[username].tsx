@@ -267,7 +267,7 @@ export const getStaticProps = async (
       hideTopMenu: !player,
       ens: user.ens,
     },
-    revalidate: 1,
+    revalidate: 5,
   };
 };
 
