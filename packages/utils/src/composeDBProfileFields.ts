@@ -6,6 +6,16 @@ export const composeDBProfileFieldFiveColorDisposition = 'fiveColorDisposition';
 export const composeDBProfileFieldTimeZone = 'iana';
 export const composeDBProfileFieldAvailability = 'weeklyHours';
 export const composeDBProfileFieldExplorerType = 'explorerType';
+export const composeDBProfileFieldUsername = 'username';
+export const composeDBProfileFieldPronouns = 'pronouns';
+export const composeDBProfileFieldHomepageURL = 'url';
+export const composeDBProfileFieldHomeLocation = 'homeLocation';
+export const composeDBProfileFieldEmoji = 'emoji';
+
+export const composeDBProfileFieldAvatarImageURL = 'url';
+export const composeDBProfileFieldBackgroundImageURL = 'url';
+
+// TODO use GraphQL tooling to auto-generate these types and more...
 
 export type ComposeDBFieldValue = string | number;
 
@@ -13,13 +23,22 @@ export type ComposeDBFieldValue = string | number;
 export const ProfileMapping = {
   name: composeDBProfileFieldName,
   description: composeDBProfileFieldDescription,
-  colorMask: composeDBProfileFieldFiveColorDisposition,
-  timeZone: composeDBProfileFieldTimeZone,
+  location: composeDBProfileFieldHomeLocation,
+  emoji: composeDBProfileFieldEmoji,
+  profileImageURL: composeDBProfileFieldAvatarImageURL,
+  website: composeDBProfileFieldHomepageURL,
+  pronouns: composeDBProfileFieldPronouns,
+  backgroundImageURL: composeDBProfileFieldBackgroundImageURL,
+  username: composeDBProfileFieldUsername,
   availableHours: composeDBProfileFieldAvailability,
-  explorerType: composeDBProfileFieldExplorerType,
+  timeZone: composeDBProfileFieldTimeZone,
+  colorMask: composeDBProfileFieldFiveColorDisposition,
+  explorerTypeTitle: composeDBProfileFieldExplorerType,
 } as const;
 
-export type ComposeDBField = Values<typeof ProfileMapping>;
+export type ComposeDBField =
+  | Values<typeof ProfileMapping>
+  | keyof ComposeDBImageFullValue;
 
 export type ComposeDBTimeZoneFullValue = {
   iana: string;
@@ -27,9 +46,27 @@ export type ComposeDBTimeZoneFullValue = {
   abbreviation?: string;
 };
 
+export type ComposeDBImageMetadata = {
+  url: string;
+  mimeType: string;
+  size?: number;
+  width?: number;
+  height?: number;
+  aspectRatio?: number;
+};
+
+export type ComposeDBImageFullValue = {
+  original: ComposeDBImageMetadata;
+  alternatives?: ComposeDBImageMetadata[];
+};
+
 export type ComposeDBPayload = {
   [composeDBProfileFieldName]?: string;
   [composeDBProfileFieldDescription]?: string;
+  [composeDBProfileFieldHomeLocation]?: string;
+  [composeDBProfileFieldEmoji]?: string;
+  [composeDBProfileFieldAvatarImageURL]?: string;
+  [composeDBProfileFieldPronouns]?: string;
   [composeDBProfileFieldFiveColorDisposition]?: string;
   [composeDBProfileFieldTimeZone]?: ComposeDBTimeZoneFullValue;
   [composeDBProfileFieldAvailability]?: number;
