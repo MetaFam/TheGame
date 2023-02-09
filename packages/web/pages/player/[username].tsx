@@ -291,7 +291,7 @@ export const getStaticProps = async (
       key: username.toLowerCase(),
       hideTopMenu: false,
     },
-    revalidate: 1,
+    revalidate: 5,
   };
 };
 
