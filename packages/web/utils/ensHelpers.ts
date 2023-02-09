@@ -53,4 +53,3 @@ export const getPlayerData = async (username: string) => {
 
   return profileInfo;
 };
-

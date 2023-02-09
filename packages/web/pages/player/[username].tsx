@@ -7,7 +7,6 @@ import {
   DEFAULT_PLAYER_LAYOUT_DATA,
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
-import { ethers } from 'ethers';
 import {
   Player,
   useInsertCacheInvalidationMutation as useInvalidateCache,
@@ -42,7 +41,7 @@ type Props = {
   player: Player;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
   const [userENS, setENS] = useState(ens);
@@ -88,9 +87,6 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
         const userPlayer = await getPlayer(user?.ethereumAddress);
         setPlayerData(userPlayer as Player);
         setENS(name || '');
-      }
-      if (ens) {
-        setENS(ens);
       }
     };
     const getURL = async () => {
@@ -138,10 +134,13 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
         : {})}
     >
       <HeadComponent
-        title={`MetaGame Profile: ${getPlayerName(player)}`}
-        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
+        title={`MetaGame Profile: ${getPlayerName(playerData)}`}
+        description={(getPlayerDescription(playerData) ?? '').replace(
+          '\n',
+          ' ',
+        )}
         url={linkURL}
-        img={getPlayerImage(player)}
+        img={getPlayerImage(playerData)}
       />
       {banner && (
         <Box
@@ -252,8 +251,11 @@ export const getStaticProps = async (
 ) => {
   const username = context.params?.username;
 
-  //Used to detect whether ENS is available
-  let user
+  // Used to detect whether ENS is available
+  const user = {
+    address: '',
+    ens: '',
+  };
 
   if (username == null) {
     return {
@@ -283,7 +285,7 @@ export const getStaticProps = async (
     user.ens = username;
   }
 
-  const player = await getPlayer(user);
+  const player = await getPlayer(user.address);
 
   return {
     props: {
