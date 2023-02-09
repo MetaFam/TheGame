@@ -7,7 +7,6 @@ import {
   DEFAULT_PLAYER_LAYOUT_DATA,
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
-import { ethers } from 'ethers';
 import {
   Player,
   useInsertCacheInvalidationMutation as useInvalidateCache,
@@ -26,8 +25,9 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import useSWR from 'swr';
 import { LayoutData } from 'utils/boxTypes';
-import { getAddressForENS, getENSForAddress } from 'utils/ensHelpers';
+import { getENSForAddress, getPlayerData } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
@@ -42,55 +42,73 @@ type Props = {
   ens?: string;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
   const [userENS, setENS] = useState('');
   const [linkURL, setLinkURL] = useState<string>();
+  const [playerData, setPlayerData] = useState<Player>(player);
+
+  const username = router.query.username as string;
+
+  const {
+    data: profileInfo,
+    isValidating,
+    error,
+  } = useSWR(username, getPlayerData, {
+    revalidateOnFocus: false,
+  });
+
+  useEffect(() => {
+    if (profileInfo && profileInfo.playerProfile && profileInfo.ens) {
+      setPlayerData(profileInfo.playerProfile as Player);
+      setENS(profileInfo.ens);
+    }
+  }, [profileInfo]);
 
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
-    player,
+    player: playerData,
     getter: getPlayerBannerFull,
   });
+
   const { value: background } = useProfileField({
     field: 'backgroundImageURL',
-    player,
+    player: playerData,
     getter: getPlayerBackgroundFull,
   });
+
   const [, invalidateCache] = useInvalidateCache();
 
   useEffect(() => {
     const resolveName = async () => {
-      if (user && !ens) {
+      if (user && !userENS) {
         const name = await getENSForAddress(user?.ethereumAddress);
         if (name) {
           setENS(name);
         }
       }
-      if (ens) {
-        setENS(ens);
-      }
     };
     const getURL = async () => {
-      const url = await getPlayerURL(player);
+      const url = await getPlayerURL(playerData);
       setLinkURL(url);
     };
     getURL();
     resolveName();
-  }, [user, ens, player]);
+  }, [user, playerData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (player?.id) {
-      invalidateCache({ playerId: player.id });
+    if (playerData?.id) {
+      invalidateCache({ playerId: playerData.id });
     }
-  }, [player?.id, invalidateCache]);
+  }, [playerData?.id, invalidateCache]);
 
   if (router.isFallback) {
     return <LoadingState />;
   }
 
-  if (!player) return <Page404 />;
+  if (isValidating && !playerData) return <LoadingState />;
+  if (!playerData && error) return <Page404 />;
 
   const banner = background ? '' : bannerURL;
 
@@ -109,10 +127,13 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
         : {})}
     >
       <HeadComponent
-        title={`MetaGame Profile: ${getPlayerName(player)}`}
-        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
+        title={`MetaGame Profile: ${getPlayerName(playerData)}`}
+        description={(getPlayerDescription(playerData) ?? '').replace(
+          '\n',
+          ' ',
+        )}
         url={linkURL}
-        img={getPlayerImage(player)}
+        img={getPlayerImage(playerData)}
       />
       {banner && (
         <Box
@@ -142,7 +163,7 @@ export const PlayerPage: React.FC<Props> = ({ player, ens }): ReactElement => {
             }
           : {})}
       >
-        <Grid {...{ player, ens: userENS }} />
+        {playerData && <Grid {...{ player: playerData, ens: userENS }} />}
       </Flex>
     </PageContainer>
   );
@@ -223,13 +244,6 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
-
-  // Used to detect whether ENS is available
-  const user = {
-    address: '',
-    ens: '',
-  };
-
   if (username == null) {
     return {
       redirect: {
@@ -239,33 +253,13 @@ export const getStaticProps = async (
     };
   }
 
-  // If username in url includes a . attempt to resolve ENS
-  if (username.includes('.')) {
-    const address = await getAddressForENS(username);
-    user.address = address?.toLowerCase() || username;
-    user.ens = username;
-  }
-  if (ethers.utils.isAddress(username.toLowerCase())) {
-    user.address = username.toLocaleLowerCase();
-    const ens = await getENSForAddress(username.toLocaleLowerCase());
-    user.ens = ens || username;
-  }
-  if (
-    !username.includes('.') &&
-    !ethers.utils.isAddress(username.toLowerCase())
-  ) {
-    user.address = username;
-    user.ens = username;
-  }
-
-  const player = await getPlayer(user.address);
+  const player = await getPlayer(username);
 
   return {
     props: {
       player: player ?? null, // must be serializable
       key: username.toLowerCase(),
       hideTopMenu: !player,
-      ens: user.ens,
     },
     revalidate: 1,
   };
