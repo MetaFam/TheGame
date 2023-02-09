@@ -7,7 +7,7 @@
     "dev": "concurrently \"next\" \"yarn generate --watch\"",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc",
+    "typecheck": "tsc -b",
     "precommit": "yarn lint-staged",
     "generate": "yarn generate:graphql",
     "generate:graphql": "graphql-codegen",

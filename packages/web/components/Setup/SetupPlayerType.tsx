@@ -13,8 +13,8 @@ import { mutationComposeDBCreateProfileDisposition } from 'graphql/composeDB/mut
 import { composeDBDocumentProfileDisposition } from 'graphql/composeDB/queries/profile';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
 import { useWeb3 } from 'lib/hooks';
-import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/usePlayerSetupSaveToComposeDB';
-import { useQueryFromComposeDB } from 'lib/hooks/useQueryFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
+import { useQueryFromComposeDB } from 'lib/hooks/ceramic/useQueryFromComposeDB';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
