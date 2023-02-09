@@ -1,12 +1,10 @@
-// import { CONFIG } from 'config';
+import { CONFIG } from 'config';
 import { ethers } from 'ethers';
 import { getPlayer } from 'graphql/getPlayer';
-// const { mainnetRPC } = CONFIG;
 
-// replace this with the mainnetRPC from above after testing and adding env, uncomment both mainnetRPC and CONFIG
-const mainnetProvider = new ethers.providers.JsonRpcProvider(
-  'https://ethereum.publicnode.com',
-);
+const { mainnetRPC } = CONFIG;
+
+const mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetRPC);
 
 export const getAddressForENS = async (ens: string) => {
   if (!ens) return null;
@@ -54,4 +52,5 @@ export const getPlayerData = async (username: string) => {
 
   return profileInfo;
 };
+
 
