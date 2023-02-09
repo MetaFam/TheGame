@@ -35,7 +35,7 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
       images: Record<string, Maybe<ImageSources>>;
       setStatus: (msg: string) => void;
     }) => {
-      // console.log(`Saving ${field} to Ceramic…`, JSON.stringify(values));
+      console.log(`Saving ${field} to Ceramic…`, values, images);
 
       setStatus('Saving to Ceramic…');
       await saveToCeramic({ values, images });

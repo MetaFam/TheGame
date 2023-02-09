@@ -103,9 +103,6 @@ export const WizardPane = <T,>({
   const onSubmit = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (values: any) => {
-      console.log('WizardPane onSubmit', { values }, dirty);
-      // { profileImageURL: File }
-
       try {
         if (!dirty) {
           setStatus('No Change. Skipping Save…');
@@ -114,17 +111,39 @@ export const WizardPane = <T,>({
           });
         } else if (onSave) {
           setStatus('Saving…');
-          console.log('saving in WizardPane ');
-          // here save to web3.storage
-          // pass on images
-          // or do I first save to web3.storage, and pass the ipfs link here?
-          const images = {};
-          // handle profileImageURL upload
-          // if (values.profileImageURL) {
-          // upload to IPFS
+          const images: any = {};
+          if (values.profileImageURL) {
+            const formData = new FormData();
 
-          // pass the images to onSave
-          // create ceramic object
+            // 'profile' is the key for ceramic, equiveleant to profileImageURL in hasura
+            formData.append('profile', values.profileImageURL.file);
+            const result = await fetch(`/api/storage`, {
+              method: 'POST',
+              body: formData,
+              credentials: 'include',
+            });
+            const response = await result.json();
+            const { error } = response;
+            if (result.status >= 400 || error) {
+              throw new Error(
+                `web3.storage ${result.status} response: "${
+                  error ?? result.statusText
+                }"`,
+              );
+            }
+            images.profileImageURL = {
+              original: {
+                src: `ipfs://${response.profile}`,
+                mimeType: values.profileImageURL.file.type,
+                width: values.profileImageURL.width,
+                height: values.profileImageURL.height,
+              },
+            } as ImageSources;
+            console.log('Wizard Pane onSubmit: images', images);
+            delete values.profileImageURL;
+            await onSave({ values, images, setStatus });
+            return;
+          }
 
           await onSave({ values, images, setStatus });
         }
