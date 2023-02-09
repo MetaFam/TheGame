@@ -44,18 +44,6 @@ export const getPlayerData = async (username: string) => {
     user.address = address?.toLowerCase() || username;
     user.ens = username;
   }
-  if (ethers.utils.isAddress(username.toLowerCase())) {
-    user.address = username.toLocaleLowerCase();
-    const ens = await getENSForAddress(username.toLocaleLowerCase());
-    user.ens = ens || username;
-  }
-  if (
-    !username.includes('.') &&
-    !ethers.utils.isAddress(username.toLowerCase())
-  ) {
-    user.address = username;
-    user.ens = username;
-  }
 
   const player = await getPlayer(user.address).then((data) => data);
 
@@ -66,3 +54,4 @@ export const getPlayerData = async (username: string) => {
 
   return profileInfo;
 };
+
