@@ -52,7 +52,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const username = router.query.username as string;
 
   const { data: profileInfo, isValidating } = useSWR(
-    username.includes('.') ? username : null,
+    username && username.includes('.') ? username : null,
     getPlayerData,
     {
       revalidateOnFocus: false,
