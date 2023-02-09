@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
+export * from './ceramic/useSaveCeramicProfile';
 export * from './useField';
-export * from './useSaveCeramicProfile';
 export * from './useUser';
 export * from './useWeb3';
 

@@ -47,7 +47,6 @@ export const useProfileField = <T extends ProfileValueType = string>({
     setJotaiState(field, atom);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const response = useAtom(
     (atom ?? nullAtom) as PrimitiveAtom<Maybe<typeof value>>,
   );

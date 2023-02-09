@@ -24,8 +24,8 @@ import {
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
-import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/usePlayerSetupSaveToComposeDB';
-import { useQueryFromComposeDB } from 'lib/hooks/useQueryFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
+import { useQueryFromComposeDB } from 'lib/hooks/ceramic/useQueryFromComposeDB';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { dispositionFor } from 'utils/playerHelpers';
