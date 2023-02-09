@@ -18,17 +18,15 @@ import { QuestChainPlaybooksDetails } from 'utils/questChains';
 const ThePlaybooksPage: React.FC = () => (
   <PageContainer>
     <HeadComponent
-      title="The Great Houses of MetaGame"
+      title="Playbooks"
       description={descriptions.playbooks}
       url="https://my.metagame.wtf/playbooks"
     />
     <Heading mt={8} mb={8}>
-      The Great Houses
+      Playbooks
     </Heading>
     <Text mb={8} maxW="xl" textAlign="center">
-      The Great Houses are curated learning resources here to give you a meta
-      overview of different fields of interest & send you on a journey of
-      discovery.
+      Playbooks description
     </Text>
     <Grid
       templateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr 1fr']}
