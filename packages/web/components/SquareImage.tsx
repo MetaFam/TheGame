@@ -19,7 +19,8 @@ export const SquareImage: React.FC<SquareImageProps> = ({ src, ...props }) => (
     <Image
       position="absolute"
       borderRadius="0.75rem 0.75rem 0 0"
-      width="full"
+      // width="full"
+      w="100%"
       height="full"
       objectFit="cover"
       {...{ src }}
