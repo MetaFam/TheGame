@@ -250,13 +250,6 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
-
-  // Used to detect whether ENS is available
-  const user = {
-    address: '',
-    ens: '',
-  };
-
   if (username == null) {
     return {
       redirect: {
@@ -266,26 +259,7 @@ export const getStaticProps = async (
     };
   }
 
-  // If username in url includes a . attempt to resolve ENS
-  if (username.includes('.')) {
-    const address = await getAddressForENS(username);
-    user.address = address?.toLowerCase() || username;
-    user.ens = username;
-  }
-  if (ethers.utils.isAddress(username.toLowerCase())) {
-    user.address = username.toLocaleLowerCase();
-    const ens = await getENSForAddress(username.toLocaleLowerCase());
-    user.ens = ens || username;
-  }
-  if (
-    !username.includes('.') &&
-    !ethers.utils.isAddress(username.toLowerCase())
-  ) {
-    user.address = username;
-    user.ens = username;
-  }
-
-  const player = await getPlayer(user.address);
+  const player = await getPlayer(username);
 
   return {
     props: {
@@ -293,7 +267,7 @@ export const getStaticProps = async (
       key: username.toLowerCase(),
       hideTopMenu: false,
     },
-    revalidate: 5,
+    revalidate: 1,
   };
 };
 
