@@ -8,21 +8,7 @@ export const PlayerFragment = /* GraphQL */ `
     profileLayout
 
     profile {
-      name
-      username
-      description
-      emoji
-      profileImageURL
-      bannerImageURL
-      backgroundImageURL
-      location
-      countryCode
-      website
-      pronouns
-      availableHours
-      timeZone
-      colorMask
-      explorerTypeTitle
+      ...PlayerProfileFragment
     }
 
     skills {
@@ -56,6 +42,26 @@ export const PlayerFragment = /* GraphQL */ `
     #   unique
     #   contextIds
     # }
+  }
+`;
+
+export const PlayerProfileFragment = /* GraphQL */ `
+  fragment PlayerProfileFragment on profile {
+    availableHours
+    backgroundImageURL
+    bannerImageURL
+    colorMask
+    countryCode
+    description
+    emoji
+    explorerTypeTitle
+    location
+    name
+    profileImageURL
+    pronouns
+    timeZone
+    username
+    website
   }
 `;
 

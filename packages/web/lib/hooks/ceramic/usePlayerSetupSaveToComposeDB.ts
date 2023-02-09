@@ -23,7 +23,6 @@ export function usePlayerSetupSaveToComposeDB<
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
 
   const saveToComposeDB = useSaveToComposeDB({
-    query: mutationQuery,
     setStatus,
   });
 
@@ -36,9 +35,12 @@ export function usePlayerSetupSaveToComposeDB<
       };
 
       setStatus('Saving to Ceramic…');
-      await saveToComposeDB({ values: mutationPayload });
+      await saveToComposeDB({
+        mutationQuery,
+        values: mutationPayload,
+      });
     },
-    [saveToComposeDB],
+    [mutationQuery, saveToComposeDB],
   );
 
   const onSubmit = useCallback(

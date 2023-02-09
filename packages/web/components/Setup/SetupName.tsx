@@ -2,8 +2,8 @@ import { Flex, Input } from '@metafam/ds';
 import { composeDBProfileFieldName } from '@metafam/utils';
 import { mutationComposeDBCreateProfileName } from 'graphql/composeDB/mutations/profile';
 import { composeDBDocumentProfileName } from 'graphql/composeDB/queries/profile';
-import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/usePlayerSetupSaveToComposeDB';
-import { useQueryFromComposeDB } from 'lib/hooks/useQueryFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
+import { useQueryFromComposeDB } from 'lib/hooks/ceramic/useQueryFromComposeDB';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
