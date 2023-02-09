@@ -9,12 +9,12 @@ import {
 import { HeadComponent } from 'components/Seo';
 import {
   Player,
-  useInsertCacheInvalidationMutation as useInvalidateCache,
   useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { useProfileField, useUser } from 'lib/hooks';
+import { useGetPlayerProfileFromComposeDB } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
@@ -68,6 +68,22 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
     }
   }, [profileInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const { result: composeDBProfileData } = useGetPlayerProfileFromComposeDB();
+
+  if (composeDBProfileData != null) {
+    // eslint-disable-next-line no-param-reassign
+    player.profile = {
+      id: 'dummy',
+      player,
+      playerId: player.id,
+      ...composeDBProfileData,
+    };
+  }
+
+  // TODO create a button that migrates a user's data explicitly from
+  // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
+  // if it exists
+
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
     player: playerData,
@@ -80,7 +96,6 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
     getter: getPlayerBackgroundFull,
   });
 
-  const [, invalidateCache] = useInvalidateCache();
   const metagamer = useMemo(
     () =>
       player?.guilds.some(
@@ -103,12 +118,6 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
     getURL();
     resolveName();
   }, [user, playerData, router]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (playerData?.id) {
-      invalidateCache({ playerId: playerData.id });
-    }
-  }, [playerData?.id, invalidateCache]);
 
   if (router.isFallback) {
     return <LoadingState />;

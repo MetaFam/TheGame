@@ -25,15 +25,6 @@ type ProfileEmoji
   emoji: String! @string(maxLength: 2)
 }
 
-type ProfileHeaderBackground
-  @createModel(
-    accountRelation: SINGLE
-    description: "An image (3:1 ratio) and optional fallback images to be used as a header background"
-  ) {
-  original: ImageMetadata!
-  alternatives: [ImageMetadata] @list(maxLength: 3)
-}
-
 type ProfileBackground
   @createModel(
     accountRelation: SINGLE
