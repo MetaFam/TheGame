@@ -1,5 +1,5 @@
 import { useToast } from '@metafam/ds';
-import { ComposeDBProfileFieldMutationValue, Maybe } from '@metafam/utils';
+import { ComposeDBPayloadValue, Maybe } from '@metafam/utils';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { CeramicError } from 'lib/errors';
 import { ReactElement, useCallback, useState } from 'react';
@@ -7,9 +7,7 @@ import { errorHandler } from 'utils/errorHandler';
 
 import { useSaveToComposeDB } from './useSaveToComposeDB';
 
-export function usePlayerSetupSaveToComposeDB<
-  T = ComposeDBProfileFieldMutationValue,
->({
+export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   mutationQuery,
   isChanged,
   onClose = undefined,

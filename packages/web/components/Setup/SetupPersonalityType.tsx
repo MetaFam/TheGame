@@ -31,9 +31,138 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { dispositionFor } from 'utils/playerHelpers';
 
 import { useShowToastOnQueryError } from './SetupProfile';
-import { WizardPane } from './WizardPane';
+import { MaybeModalProps, WizardPane } from './WizardPane';
 
 const field = composeDBProfileFieldFiveColorDisposition;
+
+export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
+  buttonLabel,
+  onClose,
+  title = 'Personality Type',
+}) => {
+  const {
+    error,
+    fetching,
+    result: existing,
+  } = useQueryFromComposeDB<string>({
+    indexName: composeDBDocumentProfileDisposition,
+    field,
+  });
+
+  useShowToastOnQueryError(error);
+
+  const formMethods = useForm<{ [field]: string | undefined }>();
+  const {
+    watch,
+    setValue,
+    formState: { dirtyFields },
+  } = formMethods;
+
+  useEffect(() => {
+    setValue(field, existing);
+  }, [existing, setValue]);
+
+  const current = watch(field, existing);
+  const dirty = current !== existing || !!dirtyFields[field];
+
+  const { onSubmit, status } = usePlayerSetupSaveToComposeDB<string>({
+    mutationQuery: mutationComposeDBCreateProfileDisposition,
+    isChanged: dirty,
+  });
+
+  return (
+    <FormProvider {...formMethods}>
+      <WizardPane
+        {...{ buttonLabel, field, onClose, onSubmit, status, title }}
+        prompt={
+          <Text textAlign="center" maxW="30rem">
+            <Text as="span">Please select what defines you. </Text>
+            <MetaLink
+              href="//humanparts.medium.com/the-mtg-color-wheel-c9700a7cf36d"
+              isExternal
+            >
+              WTF is this?
+            </MetaLink>
+            <Text as="span"> Not sure what type you are? Take </Text>
+            <MetaLink
+              href="//dysbulic.github.io/5-color-radar/#/explore/"
+              isExternal
+            >
+              a quick exam
+            </MetaLink>
+            <Text as="span"> or </Text>
+            <MetaLink
+              href="//dysbulic.github.io/5-color-radar/#/test/"
+              isExternal
+            >
+              a longer quiz
+            </MetaLink>
+            .
+          </Text>
+        }
+      >
+        <PersonalityTypeField current={current} fetching={fetching} />
+      </WizardPane>
+    </FormProvider>
+  );
+};
+
+const PersonalityTypeField: React.FC<{
+  current: string | undefined;
+  fetching: boolean;
+}> = ({ current, fetching }) => {
+  const { register, setValue } = useFormContext();
+
+  const [types, setTypes] =
+    useState<Maybe<Record<number, PersonalityOption>>>(null);
+
+  const currentAsMask = useMemo(
+    () => (current ? maskFor(current) ?? 0 : 0),
+    [current],
+  );
+
+  const setter = useCallback(
+    (val: (prev: Optional<Maybe<string>>) => Maybe<string>) => {
+      setValue(field, val(current));
+    },
+    [current, setValue],
+  );
+
+  useEffect(() => {
+    const load = async () => {
+      setTypes(await getPersonalityInfo());
+    };
+    load();
+  }, []);
+
+  if (types == null) {
+    return (
+      <Text fontStyle="italic" textAlign="center">
+        Loading Personality Information…
+      </Text>
+    );
+  }
+
+  return (
+    <Stack align="center" mt={10}>
+      <Input type="hidden" {...register(field, {})} />
+      <ColorButtons
+        mask={currentAsMask}
+        setMask={setter}
+        disabled={fetching}
+        {...{ types }}
+      />
+      {!fetching && (
+        <ColorBar
+          {...{ types, loading: fetching }}
+          mask={currentAsMask ?? null}
+          mt={5}
+          w="min(90vw, 30rem)"
+        />
+      )}
+    </Stack>
+  );
+};
 
 type ColorButtonsProps = {
   mask: number;
@@ -138,129 +267,3 @@ const ColorButtons: React.FC<ColorButtonsProps> = ({
       })}
   </Wrap>
 );
-
-export const SetupPersonalityType: React.FC = () => {
-  const {
-    error,
-    fetching,
-    result: existing,
-  } = useQueryFromComposeDB<string>({
-    indexName: composeDBDocumentProfileDisposition,
-    field,
-  });
-
-  useShowToastOnQueryError(error);
-
-  const formMethods = useForm<{ [field]: string | undefined }>();
-  const {
-    watch,
-    setValue,
-    formState: { dirtyFields },
-  } = formMethods;
-
-  useEffect(() => {
-    setValue(field, existing);
-  }, [existing, setValue]);
-
-  const current = watch(field, existing);
-  const dirty = current !== existing || !!dirtyFields[field];
-
-  const { onSubmit, status } = usePlayerSetupSaveToComposeDB<string>({
-    mutationQuery: mutationComposeDBCreateProfileDisposition,
-    isChanged: dirty,
-  });
-
-  return (
-    <FormProvider {...formMethods}>
-      <WizardPane
-        {...{ field, onSubmit, status }}
-        title="Personality Type"
-        prompt={
-          <Text textAlign="center" maxW="30rem">
-            <Text as="span">Please select what defines you. </Text>
-            <MetaLink
-              href="//humanparts.medium.com/the-mtg-color-wheel-c9700a7cf36d"
-              isExternal
-            >
-              WTF is this?
-            </MetaLink>
-            <Text as="span"> Not sure what type you are? Take </Text>
-            <MetaLink
-              href="//dysbulic.github.io/5-color-radar/#/explore/"
-              isExternal
-            >
-              a quick exam
-            </MetaLink>
-            <Text as="span"> or </Text>
-            <MetaLink
-              href="//dysbulic.github.io/5-color-radar/#/test/"
-              isExternal
-            >
-              a longer quiz
-            </MetaLink>
-            .
-          </Text>
-        }
-      >
-        <PersonalityTypeField current={current} fetching={fetching} />
-      </WizardPane>
-    </FormProvider>
-  );
-};
-
-const PersonalityTypeField: React.FC<{
-  current: string | undefined;
-  fetching: boolean;
-}> = ({ current, fetching }) => {
-  const { register, setValue } = useFormContext();
-
-  const [types, setTypes] =
-    useState<Maybe<Record<number, PersonalityOption>>>(null);
-
-  const currentAsMask = useMemo(
-    () => (current ? maskFor(current) ?? 0 : 0),
-    [current],
-  );
-
-  const setter = useCallback(
-    (val: (prev: Optional<Maybe<string>>) => Maybe<string>) => {
-      setValue(field, val(current));
-    },
-    [current, setValue],
-  );
-
-  useEffect(() => {
-    const load = async () => {
-      setTypes(await getPersonalityInfo());
-    };
-    load();
-  }, []);
-
-  if (types == null) {
-    return (
-      <Text fontStyle="italic" textAlign="center">
-        Loading Personality Information…
-      </Text>
-    );
-  }
-
-  return (
-    <Stack align="center" mt={10}>
-      <Input type="hidden" {...register(field, {})} />
-      <ColorButtons
-        mask={currentAsMask}
-        setMask={setter}
-        disabled={fetching}
-        {...{ types }}
-      />
-      {!fetching && (
-        <ColorBar
-          {...{ types, loading: fetching }}
-          mask={currentAsMask ?? null}
-          mt={5}
-          w="min(90vw, 30rem)"
-        />
-      )}
-    </Stack>
-  );
-};
