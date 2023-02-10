@@ -30,10 +30,10 @@ export const ComposeDBContext = createContext<ComposeDBContextType>({
   connecting: false,
 });
 
-const composeDBClient =
-  typeof window === 'undefined'
-    ? null
-    : new ComposeClient({ ceramic: CONFIG.ceramicURL, definition });
+const composeDBClient = new ComposeClient({
+  ceramic: CONFIG.ceramicURL,
+  definition,
+});
 
 export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   children,
