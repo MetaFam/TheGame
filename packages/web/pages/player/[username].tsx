@@ -1,3 +1,4 @@
+import { ComposeClient } from '@composedb/client';
 import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
@@ -7,14 +8,17 @@ import {
   DEFAULT_PLAYER_LAYOUT_DATA,
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
+import { CONFIG } from 'config';
 import {
   Player,
   useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
+import { definition } from 'graphql/composeDB/autogen/definition';
+import { queryPlayerProfile } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { useProfileField, useUser } from 'lib/hooks';
-import { useGetPlayerProfileFromComposeDB } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
+import { parseComposeDBProfileQueryResponse } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
@@ -42,13 +46,15 @@ type Props = {
   ens?: string;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player }) => {
+export const PlayerPage: React.FC<Props> = ({
+  player: propPlayer,
+}): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
   const [userENS, setENS] = useState('');
   const [linkURL, setLinkURL] = useState<string>();
   const [header, setHeader] = useState('');
-  const [playerData, setPlayerData] = useState<Player>(player);
+  const [playerData, setPlayerData] = useState<Player>(propPlayer);
 
   const username = router.query.username as string;
 
@@ -68,17 +74,39 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
     }
   }, [profileInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { result: composeDBProfileData } = useGetPlayerProfileFromComposeDB();
+  const [player, setPlayer] = useState(propPlayer);
 
-  if (composeDBProfileData != null) {
-    // eslint-disable-next-line no-param-reassign
-    player.profile = {
-      id: 'dummy',
-      player,
-      playerId: player.id,
-      ...composeDBProfileData,
-    };
-  }
+  // todo player profile should ideally be fetched server-side,
+  // this will require some debugging though
+  useEffect(() => {
+    if (propPlayer) {
+      const composeDBClient = new ComposeClient({
+        ceramic: CONFIG.ceramicURL,
+        definition,
+      });
+      composeDBClient.executeQuery(queryPlayerProfile).then((response) => {
+        if (response.data != null) {
+          const composeDBProfileData = parseComposeDBProfileQueryResponse(
+            response.data,
+          );
+          const hasComposeDBData = Object.values(composeDBProfileData).some(
+            (value) => !!value,
+          );
+          if (hasComposeDBData) {
+            setPlayer({
+              ...propPlayer,
+              profile: {
+                id: 'dummy',
+                player: propPlayer,
+                playerId: propPlayer.id,
+                ...composeDBProfileData,
+              },
+            });
+          }
+        }
+      });
+    }
+  }, [propPlayer]);
 
   // TODO create a button that migrates a user's data explicitly from
   // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
@@ -267,6 +295,7 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
+
   if (username == null) {
     return {
       redirect: {

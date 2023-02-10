@@ -22,8 +22,6 @@ const honeybadgerConfig = {
   // revision: 'git SHA/project version'
 };
 
-const honeybadger = Honeybadger.configure(honeybadgerConfig);
-
 const Analytics: React.FC = () => (
   <>
     <script
@@ -73,14 +71,28 @@ const DeployedApp: React.FC<WithUrqlProps> = ({
   pageProps,
   resetUrqlClient,
   Component,
-}) => (
-  <HoneybadgerErrorBoundary {...{ honeybadger }}>
+}) => {
+  const appContent = (
     <>
       <UserbackProvider token={userbackToken}></UserbackProvider>
       <App {...{ pageProps, resetUrqlClient, Component }} />
     </>
-  </HoneybadgerErrorBoundary>
-);
+  );
+
+  // Added this because I kept seeing
+  // `TypeError: _window.addEventListener is not a function`
+  // when building next.js pages locally
+  if (typeof window !== 'undefined') {
+    const honeybadger = Honeybadger.configure(honeybadgerConfig);
+
+    return (
+      <HoneybadgerErrorBoundary {...{ honeybadger }}>
+        {appContent}
+      </HoneybadgerErrorBoundary>
+    );
+  }
+  return appContent;
+};
 
 export default environment === 'development'
   ? wrapUrqlClient(App)

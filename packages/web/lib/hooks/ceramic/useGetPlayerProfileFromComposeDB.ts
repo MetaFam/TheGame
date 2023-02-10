@@ -1,3 +1,4 @@
+import { ComposeClient } from '@composedb/client';
 import {
   ComposeDBImageMetadata,
   composeDBProfileFieldAvailability,
@@ -45,9 +46,9 @@ const genericFetchError = new CeramicError(
 
 // If you pass a player here, this hook will return the profile data within
 // this player if and only if the current user has no profile data in ComposeDB
-export const useGetPlayerProfileFromComposeDB = () => {
-  const { composeDBClient } = useComposeDB();
-
+export const useGetPlayerProfileFromComposeDB = (
+  composeDBClient: ComposeClient,
+) => {
   const [result, setResult] = useState<
     PlayerProfileFragment | undefined | null
   >();
