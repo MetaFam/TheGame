@@ -19,11 +19,13 @@ import { optimizedImage } from 'utils/imageHelpers';
 import { Label } from './Label';
 
 export type EditAvatarImageProps = {
-  initialURL: Maybe<string>;
+  initialURL?: Maybe<string>;
+  onFilePicked: (file: File) => void;
 };
 
 export const EditAvatarImage: React.FC<EditAvatarImageProps> = ({
   initialURL,
+  onFilePicked,
 }) => {
   const toast = useToast();
 
@@ -39,6 +41,7 @@ export const EditAvatarImage: React.FC<EditAvatarImageProps> = ({
 
   const {
     control,
+
     formState: { errors },
   } = useFormContext();
 
@@ -57,25 +60,34 @@ export const EditAvatarImage: React.FC<EditAvatarImageProps> = ({
         });
       } else {
         setLoading(true);
+        onFilePicked(file);
         const reader = new FileReader();
-        reader.addEventListener('load', () => {
-          setURL(reader.result as string);
-        });
-        reader.addEventListener('error', ({ target }) => {
-          const { error } = target ?? {};
-          toast({
-            title: 'Image Loading Error',
-            description: `Loading Images Error: “${error?.message}”`,
-            status: 'error',
-            isClosable: true,
-            duration: 10000,
-          });
-          setLoading(false);
-        });
+        reader.addEventListener(
+          'load',
+          () => {
+            setURL(reader.result as string);
+          },
+          { once: true },
+        );
+        reader.addEventListener(
+          'error',
+          ({ target }) => {
+            const { error } = target ?? {};
+            toast({
+              title: 'Image Loading Error',
+              description: `Loading Images Error: “${error?.message}”`,
+              status: 'error',
+              isClosable: true,
+              duration: 10000,
+            });
+            setLoading(false);
+          },
+          { once: true },
+        );
         reader.readAsDataURL(file);
       }
     },
-    [toast],
+    [onFilePicked, toast],
   );
 
   return (
