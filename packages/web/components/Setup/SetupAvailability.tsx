@@ -6,10 +6,8 @@ import {
   Text,
 } from '@metafam/ds';
 import { composeDBProfileFieldAvailability } from '@metafam/utils';
-import { mutationComposeDBCreateProfileAvailability } from 'graphql/composeDB/mutations/profile';
-import { composeDBDocumentProfileAvailability } from 'graphql/composeDB/queries/profile';
+import { useQuerySelfFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
 import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
-import { useQueryFromComposeDB } from 'lib/hooks/ceramic/useQueryFromComposeDB';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
@@ -19,8 +17,7 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldAvailability;
 
 export const SetupAvailability: React.FC = () => {
-  const { error, result: existing } = useQueryFromComposeDB<string>({
-    indexName: composeDBDocumentProfileAvailability,
+  const { error, result: existing } = useQuerySelfFromComposeDB<string>({
     field,
   });
 
@@ -41,7 +38,6 @@ export const SetupAvailability: React.FC = () => {
   const dirty = current !== existing || !!dirtyFields[field];
 
   const { onSubmit, status } = usePlayerSetupSaveToComposeDB<number>({
-    mutationQuery: mutationComposeDBCreateProfileAvailability,
     isChanged: dirty,
   });
 

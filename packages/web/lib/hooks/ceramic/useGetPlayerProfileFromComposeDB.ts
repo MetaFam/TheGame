@@ -1,44 +1,11 @@
-import { ComposeClient } from '@composedb/client';
-import {
-  ComposeDBImageMetadata,
-  composeDBProfileFieldAvailability,
-  composeDBProfileFieldDescription,
-  composeDBProfileFieldEmoji,
-  composeDBProfileFieldExplorerType,
-  composeDBProfileFieldFiveColorDisposition,
-  composeDBProfileFieldHomeLocation,
-  composeDBProfileFieldHomepageURL,
-  composeDBProfileFieldName,
-  composeDBProfileFieldPronouns,
-  composeDBProfileFieldTimeZone,
-  composeDBProfileFieldUsername,
-  maskFor,
-} from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
 import { useComposeDB } from 'contexts/ComposeDBContext';
-import { PlayerProfileFragment } from 'graphql/autogen/types';
-import {
-  composeDBDocumentProfileAvailability,
-  composeDBDocumentProfileAvatar,
-  composeDBDocumentProfileBackground,
-  composeDBDocumentProfileDescription,
-  composeDBDocumentProfileDisposition,
-  composeDBDocumentProfileEmoji,
-  composeDBDocumentProfileGenderIdentity,
-  composeDBDocumentProfileHomeLocation,
-  composeDBDocumentProfileHomepage,
-  composeDBDocumentProfileName,
-  composeDBDocumentProfileTimeZone,
-  composeDBDocumentProfileUsername,
-  queryPlayerProfile,
-} from 'graphql/composeDB/queries/profile';
+import { Player, PlayerProfileFragment } from 'graphql/autogen/types';
+import { queryPlayerProfile } from 'graphql/composeDB/queries/profile';
+import { ComposeDBProfileQueryResult } from 'graphql/types';
 import { CeramicError } from 'lib/errors';
 import { useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-
-import {
-  parseFromModel,
-  parseSingleFieldFromModel,
-} from './useQueryFromComposeDB';
 
 const genericFetchError = new CeramicError(
   'An unexpected error occurred when querying Ceramic.',
@@ -47,8 +14,10 @@ const genericFetchError = new CeramicError(
 // If you pass a player here, this hook will return the profile data within
 // this player if and only if the current user has no profile data in ComposeDB
 export const useGetPlayerProfileFromComposeDB = (
-  composeDBClient: ComposeClient,
+  ceramicProfileNodeId?: Maybe<string>,
 ) => {
+  const { composeDBClient } = useComposeDB();
+
   const [result, setResult] = useState<
     PlayerProfileFragment | undefined | null
   >();
@@ -56,23 +25,17 @@ export const useGetPlayerProfileFromComposeDB = (
   const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
-    if (composeDBClient) {
+    if (composeDBClient && ceramicProfileNodeId) {
       setFetching(true);
+      const query = queryPlayerProfile(ceramicProfileNodeId);
       composeDBClient
-        .executeQuery(queryPlayerProfile)
+        .executeQuery(query)
         .then((response) => {
           if (response.data != null) {
-            const composeDBProfileData = parseComposeDBProfileQueryResponse(
-              response.data,
-            );
-            const hasComposeDBData = Object.values(composeDBProfileData).some(
-              (value) => !!value,
-            );
-            if (!hasComposeDBData) {
-              setResult(null);
-            } else {
-              setResult(composeDBProfileData);
-            }
+            const composeDBProfileData = (
+              response.data as ComposeDBProfileQueryResult
+            ).node;
+            setResult(composeDBProfileData);
           } else if (response.errors) {
             setError(response.errors[0]);
           } else {
@@ -87,81 +50,27 @@ export const useGetPlayerProfileFromComposeDB = (
           setFetching(false);
         });
     }
-  }, [composeDBClient]);
+  }, [ceramicProfileNodeId, composeDBClient]);
 
   return { error, fetching, result };
 };
 
-export function parseComposeDBProfileQueryResponse(
-  data: Record<string, unknown>,
-): PlayerProfileFragment {
-  const backgroundImage = parseFromModel<ComposeDBImageMetadata>(
-    data,
-    composeDBDocumentProfileBackground,
-  );
-  const avatarImage = parseFromModel<ComposeDBImageMetadata>(
-    data,
-    composeDBDocumentProfileAvatar,
-  );
-  const colorMask = parseSingleFieldFromModel<string>(
-    data,
-    composeDBDocumentProfileDisposition,
-    composeDBProfileFieldFiveColorDisposition,
-  );
-
-  return {
-    availableHours: parseSingleFieldFromModel<number>(
-      data,
-      composeDBDocumentProfileAvailability,
-      composeDBProfileFieldAvailability,
-    ),
-    backgroundImageURL: backgroundImage?.original?.url,
-    colorMask: maskFor(colorMask),
-    description: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileDescription,
-      composeDBProfileFieldDescription,
-    ),
-    emoji: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileEmoji,
-      composeDBProfileFieldEmoji,
-    ),
-    explorerTypeTitle: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileDisposition,
-      composeDBProfileFieldExplorerType,
-    ),
-    location: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileHomeLocation,
-      composeDBProfileFieldHomeLocation,
-    ),
-    name: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileName,
-      composeDBProfileFieldName,
-    ),
-    profileImageURL: avatarImage?.original?.url,
-    pronouns: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileGenderIdentity,
-      composeDBProfileFieldPronouns,
-    ),
-    timeZone: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileTimeZone,
-      composeDBProfileFieldTimeZone,
-    ),
-    username: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileUsername,
-      composeDBProfileFieldUsername,
-    ),
-    website: parseSingleFieldFromModel<string>(
-      data,
-      composeDBDocumentProfileHomepage,
-      composeDBProfileFieldHomepageURL,
-    ),
-  };
-}
+export const hydratePlayerProfile = (
+  player: Player,
+  profileData: PlayerProfileFragment,
+) => {
+  const hasComposeDBData = Object.values(profileData).some((value) => !!value);
+  if (hasComposeDBData) {
+    // eslint-disable-next-line no-param-reassign
+    return {
+      ...player,
+      profile: {
+        id: 'dummy',
+        player,
+        playerId: player.id,
+        ...profileData,
+      },
+    };
+  }
+  return player;
+};
