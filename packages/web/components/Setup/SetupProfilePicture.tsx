@@ -1,4 +1,3 @@
-import { LogLevel } from '@ceramicnetwork/common';
 import {
   Button,
   Center,
@@ -13,9 +12,15 @@ import React, { useRef, useState } from 'react';
 import { ProfileWizardPane } from './ProfileWizardPane';
 import { WizardPaneCallbackProps } from './WizardPane';
 
+type ImageData = {
+  file: File;
+  width: number;
+  height: number;
+};
+
 export const SetupProfilePicture: React.FC = () => {
   const field = 'profileImageURL';
-  const [image, setImage] = useState<any>({});
+  const [, setImage] = useState<ImageData | null>();
   const [preview, setPreview] = useState<string | null>();
   const inputRef = useRef<HTMLInputElement | null>(null);
   return (
@@ -30,12 +35,6 @@ export const SetupProfilePicture: React.FC = () => {
         const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
           const imageFile = e.target.files?.[0];
           if (!imageFile) return;
-
-          // setImage({
-          //   preview: URL.createObjectURL(imageFile),
-          //   file: imageFile,
-          // });
-          // setter(imageFile);
 
           const img = new Image();
           img.src = URL.createObjectURL(imageFile);
@@ -58,8 +57,9 @@ export const SetupProfilePicture: React.FC = () => {
           inputRef.current?.focus();
         };
         const handleRemove = () => {
-          setImage({});
+          setImage(null);
           setter('');
+          setPreview(null);
         };
 
         return (
@@ -86,14 +86,20 @@ export const SetupProfilePicture: React.FC = () => {
               display="none"
             />
             <Button
-              variant="outline"
-              onClick={handleClick}
+              colorScheme="purple"
+              px={8}
+              letterSpacing="0.1em"
+              size="md"
+              fontSize="sm"
+              bg="purple.400"
+              color="white"
               mt={{ base: 2, md: 6 }}
+              onClick={handleClick}
             >
-              upload
+              Upload image
             </Button>
             <Flex height={{ base: '3rem', md: '4rem' }}>
-              {current || image.preview ? (
+              {current || preview ? (
                 <Button
                   mt={{ base: 4, md: 8 }}
                   color="red"

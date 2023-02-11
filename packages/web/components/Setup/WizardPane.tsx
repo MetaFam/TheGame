@@ -13,7 +13,12 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import type { HasuraProfileProps, Maybe, Optional } from '@metafam/utils';
+import type {
+  HasuraImageSourcedProps,
+  HasuraProfileProps,
+  Maybe,
+  Optional,
+} from '@metafam/utils';
 import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
@@ -111,7 +116,8 @@ export const WizardPane = <T,>({
           });
         } else if (onSave) {
           setStatus('Saving…');
-          const images: any = {};
+          const images: HasuraImageSourcedProps = {};
+          // handle image upload of profileImageURL to web3.storage
           if (values.profileImageURL) {
             const formData = new FormData();
 
@@ -139,13 +145,12 @@ export const WizardPane = <T,>({
                 height: values.profileImageURL.height,
               },
             } as ImageSources;
-            console.log('Wizard Pane onSubmit: images', images);
+            // eslint-disable-next-line no-param-reassign
             delete values.profileImageURL;
             await onSave({ values, images, setStatus });
-            return;
+          } else {
+            await onSave({ values, images, setStatus });
           }
-
-          await onSave({ values, images, setStatus });
         }
 
         (onClose ?? onNextPress).call(this);
@@ -171,7 +176,6 @@ export const WizardPane = <T,>({
       if (val instanceof Function) {
         next = val(current);
       }
-      console.log(`setter: ${field} ${val}`);
       setValue(field, next);
     },
     [current, field, setValue],

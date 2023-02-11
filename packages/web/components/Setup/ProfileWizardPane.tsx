@@ -35,14 +35,12 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
       images: Record<string, Maybe<ImageSources>>;
       setStatus: (msg: string) => void;
     }) => {
-      console.log(`Saving ${field} to Ceramic…`, values, images);
-
       setStatus('Saving to Ceramic…');
       await saveToCeramic({ values, images });
 
       if (user) {
         setStatus('Invalidating Cache…');
-        await invalidateCache({ playerId: user.id });
+        invalidateCache({ playerId: user.id });
       }
     },
     [invalidateCache, saveToCeramic, user],
