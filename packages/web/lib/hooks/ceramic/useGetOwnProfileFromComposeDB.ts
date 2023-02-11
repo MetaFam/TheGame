@@ -45,10 +45,10 @@ export const useQuerySelfFromComposeDB = <T extends ComposeDBFieldValue>({
         .executeQuery(query)
         .then((response) => {
           if (response.data != null) {
-            setResult(
-              (response.data as ComposeDBSelfProfileQueryResult<T>).viewer
-                .profile[field],
-            );
+            const data = response.data as ComposeDBSelfProfileQueryResult<T>;
+            if (data.viewer.profile?.[field]) {
+              setResult(data.viewer.profile[field]);
+            }
           } else if (response.errors) {
             setError(response.errors[0]);
           } else {

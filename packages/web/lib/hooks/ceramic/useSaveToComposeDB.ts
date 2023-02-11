@@ -75,10 +75,11 @@ export const useSaveToComposeDB = () => {
             playerId: user.id,
             input: { ceramicProfileId: documentId },
           });
+        } else {
+          throw new CeramicError(
+            'No document ID was available in the createProfile response!',
+          );
         }
-        throw new CeramicError(
-          'No document ID was available in the createProfile response!',
-        );
       }
     },
     [composeDBClient, connect, updateProfile, user],
