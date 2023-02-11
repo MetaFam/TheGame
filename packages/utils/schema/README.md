@@ -6,13 +6,17 @@ Commands should be executed from the ROOT of the project, not this directory.
 
 This is the source of truth, our models defined in a GraphQL Composite Schema.
 
-## use-profile-compose.json
+## user-profile-compose.json
 
 This is generated with the command
 
 `DID_PRIVATE_KEY=<key> yarn composedb:create-composite`
 
-## use-profile-defition.json
+It must be deployed to a ceramic node before use:
+
+`DID_PRIVATE_KEY=<key> yarn composedb composite:deploy packages/utils/schema/user-profile-composite.json`
+
+## user-profile-defition.json
 
 This is used for the graphql HTTP server (see below).
 
