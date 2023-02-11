@@ -1,10 +1,8 @@
 import { Center, ITimezoneOption, SelectTimeZone, Text } from '@metafam/ds';
 import { composeDBProfileFieldTimeZone } from '@metafam/utils';
-import { mutationComposeDBCreateProfileTimeZone } from 'graphql/composeDB/mutations/profile';
-import { composeDBDocumentProfileTimeZone } from 'graphql/composeDB/queries/profile';
 import { useMounted } from 'lib/hooks';
+import { useQuerySelfFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
 import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
-import { useQueryFromComposeDB } from 'lib/hooks/ceramic/useQueryFromComposeDB';
 import React, { useEffect } from 'react';
 import {
   Controller,
@@ -19,8 +17,7 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldTimeZone;
 
 export const SetupTimeZone: React.FC = () => {
-  const { error, result: existing } = useQueryFromComposeDB<string>({
-    indexName: composeDBDocumentProfileTimeZone,
+  const { error, result: existing } = useQuerySelfFromComposeDB<string>({
     field,
   });
 
@@ -41,7 +38,6 @@ export const SetupTimeZone: React.FC = () => {
   const dirty = current !== existing || !!dirtyFields[field];
 
   const { onSubmit, status } = usePlayerSetupSaveToComposeDB<string>({
-    mutationQuery: mutationComposeDBCreateProfileTimeZone,
     isChanged: dirty,
   });
 

@@ -2,17 +2,15 @@ import { useToast } from '@metafam/ds';
 import { ComposeDBPayloadValue, Maybe } from '@metafam/utils';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { CeramicError } from 'lib/errors';
-import { ReactElement, useCallback, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 
 import { useSaveToComposeDB } from './useSaveToComposeDB';
 
 export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
-  mutationQuery,
   isChanged,
   onClose = undefined,
 }: {
-  mutationQuery: string;
   isChanged: boolean;
   onClose?: () => void;
 }) {
@@ -20,26 +18,23 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   const { onNextPress } = useSetupFlow();
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
 
-  const saveToComposeDB = useSaveToComposeDB({
-    setStatus,
-  });
+  const { save: saveToComposeDB, status: saveStatus } = useSaveToComposeDB();
 
   const persist = useCallback(
     async (values: Record<string, T>) => {
-      const mutationPayload: Record<string, unknown> = {
-        input: {
-          content: values,
-        },
-      };
-
       setStatus('Saving to Ceramic…');
       await saveToComposeDB({
-        mutationQuery,
-        values: mutationPayload,
+        values,
       });
     },
-    [mutationQuery, saveToComposeDB],
+    [saveToComposeDB],
   );
+
+  useEffect(() => {
+    if (saveStatus === 'authenticating') {
+      setStatus('Authenticating DID…');
+    }
+  }, [saveStatus]);
 
   const onSubmit = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

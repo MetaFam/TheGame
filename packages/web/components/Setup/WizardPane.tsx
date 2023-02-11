@@ -11,7 +11,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { ComposeDBPayloadValue, Maybe } from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
 import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';

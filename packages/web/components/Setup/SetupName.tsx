@@ -1,9 +1,7 @@
 import { Flex, Input } from '@metafam/ds';
 import { composeDBProfileFieldName } from '@metafam/utils';
-import { mutationComposeDBCreateProfileName } from 'graphql/composeDB/mutations/profile';
-import { composeDBDocumentProfileName } from 'graphql/composeDB/queries/profile';
+import { useQuerySelfFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
 import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
-import { useQueryFromComposeDB } from 'lib/hooks/ceramic/useQueryFromComposeDB';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
@@ -13,8 +11,7 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldName;
 
 export const SetupName: React.FC = () => {
-  const { error, result: existing } = useQueryFromComposeDB<string>({
-    indexName: composeDBDocumentProfileName,
+  const { error, result: existing } = useQuerySelfFromComposeDB<string>({
     field,
   });
 
@@ -35,7 +32,6 @@ export const SetupName: React.FC = () => {
   const dirty = current !== existing || !!dirtyFields[field];
 
   const { onSubmit, status } = usePlayerSetupSaveToComposeDB<string>({
-    mutationQuery: mutationComposeDBCreateProfileName,
     isChanged: dirty,
   });
 
