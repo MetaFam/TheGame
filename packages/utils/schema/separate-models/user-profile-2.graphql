@@ -1,0 +1,16 @@
+type ProfileName
+  @loadModel(
+    id: "kjzl6hvfrbw6c611df6yls00vce2g3x76t7kua44k6jsofr7xub9qy7iza9718v"
+  ) {
+  id: ID!
+}
+
+type Profile
+  @createModel(
+    accountRelation: SINGLE
+    description: "A root model containing references to other profile-related models"
+  ) {
+  owner: DID! @documentAccount
+  nameID: StreamID! @documentReference(model: "ProfileName")
+  name: ProfileName! @relationDocument(property: "nameID")
+}

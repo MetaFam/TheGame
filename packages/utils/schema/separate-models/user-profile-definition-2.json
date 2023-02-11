@@ -1,0 +1,33 @@
+{
+  "models": {
+    "ProfileName": {
+      "id": "kjzl6hvfrbw6c611df6yls00vce2g3x76t7kua44k6jsofr7xub9qy7iza9718v",
+      "accountRelation": { "type": "single" }
+    },
+    "Profile": {
+      "id": "kjzl6hvfrbw6ca02685v7y66484q7wpmudn4au1xhz8zzkpy7l9veqfy46q824u",
+      "accountRelation": { "type": "single" }
+    }
+  },
+  "objects": {
+    "ProfileName": { "name": { "type": "string", "required": true } },
+    "Profile": {
+      "nameID": { "type": "streamid", "required": true },
+      "name": {
+        "type": "view",
+        "viewType": "relation",
+        "relation": {
+          "source": "document",
+          "model": "kjzl6hvfrbw6c611df6yls00vce2g3x76t7kua44k6jsofr7xub9qy7iza9718v",
+          "property": "nameID"
+        }
+      },
+      "owner": { "type": "view", "viewType": "documentAccount" }
+    }
+  },
+  "enums": {},
+  "accountData": {
+    "profileName": { "type": "node", "name": "ProfileName" },
+    "profile": { "type": "node", "name": "Profile" }
+  }
+}

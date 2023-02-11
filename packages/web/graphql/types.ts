@@ -1,5 +1,5 @@
 import { MetaTheme } from '@metafam/ds';
-import { ComposeDBField } from '@metafam/utils';
+import { ComposeDBField, ComposeDBProfile } from '@metafam/utils';
 import {
   DiscordRole,
   Maybe,
@@ -66,16 +66,29 @@ export type GuildMetadata = {
 
 export type ContractError = Error & { reason?: string };
 
-export type ComposeDBDocumentNode<FieldValue> = {
-  [key in ComposeDBField]: FieldValue;
-} & {
-  id: string;
+export type ComposeDBProfileQueryResult = {
+  node: ComposeDBProfile;
 };
 
-export type ComposeDBDocumentEdge<FieldValue> = {
-  node: ComposeDBDocumentNode<FieldValue>;
+export type ComposeDBSelfProfileQueryResult<T> = {
+  viewer: {
+    profile: {
+      [key in ComposeDBField]: T;
+    };
+  };
 };
 
-export type ComposeDBDocumentQueryResult<FieldValue> = {
-  edges: ComposeDBDocumentEdge<FieldValue>[];
+export type ComposeDBMutationInput = {
+  id?: string;
+  content: ComposeDBProfile;
+};
+
+export type ComposeDBMutationValues = {
+  input: ComposeDBMutationInput;
+};
+
+export type ComposeDBCreateProfileResponseData = {
+  document: {
+    id: string;
+  };
 };

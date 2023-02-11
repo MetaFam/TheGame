@@ -4777,6 +4777,7 @@ type player {
 
   """Remote relationship field"""
   brightid_status: BrightIdStatus
+  ceramicProfileId: String
   createdAt: timestamptz
 
   """Remote relationship field"""
@@ -5266,6 +5267,7 @@ input player_bool_exp {
   _not: player_bool_exp
   _or: [player_bool_exp]
   accounts: player_account_bool_exp
+  ceramicProfileId: String_comparison_exp
   createdAt: timestamptz_comparison_exp
   daos: dao_player_bool_exp
   dashboardLayout: String_comparison_exp
@@ -5313,6 +5315,7 @@ input type for inserting data into table "player"
 """
 input player_insert_input {
   accounts: player_account_arr_rel_insert_input
+  ceramicProfileId: String
   createdAt: timestamptz
   daos: dao_player_arr_rel_insert_input
   dashboardLayout: String
@@ -5335,6 +5338,7 @@ input player_insert_input {
 
 """aggregate max on columns"""
 type player_max_fields {
+  ceramicProfileId: String
   createdAt: timestamptz
   dashboardLayout: String
   discordId: String
@@ -5351,6 +5355,7 @@ type player_max_fields {
 order by max() on columns of table "player"
 """
 input player_max_order_by {
+  ceramicProfileId: order_by
   createdAt: order_by
   dashboardLayout: order_by
   discordId: order_by
@@ -5365,6 +5370,7 @@ input player_max_order_by {
 
 """aggregate min on columns"""
 type player_min_fields {
+  ceramicProfileId: String
   createdAt: timestamptz
   dashboardLayout: String
   discordId: String
@@ -5381,6 +5387,7 @@ type player_min_fields {
 order by min() on columns of table "player"
 """
 input player_min_order_by {
+  ceramicProfileId: order_by
   createdAt: order_by
   dashboardLayout: order_by
   discordId: order_by
@@ -5426,6 +5433,7 @@ ordering options when selecting data from "player"
 """
 input player_order_by {
   accounts_aggregate: player_account_aggregate_order_by
+  ceramicProfileId: order_by
   createdAt: order_by
   daos_aggregate: dao_player_aggregate_order_by
   dashboardLayout: order_by
@@ -5768,6 +5776,9 @@ select columns of table "player"
 """
 enum player_select_column {
   """column name"""
+  ceramicProfileId
+
+  """column name"""
   createdAt
 
   """column name"""
@@ -5805,6 +5816,7 @@ enum player_select_column {
 input type for updating data in table "player"
 """
 input player_set_input {
+  ceramicProfileId: String
   createdAt: timestamptz
   dashboardLayout: String
   discordId: String
@@ -6205,6 +6217,9 @@ input player_sum_order_by {
 update columns of table "player"
 """
 enum player_update_column {
+  """column name"""
+  ceramicProfileId
+
   """column name"""
   createdAt
 

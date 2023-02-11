@@ -21,6 +21,7 @@ export type ComposeDBContextType = {
   connect: () => Promise<void>;
   disconnect: () => void;
   connecting: boolean;
+  authenticated: boolean;
 };
 
 export const ComposeDBContext = createContext<ComposeDBContextType>({
@@ -28,6 +29,7 @@ export const ComposeDBContext = createContext<ComposeDBContextType>({
   connect: async () => undefined,
   disconnect: () => undefined,
   connecting: false,
+  authenticated: false,
 });
 
 const composeDBClient = new ComposeClient({
@@ -41,11 +43,13 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   const { provider } = useWeb3();
 
   const [connecting, setConnecting] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
 
   const disconnect = useCallback(async () => {
     if (composeDBClient === null) return;
 
     await composeDBClient.context.ceramic.close();
+    setAuthenticated(false);
   }, []);
 
   const createSession = useCallback(async (prov: Web3Provider) => {
@@ -69,7 +73,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   }, []);
 
   const connect = useCallback(async () => {
-    if (provider == null) return;
+    if (provider == null || connecting) return;
 
     setConnecting(true);
 
@@ -82,6 +86,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
       provider.on('chainChanged', () => {
         createSession(provider);
       });
+      setAuthenticated(true);
     } catch (error) {
       console.error('ComposeDB connect() Error', error); // eslint-disable-line no-console
       errorHandler(error as Error);
@@ -89,7 +94,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     } finally {
       setConnecting(false);
     }
-  }, [createSession, disconnect, provider]);
+  }, [connecting, createSession, disconnect, provider]);
 
   return (
     <ComposeDBContext.Provider
@@ -98,6 +103,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
         connecting,
         connect,
         disconnect,
+        authenticated,
       }}
     >
       {children}

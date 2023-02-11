@@ -1,0 +1,113 @@
+type ProfileName
+  @createModel(accountRelation: SINGLE, description: "Your name") {
+  name: String! @string(maxLength: 150)
+}
+
+type ProfileAvatar
+  @createModel(
+    accountRelation: SINGLE
+    description: "A square image, and optional fallback images, representing your avatar"
+  ) {
+  original: ImageMetadata!
+  alternatives: [ImageMetadata] @list(maxLength: 3)
+}
+
+type ProfileDescription
+  @createModel(
+    accountRelation: SINGLE
+    description: "A Markdown-formatted short profile bio / blurb / description"
+  ) {
+  description: String! @string(maxLength: 42000)
+}
+
+type ProfileEmoji
+  @createModel(accountRelation: SINGLE, description: "Your spirit emoji") {
+  emoji: String! @string(maxLength: 2)
+}
+
+type ProfileBackground
+  @createModel(
+    accountRelation: SINGLE
+    description: "A square image (1:1 ratio) and optional fallback images to be used as a page background"
+  ) {
+  original: ImageMetadata!
+  alternatives: [ImageMetadata] @list(maxLength: 3)
+}
+
+type ProfileHomepage
+  @createModel(
+    accountRelation: SINGLE
+    description: "Your home on the internet"
+  ) {
+  url: String! @string(maxLength: 240)
+}
+
+type ProfileHomeLocation
+  @createModel(accountRelation: SINGLE, description: "Where you live") {
+  homeLocation: String! @string(maxLength: 140)
+}
+
+type ProfileUsername
+  @createModel(
+    accountRelation: SINGLE
+    description: "A representation of your identity that can be used in an interface, typically as part of a URL"
+  ) {
+  # pattern: "^[a-z0-9-_]+$"
+  username: String! @string(maxLength: 383)
+}
+
+type ProfileTimeZone
+  @createModel(
+    accountRelation: SINGLE
+    description: "The time zone you are typically in. This can be represented in any many ways; e.g. `GMT-8:00`, `Pacific Time`, `PST`"
+  ) {
+  # e.g. America/Denver
+  iana: String! @string(maxLength: 127)
+  # e.g. -7 (Denver) or 5.75 (Kathmandu)
+  utcOffset: Float @float(min: -12, max: 14)
+  # e.g. MST
+  abbreviation: String @string(minLength: 3, maxLength: 4)
+}
+
+type ProfileAvailability
+  @createModel(
+    accountRelation: SINGLE
+    description: "Data indicating how available you are to take on additional work"
+  ) {
+  weeklyHours: Int! @int(min: 0, max: 168)
+}
+
+type ProfileGenderIdentity
+  @createModel(
+    accountRelation: SINGLE
+    description: "Data indicating your gender identity"
+  ) {
+  pronouns: String @string(maxLength: 420)
+  gender: String @string(maxLength: 420)
+}
+
+type ProfileDisposition
+  @createModel(
+    accountRelation: SINGLE
+    description: "Some information about your personality or psychometric makeup."
+  ) {
+  # pattern: "^([wW]?|[uU]?|[bB]?|[rR]?|[gG]?){0,5}$"
+  fiveColorDisposition: String @string(minLength: 1, maxLength: 5)
+  # pattern: "^(Pioneer|Settler|Town Planner)$"
+  explorerType: String @string(maxLength: 12)
+  # Myers-Briggs Type Indicator
+  mbti: String @string(maxLength: 4)
+  enneagram: String @string(maxLength: 12)
+}
+
+type ImageMetadata {
+  url: String! @string(maxLength: 420)
+  mimeType: String! @string(maxLength: 50)
+  size: Int @int(min: 0)
+
+  # Dimensions for raster images
+  width: Int @int(min: 0)
+  height: Int @int(min: 0)
+  # For vector images
+  aspectRatio: Float @float(min: 0, max: 1)
+}
