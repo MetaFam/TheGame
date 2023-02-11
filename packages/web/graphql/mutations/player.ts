@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-/* GraphQL */ `
+export const updatePlayerMutations = /* GraphQL */ `
   mutation UpdatePlayerUsername($playerId: uuid!, $username: String!) {
     update_profile(
       where: { playerId: { _eq: $playerId } }
@@ -55,7 +54,10 @@
     }
   }
 
-  mutation UpdatePlayerProfileLayout($playerId: uuid!, $profileLayout: String!) {
+  mutation UpdatePlayerProfileLayout(
+    $playerId: uuid!
+    $profileLayout: String!
+  ) {
     update_player_by_pk(
       pk_columns: { id: $playerId }
       _set: { profileLayout: $profileLayout }
@@ -65,24 +67,16 @@
     }
   }
 
-  mutation UpdatePlayerDashboardLayout($playerId: uuid!, $dashboardLayout: String!) {
+  mutation UpdatePlayerDashboardLayout(
+    $playerId: uuid!
+    $dashboardLayout: String!
+  ) {
     update_player_by_pk(
       pk_columns: { id: $playerId }
       _set: { dashboardLayout: $dashboardLayout }
     ) {
       id
       dashboardLayout
-    }
-  }
-`;
-
-export const UpdateProfilePronouns = /* GraphQL */ `
-  mutation updateProfilePronouns($playerId: uuid!, $input: profile_set_input!) {
-    update_profile(where: { playerId: { _eq: $playerId } }, _set: $input) {
-      affected_rows
-      returning {
-        playerId
-      }
     }
   }
 `;

@@ -16,16 +16,14 @@ import {
 } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
-import { mutationComposeDBCreateProfileDisposition } from 'graphql/composeDB/mutations/profile';
-import { composeDBDocumentProfileDisposition } from 'graphql/composeDB/queries/profile';
 import {
   getPersonalityInfo,
   images as MaskImages,
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
+import { useQuerySelfFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
 import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
-import { useQueryFromComposeDB } from 'lib/hooks/ceramic/useQueryFromComposeDB';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { dispositionFor } from 'utils/playerHelpers';
@@ -44,8 +42,7 @@ export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
     error,
     fetching,
     result: existing,
-  } = useQueryFromComposeDB<string>({
-    indexName: composeDBDocumentProfileDisposition,
+  } = useQuerySelfFromComposeDB<string>({
     field,
   });
 
@@ -66,7 +63,6 @@ export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
   const dirty = current !== existing || !!dirtyFields[field];
 
   const { onSubmit, status } = usePlayerSetupSaveToComposeDB<string>({
-    mutationQuery: mutationComposeDBCreateProfileDisposition,
     isChanged: dirty,
   });
 

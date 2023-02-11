@@ -18,7 +18,10 @@ import { queryPlayerProfile } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { useProfileField, useUser } from 'lib/hooks';
-import { parseComposeDBProfileQueryResponse } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
+import {
+  hydratePlayerProfile,
+  parseComposeDBProfileQueryResponse,
+} from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
@@ -46,9 +49,7 @@ type Props = {
   ens?: string;
 };
 
-export const PlayerPage: React.FC<Props> = ({
-  player: propPlayer,
-}): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
   const [userENS, setENS] = useState('');
@@ -73,40 +74,6 @@ export const PlayerPage: React.FC<Props> = ({
       setENS(profileInfo.ens);
     }
   }, [profileInfo]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const [player, setPlayer] = useState(propPlayer);
-
-  // todo player profile should ideally be fetched server-side,
-  // this will require some debugging though
-  useEffect(() => {
-    if (propPlayer) {
-      const composeDBClient = new ComposeClient({
-        ceramic: CONFIG.ceramicURL,
-        definition,
-      });
-      composeDBClient.executeQuery(queryPlayerProfile).then((response) => {
-        if (response.data != null) {
-          const composeDBProfileData = parseComposeDBProfileQueryResponse(
-            response.data,
-          );
-          const hasComposeDBData = Object.values(composeDBProfileData).some(
-            (value) => !!value,
-          );
-          if (hasComposeDBData) {
-            setPlayer({
-              ...propPlayer,
-              profile: {
-                id: 'dummy',
-                player: propPlayer,
-                playerId: propPlayer.id,
-                ...composeDBProfileData,
-              },
-            });
-          }
-        }
-      });
-    }
-  }, [propPlayer]);
 
   // TODO create a button that migrates a user's data explicitly from
   // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
@@ -306,6 +273,22 @@ export const getStaticProps = async (
   }
 
   const player = await getPlayer(username);
+
+  if (player?.ceramicProfileId) {
+    const composeDBClient = new ComposeClient({
+      ceramic: CONFIG.ceramicURL,
+      definition,
+    });
+    const query = queryPlayerProfile(player.ceramicProfileId);
+    composeDBClient.executeQuery(query).then((response) => {
+      if (response.data != null) {
+        const composeDBProfileData = parseComposeDBProfileQueryResponse(
+          response.data,
+        );
+        hydratePlayerProfile(player, composeDBProfileData);
+      }
+    });
+  }
 
   return {
     props: {
