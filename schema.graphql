@@ -3009,6 +3009,10 @@ input jsonb_comparison_exp {
   _nin: [jsonb!]
 }
 
+type LinkCeramicProfileNodeResponse {
+  verified: Boolean
+}
+
 """
 columns and relationships of "me"
 """
@@ -4061,6 +4065,11 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: skill_on_conflict
   ): skill
+
+  """
+  perform the action: "linkCeramicProfileNode"
+  """
+  linkCeramicProfileNode(nodeId: String!): LinkCeramicProfileNodeResponse
 
   """
   perform the action: "saveGuildInformation"

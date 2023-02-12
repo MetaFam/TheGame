@@ -1,10 +1,9 @@
 import { ComposeClient } from '@composedb/client';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { Web3Provider } from '@ethersproject/providers';
-import { Maybe } from '@metafam/utils';
+import { composeDBDefinition, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
-import { definition } from 'graphql/composeDB/autogen/definition';
 import { cacheDIDSession, getCachedDIDSession } from 'lib/auth';
 import { useWeb3 } from 'lib/hooks';
 import {
@@ -34,7 +33,7 @@ export const ComposeDBContext = createContext<ComposeDBContextType>({
 
 const composeDBClient = new ComposeClient({
   ceramic: CONFIG.ceramicURL,
-  definition,
+  definition: composeDBDefinition,
 });
 
 export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({

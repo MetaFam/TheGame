@@ -20,6 +20,13 @@ type Mutation {
 
 
 type Mutation {
+  linkCeramicProfileNode (
+    nodeId: String!
+  ): LinkCeramicProfileNodeResponse
+}
+
+
+type Mutation {
   saveGuildInformation (
     guildInformation: GuildInfoInput!
   ): SaveGuildResponse
@@ -203,5 +210,9 @@ type DiscordGuildsSyncOutput {
   numInserted : Int
   numDeleted : Int
   numSkipped : Int
+}
+
+type LinkCeramicProfileNodeResponse {
+  verified : Boolean
 }
 
