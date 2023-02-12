@@ -21,6 +21,13 @@ actions:
     forward_client_headers: true
   permissions:
   - role: player
+- name: linkCeramicProfileNode
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/ceramic/linkProfileNode'
+    forward_client_headers: true
+  permissions:
+  - role: player
 - name: saveGuildInformation
   definition:
     kind: synchronous
@@ -143,4 +150,5 @@ custom_types:
   - name: SaveGuildLayoutResponse
   - name: SourceCredSyncOutput
   - name: DiscordGuildsSyncOutput
+  - name: LinkCeramicProfileNodeResponse
   scalars: []
