@@ -344,7 +344,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 1,
               );
             });
-            console.log(`props: ${props}`);
             // object requried by ceramic
             images[key as keyof typeof Images] = {
               original: {
@@ -406,8 +405,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
       setStatus(null);
     }
   };
-
-  console.log(`endpoints: ${JSON.stringify(endpoints.profileImageURL.val)}`);
 
   if (chainId !== '0x1') {
     return (
