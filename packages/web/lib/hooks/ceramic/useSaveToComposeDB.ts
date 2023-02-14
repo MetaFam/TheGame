@@ -1,6 +1,6 @@
 import { ComposeDBProfile, Maybe } from '@metafam/utils';
 import { useComposeDB } from 'contexts/ComposeDBContext';
-import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
+import { useLinkOwnCeramicNodeMutation } from 'graphql/autogen/types';
 import {
   ComposeDBCreateProfileResponseData,
   ComposeDBMutationValues,
@@ -19,7 +19,7 @@ export type SaveToComposeDBStatus = 'authenticating' | 'querying' | undefined;
 export const useSaveToComposeDB = () => {
   const { composeDBClient, connect } = useComposeDB();
   const { user } = useUser();
-  const [, updateProfile] = useUpdateAboutYouMutation();
+  const [, linkNode] = useLinkOwnCeramicNodeMutation();
 
   const [status, setStatus] = useState<SaveToComposeDBStatus>();
 
@@ -71,10 +71,7 @@ export const useSaveToComposeDB = () => {
         ] as ComposeDBCreateProfileResponseData;
         const documentId = queryResponse?.document.id;
         if (documentId) {
-          await updateProfile({
-            playerId: user.id,
-            input: { ceramicProfileId: documentId },
-          });
+          await linkNode({ documentId });
         } else {
           throw new CeramicError(
             'No document ID was available in the createProfile response!',
@@ -82,7 +79,7 @@ export const useSaveToComposeDB = () => {
         }
       }
     },
-    [composeDBClient, connect, updateProfile, user],
+    [composeDBClient, connect, linkNode, user],
   );
 
   return { save, status };
