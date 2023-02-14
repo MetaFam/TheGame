@@ -1,12 +1,13 @@
 import { ComposeClient } from '@composedb/client';
 import { composeDBDefinition } from '@metafam/utils';
-import { CONFIG } from 'config';
 import { Request, Response } from 'express';
+
+import { CONFIG } from '../../../config.js';
 import {
   LinkCeramicProfileNodeResponse,
   Mutation_RootLinkCeramicProfileNodeArgs,
-} from 'lib/autogen/hasura-sdk';
-import { client } from 'lib/hasuraClient';
+} from '../../../lib/autogen/hasura-sdk.js';
+import { client } from '../../../lib/hasuraClient.js';
 
 export default async (req: Request, res: Response): Promise<void> => {
   const { input, session_variables: sessionVariables } = req.body;
@@ -15,7 +16,7 @@ export default async (req: Request, res: Response): Promise<void> => {
   const playerId = sessionVariables['x-hasura-user-id'];
 
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
-  const { ethereumAddress } = player ?? {};
+  const { ceramicProfileId, ethereumAddress } = player ?? {};
 
   try {
     if (role !== 'player') {
@@ -27,32 +28,48 @@ export default async (req: Request, res: Response): Promise<void> => {
 
     const { nodeId } = input as Mutation_RootLinkCeramicProfileNodeArgs;
 
+    if (ceramicProfileId === nodeId) {
+      res.json({
+        verified: true,
+      });
+      return;
+    }
+
     const composeDBClient = new ComposeClient({
       ceramic: CONFIG.ceramicURL,
       definition: composeDBDefinition,
     });
     const modelInstanceDoc = await composeDBClient.context.loadDoc(nodeId);
-    console.log(
-      'controller for ',
-      nodeId,
-      ' is ',
-      modelInstanceDoc.metadata.controller,
+
+    const { controller } = modelInstanceDoc.metadata;
+
+    // There is probably a better way to do this...
+    const controllerEthAddress = controller.substring(
+      controller.lastIndexOf(':') + 1,
     );
+    if (
+      controller.startsWith('did:pkh') &&
+      controllerEthAddress.toLowerCase() === ethereumAddress.toLowerCase()
+    ) {
+      // We confirmed they indeed control this model, so persist it as theirs
 
-    // todo:
-    // 1. hook up frontend to call this action
-    // 2. determine the 'controller' from the console logs
-    // 3. if the controller matches ETH address, update the player record accordingly
-    // 3a. Will need to figure out how to go from ETH address to DID:PKH to verify
+      await client.UpdatePlayerById({
+        playerId,
+        input: { ceramicProfileId: nodeId },
+      });
+      res.json({
+        verified: true,
+      } as LinkCeramicProfileNodeResponse);
+      return;
+    }
 
-    const responseJSON = {
+    res.json({
       verified: false,
-    } as LinkCeramicProfileNodeResponse;
-    res.json(responseJSON);
+    } as LinkCeramicProfileNodeResponse);
   } catch (error) {
     res.json({
-      success: false,
+      verified: false,
       error: (error as Error).message,
-    });
+    } as LinkCeramicProfileNodeResponse);
   }
 };

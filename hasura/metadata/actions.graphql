@@ -214,5 +214,6 @@ type DiscordGuildsSyncOutput {
 
 type LinkCeramicProfileNodeResponse {
   verified : Boolean!
+  error : String
 }
 
