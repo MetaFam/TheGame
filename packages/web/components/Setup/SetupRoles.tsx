@@ -122,8 +122,12 @@ const SetupRolesInput: React.FC<SetupRolesInputProps> = ({
   choices,
   roles,
 }) => {
-  const { register, setValue: setter, watch } = useFormContext();
+  const { register, setValue, watch } = useFormContext();
   const mobile = useBreakpointValue({ base: true, sm: false }) ?? false;
+
+  useEffect(() => {
+    setValue(field, roles);
+  }, [roles, setValue]);
 
   const current = watch(field, roles) as Maybe<string[]>;
 
@@ -144,13 +148,13 @@ const SetupRolesInput: React.FC<SetupRolesInputProps> = ({
     } else {
       out = [...otherRoles, role];
     }
-    setter(field, out);
+    setValue(field, out);
   };
 
   const remove = ({ role }: PlayerRole) => {
     if (current) {
       const out = current.filter((r) => r !== role);
-      setter(field, out);
+      setValue(field, out);
     }
   };
 

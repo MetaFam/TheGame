@@ -1,5 +1,6 @@
 import { ComposeClient } from '@composedb/client';
 import { Box, Flex, LoadingState } from '@metafam/ds';
+import { composeDBDefinition } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { PlayerSection } from 'components/Player/PlayerSection';
@@ -13,15 +14,12 @@ import {
   Player,
   useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
-import { definition } from 'graphql/composeDB/autogen/definition';
 import { queryPlayerProfile } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
+import { ComposeDBProfileQueryResult } from 'graphql/types';
 import { useProfileField, useUser } from 'lib/hooks';
-import {
-  hydratePlayerProfile,
-  parseComposeDBProfileQueryResponse,
-} from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
+import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
@@ -273,26 +271,28 @@ export const getStaticProps = async (
   }
 
   const player = await getPlayer(username);
+  let hydratedPlayer;
 
   if (player?.ceramicProfileId) {
     const composeDBClient = new ComposeClient({
       ceramic: CONFIG.ceramicURL,
-      definition,
+      definition: composeDBDefinition,
     });
     const query = queryPlayerProfile(player.ceramicProfileId);
-    composeDBClient.executeQuery(query).then((response) => {
-      if (response.data != null) {
-        const composeDBProfileData = parseComposeDBProfileQueryResponse(
-          response.data,
-        );
-        hydratePlayerProfile(player, composeDBProfileData);
-      }
-    });
+    const response = await composeDBClient.executeQuery(query);
+    if (response.data != null) {
+      const composeDBProfileData = (
+        response.data as ComposeDBProfileQueryResult
+      ).node;
+      hydratedPlayer = hydratePlayerProfile(player, composeDBProfileData);
+    } else if (response.errors) {
+      console.error(response.errors);
+    }
   }
 
   return {
     props: {
-      player: player ?? null, // must be serializable.
+      player: hydratedPlayer ?? player ?? null, // must be serializable
       key: username.toLowerCase(),
       hideTopMenu: false,
     },
