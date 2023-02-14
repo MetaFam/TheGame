@@ -11,7 +11,7 @@ export * as did from './did/index.js';
 export * as DiscordUtil from './discordHelpers.js';
 export * as ethereumHelper from './ethereumHelper.js';
 export * from './extendedProfileTypes.js';
-export { definition as composeDBDefinition } from './graphql/autogen/composeDBDefinition';
+export { definition as composeDBDefinition } from './graphql/autogen/composeDBDefinition.js';
 export * from './imageHelpers.js';
 export * from './linkHelpers.js';
 export * from './networkHelpers.js';
