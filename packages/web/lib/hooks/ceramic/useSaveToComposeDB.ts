@@ -71,7 +71,12 @@ export const useSaveToComposeDB = () => {
         ] as ComposeDBCreateProfileResponseData;
         const documentId = queryResponse?.document.id;
         if (documentId) {
-          await linkNode({ documentId });
+          const { data } = await linkNode({ documentId });
+          if (!data?.linkCeramicProfileNode?.verified) {
+            throw new CeramicError(
+              `Could not link Ceramic node "${documentId}" to player`,
+            );
+          }
         } else {
           throw new CeramicError(
             'No document ID was available in the createProfile response!',
