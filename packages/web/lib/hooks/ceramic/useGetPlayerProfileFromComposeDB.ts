@@ -1,4 +1,8 @@
-import { Maybe } from '@metafam/utils';
+import {
+  ComposeDBProfile,
+  composeDBToHasuraProfile,
+  Maybe,
+} from '@metafam/utils';
 import { useComposeDB } from 'contexts/ComposeDBContext';
 import { Player, PlayerProfileFragment } from 'graphql/autogen/types';
 import { queryPlayerProfile } from 'graphql/composeDB/queries/profile';
@@ -57,18 +61,18 @@ export const useGetPlayerProfileFromComposeDB = (
 
 export const hydratePlayerProfile = (
   player: Player,
-  profileData: PlayerProfileFragment,
+  profileData: ComposeDBProfile,
 ) => {
   const hasComposeDBData = Object.values(profileData).some((value) => !!value);
   if (hasComposeDBData) {
-    // eslint-disable-next-line no-param-reassign
+    const hasuraProfile = composeDBToHasuraProfile(profileData);
     return {
       ...player,
       profile: {
         id: 'dummy',
         player,
         playerId: player.id,
-        ...profileData,
+        ...hasuraProfile,
       },
     };
   }
