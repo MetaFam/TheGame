@@ -1,4 +1,5 @@
-import { Values } from './extendedProfileTypes';
+import { maskFor } from './colorHelpers.js';
+import { Values } from './extendedProfileTypes.js';
 
 export const composeDBProfileFieldName = 'name';
 export const composeDBProfileFieldDescription = 'description';
@@ -89,3 +90,36 @@ export type ComposeDBProfile = {
 };
 
 export type ComposeDBPayloadValue = Values<ComposeDBProfile>;
+
+export const composeDBImageFields = [
+  composeDBProfileFieldAvatar,
+  composeDBProfileFieldBackgroundImage,
+];
+
+export const composeDBToHasuraProfile = (
+  composeDBProfile: ComposeDBProfile,
+) => {
+  // todo we should be able to make this typesafe
+  const hasuraProfile: Record<string, unknown> = {};
+  // eslint-disable-next-line no-restricted-syntax
+  Object.entries(composeDBProfile).forEach(([key, value]) => {
+    const match = Object.entries(profileMapping).find(
+      ([, composeDBKey]) => composeDBKey === key,
+    ) as [keyof typeof profileMapping, ComposeDBField];
+
+    const hasuraKey = match[0];
+
+    // Some fields required custom translations
+    let hasuraValue = value;
+    if (value && key === composeDBProfileFieldFiveColorDisposition) {
+      const maskNumber = maskFor(value as string);
+      if (maskNumber != null) {
+        hasuraValue = maskNumber;
+      }
+    } else if (value && composeDBImageFields.includes(key)) {
+      hasuraValue = (value as ComposeDBImageMetadata).url;
+    }
+    hasuraProfile[hasuraKey] = hasuraValue;
+  });
+  return hasuraProfile;
+};
