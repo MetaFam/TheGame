@@ -43,6 +43,7 @@ export default async (req: Request, res: Response): Promise<void> => {
     // 1. hook up frontend to call this action
     // 2. determine the 'controller' from the console logs
     // 3. if the controller matches ETH address, update the player record accordingly
+    // 3a. Will need to figure out how to go from ETH address to DID:PKH to verify
 
     const responseJSON = {
       verified: false,

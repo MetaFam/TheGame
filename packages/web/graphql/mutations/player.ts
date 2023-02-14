@@ -79,4 +79,10 @@ export const updatePlayerMutations = /* GraphQL */ `
       dashboardLayout
     }
   }
+
+  mutation LinkOwnCeramicNode($documentId: String!) {
+    linkCeramicProfileNode(nodeId: $documentId) {
+      verified
+    }
+  }
 `;

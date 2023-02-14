@@ -213,6 +213,6 @@ type DiscordGuildsSyncOutput {
 }
 
 type LinkCeramicProfileNodeResponse {
-  verified : Boolean
+  verified : Boolean!
 }
 
