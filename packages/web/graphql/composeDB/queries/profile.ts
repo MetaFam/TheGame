@@ -1,18 +1,12 @@
 import {
+  composeDBImageFields,
   composeDBImageMetadataFields,
-  composeDBProfileFieldAvatar,
-  composeDBProfileFieldBackgroundImage,
   profileMapping,
 } from '@metafam/utils';
 
 export const queryPlayerProfile = (profileNodeId: string) => {
   const fields = Object.values(profileMapping).map((f) => {
-    if (
-      [
-        composeDBProfileFieldAvatar,
-        composeDBProfileFieldBackgroundImage,
-      ].includes(f)
-    ) {
+    if (composeDBImageFields.includes(f)) {
       return `${f} {
         ${composeDBImageMetadataFields.join('\n')}
       }\n`;
