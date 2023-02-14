@@ -101,9 +101,11 @@ export const SetupProfilePicture: React.FC = () => {
             <Flex height={{ base: '3rem', md: '4rem' }}>
               {current || preview ? (
                 <Button
-                  mt={{ base: 4, md: 8 }}
-                  color="red"
+                  mt={{ base: 2 }}
+                  color="#EB5757"
                   variant="ghost"
+                  size="md"
+                  fontSize="sm"
                   onClick={handleRemove}
                 >
                   Remove Image

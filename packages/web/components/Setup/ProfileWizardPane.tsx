@@ -40,7 +40,7 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
 
       if (user) {
         setStatus('Invalidating Cache…');
-        invalidateCache({ playerId: user.id });
+        await invalidateCache({ playerId: user.id });
       }
     },
     [invalidateCache, saveToCeramic, user],
