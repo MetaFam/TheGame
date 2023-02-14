@@ -3,6 +3,6 @@ import express from 'express';
 import { asyncHandlerWrapper } from '../../../lib/apiHelpers.js';
 import linkProfileNode from './linkProfileNode.js';
 
-export const cacheRoutes = express.Router();
+export const ceramicRoutes = express.Router();
 
-cacheRoutes.post('/linkProfileNode', asyncHandlerWrapper(linkProfileNode));
+ceramicRoutes.post('/linkProfileNode', asyncHandlerWrapper(linkProfileNode));
