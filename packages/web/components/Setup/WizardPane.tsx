@@ -23,7 +23,8 @@ import { useFormContext } from 'react-hook-form';
 
 export type MaybeModalProps = {
   buttonLabel?: string | ReactElement;
-  onClose?: () => void;
+  // this is called when either cancel or save is pressed on the modal
+  onComplete?: (nodeId?: string) => void;
   title?: string | ReactElement;
 };
 
@@ -40,27 +41,11 @@ export type WizardPaneSubmitProps = {
 
 export type WizardPaneProps<T> = WizardPanePromptProps &
   WizardPaneSubmitProps & {
+    fetching?: boolean;
     field: string;
     onSubmit: (values: Record<string, T>) => Promise<void>;
     children: ReactNode;
   };
-
-export type WizardPaneOnSaveProps = {
-  query: string;
-  values: Record<string, unknown>;
-  setStatus: (msg: string) => void;
-};
-
-export type PaneProps<T> = WizardPaneProps<T> & {
-  fetching?: boolean;
-  authenticating?: boolean;
-  onSave?: ({
-    query,
-    values,
-    setStatus,
-  }: WizardPaneOnSaveProps) => Promise<void>;
-  children: ReactNode;
-};
 
 export const WizardPane = <T,>({
   field,
@@ -72,7 +57,7 @@ export const WizardPane = <T,>({
   onSubmit,
   fetching = false,
   children,
-}: PaneProps<T>) => {
+}: WizardPaneProps<T>) => {
   const { connecting, connected, chainId } = useWeb3();
   const {
     handleSubmit,
@@ -153,6 +138,8 @@ export const WizardPanePrompt: React.FC<WizardPanePromptProps> = ({
   </>
 );
 
+// todo this should not be used on the edit profile page as well,
+// extract into a separate component
 export const WizardPaneSubmit: React.FC<WizardPaneSubmitProps> = ({
   status,
   buttonLabel,

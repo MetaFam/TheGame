@@ -12,7 +12,7 @@ import {
   Text,
   useBreakpointValue,
 } from '@metafam/ds';
-import { Maybe, Optional } from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
 import { useSetupFlow } from 'contexts/SetupContext';
 import {
   PlayerRole,
@@ -20,27 +20,18 @@ import {
 } from 'graphql/autogen/types';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { useUser } from 'lib/hooks';
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { isEmpty } from 'utils/objectHelpers';
 
-import { WizardPane } from './WizardPane';
+import { MaybeModalProps, WizardPane } from './WizardPane';
 
 export type RoleValue = string;
 
 export type SetupRolesProps = {
   choices?: Maybe<Array<PlayerRole>>;
   isEdit?: boolean;
-  onClose?: () => void;
-  buttonLabel?: Optional<string | ReactElement>;
-  title?: string;
-};
+} & MaybeModalProps;
 
 const field = 'roles';
 

@@ -20,7 +20,9 @@ import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupRoles } from 'components/Setup/SetupRoles';
 import { SetupSkills } from 'components/Setup/SetupSkills';
-import React from 'react';
+import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
+import React, { useCallback } from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
 
 export type ProfileSectionProps = {
@@ -182,13 +184,26 @@ const EditSection = ({
   onClose: () => void;
 }) => {
   const buttonLabel = 'Save';
+  const { performHydration } = usePlayerHydrationContext();
+
+  const onComplete = useCallback(
+    (nodeId?: string) => {
+      if (nodeId) {
+        performHydration(nodeId);
+      }
+      onClose();
+    },
+    [onClose, performHydration],
+  );
 
   switch (boxType) {
     case BoxTypes.PLAYER_TYPE: {
-      return <SetupPlayerType {...{ onClose, buttonLabel, title: '' }} />;
+      return <SetupPlayerType {...{ onComplete, buttonLabel, title: '' }} />;
     }
     case BoxTypes.PLAYER_COLOR_DISPOSITION: {
-      return <SetupPersonalityType {...{ onClose, buttonLabel, title: '' }} />;
+      return (
+        <SetupPersonalityType {...{ onComplete, buttonLabel, title: '' }} />
+      );
     }
     case BoxTypes.PLAYER_SKILLS: {
       return <SetupSkills {...{ onClose, buttonLabel, title: '' }} />;

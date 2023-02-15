@@ -4,8 +4,8 @@ import {
   Maybe,
 } from '@metafam/utils';
 import { useComposeDB } from 'contexts/ComposeDBContext';
-import { Player, PlayerProfileFragment } from 'graphql/autogen/types';
-import { queryPlayerProfile } from 'graphql/composeDB/queries/profile';
+import { Player } from 'graphql/autogen/types';
+import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
 import { ComposeDBProfileQueryResult } from 'graphql/types';
 import { CeramicError } from 'lib/errors';
 import { useEffect, useState } from 'react';
@@ -22,16 +22,14 @@ export const useGetPlayerProfileFromComposeDB = (
 ) => {
   const { composeDBClient } = useComposeDB();
 
-  const [result, setResult] = useState<
-    PlayerProfileFragment | undefined | null
-  >();
+  const [result, setResult] = useState<ComposeDBProfile | undefined>();
   const [error, setError] = useState<Error | undefined>();
   const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
     if (composeDBClient && ceramicProfileNodeId) {
       setFetching(true);
-      const query = queryPlayerProfile(ceramicProfileNodeId);
+      const query = buildPlayerProfileQuery(ceramicProfileNodeId);
       composeDBClient
         .executeQuery(query)
         .then((response) => {

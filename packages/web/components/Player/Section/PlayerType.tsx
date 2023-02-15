@@ -1,26 +1,20 @@
 import { Text } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { ExplorerType, Player } from 'graphql/autogen/types';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
+import { ExplorerType } from 'graphql/autogen/types';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
-import { useProfileField } from 'lib/hooks';
+import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
-  player: Player;
   editing?: boolean;
 };
 
-export const PlayerType: React.FC<Props> = ({ player, editing }) => {
-  const {
-    explorerTypeTitle,
-    owner: isOwnProfile,
-    fetching,
-  } = useProfileField<string>({
-    field: 'explorerTypeTitle',
-    player,
-  });
+export const PlayerType: React.FC<Props> = ({ editing }) => {
+  const { fetching, user } = useUser();
+  const { hydratedPlayer: player } = usePlayerHydrationContext();
   const [choices, setChoices] = useState<Maybe<Array<ExplorerType>>>(null);
 
   useEffect(() => {
@@ -32,14 +26,15 @@ export const PlayerType: React.FC<Props> = ({ player, editing }) => {
   }, [setChoices]);
 
   const explorerType = choices?.find(
-    (choice) => choice.title === explorerTypeTitle,
+    (choice) => choice.title === player.profile?.explorerTypeTitle,
   );
 
   return (
     <ProfileSection
       title={explorerType?.title ?? 'Player Type'}
       modalTitle={'Player Type'}
-      {...{ isOwnProfile, editing }}
+      isOwnProfile={user && user.id === player.id}
+      {...{ editing }}
       type={BoxTypes.PLAYER_TYPE}
     >
       {(fetching || !choices) && (
@@ -53,6 +48,7 @@ export const PlayerType: React.FC<Props> = ({ player, editing }) => {
         </Text>
       )}
       {!fetching && !!choices && explorerType && (
+        /* TODO this is still using client-side state, change to dynamically fetch from ComposeDB after the modal has closed  */
         <Text
           fontSize={{ base: 'sm', sm: 'md' }}
           color="blueLight"
