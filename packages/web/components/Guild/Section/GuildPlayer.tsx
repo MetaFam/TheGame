@@ -12,10 +12,13 @@ export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
   player,
 }) => {
   const [linkURL, setLinkURL] = useState<string>();
+  const [name, setName] = useState<string>();
 
   useEffect(() => {
     const getPlayer = async () => {
+      const playername = await getPlayerName(player);
       const url = await getPlayerURL(player);
+      setName(playername);
       setLinkURL(url);
     };
     getPlayer();
@@ -34,7 +37,7 @@ export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
             color="white"
             mb="1"
           >
-            {getPlayerName(player)}
+            {name}
           </Heading>
           <HStack alignItems="center">
             <Text fontSize="xs">{(player as GuildPlayer).role}</Text>

@@ -28,6 +28,7 @@ type MapType = {
 
 export const Leaderboard: React.FC = () => {
   const [urls, setURLs] = useState<MapType>({});
+  const [names, setNames] = useState<MapType>({});
   const { players, fetching, error, queryVariables, setQueryVariable } =
     usePlayerFilter();
 
@@ -48,19 +49,23 @@ export const Leaderboard: React.FC = () => {
 
   useEffect(() => {
     if (!players) return;
-    const extractURLs = async () => {
+    const extractData = async () => {
       players.forEach(async (p) => {
         const url = await getPlayerURL(p);
+        const name = await getPlayerName(p);
         setURLs({ ...urls, [p.ethereumAddress]: url });
+        setNames({ ...names, [p.ethereumAddress]: name });
       });
     };
-    extractURLs();
+    extractData();
   }, [players]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getURL = (address: string) => {
     const result = urls[address] ? urls[address] : address;
     return !result?.includes('.') ? `player/${result}` : result;
   };
+  const getName = (address: string) =>
+    names[address] ? names[address] : address;
 
   return (
     <Flex direction="column" p={6} w="100%">
@@ -175,7 +180,7 @@ export const Leaderboard: React.FC = () => {
                         textOverflow="ellipsis"
                         mr={2}
                       >
-                        {getPlayerName(p)}
+                        {getName(p.ethereumAddress)}
                       </Box>
                       <Box textAlign="right" flex={1}>
                         {Math.floor(

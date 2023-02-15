@@ -2,7 +2,7 @@ import { Avatar, AvatarProps, useToast } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import { useProfileField } from 'lib/hooks';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getPlayerImage, getPlayerName, hasImage } from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & {
@@ -14,16 +14,21 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
   PlayerAvatarProps
 >(({ player: user, src, ...props }, ref) => {
   const player = user as Player;
+  const [name, setName] = useState('');
   const { value: image } = useProfileField({
     field: 'profileImageURL',
     player,
     getter: getPlayerImage,
   });
-  const { name } = useProfileField({
-    field: 'name',
-    player,
-    getter: getPlayerName,
-  });
+
+  useEffect(() => {
+    const getPlayer = async () => {
+      const playername = await getPlayerName(player);
+      setName(playername);
+    };
+    getPlayer();
+  }, [player]);
+
   const toast = useToast();
 
   const attrs = {

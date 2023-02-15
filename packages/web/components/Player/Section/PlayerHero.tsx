@@ -43,7 +43,6 @@ type HeroProps = {
 type DisplayComponentProps = {
   player?: Maybe<Player>;
   Wrapper?: React.FC;
-  ens?: string;
 };
 
 export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
@@ -234,16 +233,17 @@ const Description: React.FC<DisplayComponentProps> = ({
 
 const Name: React.FC<DisplayComponentProps> = ({
   player,
-  ens,
   Wrapper = React.Fragment,
 }) => {
-  const { name } = useProfileField({
-    field: 'name',
-    player,
-    getter: getPlayerName,
-  });
+  const [playerName, setPlayerName] = useState<string>('');
 
-  if (!name) return <></>;
+  useEffect(() => {
+    const getPlayer = async () => {
+      const name = await getPlayerName(player);
+      setPlayerName(name);
+    };
+    getPlayer();
+  }, [player]);
 
   // Display ens, if name does include ('…'), this is used to shorten ethereum addresses.
   return (
@@ -255,9 +255,9 @@ const Name: React.FC<DisplayComponentProps> = ({
         textOverflow="ellipsis"
         whiteSpace="nowrap"
         overflowX="hidden"
-        title={name.includes('…') ? ens : name}
+        title={playerName}
       >
-        {name.includes('…') ? ens : name}
+        {playerName}
       </Text>
     </Wrapper>
   );

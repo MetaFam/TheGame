@@ -47,12 +47,13 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const { user } = useUser();
   const [userENS, setENS] = useState('');
   const [linkURL, setLinkURL] = useState<string>();
+  const [header, setHeader] = useState('');
   const [playerData, setPlayerData] = useState<Player>(player);
 
   const username = router.query.username as string;
 
   const { data: profileInfo, isValidating } = useSWR(
-    username.includes('.') ? username : null,
+    username && username.includes('.') ? username : null,
     getPlayerData,
     {
       revalidateOnFocus: false,
@@ -83,12 +84,14 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
   useEffect(() => {
     const resolveName = async () => {
-      if (user && !userENS) {
+      if (user && !userENS && !username) {
         const name = await getENSForAddress(user?.ethereumAddress);
         if (name) {
           setENS(name);
         }
       }
+      const head = await getPlayerName(playerData);
+      setHeader(head);
     };
     const getURL = async () => {
       const url = await getPlayerURL(playerData);
@@ -96,7 +99,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     };
     getURL();
     resolveName();
-  }, [user, playerData]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user, playerData, username]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (playerData?.id) {
@@ -128,7 +131,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         : {})}
     >
       <HeadComponent
-        title={`MetaGame Profile: ${getPlayerName(playerData)}`}
+        title={`MetaGame Profile: ${header}`}
         description={(getPlayerDescription(playerData) ?? '').replace(
           '\n',
           ' ',

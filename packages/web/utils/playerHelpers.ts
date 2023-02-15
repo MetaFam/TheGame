@@ -46,11 +46,10 @@ export const getGuildCoverImageFull = (): string => GuildCoverImageFull.src;
 
 export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall.src;
 
-export const getPlayerName = (
-  player?: Maybe<Player | GuildPlayer>,
-): string | undefined =>
+export const getPlayerName = async (player?: Maybe<Player | GuildPlayer>) =>
   player?.profile?.name ||
   formatIfAddress(player?.profile?.username ?? undefined) ||
+  (await getENSForAddress(player?.ethereumAddress)) ||
   formatAddress(player?.ethereumAddress);
 
 export const getPlayerUsername = (player?: Maybe<Player>): string | undefined =>
