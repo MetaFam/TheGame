@@ -84,8 +84,10 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
   useEffect(() => {
     const resolveName = async () => {
-      if (user && !userENS && !username) {
+      if (user && !userENS && router.pathname === '/me') {
         const name = await getENSForAddress(user?.ethereumAddress);
+        const userPlayer = await getPlayer(user?.ethereumAddress);
+        setPlayerData(userPlayer as Player);
         if (name) {
           setENS(name);
         }
@@ -99,7 +101,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     };
     getURL();
     resolveName();
-  }, [user, playerData, username]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user, playerData, router]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (playerData?.id) {
@@ -112,7 +114,9 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   }
 
   if (isValidating && !playerData) return <LoadingState />;
-  if (!profileInfo?.playerProfile && !isValidating) return <Page404 />;
+  if (!profileInfo?.playerProfile && username.includes('.') && !isValidating)
+    return <Page404 />;
+  if (!playerData && router.pathname === '/me') return <Page404 />;
 
   const banner = background ? '' : bannerURL;
 
