@@ -88,9 +88,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         const name = await getENSForAddress(user?.ethereumAddress);
         const userPlayer = await getPlayer(user?.ethereumAddress);
         setPlayerData(userPlayer as Player);
-        if (name) {
-          setENS(name);
-        }
+        setENS(name || '');
       }
       const head = await getPlayerName(playerData);
       setHeader(head);
@@ -114,7 +112,12 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   }
 
   if (isValidating && !playerData) return <LoadingState />;
-  if (!profileInfo?.playerProfile && username.includes('.') && !isValidating)
+  if (
+    !profileInfo?.playerProfile &&
+    username &&
+    username.includes('.') &&
+    !isValidating
+  )
     return <Page404 />;
   if (!playerData && router.pathname === '/me') return <Page404 />;
 
