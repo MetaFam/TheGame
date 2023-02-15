@@ -273,7 +273,7 @@ export const PlayerFilter: React.FC<Props> = ({
                       setQueryVariable('search', `%%`);
                     }
                   }}
-                  placeholder="SEARCH NAME OR ETH ADDRESS"
+                  placeholder="SEARCH ENS, NAME, OR ETH ADDRESS"
                   _placeholder={{ color: 'whiteAlpha.500' }}
                   size="md"
                   type="text"
