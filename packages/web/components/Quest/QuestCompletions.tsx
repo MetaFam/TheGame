@@ -38,7 +38,7 @@ type MapType = {
 
 export const QuestCompletions: React.FC<Props> = ({ quest }) => {
   const [urls, setURLs] = useState<MapType>({});
-
+  const [names, setNames] = useState<MapType>({});
   const { user } = useUser();
   const toast = useToast();
   const [alertSubmission, setAlertSubmission] =
@@ -81,6 +81,8 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
     const extractURLs = async () => {
       quest.quest_completions.forEach(async ({ player }) => {
         const url = await getPlayerURL(player);
+        const name = await getPlayerName(player);
+        setNames({ ...names, [player.ethereumAddress]: name });
         setURLs({ ...urls, [player.ethereumAddress]: url });
       });
     };
@@ -91,6 +93,9 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
     const result = urls[address] ? urls[address] : address;
     return !result?.includes('.') ? `player/${result}` : result;
   };
+
+  const getName = (address: string) =>
+    names[address] ? names[address] : address;
 
   return (
     <Box>
@@ -109,7 +114,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
           }) => (
             <Box key={id} w="100%">
               <HStack px={4} py={4}>
-                <Avatar name={getPlayerName(player)} />
+                <Avatar name={getName(player.ethereumAddress)} />
                 <CompletionStatusTag {...{ status }} />
                 <Text>
                   <i>
@@ -118,7 +123,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                       as={getURL(player.ethereumAddress)}
                       href="/player/[username]"
                     >
-                      {getPlayerName(player)}
+                      {getName(player.ethereumAddress)}
                     </MetaLink>
                   </i>
                 </Text>
