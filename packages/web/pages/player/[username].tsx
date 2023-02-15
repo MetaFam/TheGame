@@ -10,11 +10,16 @@ import {
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
 import { CONFIG } from 'config';
+import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
+import {
+  PlayerHydrationContextProvider,
+  usePlayerHydrationContext,
+} from 'contexts/PlayerHydrationContext';
 import {
   Player,
   useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
-import { queryPlayerProfile } from 'graphql/composeDB/queries/profile';
+import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { ComposeDBProfileQueryResult } from 'graphql/types';
@@ -48,12 +53,27 @@ type Props = {
   ens?: string;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
+export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+  if (!player) return <Page404 />;
+
+  return (
+    <ComposeDBContextProvider>
+      <PlayerHydrationContextProvider player={player}>
+        <PlayerPageContent />
+      </PlayerHydrationContextProvider>
+    </ComposeDBContextProvider>
+  );
+};
+
+const PlayerPageContent: React.FC = () => {
   const router = useRouter();
-  const username = router.query.username as string;
-  const [player, setPlayer] = useState(propPlayer);
 
   const { user } = useUser();
+  const { hydratedPlayer } = usePlayerHydrationContext();
+  const [playerData, setPlayerData] = useState<Player>(hydratedPlayer);
+
+  const username = router.query.username as string;
+  const [player, setPlayer] = useState(hydratedPlayer);
 
   const linkURL = usePlayerURL(player);
   const header = usePlayerName(player);
@@ -70,7 +90,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
     if (
       !isCurrentPlayerPage &&
       !username?.includes('.') &&
-      propPlayer == null
+      hydratedPlayer == null
     ) {
       getPlayer(username).then((fetchedPlayer) => {
         if (fetchedPlayer != null) {
@@ -78,7 +98,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
         }
       });
     }
-  }, [isCurrentPlayerPage, propPlayer, router.pathname, username]);
+  }, [isCurrentPlayerPage, hydratedPlayer, router.pathname, username]);
 
   // if the username contains a dot, look up the player's ETH address and player with ENS
   const { data: ensAndPlayer, isValidating } = useSWR(
@@ -152,7 +172,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
         url={linkURL}
         img={getPlayerImage(player)}
       />
-      {banner && (
+      {banner != null ? (
         <Box
           bg={`url('${banner}') no-repeat`}
           bgSize="cover"
@@ -162,8 +182,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
           w="full"
           top={0}
         />
-      )}
-
+      ) : null}
       <Flex
         w="full"
         h="min-content"
@@ -279,7 +298,7 @@ export const getStaticProps = async (
       ceramic: CONFIG.ceramicURL,
       definition: composeDBDefinition,
     });
-    const query = queryPlayerProfile(player.ceramicProfileId);
+    const query = buildPlayerProfileQuery(player.ceramicProfileId);
     const response = await composeDBClient.executeQuery(query);
     if (response.data != null) {
       const composeDBProfileData = (

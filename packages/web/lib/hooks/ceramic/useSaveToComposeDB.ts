@@ -77,12 +77,13 @@ export const useSaveToComposeDB = () => {
               `Could not link Ceramic node "${documentId}" to player`,
             );
           }
-        } else {
-          throw new CeramicError(
-            'No document ID was available in the createProfile response!',
-          );
+          return documentId;
         }
+        throw new CeramicError(
+          'No document ID was available in the createProfile response!',
+        );
       }
+      return user.ceramicProfileId;
     },
     [composeDBClient, connect, linkNode, user],
   );

@@ -4,7 +4,7 @@ import {
   profileMapping,
 } from '@metafam/utils';
 
-export const queryPlayerProfile = (profileNodeId: string) => {
+export const buildPlayerProfileQuery = (profileNodeId: string) => {
   const fields = Object.values(profileMapping).map((f) => {
     if (composeDBImageFields.includes(f)) {
       return `${f} {
