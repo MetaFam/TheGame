@@ -112,7 +112,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   }
 
   if (isValidating && !playerData) return <LoadingState />;
-  if (!playerData && !isValidating) return <Page404 />;
+  if (!profileInfo?.playerProfile && !isValidating) return <Page404 />;
 
   const banner = background ? '' : bannerURL;
 
