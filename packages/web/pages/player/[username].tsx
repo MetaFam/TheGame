@@ -117,7 +117,6 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     return <Page404 />;
   if (!playerData && router.pathname === '/me') return <Page404 />;
 
-
   const banner = background ? '' : bannerURL;
 
   return (
