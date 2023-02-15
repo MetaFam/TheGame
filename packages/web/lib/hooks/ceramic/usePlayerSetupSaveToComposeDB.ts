@@ -9,10 +9,10 @@ import { useSaveToComposeDB } from './useSaveToComposeDB';
 
 export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   isChanged,
-  onClose = undefined,
+  onComplete = undefined,
 }: {
   isChanged: boolean;
-  onClose?: () => void;
+  onComplete?: (nodeId?: string) => void;
 }) {
   const toast = useToast();
   const { onNextPress } = useSetupFlow();
@@ -21,9 +21,9 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   const { save: saveToComposeDB, status: saveStatus } = useSaveToComposeDB();
 
   const persist = useCallback(
-    async (values: Record<string, T>) => {
+    (values: Record<string, T>) => {
       setStatus('Saving to Ceramic…');
-      await saveToComposeDB({
+      return saveToComposeDB({
         values,
       });
     },
@@ -40,6 +40,8 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (values: Record<string, T>) => {
       try {
+        let nodeId;
+
         if (!isChanged) {
           setStatus('No Change. Skipping Save…');
           await new Promise((resolve) => {
@@ -47,10 +49,14 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
           });
         } else if (persist) {
           setStatus('Saving…');
-          await persist(values);
+          nodeId = await persist(values);
         }
 
-        (onClose ?? onNextPress)();
+        if (onComplete) {
+          onComplete(nodeId);
+        } else {
+          onNextPress();
+        }
       } catch (err) {
         const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
         toast({
@@ -64,7 +70,7 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
         setStatus(null);
       }
     },
-    [isChanged, onClose, onNextPress, persist, toast],
+    [isChanged, onComplete, onNextPress, persist, toast],
   );
 
   return {
