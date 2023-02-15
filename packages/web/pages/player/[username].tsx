@@ -10,11 +10,16 @@ import {
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
 import { CONFIG } from 'config';
+import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
+import {
+  PlayerHydrationContextProvider,
+  usePlayerHydrationContext,
+} from 'contexts/PlayerHydrationContext';
 import {
   Player,
   useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
-import { queryPlayerProfile } from 'graphql/composeDB/queries/profile';
+import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { ComposeDBProfileQueryResult } from 'graphql/types';
@@ -48,12 +53,26 @@ type Props = {
 };
 
 export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+  if (!player) return <Page404 />;
+
+  return (
+    <ComposeDBContextProvider>
+      <PlayerHydrationContextProvider player={player}>
+        <PlayerPageContent />
+      </PlayerHydrationContextProvider>
+    </ComposeDBContextProvider>
+  );
+};
+
+const PlayerPageContent: React.FC = () => {
   const router = useRouter();
+
   const { user } = useUser();
   const [userENS, setENS] = useState('');
   const [linkURL, setLinkURL] = useState<string>();
   const [header, setHeader] = useState('');
-  const [playerData, setPlayerData] = useState<Player>(propPlayer);
+  const { hydratedPlayer: player } = usePlayerHydrationContext();
+  const [playerData, setPlayerData] = useState<Player>(player);
 
   const username = router.query.username as string;
 
@@ -151,7 +170,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         url={linkURL}
         img={getPlayerImage(playerData)}
       />
-      {banner && (
+      {banner != null ? (
         <Box
           bg={`url('${banner}') no-repeat`}
           bgSize="cover"
@@ -161,8 +180,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
           w="full"
           top={0}
         />
-      )}
-
+      ) : null}
       <Flex
         w="full"
         h="min-content"
@@ -278,7 +296,7 @@ export const getStaticProps = async (
       ceramic: CONFIG.ceramicURL,
       definition: composeDBDefinition,
     });
-    const query = queryPlayerProfile(player.ceramicProfileId);
+    const query = buildPlayerProfileQuery(player.ceramicProfileId);
     const response = await composeDBClient.executeQuery(query);
     if (response.data != null) {
       const composeDBProfileData = (

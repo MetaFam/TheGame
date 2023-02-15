@@ -1,32 +1,25 @@
 import { Text } from '@metafam/ds';
 import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { Player } from 'graphql/autogen/types';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import {
   getPersonalityInfo,
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
-import { useProfileField } from 'lib/hooks';
+import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 export type PersonalityTypeProps = {
-  player: Player;
   editing?: boolean;
 };
 
 export const PlayerPersonalityType: React.FC<PersonalityTypeProps> = ({
-  player,
   editing = false,
 }) => {
-  const {
-    value: mask,
-    owner: isOwnProfile,
-    fetching,
-  } = useProfileField<number>({
-    field: 'colorMask',
-    player,
-  });
+  const { fetching, user } = useUser();
+  const { hydratedPlayer: player } = usePlayerHydrationContext();
+
   const [types, setTypes] = useState<PersonalityInfo>(null);
 
   useEffect(() => {
@@ -40,14 +33,19 @@ export const PlayerPersonalityType: React.FC<PersonalityTypeProps> = ({
     <ProfileSection
       title="Personality Type"
       type={BoxTypes.PLAYER_COLOR_DISPOSITION}
-      {...{ isOwnProfile, editing }}
+      isOwnProfile={user && user.id === player.id}
+      {...{ editing }}
     >
-      {mask == null ? (
+      {player.profile?.colorMask == null ? (
         <Text fontStyle="italic" textAlign="center" mb={6}>
           Unspecified.
         </Text>
       ) : (
-        <ColorBar {...{ mask, types }} loading={fetching} />
+        <ColorBar
+          {...{ types }}
+          loading={fetching}
+          mask={player.profile?.colorMask}
+        />
       )}
     </ProfileSection>
   );

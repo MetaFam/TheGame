@@ -35,7 +35,7 @@ const field = composeDBProfileFieldFiveColorDisposition;
 
 export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
   buttonLabel,
-  onClose,
+  onComplete,
   title = 'Personality Type',
 }) => {
   const {
@@ -64,12 +64,13 @@ export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
 
   const { onSubmit, status } = usePlayerSetupSaveToComposeDB<string>({
     isChanged: dirty,
+    onComplete,
   });
 
   return (
     <FormProvider {...formMethods}>
       <WizardPane
-        {...{ buttonLabel, field, onClose, onSubmit, status, title }}
+        {...{ buttonLabel, field, onComplete, onSubmit, status, title }}
         prompt={
           <Text textAlign="center" maxW="30rem">
             <Text as="span">Please select what defines you. </Text>
