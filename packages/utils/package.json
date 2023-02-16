@@ -24,15 +24,11 @@
     "ethers": "5.7.0",
     "imgix-core-js": "2.3.2",
     "js-base64": "3.7.2",
-    "key-did-provider-ed25519": "^2.0.1",
-    "key-did-resolver": "^2.3.0",
     "node-fetch": "3.2.1",
     "sourcecred": "0.11.0",
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@ceramicnetwork/http-client": "^2.5.0",
-    "@datamodels/identity-accounts-crypto": "^0.2.0",
     "key-did-provider-ed25519": "^2.0.1",
     "key-did-resolver": "^2.1.3"
   }
