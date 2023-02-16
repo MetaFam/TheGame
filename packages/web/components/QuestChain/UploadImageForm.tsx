@@ -9,7 +9,7 @@ import {
   SmallCloseIcon,
 } from '@metafam/ds';
 import { DropImageType } from 'lib/hooks/useDropFiles';
-import { ImageProps } from 'next/image';
+import { ImageProps } from 'next/legacy/image';
 import React from 'react';
 
 export const UploadImageForm = ({
