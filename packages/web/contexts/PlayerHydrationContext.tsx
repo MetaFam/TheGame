@@ -65,7 +65,7 @@ export const PlayerHydrationContextProvider: React.FC<
   const hydrateFromHasura = useCallback(async () => {
     setHydrating(true);
     // getMe seems more appropriate here, but there were some issues with types
-    const updatedPlayer = await getPlayer(player.ethereumAddress);
+    const updatedPlayer = await getPlayer(player.ethereumAddress, true);
 
     if (updatedPlayer) {
       setHydratedPlayer({
