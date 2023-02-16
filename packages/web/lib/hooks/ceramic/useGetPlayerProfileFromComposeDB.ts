@@ -67,7 +67,7 @@ export const hydratePlayerProfile = (
     return {
       ...player,
       profile: {
-        id: 'dummy',
+        id: 'ceramic-profile',
         player,
         playerId: player.id,
         ...hasuraProfile,

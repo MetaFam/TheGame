@@ -37,7 +37,7 @@ const field = 'roles';
 
 export const SetupRoles: React.FC<SetupRolesProps> = ({
   choices: inputChoices = null,
-  onClose,
+  onComplete,
   buttonLabel,
   title = 'Roles',
 }) => {
@@ -78,9 +78,9 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
           setTimeout(resolve, 10);
         });
       }
-      (onClose ?? onNextPress)();
+      (onComplete ?? onNextPress)();
     },
-    [onClose, onNextPress, updateRoles],
+    [onComplete, onNextPress, updateRoles],
   );
 
   const formMethods = useForm<{ [field]: string[] }>();
@@ -88,7 +88,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   return (
     <FormProvider {...formMethods}>
       <WizardPane
-        {...{ field, onClose, onSubmit, status, buttonLabel }}
+        {...{ field, onComplete, onSubmit, status, buttonLabel }}
         title={title}
         prompt={
           <Text mb={[4, 6]} textAlign="center">
