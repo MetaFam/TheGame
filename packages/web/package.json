@@ -61,7 +61,7 @@
     "logrocket": "^3.0.1",
     "markdown-it": "13.0.1",
     "moment": "2.29.4",
-    "next": "^12.3.1",
+    "next": "^13.1.6",
     "next-images": "1.8.4",
     "next-transpile-modules": "9.0.0",
     "next-urql": "3.3.2",
