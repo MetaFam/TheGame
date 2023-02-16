@@ -1,5 +1,6 @@
 import { Player } from 'graphql/autogen/types';
 import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
+import { getPlayer } from 'graphql/getPlayer';
 import { ComposeDBProfileQueryResult } from 'graphql/types';
 import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import {
@@ -15,14 +16,16 @@ import { useComposeDB } from './ComposeDBContext';
 export type PlayerHydrationContextType = {
   hydratedPlayer: Player;
   isHydrating: boolean;
-  performHydration: (ceramicProfileNodeId: string) => void;
+  hydrateFromComposeDB: (ceramicProfileNodeId: string) => Promise<void>;
+  hydrateFromHasura: () => Promise<void>;
 };
 
 export const PlayerHydrationContext = createContext<PlayerHydrationContextType>(
   {
-    isHydrating: false,
-    performHydration: () => null,
     hydratedPlayer: {} as Player,
+    isHydrating: false,
+    hydrateFromComposeDB: () => Promise.resolve(),
+    hydrateFromHasura: () => Promise.resolve(),
   },
 );
 
@@ -38,7 +41,7 @@ export const PlayerHydrationContextProvider: React.FC<
   const [hydrating, setHydrating] = useState(false);
   const [hydratedPlayer, setHydratedPlayer] = useState(player);
 
-  const performHydration = useCallback(
+  const hydrateFromComposeDB = useCallback(
     async (ceramicProfileNodeId: string) => {
       if (composeDBClient && ceramicProfileNodeId) {
         setHydrating(true);
@@ -59,12 +62,29 @@ export const PlayerHydrationContextProvider: React.FC<
     [composeDBClient, player],
   );
 
+  const hydrateFromHasura = useCallback(async () => {
+    setHydrating(true);
+    // getMe seems more appropriate here, but there were some issues with types
+    const updatedPlayer = await getPlayer(player.ethereumAddress);
+
+    if (updatedPlayer) {
+      setHydratedPlayer({
+        ...player,
+        // only update hasura fields, not any profile fields since those come from ComposeDB
+        skills: updatedPlayer.skills,
+        roles: updatedPlayer.roles,
+      });
+    }
+    setHydrating(false);
+  }, [player]);
+
   return (
     <PlayerHydrationContext.Provider
       value={{
         isHydrating: hydrating,
         hydratedPlayer,
-        performHydration,
+        hydrateFromComposeDB,
+        hydrateFromHasura,
       }}
     >
       {children}
