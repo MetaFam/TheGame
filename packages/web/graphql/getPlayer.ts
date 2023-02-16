@@ -31,15 +31,17 @@ const addressQuery = /* GraphQL */ `
   ${PlayerDaoMembershipFragment}
 `;
 
-export const getPlayer = async (username?: string): Promise<Maybe<Player>> => {
-  if (!username) return null;
-
+export const getPlayer = async (
+  username: string,
+  noCache?: boolean,
+): Promise<Maybe<Player>> => {
   let response;
   if (/^0x[0-9a-z]{40}$/i.test(username)) {
     response = await client
       .query<GetPlayerForAddressQuery, GetPlayerForAddressQueryVariables>(
         addressQuery,
         { address: username },
+        noCache ? { requestPolicy: 'network-only' } : undefined,
       )
       .toPromise();
   } else {
