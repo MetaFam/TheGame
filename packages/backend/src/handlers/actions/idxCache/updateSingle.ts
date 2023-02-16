@@ -51,13 +51,14 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
     console.debug(`Updating Profile Cache For ${ethereumAddress}`);
   }
 
+  const aliases = simplifyAliases([
+    basicProfileModel,
+    extendedProfileModel,
+    alsoKnownAsModel,
+  ]);
+
   try {
     const ceramic = new CeramicClient(CONFIG.ceramicURL) as CeramicApi;
-    const aliases = simplifyAliases([
-      basicProfileModel,
-      extendedProfileModel,
-      alsoKnownAsModel,
-    ]);
     const model = new DataModel({ ceramic, aliases });
     const store = new DIDDataStore({ ceramic, model });
 
@@ -235,7 +236,7 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
     }
   }
 
-  return {
+  const ret = {
     success: true,
     ceramic: CONFIG.ceramicURL,
     did,
@@ -243,4 +244,10 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
     accountLinks,
     fields,
   };
+
+  if (fields.length === 0) {
+    Object.assign(ret, { aliases });
+  }
+
+  return ret;
 };

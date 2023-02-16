@@ -11,7 +11,7 @@ export const simplifyAliases = (aliases: Array<EncodedManagedModel>) => ({
           .map((profile) =>
             Object.entries(profile[key]).map(([tileId, content]) => [
               content.alias,
-              `ceramic://${tileId}`,
+              `${key === 'definitions' ? '' : 'ceramic://'}${tileId}`,
             ]),
           )
           .flat(),
