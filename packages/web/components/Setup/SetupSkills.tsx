@@ -29,9 +29,8 @@ import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
 import { MaybeModalProps, WizardPane } from './WizardPane';
 
-export type SetupSkillsProps = {
-  isEdit?: boolean;
-  onClose?: () => void;
+export type EditSkillsProps = MaybeModalProps & {
+  player: Maybe<Player>;
 };
 
 const styles: typeof multiSelectStyles = {
@@ -78,12 +77,18 @@ const styles: typeof multiSelectStyles = {
 
 const field = 'skills';
 
-export const SetupSkills: React.FC<MaybeModalProps> = ({
+export const SetupSkills: React.FC = () => {
+  const { user } = useUser();
+
+  return <EditSkills player={user} />;
+};
+
+export const EditSkills: React.FC<EditSkillsProps> = ({
+  player: user,
   onComplete,
   buttonLabel,
   title = 'Skills',
 }) => {
-  const { user } = useUser();
   const { onNextPress } = useSetupFlow();
   const modal = !!onComplete;
   const [, updateSkills] = useUpdatePlayerSkillsMutation();

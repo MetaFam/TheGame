@@ -38,7 +38,7 @@ const PlayerSectionInner: React.FC<
     case BoxTypes.PLAYER_HERO:
       return <PlayerHero {...{ player, editing, ens }} />;
     case BoxTypes.PLAYER_SKILLS:
-      return <PlayerSkills {...{ editing }} />;
+      return <PlayerSkills {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_NFT_GALLERY:
       return <PlayerGallery {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_DAO_MEMBERSHIPS:

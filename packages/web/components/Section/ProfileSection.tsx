@@ -18,8 +18,8 @@ import {
 import { Maybe } from '@metafam/utils';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
-import { SetupRoles } from 'components/Setup/SetupRoles';
-import { SetupSkills } from 'components/Setup/SetupSkills';
+import { EditRoles } from 'components/Setup/SetupRoles';
+import { EditSkills } from 'components/Setup/SetupSkills';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import React, { useCallback } from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
@@ -186,6 +186,7 @@ const EditSection = ({
   const {
     hydrateFromComposeDB: performComposeDBHydration,
     hydrateFromHasura: performHasuraHydration,
+    hydratedPlayer,
   } = usePlayerHydrationContext();
 
   const hydrateFromComposeDB = useCallback(
@@ -220,15 +221,19 @@ const EditSection = ({
     }
     case BoxTypes.PLAYER_SKILLS: {
       return (
-        <SetupSkills
-          {...{ onComplete: hydrateFromHasura, buttonLabel, title: '' }}
+        <EditSkills
+          onComplete={hydrateFromHasura}
+          player={hydratedPlayer}
+          {...{ buttonLabel, title: '' }}
         />
       );
     }
     case BoxTypes.PLAYER_ROLES: {
       return (
-        <SetupRoles
-          {...{ onComplete: hydrateFromHasura, buttonLabel, title: '' }}
+        <EditRoles
+          onComplete={hydrateFromHasura}
+          player={hydratedPlayer}
+          {...{ buttonLabel, title: '' }}
         />
       );
     }

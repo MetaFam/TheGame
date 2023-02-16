@@ -15,6 +15,7 @@ import {
 import { Maybe } from '@metafam/utils';
 import { useSetupFlow } from 'contexts/SetupContext';
 import {
+  Player,
   PlayerRole,
   useUpdatePlayerRolesMutation as useUpdateRoles,
 } from 'graphql/autogen/types';
@@ -29,19 +30,28 @@ import { MaybeModalProps, WizardPane } from './WizardPane';
 export type RoleValue = string;
 
 export type SetupRolesProps = {
+  choices: Array<PlayerRole>;
+};
+
+export const SetupRoles: React.FC<SetupRolesProps> = ({ choices }) => {
+  const { user } = useUser();
+  return <EditRoles player={user} {...{ choices }} />;
+};
+
+export type EditRolesProps = {
+  player: Maybe<Player>;
   choices?: Maybe<Array<PlayerRole>>;
-  isEdit?: boolean;
 } & MaybeModalProps;
 
 const field = 'roles';
 
-export const SetupRoles: React.FC<SetupRolesProps> = ({
+export const EditRoles: React.FC<EditRolesProps> = ({
+  player: user,
   choices: inputChoices = null,
   onComplete,
   buttonLabel,
   title = 'Roles',
 }) => {
-  const { user } = useUser();
   const { onNextPress } = useSetupFlow();
   const [choices, setChoices] = useState<Maybe<PlayerRole[]>>(inputChoices);
   const [, updateRoles] = useUpdateRoles();
