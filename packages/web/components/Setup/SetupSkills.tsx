@@ -79,13 +79,13 @@ const styles: typeof multiSelectStyles = {
 const field = 'skills';
 
 export const SetupSkills: React.FC<MaybeModalProps> = ({
-  onClose,
+  onComplete,
   buttonLabel,
   title = 'Skills',
 }) => {
   const { user } = useUser();
   const { onNextPress } = useSetupFlow();
-  const modal = !!onClose;
+  const modal = !!onComplete;
   const [, updateSkills] = useUpdatePlayerSkillsMutation();
   const [status, setStatus] = useState<string | undefined>();
   const [choices, setChoices] = useState<CategoryOption[]>();
@@ -135,9 +135,9 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
           setTimeout(resolve, 10);
         });
       }
-      (onClose ?? onNextPress)();
+      (onComplete ?? onNextPress)();
     },
-    [onClose, onNextPress, updateSkills],
+    [onComplete, onNextPress, updateSkills],
   );
 
   const formMethods = useForm<{ [field]: SkillOption[] }>();

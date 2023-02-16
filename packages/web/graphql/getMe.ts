@@ -1,6 +1,6 @@
-import { PlayerFragment } from 'graphql/fragments';
+import { PlayerDaoMembershipFragment, PlayerFragment } from 'graphql/fragments';
 
-export const GetMeQuery = /* GraphQL */ `
+export const getMeQuery = /* GraphQL */ `
   query GetMe {
     me {
       record: player {
@@ -11,4 +11,17 @@ export const GetMeQuery = /* GraphQL */ `
     }
   }
   ${PlayerFragment}
+`;
+
+export const getMeHasuraFieldsQuery = /* GraphQL */ `
+  query GetMeHasuraFields {
+    me {
+      player {
+        ...PlayerFragment
+        ...PlayerDaoMembershipFragment
+      }
+    }
+  }
+  ${PlayerFragment}
+  ${PlayerDaoMembershipFragment}
 `;
