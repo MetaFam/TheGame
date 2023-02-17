@@ -54,7 +54,7 @@ export type WizardPaneCallbackProps<T = string> = {
   errored: boolean;
   dirty: boolean;
   current: T;
-  setter: (arg: T | ((prev: Optional<Maybe<T>>) => Maybe<T>)) => void;
+  setter: (arg: T | null | ((prev: Optional<Maybe<T>>) => Maybe<T>)) => void;
 };
 
 export type PaneProps<T = string> = WizardPaneProps<T> & {
@@ -118,10 +118,16 @@ export const WizardPane = <T,>({
           setStatus('Saving…');
           const images: HasuraImageSourcedProps = {};
           // handle image upload of profileImageURL to web3.storage
-          if (values.profileImageURL) {
+
+          if (values.profileImageURL === null) {
+            // remove image from ceramic
+            images.profileImageURL = null;
+            // eslint-disable-next-line no-param-reassign
+            delete values.profileImageURL;
+          } else if (values.profileImageURL) {
             const formData = new FormData();
 
-            // 'profile' is the key for ceramic, equiveleant to profileImageURL in hasura
+            // 'profile' is the key for ceramic, equivalent to profileImageURL in Hasura
             formData.append('profile', values.profileImageURL.file);
             const result = await fetch(`/api/storage`, {
               method: 'POST',
@@ -147,10 +153,8 @@ export const WizardPane = <T,>({
             } as ImageSources;
             // eslint-disable-next-line no-param-reassign
             delete values.profileImageURL;
-            await onSave({ values, images, setStatus });
-          } else {
-            await onSave({ values, images, setStatus });
           }
+          await onSave({ values, images, setStatus });
         }
 
         (onClose ?? onNextPress).call(this);
