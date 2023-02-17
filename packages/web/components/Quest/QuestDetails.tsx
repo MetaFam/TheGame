@@ -12,7 +12,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { httpLink, isSGML } from '@metafam/utils';
-import BackgroundImage from 'assets/quests/quest.webppp';
+import BackgroundImage from 'assets/quests/quest.webp';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { SquareImage } from 'components/SquareImage';
 import {

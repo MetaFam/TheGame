@@ -12,7 +12,7 @@ import {
   Text,
 } from '@metafam/ds';
 import { httpLink, isSGML, Maybe } from '@metafam/utils';
-import BackgroundImage from 'assets/quests/quest.webpp';
+import BackgroundImage from 'assets/quests/quest.webp';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';

@@ -11,7 +11,7 @@ import {
   UnorderedList,
   usePrefersReducedMotion,
 } from '@metafam/ds';
-import externalLinkIcon from 'assets/landing/external-link-icon.webppppppppp';
+import externalLinkIcon from 'assets/landing/external-link-icon.webp';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { get } from 'lib/store';
