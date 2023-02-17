@@ -6,8 +6,8 @@ import {
   UnorderedList,
   useBreakpointValue,
 } from '@metafam/ds';
-import BackgroundImageDesktop from 'assets/landing/sections/section-5.png';
-import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.png';
+import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.webp';
+import BackgroundImageDesktop from 'assets/landing/sections/section-5.webp';
 import { FullPageContainer } from 'components/Container';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';

@@ -1,5 +1,5 @@
 import { Box, Container, Text } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/optimal-background.png';
+import BackgroundImage from 'assets/landing/optimal-background.webp';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useRef } from 'react';

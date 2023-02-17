@@ -8,8 +8,8 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import PatronCircle from 'assets/patron/patron-circle.png';
-import Seed from 'assets/patron/seed.png';
+import PatronCircle from 'assets/patron/patron-circle.webp';
+import Seed from 'assets/patron/seed.webp';
 import React from 'react';
 
 export const BecomePatron: React.FC = () => (

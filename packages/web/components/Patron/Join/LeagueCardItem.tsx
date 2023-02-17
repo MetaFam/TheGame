@@ -1,5 +1,5 @@
 import { Flex, Image, Text } from '@metafam/ds';
-import CheckMark from 'assets/patron/checkmark.png';
+import CheckMark from 'assets/patron/checkmark.webp';
 import React from 'react';
 
 type ItemProps = {

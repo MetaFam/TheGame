@@ -15,8 +15,8 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
-import OctoBg from 'assets/baby_octo.png';
-import MetaGameLogo from 'assets/logo.png';
+import OctoBg from 'assets/baby_octo.webp';
+import MetaGameLogo from 'assets/logo.webp';
 import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
 import { get, set } from 'lib/store';

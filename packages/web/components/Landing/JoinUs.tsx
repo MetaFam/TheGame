@@ -7,7 +7,7 @@ import {
   useBreakpointValue,
   VStack,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/sections/section-7.png';
+import BackgroundImage from 'assets/landing/sections/section-7.webp';
 import { FullPageContainer } from 'components/Container';
 import { StartButton } from 'components/Landing/StartButton';
 import { MetaLink } from 'components/Link';

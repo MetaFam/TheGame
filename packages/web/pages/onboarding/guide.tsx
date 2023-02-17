@@ -21,7 +21,7 @@ const OnboardingGuide: React.FC = () => {
         title="MetaGame: Onboarding Guide 🐙"
         description="Your journey into MetaGame has just begun. Here's how it works…"
         url={hostName}
-        img={`${hostName}/assets/social.png`}
+        img={`${hostName}/assets/social.webp`}
         cardStyle="summary_large_image"
       />
       <LandingHeader />

@@ -1,5 +1,5 @@
 import { Box, Container, Text } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/revolution-background.png';
+import BackgroundImage from 'assets/landing/revolution-background.webp';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';

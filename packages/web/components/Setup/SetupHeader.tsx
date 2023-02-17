@@ -6,7 +6,7 @@ import {
   ResponsiveText,
   Text,
 } from '@metafam/ds';
-import LogoImage from 'assets/logo.png';
+import LogoImage from 'assets/logo.webp';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useWeb3 } from 'lib/hooks';

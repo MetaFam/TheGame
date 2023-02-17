@@ -1,7 +1,7 @@
 import { Image, ListItem, OrderedList, Stack, Text, VStack } from '@metafam/ds';
-import GuildsImage from 'assets/landing/guilds.png';
-import PatronsImage from 'assets/landing/patrons.png';
-import PlayersImage from 'assets/landing/players.png';
+import GuildsImage from 'assets/landing/guilds.webp';
+import PatronsImage from 'assets/landing/patrons.webp';
+import PlayersImage from 'assets/landing/players.webp';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useRef } from 'react';
 

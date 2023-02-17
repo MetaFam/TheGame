@@ -1,5 +1,5 @@
 import { Text, VStack } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/unplug-background.png';
+import BackgroundImage from 'assets/landing/unplug-background.webp';
 import { FullPageContainer } from 'components/Container';
 import React from 'react';
 
