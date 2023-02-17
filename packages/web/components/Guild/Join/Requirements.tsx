@@ -16,7 +16,7 @@ import {
 } from '@metafam/ds';
 import PatronsImg from 'assets/patrons-sun_800x820.webp';
 import PlayersImg from 'assets/players-sun_800x822.webp';
-import ThinkingEmojiImg from 'assets/thinking-emoji_400x400.webppp';
+import ThinkingEmojiImg from 'assets/thinking-emoji_400x400.webp';
 import React from 'react';
 import { MdCheckBoxOutlineBlank } from 'react-icons/md';
 
