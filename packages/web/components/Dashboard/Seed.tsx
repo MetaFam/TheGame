@@ -15,7 +15,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
-import CoinGeckoLogo from 'assets/attribution/coingecko-logo-text.png';
+import CoinGeckoLogo from 'assets/attribution/coingecko-logo-text.webp';
 import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {

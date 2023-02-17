@@ -8,7 +8,7 @@ import {
   MetaButton,
   Text,
 } from '@metafam/ds';
-import GuildsImg from 'assets/guilds-sun_800x800.png';
+import GuildsImg from 'assets/guilds-sun_800x800.webp';
 
 const guildApplicationLink = 'https://form.typeform.com/to/V5YNcdMQ';
 

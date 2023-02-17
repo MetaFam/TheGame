@@ -4,6 +4,8 @@ Monorepo for the MetaGame applications, backend and databases.
 
 We're using the following stack:
 
+![Architecture](guides/architecture.svg)
+
 #### Frontend
 
 - [NextJS](https://nextjs.org/)
@@ -20,7 +22,6 @@ We're using the following stack:
 
 #### Overall
 
-- [Jest](https://jestjs.io/)
 - [Prettier](https://prettier.io/)
 - [Lerna](https://lerna.js.org)
 - [TypeScript](https://www.typescriptlang.org/)

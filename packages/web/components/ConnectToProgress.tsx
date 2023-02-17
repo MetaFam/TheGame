@@ -10,7 +10,7 @@ import {
   Text,
   useBoolean,
 } from '@metafam/ds';
-import LogoImage from 'assets/logo.png';
+import LogoImage from 'assets/logo.webp';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useUser, useWeb3 } from 'lib/hooks';
 import React from 'react';

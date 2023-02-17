@@ -1,5 +1,5 @@
 import { Box, Button, Container, Text } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/frontier-background.png';
+import BackgroundImage from 'assets/landing/frontier-background.webp';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRouter } from 'next/router';
