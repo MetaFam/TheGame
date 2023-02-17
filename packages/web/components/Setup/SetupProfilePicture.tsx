@@ -60,6 +60,7 @@ export const SetupProfilePicture: React.FC = () => {
           setImage(null);
           setter('');
           setPreview(null);
+          setter(null);
         };
 
         return (
@@ -77,7 +78,7 @@ export const SetupProfilePicture: React.FC = () => {
               type="file"
               onChange={handleUpload}
               name="profileImageURL"
-              accept="image/png, image/jpeg, image/gif"
+              accept="image/*"
               ref={(ref) => {
                 ref?.focus();
                 registerRef(ref);
@@ -96,7 +97,7 @@ export const SetupProfilePicture: React.FC = () => {
               mt={{ base: 2, md: 6 }}
               onClick={handleClick}
             >
-              Upload image
+              Upload Image
             </Button>
             <Flex height={{ base: '3rem', md: '4rem' }}>
               {current || preview ? (
