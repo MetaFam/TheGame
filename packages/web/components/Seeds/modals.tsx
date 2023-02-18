@@ -230,7 +230,7 @@ export const UsefulnessOfSEEDs = () => (
             shilling.
           </ListItem>
         </UnorderedList>
-        <Image src="//bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.webpp" />
+        <Image src="//bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
       </Flex>
     </CollapsableText>
     <CollapsableText title="🥩 Staking Seeds">
@@ -274,7 +274,7 @@ export const UsefulnessOfSEEDs = () => (
           </ListItem>
         </UnorderedList>
         <Center>
-          <Image src="//bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.webpp" />
+          <Image src="//bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png" />
         </Center>
       </Box>
     </CollapsableText>
