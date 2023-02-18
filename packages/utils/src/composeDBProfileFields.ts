@@ -1,4 +1,3 @@
-import { maskFor } from './colorHelpers.js';
 import { Values } from './extendedProfileTypes.js';
 
 export const composeDBProfileFieldName = 'name';
@@ -16,10 +15,6 @@ export const composeDBProfileFieldEmoji = 'emoji';
 // these map to objects in ComposeDB
 export const composeDBProfileFieldAvatar = 'avatar';
 export const composeDBProfileFieldBackgroundImage = 'backgroundImage';
-
-// these are sub-fields
-export const composeDBProfileFieldAvatarImageURL = 'url';
-export const composeDBProfileFieldBackgroundImageURL = 'url';
 
 // TODO use GraphQL tooling to auto-generate these types and more...
 
@@ -94,32 +89,22 @@ export type ComposeDBPayloadValue = Values<ComposeDBProfile>;
 export const composeDBImageFields = [
   composeDBProfileFieldAvatar,
   composeDBProfileFieldBackgroundImage,
-];
+] as const;
 
-export const composeDBToHasuraProfile = (
-  composeDBProfile: ComposeDBProfile,
-) => {
-  // todo we should be able to make this typesafe
-  const hasuraProfile: Record<string, unknown> = {};
-  // eslint-disable-next-line no-restricted-syntax
-  Object.entries(composeDBProfile).forEach(([key, value]) => {
-    const match = Object.entries(profileMapping).find(
-      ([, composeDBKey]) => composeDBKey === key,
-    ) as [keyof typeof profileMapping, ComposeDBField];
+export type ComposeDBImageFieldKeys = typeof composeDBImageFields[number];
 
-    const hasuraKey = match[0];
+export const hasuraImageFields = [
+  'profileImageURL',
+  'backgroundImageURL',
+] as const;
 
-    // Some fields required custom translations
-    let hasuraValue = value;
-    if (value && key === composeDBProfileFieldFiveColorDisposition) {
-      const maskNumber = maskFor(value as string);
-      if (maskNumber != null) {
-        hasuraValue = maskNumber;
-      }
-    } else if (value && composeDBImageFields.includes(key)) {
-      hasuraValue = (value as ComposeDBImageMetadata).url;
-    }
-    hasuraProfile[hasuraKey] = hasuraValue;
-  });
-  return hasuraProfile;
-};
+export type HasuraImageFieldKey = typeof hasuraImageFields[number];
+
+// typesafe Array.includes, see https://fettblog.eu/typescript-array-includes/
+function includes<T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T {
+  return coll.includes(el as T);
+}
+
+export function isComposeDBImageField(key: string) {
+  return includes(composeDBImageFields, key);
+}

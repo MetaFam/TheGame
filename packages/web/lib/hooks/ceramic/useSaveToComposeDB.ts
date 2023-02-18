@@ -10,21 +10,21 @@ import { useCallback, useState } from 'react';
 
 import { useUser } from '../useUser';
 
-export type SaveToComposeDBProps = {
-  values: ComposeDBProfile;
-};
-
 export type SaveToComposeDBStatus = 'authenticating' | 'querying' | undefined;
 
 export const useSaveToComposeDB = () => {
   const { composeDBClient, connect } = useComposeDB();
-  const { user } = useUser();
+
+  // When saving to ComposeDB, it's essential that we have the most recent value for user.ceramicProfileId so that we don't inadvertently create duplicate profile models. Thus, we specify 'network-only' to ALWAYS fetch the latest value of 'user' from Hasura.
+  // Ideally, we should be invalidating the urql cache when persisting the ceramicProfileId below, but that would require switching over to Normalized caching (https://formidable.com/open-source/urql/docs/graphcache/normalized-caching/) which could be a big lift requiring a bunch of testing
+  const { user } = useUser({ requestPolicy: 'network-only' });
+
   const [, linkNode] = useLinkOwnCeramicNodeMutation();
 
   const [status, setStatus] = useState<SaveToComposeDBStatus>();
 
   const save = useCallback(
-    async ({ values }: SaveToComposeDBProps) => {
+    async (values: ComposeDBProfile) => {
       if (!composeDBClient) {
         throw new CeramicError(
           'Unable to connect to the Ceramic API to save changes.',
@@ -54,6 +54,7 @@ export const useSaveToComposeDB = () => {
         mutationPayload.input.id = user.ceramicProfileId;
       }
       setStatus('querying');
+
       // execute the mutation
       const response = await composeDBClient.executeQuery(
         mutationQuery,
