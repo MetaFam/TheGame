@@ -12,7 +12,8 @@ import {
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
+import { ChangeEvent, forwardRef, useCallback, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
 
@@ -20,33 +21,29 @@ import { Label } from './Label';
 
 export type EditAvatarImageProps = {
   initialURL?: Maybe<string>;
-  onFilePicked: (file: File) => void;
+  onFilePicked: ({ file, dataURL }: FileReaderData) => void;
 };
 
-export const EditAvatarImage: React.FC<EditAvatarImageProps> = ({
-  initialURL,
-  onFilePicked,
-}) => {
+export const EditAvatarImage = forwardRef<
+  HTMLImageElement,
+  EditAvatarImageProps
+>(({ initialURL, onFilePicked }, ref) => {
   const toast = useToast();
+  const readFile = useImageReader();
 
   const [active, setActive] = useState(false);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [loading, setLoading] = useState(true);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [url, setURL] = useState<Optional<string>>(
     optimizedImage('profileImageURL', initialURL),
   );
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const ref = useRef<HTMLImageElement>(null);
 
   const {
     control,
-
     formState: { errors },
   } = useFormContext();
 
   const onFileChange = useCallback(
-    ({ target: input }: { target: HTMLInputElement }) => {
+    async ({ target: input }: { target: HTMLInputElement }) => {
       const file = input.files?.[0];
       if (!file) return;
       if (file.size === 0) {
@@ -60,34 +57,16 @@ export const EditAvatarImage: React.FC<EditAvatarImageProps> = ({
         });
       } else {
         setLoading(true);
-        onFilePicked(file);
-        const reader = new FileReader();
-        reader.addEventListener(
-          'load',
-          () => {
-            setURL(reader.result as string);
-          },
-          { once: true },
-        );
-        reader.addEventListener(
-          'error',
-          ({ target }) => {
-            const { error } = target ?? {};
-            toast({
-              title: 'Image Loading Error',
-              description: `Loading Images Error: “${error?.message}”`,
-              status: 'error',
-              isClosable: true,
-              duration: 10000,
-            });
-            setLoading(false);
-          },
-          { once: true },
-        );
-        reader.readAsDataURL(file);
+        try {
+          const dataURL = await readFile(file);
+          setURL(dataURL);
+          onFilePicked({ file, dataURL });
+        } finally {
+          setLoading(false);
+        }
       }
     },
-    [onFilePicked, toast],
+    [onFilePicked, readFile, toast],
   );
 
   return (
@@ -107,7 +86,7 @@ export const EditAvatarImage: React.FC<EditAvatarImageProps> = ({
         <Box h="10em" w="10em" borderRadius="full" display="inline-flex">
           <Image
             id="profile-image-preview"
-            ref={ref ?? null}
+            ref={ref}
             onLoad={() => {
               setLoading(false);
             }}
@@ -162,4 +141,4 @@ export const EditAvatarImage: React.FC<EditAvatarImageProps> = ({
       </FormErrorMessage>
     </FormControl>
   );
-};
+});
