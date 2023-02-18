@@ -40,9 +40,9 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   return (
     <PageContainer p={0}>
       <HeadComponent
-        title={`MetaGame Guild Profile: ${guild.name}`}
+        title={guild.name}
         description={`${(guild.description ?? '').replace('\n', ' ')}`}
-        url={`https://my.metagame.wtf/guild/${guild.guildname}`}
+        url={`https://metagame.wtf/guild/${guild.guildname}`}
         img={`${guild.logo}`}
       />
       <Flex
