@@ -2,7 +2,7 @@ A deeper understanding of the C4
 =================================
 I was very surprised to learn that the core software which ultra-reliable high frequency trading platforms are built upon was constructed using a software development process with no leadership, no vision, no roadmaps, no planning, and no meetings.   
 
-ZeroMQ is the [core that these systems are built on](https://umbrella.cisco.com/blog/2015/11/05/the-avalanche-project-when-high-frequency-trading-meets-traffic-classification/), and ZeroMQ was built with the C4. The reason Blockrazor and Krazor uses the C4 is quite simple: centralization is a blocking process which yields inaccurate results.
+ZeroMQ is the [core that these systems are built on](https://umbrella.cisco.com/blog/2015/11/05/the-avalanche-project-when-high-frequency-trading-meets-traffic-classification/), and ZeroMQ was built with the C4. The reason Blockrazor and Krazor use the C4 is quite simple: centralization is a blocking process which yields inaccurate results.
 
 The C4 is a hill-climbing algorithm, and an evolution of the GitHub [Fork + Pull Model](http://help.github.com/send-pull-requests/). It is an _extremely_ powerful and fully battle-tested approach to developing software, with proven results. It's probably not possible for any non-C4 project to win in the free market against a project that (properly) uses the C4. Now we get to find out if this holds true in the fierce and brutal cryptocurrency battleground.   
 
@@ -151,7 +151,7 @@ In this section, we aim to describe the actual development process, step-by-step
 
 > Change on the project SHALL be governed by the pattern of accurately identifying problems and applying minimal, accurate solutions to these problems.
 
-This is a unapologetic ramming through of thirty years' software design experience. It's a profoundly simple approach to design: make minimal, accurate solutions to real problems, nothing more or less. In ZeroMQ, we don't have feature requests. Treating new features the same as bugs confuses some newcomers. But this process works, and not just in open source. Enunciating the problem we're trying to solve, with every single change, is key to deciding whether the change is worth making or not.
+This is an unapologetic ramming through of thirty years' software design experience. It's a profoundly simple approach to design: make minimal, accurate solutions to real problems, nothing more or less. In ZeroMQ, we don't have feature requests. Treating new features the same as bugs confuses some newcomers. But this process works, and not just in open source. Enunciating the problem we're trying to solve, with every single change, is key to deciding whether the change is worth making or not.
 
 > To request changes, a user SHOULD log an issue on the project Platform issue tracker.
 

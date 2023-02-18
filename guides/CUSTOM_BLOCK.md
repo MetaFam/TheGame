@@ -2,7 +2,7 @@
 
 This shall serve as a minimal guide towards developing custom blocks and linking your MyMeta player profiles, guild profiles and/or personal dashboards with external applications or APIs.
 
-## Pre-requesites
+## Pre-requisites
 
 - The MyMeta frontend codebase ([`packages/web`](https://github.com/MetaFam/TheGame/blob/develop/packages/web)) uses NextJS, so a basic understanding of NextJS architecture is a must.
 - Some important files that you must understand before proceeding to develop your own custom blocks:
@@ -65,7 +65,7 @@ case BoxTypes.CUSTOM_TEXT: {
   }
 ```
 
-- In this case, our custom text can be added to all three pages, but if your custom box is relavant only to one of the pages then add it only to that particular display component.
+- In this case, our custom text can be added to all three pages, but if your custom box is relevant only to one of the pages then add it only to that particular display component.
 - Refer to the commit [f1ba43d](https://github.com/MetaFam/TheGame/commit/f1ba43dd29195d4032a2c34cd668e2ba7c38d275) for the code changes
 
 ### Step 6: Add our boxType to the supported list of boxes
@@ -84,7 +84,7 @@ case BoxTypes.CUSTOM_TEXT: {
 ### Step 7: Add specific config/helpers for this boxType
 
 - Add a default box height in `utils/layoutHelpers.ts` under `DEFAULT_BOX_HEIGHTS`.
-- In this case, the custom text box can be added multiple times with different metadata, therefore we shall add it the list of `MULTIPLE_ALLOWED_BOXES` as well.
+- In this case, the custom text box can be added multiple times with different metadata, therefore we shall add it to the list of `MULTIPLE_ALLOWED_BOXES` as well.
 - If needed we may need to edit `isResizableBox` if this block is resizable, although we leave it untouched for our usecase. See `components/Dashboard/Calendar.tsx` for an example of a resizable block.
 - Refer to the commit [594d22b](https://github.com/MetaFam/TheGame/commit/594d22baf7a9fc3a6d2415e5d74040db7bc5b89e) for the code changes
 
