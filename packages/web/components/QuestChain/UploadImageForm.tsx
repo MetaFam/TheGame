@@ -8,6 +8,7 @@ import {
   Image,
   SmallCloseIcon,
 } from '@metafam/ds';
+import { MakeOptional } from 'graphql/autogen/types';
 import { DropImageType } from 'lib/hooks/useDropFiles';
 import { ImageProps } from 'next/image';
 import React from 'react';
@@ -26,7 +27,7 @@ export const UploadImageForm = ({
   label?: string;
   labelColor?: string;
   formControlProps?: FormControlProps;
-  imageProps?: Omit<ImageProps, 'src'> & BoxProps;
+  imageProps?: MakeOptional<Omit<ImageProps, 'src'>, 'alt'> & BoxProps;
 }) => (
   <FormControl {...formControlProps}>
     <FormLabel color={labelColor} htmlFor="imageInput">
