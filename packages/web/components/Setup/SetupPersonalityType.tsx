@@ -10,6 +10,7 @@ import {
 } from '@metafam/ds';
 import {
   composeDBProfileFieldFiveColorDisposition,
+  dispositionFor,
   maskFor,
   Maybe,
   Optional,
@@ -22,11 +23,10 @@ import {
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
-import { useQuerySelfFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
 import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
-import { dispositionFor } from 'utils/playerHelpers';
 
 import { useShowToastOnQueryError } from './SetupProfile';
 import { MaybeModalProps, WizardPane } from './WizardPane';
@@ -42,9 +42,7 @@ export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
     error,
     fetching,
     result: existing,
-  } = useQuerySelfFromComposeDB<string>({
-    field,
-  });
+  } = useGetOwnProfileFieldFromComposeDB<string>(field);
 
   useShowToastOnQueryError(error);
 

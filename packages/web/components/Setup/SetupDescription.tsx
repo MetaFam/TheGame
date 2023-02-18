@@ -1,6 +1,6 @@
 import { Flex, Textarea } from '@metafam/ds';
 import { composeDBProfileFieldDescription } from '@metafam/utils';
-import { useQuerySelfFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
 import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
@@ -11,9 +11,8 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldDescription;
 
 export const SetupDescription: React.FC = () => {
-  const { error, result: existing } = useQuerySelfFromComposeDB<string>({
-    field,
-  });
+  const { error, result: existing } =
+    useGetOwnProfileFieldFromComposeDB<string>(field);
 
   useShowToastOnQueryError(error);
 

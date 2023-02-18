@@ -1,7 +1,12 @@
 import {
+  ComposeDBField,
+  ComposeDBImageMetadata,
   ComposeDBProfile,
-  composeDBToHasuraProfile,
+  composeDBProfileFieldFiveColorDisposition,
+  isComposeDBImageField,
+  maskFor,
   Maybe,
+  profileMapping,
 } from '@metafam/utils';
 import { useComposeDB } from 'contexts/ComposeDBContext';
 import { Player } from 'graphql/autogen/types';
@@ -75,4 +80,32 @@ export const hydratePlayerProfile = (
     };
   }
   return player;
+};
+
+export const composeDBToHasuraProfile = (
+  composeDBProfile: ComposeDBProfile,
+) => {
+  // todo we should be able to make this typesafe
+  const hasuraProfile: Record<string, unknown> = {};
+
+  Object.entries(composeDBProfile).forEach(([key, value]) => {
+    const match = Object.entries(profileMapping).find(
+      ([, composeDBKey]) => composeDBKey === key,
+    ) as [keyof typeof profileMapping, ComposeDBField];
+
+    const hasuraKey = match[0];
+
+    // Some fields required custom translations
+    let hasuraValue = value;
+    if (value && key === composeDBProfileFieldFiveColorDisposition) {
+      const maskNumber = maskFor(value as string);
+      if (maskNumber != null) {
+        hasuraValue = maskNumber;
+      }
+    } else if (value && isComposeDBImageField(key)) {
+      hasuraValue = (value as ComposeDBImageMetadata).url;
+    }
+    hasuraProfile[hasuraKey] = hasuraValue;
+  });
+  return hasuraProfile;
 };
