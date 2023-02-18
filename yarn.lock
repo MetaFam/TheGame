@@ -1037,6 +1037,20 @@
     query-string "^7.1.0"
     rxjs "^7.5.2"
 
+"@ceramicnetwork/http-client@^2.10.0", "@ceramicnetwork/http-client@^2.21.0":
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/@ceramicnetwork/http-client/-/http-client-2.23.0.tgz#a90a34337aedd3298b92c2bcf3256d4c5024a5e5"
+  integrity sha512-wu4RWW4mTR0ISAR3PA58k5l5XvNxik8fPJsQ4oh3ymIZmwibQuMky/51jGn4ZwT92b6tbFqNQX83md7r1K2DoQ==
+  dependencies:
+    "@ceramicnetwork/common" "^2.26.0"
+    "@ceramicnetwork/stream-caip10-link" "^2.21.0"
+    "@ceramicnetwork/stream-model" "^1.8.0"
+    "@ceramicnetwork/stream-model-instance" "^1.8.0"
+    "@ceramicnetwork/stream-tile" "^2.22.0"
+    "@ceramicnetwork/streamid" "^2.14.0"
+    query-string "^7.1.0"
+    rxjs "^7.5.2"
+
 "@ceramicnetwork/http-client@^2.13.0-hotfix.0":
   version "2.22.0"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/http-client/-/http-client-2.22.0.tgz#a9c3c1c3eb735f33bd970b7fb51b158784e001b8"
@@ -1047,20 +1061,6 @@
     "@ceramicnetwork/stream-model" "^1.7.0"
     "@ceramicnetwork/stream-model-instance" "^1.7.0"
     "@ceramicnetwork/stream-tile" "^2.21.0"
-    "@ceramicnetwork/streamid" "^2.14.0"
-    query-string "^7.1.0"
-    rxjs "^7.5.2"
-
-"@ceramicnetwork/http-client@^2.21.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@ceramicnetwork/http-client/-/http-client-2.23.0.tgz#a90a34337aedd3298b92c2bcf3256d4c5024a5e5"
-  integrity sha512-wu4RWW4mTR0ISAR3PA58k5l5XvNxik8fPJsQ4oh3ymIZmwibQuMky/51jGn4ZwT92b6tbFqNQX83md7r1K2DoQ==
-  dependencies:
-    "@ceramicnetwork/common" "^2.26.0"
-    "@ceramicnetwork/stream-caip10-link" "^2.21.0"
-    "@ceramicnetwork/stream-model" "^1.8.0"
-    "@ceramicnetwork/stream-model-instance" "^1.8.0"
-    "@ceramicnetwork/stream-tile" "^2.22.0"
     "@ceramicnetwork/streamid" "^2.14.0"
     query-string "^7.1.0"
     rxjs "^7.5.2"
@@ -2191,6 +2191,19 @@
     term-size "^3.0.2"
     uint8arrays "^4.0.3"
 
+"@composedb/client@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@composedb/client/-/client-0.3.1.tgz#244cca5e564a48af7ebafcae2b3f6a90d86fdc8e"
+  integrity sha512-CpfB09xxzlOy49wXagqHx3ISkFzA4lJEIPDZ+PxBNwLzGqaKSy0lJ0Tm1VzKEeDTxuMQ3fW/XH9jpfz0I/g3rQ==
+  dependencies:
+    "@ceramicnetwork/http-client" "^2.10.0"
+    "@ceramicnetwork/stream-model-instance" "^0.9.0"
+    "@ceramicnetwork/streamid" "^2.7.0"
+    "@composedb/graphql-scalars" "^0.3.1"
+    dataloader "^2.1.0"
+    graphql "^16.5.0"
+    graphql-relay "^0.10.0"
+
 "@composedb/client@^0.4.4":
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/@composedb/client/-/client-0.4.4.tgz#e001d508593d024435a2a9a04c1daaa970d24448"
@@ -2242,6 +2255,16 @@
     object-hash "^3.0.0"
     type-fest "^3.8.0"
     uint8arrays "^4.0.3"
+
+"@composedb/graphql-scalars@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@composedb/graphql-scalars/-/graphql-scalars-0.3.1.tgz#170301d056531c48391a0b04cee72a3337bbf27c"
+  integrity sha512-YNjgv1vHIyDNM2xzU/O6ereTa1uuA0Ysvyy2wst00VWdw2xZKHgdhQ1ZZxzKa87MywLB7TucGHW1tRS87w06dQ==
+  dependencies:
+    "@ceramicnetwork/streamid" "^2.7.0"
+    "@composedb/types" "^0.3.1"
+    graphql "^16.5.0"
+    graphql-scalars "^1.20.0"
 
 "@composedb/graphql-scalars@^0.4.4":
   version "0.4.4"
@@ -13257,7 +13280,7 @@ graphql-request@^6.0.0:
     "@graphql-typed-document-node/core" "^3.2.0"
     cross-fetch "^3.1.5"
 
-graphql-scalars@^1.21.3:
+graphql-scalars@^1.20.0, graphql-scalars@^1.21.3:
   version "1.22.2"
   resolved "https://registry.yarnpkg.com/graphql-scalars/-/graphql-scalars-1.22.2.tgz#6326e6fe2d0ad4228a9fea72a977e2bf26b86362"
   integrity sha512-my9FB4GtghqXqi/lWSVAOPiTzTnnEzdOXCsAC2bb5V7EFNQjVjwy3cSSbUvgYOtDuDibd+ZsCDhz+4eykYOlhQ==
@@ -15646,7 +15669,7 @@ key-did-provider-ed25519@^3.0.0:
     rpc-utils "^0.6.2"
     uint8arrays "^4.0.3"
 
-key-did-resolver@^2.0.0, key-did-resolver@^2.0.6, key-did-resolver@^2.3.0:
+key-did-resolver@^2.0.0, key-did-resolver@^2.0.6, key-did-resolver@^2.1.3, key-did-resolver@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/key-did-resolver/-/key-did-resolver-2.3.0.tgz#38c636be72d769cdf8a4ebdfb1e35f36fb5550c1"
   integrity sha512-q3ChQILPe+u8qkpWP196fEoxsygEyjM3K25qrGaMSolVaUdfgj7qwMz2DE/GRIlfNK2HgKW6KXA8RZMy8aL4MA==

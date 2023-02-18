@@ -1,9 +1,10 @@
 import { ComposeClient } from '@composedb/client';
-import { Box, Flex, LoadingState } from '@metafam/ds';
-import { composeDBDefinition } from '@metafam/utils';
+import { Box, Flex, LoadingState, useDisclosure } from '@metafam/ds';
+import { composeDBDefinition, Maybe } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { PlayerSection } from 'components/Player/PlayerSection';
+import { ComposeDBPromptModal } from 'components/Player/Profile/ComposeDBPromptModal';
 import {
   ALL_BOXES,
   DEFAULT_PLAYER_LAYOUT_DATA,
@@ -68,9 +69,10 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 const PlayerPageContent: React.FC = () => {
   const router = useRouter();
 
-  const { user } = useUser();
-  const { hydratedPlayer } = usePlayerHydrationContext();
+  const { hydratedPlayer, hydrateFromComposeDB } = usePlayerHydrationContext();
   const [playerData, setPlayerData] = useState<Player>(hydratedPlayer);
+  const { user, fetching } = useUser();
+  const [userENS, setENS] = useState('');
 
   const username = router.query.username as string;
   const [player, setPlayer] = useState(hydratedPlayer);
@@ -116,6 +118,19 @@ const PlayerPageContent: React.FC = () => {
   // TODO create a button that migrates a user's data explicitly from
   // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
   // if it exists
+  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
+
+  const isOwnProfile = useMemo(
+    () => !fetching && !!user && user.id === player.id,
+    [user, fetching, player.id],
+  );
+
+  const handleMigrationCompleted = useCallback(
+    (streamID: string) => {
+      hydrateFromComposeDB(streamID);
+    },
+    [hydrateFromComposeDB],
+  );
 
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
@@ -199,22 +214,36 @@ const PlayerPageContent: React.FC = () => {
             }
           : {})}
       >
-        {player && <Grid {...{ player, ens }} />}
+        {playerData && (
+          <Grid {...{ player: playerData, ens: userENS, isOwnProfile, user }} />
+        )}
       </Flex>
+      {isOwnProfile && user?.profile && !user.ceramicProfileId ? (
+        <ComposeDBPromptModal
+          player={user}
+          {...{ isOpen, handleMigrationCompleted, onClose }}
+        />
+      ) : null}
     </PageContainer>
   );
 };
 
 export default PlayerPage;
 
-export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
-  const { user, fetching } = useUser();
-  const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
+type GridProps = {
+  player: Player;
+  ens?: string;
+  user: Maybe<Player>;
+  isOwnProfile: boolean;
+};
 
-  const isOwnProfile = useMemo(
-    () => !fetching && !!user && user.id === player.id,
-    [user, fetching, player.id],
-  );
+export const Grid: React.FC<GridProps> = ({
+  player,
+  ens,
+  user,
+  isOwnProfile,
+}): ReactElement => {
+  const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
   const savedLayoutData = useMemo<LayoutData>(
     () =>

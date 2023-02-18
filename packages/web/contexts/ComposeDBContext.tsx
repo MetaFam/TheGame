@@ -57,7 +57,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     // use did:pkh
     let session = await getCachedDIDSession();
     if (!session || (session.hasSession && session.isExpired)) {
-      const accountId = await getAccountId(prov.provider, addr);
+      const accountId = await getAccountId(prov.provider, addr.toLowerCase());
       const authMethod = await EthereumWebAuth.getAuthMethod(
         prov.provider,
         accountId,
