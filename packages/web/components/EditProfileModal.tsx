@@ -30,7 +30,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { getImageDimensions } from '@metafam/utils';
+import { getImageDimensions, HasuraImageFieldKey } from '@metafam/utils';
 import {
   Maybe,
   Player,
@@ -40,7 +40,13 @@ import { getPlayer } from 'graphql/getPlayer';
 import { useWeb3 } from 'lib/hooks';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
 import { useRouter } from 'next/router';
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, {
+  createRef,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
 import { isEmpty } from 'utils/objectHelpers';
@@ -102,7 +108,12 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const { address, chainId } = useWeb3();
   const toast = useToast();
 
-  const [pickedFiles, setPickedFiles] = useState<Record<string, File>>({});
+  const [pickedFiles, setPickedFiles] = useState<
+    Partial<Record<HasuraImageFieldKey, File>>
+  >({});
+  const [pickedFileDataURLs, setPickedFileDataURLs] = useState<
+    Partial<Record<HasuraImageFieldKey, string>>
+  >({});
 
   // const fields = Object.fromEntries(
   //   Object.keys(AllProfileFields).map((key) => {
@@ -163,6 +174,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   }, [player, reset]);
 
   useEffect(resetData, [resetData]);
+
+  const avatarImageRef = createRef<HTMLImageElement>();
+  const backgroundImageRef = createRef<HTMLImageElement>();
 
   if (!save) {
     toast({
@@ -227,33 +241,33 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           );
         }
 
-        // Object.keys(pickedFiles).forEach((key: string) => {
-        //   const tKey = toType(key);
-        //   if (!response[tKey]) {
-        //     toast({
-        //       title: 'Error Saving Image',
-        //       description: `Uploaded "${tKey}" & didn't get a response back.`,
-        //       status: 'warning',
-        //       isClosable: true,
-        //       duration: 8000,
-        //     });
-        //   } else {
-        //     const val = values[key];
-        //     const { ref } = endpoints[key];
-        //     let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
-        //     mime ??= 'image/*';
+        Object.keys(pickedFiles).forEach((key: string) => {
+          const tKey = toType(key);
+          if (!response[tKey]) {
+            toast({
+              title: 'Error Saving Image',
+              description: `Uploaded "${tKey}" & didn't get a response back.`,
+              status: 'warning',
+              isClosable: true,
+              duration: 8000,
+            });
+          } else {
+            const val = values[key];
+            const { ref } = endpoints[key];
+            let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
+            mime ??= 'image/*';
 
-        //     const elem = ref.current as HTMLImageElement | null;
-        //     const props = getImageDimensions(elem);
-        //     images[key as keyof typeof Images] = {
-        //       original: {
-        //         src: `ipfs://${response[tKey]}`,
-        //         mimeType: mime,
-        //         ...props,
-        //       },
-        //     } as ImageSources;
-        //   }
-        // });
+            const elem = ref.current as HTMLImageElement | null;
+            const props = getImageDimensions(elem);
+            images[key as keyof typeof Images] = {
+              original: {
+                src: `ipfs://${response[tKey]}`,
+                mimeType: mime,
+                ...props,
+              },
+            } as ImageSources;
+          }
+        });
       }
 
       if (debug) {
@@ -336,19 +350,32 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             >
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditAvatarImage
+                  ref={avatarImageRef}
                   initialURL={getValues('profileImageURL')}
-                  onFilePicked={(file) =>
-                    setPickedFiles({ ...pickedFiles, profileImageURL: file })
-                  }
+                  onFilePicked={({ file, dataURL }) => {
+                    setPickedFiles({ ...pickedFiles, profileImageURL: file });
+                    setPickedFileDataURLs({
+                      ...pickedFileDataURLs,
+                      profileImageURL: dataURL,
+                    });
+                  }}
                 />
               </GridItem>
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditBackgroundImage
                   player={player}
+                  ref={backgroundImageRef}
                   initialURL={getValues('profileBackgroundURL')}
-                  onFilePicked={(file) =>
-                    setPickedFiles({ ...pickedFiles, backgroundImageURL: file })
-                  }
+                  onFilePicked={({ file, dataURL }) => {
+                    setPickedFiles({
+                      ...pickedFiles,
+                      backgroundImageURL: file,
+                    });
+                    setPickedFileDataURLs({
+                      ...pickedFileDataURLs,
+                      backgroundImageURL: dataURL,
+                    });
+                  }}
                 />
               </GridItem>
               <GridItem flex={1}>
