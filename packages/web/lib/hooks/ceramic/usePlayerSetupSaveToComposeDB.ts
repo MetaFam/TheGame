@@ -1,6 +1,17 @@
 import { useToast } from '@metafam/ds';
-import { ComposeDBPayloadValue, Maybe } from '@metafam/utils';
+import {
+  ComposeDBField,
+  ComposeDBImageMetadata,
+  ComposeDBPayloadValue,
+  composeDBProfileFieldFiveColorDisposition,
+  dispositionFor,
+  HasuraImageFieldKey,
+  isComposeDBImageField,
+  Maybe,
+  profileMapping,
+} from '@metafam/utils';
 import { useSetupFlow } from 'contexts/SetupContext';
+import { Profile } from 'graphql/autogen/types';
 import { CeramicError } from 'lib/errors';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
@@ -23,9 +34,7 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   const persist = useCallback(
     (values: Record<string, T>) => {
       setStatus('Saving to Ceramic…');
-      return saveToComposeDB({
-        values,
-      });
+      return saveToComposeDB(values);
     },
     [saveToComposeDB],
   );
@@ -78,3 +87,34 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
     status,
   };
 }
+
+export const hasuraToComposeDBProfile = (
+  profile: Profile,
+  images: Record<HasuraImageFieldKey, Maybe<ComposeDBImageMetadata>>,
+) => {
+  // todo we should be able to make this typesafe
+  const composeDBPayload: Record<string, unknown> = {};
+
+  Object.entries(profileMapping).forEach(([hasuraID, composeDBID]) => {
+    const composeDBKey = composeDBID as ComposeDBField;
+    const hasuraKey = hasuraID as keyof typeof profileMapping;
+    const hasuraValue = profile[hasuraKey];
+    if (hasuraValue != null) {
+      if (composeDBKey === composeDBProfileFieldFiveColorDisposition) {
+        const maskString = dispositionFor(hasuraValue as number);
+        if (maskString) {
+          composeDBPayload[composeDBKey] = maskString;
+        }
+      } else if (isComposeDBImageField(composeDBKey)) {
+        const hasuraImage = images[hasuraKey as HasuraImageFieldKey];
+        if (hasuraImage) {
+          composeDBPayload[composeDBKey] = hasuraImage;
+        }
+      } else {
+        composeDBPayload[composeDBKey] = hasuraValue;
+      }
+    }
+  });
+
+  return composeDBPayload;
+};

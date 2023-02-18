@@ -10,7 +10,7 @@ import {
 import { composeDBProfileFieldExplorerType } from '@metafam/utils';
 import { ExplorerType } from 'graphql/autogen/types';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
-import { useQuerySelfFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
 import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -25,9 +25,8 @@ export const SetupPlayerType: React.FC<MaybeModalProps> = ({
   buttonLabel,
   title = 'Player Type',
 }) => {
-  const { error, result: existing } = useQuerySelfFromComposeDB<string>({
-    field,
-  });
+  const { error, result: existing } =
+    useGetOwnProfileFieldFromComposeDB<string>(field);
 
   useShowToastOnQueryError(error);
 
