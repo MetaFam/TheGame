@@ -16,23 +16,9 @@ export const SetupName: React.FC = () => {
     >
       {({ register, dirty, errored }: WizardPaneCallbackProps) => {
         const { ref: registerRef, ...props } = register(field, {
-          validate: async (value: string) => {
-            if (/^0x[0-9a-z]{40}$/i.test(value)) {
-              return `Name “${value}” has the same format as an Ethereum address.`;
-            }
-            if (dirty && (await getPlayer(value))) {
-              return `Name “${value}” is already in use.`;
-            }
-            return true;
-          },
-          pattern: {
-            value: /^[a-z0-9-_]+$/,
-            message:
-              'Only lowercase letters, digits, dashes, & underscores allowed.',
-          },
           minLength: {
-            value: 3,
-            message: 'Must have at least three characters.',
+            value: 1,
+            message: 'Must have at least one character.',
           },
           maxLength: {
             value: 150,
@@ -44,7 +30,7 @@ export const SetupName: React.FC = () => {
           <Flex justify="center" mt={5}>
             <Input
               background="dark"
-              placeholder="NAME"
+              placeholder="Name…"
               w="auto"
               _focus={errored ? { borderColor: 'red' } : undefined}
               ref={(ref) => {
