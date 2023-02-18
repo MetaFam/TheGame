@@ -30,6 +30,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { getImageDimensions } from '@metafam/utils';
 import {
   Maybe,
   Player,
@@ -84,7 +85,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const username = player.profile?.username;
   const params = useRouter();
   const debug = !!params.query.debug;
-  const saveToCeramic = useSaveToComposeDB({ setStatus });
+  const { save } = useSaveToComposeDB();
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const formMethods = useForm({
     defaultValues: getDefaultFormValues(player),
@@ -163,7 +164,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
   useEffect(resetData, [resetData]);
 
-  if (!saveToCeramic) {
+  if (!save) {
     toast({
       title: 'Ceramic Connection Error',
       description: 'Unable to connect to the Ceramic API to save changes.',
@@ -188,7 +189,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       );
 
       const formData = new FormData();
-      const files: Record<string, File> = {};
       const images: Record<string, Maybe<ImageSources>> = {};
       const values = { ...inputs };
       // Object.keys(Images).forEach((hasuraId) => {
@@ -207,8 +207,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         return name;
       };
 
-      if (Object.keys(files).length > 0) {
-        Object.entries(files).forEach(([key, file]) => {
+      if (Object.keys(pickedFiles).length > 0) {
+        // Upload all the files to /api/storage
+        Object.entries(pickedFiles).forEach(([key, file]) => {
           formData.append(toType(key), file);
         });
         const result = await fetch(`/api/storage`, {
@@ -226,7 +227,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           );
         }
 
-        // Object.keys(files).forEach((key: string) => {
+        // Object.keys(pickedFiles).forEach((key: string) => {
         //   const tKey = toType(key);
         //   if (!response[tKey]) {
         //     toast({
@@ -237,23 +238,13 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         //       duration: 8000,
         //     });
         //   } else {
-        //     const { val, ref } = endpoints[key];
+        //     const val = values[key];
+        //     const { ref } = endpoints[key];
         //     let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
         //     mime ??= 'image/*';
 
         //     const elem = ref.current as HTMLImageElement | null;
-        //     const props: { width?: number; height?: number } = {};
-        //     ['width', 'height'].forEach((prop) => {
-        //       props[prop as 'width' | 'height'] = Math.max(
-        //         elem?.[
-        //           `natural${prop[0].toUpperCase()}${prop.slice(1)}` as
-        //             | 'naturalWidth'
-        //             | 'naturalHeight'
-        //         ] ?? 0,
-        //         elem?.[prop as 'width' | 'height'] ?? 0,
-        //         1,
-        //       );
-        //     });
+        //     const props = getImageDimensions(elem);
         //     images[key as keyof typeof Images] = {
         //       original: {
         //         src: `ipfs://${response[tKey]}`,
@@ -266,7 +257,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       }
 
       if (debug) {
-        console.debug({ files, values, inputs, dirtyFields });
+        console.debug({ pickedFiles, values, inputs, dirtyFields });
       }
 
       // Object.keys(values).forEach((hasuraId) => {
@@ -284,7 +275,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       // });
 
       // await saveToCeramic({ values, images });
-      await saveToCeramic({ mutationQuery: '', values });
+      await save(values);
 
       if (player) {
         setStatus(<Text>Invalidating Cache…</Text>);

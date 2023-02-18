@@ -6,7 +6,7 @@ import {
   Text,
 } from '@metafam/ds';
 import { composeDBProfileFieldAvailability } from '@metafam/utils';
-import { useQuerySelfFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
 import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
@@ -17,9 +17,8 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldAvailability;
 
 export const SetupAvailability: React.FC = () => {
-  const { error, result: existing } = useQuerySelfFromComposeDB<string>({
-    field,
-  });
+  const { error, result: existing } =
+    useGetOwnProfileFieldFromComposeDB<string>(field);
 
   useShowToastOnQueryError(error);
 
