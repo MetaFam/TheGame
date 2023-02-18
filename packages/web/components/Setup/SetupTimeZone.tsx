@@ -28,7 +28,9 @@ export const SetupTimeZone: React.FC = () => {
               ) : (
                 <SelectTimeZone
                   labelStyle="abbrev"
-                  onChange={onChange}
+                  onChange={(selection) => {
+                    onChange({ target: { value: selection.value } });
+                  }}
                   {...props}
                 />
               )

@@ -19,6 +19,7 @@ import {
 import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { EditProfileModal } from 'components/EditProfileModal';
+import { MarkdownViewer } from 'components/MarkdownViewer';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
@@ -200,32 +201,7 @@ const Description: React.FC<DisplayComponentProps> = ({
   return (
     <Wrapper>
       <PlayerHeroTile title="Bio" align="flexStart">
-        <Text
-          fontSize={{ base: 'sm', sm: 'md' }}
-          textAlign="justify"
-          whiteSpace="pre-wrap"
-        >
-          {show || description.length <= MAX_BIO_LENGTH
-            ? description
-            : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
-          {description.length > MAX_BIO_LENGTH && (
-            <Text
-              as="span"
-              fontSize="xs"
-              color="cyanText"
-              cursor="pointer"
-              onClick={() => setShow((s) => !s)}
-              px={0.5}
-              ml={2}
-              bg="#FFFFFF22"
-              border="1px solid #FFFFFF99"
-              borderRadius="15%"
-              _hover={{ bg: '#FFFFFF44' }}
-            >
-              Read {show ? 'Less' : 'More'}
-            </Text>
-          )}
-        </Text>
+        <MarkdownViewer>{description}</MarkdownViewer>
       </PlayerHeroTile>
     </Wrapper>
   );
