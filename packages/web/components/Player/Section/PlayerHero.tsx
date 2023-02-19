@@ -24,10 +24,11 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Section/ProfileSection';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { Player } from 'graphql/autogen/types';
 import { useProfileField, useUser } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
@@ -47,6 +48,8 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
 
   const isOwnProfile = user ? user.id === player?.id : null;
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { hydrateFromComposeDB } = usePlayerHydrationContext();
 
   // 9tails.eth: As there is no current way of editing Profile Accounts,
   // and the MWW integration happens on the EditProfileModal, to avoid
@@ -117,7 +120,12 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
         )}
       </VStack>
 
-      {isOwnProfile && <EditProfileModal {...{ player, isOpen, onClose }} />}
+      {isOwnProfile && (
+        <EditProfileModal
+          onSave={hydrateFromComposeDB}
+          {...{ player, isOpen, onClose }}
+        />
+      )}
     </ProfileSection>
   );
 };
@@ -126,10 +134,8 @@ export const Pronouns: React.FC<DisplayComponentProps> = ({
   player,
   Wrapper = React.Fragment,
 }) => {
-  const { pronouns } = useProfileField({
-    field: 'pronouns',
-    player,
-  });
+  const pronouns = player?.profile?.pronouns;
+
   // This is broken now…
   // Fix it by making the animation into a component which
   // saves the children and replaces them after fading in
@@ -156,10 +162,7 @@ const Emoji: React.FC<DisplayComponentProps> = ({
   player,
   Wrapper = React.Fragment,
 }) => {
-  const { emoji } = useProfileField({
-    field: 'emoji',
-    player,
-  });
+  const emoji = player?.profile?.emoji;
 
   if (!emoji || emoji === '') {
     return null;
@@ -180,10 +183,7 @@ const Description: React.FC<DisplayComponentProps> = ({
   player,
   Wrapper = React.Fragment,
 }) => {
-  const { description } = useProfileField({
-    field: 'description',
-    player,
-  });
+  const description = player?.profile?.description;
 
   if (!description || description === '') {
     return null;
@@ -225,10 +225,7 @@ const Availability: React.FC<DisplayComponentProps> = ({
   player,
   Wrapper = React.Fragment,
 }) => {
-  const { value: hours } = useProfileField<number>({
-    field: 'availableHours',
-    player,
-  });
+  const hours = player?.profile?.availableHours;
 
   return (
     <Wrapper>
@@ -263,11 +260,7 @@ const TimeZone: React.FC<DisplayComponentProps> = ({
   player,
   Wrapper = React.Fragment,
 }) => {
-  const { value: current } = useProfileField({
-    field: 'timeZone',
-    player,
-  });
-  const tz = getTimeZoneFor({ title: current });
+  const tz = getTimeZoneFor({ title: player?.profile?.timeZone });
   const timeZone = tz?.abbreviation ?? null;
   const short = (tz?.utc ?? '').replace(/:00\)$/, ')').replace(/ +/g, '');
 
