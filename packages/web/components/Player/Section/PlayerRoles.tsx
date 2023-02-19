@@ -1,16 +1,19 @@
 import { BoxedNextImage, MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
-import { useUser } from 'lib/hooks';
+import { Player } from 'graphql/autogen/types';
 import React, { useMemo } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
+  player: Player;
+  isOwnProfile?: boolean;
   editing?: boolean;
 };
-export const PlayerRoles: React.FC<Props> = ({ editing }) => {
-  const { user } = useUser();
-  const { hydratedPlayer: player } = usePlayerHydrationContext();
+export const PlayerRoles: React.FC<Props> = ({
+  player,
+  isOwnProfile,
+  editing,
+}) => {
   const roles = useMemo(
     () =>
       (player.roles ?? [])
@@ -18,8 +21,6 @@ export const PlayerRoles: React.FC<Props> = ({ editing }) => {
         .map(({ role }) => role),
     [player.roles],
   );
-
-  const isOwnProfile = user && user.id === player.id;
 
   return (
     <ProfileSection

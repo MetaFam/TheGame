@@ -108,3 +108,7 @@ function includes<T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T {
 export function isComposeDBImageField(key: string) {
   return includes(composeDBImageFields, key);
 }
+
+export function isHasuraImageField(key: string) {
+  return includes(hasuraImageFields, key);
+}

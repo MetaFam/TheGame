@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,
   Button,
@@ -30,12 +29,16 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { getImageDimensions, HasuraImageFieldKey } from '@metafam/utils';
 import {
-  Maybe,
-  Player,
-  useInsertCacheInvalidationMutation,
-} from 'graphql/autogen/types';
+  ComposeDBImageMetadata,
+  ComposeDBProfile,
+  getImageDimensions,
+  HasuraImageFieldKey,
+  hasuraImageFields,
+  isHasuraImageField,
+  profileMapping,
+} from '@metafam/utils';
+import { Maybe, Player } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useWeb3 } from 'lib/hooks';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
@@ -79,20 +82,23 @@ export type EditProfileModalProps = {
   player: Player;
   isOpen: boolean;
   onClose: () => void;
+  onSave: (ceramicStreamID: string) => void;
 };
 
 export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   player,
   isOpen,
   onClose,
+  onSave,
 }) => {
   const [status, setStatus] = useState<Maybe<ReactElement | string>>();
 
   const username = player.profile?.username;
   const params = useRouter();
   const debug = !!params.query.debug;
+
   const { save } = useSaveToComposeDB();
-  const [, invalidateCache] = useInsertCacheInvalidationMutation();
+
   const formMethods = useForm({
     defaultValues: getDefaultFormValues(player),
   });
@@ -105,7 +111,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     reset,
     formState: { errors, dirtyFields },
   } = formMethods;
-  const { address, chainId } = useWeb3();
+  const { chainId } = useWeb3();
   const toast = useToast();
 
   const [pickedFiles, setPickedFiles] = useState<
@@ -115,68 +121,17 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     Partial<Record<HasuraImageFieldKey, string>>
   >({});
 
-  // const fields = Object.fromEntries(
-  //   Object.keys(AllProfileFields).map((key) => {
-  //     // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     const { value } = useProfileField({
-  //       field: key,
-  //       player,
-  //     });
-  //     return [key, value];
-  //   }),
-  // );
-
-  // const endpoints = Object.fromEntries(
-  //   Object.keys(Images).map((hasuraId) => {
-  //     const key = hasuraId as keyof typeof Images;
-  //     // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     const [active, setActive] = useState(false);
-  //     // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     const [loading, setLoading] = useState(true);
-  //     // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     const [url, setURL] = useState<Optional<string>>(
-  //       optimizedImage(key, fields[key]),
-  //     );
-  //     // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     const [file, setFile] = useState<Maybe<File>>(null);
-  //     // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     const ref = useRef<HTMLImageElement>(null);
-  //     // key ends in “URL”
-  //     return [
-  //       key,
-  //       {
-  //         loading,
-  //         active,
-  //         val: url,
-  //         file,
-  //         ref,
-  //         setLoading,
-  //         setActive,
-  //         setURL,
-  //         setFile,
-  //       },
-  //     ];
-  //   }),
-  // );
-
-  // if (debug) {
-  //   console.debug({ fields, endpoints, dirtyFields });
-  // }
-
   const resetData = useCallback(() => {
     reset(getDefaultFormValues(player));
-    // Object.entries(fields).forEach(([key, value]) => {
-    //   if (!key.startsWith('_')) {
-    //     setValue(key, value ?? undefined);
-    //   }
-    // });
     setPickedFiles({});
+    setPickedFileDataURLs({});
   }, [player, reset]);
 
   useEffect(resetData, [resetData]);
 
-  const avatarImageRef = createRef<HTMLImageElement>();
-  const backgroundImageRef = createRef<HTMLImageElement>();
+  const imageFieldRefs = Object.fromEntries(
+    hasuraImageFields.map((key) => [key, createRef<HTMLImageElement>()]),
+  );
 
   if (!save) {
     toast({
@@ -192,28 +147,18 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
   const onSubmit = async (inputs: EditProfileFields) => {
     try {
-      setStatus(
-        <Text>
-          Uploading images to
-          <Link href="//web3.storage" ml={1}>
-            web3.storage
-          </Link>
-          …
-        </Text>,
+      const formData = new FormData();
+
+      const changedInputs = Object.fromEntries(
+        Object.entries(inputs).filter(
+          ([key, value]) =>
+            value != null &&
+            dirtyFields[key as keyof EditProfileFields] &&
+            !isHasuraImageField(key),
+        ),
       );
 
-      const formData = new FormData();
-      const images: Record<string, Maybe<ImageSources>> = {};
-      const values = { ...inputs };
-      // Object.keys(Images).forEach((hasuraId) => {
-      //   const key = hasuraId as keyof typeof Images;
-      //   if (endpoints[key].file) {
-      //     files[key] = endpoints[key].file as File;
-      //   } else if (!endpoints[key].val) {
-      //     images[key] = null;
-      //   }
-      //   delete values[key];
-      // });
+      const profile: ComposeDBProfile = { ...changedInputs };
 
       const toType = (key: string) => {
         const match = key.match(/^(.+?)(Image)?(URL)$/i);
@@ -222,6 +167,16 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       };
 
       if (Object.keys(pickedFiles).length > 0) {
+        setStatus(
+          <Text>
+            Uploading images to
+            <Link href="//web3.storage" ml={1}>
+              web3.storage
+            </Link>
+            …
+          </Text>,
+        );
+
         // Upload all the files to /api/storage
         Object.entries(pickedFiles).forEach(([key, file]) => {
           formData.append(toType(key), file);
@@ -241,7 +196,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           );
         }
 
-        Object.keys(pickedFiles).forEach((key: string) => {
+        Object.entries(pickedFileDataURLs).forEach(([key, val]) => {
           const tKey = toType(key);
           if (!response[tKey]) {
             toast({
@@ -252,49 +207,31 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               duration: 8000,
             });
           } else {
-            const val = values[key];
-            const { ref } = endpoints[key];
+            setStatus('Calculating image metadata…');
+            const ref = imageFieldRefs[key];
             let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
             mime ??= 'image/*';
 
             const elem = ref.current as HTMLImageElement | null;
-            const props = getImageDimensions(elem);
-            images[key as keyof typeof Images] = {
-              original: {
-                src: `ipfs://${response[tKey]}`,
-                mimeType: mime,
-                ...props,
-              },
-            } as ImageSources;
+            const imageProps = getImageDimensions(elem);
+
+            const composeDBKey = profileMapping[key as HasuraImageFieldKey];
+            profile[composeDBKey] = {
+              url: `ipfs://${response[tKey]}`,
+              mimeType: mime,
+              ...imageProps,
+            } as ComposeDBImageMetadata;
           }
         });
       }
 
       if (debug) {
-        console.debug({ pickedFiles, values, inputs, dirtyFields });
+        console.debug({ pickedFiles, profile, inputs, dirtyFields });
       }
-
-      // Object.keys(values).forEach((hasuraId) => {
-      //   const key = hasuraId as keyof HasuraProfileProps;
-      //   if (!dirtyFields[key]) {
-      //     if (debug) {
-      //       let display = values[key];
-      //       if (typeof display === 'string' && display.length > 20) {
-      //         display = `${display.slice(0, 20)}…`;
-      //       }
-      //       console.info(`Removing Unchanged Value [${key}]: “${display}”`);
-      //     }
-      //     delete values[key];
-      //   }
-      // });
+      setStatus('Saving to Ceramic…');
 
       // await saveToCeramic({ values, images });
-      await save(values);
-
-      if (player) {
-        setStatus(<Text>Invalidating Cache…</Text>);
-        await invalidateCache({ playerId: player.id });
-      }
+      const ceramicStreamID = await save(profile);
 
       // if they changed their username, the page will 404 on reload
       if (player && inputs.username !== username) {
@@ -305,6 +242,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         );
       }
 
+      onSave(ceramicStreamID);
       return onClose();
     } catch (err) {
       toast({
@@ -350,7 +288,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             >
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditAvatarImage
-                  ref={avatarImageRef}
+                  ref={imageFieldRefs.profileImageURL}
                   initialURL={getValues('profileImageURL')}
                   onFilePicked={({ file, dataURL }) => {
                     setPickedFiles({ ...pickedFiles, profileImageURL: file });
@@ -364,7 +302,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditBackgroundImage
                   player={player}
-                  ref={backgroundImageRef}
+                  ref={imageFieldRefs.profileBackgroundURL}
                   initialURL={getValues('profileBackgroundURL')}
                   onFilePicked={({ file, dataURL }) => {
                     setPickedFiles({

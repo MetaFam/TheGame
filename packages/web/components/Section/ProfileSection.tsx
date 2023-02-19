@@ -208,14 +208,16 @@ const EditSection = ({
     case BoxTypes.PLAYER_TYPE: {
       return (
         <SetupPlayerType
-          {...{ onComplete: hydrateFromComposeDB, buttonLabel, title: '' }}
+          onComplete={hydrateFromComposeDB}
+          {...{ buttonLabel, title: '' }}
         />
       );
     }
     case BoxTypes.PLAYER_COLOR_DISPOSITION: {
       return (
         <SetupPersonalityType
-          {...{ onComplete: hydrateFromComposeDB, buttonLabel, title: '' }}
+          onComplete={hydrateFromComposeDB}
+          {...{ buttonLabel, title: '' }}
         />
       );
     }
