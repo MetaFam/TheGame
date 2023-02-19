@@ -1,7 +1,7 @@
 import { Text } from '@metafam/ds';
 import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
+import { Player } from 'graphql/autogen/types';
 import {
   getPersonalityInfo,
   PersonalityInfo,
@@ -11,14 +11,15 @@ import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 export type PersonalityTypeProps = {
+  player: Player;
   editing?: boolean;
 };
 
 export const PlayerPersonalityType: React.FC<PersonalityTypeProps> = ({
+  player,
   editing = false,
 }) => {
   const { fetching, user } = useUser();
-  const { hydratedPlayer: player } = usePlayerHydrationContext();
 
   const [types, setTypes] = useState<PersonalityInfo>(null);
 

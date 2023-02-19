@@ -14,6 +14,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
@@ -27,6 +28,7 @@ export const MegaMenuFooter = () => {
   const { fetching, user } = useUser();
   const name = usePlayerName(user);
   const linkURL = usePlayerURL(user);
+  const { hydratedPlayer: player } = usePlayerHydrationContext();
   const mounted = useMounted();
 
   return (
@@ -56,10 +58,10 @@ export const MegaMenuFooter = () => {
               _active={{ filter: 'hue-rotate(30deg)' }}
             >
               <Flex>
-                <PlayerAvatar player={user} size="md" />
+                <PlayerAvatar player={player} size="md" />
                 <Stack my={2} ml={2} justify="center">
                   <Text
-                    fontSize={user.rank ? 14 : 22}
+                    fontSize={player.rank ? 14 : 22}
                     fontWeight="semibold"
                     m={0}
                     p={0}
@@ -67,9 +69,9 @@ export const MegaMenuFooter = () => {
                   >
                     {name}
                   </Text>
-                  {user.rank && (
+                  {player.rank && (
                     <Text fontSize={12} m={0} p={0} lineHeight={1}>
-                      {user.rank}
+                      {player.rank}
                     </Text>
                   )}
                 </Stack>
