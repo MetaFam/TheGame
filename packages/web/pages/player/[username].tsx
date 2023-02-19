@@ -24,8 +24,7 @@ import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { ComposeDBProfileQueryResult } from 'graphql/types';
-import { useProfileField, useUser } from 'lib/hooks';
-import { useGetPlayerProfileFromComposeDB } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
+import { useUser } from 'lib/hooks';
 import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
@@ -132,17 +131,8 @@ const PlayerPageContent: React.FC = () => {
     [hydrateFromComposeDB],
   );
 
-  const { value: bannerURL } = useProfileField({
-    field: 'bannerImageURL',
-    player,
-    getter: getPlayerBannerFull,
-  });
-
-  const { value: background } = useProfileField({
-    field: 'backgroundImageURL',
-    player,
-    getter: getPlayerBackgroundFull,
-  });
+  const bannerURL = getPlayerBannerFull(player);
+  const background = getPlayerBackgroundFull(player);
 
   const metagamer = useMemo(
     () =>
@@ -309,7 +299,6 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
-
   if (username == null) {
     return {
       redirect: {

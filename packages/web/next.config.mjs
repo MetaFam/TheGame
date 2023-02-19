@@ -121,7 +121,4 @@ export default {
 
     return config;
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
 };
