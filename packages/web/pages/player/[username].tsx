@@ -263,7 +263,7 @@ export const getStaticProps = async (
 
   return {
     props: {
-      player: player ?? null, // must be serializable
+      player: player ?? null, // must be serializable.
       key: username.toLowerCase(),
       hideTopMenu: false,
     },
