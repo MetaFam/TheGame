@@ -72,6 +72,8 @@ export const SetupProfilePicture: React.FC = () => {
                 objectFit="cover"
                 borderRadius="full"
                 src={preview || current || OctoAvatar.src}
+                onClick={handleClick}
+                cursor="pointer"
               />
             </Center>
             <Input
