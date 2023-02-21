@@ -3,10 +3,13 @@ import {
   ComposeDBField,
   ComposeDBImageMetadata,
   ComposeDBPayloadValue,
+  composeDBProfileFieldAvatar,
   composeDBProfileFieldFiveColorDisposition,
   dispositionFor,
+  getMimeType,
   HasuraImageFieldKey,
   isComposeDBImageField,
+  isImageMetadata,
   Maybe,
   profileMapping,
 } from '@metafam/utils';
@@ -15,16 +18,23 @@ import { Profile } from 'graphql/autogen/types';
 import { CeramicError } from 'lib/errors';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
+import { getImageDimensions } from 'utils/imageHelpers';
+import { uploadFile } from 'utils/uploadHelpers';
 
+import { FileReaderData } from '../useImageReader';
 import { useSaveToComposeDB } from './useSaveToComposeDB';
+
+export type PlayerSetupSaveToComposeDBProps = {
+  isChanged: boolean;
+  onComplete?: (nodeId?: string) => void;
+  pickedFile?: FileReaderData;
+};
 
 export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   isChanged,
   onComplete = undefined,
-}: {
-  isChanged: boolean;
-  onComplete?: (nodeId?: string) => void;
-}) {
+  pickedFile: fileData,
+}: PlayerSetupSaveToComposeDBProps) {
   const toast = useToast();
   const { onNextPress } = useSetupFlow();
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
@@ -46,7 +56,6 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   }, [saveStatus]);
 
   const onSubmit = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (values: Record<string, T>) => {
       try {
         let nodeId;
@@ -56,7 +65,33 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
           await new Promise((resolve) => {
             setTimeout(resolve, 10);
           });
-        } else if (persist) {
+        } else {
+          const avatarFieldValue = values[
+            composeDBProfileFieldAvatar
+          ] as ComposeDBPayloadValue;
+          if (
+            avatarFieldValue != null &&
+            isImageMetadata(avatarFieldValue) &&
+            fileData?.file != null
+          ) {
+            setStatus('Uploading images to web3.storage…');
+
+            const { file, dataURL } = fileData;
+
+            const ipfsHash = await uploadFile(file);
+
+            setStatus('Calculating image metadata…');
+
+            const imageMetadata = avatarFieldValue as ComposeDBImageMetadata;
+            imageMetadata.url = `ipfs://${ipfsHash}`;
+            imageMetadata.mimeType = getMimeType(dataURL);
+            const { width, height } = await getImageDimensions(file);
+            if (width && height) {
+              imageMetadata.width = width;
+              imageMetadata.height = height;
+            }
+          }
+
           setStatus('Saving…');
           nodeId = await persist(values);
         }
@@ -79,7 +114,7 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
         setStatus(null);
       }
     },
-    [isChanged, onComplete, onNextPress, persist, toast],
+    [fileData, isChanged, onComplete, onNextPress, persist, toast],
   );
 
   return {

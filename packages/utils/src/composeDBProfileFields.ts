@@ -112,3 +112,10 @@ export function isComposeDBImageField(key: string) {
 export function isHasuraImageField(key: string) {
   return includes(hasuraImageFields, key);
 }
+
+export function isImageMetadata(value: ComposeDBPayloadValue) {
+  const maybeImageMetadata = value as ComposeDBImageMetadata;
+  return (
+    maybeImageMetadata?.url != null && maybeImageMetadata?.mimeType != null
+  );
+}

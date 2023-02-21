@@ -40,23 +40,8 @@ export const imageLink = (
   return client.buildURL(http, opts);
 };
 
-export type ImageDimensions = {
-  width?: number;
-  height?: number;
-};
-
-export const getImageDimensions = (elem: Maybe<HTMLImageElement>) => {
-  const props: ImageDimensions = {};
-  ['width', 'height'].forEach((prop) => {
-    props[prop as 'width' | 'height'] = Math.max(
-      elem?.[
-        `natural${prop[0].toUpperCase()}${prop.slice(1)}` as
-          | 'naturalWidth'
-          | 'naturalHeight'
-      ] ?? 0,
-      elem?.[prop as 'width' | 'height'] ?? 0,
-      1,
-    );
-  });
-  return props;
+export const getMimeType = (dataURI: string) => {
+  let [, mime] = dataURI?.match(/^data:([^;]+);/) ?? [];
+  mime ??= 'image/*';
+  return mime;
 };

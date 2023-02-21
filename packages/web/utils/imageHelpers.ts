@@ -15,3 +15,24 @@ export const optimizedImage = (key: string, url?: Maybe<string>, opts = {}) => {
     }
   }
 };
+
+export type ImageDimensions = {
+  width?: number;
+  height?: number;
+  dataURL: string;
+};
+
+export const getImageDimensions = (imageFile: File): Promise<ImageDimensions> =>
+  new Promise((resolve, reject) => {
+    const img = new Image();
+    const imgURL = URL.createObjectURL(imageFile);
+    img.src = imgURL;
+    img.onload = () => {
+      resolve({
+        width: img.width,
+        height: img.height,
+        dataURL: imgURL,
+      } as ImageDimensions);
+    };
+    img.onerror = reject;
+  });
