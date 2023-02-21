@@ -1,3 +1,4 @@
+import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,
   Button,
@@ -12,7 +13,12 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import type { HasuraProfileProps, Maybe, Optional } from '@metafam/utils';
+import type {
+  HasuraImageSourcedProps,
+  HasuraProfileProps,
+  Maybe,
+  Optional,
+} from '@metafam/utils';
 import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
@@ -48,7 +54,7 @@ export type WizardPaneCallbackProps<T = string> = {
   errored: boolean;
   dirty: boolean;
   current: T;
-  setter: (arg: T | ((prev: Optional<Maybe<T>>) => Maybe<T>)) => void;
+  setter: (arg: T | null | ((prev: Optional<Maybe<T>>) => Maybe<T>)) => void;
 };
 
 export type PaneProps<T = string> = WizardPaneProps<T> & {
@@ -57,9 +63,11 @@ export type PaneProps<T = string> = WizardPaneProps<T> & {
   authenticating?: boolean;
   onSave?: ({
     values,
+    images,
     setStatus,
   }: {
     values: Record<string, unknown>;
+    images: Record<string, Maybe<ImageSources>>;
     setStatus: (msg: string) => void;
   }) => Promise<void>;
   children: ReactNode | ((props: WizardPaneCallbackProps<T>) => ReactNode);
@@ -108,7 +116,45 @@ export const WizardPane = <T,>({
           });
         } else if (onSave) {
           setStatus('Saving…');
-          await onSave({ values, setStatus });
+          const images: HasuraImageSourcedProps = {};
+          // handle image upload of profileImageURL to web3.storage
+
+          if (values.profileImageURL === null) {
+            // remove image from ceramic
+            images.profileImageURL = null;
+            // eslint-disable-next-line no-param-reassign
+            delete values.profileImageURL;
+          } else if (values.profileImageURL) {
+            const formData = new FormData();
+
+            // 'profile' is the key for ceramic, equivalent to profileImageURL in Hasura
+            formData.append('profile', values.profileImageURL.file);
+            const result = await fetch(`/api/storage`, {
+              method: 'POST',
+              body: formData,
+              credentials: 'include',
+            });
+            const response = await result.json();
+            const { error } = response;
+            if (result.status >= 400 || error) {
+              throw new Error(
+                `web3.storage ${result.status} response: "${
+                  error ?? result.statusText
+                }"`,
+              );
+            }
+            images.profileImageURL = {
+              original: {
+                src: `ipfs://${response.profile}`,
+                mimeType: values.profileImageURL.file.type,
+                width: values.profileImageURL.width,
+                height: values.profileImageURL.height,
+              },
+            } as ImageSources;
+            // eslint-disable-next-line no-param-reassign
+            delete values.profileImageURL;
+          }
+          await onSave({ values, images, setStatus });
         }
 
         (onClose ?? onNextPress).call(this);

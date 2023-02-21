@@ -1,4 +1,8 @@
-import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
+import { ImageSources } from '@datamodels/identity-profile-basic';
+import {
+  Maybe,
+  useInsertCacheInvalidationMutation,
+} from 'graphql/autogen/types';
 import {
   ProfileValueType,
   useProfileField,
@@ -24,13 +28,15 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   const onSave = useCallback(
     async ({
       values,
+      images,
       setStatus,
     }: {
       values: Record<string, unknown>;
+      images: Record<string, Maybe<ImageSources>>;
       setStatus: (msg: string) => void;
     }) => {
       setStatus('Saving to Ceramic…');
-      await saveToCeramic({ values });
+      await saveToCeramic({ values, images });
 
       if (user) {
         setStatus('Invalidating Cache…');
