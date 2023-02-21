@@ -1,4 +1,8 @@
-import { ComposeDBField, ComposeDBPayloadValue } from '@metafam/utils';
+import {
+  ComposeDBField,
+  ComposeDBPayloadValue,
+  Optional,
+} from '@metafam/utils';
 
 import { useUser } from '../useUser';
 import { useGetPlayerProfileFromComposeDB } from './useGetPlayerProfileFromComposeDB';
@@ -28,5 +32,5 @@ export const useGetOwnProfileFieldFromComposeDB = <
     user?.ceramicProfileId,
   );
 
-  return { error, fetching, result: result?.[field] as T };
+  return { error, fetching, result: result?.[field] as Optional<T> };
 };

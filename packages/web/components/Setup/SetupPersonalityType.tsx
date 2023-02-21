@@ -96,7 +96,7 @@ export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
           </Text>
         }
       >
-        <PersonalityTypeField current={current} fetching={fetching} />
+        <PersonalityTypeField {...{ current, fetching }} />
       </WizardPane>
     </FormProvider>
   );
