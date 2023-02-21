@@ -3,7 +3,6 @@ export const CONFIG = {
   graphqlURL: (() => {
     const url = process.env.NEXT_PUBLIC_GRAPHQL_URL;
     const host = process.env.NEXT_PUBLIC_GRAPHQL_HOST;
-
     if (url) return url;
     if (host) {
       return `https://${host}.onrender.com/v1/graphql`;
