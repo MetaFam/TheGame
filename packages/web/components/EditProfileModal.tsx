@@ -33,6 +33,7 @@ import {
   ComposeDBImageMetadata,
   ComposeDBProfile,
   getImageDimensions,
+  getMimeType,
   HasuraImageFieldKey,
   hasuraImageFields,
   isHasuraImageField,
@@ -53,6 +54,7 @@ import React, {
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
 import { isEmpty } from 'utils/objectHelpers';
+import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
 import MeetWithWalletProfileEdition from './Player/MeetWithWalletProfileEdition';
@@ -167,34 +169,13 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       };
 
       if (Object.keys(pickedFiles).length > 0) {
-        setStatus(
-          <Text>
-            Uploading images to
-            <Link href="//web3.storage" ml={1}>
-              web3.storage
-            </Link>
-            …
-          </Text>,
-        );
+        setStatus('Uploading images to web3.storage…');
 
         // Upload all the files to /api/storage
         Object.entries(pickedFiles).forEach(([key, file]) => {
           formData.append(toType(key), file);
         });
-        const result = await fetch(`/api/storage`, {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-        });
-        const response = await result.json();
-        const { error } = response;
-        if (result.status >= 400 || error) {
-          throw new Error(
-            `web3.storage ${result.status} response: "${
-              error ?? result.statusText
-            }"`,
-          );
-        }
+        const response = await uploadFiles(formData);
 
         Object.entries(pickedFileDataURLs).forEach(([key, val]) => {
           const tKey = toType(key);
@@ -209,9 +190,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           } else {
             setStatus('Calculating image metadata…');
             const ref = imageFieldRefs[key];
-            let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
-            mime ??= 'image/*';
-
+            const mime = getMimeType(val);
             const elem = ref.current as HTMLImageElement | null;
             const imageProps = getImageDimensions(elem);
 
