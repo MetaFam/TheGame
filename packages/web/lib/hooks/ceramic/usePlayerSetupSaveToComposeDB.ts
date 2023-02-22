@@ -30,7 +30,7 @@ export type PlayerSetupSaveToComposeDBProps = {
   pickedFile?: FileReaderData;
 };
 
-export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
+export function usePlayerSetupSaveToComposeDB({
   isChanged,
   onComplete = undefined,
   pickedFile: fileData,
@@ -42,7 +42,7 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   const { save: saveToComposeDB, status: saveStatus } = useSaveToComposeDB();
 
   const persist = useCallback(
-    (values: Record<string, T>) => {
+    (values: Record<string, unknown>) => {
       setStatus('Saving to Ceramic…');
       return saveToComposeDB(values);
     },
@@ -56,7 +56,7 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
   }, [saveStatus]);
 
   const onSubmit = useCallback(
-    async (values: Record<string, T>) => {
+    async (values: Record<string, unknown>) => {
       try {
         let nodeId;
 
@@ -66,6 +66,7 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
             setTimeout(resolve, 10);
           });
         } else {
+          const payload = { ...values };
           const avatarFieldValue = values[
             composeDBProfileFieldAvatar
           ] as ComposeDBPayloadValue;
@@ -90,10 +91,15 @@ export function usePlayerSetupSaveToComposeDB<T = ComposeDBPayloadValue>({
               imageMetadata.width = width;
               imageMetadata.height = height;
             }
+            // composeDB doesn't like nulls
+            const cleanImageMetadata = Object.fromEntries(
+              Object.entries(imageMetadata).filter(([, v]) => v != null),
+            );
+            payload[composeDBProfileFieldAvatar] = cleanImageMetadata;
           }
 
           setStatus('Saving…');
-          nodeId = await persist(values);
+          nodeId = await persist(payload);
         }
 
         if (onComplete) {
