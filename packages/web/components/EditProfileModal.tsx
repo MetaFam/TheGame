@@ -13,7 +13,6 @@ import {
   InputLeftElement,
   InputRightAddon,
   ITimezoneOption,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -32,7 +31,6 @@ import {
 import {
   ComposeDBImageMetadata,
   ComposeDBProfile,
-  getImageDimensions,
   getMimeType,
   HasuraImageFieldKey,
   hasuraImageFields,
@@ -53,6 +51,7 @@ import React, {
 } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
+import { getImageDimensions } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
 import { uploadFiles } from 'utils/uploadHelpers';
 
@@ -189,10 +188,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             });
           } else {
             setStatus('Calculating image metadata…');
-            const ref = imageFieldRefs[key];
             const mime = getMimeType(val);
-            const elem = ref.current as HTMLImageElement | null;
-            const imageProps = getImageDimensions(elem);
+            const file = pickedFiles[key as HasuraImageFieldKey];
+            const imageProps = getImageDimensions(file);
 
             const composeDBKey = profileMapping[key as HasuraImageFieldKey];
             profile[composeDBKey] = {
