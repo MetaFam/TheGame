@@ -317,13 +317,14 @@ export const getStaticProps = async (
     });
     const query = buildPlayerProfileQuery(player.ceramicProfileId);
     const response = await composeDBClient.executeQuery(query);
-    if (response.data != null) {
+    if (response.errors) {
+      console.error(`Could not hydrate player ${username} from composeDB`);
+      console.error(response.errors);
+    } else if (response.data != null) {
       const composeDBProfileData = (
         response.data as ComposeDBProfileQueryResult
       ).node;
       hydratedPlayer = hydratePlayerProfile(player, composeDBProfileData);
-    } else if (response.errors) {
-      console.error(response.errors);
     }
   }
 

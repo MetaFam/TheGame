@@ -1,7 +1,6 @@
 import {
   Button,
   Center,
-  Flex,
   Image as ChakraImage,
   Input,
   VStack,
@@ -16,6 +15,7 @@ import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupS
 import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import { optimizedImage } from 'utils/imageHelpers';
 
 import { useShowToastOnQueryError } from './SetupProfile';
 import { WizardPane } from './WizardPane';
@@ -31,27 +31,20 @@ export const SetupProfilePicture: React.FC = () => {
   const formMethods = useForm<{
     [field]: ComposeDBImageMetadata | undefined;
   }>();
-  const {
-    watch,
-    setValue,
-    formState: { dirtyFields },
-  } = formMethods;
+  const { setValue } = formMethods;
 
   useEffect(() => {
     setValue(field, existing);
   }, [existing, setValue]);
 
-  const current = watch(field, existing);
-  const dirty =
-    (existing && current?.url !== existing?.url) || !!dirtyFields[field];
-
   const [pickedFile, setPickedFile] = useState<FileReaderData | undefined>();
 
-  const { onSubmit, status } =
-    usePlayerSetupSaveToComposeDB<ComposeDBImageMetadata>({
-      isChanged: dirty,
-      pickedFile,
-    });
+  const dirty = pickedFile != null;
+
+  const { onSubmit, status } = usePlayerSetupSaveToComposeDB({
+    isChanged: dirty,
+    pickedFile,
+  });
 
   return (
     <FormProvider {...formMethods}>
@@ -62,7 +55,7 @@ export const SetupProfilePicture: React.FC = () => {
       >
         <SetupProfilePictureInput
           onFileChange={setPickedFile}
-          currentURL={current?.url}
+          existingURL={existing?.url}
         />
       </WizardPane>
     </FormProvider>
@@ -70,10 +63,10 @@ export const SetupProfilePicture: React.FC = () => {
 };
 
 const SetupProfilePictureInput: React.FC<{
-  currentURL: string | undefined;
+  existingURL: string | undefined;
   onFileChange: (fileData: FileReaderData) => void;
-}> = ({ currentURL, onFileChange }) => {
-  const { register, setValue } = useFormContext();
+}> = ({ existingURL, onFileChange }) => {
+  const { register } = useFormContext();
   const readFile = useImageReader();
 
   const [preview, setPreview] = useState<string | null>();
@@ -93,10 +86,14 @@ const SetupProfilePictureInput: React.FC<{
     inputRef.current?.click();
     inputRef.current?.focus();
   };
-  const handleRemove = () => {
-    setPreview(null);
-    setValue(field, null);
-  };
+  // const handleRemove = () => {
+  //   setPreview(null);
+  //   setValue(field, null);
+  // };
+
+  const existingImageURL = existingURL
+    ? optimizedImage('profileImageURL', existingURL)
+    : null;
 
   return (
     <VStack mt={5}>
@@ -106,7 +103,7 @@ const SetupProfilePictureInput: React.FC<{
           width="200px"
           objectFit="cover"
           borderRadius="full"
-          src={preview || currentURL || OctoAvatar.src}
+          src={preview || existingImageURL || OctoAvatar.src}
           onClick={handleClick}
           cursor="pointer"
         />
@@ -136,6 +133,8 @@ const SetupProfilePictureInput: React.FC<{
       >
         Upload Image
       </Button>
+      {/* Commenting out for now since I'm not sure how to delete the whole avatar field 
+          in ComposeDB
       <Flex height={{ base: '3rem', md: '4rem' }}>
         {currentURL || preview ? (
           <Button
@@ -149,7 +148,7 @@ const SetupProfilePictureInput: React.FC<{
             Remove Image
           </Button>
         ) : null}
-      </Flex>
+      </Flex> */}
     </VStack>
   );
 };
