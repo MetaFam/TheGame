@@ -30,7 +30,7 @@ export const SetupName: React.FC = () => {
   const current = watch(field, existing);
   const dirty = current !== existing || !!dirtyFields[field];
 
-  const { onSubmit, status } = usePlayerSetupSaveToComposeDB<string>({
+  const { onSubmit, status } = usePlayerSetupSaveToComposeDB({
     isChanged: dirty,
   });
 
