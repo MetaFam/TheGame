@@ -1,8 +1,8 @@
 export const CONFIG = {
   environment: process.env.NODE_ENV || 'development',
   graphqlURL: (() => {
-    const { NEXT_PUBLIC_GRAPHQL_URL: url, NEXT_PUBLIC_GRAPHQL_HOST: host } =
-      process.env;
+    const url = process.env.NEXT_PUBLIC_GRAPHQL_URL;
+    const host = process.env.NEXT_PUBLIC_GRAPHQL_HOST;
 
     if (url) return url;
     if (host) {
