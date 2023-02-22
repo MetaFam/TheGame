@@ -1,4 +1,4 @@
-# This is used to deploy the frontend at metagame.wtf and test.metagame.wtf
+  # This is used to deploy the frontend at metagame.wtf and test.metagame.wtf
 # Eventually we will switch the associated backend deployments over to Google Cloud
 # as well, at which time we can just use the single gcp_deploy.yaml file
 # for both PR deployments AND our stage/prod environments
@@ -70,42 +70,42 @@ jobs:
       CLOUDRUN_SUFFIX: ${{env.CLOUDRUN_SUFFIX}}
       FRONTEND_SERVICE: ${{env.FRONTEND_SERVICE}}
       FRONTEND_PORT: ${{env.FRONTEND_PORT}}
-      CLOUDRUN_REGION: ${{steps.first.outputs.CLOUDRUN_REGION}}
-      DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
-      FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
-      DOCKER_PATH: ${{steps.second.outputs.DOCKER_PATH}}
-      GRAPHQL_URL: ${{steps.second.outputs.GRAPHQL_URL}}
-      FRONTEND_TAG: ${{steps.third.outputs.FRONTEND_TAG}}
-      NODE_ENV: ${{steps.first.outputs.NODE_ENV}}
+      CLOUDRUN_REGION: ${{env.CLOUDRUN_REGION}}
+      DOCKER_REGISTRY: ${{env.DOCKER_REGISTRY}}
+      FRONTEND_URL: ${{env.FRONTEND_URL}}
+      DOCKER_PATH: ${{env.DOCKER_PATH}}
+      GRAPHQL_URL: ${{env.GRAPHQL_URL}}
+      FRONTEND_TAG: ${{env.FRONTEND_TAG}}
+      NODE_ENV: ${{env.NODE_ENV}}
 
     steps:
       - name: First Interpolation of Variables
         id: first
         run: |
-          echo "::set-output name=CLOUDRUN_REGION::${{env.REGISTRY_REGION}}"
-          echo "::set-output name=DOCKER_REGISTRY::${{env.REGISTRY_REGION}}-docker.pkg.dev"
+          echo "CLOUDRUN_REGION=${{env.REGISTRY_REGION}}" > $GITHUB_ENV
+          echo "DOCKER_REGISTRY=${{env.REGISTRY_REGION}}-docker.pkg.dev" > $GITHUB_ENV
           if [[ ${{github.ref_name}} == 'master' ]]; then
-              echo ::set-output name=NODE_ENV::production
-              echo ::set-output name=HASURA_HOST::api.metagame.wtf
-              echo ::set-output name=FRONTEND_URL::https://metagame.wtf
+              echo "NODE_ENV=production" > $GITHUB_ENV
+              echo "HASURA_HOST=api.metagame.wtf" > $GITHUB_ENV
+              echo "FRONTEND_URL=https://metagame.wtf" > $GITHUB_ENV
           else
-              echo ::set-output name=NODE_ENV::test
-              echo ::set-output name=HASURA_HOST::api-staging.metagame.wtf
-              echo ::set-output name=FRONTEND_URL::https://test.metagame.wtf
+              echo "NODE_ENV=test" > $GITHUB_ENV
+              echo "HASURA_HOST=api-staging.metagame.wtf" > $GITHUB_ENV
+              echo "FRONTEND_URL=https://test.metagame.wtf" > $GITHUB_ENV
           fi
       - name: Those Variables May Now Be Interpolated
         id: second
         run: |
-          echo "::set-output name=DOCKER_PATH::\
-          ${{steps.first.outputs.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}"
-          echo "::set-output name=GRAPHQL_URL::\
-          https://${{steps.first.outputs.HASURA_HOST}}/v1/graphql"
+          echo "DOCKER_PATH=\
+          ${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}" > $GITHUB_ENV
+          echo "GRAPHQL_URL=\
+          https://${{env.HASURA_HOST}}/v1/graphql" > $GITHUB_ENV
 
       - name: And That Result Again In Another Step
         id: third
         run: |
-          echo "::set-output name=FRONTEND_TAG::\
-          ${{steps.second.outputs.DOCKER_PATH}}/frontend:${{github.ref_name}}"
+          echo "FRONTEND_TAG=\
+          ${{env.DOCKER_PATH}}/frontend:${{github.ref_name}}" > $GITHUB_ENV
 
   build-frontend:
     name: Build Frontend Container Image
