@@ -14,7 +14,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { useMounted, useProfileField, useUser, useWeb3 } from 'lib/hooks';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
@@ -23,15 +23,21 @@ import { XPSeedsBalance } from './XPSeedsBalance';
 // Display player XP and Seed
 export const MegaMenuFooter = () => {
   const [linkURL, setLinkURL] = useState<string>();
+  const [name, setName] = useState('');
 
   const { connecting, connected, connect, disconnect } = useWeb3();
   const { fetching, user } = useUser();
   const mounted = useMounted();
-  const { name } = useProfileField({
-    field: 'name',
-    player: user,
-    getter: getPlayerName,
-  });
+
+  useEffect(() => {
+    const getPlayer = async () => {
+      const url = await getPlayerURL(user);
+      const playername = await getPlayerName(user);
+      setLinkURL(url);
+      setName(playername);
+    };
+    getPlayer();
+  }, [user]);
 
   useEffect(() => {
     const getPlayer = async () => {

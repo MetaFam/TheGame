@@ -6,6 +6,7 @@ import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
+
 import { getENSForAddress } from './ensHelpers';
 import { optimizedImage } from './imageHelpers';
 
@@ -45,11 +46,10 @@ export const getGuildCoverImageFull = (): string => GuildCoverImageFull.src;
 
 export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall.src;
 
-export const getPlayerName = (
-  player?: Maybe<Player | GuildPlayer>,
-): string | undefined =>
+export const getPlayerName = async (player?: Maybe<Player | GuildPlayer>) =>
   player?.profile?.name ||
   formatIfAddress(player?.profile?.username ?? undefined) ||
+  (await getENSForAddress(player?.ethereumAddress)) ||
   formatAddress(player?.ethereumAddress);
 
 export const getPlayerUsername = (player?: Maybe<Player>): string | undefined =>

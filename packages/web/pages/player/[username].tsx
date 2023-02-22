@@ -39,13 +39,15 @@ import {
 
 type Props = {
   player: Player;
+  ens?: string;
 };
 
 export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
   const { user } = useUser();
-  const [userENS, setENS] = useState(ens);
+  const [userENS, setENS] = useState('');
   const [linkURL, setLinkURL] = useState<string>();
+  const [header, setHeader] = useState('');
   const [playerData, setPlayerData] = useState<Player>(player);
 
   const username = router.query.username as string;
@@ -88,6 +90,8 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         setPlayerData(userPlayer as Player);
         setENS(name || '');
       }
+      const head = await getPlayerName(playerData);
+      setHeader(head);
     };
     const getURL = async () => {
       const url = await getPlayerURL(playerData);
@@ -134,7 +138,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         : {})}
     >
       <HeadComponent
-        title={`MetaGame Profile: ${getPlayerName(playerData)}`}
+        title={`MetaGame Profile: ${header}`}
         description={(getPlayerDescription(playerData) ?? '').replace(
           '\n',
           ' ',
@@ -178,7 +182,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
 export default PlayerPage;
 
-export const Grid: React.FC<Props> = ({ player }): ReactElement => {
+export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
   const { user, fetching } = useUser();
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
@@ -221,6 +225,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         allBoxOptions: ALL_BOXES,
         displayComponent: PlayerSection,
         pt: isOwnProfile ? 0 : '4rem',
+        ens,
       }}
     />
   );
@@ -270,4 +275,3 @@ export const getStaticProps = async (
     revalidate: 1,
   };
 };
-

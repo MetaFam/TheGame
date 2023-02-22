@@ -38,13 +38,14 @@ const MAX_BIO_LENGTH = 240;
 type HeroProps = {
   player: Player;
   editing?: boolean;
+  ens?: string;
 };
 type DisplayComponentProps = {
   player?: Maybe<Player>;
   Wrapper?: React.FC;
 };
 
-export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
+export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
   const { user } = useUser();
 
   const isOwnProfile = user ? user.id === player?.id : null;
@@ -88,7 +89,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       </Flex>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
-          <Name {...{ player }} />
+          <Name {...{ player, ens }} />
         </Box>
 
         <Description {...{ player }} />
@@ -232,16 +233,17 @@ const Description: React.FC<DisplayComponentProps> = ({
 
 const Name: React.FC<DisplayComponentProps> = ({
   player,
-  ens,
   Wrapper = React.Fragment,
 }) => {
-  const { name } = useProfileField({
-    field: 'name',
-    player,
-    getter: getPlayerName,
-  });
+  const [playerName, setPlayerName] = useState<string>('');
 
-  if (!name) return <></>;
+  useEffect(() => {
+    const getPlayer = async () => {
+      const name = await getPlayerName(player);
+      setPlayerName(name);
+    };
+    getPlayer();
+  }, [player]);
 
   return (
     <Wrapper>
@@ -252,9 +254,9 @@ const Name: React.FC<DisplayComponentProps> = ({
         textOverflow="ellipsis"
         whiteSpace="nowrap"
         overflowX="hidden"
-        title={name.includes('…') ? ens : name}
+        title={playerName}
       >
-        {name.includes('…') ? ens : name}
+        {playerName}
       </Text>
     </Wrapper>
   );

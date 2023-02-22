@@ -60,6 +60,7 @@ type Props = {
   persistLayoutData: (layoutData: LayoutData) => Promise<void>;
   showEditButton: boolean;
   allBoxOptions: BoxType[];
+  ens?: string;
   displayComponent: (props: {
     ref?: (e: Maybe<HTMLElement>) => void;
     editing?: boolean;
@@ -81,6 +82,7 @@ export const EditableGridLayout: React.FC<Props> = ({
   persistLayoutData,
   allBoxOptions,
   displayComponent: DisplaySection,
+  ens,
   ...props
 }): ReactElement => {
   const [saving, setSaving] = useState(false);
@@ -341,6 +343,7 @@ export const EditableGridLayout: React.FC<Props> = ({
                     guild,
                     editing,
                     onRemoveBox,
+                    ens,
                   }}
                   ref={(e: Maybe<HTMLElement>) => {
                     itemsRef.current[i] = e;
