@@ -35,7 +35,7 @@ ARG THE_GRAPH_API_TOKEN=unspecified
 
 ENV GRAPHQL_URL $GRAPHQL_URL
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
-ENV CERAMIC_URL https://ceramic.metagame.wtf
+ENV CERAMIC_URL https://ceramic-testnet.metagame.wtf
 ENV THE_GRAPH_API_TOKEN $THE_GRAPH_API_TOKEN
 
 # Build

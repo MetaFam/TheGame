@@ -1,7 +1,7 @@
 type Profile
   @createModel(
     accountRelation: SINGLE
-    description: "A model containing fields reprenting user profile-related data, such as name, bio, avatar image, personality type, and much more. Created by MetaGame"
+    description: "A model containing fields reprenting user profile-related data, such as name, bio, avatar image, personality type, and much more. Created by MetaFam for MetaGame"
   ) {
   availabilityHoursPerWeek: Int @int(min: 0, max: 168)
   avatar: ImageMetadata
@@ -25,6 +25,7 @@ type Profile
 type ImageMetadata {
   url: String! @string(maxLength: 420)
   mimeType: String! @string(maxLength: 50)
+  # in bytes
   size: Int @int(min: 0)
 
   # Dimensions for raster images
