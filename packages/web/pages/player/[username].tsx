@@ -48,17 +48,23 @@ import {
   getPlayerImage,
 } from 'utils/playerHelpers';
 
-type Props = {
+export type PlayerPageProps = {
   player: Player;
-  ens?: string;
+  isHydratedFromComposeDB?: boolean;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+export const PlayerPage: React.FC<PlayerPageProps> = ({
+  player,
+  isHydratedFromComposeDB = false,
+}): ReactElement => {
   if (!player) return <Page404 />;
 
   return (
     <ComposeDBContextProvider>
-      <PlayerHydrationContextProvider player={player}>
+      <PlayerHydrationContextProvider
+        player={player}
+        isHydratedAlready={isHydratedFromComposeDB}
+      >
         <PlayerPageContent />
       </PlayerHydrationContextProvider>
     </ComposeDBContextProvider>
@@ -318,6 +324,7 @@ export const getStaticProps = async (
     });
     const query = buildPlayerProfileQuery(player.ceramicProfileId);
     const response = await composeDBClient.executeQuery(query);
+
     if (response.errors) {
       console.error(`Could not hydrate player ${username} from composeDB`);
       console.error(response.errors);
@@ -332,6 +339,7 @@ export const getStaticProps = async (
   return {
     props: {
       player: hydratedPlayer ?? player ?? null, // must be serializable
+      isHydratedFromComposeDB: hydratedPlayer != null,
       key: username.toLowerCase(),
       hideTopMenu: false,
     },
