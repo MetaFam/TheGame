@@ -1,6 +1,8 @@
 export const CONFIG = {
   environment: process.env.NODE_ENV || 'development',
   graphqlURL: (() => {
+    // According to next.js, destructuring process.env doesn't work,
+    // so capture the variables individually
     const url = process.env.NEXT_PUBLIC_GRAPHQL_URL;
     const host = process.env.NEXT_PUBLIC_GRAPHQL_HOST;
     if (url) return url;
