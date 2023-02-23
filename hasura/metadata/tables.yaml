@@ -481,6 +481,9 @@
       total_xp: totalXP
       profile_layout: profileLayout
   object_relationships:
+  - name: PlayerRank
+    using:
+      foreign_key_constraint_on: rank
   - name: profile
     using:
       manual_configuration:
@@ -504,6 +507,13 @@
         table:
           schema: public
           name: dao_player
+  - name: guild_metadata
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          schema: public
+          name: guild_metadata
   - name: guilds
     using:
       foreign_key_constraint_on:

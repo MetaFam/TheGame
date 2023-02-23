@@ -288,7 +288,13 @@ async function startSeeding() {
   const updated = await Promise.all(mutations.map(
     ({ ethereumAddress, count, variables }) => {
       console.debug(`${count.toString().padStart(3, '0')}: Updating ${ethereumAddress} ("${variables.username}")`);
-      return limiter.schedule(() => upsertPlayer(variables))
+      return limiter.schedule(
+        () => upsertPlayer(variables).catch((error) => {
+          console.debug(`Reinserting player ${variables.username}`)
+          variables.username = null
+          upsertPlayer(variables)
+        })
+      )
     }
   ));
   console.debug(`Successfully seeded db with ${updated.length} players`);
