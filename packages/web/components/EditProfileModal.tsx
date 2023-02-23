@@ -47,6 +47,7 @@ import React, {
   ReactElement,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -76,8 +77,16 @@ type EditProfileFields = {
   emoji?: Maybe<string>;
 };
 
-const getDefaultFormValues = (player: Player): EditProfileFields =>
-  player.profile ?? ({} as EditProfileFields);
+const getDefaultFormValues = (player: Player): EditProfileFields => {
+  if (!player.profile) {
+    return {} as EditProfileFields;
+  }
+  return Object.fromEntries(
+    Object.entries(player.profile).filter(([key]) =>
+      Object.keys(profileMapping).includes(key),
+    ),
+  );
+};
 
 export type EditProfileModalProps = {
   player: Player;
@@ -100,17 +109,21 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
   const { save } = useSaveToComposeDB();
 
+  const initialFormValues = useMemo(
+    () => getDefaultFormValues(player),
+    [player],
+  );
+
   const formMethods = useForm({
-    defaultValues: getDefaultFormValues(player),
+    defaultValues: initialFormValues,
   });
   const {
     handleSubmit,
     register,
-    getValues,
     setValue,
     control,
     reset,
-    formState: { errors, dirtyFields },
+    formState: { errors, dirtyFields, isDirty },
   } = formMethods;
   const { chainId } = useWeb3();
   const toast = useToast();
@@ -123,10 +136,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   >({});
 
   const resetData = useCallback(() => {
-    reset(getDefaultFormValues(player));
+    reset(initialFormValues);
     setPickedFiles({});
     setPickedFileDataURLs({});
-  }, [player, reset]);
+  }, [initialFormValues, reset]);
 
   useEffect(resetData, [resetData]);
 
@@ -148,12 +161,17 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
   const onSubmit = async (inputs: EditProfileFields) => {
     try {
+      if (!isDirty) {
+        setStatus('No changes detected. Skipping save…');
+        setTimeout(() => onClose, 500);
+        return null;
+      }
+
       const formData = new FormData();
 
       const changedInputs = Object.fromEntries(
         Object.entries(inputs).filter(
-          ([key, value]) =>
-            value != null &&
+          ([key]) =>
             dirtyFields[key as keyof EditProfileFields] &&
             !isHasuraImageField(key),
         ),
@@ -176,30 +194,39 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         });
         const response = await uploadFiles(formData);
 
-        Object.entries(pickedFileDataURLs).forEach(([key, val]) => {
-          const tKey = toType(key);
-          if (!response[tKey]) {
-            toast({
-              title: 'Error Saving Image',
-              description: `Uploaded "${tKey}" & didn't get a response back.`,
-              status: 'warning',
-              isClosable: true,
-              duration: 8000,
-            });
-          } else {
-            setStatus('Calculating image metadata…');
-            const mime = getMimeType(val);
-            const file = pickedFiles[key as HasuraImageFieldKey];
-            const imageProps = getImageDimensions(file);
+        Promise.all(
+          Object.entries(pickedFileDataURLs).map(async ([key, val]) => {
+            const tKey = toType(key);
+            if (!response[tKey]) {
+              toast({
+                title: 'Error Saving Image',
+                description: `Uploaded "${tKey}" & didn't get a response back.`,
+                status: 'warning',
+                isClosable: true,
+                duration: 8000,
+              });
+            } else {
+              setStatus('Calculating image metadata…');
+              const mime = getMimeType(val);
+              const file = pickedFiles[key as HasuraImageFieldKey];
 
-            const composeDBKey = profileMapping[key as HasuraImageFieldKey];
-            profile[composeDBKey] = {
-              url: `ipfs://${response[tKey]}`,
-              mimeType: mime,
-              ...imageProps,
-            } as ComposeDBImageMetadata;
-          }
-        });
+              const imageMetadata = {
+                url: `ipfs://${response[tKey]}`,
+                mimeType: mime,
+                size: file?.size,
+              } as ComposeDBImageMetadata;
+
+              const { width, height } = await getImageDimensions(val);
+              if (width && height) {
+                imageMetadata.width = width;
+                imageMetadata.height = height;
+              }
+
+              const composeDBKey = profileMapping[key as HasuraImageFieldKey];
+              profile[composeDBKey] = imageMetadata;
+            }
+          }),
+        );
       }
 
       if (debug) {
@@ -207,7 +234,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       }
       setStatus('Saving to Ceramic…');
 
-      // await saveToCeramic({ values, images });
       const ceramicStreamID = await save(profile);
 
       // if they changed their username, the page will 404 on reload
@@ -266,7 +292,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditAvatarImage
                   ref={imageFieldRefs.profileImageURL}
-                  initialURL={getValues('profileImageURL')}
+                  initialURL={initialFormValues.profileImageURL}
                   onFilePicked={({ file, dataURL }) => {
                     setPickedFiles({ ...pickedFiles, profileImageURL: file });
                     setPickedFileDataURLs({
@@ -280,7 +306,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 <EditBackgroundImage
                   player={player}
                   ref={imageFieldRefs.profileBackgroundURL}
-                  initialURL={getValues('backgroundImageURL')}
+                  initialURL={initialFormValues.backgroundImageURL}
                   onFilePicked={({ file, dataURL }) => {
                     setPickedFiles({
                       ...pickedFiles,

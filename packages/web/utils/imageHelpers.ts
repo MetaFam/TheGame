@@ -1,4 +1,4 @@
-import { imageLink, Maybe } from '@metafam/utils';
+import { ComposeDBImageMetadata, imageLink, Maybe } from '@metafam/utils';
 
 export const optimizedImage = (key: string, url?: Maybe<string>, opts = {}) => {
   switch (key) {
@@ -19,26 +19,49 @@ export const optimizedImage = (key: string, url?: Maybe<string>, opts = {}) => {
 export type ImageDimensions = {
   width?: number;
   height?: number;
-  dataURL?: string;
 };
 
 export const getImageDimensions = (
-  imageFile?: File,
+  imageURL?: string,
 ): Promise<ImageDimensions> =>
   new Promise((resolve, reject) => {
-    if (imageFile) {
+    if (imageURL) {
       const img = new Image();
-      const imgURL = URL.createObjectURL(imageFile);
-      img.src = imgURL;
       img.onload = () => {
         resolve({
-          width: img.width,
-          height: img.height,
-          dataURL: imgURL,
+          width: img.naturalWidth,
+          height: img.naturalHeight,
         } as ImageDimensions);
       };
       img.onerror = reject;
+
+      img.src = imageURL;
     } else {
       resolve({});
     }
   });
+
+export const computeImageMetadata = async (
+  httpURL: string,
+  ipfsURL: string,
+) => {
+  const response = await fetch(httpURL, { method: 'HEAD' });
+  const mimeType = response.headers.get('Content-Type');
+  const metadata = {
+    url: ipfsURL,
+    mimeType: mimeType ?? 'image/*',
+  } as ComposeDBImageMetadata;
+  const size = response.headers.get('Content-Length');
+  if (size) {
+    const sizeNumber = parseInt(size, 10);
+    if (Number.isInteger(sizeNumber)) {
+      metadata.size = sizeNumber;
+    }
+  }
+  const { width, height } = await getImageDimensions(httpURL);
+  if (width && height) {
+    metadata.width = width;
+    metadata.height = height;
+  }
+  return metadata;
+};
