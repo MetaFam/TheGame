@@ -63,7 +63,7 @@ import { Label } from './Player/Profile/Label';
 
 type EditProfileFields = {
   profileImageURL?: Maybe<string>;
-  profileBackgroundURL?: Maybe<string>;
+  backgroundImageURL?: Maybe<string>;
   description?: Maybe<string>;
   username?: Maybe<string>;
   name?: Maybe<string>;
@@ -279,7 +279,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 <EditBackgroundImage
                   player={player}
                   ref={imageFieldRefs.profileBackgroundURL}
-                  initialURL={getValues('profileBackgroundURL')}
+                  initialURL={getValues('backgroundImageURL')}
                   onFilePicked={({ file, dataURL }) => {
                     setPickedFiles({
                       ...pickedFiles,
