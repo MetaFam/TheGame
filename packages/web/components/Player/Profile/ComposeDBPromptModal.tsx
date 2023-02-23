@@ -13,7 +13,6 @@ import {
 import {
   ComposeDBImageMetadata,
   ComposeDBProfile,
-  HasuraImageFieldKey,
   Maybe,
 } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
@@ -21,8 +20,9 @@ import { Player } from 'graphql/autogen/types';
 import { CeramicError } from 'lib/errors';
 import { hasuraToComposeDBProfile } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
+import { computeImageMetadata } from 'utils/imageHelpers';
 import { getPlayerBackgroundFull, getPlayerImage } from 'utils/playerHelpers';
 
 export type ComposeDBPromptModalProps = {
@@ -32,7 +32,7 @@ export type ComposeDBPromptModalProps = {
   handleMigrationCompleted: (streamID: string) => void;
 };
 
-const initialStatus = 'Port your profile data';
+const initialStatus = 'Loading profile image data…';
 
 export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
   player,
@@ -42,12 +42,11 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
 }) => {
   const toast = useToast();
   const [status, setStatus] = useState(initialStatus);
-  const [imageMetadata, setImageMetadata] = useState<
-    Record<HasuraImageFieldKey, Maybe<ComposeDBImageMetadata>>
-  >({
-    profileImageURL: null,
-    backgroundImageURL: null,
-  });
+
+  const [profileImageMetadata, setProfileImageMetadata] =
+    useState<Maybe<ComposeDBImageMetadata>>(null);
+  const [backgroundImageMetadata, setBackgroundImageMetadata] =
+    useState<Maybe<ComposeDBImageMetadata>>(null);
 
   const { save: saveToComposeDB, status: saveStatus } = useSaveToComposeDB();
 
@@ -65,42 +64,50 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
     }
   }, [saveStatus]);
 
-  // build image metadata from the profile fields. There should be code existing
-  // to do a lot of this
+  // compute image metadata from the profile fields
   useEffect(() => {
-    const getImageMetadata = async (key: HasuraImageFieldKey, url: string) => {
-      const response = await fetch(url, { method: 'HEAD' });
-      const mimeType = response.headers.get('Content-Type');
-      setImageMetadata({
-        ...imageMetadata,
-        [key]: {
-          url,
-          mimeType: mimeType ?? 'image/*',
-        },
-      });
-    };
     if (player.profile?.profileImageURL) {
       const url = getPlayerImage(player);
-      getImageMetadata('profileImageURL', url);
-      // todo populate the optional fields as well: size, width, height etc
+      computeImageMetadata(url, player.profile.profileImageURL).then(
+        (metadata) => {
+          setProfileImageMetadata(metadata);
+        },
+      );
     }
     if (player.profile?.backgroundImageURL) {
       const url = getPlayerBackgroundFull(player);
-      getImageMetadata('backgroundImageURL', url);
+      computeImageMetadata(url, player.profile.backgroundImageURL).then(
+        (metadata) => {
+          setBackgroundImageMetadata(metadata);
+        },
+      );
     }
-  }, [imageMetadata, player]);
+  }, [player]);
+
+  const areImagesLoaded = useMemo(() => {
+    const isAvatarLoaded =
+      player.profile?.profileImageURL == null || profileImageMetadata != null;
+    const isBackgroundLoaded =
+      player.profile?.backgroundImageURL == null ||
+      backgroundImageMetadata != null;
+    return isAvatarLoaded && isBackgroundLoaded;
+  }, [backgroundImageMetadata, player.profile, profileImageMetadata]);
+
+  useEffect(() => {
+    if (areImagesLoaded) {
+      setStatus('Port your profile data');
+    }
+  }, [areImagesLoaded]);
 
   const onClick = useCallback(async () => {
     if (!player.profile) {
       return;
     }
     try {
-      setStatus('Loading profile image data…');
-
-      const composeDBPayload = hasuraToComposeDBProfile(
-        player.profile,
-        imageMetadata,
-      );
+      const composeDBPayload = hasuraToComposeDBProfile(player.profile, {
+        profileImageURL: profileImageMetadata,
+        backgroundImageURL: backgroundImageMetadata,
+      });
 
       const streamID = await persist(composeDBPayload);
 
@@ -126,11 +133,12 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
       setStatus(initialStatus);
     }
   }, [
+    backgroundImageMetadata,
     handleMigrationCompleted,
-    imageMetadata,
     onClose,
     persist,
     player.profile,
+    profileImageMetadata,
     toast,
   ]);
 
@@ -156,7 +164,9 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
             </Box>
             {/* <Box>What is this?</Box> */}
             <Box mt={10}>
-              <MetaButton onClick={onClick}>{status}</MetaButton>
+              <MetaButton disabled={!areImagesLoaded} onClick={onClick}>
+                {status}
+              </MetaButton>
             </Box>
           </Center>
         </ModalBody>

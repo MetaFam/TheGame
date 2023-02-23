@@ -86,7 +86,7 @@ export function usePlayerSetupSaveToComposeDB({
             const imageMetadata = avatarFieldValue as ComposeDBImageMetadata;
             imageMetadata.url = `ipfs://${ipfsHash}`;
             imageMetadata.mimeType = getMimeType(dataURL);
-            const { width, height } = await getImageDimensions(file);
+            const { width, height } = await getImageDimensions(dataURL);
             if (width && height) {
               imageMetadata.width = width;
               imageMetadata.height = height;
