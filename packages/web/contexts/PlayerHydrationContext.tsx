@@ -8,6 +8,7 @@ import {
   PropsWithChildren,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -31,11 +32,12 @@ export const PlayerHydrationContext = createContext<PlayerHydrationContextType>(
 
 type PlayerHydrationContextProviderOptions = PropsWithChildren<{
   player: Player;
+  isHydratedAlready?: boolean;
 }>;
 
 export const PlayerHydrationContextProvider: React.FC<
   PlayerHydrationContextProviderOptions
-> = ({ player, children }) => {
+> = ({ player, isHydratedAlready = false, children }) => {
   const { composeDBClient } = useComposeDB();
 
   const [hydrating, setHydrating] = useState(false);
@@ -77,6 +79,12 @@ export const PlayerHydrationContextProvider: React.FC<
     }
     setHydrating(false);
   }, [player]);
+
+  useEffect(() => {
+    if (!isHydratedAlready && player.ceramicProfileId) {
+      hydrateFromComposeDB(player.ceramicProfileId);
+    }
+  }, [hydrateFromComposeDB, isHydratedAlready, player.ceramicProfileId]);
 
   return (
     <PlayerHydrationContext.Provider
