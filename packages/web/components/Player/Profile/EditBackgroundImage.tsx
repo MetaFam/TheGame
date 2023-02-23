@@ -1,9 +1,7 @@
 import {
   Center,
-  CloseIcon,
   FormControl,
   FormErrorMessage,
-  IconButton,
   Image,
   InfoIcon,
   Input,
@@ -59,9 +57,7 @@ export const EditBackgroundImage = forwardRef<
   } = useFormContext();
 
   const onFileChange = useCallback(
-    async ({ target: input }: { target: HTMLInputElement }) => {
-      const file = input.files?.[0];
-      if (!file) return;
+    async (file: File) => {
       if (file.size === 0) {
         toast({
           title: 'Empty Image Error',
@@ -85,11 +81,11 @@ export const EditBackgroundImage = forwardRef<
     [onFilePicked, readFile, toast],
   );
 
-  const onFileRemove = useCallback(() => {
-    setURL(undefined);
-    setLoading(true);
-    setActive(false);
-  }, []);
+  // const onFileRemove = useCallback(() => {
+  //   setURL(undefined);
+  //   setLoading(true);
+  //   setActive(false);
+  // }, []);
 
   return (
     <FormControl isInvalid={!!errors.backgroundImageURL} h="full">
@@ -140,8 +136,11 @@ export const EditBackgroundImage = forwardRef<
                 {...props}
                 value={value?.filename}
                 onChange={async (evt: ChangeEvent<HTMLInputElement>) => {
-                  onChange(evt.target.files);
-                  onFileChange(evt);
+                  const file = evt.target.files?.[0];
+                  if (file) {
+                    onChange(file);
+                    onFileChange(file);
+                  }
                 }}
                 maxW="100%"
                 minH="100%"
@@ -155,6 +154,8 @@ export const EditBackgroundImage = forwardRef<
                 onFocus={() => setActive(true)}
                 onBlur={() => setActive(false)}
               />
+              {/* 
+              Disabled until we figure out a good way to clear
               {url && !loading && (
                 <IconButton
                   zIndex="10"
@@ -168,13 +169,13 @@ export const EditBackgroundImage = forwardRef<
                   _hover={{ bg: 'purple.500' }}
                   icon={<CloseIcon boxSize="0.5rem" />}
                   onClick={() => {
-                    onChange([]);
+                    onChange(null);
                     onFileRemove();
                   }}
                   onFocus={() => setActive(true)}
                   onBlur={() => setActive(false)}
                 />
-              )}
+              )} */}
             </>
           )}
         />
