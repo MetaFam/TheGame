@@ -1,4 +1,4 @@
-name: Deploy ComposeDB to Cloud Run
+name: Deploy Preview to Cloud Run
 
 on:
   workflow_dispatch:
@@ -14,15 +14,12 @@ on:
       - synchronize
 
 env:
-  # This controls whether the Next.js runs in development or
-  # production mode. For debugging test instance only bugs.
-  FRONTEND_TARGET: production # development
   PROJECT_ID: metagame-thegame
   REGISTRY_REGION: us-east4
   REGISTRY_REPO: thegame
   DEPLOYMENT_DOMAIN: a.run.app
   CLOUDRUN_SUFFIX: mjhnbmqqna-uk
-  DEPLOYMENT_NAME: Test-PR-${{github.event.number}}
+  DEPLOYMENT_ENV: Test-PR-${{github.event.number}}
   DB_NAME: hasura-pr-${{github.event.number}}
   BACKEND_SERVICE: backend-pr-${{github.event.number}}
   FRONTEND_SERVICE: frontend-pr-${{github.event.number}}
@@ -48,7 +45,7 @@ jobs:
         with:
           step: start
           token: ${{github.token}}
-          env: ${{env.DEPLOYMENT_NAME}}
+          env: ${{env.DEPLOYMENT_ENV}}
           desc: "Test instance deployment for PR #${{github.event.number}} of ${{github.event.pull_request.head.label}} by ${{github.event.pull_request.user.login}}"
           ref: ${{github.head_ref}}
           auto_inactive: false
@@ -67,8 +64,10 @@ jobs:
   env:
     name: Environment Variables
     runs-on: ubuntu-latest
+    needs: [cancel-previous]
 
     outputs:
+      APP_ENV: ${{env.APP_ENV}}
       PROJECT_ID: ${{env.PROJECT_ID}}
       REGISTRY_REGION: ${{env.REGISTRY_REGION}}
       REGISTRY_REPO: ${{env.REGISTRY_REPO}}
@@ -81,62 +80,62 @@ jobs:
       HASURA_PORT: ${{env.HASURA_PORT}}
       FRONTEND_PORT: ${{env.FRONTEND_PORT}}
       HASURA_SECRET: ${{env.HASURA_SECRET}}
-      CLOUDRUN_REGION: ${{env.CLOUDRUN_REGION}}
-      CLOUDSQL_INSTANCE_NAME: ${{env.CLOUDSQL_INSTANCE_NAME}}
-      CLOUDSQL_CONNECTION_NAME: ${{env.CLOUDSQL_CONNECTION_NAME}}
-      HASURA_SERVICE: ${{env.HASURA_SERVICE}}
-      DOCKER_REGISTRY: ${{env.DOCKER_REGISTRY}}
-      BACKEND_HOST: ${{env.BACKEND_HOST}}
-      FRONTEND_URL: ${{env.FRONTEND_URL}}
-      DB_PASSWORD: ${{env.DB_PASSWORD}}
-      HASURA_HOST: ${{env.HASURA_HOST}}
-      DOCKER_PATH: ${{env.DOCKER_PATH}}
-      SC_SYNC_URL: ${{env.SC_SYNC_URL}}
-      DB_HOST: ${{env.DB_HOST}}
-      GRAPHQL_URL: ${{env.GRAPHQL_URL}}
-      BACKEND_TAG: ${{env.BACKEND_TAG}}
-      HASURA_TAG: ${{env.HASURA_TAG}}
-      FRONTEND_TAG: ${{env.FRONTEND_TAG}}
+      CLOUDRUN_REGION: ${{steps.first.outputs.CLOUDRUN_REGION}}
+      CLOUDSQL_INSTANCE_NAME: ${{steps.first.outputs.CLOUDSQL_INSTANCE_NAME}}
+      CLOUDSQL_CONNECTION_NAME: ${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}
+      HASURA_SERVICE: ${{steps.first.outputs.HASURA_SERVICE}}
+      DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
+      BACKEND_HOST: ${{steps.first.outputs.BACKEND_HOST}}
+      FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
+      DB_PASSWORD: ${{steps.first.outputs.DB_PASSWORD}}
+      HASURA_HOST: ${{steps.second.outputs.HASURA_HOST}}
+      DOCKER_PATH: ${{steps.second.outputs.DOCKER_PATH}}
+      SC_MIGRATE_URL: ${{steps.second.outputs.SC_MIGRATE_URL}}
+      DB_HOST: ${{steps.second.outputs.DB_HOST}}
+      GRAPHQL_URL: ${{steps.third.outputs.GRAPHQL_URL}}
+      BACKEND_TAG: ${{steps.third.outputs.BACKEND_TAG}}
+      HASURA_TAG: ${{steps.third.outputs.HASURA_TAG}}
+      FRONTEND_TAG: ${{steps.third.outputs.FRONTEND_TAG}}
 
     steps:
-      - name: First Interpolation of Variables
+      - name: First Intepolation of Variables
         id: first
         run: |
-          echo "CLOUDRUN_REGION=${{env.REGISTRY_REGION}}" >> $GITHUB_ENV
-          echo "CLOUDSQL_INSTANCE_NAME=${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
-          echo "CLOUDSQL_CONNECTION_NAME=\
-          ${{env.PROJECT_ID}}:${{env.REGISTRY_REGION}}:${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
-          echo "HASURA_SERVICE=${{env.DB_NAME}}" >> $GITHUB_ENV
-          echo "DOCKER_REGISTRY=${{env.REGISTRY_REGION}}-docker.pkg.dev" >> $GITHUB_ENV
-          echo "BACKEND_HOST=\
-          ${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
-          echo "FRONTEND_URL=\
-          https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=$(head -c 48 /dev/urandom | tr -cd [:alnum:])" >> $GITHUB_ENV
+          echo "::set-output name=CLOUDRUN_REGION::${{env.REGISTRY_REGION}}"
+          echo "::set-output name=CLOUDSQL_INSTANCE_NAME::${{env.REGISTRY_REPO}}"
+          echo "::set-output name=CLOUDSQL_CONNECTION_NAME::\
+          ${{env.PROJECT_ID}}:${{env.REGISTRY_REGION}}:${{env.REGISTRY_REPO}}"
+          echo "::set-output name=HASURA_SERVICE::${{env.DB_NAME}}"
+          echo "::set-output name=DOCKER_REGISTRY::${{env.REGISTRY_REGION}}-docker.pkg.dev"
+          echo "::set-output name=BACKEND_HOST::\
+          ${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
+          echo "::set-output name=FRONTEND_URL::\
+          https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
+          echo "::set-output name=DB_PASSWORD::$(head -c 48 /dev/urandom | tr -cd [:alnum:])"
 
       - name: Those Variables May Now Be Interpolated
         id: second
         run: |
-          echo "HASURA_HOST=\
-          ${{env.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
-          echo "DOCKER_PATH=\
-          ${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
-          echo "SC_SYNC_URL=\
-          https://${{env.BACKEND_HOST}}/actions/syncSourceCredAccounts?force=true" >> $GITHUB_ENV
-          echo "DB_HOST=\
-          /${{env.DB_NAME}}?host=/cloudsql/${{env.CLOUDSQL_CONNECTION_NAME}}" >> $GITHUB_ENV
+          echo "::set-output name=HASURA_HOST::\
+          ${{steps.first.outputs.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
+          echo "::set-output name=DOCKER_PATH::\
+          ${{steps.first.outputs.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}"
+          echo "::set-output name=SC_MIGRATE_URL::\
+          https://${{steps.first.outputs.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true"
+          echo "::set-output name=DB_HOST::\
+          /${{env.DB_NAME}}?host=/cloudsql/${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}"
 
       - name: And That Result Again In Another Step
         id: third
         run: |
-          echo "GRAPHQL_URL=\
-          https://${{env.HASURA_HOST}}/v1/graphql" >> $GITHUB_ENV
-          echo "BACKEND_TAG=\
-          ${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
-          echo "HASURA_TAG=\
-          ${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
-          echo "FRONTEND_TAG=\
-          ${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
+          echo "::set-output name=GRAPHQL_URL::\
+          https://${{steps.second.outputs.HASURA_HOST}}/v1/graphql"
+          echo "::set-output name=BACKEND_TAG::\
+          ${{steps.second.outputs.DOCKER_PATH}}/backend:pr-${{github.event.number}}"
+          echo "::set-output name=HASURA_TAG::\
+          ${{steps.second.outputs.DOCKER_PATH}}/hasura:pr-${{github.event.number}}"
+          echo "::set-output name=FRONTEND_TAG::\
+          ${{steps.second.outputs.DOCKER_PATH}}/frontend:pr-${{github.event.number}}"
 
   delete-db:
     name: Delete SQL User & Database
@@ -241,16 +240,22 @@ jobs:
   build-backend:
     name: Build Backend Container Image
     runs-on: ubuntu-latest
-    needs: [env]
+    needs: [env, delete-backend, undeploy-backend]
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: "Build Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
+        uses: mattes/cached-docker-build-action@v1
+        with:
+          args: |
+            . -f docker/backend/Dockerfile \
+              --tag ${{needs.env.outputs.BACKEND_TAG}} \
+              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
+          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/backend/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -259,20 +264,13 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Build & Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
-        uses: docker/build-push-action@v4
-        with:
-          file: docker/backend/Dockerfile
-          tags: ${{needs.env.outputs.BACKEND_TAG}}
-          build-args: |
-            GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-            THE_GRAPH_API_TOKEN=${{secrets.THE_GRAPH_API_TOKEN}}
-          push: true
+      - name: "Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
+        run: docker push ${{needs.env.outputs.BACKEND_TAG}}
 
   deploy-backend:
     name: Deploy Backend
     runs-on: ubuntu-latest
-    needs: [env, build-backend]
+    needs: [env, create-db, build-backend]
 
     steps:
       - name: Set Up gcloud CLI
@@ -298,7 +296,6 @@ jobs:
             --set-env-vars SOURCECRED_LEDGER_BRANCH=master \
             --set-env-vars GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
             --set-env-vars DISCORD_BOT_TOKEN=${{secrets.DISCORD_BOT_TOKEN}} \
-            --set-env-vars THE_GRAPH_API_TOKEN=${{secrets.THE_GRAPH_API_TOKEN}}
             --set-env-vars CERAMIC_URL=https://ceramic-testnet.metagame.wtf
 
   undeploy-hasura:
@@ -347,16 +344,23 @@ jobs:
   build-hasura:
     name: Build Hasura Container Image
     runs-on: ubuntu-latest
-    needs: [env]
+    needs: [env, delete-hasura, undeploy-hasura]
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: "Build Container Image: ${{needs.env.outputs.HASURA_TAG}}"
+        uses: mattes/cached-docker-build-action@v1
+        with:
+          args: |
+            ./hasura -f hasura/Dockerfile \
+              --tag ${{needs.env.outputs.HASURA_TAG}} \
+              --build-arg BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}} \
+              --build-arg BACKEND_PROTOCOL=https
+          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('hasura/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -365,16 +369,8 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Build & Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
-        uses: docker/build-push-action@v4
-        with:
-          file: hasura/Dockerfile
-          context: hasura
-          tags: ${{needs.env.outputs.HASURA_TAG}}
-          build-args: |
-            BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}}
-            BACKEND_PROTOCOL=https
-          push: true
+      - name: "Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
+        run: docker push ${{needs.env.outputs.HASURA_TAG}}
 
   deploy-hasura:
     name: Deploy Hasura
@@ -450,16 +446,25 @@ jobs:
   build-frontend:
     name: Build Frontend Container Image
     runs-on: ubuntu-latest
-    needs: [env, deploy-hasura]
+    needs: [env, delete-frontend, undeploy-frontend, deploy-hasura, seed-db]
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: "Build Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
+        uses: mattes/cached-docker-build-action@v1
+        with:
+          args: |
+            . -f docker/frontend/Dockerfile \
+              --tag ${{needs.env.outputs.FRONTEND_TAG}} \
+              --build-arg APP_ENV=${{needs.env.outputs.APP_ENV}} \
+              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
+              --build-arg NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
+              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
+          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -468,24 +473,8 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Build & Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        uses: docker/build-push-action@v4
-        with:
-          file: docker/frontend/Dockerfile
-          tags: ${{needs.env.outputs.FRONTEND_TAG}}
-          build-args: |
-            TARGET=${{env.FRONTEND_TARGET}}
-            APP_ENV=${{env.APP_ENV}}
-            GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
-            FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
-            YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
-            IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
-            HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}} 
-            USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}} 
-            GA4_ID=${{env.GA4_ID}}
-            WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} 
-            OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
-          push: true
+      - name: "Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
+        run: docker push ${{needs.env.outputs.FRONTEND_TAG}}
 
   deploy-frontend:
     name: Deploy Frontend
@@ -493,30 +482,31 @@ jobs:
     needs: [env, build-frontend]
 
     steps:
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1.1.0
+      - name: Set Up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v0.6.0
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
-          credentials_json: ${{secrets.GCP_SA_KEY}}
-          create_credentials_file: true
-
-      - name: Set Up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v1.1.0
+          service_account_key: ${{secrets.GCP_SA_KEY}}
+          export_default_credentials: true
 
       - name: "Deploy Container Image: ${{needs.env.outputs.FRONTEND_SERVICE}}"
-        # this is running a shell script of unknown provision that's failing
-        # the deployment, however, isn't
-        continue-on-error: true
         run: |
           gcloud -q run deploy ${{needs.env.outputs.FRONTEND_SERVICE}} \
             --image ${{needs.env.outputs.FRONTEND_TAG}} \
             --region ${{needs.env.outputs.CLOUDRUN_REGION}} \
             --port ${{needs.env.outputs.FRONTEND_PORT}} \
             --cpu 1 \
-            --memory 768Mi \
+            --memory 512Mi \
             --ingress all \
             --max-instances 1 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --set-env-vars NEXT_PUBLIC_APP_ENV=${{secrets.APP_ENV}} \
+            --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
+            --set-env-vars OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}} \
+            --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}} \
+            --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
+            --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
+            --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
 
   seed-db:
     name: Seed Database
@@ -536,7 +526,7 @@ jobs:
           npm install --no-package-lock --no-save node-fetch bottleneck
           mv package.json.temp package.json
           SOURCE_GRAPHQL_URL="${{needs.env.outputs.GRAPHQL_URL}}" \
-            ACCOUNT_SYNC_URL="${{needs.env.outputs.SC_SYNC_URL}}" \
+            ACCOUNT_MIGRATION_URL="${{needs.env.outputs.SC_MIGRATE_URL}}" \
             yarn hasura:seed-db
 
   finish-deployment:
@@ -554,7 +544,7 @@ jobs:
         with:
           step: finish
           token: ${{github.token}}
-          env: ${{env.DEPLOYMENT_NAME}}
+          env: ${{env.DEPLOYMENT_ENV}}
           env_url: ${{needs.env.outputs.FRONTEND_URL}}
           status: ${{env.result == 'skipped' && 'cancelled' || env.result}}
           deployment_id: ${{needs.start-deployment.outputs.deployment_id}}
