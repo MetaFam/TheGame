@@ -14,7 +14,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     ecmaVersion: 6,
   },
-  ignorePatterns: ['packages/web/next.config.js'],
+  ignorePatterns: ['packages/web/next.config.js', '**/jest.config.js'],
   plugins: ['simple-import-sort'],
   settings: {
     'import/resolver': {

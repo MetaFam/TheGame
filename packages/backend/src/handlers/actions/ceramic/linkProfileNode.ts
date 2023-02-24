@@ -43,6 +43,9 @@ export default async (req: Request, res: Response): Promise<void> => {
 
     const { controller } = modelInstanceDoc.metadata;
 
+    console.debug('Loaded node, controller:', controller);
+    console.debug('Link attempted by', ethereumAddress);
+
     // There is probably a better way to do this...
     const controllerEthAddress = controller.substring(
       controller.lastIndexOf(':') + 1,
