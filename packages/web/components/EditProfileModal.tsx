@@ -41,7 +41,6 @@ import { Maybe, Player } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useWeb3 } from 'lib/hooks';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
-import { useRouter } from 'next/router';
 import React, {
   createRef,
   ReactElement,
@@ -104,8 +103,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const [status, setStatus] = useState<Maybe<ReactElement | string>>();
 
   const username = player.profile?.username;
-  const params = useRouter();
-  const debug = !!params.query.debug;
 
   const { save } = useSaveToComposeDB();
 
@@ -194,7 +191,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         });
         const response = await uploadFiles(formData);
 
-        Promise.all(
+        await Promise.all(
           Object.entries(pickedFileDataURLs).map(async ([key, val]) => {
             const tKey = toType(key);
             if (!response[tKey]) {
@@ -229,9 +226,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         );
       }
 
-      if (debug) {
-        console.debug({ pickedFiles, profile, inputs, dirtyFields });
-      }
       setStatus('Saving to Ceramic…');
 
       const ceramicStreamID = await save(profile);
