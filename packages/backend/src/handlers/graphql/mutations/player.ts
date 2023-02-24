@@ -26,8 +26,8 @@ export const PlayerMutations = /* GraphQL */ `
     }
   }
 
-  mutation ResetAllPlayersSeasonXp {
-    update_player(where: { seasonXP: { _gt: 0 } }, _set: { seasonXP: 0 }) {
+  mutation ResetAllPlayersXP {
+    update_player(where: {}, _set: { seasonXP: 0, totalXP: 0, rank: null }) {
       affected_rows
     }
   }
@@ -48,16 +48,15 @@ export const PlayerMutations = /* GraphQL */ `
   }
 
   mutation UpdatePlayer(
-    $ethAddress: String
+    $ethereumAddress: String!
     $rank: PlayerRank_enum
     $totalXP: numeric
     $seasonXP: numeric
     $discordId: String
   ) {
     update_player(
-      where: { ethereumAddress: { _eq: $ethAddress } }
+      where: { ethereumAddress: { _ilike: $ethereumAddress } }
       _set: {
-        ethereumAddress: $ethAddress
         rank: $rank
         totalXP: $totalXP
         seasonXP: $seasonXP
