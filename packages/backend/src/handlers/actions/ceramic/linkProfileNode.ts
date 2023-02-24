@@ -14,8 +14,7 @@ export default async (req: Request, res: Response): Promise<void> => {
 
   const role = sessionVariables['x-hasura-role'];
   const playerId = sessionVariables['x-hasura-user-id'];
-  console.debug('role', role);
-  console.debug('playerId', playerId);
+
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
   const { ceramicProfileId, ethereumAddress } = player ?? {};
 
@@ -28,14 +27,14 @@ export default async (req: Request, res: Response): Promise<void> => {
     }
 
     const { nodeId } = input as Mutation_RootLinkCeramicProfileNodeArgs;
-    console.debug(input);
+
     if (ceramicProfileId === nodeId) {
       res.json({
         verified: true,
       });
       return;
     }
-    console.debug('ceramic URL', CONFIG.ceramicURL);
+
     const composeDBClient = new ComposeClient({
       ceramic: CONFIG.ceramicURL,
       definition: composeDBDefinition,
@@ -43,9 +42,6 @@ export default async (req: Request, res: Response): Promise<void> => {
     const modelInstanceDoc = await composeDBClient.context.loadDoc(nodeId);
 
     const { controller } = modelInstanceDoc.metadata;
-
-    console.debug('Loaded node, controller:', controller);
-    console.debug('Link attempted by', ethereumAddress);
 
     // There is probably a better way to do this...
     const controllerEthAddress = controller.substring(
