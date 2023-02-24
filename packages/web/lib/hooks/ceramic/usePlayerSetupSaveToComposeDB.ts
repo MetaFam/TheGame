@@ -67,14 +67,10 @@ export function usePlayerSetupSaveToComposeDB({
           });
         } else {
           const payload = { ...values };
-          const avatarFieldValue = values[
-            composeDBProfileFieldAvatar
-          ] as ComposeDBPayloadValue;
-          if (
-            avatarFieldValue != null &&
-            isImageMetadata(avatarFieldValue) &&
-            fileData?.file != null
-          ) {
+          if (fileData?.file != null) {
+            // We have a file, thus this must be the avatar image. Here, we just
+            // compute a whole new ComposeDBImageMetadata object and don't use any information
+            // from the form
             setStatus('Uploading images to web3.storage…');
 
             const { file, dataURL } = fileData;
@@ -83,9 +79,11 @@ export function usePlayerSetupSaveToComposeDB({
 
             setStatus('Calculating image metadata…');
 
-            const imageMetadata = avatarFieldValue as ComposeDBImageMetadata;
-            imageMetadata.url = `ipfs://${ipfsHash}`;
-            imageMetadata.mimeType = getMimeType(dataURL);
+            const imageMetadata = {
+              url: `ipfs://${ipfsHash}`,
+              mimeType: getMimeType(dataURL),
+            } as ComposeDBImageMetadata;
+
             const { width, height } = await getImageDimensions(dataURL);
             if (width && height) {
               imageMetadata.width = width;
