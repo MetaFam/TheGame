@@ -14,7 +14,8 @@ export default async (req: Request, res: Response): Promise<void> => {
 
   const role = sessionVariables['x-hasura-role'];
   const playerId = sessionVariables['x-hasura-user-id'];
-
+  console.debug('role', role);
+  console.debug('playerId', playerId);
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
   const { ceramicProfileId, ethereumAddress } = player ?? {};
 
@@ -27,14 +28,14 @@ export default async (req: Request, res: Response): Promise<void> => {
     }
 
     const { nodeId } = input as Mutation_RootLinkCeramicProfileNodeArgs;
-
+    console.debug(input);
     if (ceramicProfileId === nodeId) {
       res.json({
         verified: true,
       });
       return;
     }
-
+    console.debug('ceramic URL', CONFIG.ceramicURL);
     const composeDBClient = new ComposeClient({
       ceramic: CONFIG.ceramicURL,
       definition: composeDBDefinition,
@@ -70,6 +71,10 @@ export default async (req: Request, res: Response): Promise<void> => {
       verified: false,
     } as LinkCeramicProfileNodeResponse);
   } catch (error) {
+    console.error(
+      'An unexpected error occurred while linking a ceramic documentID to a player:',
+    );
+    console.error(error);
     res.json({
       verified: false,
       error: (error as Error).message,
