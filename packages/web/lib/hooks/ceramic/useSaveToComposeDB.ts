@@ -1,5 +1,4 @@
 import { ComposeDBProfile, Maybe } from '@metafam/utils';
-import { useComposeDB } from 'contexts/ComposeDBContext';
 import { useLinkOwnCeramicNodeMutation } from 'graphql/autogen/types';
 import {
   ComposeDBCreateProfileResponseData,
@@ -9,6 +8,7 @@ import { CeramicError, handleCeramicAuthenticationError } from 'lib/errors';
 import { useCallback, useState } from 'react';
 
 import { useUser } from '../useUser';
+import { useComposeDB } from './useComposeDB';
 
 export type SaveToComposeDBStatus = 'authenticating' | 'querying' | undefined;
 

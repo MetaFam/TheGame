@@ -64,6 +64,8 @@ export type GuildMetadata = {
   };
 };
 
+export type PlayerProfile = Omit<Profile, 'playerId' | 'player' | 'id'>;
+
 export type ComposeDBProfileQueryResult = {
   node: ComposeDBProfile;
 };
