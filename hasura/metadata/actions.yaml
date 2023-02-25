@@ -35,6 +35,14 @@ actions:
     forward_client_headers: true
   permissions:
   - role: player
+- name: syncAllGuildDiscordMembers
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/syncAllGuildDiscordMembers'
+- name: syncSourceCredAccounts
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/syncSourceCredAccounts'
 - name: updateExpiredIDXProfiles
   definition:
     kind: synchronous
@@ -133,4 +141,6 @@ custom_types:
   - name: ExpiredPlayerProfiles
   - name: SaveGuildResponse
   - name: SaveGuildLayoutResponse
+  - name: SourceCredSyncOutput
+  - name: DiscordGuildsSyncOutput
   scalars: []

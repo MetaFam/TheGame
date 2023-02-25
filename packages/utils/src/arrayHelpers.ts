@@ -1,3 +1,4 @@
-export function isNotNullOrUndefined<T>(x: T | undefined | null): x is T {
-  return x !== undefined && x !== null;
-}
+export const isNotNullOrUndefined = <T>(x?: T | null): x is T =>
+  x !== undefined && x !== null;
+
+export const isDefined = isNotNullOrUndefined;
