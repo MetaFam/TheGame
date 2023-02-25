@@ -23,6 +23,7 @@ import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import type { Patron } from 'graphql/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  formatAddress,
   getPlayerDescription,
   getPlayerName,
   getPlayerURL,
@@ -51,7 +52,9 @@ export const PlayerTile: React.FC<Props> = ({
   const [linkURL, setLinkURL] = useState<string>();
   const [loading, setLoading] = useState(true);
   const daosRef = React.useRef<HTMLDivElement>(null);
-  const [playerName, setPlayerName] = useState<string>('');
+  const [playerName, setPlayerName] = useState<string>(
+    formatAddress(player?.ethereumAddress),
+  );
   const [limit, setLimit] = useState(12);
 
   useEffect(() => {
