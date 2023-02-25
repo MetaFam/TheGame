@@ -5,14 +5,8 @@ import { composeDBDefinition, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
 import { cacheDIDSession, getCachedDIDSession } from 'lib/auth';
-import { useWeb3 } from 'lib/hooks';
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
+import { useWeb3 } from 'lib/hooks/useWeb3';
+import { createContext, PropsWithChildren, useCallback, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 
 export type ComposeDBContextType = {
@@ -109,6 +103,3 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     </ComposeDBContext.Provider>
   );
 };
-
-export const useComposeDB = (): ComposeDBContextType =>
-  useContext(ComposeDBContext);

@@ -4,24 +4,10 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { PlayerTile } from 'components/Player/PlayerTile';
 import { useUser, useWeb3 } from 'lib/hooks';
-import {
-  hydratePlayerProfile,
-  useGetPlayerProfileFromComposeDB,
-} from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
-import React, { useEffect, useState } from 'react';
 
 export const SetupDone: React.FC = () => {
   const { user } = useUser();
   const { connected } = useWeb3();
-  const { result } = useGetPlayerProfileFromComposeDB(user?.ceramicProfileId);
-
-  const [hydratedPlayer, setHydratedPlayer] = useState(user);
-
-  useEffect(() => {
-    if (user && result) {
-      setHydratedPlayer(hydratePlayerProfile(user, result));
-    }
-  }, [result, user]);
 
   if (!user || !connected) {
     return (
@@ -41,7 +27,7 @@ export const SetupDone: React.FC = () => {
         justify="center"
         align="center"
       >
-        {hydratedPlayer && <PlayerTile player={hydratedPlayer} />}
+        <PlayerTile player={user} />
         <Stack spacing={4} p={4} maxW="25rem" fontSize="md" h="100%">
           <Text fontSize="lg">Congrats on making yourself a profile! 🎉</Text>
           <Text fontSize="md">

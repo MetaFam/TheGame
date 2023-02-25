@@ -2,19 +2,17 @@ import { useToast } from '@metafam/ds';
 import {
   ComposeDBField,
   ComposeDBImageMetadata,
-  ComposeDBPayloadValue,
   composeDBProfileFieldAvatar,
   composeDBProfileFieldFiveColorDisposition,
   dispositionFor,
   getMimeType,
   HasuraImageFieldKey,
   isComposeDBImageField,
-  isImageMetadata,
   Maybe,
   profileMapping,
 } from '@metafam/utils';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { Profile } from 'graphql/autogen/types';
+import { PlayerProfile } from 'graphql/types';
 import { CeramicError } from 'lib/errors';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
@@ -128,7 +126,7 @@ export function usePlayerSetupSaveToComposeDB({
 }
 
 export const hasuraToComposeDBProfile = (
-  profile: Profile,
+  profile: PlayerProfile,
   images: Record<HasuraImageFieldKey, Maybe<ComposeDBImageMetadata>>,
 ) => {
   // todo we should be able to make this typesafe

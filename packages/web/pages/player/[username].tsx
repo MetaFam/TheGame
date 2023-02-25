@@ -11,7 +11,6 @@ import {
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
 import { CONFIG } from 'config';
-import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
 import {
   PlayerHydrationContextProvider,
   usePlayerHydrationContext,
@@ -60,14 +59,12 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
   if (!player) return <Page404 />;
 
   return (
-    <ComposeDBContextProvider>
-      <PlayerHydrationContextProvider
-        player={player}
-        isHydratedAlready={isHydratedFromComposeDB}
-      >
-        <PlayerPageContent />
-      </PlayerHydrationContextProvider>
-    </ComposeDBContextProvider>
+    <PlayerHydrationContextProvider
+      player={player}
+      isHydratedAlready={isHydratedFromComposeDB}
+    >
+      <PlayerPageContent />
+    </PlayerHydrationContextProvider>
   );
 };
 
