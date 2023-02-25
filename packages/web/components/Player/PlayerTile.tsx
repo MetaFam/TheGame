@@ -26,6 +26,7 @@ import {
   getPlayerDescription,
   getPlayerName,
   getPlayerURL,
+  formatAddress,
 } from 'utils/playerHelpers';
 
 import { PlayerRank } from './PlayerRank';
@@ -51,7 +52,7 @@ export const PlayerTile: React.FC<Props> = ({
   const [linkURL, setLinkURL] = useState<string>();
   const [loading, setLoading] = useState(true);
   const daosRef = React.useRef<HTMLDivElement>(null);
-  const [playerName, setPlayerName] = useState<string>(player.ethereumAddress);
+  const [playerName, setPlayerName] = useState<string>(formatAddress(player?.ethereumAddress));
   const [limit, setLimit] = useState(12);
 
   useEffect(() => {
