@@ -7,6 +7,7 @@ import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
+import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
 import Head from 'next/head';

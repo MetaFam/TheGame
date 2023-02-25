@@ -65,6 +65,7 @@ export type GuildMetadata = {
 };
 
 export type ContractError = Error & { reason?: string };
+export type PlayerProfile = Omit<Profile, 'playerId' | 'player' | 'id'>;
 
 export type ComposeDBProfileQueryResult = {
   node: ComposeDBProfile;
