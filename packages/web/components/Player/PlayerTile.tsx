@@ -49,12 +49,15 @@ export const PlayerTile: React.FC<Props> = ({
 }) => {
   const description = getPlayerDescription(player);
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
-  const [linkURL, setLinkURL] = useState<string>();
-  const [loading, setLoading] = useState(true);
-  const daosRef = React.useRef<HTMLDivElement>(null);
+  // default player name and url
+  const [linkURL, setLinkURL] = useState<string>(
+    `/player/${player?.ethereumAddress}`,
+  );
   const [playerName, setPlayerName] = useState<string>(
     formatAddress(player?.ethereumAddress),
   );
+  const [loading, setLoading] = useState(true);
+  const daosRef = React.useRef<HTMLDivElement>(null);
   const [limit, setLimit] = useState(12);
 
   useEffect(() => {
@@ -79,8 +82,8 @@ export const PlayerTile: React.FC<Props> = ({
     const getPlayer = async () => {
       const url = await getPlayerURL(player);
       const name = await getPlayerName(player);
-      setLinkURL(url);
       setPlayerName(name);
+      if (url) setLinkURL(url);
     };
     getPlayer();
   }, [player]);
