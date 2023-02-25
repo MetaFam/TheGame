@@ -7,7 +7,7 @@ import {
   dispositionFor,
   getMimeType,
   HasuraImageFieldKey,
-  isComposeDBImageField,
+  isHasuraImageField,
   Maybe,
   profileMapping,
 } from '@metafam/utils';
@@ -135,20 +135,22 @@ export const hasuraToComposeDBProfile = (
   Object.entries(profileMapping).forEach(([hasuraID, composeDBID]) => {
     const composeDBKey = composeDBID as ComposeDBField;
     const hasuraKey = hasuraID as keyof typeof profileMapping;
-    const hasuraValue = profile[hasuraKey];
-    if (hasuraValue != null) {
-      if (composeDBKey === composeDBProfileFieldFiveColorDisposition) {
-        const maskString = dispositionFor(hasuraValue as number);
-        if (maskString) {
-          composeDBPayload[composeDBKey] = maskString;
+    if (isHasuraImageField(hasuraKey)) {
+      const imageMetadata = images[hasuraKey as HasuraImageFieldKey];
+      if (imageMetadata) {
+        composeDBPayload[composeDBKey] = imageMetadata;
+      }
+    } else {
+      const hasuraValue = profile[hasuraKey];
+      if (hasuraValue != null) {
+        if (composeDBKey === composeDBProfileFieldFiveColorDisposition) {
+          const maskString = dispositionFor(hasuraValue as number);
+          if (maskString) {
+            composeDBPayload[composeDBKey] = maskString;
+          }
+        } else {
+          composeDBPayload[composeDBKey] = hasuraValue;
         }
-      } else if (isComposeDBImageField(composeDBKey)) {
-        const hasuraImage = images[hasuraKey as HasuraImageFieldKey];
-        if (hasuraImage) {
-          composeDBPayload[composeDBKey] = hasuraImage;
-        }
-      } else {
-        composeDBPayload[composeDBKey] = hasuraValue;
       }
     }
   });
