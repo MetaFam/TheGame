@@ -30,16 +30,17 @@ import {
 } from '@metafam/ds';
 import {
   ComposeDBImageMetadata,
-  ComposeDBProfile,
   getMimeType,
   HasuraImageFieldKey,
   hasuraImageFields,
   isHasuraImageField,
   profileMapping,
 } from '@metafam/utils';
-import { Maybe, Player } from 'graphql/autogen/types';
+import { Maybe, Player, Profile } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
+import { PlayerProfile } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
+import { hasuraToComposeDBProfile } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
 import React, {
   createRef,
@@ -174,7 +175,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         ),
       );
 
-      const profile: ComposeDBProfile = { ...changedInputs };
+      const profile: PlayerProfile = { ...changedInputs };
+      const profileImages = Object.fromEntries(
+        hasuraImageFields.map((field) => [field, null]),
+      ) as Record<HasuraImageFieldKey, Maybe<ComposeDBImageMetadata>>;
 
       const toType = (key: string) => {
         const match = key.match(/^(.+?)(Image)?(URL)$/i);
@@ -219,8 +223,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 imageMetadata.height = height;
               }
 
-              const composeDBKey = profileMapping[key as HasuraImageFieldKey];
-              profile[composeDBKey] = imageMetadata;
+              profileImages[key as HasuraImageFieldKey] = imageMetadata;
             }
           }),
         );
@@ -228,7 +231,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
       setStatus('Saving to Ceramic…');
 
-      const ceramicStreamID = await save(profile);
+      const payload = hasuraToComposeDBProfile(profile, profileImages);
+      const ceramicStreamID = await save(payload);
 
       // if they changed their username, the page will 404 on reload
       if (player && inputs.username !== username) {

@@ -3010,7 +3010,8 @@ input jsonb_comparison_exp {
 }
 
 type LinkCeramicProfileNodeResponse {
-  verified: Boolean
+  error: String
+  verified: Boolean!
 }
 
 """
