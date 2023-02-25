@@ -51,7 +51,7 @@ export const PlayerTile: React.FC<Props> = ({
   const [linkURL, setLinkURL] = useState<string>();
   const [loading, setLoading] = useState(true);
   const daosRef = React.useRef<HTMLDivElement>(null);
-  const [playerName, setPlayerName] = useState<string>('');
+  const [playerName, setPlayerName] = useState<string>(player.ethereumAddress);
   const [limit, setLimit] = useState(12);
 
   useEffect(() => {
