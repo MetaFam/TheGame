@@ -2,6 +2,7 @@ import { Player } from 'graphql/autogen/types';
 import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import { ComposeDBProfileQueryResult } from 'graphql/types';
+import { useComposeDB } from 'lib/hooks/ceramic/useComposeDB';
 import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import {
   createContext,
@@ -11,8 +12,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-
-import { useComposeDB } from './ComposeDBContext';
 
 export type PlayerHydrationContextType = {
   hydratedPlayer: Player;

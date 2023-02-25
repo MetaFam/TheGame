@@ -8,13 +8,14 @@ import {
   Maybe,
   profileMapping,
 } from '@metafam/utils';
-import { useComposeDB } from 'contexts/ComposeDBContext';
 import { Player } from 'graphql/autogen/types';
 import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
 import { ComposeDBProfileQueryResult } from 'graphql/types';
 import { CeramicError } from 'lib/errors';
 import { useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
+
+import { useComposeDB } from './useComposeDB';
 
 const genericFetchError = new CeramicError(
   'An unexpected error occurred when querying Ceramic.',
@@ -65,7 +66,7 @@ export const useGetPlayerProfileFromComposeDB = (
 export const hydratePlayerProfile = (
   player: Player,
   profileData: ComposeDBProfile,
-) => {
+): Player => {
   const hasComposeDBData = Object.values(profileData).some((value) => !!value);
   if (hasComposeDBData) {
     const hasuraProfile = composeDBToHasuraProfile(profileData);
