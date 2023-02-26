@@ -36,10 +36,10 @@ export const getPlayerData = async (username: string) => {
     return { playerProfile: '', ens: '' };
   }
 
-  // If username in url includes a . attempt to resolve ENS
   if (username.includes('.')) {
-    const address = await getAddressForENS(username);
-    user.address = address?.toLowerCase() || username;
+    await getAddressForENS(username).then((address) => {
+      user.address = address?.toLowerCase() || username;
+    });
     user.ens = username;
   }
 
