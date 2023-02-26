@@ -58,6 +58,10 @@ const topPlayersQuery = /* GraphQL */`
       id
       ethereumAddress
       profile {
+        name
+        description
+        profileImageURL
+        backgroundImageURL
         username 
         availableHours
         timeZone
@@ -149,6 +153,10 @@ async function deleteSkills() {
 const upsertPlayerMutation = /* GraphQL */`
   mutation UpsertPlayer(
     $playerId: uuid!
+    $name: String
+    $description: String
+    $profileImageURL: String
+    $backgroundImageURL: String
     $availableHours: Int
     $timeZone: String
     $explorerTypeTitle: String
@@ -162,6 +170,10 @@ const upsertPlayerMutation = /* GraphQL */`
     insert_profile(
       objects: [{
         playerId: $playerId
+        name: $name
+        description: $description
+        profileImageURL: $profileImageURL
+        backgroundImageURL: $backgroundImageURL
         explorerTypeTitle: $explorerTypeTitle
         timeZone: $timeZone
         availableHours: $availableHours
@@ -171,6 +183,10 @@ const upsertPlayerMutation = /* GraphQL */`
       on_conflict: {
         constraint: profile_player_id_key
         update_columns: [
+          name
+          description
+          profileImageURL
+          backgroundImageURL
           explorerTypeTitle
           timeZone
           availableHours
@@ -181,6 +197,10 @@ const upsertPlayerMutation = /* GraphQL */`
     ) {
       affected_rows
       returning {
+        name
+        description
+        profileImageURL
+        backgroundImageURL
         username
         availableHours
         timeZone
@@ -264,6 +284,10 @@ async function startSeeding() {
         variables: {
           playerId,
           username: player.profile?.username ?? null,
+          name: player.profile?.name ?? null,
+          description: player.profile?.description ?? null,
+          profileImageURL: player.profile?.profileImageURL ?? null,
+          backgroundImageURL: player.profile?.backgroundImageURL ?? null,
           availableHours: player.profile?.availableHours ?? null,
           timeZone: player.profile?.timeZone ?? null,
           colorMask: player.profile?.colorMask ?? null,
