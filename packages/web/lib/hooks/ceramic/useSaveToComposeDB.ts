@@ -34,7 +34,7 @@ export const useSaveToComposeDB = () => {
         throw new Error('No wallet connected');
       }
 
-      if (!composeDBClient.context.isAuthenticated) {
+      if (!composeDBClient.context.isAuthenticated()) {
         try {
           setStatus('authenticating');
           await connect();
