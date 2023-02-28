@@ -300,7 +300,7 @@ jobs:
             --set-env-vars GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
             --set-env-vars DISCORD_BOT_TOKEN=${{secrets.DISCORD_BOT_TOKEN}} \
             --set-env-vars THE_GRAPH_API_TOKEN=${{secrets.THE_GRAPH_API_TOKEN}}
-            --set-env-vars CERAMIC_URL=https://ceramic-testnet.metagame.wtf
+            --set-env-vars CERAMIC_URL=https://ceramic.metagame.wtf
 
   undeploy-hasura:
     name: Undeploy Hasura
