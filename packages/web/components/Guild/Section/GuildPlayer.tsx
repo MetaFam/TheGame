@@ -16,10 +16,8 @@ export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
 
   useEffect(() => {
     const getPlayer = async () => {
-      const playername = await getPlayerName(player);
-      const url = await getPlayerURL(player);
-      setName(playername);
-      setLinkURL(url);
+      setName(await getPlayerName(player));
+      setLinkURL(await getPlayerURL(player));
     };
     getPlayer();
   }, [player]);

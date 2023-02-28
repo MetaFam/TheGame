@@ -23,8 +23,7 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
 
   useEffect(() => {
     const getPlayer = async () => {
-      const playername = await getPlayerName(player);
-      setName(playername);
+      setName(await getPlayerName(player));
     };
     getPlayer();
   }, [player]);

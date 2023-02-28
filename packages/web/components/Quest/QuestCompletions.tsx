@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   ConfirmModal,
   HStack,
@@ -9,8 +8,8 @@ import {
   VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { CompletionStatusTag } from 'components/Quest/QuestTags';
 import {
+  Player,
   Quest,
   QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
@@ -18,10 +17,10 @@ import {
   useUpdateQuestCompletionMutation,
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import moment from 'moment';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
+
+import { QuestCompletionsItem } from './QuestCompletionsItem';
 
 interface AlertSubmission {
   status: QuestCompletionStatus_ActionEnum;
@@ -32,13 +31,7 @@ type Props = {
   quest: QuestWithCompletionFragment;
 };
 
-type MapType = {
-  [id: string]: string | undefined;
-};
-
 export const QuestCompletions: React.FC<Props> = ({ quest }) => {
-  const [urls, setURLs] = useState<MapType>({});
-  const [names, setNames] = useState<MapType>({});
   const { user } = useUser();
   const toast = useToast();
   const [alertSubmission, setAlertSubmission] =
@@ -76,27 +69,6 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
     });
   }, [alertSubmission, updateQuestCompletion, toast]);
 
-  useEffect(() => {
-    if (!quest.quest_completions) return;
-    const extractURLs = async () => {
-      quest.quest_completions.forEach(async ({ player }) => {
-        const url = await getPlayerURL(player);
-        const name = await getPlayerName(player);
-        setNames({ ...names, [player.ethereumAddress]: name });
-        setURLs({ ...urls, [player.ethereumAddress]: url });
-      });
-    };
-    extractURLs();
-  }, [quest.quest_completions]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const getURL = (address: string) => {
-    const result = urls[address] ? urls[address] : address;
-    return !result?.includes('.') ? `player/${result}` : result;
-  };
-
-  const getName = (address: string) =>
-    names[address] ? names[address] : address;
-
   return (
     <Box>
       <VStack spacing={4}>
@@ -113,22 +85,11 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
             submissionLink,
           }) => (
             <Box key={id} w="100%">
-              <HStack px={4} py={4}>
-                <Avatar name={getName(player.ethereumAddress)} />
-                <CompletionStatusTag {...{ status }} />
-                <Text>
-                  <i>
-                    by{' '}
-                    <MetaLink
-                      as={getURL(player.ethereumAddress)}
-                      href="/player/[username]"
-                    >
-                      {getName(player.ethereumAddress)}
-                    </MetaLink>
-                  </i>
-                </Text>
-                <Text>{moment(submittedAt).fromNow()}</Text>
-              </HStack>
+              <QuestCompletionsItem
+                player={player as Player}
+                submittedAt={submittedAt}
+                status={status}
+              />
 
               <Box bg="whiteAlpha.200" px={8} py={4} rounded="lg">
                 <Text textStyle="caption" mb={2}>

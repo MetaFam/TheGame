@@ -11,24 +11,17 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import {
   OptionType,
   SortOption,
   sortOptionsMap,
   usePlayerFilter,
 } from 'lib/hooks/players';
-import React, { useEffect, useMemo, useState } from 'react';
-import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
+import React, { useMemo, useState } from 'react';
 
-type MapType = {
-  [id: string]: string | undefined;
-};
+import { LeaderboardLink } from './LeaderboardLink';
 
 export const Leaderboard: React.FC = () => {
-  const [urls, setURLs] = useState<MapType>({});
-  const [names, setNames] = useState<MapType>({});
   const { players, fetching, error, queryVariables, setQueryVariable } =
     usePlayerFilter();
 
@@ -46,26 +39,6 @@ export const Leaderboard: React.FC = () => {
   const [sortOption, setSortOption] = useState<LabeledValue<string>>(
     sortOptionsMap[SortOption.SEASON_XP],
   );
-
-  useEffect(() => {
-    if (!players) return;
-    const extractData = async () => {
-      players.forEach(async (p) => {
-        const url = await getPlayerURL(p);
-        const name = await getPlayerName(p);
-        setURLs({ ...urls, [p.ethereumAddress]: url });
-        setNames({ ...names, [p.ethereumAddress]: name });
-      });
-    };
-    extractData();
-  }, [players]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const getURL = (address: string) => {
-    const result = urls[address] ? urls[address] : address;
-    return !result?.includes('.') ? `player/${result}` : result;
-  };
-  const getName = (address: string) =>
-    names[address] ? names[address] : address;
 
   return (
     <Flex direction="column" p={6} w="100%">
@@ -123,72 +96,11 @@ export const Leaderboard: React.FC = () => {
                 (!showSeasonalXP && p.totalXP >= 50)
               ) {
                 return (
-                  <MetaLink
-                    key={`player-chip-${p.id}`}
-                    as={`${getURL(p.ethereumAddress)}`}
-                    href="/player/[username]"
-                    w="100%"
-                    color="white"
-                    _hover={{}}
-                  >
-                    <Box
-                      display="flex"
-                      width="100%"
-                      maxW="100%"
-                      px={3}
-                      py={2}
-                      fontSize={['sm', 'md']}
-                      flexFlow="row nowrap"
-                      alignItems="center"
-                      justifyContent="flex-start"
-                      backgroundColor="blackAlpha.500"
-                      borderRadius="md"
-                      overflow="hidden"
-                      _hover={{
-                        boxShadow: 'md',
-                        backgroundColor: 'blackAlpha.600',
-                      }}
-                    >
-                      <Box flex={0} mr={1.5}>
-                        {position}
-                      </Box>
-                      <PlayerAvatar
-                        bg="cyan.200"
-                        border={0}
-                        mr={1}
-                        size="sm"
-                        player={p}
-                        sx={{
-                          '&::after': {
-                            content: '""',
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            borderRadius: '50%',
-                            border: '1px solid white',
-                            borderColor: p.rank
-                              ? p.rank.toLocaleLowerCase()
-                              : 'red.400',
-                          },
-                        }}
-                      />
-                      <Box
-                        overflowX="hidden"
-                        whiteSpace="pre"
-                        textOverflow="ellipsis"
-                        mr={2}
-                      >
-                        {getName(p.ethereumAddress)}
-                      </Box>
-                      <Box textAlign="right" flex={1}>
-                        {Math.floor(
-                          showSeasonalXP ? p.seasonXP : p.totalXP,
-                        ).toLocaleString()}
-                      </Box>
-                    </Box>
-                  </MetaLink>
+                  <LeaderboardLink
+                    player={p}
+                    position={position}
+                    showSeasonalXP={showSeasonalXP}
+                  />
                 );
               }
               return null;

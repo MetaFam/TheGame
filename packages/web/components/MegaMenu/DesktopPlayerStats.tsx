@@ -29,8 +29,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
 
   useEffect(() => {
     const getPlayer = async () => {
-      const url = await getPlayerURL(player);
-      setLinkURL(url);
+      setLinkURL(await getPlayerURL(player));
     };
     getPlayer();
   }, [player]);

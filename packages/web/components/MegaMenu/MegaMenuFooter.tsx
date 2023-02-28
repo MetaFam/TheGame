@@ -31,18 +31,8 @@ export const MegaMenuFooter = () => {
 
   useEffect(() => {
     const getPlayer = async () => {
-      const url = await getPlayerURL(user);
-      const playername = await getPlayerName(user);
-      setLinkURL(url);
-      setName(playername);
-    };
-    getPlayer();
-  }, [user]);
-
-  useEffect(() => {
-    const getPlayer = async () => {
-      const url = await getPlayerURL(user);
-      setLinkURL(url);
+      setLinkURL(await getPlayerURL(user));
+      setName(await getPlayerName(user));
     };
     getPlayer();
   }, [user]);

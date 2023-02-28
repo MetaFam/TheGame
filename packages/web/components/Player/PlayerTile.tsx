@@ -80,10 +80,8 @@ export const PlayerTile: React.FC<Props> = ({
 
   useEffect(() => {
     const getPlayer = async () => {
-      const url = await getPlayerURL(player);
-      const name = await getPlayerName(player);
-      setPlayerName(name);
-      if (url) setLinkURL(url);
+      setPlayerName(await getPlayerName(player));
+      setLinkURL((await getPlayerURL(player)) as string);
     };
     getPlayer();
   }, [player]);

@@ -3,9 +3,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  ListItem,
   LoadingState,
-  MetaTag,
   Switch,
   Text,
   UnorderedList,
@@ -17,17 +15,12 @@ import {
   useGetQuestsWithCompletionsQuery,
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { getPlayerName } from 'utils/playerHelpers';
+import React, { useState } from 'react';
 
-type MapType = {
-  [id: string]: string | undefined;
-};
+import { QuestCompletionItem } from './QuestCompletionItem';
 
 export const DashboardQuestsCreated: React.FC = () => {
   const { user } = useUser();
-  const [names, setNames] = useState<MapType>({});
   const [pendingOnly, setPendingOnly] = useState(true);
 
   const [createdQuestsResponse] = useGetQuestsWithCompletionsQuery({
@@ -40,23 +33,6 @@ export const DashboardQuestsCreated: React.FC = () => {
   });
   const { fetching, data, error } = createdQuestsResponse;
   const createdQuests = data?.quest || null;
-
-  useEffect(() => {
-    if (!createdQuests) return;
-
-    const extractData = async () => {
-      createdQuests.forEach((quest) => {
-        quest.quest_completions.map(async (questCompletion) => {
-          const name = await getPlayerName(questCompletion.player as Player);
-          setNames({ ...names, name });
-        });
-      });
-    };
-    extractData();
-  }, [createdQuests]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const getName = (address: string) =>
-    names[address] ? names[address] : address;
 
   return (
     <Flex direction="column" p={6} w="100%">
@@ -89,14 +65,10 @@ export const DashboardQuestsCreated: React.FC = () => {
                 {quest.quest_completions?.length > 0 && (
                   <UnorderedList>
                     {quest.quest_completions.map((questCompletion) => (
-                      <ListItem pb={1}>
-                        {getName(questCompletion.player.ethereumAddress)}
-                        <MetaTag ml={2}>
-                          {moment(questCompletion.submittedAt).format(
-                            'MMM D h:mma',
-                          )}
-                        </MetaTag>
-                      </ListItem>
+                      <QuestCompletionItem
+                        submittedAt={questCompletion.submittedAt}
+                        player={questCompletion.player as Player}
+                      />
                     ))}
                   </UnorderedList>
                 )}

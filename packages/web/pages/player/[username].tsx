@@ -85,17 +85,13 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   useEffect(() => {
     const resolveName = async () => {
       if (user && !userENS && router.pathname === '/me') {
-        const name = await getENSForAddress(user?.ethereumAddress);
-        const userPlayer = await getPlayer(user?.ethereumAddress);
-        setPlayerData(userPlayer as Player);
-        setENS(name || '');
+        setPlayerData((await getPlayer(user?.ethereumAddress)) as Player);
+        setENS((await getENSForAddress(user?.ethereumAddress)) || '');
       }
-      const head = await getPlayerName(playerData);
-      setHeader(head);
+      setHeader(await getPlayerName(playerData));
     };
     const getURL = async () => {
-      const url = await getPlayerURL(playerData);
-      setLinkURL(url);
+      setLinkURL(await getPlayerURL(playerData));
     };
     getURL();
     resolveName();
