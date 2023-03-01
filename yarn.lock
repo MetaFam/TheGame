@@ -2004,7 +2004,7 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@composedb/cli@^0.4.0":
+"@composedb/cli@0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@composedb/cli/-/cli-0.4.3.tgz#b908c58cc8adfe0047486f8e5bb090865cb5db40"
   integrity sha512-YYe5rb20FaTXc1vIudMDWyBnJv3y2GgNcE7GLqRerzZfbGu+NMXuLteV4nWg4BhEgpUFz0NUZEZvqjf9ENkuGw==
