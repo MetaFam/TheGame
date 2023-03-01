@@ -2231,7 +2231,7 @@
     term-size "^3.0.2"
     uint8arrays "^4.0.3"
 
-"@composedb/client@^0.4.0":
+"@composedb/client@0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@composedb/client/-/client-0.4.3.tgz#fbefd725bf3cb176c53bf9473bc913968edcd89f"
   integrity sha512-6hifvuV+h5ehyX4e5bQv5ybkTzBEnA8gR6FECp41mgEubX3jtmx2P186lPtCLo1fIqxTYjdgAQCYCE9EqN6dcA==
