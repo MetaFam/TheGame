@@ -16,7 +16,7 @@ type Profile
   name: String @string(maxLength: 150)
   pronouns: String @string(maxLength: 420)
   # pattern: "^[a-z0-9-_]+$"
-  username: String @string(maxLength: 383)
+  username: String @string(maxLength: 420)
   # e.g. America/Denver
   timeZone: String @string(maxLength: 127)
   websiteURL: String @string(maxLength: 240)
