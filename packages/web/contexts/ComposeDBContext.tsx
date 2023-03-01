@@ -57,8 +57,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
         accountId,
       );
       session = await DIDSession.authorize(authMethod, {
-        // todo restrict this to only our composite
-        resources: ['ceramic://*'],
+        resources: composeDBClient.resources,
       });
       cacheDIDSession(session);
     }
