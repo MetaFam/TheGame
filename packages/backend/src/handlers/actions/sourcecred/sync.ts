@@ -3,8 +3,8 @@ import {
   fetch,
   getLatestEthAddress,
   getNumWeeksInSeason,
+  isDefined,
   isNewSeason,
-  isNotNullOrUndefined,
 } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
@@ -35,12 +35,9 @@ const parseAlias = (alias: SCAlias) => {
       return null;
     }
 
-    const identifier = addressParts[addressParts.length - 1];
+    const [identifier] = addressParts.slice(-1);
 
-    return {
-      type,
-      identifier,
-    };
+    return { type, identifier };
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error('Unable to parse alias:', {
@@ -51,17 +48,18 @@ const parseAlias = (alias: SCAlias) => {
   }
 };
 
-export const migrateSourceCredAccounts = async (
+export const syncSourceCredAccounts = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   const { error: loadError } = await ledgerManager.reloadLedger();
+
   if (loadError) {
     throw new Error(`Unable to load ledger: ${loadError}`);
   }
 
   const force = req.query.force != null;
-  console.debug(`Updating players from sourcecred. Force-insert? ${force}`);
+  console.debug(`Updating players from SourceCred. Force-insert? ${force}`);
 
   const accountsResult = await fetch(Constants.SC_ACCOUNTS_FILE);
   const accountsData = (await accountsResult.json()) as SCAccountsData;
@@ -72,18 +70,17 @@ export const migrateSourceCredAccounts = async (
 
   const numWeeksInSeason = getNumWeeksInSeason();
 
-  // Explicitly reset everybody's seasonal XP at the beginning of a season
-  if (isNewSeason()) {
-    await client.ResetAllPlayersSeasonXp();
-  }
+  // The easiest way to handle new seasons & replacement eth
+  // addresses is to reset all stats & overwrite them.
+  await client.ResetAllPlayersXP();
 
-  const accountList = accountsData.accounts
+  const rawAccountList = accountsData.accounts
     .filter((a) => a.account.identity.subtype === 'USER')
     .sort((a, b) => b.totalCred - a.totalCred)
     .map((a, index) => {
       const linkedAccounts = a.account.identity.aliases
-        .map((alias) => parseAlias(alias))
-        .filter(isNotNullOrUndefined);
+        .map(parseAlias)
+        .filter(isDefined);
 
       const discordId = linkedAccounts.find(
         ({ type }) => type === 'DISCORD',
@@ -98,13 +95,14 @@ export const migrateSourceCredAccounts = async (
       const seasonXP = userWeeklyCred
         .slice(-numWeeksInSeason)
         .reduce((t, c) => t + c, 0);
+
       return {
         ethereumAddress: ethAddress.toLowerCase(),
         totalXP: a.totalCred,
         seasonXP,
         rank,
         discordId,
-        Accounts: {
+        accounts: {
           // Omit the discord account, as that is updated directly on the player table
           data: linkedAccounts.filter(
             ({ type }) => type !== AccountType_Enum.Discord,
@@ -112,15 +110,22 @@ export const migrateSourceCredAccounts = async (
           on_conflict: accountOnConflict,
         },
       };
-    })
-    .filter(isNotNullOrUndefined);
+    });
+
+  const accountsFound = rawAccountList.length;
+  const accountList = rawAccountList.filter(isDefined);
+  const numUnclaimed = accountsFound - accountList.length;
+
+  let numSkipped = 0;
+  let numUpdated = 0;
+  let numInserted = 0;
 
   try {
-    const result = await bluebird.map(
+    await bluebird.map(
       accountList,
       async (player) => {
         const vars = {
-          ethAddress: player.ethereumAddress,
+          ethereumAddress: player.ethereumAddress,
           rank: player.rank,
           totalXP: player.totalXP,
           seasonXP: player.seasonXP,
@@ -131,37 +136,34 @@ export const migrateSourceCredAccounts = async (
           const { update_player: update } = await client.UpdatePlayer(vars);
 
           let playerId: string = update?.returning[0]?.id;
-          let { affected_rows: affected } = update ?? {};
+          const { affected_rows: updated } = update ?? {};
 
-          if ((affected ?? 0) > 1) {
-            throw new Error(
-              `Multiple players (${affected}) updated incorrectly: ${player.ethereumAddress}`,
-            );
-          } else if (affected === 0) {
+          if (!updated || updated === 0) {
             if (!force) {
-              return player;
+              throw new Error(
+                `Skipping nonexistent player: ${player.ethereumAddress}.`,
+              );
             }
 
             // 'force' indicates we should insert new players
             // if they don't already exist.
             const { insert_player: insert } = await client.InsertPlayers({
-              objects: [
-                {
-                  ethereumAddress: player.ethereumAddress,
-                  rank: player.rank,
-                  totalXP: player.totalXP,
-                  seasonXP: player.seasonXP,
-                },
-              ],
+              objects: [vars],
             });
-            affected = insert?.affected_rows;
+            numInserted += insert?.affected_rows ?? 0;
             playerId = insert?.returning[0]?.id;
+          } else if (updated > 1) {
+            throw new Error(
+              `Error: Multiple players (${updated}) updated: ${player.ethereumAddress}`,
+            );
+          } else {
+            numUpdated += updated;
           }
 
           if (playerId) {
             try {
               await client.UpsertAccount({
-                objects: player.Accounts.data.map((account) => ({
+                objects: player.accounts.data.map((account) => ({
                   playerId,
                   type: account.type,
                   identifier: account.identifier,
@@ -173,28 +175,30 @@ export const migrateSourceCredAccounts = async (
                 'Error updating accounts for Player',
                 playerId,
                 accErr,
-                player.Accounts,
+                player.accounts,
               );
             }
           }
         } catch (e) {
-          console.warn('ERR! failed to update player', e);
-          return player;
+          console.warn(
+            `Error: Failed to update player: "${(e as Error).message}"`,
+          );
+          numSkipped += 1;
         }
-        return undefined;
       },
       { concurrency: 10 },
     );
-    const usersSkipped = result.filter(isNotNullOrUndefined);
 
     res.json({
-      numSkipped: usersSkipped.length,
-      [force ? 'numInserted' : 'numUpdated']:
-        accountList.length - usersSkipped.length,
+      numSkipped,
+      numUpdated,
+      numInserted,
+      numUnclaimed,
     });
   } catch (e) {
-    const msg = (e as Error).message;
-    console.warn('Error migrating players/accounts', msg);
-    res.sendStatus(500);
+    const msg = (e as Error).message ?? e;
+    const out = `Error migrating SourceCred accounts: ${msg}`;
+    console.warn(out);
+    res.status(500).send(out);
   }
 };

@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   ConfirmModal,
   HStack,
@@ -9,8 +8,8 @@ import {
   VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { CompletionStatusTag } from 'components/Quest/QuestTags';
 import {
+  Player,
   Quest,
   QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
@@ -18,10 +17,10 @@ import {
   useUpdateQuestCompletionMutation,
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
+
+import { QuestCompletionsItem } from './QuestCompletionsItem';
 
 interface AlertSubmission {
   status: QuestCompletionStatus_ActionEnum;
@@ -86,22 +85,11 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
             submissionLink,
           }) => (
             <Box key={id} w="100%">
-              <HStack px={4} py={4}>
-                <Avatar name={getPlayerName(player)} />
-                <CompletionStatusTag {...{ status }} />
-                <Text>
-                  <i>
-                    by{' '}
-                    <MetaLink
-                      as={getPlayerURL(player)}
-                      href="/player/[username]"
-                    >
-                      {getPlayerName(player)}
-                    </MetaLink>
-                  </i>
-                </Text>
-                <Text>{moment(submittedAt).fromNow()}</Text>
-              </HStack>
+              <QuestCompletionsItem
+                player={player as Player}
+                submittedAt={submittedAt}
+                status={status}
+              />
 
               <Box bg="whiteAlpha.200" px={8} py={4} rounded="lg">
                 <Text textStyle="caption" mb={2}>

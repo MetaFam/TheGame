@@ -14,22 +14,28 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { useMounted, useProfileField, useUser, useWeb3 } from 'lib/hooks';
-import React from 'react';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
+import React, { useEffect, useState } from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
 import { XPSeedsBalance } from './XPSeedsBalance';
 
 // Display player XP and Seed
 export const MegaMenuFooter = () => {
+  const [linkURL, setLinkURL] = useState<string>();
+  const [name, setName] = useState('');
+
   const { connecting, connected, connect, disconnect } = useWeb3();
   const { fetching, user } = useUser();
   const mounted = useMounted();
-  const { name } = useProfileField({
-    field: 'name',
-    player: user,
-    getter: getPlayerName,
-  });
+
+  useEffect(() => {
+    const getPlayer = async () => {
+      setLinkURL(await getPlayerURL(user));
+      setName(await getPlayerName(user));
+    };
+    getPlayer();
+  }, [user]);
 
   return (
     <Flex
@@ -89,7 +95,7 @@ export const MegaMenuFooter = () => {
             >
               <MetaLink
                 color="white"
-                href={getPlayerURL(user) ?? '/'}
+                href={linkURL || '/'}
                 _hover={{ textDecoration: 'none' }}
               >
                 <MenuItem

@@ -11,8 +11,6 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import {
   OptionType,
   SortOption,
@@ -20,7 +18,8 @@ import {
   usePlayerFilter,
 } from 'lib/hooks/players';
 import React, { useMemo, useState } from 'react';
-import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
+
+import { LeaderboardLink } from './LeaderboardLink';
 
 export const Leaderboard: React.FC = () => {
   const { players, fetching, error, queryVariables, setQueryVariable } =
@@ -97,72 +96,11 @@ export const Leaderboard: React.FC = () => {
                 (!showSeasonalXP && p.totalXP >= 50)
               ) {
                 return (
-                  <MetaLink
-                    key={`player-chip-${p.id}`}
-                    as={getPlayerURL(p)}
-                    href="/player/[username]"
-                    w="100%"
-                    color="white"
-                    _hover={{}}
-                  >
-                    <Box
-                      display="flex"
-                      width="100%"
-                      maxW="100%"
-                      px={3}
-                      py={2}
-                      fontSize={['sm', 'md']}
-                      flexFlow="row nowrap"
-                      alignItems="center"
-                      justifyContent="flex-start"
-                      backgroundColor="blackAlpha.500"
-                      borderRadius="md"
-                      overflow="hidden"
-                      _hover={{
-                        boxShadow: 'md',
-                        backgroundColor: 'blackAlpha.600',
-                      }}
-                    >
-                      <Box flex={0} mr={1.5}>
-                        {position}
-                      </Box>
-                      <PlayerAvatar
-                        bg="cyan.200"
-                        border={0}
-                        mr={1}
-                        size="sm"
-                        player={p}
-                        sx={{
-                          '&::after': {
-                            content: '""',
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            borderRadius: '50%',
-                            border: '1px solid white',
-                            borderColor: p.rank
-                              ? p.rank.toLocaleLowerCase()
-                              : 'red.400',
-                          },
-                        }}
-                      />
-                      <Box
-                        overflowX="hidden"
-                        whiteSpace="pre"
-                        textOverflow="ellipsis"
-                        mr={2}
-                      >
-                        {getPlayerName(p)}
-                      </Box>
-                      <Box textAlign="right" flex={1}>
-                        {Math.floor(
-                          showSeasonalXP ? p.seasonXP : p.totalXP,
-                        ).toLocaleString()}
-                      </Box>
-                    </Box>
-                  </MetaLink>
+                  <LeaderboardLink
+                    player={p}
+                    position={position}
+                    showSeasonalXP={showSeasonalXP}
+                  />
                 );
               }
               return null;

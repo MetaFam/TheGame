@@ -20,6 +20,7 @@ type Props = {
   type: BoxType;
   player?: Player;
   metadata?: BoxMetadata;
+  ens?: string;
   editing?: boolean;
   onRemoveBox?: (boxKey: string) => void;
 };
@@ -27,12 +28,13 @@ type Props = {
 const PlayerSectionInner: React.FC<
   Props & {
     player: Player;
+    ens?: string;
     isOwnProfile?: boolean;
   }
-> = ({ metadata, type, player, isOwnProfile, editing }) => {
+> = ({ metadata, type, player, isOwnProfile, editing, ens }) => {
   switch (type) {
     case BoxTypes.PLAYER_HERO:
-      return <PlayerHero {...{ player, editing }} />;
+      return <PlayerHero {...{ player, editing, ens }} />;
     case BoxTypes.PLAYER_SKILLS:
       return <PlayerSkills {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_NFT_GALLERY:
@@ -65,7 +67,7 @@ const PlayerSectionInner: React.FC<
 };
 
 export const PlayerSection = forwardRef<HTMLDivElement, Props>(
-  ({ metadata, type, player, editing = false, onRemoveBox }, ref) => {
+  ({ metadata, type, player, editing = false, onRemoveBox, ens }, ref) => {
     const key = createBoxKey(type, metadata);
     const { user } = useUser();
 
@@ -92,6 +94,7 @@ export const PlayerSection = forwardRef<HTMLDivElement, Props>(
               metadata,
               type,
               player,
+              ens,
               isOwnProfile,
               editing,
             }}

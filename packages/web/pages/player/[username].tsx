@@ -18,8 +18,16 @@ import { useProfileField, useUser } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import useSWR from 'swr';
 import { LayoutData } from 'utils/boxTypes';
+import { getENSForAddress, getPlayerData } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
@@ -31,33 +39,83 @@ import {
 
 type Props = {
   player: Player;
+  ens?: string;
 };
 
 export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
+  const { user } = useUser();
+  const [userENS, setENS] = useState('');
+  const [linkURL, setLinkURL] = useState<string>();
+  const [header, setHeader] = useState('');
+  const [playerData, setPlayerData] = useState<Player>(player);
+
+  const username = router.query.username as string;
+
+  const { data: profileInfo, isValidating } = useSWR(
+    username && username.includes('.') ? username : null,
+    getPlayerData,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  useEffect(() => {
+    if (playerData) return;
+    if (profileInfo && profileInfo.playerProfile && profileInfo.ens) {
+      setPlayerData(profileInfo.playerProfile as Player);
+      setENS(profileInfo.ens);
+    }
+  }, [profileInfo]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
-    player,
+    player: playerData,
     getter: getPlayerBannerFull,
   });
+
   const { value: background } = useProfileField({
     field: 'backgroundImageURL',
-    player,
+    player: playerData,
     getter: getPlayerBackgroundFull,
   });
+
   const [, invalidateCache] = useInvalidateCache();
 
   useEffect(() => {
-    if (player?.id) {
-      invalidateCache({ playerId: player.id });
+    const resolveName = async () => {
+      if (user && !userENS && router.pathname === '/me') {
+        setPlayerData((await getPlayer(user?.ethereumAddress)) as Player);
+        setENS((await getENSForAddress(user?.ethereumAddress)) || '');
+      }
+      setHeader(await getPlayerName(playerData));
+    };
+    const getURL = async () => {
+      setLinkURL(await getPlayerURL(playerData));
+    };
+    getURL();
+    resolveName();
+  }, [user, playerData, router]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (playerData?.id) {
+      invalidateCache({ playerId: playerData.id });
     }
-  }, [player?.id, invalidateCache]);
+  }, [playerData?.id, invalidateCache]);
 
   if (router.isFallback) {
     return <LoadingState />;
   }
 
-  if (!player) return <Page404 />;
+  if (isValidating && !playerData) return <LoadingState />;
+  if (
+    !profileInfo?.playerProfile &&
+    username &&
+    username.includes('.') &&
+    !isValidating
+  )
+    return <Page404 />;
+  if (!playerData && router.pathname === '/me') return <Page404 />;
 
   const banner = background ? '' : bannerURL;
 
@@ -76,10 +134,13 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         : {})}
     >
       <HeadComponent
-        title={`MetaGame Profile: ${getPlayerName(player)}`}
-        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
-        url={getPlayerURL(player, { rel: false })}
-        img={getPlayerImage(player)}
+        title={`MetaGame Profile: ${header}`}
+        description={(getPlayerDescription(playerData) ?? '').replace(
+          '\n',
+          ' ',
+        )}
+        url={linkURL}
+        img={getPlayerImage(playerData)}
       />
       {banner && (
         <Box
@@ -109,7 +170,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
             }
           : {})}
       >
-        <Grid {...{ player }} />
+        {playerData && <Grid {...{ player: playerData, ens: userENS }} />}
       </Flex>
     </PageContainer>
   );
@@ -117,9 +178,8 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
 export default PlayerPage;
 
-export const Grid: React.FC<Props> = ({ player }): ReactElement => {
+export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
   const { user, fetching } = useUser();
-
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
   const isOwnProfile = useMemo(
@@ -161,6 +221,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         allBoxOptions: ALL_BOXES,
         displayComponent: PlayerSection,
         pt: isOwnProfile ? 0 : '4rem',
+        ens,
       }}
     />
   );
@@ -203,9 +264,9 @@ export const getStaticProps = async (
 
   return {
     props: {
-      player: player ?? null, // must be serializable
+      player: player ?? null, // must be serializable.
       key: username.toLowerCase(),
-      hideTopMenu: !player,
+      hideTopMenu: false,
     },
     revalidate: 1,
   };

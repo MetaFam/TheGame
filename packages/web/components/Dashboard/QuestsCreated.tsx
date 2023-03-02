@@ -3,9 +3,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  ListItem,
   LoadingState,
-  MetaTag,
   Switch,
   Text,
   UnorderedList,
@@ -17,13 +15,12 @@ import {
   useGetQuestsWithCompletionsQuery,
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import moment from 'moment';
 import React, { useState } from 'react';
-import { getPlayerName } from 'utils/playerHelpers';
+
+import { QuestCompletionItem } from './QuestCompletionItem';
 
 export const DashboardQuestsCreated: React.FC = () => {
   const { user } = useUser();
-
   const [pendingOnly, setPendingOnly] = useState(true);
 
   const [createdQuestsResponse] = useGetQuestsWithCompletionsQuery({
@@ -68,14 +65,10 @@ export const DashboardQuestsCreated: React.FC = () => {
                 {quest.quest_completions?.length > 0 && (
                   <UnorderedList>
                     {quest.quest_completions.map((questCompletion) => (
-                      <ListItem pb={1}>
-                        {getPlayerName(questCompletion.player as Player)}
-                        <MetaTag ml={2}>
-                          {moment(questCompletion.submittedAt).format(
-                            'MMM D h:mma',
-                          )}
-                        </MetaTag>
-                      </ListItem>
+                      <QuestCompletionItem
+                        submittedAt={questCompletion.submittedAt}
+                        player={questCompletion.player as Player}
+                      />
                     ))}
                   </UnorderedList>
                 )}

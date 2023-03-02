@@ -41,4 +41,5 @@ export const CONFIG = {
   alchemyApiKey:
     process.env.NEXT_ALCHEMY_API_KEY || 'eoEduI_LCCxfMPe9MKrpvly-qWtBBY7I',
   hostName: 'https://metagame.wtf',
+  mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
 };
