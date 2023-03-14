@@ -26,17 +26,29 @@ export const getENSForAddress = async (address: string | undefined) => {
   }
 };
 
+<<<<<<< HEAD
 export const getENSAndPlayer = async (username: string) => {
   if (username == null) {
     return null;
   }
 
   let userAddress: string | undefined;
+=======
+export const getPlayerAndENSName = async (username: string) => {
+  if (username == null) {
+    return { player: null, ens: null };
+  }
+  const user = {
+    address: '',
+    ens: '',
+  };
+>>>>>>> 7b477b48 (Fixed player loading)
 
   if (username.includes('.')) {
     const address = await getAddressForENS(username);
     userAddress = address?.toLowerCase();
   }
+<<<<<<< HEAD
   if (userAddress != null) {
     const player = await getPlayer(userAddress);
     return {
@@ -45,4 +57,15 @@ export const getENSAndPlayer = async (username: string) => {
     };
   }
   return null;
+=======
+
+  const player = await getPlayer(user.address);
+
+  const profileInfo = {
+    player,
+    ens: user.ens,
+  };
+
+  return profileInfo;
+>>>>>>> 7b477b48 (Fixed player loading)
 };

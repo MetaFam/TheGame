@@ -48,14 +48,34 @@ import {
 } from 'utils/playerHelpers';
 
 export type PlayerPageProps = {
-  player: Player;
+  player: Maybe<Player>;
   isHydratedFromComposeDB?: boolean;
 };
 
 export const PlayerPage: React.FC<PlayerPageProps> = ({
-  player,
+  player: playerFromProps,
   isHydratedFromComposeDB = false,
 }): ReactElement => {
+  const router = useRouter();
+
+  const username = router.query.username as string;
+
+  // if the given player is not known and the username contains a dot,
+  // try looking up an ENS address
+  const { data: playerData, isValidating } = useSWR(
+    username && username.includes('.') && !playerFromProps ? username : null,
+    getENSAndPlayer,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  if (router.isFallback || (isValidating && !playerData)) {
+    return <LoadingState />;
+  }
+
+  const player = playerFromProps || playerData?.player;
+
   if (!player) return <Page404 />;
 
   return (
@@ -63,18 +83,16 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
       player={player}
       isHydratedAlready={isHydratedFromComposeDB}
     >
-      <PlayerPageContent />
+      <PlayerPageContent ens={playerData?.ens || undefined} />
     </PlayerHydrationContextProvider>
   );
 };
 
-const PlayerPageContent: React.FC = () => {
+const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
   const router = useRouter();
 
   const { hydratedPlayer, hydrateFromComposeDB } = usePlayerHydrationContext();
-  const [playerData, setPlayerData] = useState<Player>(hydratedPlayer);
   const { user, fetching } = useUser();
-  const [userENS, setENS] = useState('');
 
   const username = router.query.username as string;
   const [player, setPlayer] = useState(hydratedPlayer);
@@ -110,16 +128,13 @@ const PlayerPageContent: React.FC = () => {
     getENSAndPlayer,
     { revalidateOnFocus: false },
   );
-  const ens = ensAndPlayer?.ens ?? undefined;
+
   useEffect(() => {
     if (ensAndPlayer?.player) {
       setPlayer(ensAndPlayer.player);
     }
   }, [ensAndPlayer?.player]);
 
-  // TODO create a button that migrates a user's data explicitly from
-  // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
-  // if it exists
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
   const isOwnProfile = useMemo(
@@ -134,6 +149,9 @@ const PlayerPageContent: React.FC = () => {
     [hydrateFromComposeDB],
   );
 
+  // TODO create a button that migrates a user's data explicitly from
+  // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
+  // if it exists
   const bannerURL = getPlayerBannerFull(player);
   const background = getPlayerBackgroundFull(player);
 
@@ -207,9 +225,7 @@ const PlayerPageContent: React.FC = () => {
             }
           : {})}
       >
-        {playerData && (
-          <Grid {...{ player: playerData, ens: userENS, isOwnProfile, user }} />
-        )}
+        {player && <Grid {...{ player, ens, isOwnProfile, user }} />}
       </Flex>
       {isOwnProfile && user?.profile && !user.ceramicProfileId ? (
         <ComposeDBPromptModal
