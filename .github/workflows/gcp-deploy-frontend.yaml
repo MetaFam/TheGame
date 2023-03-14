@@ -82,30 +82,30 @@ jobs:
       - name: First Interpolation of Variables
         id: first
         run: |
-          echo "CLOUDRUN_REGION=${{env.REGISTRY_REGION}}" > $GITHUB_ENV
-          echo "DOCKER_REGISTRY=${{env.REGISTRY_REGION}}-docker.pkg.dev" > $GITHUB_ENV
+          echo "CLOUDRUN_REGION=${{env.REGISTRY_REGION}}" >> $GITHUB_ENV
+          echo "DOCKER_REGISTRY=${{env.REGISTRY_REGION}}-docker.pkg.dev" >> $GITHUB_ENV
           if [[ ${{github.ref_name}} == 'master' ]]; then
-              echo "NODE_ENV=production" > $GITHUB_ENV
-              echo "HASURA_HOST=api.metagame.wtf" > $GITHUB_ENV
-              echo "FRONTEND_URL=https://metagame.wtf" > $GITHUB_ENV
+              echo "NODE_ENV=production" >> $GITHUB_ENV
+              echo "HASURA_HOST=api.metagame.wtf" >> $GITHUB_ENV
+              echo "FRONTEND_URL=https://metagame.wtf" >> $GITHUB_ENV
           else
-              echo "NODE_ENV=test" > $GITHUB_ENV
-              echo "HASURA_HOST=api-staging.metagame.wtf" > $GITHUB_ENV
-              echo "FRONTEND_URL=https://test.metagame.wtf" > $GITHUB_ENV
+              echo "NODE_ENV=test" >> $GITHUB_ENV
+              echo "HASURA_HOST=api-staging.metagame.wtf" >> $GITHUB_ENV
+              echo "FRONTEND_URL=https://test.metagame.wtf" >> $GITHUB_ENV
           fi
       - name: Those Variables May Now Be Interpolated
         id: second
         run: |
           echo "DOCKER_PATH=\
-          ${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}" > $GITHUB_ENV
+          ${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
           echo "GRAPHQL_URL=\
-          https://${{env.HASURA_HOST}}/v1/graphql" > $GITHUB_ENV
+          https://${{env.HASURA_HOST}}/v1/graphql" >> $GITHUB_ENV
 
       - name: And That Result Again In Another Step
         id: third
         run: |
           echo "FRONTEND_TAG=\
-          ${{env.DOCKER_PATH}}/frontend:${{github.ref_name}}" > $GITHUB_ENV
+          ${{env.DOCKER_PATH}}/frontend:${{github.ref_name}}" >> $GITHUB_ENV
 
   build-frontend:
     name: Build Frontend Container Image
