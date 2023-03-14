@@ -37,7 +37,7 @@ import React, {
 } from 'react';
 import useSWR from 'swr';
 import { LayoutData } from 'utils/boxTypes';
-import { getENSForAddress, getPlayerData } from 'utils/ensHelpers';
+import { getPlayerAndENSName } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
@@ -48,14 +48,34 @@ import {
 } from 'utils/playerHelpers';
 
 export type PlayerPageProps = {
-  player: Player;
+  player: Maybe<Player>;
   isHydratedFromComposeDB?: boolean;
 };
 
 export const PlayerPage: React.FC<PlayerPageProps> = ({
-  player,
+  player: playerFromProps,
   isHydratedFromComposeDB = false,
 }): ReactElement => {
+  const router = useRouter();
+
+  const username = router.query.username as string;
+
+  // if the given player is not known and the username contains a dot,
+  // try looking up an ENS address
+  const { data: playerData, isValidating } = useSWR(
+    username && username.includes('.') && !playerFromProps ? username : null,
+    getPlayerAndENSName,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  if (router.isFallback || (isValidating && !playerData)) {
+    return <LoadingState />;
+  }
+
+  const player = playerFromProps || playerData?.player;
+
   if (!player) return <Page404 />;
 
   return (
@@ -63,43 +83,20 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
       player={player}
       isHydratedAlready={isHydratedFromComposeDB}
     >
-      <PlayerPageContent />
+      <PlayerPageContent ens={playerData?.ens || undefined} />
     </PlayerHydrationContextProvider>
   );
 };
 
-const PlayerPageContent: React.FC = () => {
+const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
   const router = useRouter();
 
   const { user, fetching } = useUser();
-  const [userENS, setENS] = useState('');
   const [linkURL, setLinkURL] = useState<string>();
   const [header, setHeader] = useState('');
   const { hydratedPlayer: player, hydrateFromComposeDB } =
     usePlayerHydrationContext();
-  const [playerData, setPlayerData] = useState<Player>(player);
 
-  const username = router.query.username as string;
-
-  const { data: profileInfo, isValidating } = useSWR(
-    username && username.includes('.') ? username : null,
-    getPlayerData,
-    {
-      revalidateOnFocus: false,
-    },
-  );
-
-  useEffect(() => {
-    if (playerData) return;
-    if (profileInfo && profileInfo.playerProfile && profileInfo.ens) {
-      setPlayerData(profileInfo.playerProfile as Player);
-      setENS(profileInfo.ens);
-    }
-  }, [profileInfo]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // TODO create a button that migrates a user's data explicitly from
-  // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
-  // if it exists
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
   const isOwnProfile = useMemo(
@@ -114,6 +111,9 @@ const PlayerPageContent: React.FC = () => {
     [hydrateFromComposeDB],
   );
 
+  // TODO create a button that migrates a user's data explicitly from
+  // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
+  // if it exists
   const bannerURL = getPlayerBannerFull(player);
   const background = getPlayerBackgroundFull(player);
 
@@ -127,32 +127,16 @@ const PlayerPageContent: React.FC = () => {
 
   useEffect(() => {
     const resolveName = async () => {
-      if (user && !userENS && router.pathname === '/me') {
-        setPlayerData((await getPlayer(user?.ethereumAddress)) as Player);
-        setENS((await getENSForAddress(user?.ethereumAddress)) || '');
-      }
-      setHeader(await getPlayerName(playerData));
+      setHeader(await getPlayerName(player));
     };
     const getURL = async () => {
-      setLinkURL(await getPlayerURL(playerData));
+      setLinkURL(await getPlayerURL(player));
     };
     getURL();
     resolveName();
-  }, [user, playerData, router]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [player]);
 
-  if (router.isFallback) {
-    return <LoadingState />;
-  }
-
-  if (isValidating && !playerData) return <LoadingState />;
-  if (
-    !profileInfo?.playerProfile &&
-    username &&
-    username.includes('.') &&
-    !isValidating
-  )
-    return <Page404 />;
-  if (!playerData && router.pathname === '/me') return <Page404 />;
+  if (!player && router.pathname === '/me') return <Page404 />;
 
   const banner = metagamer && background ? '' : bannerURL;
 
@@ -172,12 +156,9 @@ const PlayerPageContent: React.FC = () => {
     >
       <HeadComponent
         title={`MetaGame Profile: ${header}`}
-        description={(getPlayerDescription(playerData) ?? '').replace(
-          '\n',
-          ' ',
-        )}
+        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
-        img={getPlayerImage(playerData)}
+        img={getPlayerImage(player)}
       />
       {banner != null ? (
         <Box
@@ -206,9 +187,7 @@ const PlayerPageContent: React.FC = () => {
             }
           : {})}
       >
-        {playerData && (
-          <Grid {...{ player: playerData, ens: userENS, isOwnProfile, user }} />
-        )}
+        {player && <Grid {...{ player, ens, isOwnProfile, user }} />}
       </Flex>
       {isOwnProfile && user?.profile && !user.ceramicProfileId ? (
         <ComposeDBPromptModal

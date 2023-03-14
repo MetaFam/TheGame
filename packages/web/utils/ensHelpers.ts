@@ -26,15 +26,14 @@ export const getENSForAddress = async (address: string | undefined) => {
   }
 };
 
-export const getPlayerData = async (username: string) => {
+export const getPlayerAndENSName = async (username: string) => {
+  if (username == null) {
+    return { player: null, ens: null };
+  }
   const user = {
     address: '',
     ens: '',
   };
-
-  if (username == null) {
-    return { playerProfile: '', ens: '' };
-  }
 
   if (username.includes('.')) {
     await getAddressForENS(username).then((address) => {
@@ -43,10 +42,10 @@ export const getPlayerData = async (username: string) => {
     user.ens = username;
   }
 
-  const player = await getPlayer(user.address).then((data) => data);
+  const player = await getPlayer(user.address);
 
   const profileInfo = {
-    playerProfile: player,
+    player,
     ens: user.ens,
   };
 
