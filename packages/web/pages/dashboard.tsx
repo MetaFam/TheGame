@@ -1,3 +1,4 @@
+import { Maybe } from '@metafam/utils';
 import { ConnectedPage } from 'components/ConnectedPage';
 import { PageContainer } from 'components/Container';
 import {
@@ -19,23 +20,23 @@ const ConnectedDashboardPage: React.FC<Props> = () => (
 
 export default ConnectedDashboardPage;
 
-type Props = { player: Player };
+type Props = { player: Maybe<Player> };
 
 export const DashboardPage: React.FC<Props> = ({ player }) => {
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
   const savedLayoutData = useMemo<LayoutData>(
     () =>
-      player.dashboardLayout
+      player?.dashboardLayout
         ? JSON.parse(player.dashboardLayout)
         : DEFAULT_DASHBOARD_LAYOUT_DATA,
-    [player.dashboardLayout],
+    [player?.dashboardLayout],
   );
 
   const persistLayoutData = useCallback(
     async (layoutData: LayoutData) => {
       const { error } = await saveLayoutData({
-        playerId: player.id,
+        playerId: player?.id,
         dashboardLayout: JSON.stringify(layoutData),
       });
 
@@ -43,6 +44,8 @@ export const DashboardPage: React.FC<Props> = ({ player }) => {
     },
     [saveLayoutData, player],
   );
+
+  if (!player) return null;
 
   return (
     <PageContainer>

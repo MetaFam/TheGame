@@ -4,7 +4,6 @@ import {
   getLatestEthAddress,
   getNumWeeksInSeason,
   isDefined,
-  isNewSeason,
 } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
