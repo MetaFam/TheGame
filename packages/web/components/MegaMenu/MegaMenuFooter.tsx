@@ -15,27 +15,19 @@ import {
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
-import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+import React from 'react';
 
 import { XPSeedsBalance } from './XPSeedsBalance';
 
 // Display player XP and Seed
 export const MegaMenuFooter = () => {
-  const [linkURL, setLinkURL] = useState<string>();
-  const [name, setName] = useState('');
-
   const { connecting, connected, connect, disconnect } = useWeb3();
   const { fetching, user } = useUser();
+  const name = usePlayerName(user);
+  const linkURL = usePlayerURL(user);
   const mounted = useMounted();
-
-  useEffect(() => {
-    const getPlayer = async () => {
-      setLinkURL(await getPlayerURL(user));
-      setName(await getPlayerName(user));
-    };
-    getPlayer();
-  }, [user]);
 
   return (
     <Flex

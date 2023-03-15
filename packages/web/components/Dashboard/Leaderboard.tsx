@@ -16,7 +16,7 @@ import {
   SortOption,
   sortOptionsMap,
   usePlayerFilter,
-} from 'lib/hooks/players';
+} from 'lib/hooks/player/players';
 import React, { useMemo, useState } from 'react';
 
 import { LeaderboardLink } from './LeaderboardLink';

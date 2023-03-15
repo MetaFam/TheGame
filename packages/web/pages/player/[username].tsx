@@ -15,6 +15,8 @@ import {
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { useProfileField, useUser } from 'lib/hooks';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
@@ -33,8 +35,6 @@ import {
   getPlayerBannerFull,
   getPlayerDescription,
   getPlayerImage,
-  getPlayerName,
-  getPlayerURL,
 } from 'utils/playerHelpers';
 
 type Props = {
@@ -46,8 +46,8 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
   const router = useRouter();
   const { user } = useUser();
   const [userENS, setENS] = useState('');
-  const [linkURL, setLinkURL] = useState<string>();
-  const [header, setHeader] = useState('');
+  const linkURL = usePlayerURL(player);
+  const header = usePlayerName(player);
   const [playerData, setPlayerData] = useState<Player>(player);
 
   const username = router.query.username as string;
@@ -95,12 +95,7 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
         setPlayerData((await getPlayer(user?.ethereumAddress)) as Player);
         setENS((await getENSForAddress(user?.ethereumAddress)) || '');
       }
-      setHeader(await getPlayerName(playerData));
     };
-    const getURL = async () => {
-      setLinkURL(await getPlayerURL(playerData));
-    };
-    getURL();
     resolveName();
   }, [user, playerData, router]); // eslint-disable-line react-hooks/exhaustive-deps
 

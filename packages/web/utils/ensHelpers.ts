@@ -18,6 +18,7 @@ export const getAddressForENS = async (ens: string) => {
 
 export const getENSForAddress = async (address: string | undefined) => {
   if (!address) return null;
+  // console.log('getENSForAddress', address);
   try {
     const name = await mainnetProvider.lookupAddress(address);
     return name;
