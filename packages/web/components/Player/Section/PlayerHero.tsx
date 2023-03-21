@@ -27,12 +27,10 @@ import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useProfileField, useUser } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
-
-const MAX_BIO_LENGTH = 240;
 
 type HeroProps = {
   player: Player;
@@ -186,11 +184,6 @@ const Description: React.FC<DisplayComponentProps> = ({
     field: 'description',
     player,
   });
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setShow((description ?? '').length <= MAX_BIO_LENGTH);
-  }, [description]);
 
   if (!description || description === '') {
     return null;
