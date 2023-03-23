@@ -15,7 +15,6 @@ import {
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import React, { useCallback } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { errorHandler } from 'utils/errorHandler';
 import {
   QuestChainRolesDetails,
   QuestChainsRoles,
@@ -134,30 +133,26 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
-  const questchain = context.params?.questchain;
-  if (!questchain) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
+  const questChainName = context.params?.questchain;
+  if (questChainName) {
+    let questChain: graphql.QuestChainInfoFragment | null = null;
+    try {
+      const info = QuestChainRolesDetails[questChainName];
+      questChain = await getQuestChainInfo(info.chainId, info.address);
+      if (questChain != null) {
+        return {
+          props: {
+            questChain,
+            name: questChainName,
+          },
+          revalidate: 1,
+        };
+      }
+    } catch (error) {
+      console.error('error', error);
+    }
   }
-
-  let questChain: graphql.QuestChainInfoFragment | null = null;
-  try {
-    const info = QuestChainRolesDetails[questchain];
-    questChain = await getQuestChainInfo(info.chainId, info.address);
-  } catch (error) {
-    console.error({ error });
-    errorHandler(error as Error);
-  }
-
   return {
-    props: {
-      questChain,
-      name: questchain,
-    },
-    revalidate: 1,
+    notFound: true,
   };
 };
