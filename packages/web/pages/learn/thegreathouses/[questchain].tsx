@@ -153,10 +153,6 @@ export const getStaticProps = async (
   }
 
   return {
-    props: {
-      questChain,
-      name: questchain,
-    },
-    revalidate: 1,
+    notFound: true,
   };
 };
