@@ -47,6 +47,8 @@ export default async (req: Request, res: Response): Promise<void> => {
     const controllerEthAddress = controller.substring(
       controller.lastIndexOf(':') + 1,
     );
+    // controller is something like did:pkh:eip155:137:0x4c81e51aa103490838fd9db1d859a5fcd8276324
+    // make sure this is a mainnet address!
     if (
       controller.startsWith('did:pkh') &&
       controllerEthAddress.toLowerCase() === ethereumAddress.toLowerCase()
