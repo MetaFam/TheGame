@@ -9,7 +9,6 @@ export const MetaLink: React.FC<Props> = ({
   children,
   href,
   as,
-  passHref,
   replace,
   scroll = true,
   shallow,
@@ -33,7 +32,8 @@ export const MetaLink: React.FC<Props> = ({
         scroll,
         shallow,
       }}
-      passHref={passHref || true}
+      passHref={true}
+      legacyBehavior={true}
     >
       {/*  NextLink passes the href */}
       <Link color="cyan.400" {...props}>

@@ -2,12 +2,12 @@ import { ComposeClient } from '@composedb/client';
 import { composeDBDefinition } from '@metafam/utils';
 import { Request, Response } from 'express';
 
-import { CONFIG } from '../../../config.js';
+import { CONFIG } from '../../../../config.js';
 import {
   LinkCeramicProfileNodeResponse,
   Mutation_RootLinkCeramicProfileNodeArgs,
-} from '../../../lib/autogen/hasura-sdk.js';
-import { client } from '../../../lib/hasuraClient.js';
+} from '../../../../lib/autogen/hasura-sdk.js';
+import { client } from '../../../../lib/hasuraClient.js';
 
 export default async (req: Request, res: Response): Promise<void> => {
   const { input, session_variables: sessionVariables } = req.body;
@@ -52,7 +52,6 @@ export default async (req: Request, res: Response): Promise<void> => {
       controllerEthAddress.toLowerCase() === ethereumAddress.toLowerCase()
     ) {
       // We confirmed they indeed control this model, so persist it as theirs
-
       await client.UpdatePlayerById({
         playerId,
         input: { ceramicProfileId: nodeId },

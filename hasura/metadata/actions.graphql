@@ -51,12 +51,7 @@ type Mutation {
 
 
 type Mutation {
-  updateExpiredIDXProfiles : ExpiredPlayerProfiles
-}
-
-
-type Mutation {
-  updateIDXProfile (
+  updateCachedProfile (
     playerId: uuid
   ): CacheProcessOutput
 }
