@@ -36,7 +36,11 @@ import {
   isHasuraImageField,
   profileMapping,
 } from '@metafam/utils';
-import { Maybe, Player, Profile } from 'graphql/autogen/types';
+import {
+  Maybe,
+  Player,
+  useInsertCacheInvalidationMutation,
+} from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { PlayerProfile } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
@@ -106,6 +110,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const username = player.profile?.username;
 
   const { save } = useSaveToComposeDB();
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
 
   const initialFormValues = useMemo(
     () => getDefaultFormValues(player),
@@ -233,6 +238,11 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
       const payload = hasuraToComposeDBProfile(profile, profileImages);
       const ceramicStreamID = await save(payload);
+
+      if (player) {
+        setStatus('Invalidating Cache…');
+        await invalidateCache({ playerId: player.id });
+      }
 
       // if they changed their username, the page will 404 on reload
       if (player && inputs.username !== username) {
