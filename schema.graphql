@@ -1076,6 +1076,14 @@ type DiscordGuildAuthResponse {
   success: Boolean!
 }
 
+type DiscordGuildsSyncOutput {
+  name: String!
+  numDeleted: Int
+  numInserted: Int
+  numSkipped: Int
+  username: String!
+}
+
 type DiscordRole {
   id: String!
   name: String!
@@ -4083,14 +4091,19 @@ type mutation_root {
   saveGuildLayout(guildLayoutInfo: GuildLayoutInfoInput!): SaveGuildLayoutResponse
 
   """
-  perform the action: "updateExpiredIDXProfiles"
+  perform the action: "syncAllGuildDiscordMembers"
   """
-  updateExpiredIDXProfiles: ExpiredPlayerProfiles
+  syncAllGuildDiscordMembers: [DiscordGuildsSyncOutput]
 
   """
-  perform the action: "updateIDXProfile"
+  perform the action: "syncSourceCredAccounts"
   """
-  updateIDXProfile(playerId: uuid): uuid!
+  syncSourceCredAccounts: SourceCredSyncOutput
+
+  """
+  perform the action: "updateCachedProfile"
+  """
+  updateCachedProfile(playerId: uuid): uuid!
 
   """
   perform the action: "updateQuestCompletion"
@@ -8452,14 +8465,14 @@ type query_root {
   skill_by_pk(id: uuid!): skill
 
   """
-  retrieve the result of action: "updateIDXProfile"
+  retrieve the result of action: "updateCachedProfile"
   """
-  updateIDXProfile(
+  updateCachedProfile(
     """
-    id of the action: "updateIDXProfile"
+    id of the action: "updateCachedProfile"
     """
     id: uuid!
-  ): updateIDXProfile
+  ): updateCachedProfile
 }
 
 """
@@ -10863,6 +10876,13 @@ enum SkillCategory_update_column {
   name
 }
 
+type SourceCredSyncOutput {
+  numInserted: Int!
+  numSkipped: Int!
+  numUnclaimed: Int!
+  numUpdated: Int!
+}
+
 """
 expression to compare columns of type String. All fields are combined with logical 'AND'.
 """
@@ -12046,14 +12066,14 @@ type subscription_root {
   skill_by_pk(id: uuid!): skill
 
   """
-  retrieve the result of action: "updateIDXProfile"
+  retrieve the result of action: "updateCachedProfile"
   """
-  updateIDXProfile(
+  updateCachedProfile(
     """
-    id of the action: "updateIDXProfile"
+    id of the action: "updateCachedProfile"
     """
     id: uuid!
-  ): updateIDXProfile
+  ): updateCachedProfile
 }
 
 scalar timestamptz
@@ -12080,9 +12100,9 @@ type TokenBalances {
 }
 
 """
-fields of action: "updateIDXProfile"
+fields of action: "updateCachedProfile"
 """
-type updateIDXProfile {
+type updateCachedProfile {
   """the time at which this action was created"""
   created_at: timestamptz
 
