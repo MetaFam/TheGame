@@ -24,7 +24,7 @@ actions:
 - name: linkCeramicProfileNode
   definition:
     kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/ceramic/linkProfileNode'
+    handler: '{{ACTION_BASE_ENDPOINT}}/composeDB/linkProfileNode'
     forward_client_headers: true
   permissions:
   - role: player
@@ -53,7 +53,7 @@ actions:
 - name: updateCachedProfile
   definition:
     kind: asynchronous
-    handler: http://host.do{{ACTION_BASE_ENDPOINT}}/composeDB/updateCachedProfile.internal:3000
+    handler: '{{ACTION_BASE_ENDPOINT}}/composeDB/updateCachedProfile'
     forward_client_headers: true
 - name: updateQuestCompletion
   definition:
