@@ -5,6 +5,7 @@ import { composeDBDefinition, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
 import { cacheDIDSession, getCachedDIDSession } from 'lib/auth';
+import { CeramicError } from 'lib/errors';
 import { useWeb3 } from 'lib/hooks/useWeb3';
 import { createContext, PropsWithChildren, useCallback, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
@@ -33,7 +34,7 @@ const composeDBClient = new ComposeClient({
 export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const { provider } = useWeb3();
+  const { chainId, provider } = useWeb3();
 
   const [connecting, setConnecting] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
@@ -66,6 +67,9 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
 
   const connect = useCallback(async () => {
     if (provider == null || connecting) return;
+    if (chainId !== '0x1') {
+      throw new CeramicError('ComposeDB should be used on mainnet only');
+    }
 
     setConnecting(true);
 
@@ -86,7 +90,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     } finally {
       setConnecting(false);
     }
-  }, [connecting, createSession, disconnect, provider]);
+  }, [connecting, createSession, disconnect, provider, chainId]);
 
   return (
     <ComposeDBContext.Provider
