@@ -611,13 +611,14 @@
       set:
         id: x-hasura-User-Id
   event_triggers:
-  - name: cacheIDXProfile
+  - name: cacheComposeDBProfile
     definition:
       enable_manual: true
       insert:
         columns: '*'
       update:
         columns:
+        - ceramic_profile_id
         - ethereum_address
     retry_conf:
       num_retries: 0

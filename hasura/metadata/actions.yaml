@@ -50,18 +50,11 @@ actions:
   definition:
     kind: synchronous
     handler: '{{ACTION_BASE_ENDPOINT}}/syncSourceCredAccounts'
-- name: updateExpiredIDXProfiles
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/idxCache/checkExpired'
-- name: updateIDXProfile
+- name: updateCachedProfile
   definition:
     kind: asynchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/idxCache/updateSingle'
+    handler: http://host.do{{ACTION_BASE_ENDPOINT}}/composeDB/updateCachedProfile.internal:3000
     forward_client_headers: true
-  permissions:
-  - role: player
-  - role: public
 - name: updateQuestCompletion
   definition:
     kind: synchronous

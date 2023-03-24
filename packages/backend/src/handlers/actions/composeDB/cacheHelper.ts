@@ -1,7 +1,7 @@
 import { Maybe } from '@metafam/utils';
 import Bottleneck from 'bottleneck';
 
-import updateCachedProfile from '../handlers/actions/idxCache/updateSingle.js';
+import { updatePlayerFromComposeDB } from './updatePlayerFromComposeDB.js';
 
 let count = 0;
 
@@ -33,7 +33,7 @@ export const queueRecache = async ({
     const preRun = count++;
 
     const result = await limiter.schedule({ id: playerId, ...opts }, () =>
-      updateCachedProfile(playerId),
+      updatePlayerFromComposeDB(playerId),
     );
     console.debug({
       msg: 'Completed Profile Update',
