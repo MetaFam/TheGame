@@ -1,4 +1,4 @@
-import { Values } from './extendedProfileTypes.js';
+import { Values } from '../extendedProfileTypes.js';
 
 export const composeDBProfileFieldName = 'name';
 export const composeDBProfileFieldDescription = 'description';
@@ -99,23 +99,3 @@ export const hasuraImageFields = [
 ] as const;
 
 export type HasuraImageFieldKey = typeof hasuraImageFields[number];
-
-// typesafe Array.includes, see https://fettblog.eu/typescript-array-includes/
-function includes<T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T {
-  return coll.includes(el as T);
-}
-
-export function isComposeDBImageField(key: string) {
-  return includes(composeDBImageFields, key);
-}
-
-export function isHasuraImageField(key: string) {
-  return includes(hasuraImageFields, key);
-}
-
-export function isImageMetadata(value: ComposeDBPayloadValue) {
-  const maybeImageMetadata = value as ComposeDBImageMetadata;
-  return (
-    maybeImageMetadata?.url != null && maybeImageMetadata?.mimeType != null
-  );
-}

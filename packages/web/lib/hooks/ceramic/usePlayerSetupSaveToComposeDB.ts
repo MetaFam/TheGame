@@ -12,6 +12,7 @@ import {
   profileMapping,
 } from '@metafam/utils';
 import { useSetupFlow } from 'contexts/SetupContext';
+import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { PlayerProfile } from 'graphql/types';
 import { CeramicError } from 'lib/errors';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
@@ -20,6 +21,7 @@ import { getImageDimensions } from 'utils/imageHelpers';
 import { uploadFile } from 'utils/uploadHelpers';
 
 import { FileReaderData } from '../useImageReader';
+import { useUser } from '../useUser';
 import { useSaveToComposeDB } from './useSaveToComposeDB';
 
 export type PlayerSetupSaveToComposeDBProps = {
@@ -34,18 +36,12 @@ export function usePlayerSetupSaveToComposeDB({
   pickedFile: fileData,
 }: PlayerSetupSaveToComposeDBProps) {
   const toast = useToast();
+  const { user } = useUser();
   const { onNextPress } = useSetupFlow();
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
 
   const { save: saveToComposeDB, status: saveStatus } = useSaveToComposeDB();
-
-  const persist = useCallback(
-    (values: Record<string, unknown>) => {
-      setStatus('Saving to Ceramic…');
-      return saveToComposeDB(values);
-    },
-    [saveToComposeDB],
-  );
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
 
   useEffect(() => {
     if (saveStatus === 'authenticating') {
@@ -94,8 +90,13 @@ export function usePlayerSetupSaveToComposeDB({
             payload[composeDBProfileFieldAvatar] = cleanImageMetadata;
           }
 
-          setStatus('Saving…');
-          nodeId = await persist(payload);
+          setStatus('Saving to ComposeDB…');
+          nodeId = await saveToComposeDB(payload);
+
+          if (user) {
+            setStatus('Invalidating Cache…');
+            await invalidateCache({ playerId: user.id });
+          }
         }
 
         if (onComplete) {
@@ -116,7 +117,16 @@ export function usePlayerSetupSaveToComposeDB({
         setStatus(null);
       }
     },
-    [fileData, isChanged, onComplete, onNextPress, persist, toast],
+    [
+      fileData,
+      invalidateCache,
+      isChanged,
+      onComplete,
+      onNextPress,
+      saveToComposeDB,
+      toast,
+      user,
+    ],
   );
 
   return {
