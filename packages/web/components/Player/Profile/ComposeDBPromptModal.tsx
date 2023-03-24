@@ -8,6 +8,7 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  Text,
   useToast,
 } from '@metafam/ds';
 import {
@@ -16,8 +17,10 @@ import {
   Maybe,
 } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { Player } from 'graphql/autogen/types';
 import { CeramicError } from 'lib/errors';
+import { useWeb3 } from 'lib/hooks';
 import { hasuraToComposeDBProfile } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -42,6 +45,7 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
 }) => {
   const toast = useToast();
   const [status, setStatus] = useState(initialStatus);
+  const { chainId } = useWeb3();
 
   const [profileImageMetadata, setProfileImageMetadata] =
     useState<Maybe<ComposeDBImageMetadata>>(null);
@@ -162,11 +166,20 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
               </MetaLink>
               for storing profile data.
             </Box>
-            {/* <Box>What is this?</Box> */}
             <Box mt={10}>
-              <MetaButton disabled={!areImagesLoaded} onClick={onClick}>
-                {status}
-              </MetaButton>
+              {chainId === '0x1' ? (
+                <>
+                  {/* <Box>What is this?</Box> */}
+                  <MetaButton disabled={!areImagesLoaded} onClick={onClick}>
+                    {status}
+                  </MetaButton>
+                </>
+              ) : (
+                <Text fontSize="md" w="100%" textAlign="center">
+                  Please switch to <SwitchNetworkButton chainId="0x1" /> to
+                  progress
+                </Text>
+              )}
             </Box>
           </Center>
         </ModalBody>

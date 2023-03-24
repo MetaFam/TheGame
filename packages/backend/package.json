@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node --trace-warnings dist/index.js",
     "build": "yarn generate && tsc -b",
-    "dev": "tsc --build && concurrently 'tsc --watch --preserveWatchOutput' nodemon 'yarn generate # --watch'",
+    "dev": "tsc --build && concurrently 'tsc --watch --preserveWatchOutput' nodemon",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
     "generate": "graphql-codegen && yarn fix:daohaus-types",
