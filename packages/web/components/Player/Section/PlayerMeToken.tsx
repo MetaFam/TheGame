@@ -3,7 +3,7 @@ import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
-import { getMeToken } from 'utils/meTokens';
+import { getMeToken, getMeTokenInfo, nullMeToken } from 'utils/meTokens';
 
 type Props = {
   player: Player;
@@ -15,17 +15,26 @@ export const PlayerMeTokens: React.FC<Props> = ({
   isOwnProfile,
   editing,
 }) => {
-  const [meTokenData, setMeTokenData] = useState<string>('');
+  const [meTokenAddress, setMeTokenAddress] = useState<string>('');
+  const [meTokenData, setMeTokenData] = useState<any>('');
 
   useEffect(() => {
-    const getData = async () => {
+    const getTokenByOwner = async () => {
       await getMeToken(player?.ethereumAddress).then((r) =>
-        r === -1 ? setMeTokenData('Create a Me Token') : '',
+        setMeTokenAddress(r === nullMeToken ? 'Create meToken' : r),
       );
     };
 
-    getData();
+    getTokenByOwner();
   }, [player]);
+
+  useEffect(() => {
+    const getInfoByToken = async () => {
+      await getMeTokenInfo(meTokenAddress).then((r) => setMeTokenData(r));
+    };
+
+    getInfoByToken();
+  }, [meTokenAddress]);
 
   return (
     <ProfileSection
@@ -34,7 +43,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
       {...{ isOwnProfile, editing }}
     >
       <Wrap mb={4} justify="center">
-        {meTokenData === 'Create a Me Token' ? (
+        {meTokenAddress === 'Create meToken' ? (
           <>
             <a
               href="https://metokens.com/create-token"
@@ -45,7 +54,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
             </a>
           </>
         ) : (
-          <>{meTokenData}</>
+          <>{meTokenAddress}</>
         )}
       </Wrap>
     </ProfileSection>
