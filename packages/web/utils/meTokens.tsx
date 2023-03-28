@@ -1,5 +1,7 @@
+import { Orbis } from '@orbisclub/orbis-sdk';
 import { CONFIG } from 'config';
 import erc20Abi from 'contracts/erc20.abi';
+import HubFacetAbi from 'contracts/HubFacet.abi';
 import MeTokensRegistryABI from 'contracts/meTokensRegistry.abi';
 import { Contract, ethers } from 'ethers';
 
@@ -27,10 +29,15 @@ export const getMeToken = async (address: string) => {
 };
 
 export const getMeTokenInfo = async (address: string) => {
+  const orbis = new Orbis();
+  const { data } = await orbis.getDids(
+    '0xA64fc17B157aaA50AC9a8341BAb72D4647d0f1A7',
+  );
+
   const info = {
     symbol: '',
-    collateral: '',
     profilePicture: '',
+    collateral: '',
     address,
   };
 
@@ -45,9 +52,12 @@ export const getMeTokenInfo = async (address: string) => {
     MeTokensRegistryABI,
     signer,
   );
+
+  const hub = await new Contract(metokenDiamond, HubFacetAbi, signer);
   const tokenInfo = await registry.getMeTokenInfo(address);
-
+  const collateral = await hub.getBasicHubInfo(tokenInfo?.hubId);
+  info.profilePicture = data[0].details.profile.pfp;
   info.symbol = `$${await erc20.symbol()}`;
-
+  info.collateral = collateral;
   return info;
 };
