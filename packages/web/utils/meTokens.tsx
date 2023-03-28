@@ -1,4 +1,5 @@
 import { CONFIG } from 'config';
+import erc20Abi from 'contracts/erc20.abi';
 import MeTokensRegistryABI from 'contracts/meTokensRegistry.abi';
 import { Contract, ethers } from 'ethers';
 
@@ -17,22 +18,36 @@ export const getMeToken = async (address: string) => {
   const registry = await new Contract(
     metokenDiamond,
     MeTokensRegistryABI,
-    mainnetProvider.getSigner('0xc0163E58648b247c143023CFB26C2BAA42C9d9A9'),
+    mainnetProvider.getSigner(address),
   );
-  const data = await registry.getOwnerMeToken(address);
+  const data = await registry.getOwnerMeToken(
+    '0xA64fc17B157aaA50AC9a8341BAb72D4647d0f1A7',
+  );
   return data;
 };
 
 export const getMeTokenInfo = async (address: string) => {
+  const info = {
+    symbol: '',
+    collateral: '',
+    profilePicture: '',
+    address,
+  };
+
   const signer = await mainnetProvider.getSigner(
     '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
   );
+
+  const erc20 = await new Contract(address, erc20Abi, signer);
 
   const registry = await new Contract(
     metokenDiamond,
     MeTokensRegistryABI,
     signer,
   );
-  const data = await registry.getMeTokenInfo(address);
-  return data;
+  const tokenInfo = await registry.getMeTokenInfo(address);
+
+  info.symbol = `$${await erc20.symbol()}`;
+
+  return info;
 };

@@ -30,7 +30,9 @@ export const PlayerMeTokens: React.FC<Props> = ({
 
   useEffect(() => {
     const getInfoByToken = async () => {
-      await getMeTokenInfo(meTokenAddress).then((r) => setMeTokenData(r));
+      setMeTokenData(
+        await getMeTokenInfo(meTokenAddress).then((r) => setMeTokenData(r)),
+      );
     };
 
     getInfoByToken();
@@ -54,7 +56,10 @@ export const PlayerMeTokens: React.FC<Props> = ({
             </a>
           </>
         ) : (
-          <>{meTokenAddress}</>
+          <>
+            <>{meTokenData.symbol}</>
+            <>{meTokenData.address}</>
+          </>
         )}
       </Wrap>
     </ProfileSection>
