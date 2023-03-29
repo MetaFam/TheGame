@@ -229,7 +229,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreicckiix6btnencnved335petq4jpeyabd6hmjmd2qbe7gt3otpnv4',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.INSTALL_A_WEB3_WALLET_AND_GET_GAS]: {
     address: '0xa1e05963535a060bfc2e9332c3fa7467c1ed607b',
@@ -238,7 +238,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreieiy2goz6z42prjsdo6brw4uq4woysu3kc765j6lojgif7cnof65m',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.BUILDING_A_STRONG_DAO_FOUNDATION_ESSENTIAL_QUESTIONS_FROM_DAO_CANVAS]:
     {
@@ -249,7 +249,7 @@ export const QuestChainPlaybooksDetails: Record<
       description:
         'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
       image:
-        'https://w3s.link/ipfs/bafkreiesodr4n6loco4dlq6mj6hk3bg6l7vz3csaysdmg3s3aekhwu6yq4',
+        'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
     },
   [QuestChainsPlaybooks.GUILDING_101_A_STARTER_KIT_FOR_SUCCESSFUL_TEAMS]: {
     address: '0x340804f8ea5d5d660b7f3fa8f2c37408920bf7fe',
@@ -258,7 +258,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreibsaig3kue3rvytoskx6zvvtnc5wcgmzppxjsl7p3br54yuqc76ua',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.BUILDING_SUCCESSFUL_TEAMS]: {
     address: '0xd52fdc2ce552c73cdbbc6dbdc6ff739d3ad919ca',
@@ -267,7 +267,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreihx3znhcqbyf6s5ylwtp3xmp4xgqjwrzoth6og7o5dm3qa6lgvxza',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.ADDING_VALUE_TO_A_DAO_WITHOUT_TECHNICAL_SKILLS_UNLOCK_YOUR_POTENTIAL]:
     {
@@ -278,7 +278,7 @@ export const QuestChainPlaybooksDetails: Record<
       description:
         'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
       image:
-        'https://w3s.link/ipfs/bafkreiewuzwe4jvtrushqv6mlkn5fvblp6cfan6tnzv675guepwau2ormq',
+        'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
     },
   [QuestChainsPlaybooks.HOW_TO_COACH_ETH]: {
     address: '0xba480bc74150fa05e9d1c815e7f4dd03bab82e85',
@@ -287,7 +287,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreif7di6put6ltyceoz4cjvschdomeletzfzzc4sf46zx2nrzbp5gfy',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.HOW_TO_HACKMD]: {
     address: '0xcc499276881cc010bc71485584c51d4450f38a6c',
@@ -296,7 +296,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreicdfhb76szegn7d7nwupyiudjjaxgh47nj6u6uk7wk4wwxbesejsq',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.ENTERING_DAOS_AS_A_WRITER]: {
     address: '0xa5b4578b954e75287a409974ba15b9a7e5e47ab3',
@@ -305,7 +305,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreie4fct37pzvmalmfrnsxm65lzsfkict6qj4xuq57p633v2kyn7z2u',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.HOW_TO_BECOME_AN_ETHEREUM_DEVELOPER]: {
     address: '0x64baec377babbbb62419af890e459d0a26b11074',
@@ -314,7 +314,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreidvrfgcd35gejrwaoahaxfstln2lcdxk3kh2n63b6vevahyi4nlu4',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.BECOME_A_BUIDLER_ON_ETHEREUM]: {
     address: '0xe62bda16bc819840e6369fd3b5db528929932b01',
@@ -323,7 +323,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreiazvcd363rphyqxkho7h6phzxaz6b2bo5ysy4pa2lxfr64ubttmny',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.HOW_TO_PLAY_TWITTER]: {
     address: '0xd14c9ca6ebd0d8941340b5b57ca3640b0196a61d',
@@ -332,7 +332,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreibygbgivzioto3rzeozhwotxhrvogouks226ey7mqjw7fi3v3meaa',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.UNDERSTANDING_IMPOSTER_SYNDROME]: {
     address: '0xed2c1ed50438379770c0a7e21150810786ebdfd8',
@@ -341,7 +341,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreigc2prayzpvucdedquwnyh7tiz566lpowgv7mchqatyr7tfj6jryu',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.HOW_TO_JOIN_A_DAO_COMMUNITY]: {
     address: '0x7e5a92f7f440e4d29558913bbea7343f5593b6d3',
@@ -350,7 +350,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreibizrwfq4ntiscrzdhkszeczc6xuitjtmsg6zbosbp35t2map5bwq',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.HOW_TO_GIT_ON_GITHUB_AS_A_NON_BUILDER]: {
     address: '0x7d026f18668db9be9835c4a406afa3d50169cb9e',
@@ -359,7 +359,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreidahq5mrv6i5765mkswatb6jafxjlbly3azies3hrrkvoavymdkee',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.HOW_TO_BUILD_A_NETWORK_FOR_IMPACT]: {
     address: '0xe388d673dcb58b6216d869801710e498fe37f24c',
@@ -368,7 +368,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreicch724i6ensc7cs4xpuso7kofy3ld4zmdppoefsyd4nfjinoi6by',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.HANDLING_FOMO_IN_WEB3]: {
     address: '0xad8b64dc695b676e03d49e819d2153ad9465db83',
@@ -377,7 +377,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreigad2why2nunxynjmebn6yvp54fxo3txdp5s46u4ljfxj3atftm4i',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
   [QuestChainsPlaybooks.MGXP_METAGAME_EXPERIENCE_POINTS]: {
     address: '0x0872df6d8a2f92bf4c5c033be8eea0fd4b3ca39c',
@@ -386,7 +386,7 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image:
-      'https://w3s.link/ipfs/bafkreid3572okvfe33jm6d7zy7p25nqxjztqz7duwjlhuaekwxh42xfxpu',
+      'https://w3s.link/ipfs/bafkreicxqlco6xehfv6od3dsdyrn3jdklu53qle5edb32sllswpro6mzpe',
   },
 };
 

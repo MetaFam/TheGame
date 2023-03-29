@@ -1,16 +1,6 @@
-import {
-  Flex,
-  Grid,
-  Heading,
-  Link,
-  MetaTile,
-  MetaTileBody,
-  MetaTileHeader,
-  Text,
-} from '@metafam/ds';
+import { Flex, Grid, Heading, Link, MetaTilePlaybook, Text } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
-import { SquareImage } from 'components/SquareImage';
 import React from 'react';
 import { descriptions } from 'utils/menuLinks';
 import { QuestChainPlaybooksDetails } from 'utils/questChains';
@@ -34,12 +24,11 @@ const ThePlaybooksPage: React.FC = () => (
       pb={24}
     >
       {Object.entries(QuestChainPlaybooksDetails).map(
-        ([name, { title, description, image, difficulty, time }]) => (
+        ([name, { title, image, difficulty, time }]) => (
           <Card
             key={title}
             {...{
               title,
-              description,
               difficulty,
               time,
               link: `/learn/playbooks/${name}`,
@@ -55,45 +44,27 @@ const ThePlaybooksPage: React.FC = () => (
 
 type CardProps = {
   title: string;
-  description: string;
   link: string;
   image: string;
 };
 
-const Card: React.FC<CardProps> = ({ title, description, link, image }) => (
+const Card: React.FC<CardProps> = ({ title, link, image }) => (
   <Link role="group" _hover={{ textDecoration: 'none' }} href={link}>
-    <MetaTile height="full" width="full">
-      <MetaTileHeader>
-        <SquareImage src={image} />
-        <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
-          <Heading
-            size="md"
-            color="white"
-            bgColor="rgba(255, 255, 255, 0.06)"
-            style={{ backdropFilter: 'blur(10px)' }}
-            lineHeight={1.8}
-            justifyContent="center"
-            px={3}
-            width="full"
-            textAlign="center"
-            borderRadius={10}
-            fontFamily="body"
-            fontWeight={400}
-          >
-            {title}
-          </Heading>
-        </Flex>
-      </MetaTileHeader>
-      <MetaTileBody pos="relative" height="full">
-        <Flex flexDir="column">
-          <Text textStyle="caption">ABOUT</Text>
-
-          <Text mb={2} h="3rem" fontSize="sm">
-            {description}
-          </Text>
-        </Flex>
-      </MetaTileBody>
-    </MetaTile>
+    <MetaTilePlaybook height="full" width="full" image={image}>
+      <Flex alignItems="center" justifyContent="center" h="full">
+        <Text
+          background="rgba(0, 0, 0, 0.5)"
+          mixBlendMode="normal"
+          backdropFilter="blur(10px)"
+          borderRadius={8}
+          p={4}
+          fontSize={24}
+          align="center"
+        >
+          {title}
+        </Text>
+      </Flex>
+    </MetaTilePlaybook>
   </Link>
 );
 
