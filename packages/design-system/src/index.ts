@@ -18,6 +18,7 @@ export {
   MetaTileBody,
   MetaTileHeader,
   MetaTileLinkWrapper,
+  MetaTilePlaybook,
 } from './MetaTile.js';
 export { MultiSelect } from './MultiSelect.js';
 export { ResponsiveText } from './ResponsiveText.js';
