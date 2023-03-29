@@ -28,6 +28,28 @@ export const getMeToken = async (address: string) => {
   return data;
 };
 
+export const getTokenData = async (address: string) => {
+  const tokenData = {
+    symbol: '',
+    name: '',
+    balance: '',
+  };
+
+  const signer = await mainnetProvider.getSigner(
+    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
+  );
+
+  const erc20 = await new Contract(address, erc20Abi, signer);
+
+  tokenData.symbol = `$${await erc20.symbol()}`;
+  tokenData.name = await erc20.name();
+  tokenData.balance = await erc20.balanceOf(
+    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
+  );
+
+  return tokenData;
+};
+
 export const getMeTokenInfo = async (address: string) => {
   const orbis = new Orbis();
   const { data } = await orbis.getDids(
