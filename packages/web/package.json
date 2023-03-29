@@ -32,7 +32,7 @@
     "@honeybadger-io/webpack": "^4.3.1",
     "@metafam/ds": "0.2.0",
     "@metafam/utils": "1.0.1",
-    "@quest-chains/sdk": "^0.1.12",
+    "@quest-chains/sdk": "0.2.9",
     "@react-spring/web": "9.4.3",
     "@urql/exchange-retry": "0.3.2",
     "@userback/react": "^0.1.4",

@@ -6403,10 +6403,10 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
-"@quest-chains/sdk@^0.1.12":
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/@quest-chains/sdk/-/sdk-0.1.12.tgz#c4baa1a51be23997a2520d7c51901736e395b673"
-  integrity sha512-xt6vDa+mSEw4I6En407utHEac91ynUmVebe6r5DqRwbHLIbbZXqf1H9U+mBcTtDyOKhGukeOjF/kGVltjc+MhQ==
+"@quest-chains/sdk@0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@quest-chains/sdk/-/sdk-0.2.9.tgz#12f4eac0bac91966a48f8ffda273b59c2a0d1455"
+  integrity sha512-jwp2o+plVBVoDmj9UoNS9FXQn7Mx0SeBGbGh9W6E7c03/+A6ZE9Z7e7weFLe49lnP9DaUoLOp07/OMwXUCZEAg==
   dependencies:
     ajv "^8.11.0"
     axios "^1.1.1"
