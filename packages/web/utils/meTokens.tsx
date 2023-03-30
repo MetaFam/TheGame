@@ -83,3 +83,12 @@ export const getMeTokenInfo = async (address: string) => {
   info.collateral = collateral;
   return info;
 };
+
+export const approveMeTokens = async (address: string) => {
+  const signer = await mainnetProvider.getSigner(
+    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
+  );
+
+  const erc20 = await new Contract(address, erc20Abi, signer);
+  return erc20;
+};
