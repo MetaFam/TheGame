@@ -1,9 +1,11 @@
-import { Box, Spinner, Text, VStack } from '@metafam/ds';
+import { Box, Flex, Image, Spinner, Text, VStack } from '@metafam/ds';
+import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
-import { Chain } from 'components/QuestChain/Chain';
-import Heading from 'components/QuestChain/QuestHeading';
+import { MarkdownViewer } from 'components/MarkdownViewer';
+import { ChainStats } from 'components/QuestChain/QuestHeading';
+import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
 import { HeadComponent } from 'components/Seo';
 import { useWeb3 } from 'lib/hooks';
 import {
@@ -13,7 +15,7 @@ import {
   useUserStatus,
 } from 'lib/hooks/questChains';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { errorHandler } from 'utils/errorHandler';
 import {
@@ -60,11 +62,23 @@ const QuestChainPathPage: React.FC<Props> = ({
 
   const userStatus = useUserStatus(questStatuses);
 
-  const { progress, canMint } = useUserProgress(
-    address,
-    questChain,
-    userStatus,
-  );
+  const {
+    progress,
+    // canMint
+  } = useUserProgress(address, questChain, userStatus);
+
+  const [selected, setSelected] = useState('introduction');
+
+  const bgColor = (questStatus: string) => {
+    switch (questStatus) {
+      case graphql.Status.Pass:
+        return '#2DF8C7';
+      case graphql.Status.Review:
+        return '#EFFF8F';
+      default:
+        return 'rgba(0, 0, 0, 0.3);';
+    }
+  };
 
   if (!questChain) {
     return (
@@ -81,7 +95,7 @@ const QuestChainPathPage: React.FC<Props> = ({
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://metagame.wtf/learn/playbooks"
       />
-      <VStack spacing={8} w="100%" maxW="96rem" align="stretch">
+      <VStack spacing={8} w="full" align="stretch">
         <Box w="100%">
           <MetaLink href="/learn/playbooks">
             <FaArrowLeft
@@ -91,29 +105,138 @@ const QuestChainPathPage: React.FC<Props> = ({
             Back to the Playbooks
           </MetaLink>
         </Box>
-        <Heading
-          {...{
-            questChain,
-            progress,
-            canMint,
-            refresh,
-            name,
-          }}
-        />
-        <Text fontSize={{ base: 30, lg: 40 }} fontFamily="exo2" w="100%">
-          Quests
+        <Text
+          fontSize={{ base: '3xl', lg: '7xl' }}
+          fontWeight="bold"
+          lineHeight="3.5rem"
+          fontFamily="exo2"
+          mb={3}
+          align="center"
+        >
+          {questChain.name}
         </Text>
 
         {fetching ? (
           <Spinner my={20} />
         ) : (
-          <Chain
-            {...{
-              questChain,
-              userStatus,
-              refresh,
-            }}
-          />
+          <Flex w="full" gap={8}>
+            {/* content */}
+            <Flex
+              direction="column"
+              background="rgba(255, 255, 255, 0.08)"
+              mixBlendMode="normal"
+              backdropFilter="blur(44px)"
+              p={3}
+              minW={300}
+              borderRadius={4}
+            >
+              <Text
+                fontSize={24}
+                fontWeight="bold"
+                textTransform="uppercase"
+                mb={3}
+              >
+                Content
+              </Text>
+              <Flex direction="column">
+                <Flex
+                  p={2}
+                  borderRadius={4}
+                  backgroundColor={
+                    selected === 'introduction'
+                      ? 'rgba(255, 255, 255, 0.08)'
+                      : 'transparent'
+                  }
+                  cursor="pointer"
+                  onClick={() => setSelected('introduction')}
+                  gap={3}
+                  alignItems="center"
+                >
+                  <Box
+                    backgroundColor="#2DF8C7"
+                    w={4}
+                    h={4}
+                    borderRadius="full"
+                  />
+                  Introduction
+                </Flex>
+                {questChain.quests
+                  .filter((q) => !q.paused)
+                  .map((quest) => (
+                    <Flex
+                      borderRadius={4}
+                      backgroundColor={
+                        selected === quest.id
+                          ? 'rgba(255, 255, 255, 0.08)'
+                          : 'transparent'
+                      }
+                      p={2}
+                      onClick={() => setSelected(quest.id)}
+                      cursor="pointer"
+                      gap={3}
+                      alignItems="center"
+                    >
+                      <Box
+                        backgroundColor={bgColor(userStatus[selected]?.status)}
+                        w={4}
+                        h={4}
+                        borderRadius="full"
+                      />
+                      {quest.name}
+                    </Flex>
+                  ))}
+              </Flex>
+            </Flex>
+
+            {/* stats */}
+            <Flex direction="column" w="full" gap={8} pb={8}>
+              <ChainStats questChain={questChain} progress={progress} />
+              <MarkdownViewer>
+                {selected === 'introduction'
+                  ? questChain.description
+                  : questChain.quests.find((q) => q.id === selected)
+                      ?.description}
+              </MarkdownViewer>
+              {selected !== 'introduction' && (
+                <Flex justifyContent="center" w="full">
+                  <UploadProofButton
+                    questId={selected}
+                    name={name}
+                    questChain={questChain}
+                    questStatus={userStatus[selected]?.status ?? null}
+                    refresh={refresh}
+                  />
+                </Flex>
+              )}
+            </Flex>
+
+            <Flex
+              direction="column"
+              background="rgba(255, 255, 255, 0.08)"
+              mixBlendMode="normal"
+              backdropFilter="blur(44px)"
+              p={3}
+              minW={300}
+              borderRadius={4}
+            >
+              <Text
+                fontSize={24}
+                fontWeight="bold"
+                textTransform="uppercase"
+                mb={3}
+              >
+                Reward:
+              </Text>
+              <Text>An achievement NFT</Text>
+              {questChain.token.imageUrl && (
+                <Image
+                  src={imageLink(questChain.token.imageUrl)}
+                  alt="Quest Chain NFT badge"
+                  maxW={300}
+                />
+              )}
+            </Flex>
+          </Flex>
         )}
       </VStack>
     </PageContainer>
