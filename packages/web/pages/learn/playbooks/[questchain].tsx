@@ -4,6 +4,7 @@ import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer } from 'components/MarkdownViewer';
+import { MintNFTTile } from 'components/QuestChain/MintNFTTile';
 import { ChainStats } from 'components/QuestChain/QuestHeading';
 import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
 import { HeadComponent } from 'components/Seo';
@@ -62,10 +63,11 @@ const QuestChainPathPage: React.FC<Props> = ({
 
   const userStatus = useUserStatus(questStatuses);
 
-  const {
-    progress,
-    // canMint
-  } = useUserProgress(address, questChain, userStatus);
+  const { progress, canMint } = useUserProgress(
+    address,
+    questChain,
+    userStatus,
+  );
 
   const [selected, setSelected] = useState('introduction');
 
@@ -124,6 +126,7 @@ const QuestChainPathPage: React.FC<Props> = ({
             <Flex
               direction="column"
               background="rgba(255, 255, 255, 0.08)"
+              height="fit-content"
               mixBlendMode="normal"
               backdropFilter="blur(44px)"
               p={3}
@@ -210,9 +213,11 @@ const QuestChainPathPage: React.FC<Props> = ({
               )}
             </Flex>
 
+            {/* reward */}
             <Flex
               direction="column"
               background="rgba(255, 255, 255, 0.08)"
+              height="fit-content"
               mixBlendMode="normal"
               backdropFilter="blur(44px)"
               p={3}
@@ -227,13 +232,27 @@ const QuestChainPathPage: React.FC<Props> = ({
               >
                 Reward:
               </Text>
-              <Text>An achievement NFT</Text>
-              {questChain.token.imageUrl && (
-                <Image
-                  src={imageLink(questChain.token.imageUrl)}
-                  alt="Quest Chain NFT badge"
-                  maxW={300}
+              {canMint ? (
+                <MintNFTTile
+                  {...{
+                    questChain,
+                    name,
+                    onSuccess: refresh,
+                    completed: questChain.quests.filter((q) => !q.paused)
+                      .length,
+                  }}
                 />
+              ) : (
+                <>
+                  <Text>An achievement NFT</Text>
+                  {questChain.token.imageUrl && (
+                    <Image
+                      src={imageLink(questChain.token.imageUrl)}
+                      alt="Quest Chain NFT badge"
+                      maxW={300}
+                    />
+                  )}
+                </>
               )}
             </Flex>
           </Flex>
