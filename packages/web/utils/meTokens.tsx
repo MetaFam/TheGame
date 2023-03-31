@@ -84,11 +84,21 @@ export const getMeTokenInfo = async (address: string) => {
   return info;
 };
 
-export const approveMeTokens = async (address: string) => {
+export const approveMeTokens = async (address: string, amount: string) => {
   const signer = await mainnetProvider.getSigner(
     '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
   );
 
   const erc20 = await new Contract(address, erc20Abi, signer);
-  return erc20;
+
+  const approveTx = await erc20.Approval(
+    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
+    foundryFacet,
+    amount,
+  );
+  return approveTx;
 };
+
+export const mint = async () => 1;
+
+export const burn = async () => 0;
