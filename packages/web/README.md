@@ -20,3 +20,11 @@ Builds the app and exports the static site for production to the `out` folder.
 ### `yarn start`
 
 Runs the NextJS server for production use (We generate a static site right now, not running a server)
+
+### Troubleshooting
+
+You can build and debug the Docker container (that is used in production) with:
+
+```
+docker build -f docker/frontend/Dockerfile --build-arg GRAPHQL_URL=http://host.docker.internal:8080/v1/graphql  .
+```
