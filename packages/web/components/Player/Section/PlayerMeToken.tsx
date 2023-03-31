@@ -5,9 +5,12 @@ import { Player } from 'graphql/autogen/types';
 import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 import {
+  approveMeTokens,
+  burn,
   getMeToken,
   getMeTokenInfo,
   getTokenData,
+  mint,
   nullMeToken,
 } from 'utils/meTokens';
 
@@ -39,10 +42,26 @@ const MeTokenSwap: React.FC<SwapProps> = ({
 }) => {
   const [collateralTokenData, setCollateralTokenData] = useState<any>();
   const [meTokenData, setMeTokenData] = useState<any>();
-  const [mintTransaction, toggleMintTransaction] = useState<boolean>(true);
+  const [transactionType, toggleTransactionType] = useState<string>('mint');
+  const [approved, setApproved] = useState<boolean>(false);
+
+  const txData = {
+    meToken: '0xA64fc17B157aaA50AC9a8341BAb72D4647d0f1A7',
+    amount: '1000000',
+    recipient: '',
+    sender: '',
+  };
+
+  const approveMeTokenTx = async () => {
+    await approveMeTokens(txData.meToken, txData.amount);
+  };
 
   const changeTransactionType = () => {
-    toggleMintTransaction(!mintTransaction);
+    if (transactionType === 'mint') {
+      toggleTransactionType('burn');
+    } else {
+      toggleTransactionType('mint');
+    }
   };
 
   useEffect(() => {
@@ -58,12 +77,25 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     getInAndOutTokenData();
   }, [address, collateral?.asset]);
 
+  const handleSubmit = async () => {
+    if (!approved) {
+      await approveMeTokenTx().then((res) => setApproved(true));
+    }
+    approveMeTokenTx();
+    if (transactionType === 'mint') {
+      await mint;
+    } else {
+      await burn;
+    }
+  };
+
   if (!collateralTokenData || !meTokenData) return <>Loading....</>;
 
   return (
     <Wrap>
-      {mintTransaction ? (
+      {transactionType === 'mint' ? (
         <>
+          <Text>{transactionType}</Text>
           <Wrap border={'2px solid white'}>
             <Text>Amount out</Text>
             <Text>{collateralTokenData.symbol}</Text>
@@ -95,12 +127,15 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               fontSize="md"
               borderWidth="2px"
             />
-            <Text>{ethers.utils.formatEther(meTokenData.balance)}</Text>
+            <Text>
+              Amount in: {ethers.utils.formatEther(meTokenData.balance)}
+            </Text>
             <Button backgroundColor={'black'}>Max</Button>
           </Wrap>
         </>
       ) : (
         <>
+          <Text>{transactionType}</Text>
           <Wrap border={'2px solid white'}>
             <Image
               src={profilePicture}
@@ -124,20 +159,24 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               fontSize="md"
               borderWidth="2px"
             />
-            <Text>{ethers.utils.formatEther(meTokenData.balance)}</Text>
+            <Text>
+              Amount Out: {ethers.utils.formatEther(meTokenData.balance)}
+            </Text>
             <Button backgroundColor={'black'}>Max</Button>
           </Wrap>
           <Button backgroundColor={'black'} onClick={changeTransactionType}>
             Reverse
           </Button>
           <Wrap border={'2px solid white'}>
-            <Text>Amount out</Text>
+            <Text>Amount In: </Text>
             <Text>{collateralTokenData.symbol}</Text>
             <Text>{ethers.utils.formatEther(collateralTokenData.balance)}</Text>
           </Wrap>
         </>
       )}
-      <Button backgroundColor={'black'}>Swap</Button>
+      <Button backgroundColor={'black'} onClick={handleSubmit}>
+        {approved ? transactionType : 'Approve meTokens'}
+      </Button>
     </Wrap>
   );
 };
