@@ -91,7 +91,7 @@ const QuestChainPathPage: React.FC<Props> = ({
   }
 
   return (
-    <PageContainer>
+    <PageContainer maxW="96rem" alignSelf="center">
       <HeadComponent
         title={`MetaGame ${inputQuestChain.name}`}
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
@@ -230,7 +230,7 @@ const QuestChainPathPage: React.FC<Props> = ({
                 textTransform="uppercase"
                 mb={3}
               >
-                Reward:
+                Reward
               </Text>
               {canMint ? (
                 <MintNFTTile
