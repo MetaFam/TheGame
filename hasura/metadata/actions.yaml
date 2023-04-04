@@ -55,6 +55,8 @@ actions:
     kind: asynchronous
     handler: '{{ACTION_BASE_ENDPOINT}}/composeDB/updateCachedProfile'
     forward_client_headers: true
+  permissions:
+  - role: player
 - name: updateQuestCompletion
   definition:
     kind: synchronous

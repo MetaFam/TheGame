@@ -172,11 +172,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       const formData = new FormData();
 
       const changedInputs = Object.fromEntries(
-        Object.entries(inputs).filter(
-          ([key]) =>
-            dirtyFields[key as keyof EditProfileFields] &&
-            !isHasuraImageField(key),
-        ),
+        Object.entries(inputs).filter(([key]) => !isHasuraImageField(key)),
       );
 
       const profile: PlayerProfile = { ...changedInputs };
