@@ -49,11 +49,13 @@ export const PlayerHydrationContextProvider: React.FC<
 
         const query = buildPlayerProfileQuery(ceramicProfileNodeId);
         const response = await composeDBClient.executeQuery(query);
-        if (response.data != null) {
-          const composeDBProfileData = (
-            response.data as ComposeDBProfileQueryResult
-          ).node;
-          const newPlayer = hydratePlayerProfile(player, composeDBProfileData);
+        const composeDBProfileData =
+          response.data as ComposeDBProfileQueryResult;
+        if (composeDBProfileData?.node != null) {
+          const newPlayer = hydratePlayerProfile(
+            player,
+            composeDBProfileData.node,
+          );
           setHydratedPlayer(newPlayer);
         }
 

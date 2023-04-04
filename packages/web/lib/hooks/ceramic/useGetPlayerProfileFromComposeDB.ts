@@ -34,11 +34,10 @@ export const useGetPlayerProfileFromComposeDB = (
       composeDBClient
         .executeQuery(query)
         .then((response) => {
-          if (response.data != null) {
-            const composeDBProfileData = (
-              response.data as ComposeDBProfileQueryResult
-            ).node;
-            setResult(composeDBProfileData);
+          const composeDBProfileData =
+            response.data as ComposeDBProfileQueryResult;
+          if (composeDBProfileData?.node != null) {
+            setResult(composeDBProfileData.node);
           } else if (response.errors) {
             setError(response.errors[0]);
           } else {
