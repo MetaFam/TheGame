@@ -1,6 +1,7 @@
 import { Orbis } from '@orbisclub/orbis-sdk';
 import { CONFIG } from 'config';
 import erc20Abi from 'contracts/erc20.abi';
+import FoundryFacetAbi from 'contracts/FoundryFacet.abi';
 import HubFacetAbi from 'contracts/HubFacet.abi';
 import MeTokensRegistryABI from 'contracts/meTokensRegistry.abi';
 import { Contract, ethers } from 'ethers';
@@ -22,9 +23,7 @@ export const getMeToken = async (address: string) => {
     MeTokensRegistryABI,
     mainnetProvider.getSigner(address),
   );
-  const data = await registry.getOwnerMeToken(
-    '0xA64fc17B157aaA50AC9a8341BAb72D4647d0f1A7',
-  );
+  const data = await registry.getOwnerMeToken(address);
   return data;
 };
 
@@ -53,7 +52,7 @@ export const getTokenData = async (address: string) => {
 export const getMeTokenInfo = async (address: string) => {
   const orbis = new Orbis();
   const { data } = await orbis.getDids(
-    '0xA64fc17B157aaA50AC9a8341BAb72D4647d0f1A7',
+    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
   );
 
   const info = {
@@ -78,28 +77,65 @@ export const getMeTokenInfo = async (address: string) => {
   const hub = await new Contract(metokenDiamond, HubFacetAbi, signer);
   const tokenInfo = await registry.getMeTokenInfo(address);
   const collateral = await hub.getBasicHubInfo(tokenInfo?.hubId);
-  info.profilePicture = data[0].details.profile.pfp;
+  info.profilePicture = data[0]?.details.profile.pfp || '';
   info.symbol = `$${await erc20.symbol()}`;
   info.collateral = collateral;
   return info;
 };
 
-/* export const approveMeTokens = async (address: string, amount: string) => {
-  const signer = await mainnetProvider.getSigner(
-    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
-  );
-  console.log('ad', address);
-  const erc20 = await new Contract(address, erc20Abi, signer);
-  console.log('ad', erc20);
+export const approveMeTokens = async (
+  address: string,
+  amount: string,
+  provider: any,
+) => {
+  const erc20 = await new Contract(address, erc20Abi, provider.getSigner());
 
-  const approveTx = await erc20.Approval(
+  const approveTx = await erc20.approve(foundryFacet, amount);
+  return approveTx;
+};
+
+export const spendMeTokens = async (
+  address: string,
+  amount: string,
+  provider: any,
+) => {
+  const erc20 = await new Contract(address, erc20Abi, provider.getSigner());
+
+  const transferTx = await erc20.transfer(
     '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
-    foundryFacet,
     amount,
   );
-  return approveTx;
-}; */
+  return transferTx;
+};
 
-export const mint = async () => 1;
+export const mint = async (
+  meToken: string,
+  amount: string,
+  recipient: string,
+  provider: any,
+) => {
+  const meTokenFoundry = await new Contract(
+    metokenDiamond,
+    FoundryFacetAbi,
+    provider.getSigner(),
+  );
 
-export const burn = async () => 0;
+  const mintTx = await meTokenFoundry.mint(meToken, amount, recipient);
+  return mintTx;
+};
+
+export const burn = async (
+  meToken: string,
+  amount: string,
+  recipient: string,
+  provider: any,
+) => {
+  const meTokenFoundry = await new Contract(
+    metokenDiamond,
+    FoundryFacetAbi,
+    provider.getSigner(),
+  );
+
+  const mintTx = await meTokenFoundry.burn(meToken, amount, recipient);
+  return mintTx;
+};

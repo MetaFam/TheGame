@@ -16,17 +16,19 @@ import {
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { ethers } from 'ethers';
 import { Player } from 'graphql/autogen/types';
+import { useWeb3 } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { HiOutlineInformationCircle, HiSwitchVertical } from 'react-icons/hi';
 import { BoxTypes } from 'utils/boxTypes';
 import {
-  // approveMeTokens,
+  approveMeTokens,
   burn,
   getMeToken,
   getMeTokenInfo,
   getTokenData,
   mint,
   nullMeToken,
+  spendMeTokens,
 } from 'utils/meTokens';
 
 type Props = {
@@ -57,8 +59,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
 }) => {
   const [collateralTokenData, setCollateralTokenData] = useState<any>();
   const [meTokenData, setMeTokenData] = useState<any>();
-  const [transactionType, toggleTransactionType] = useState<string>('mint');
-  const [approved, setApproved] = useState<boolean>(false);
+  const [transactionType, toggleTransactionType] = useState<string>('');
+  const [approved, setApproved] = useState<boolean>(true);
+  const { provider } = useWeb3();
 
   const txData = {
     meToken: '0xA64fc17B157aaA50AC9a8341BAb72D4647d0f1A7',
@@ -67,9 +70,15 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     sender: '',
   };
 
-  /* const approveMeTokenTx = async () => {
-    await approveMeTokens(txData.meToken, txData.amount);
-  }; */
+  const handleSpendMeTokens = async () => {
+    await spendMeTokens(txData.meToken, txData.amount, provider);
+  };
+
+  const approveMeTokenTx = async () => {
+    await approveMeTokens(txData.meToken, txData.amount, provider).then((res) =>
+      setApproved(true),
+    );
+  };
 
   const changeTransactionType = () => {
     if (transactionType === 'mint') {
@@ -92,107 +101,33 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     getInAndOutTokenData();
   }, [address, collateral?.asset]);
 
-  /* const handleSubmit = async () => {
+  const handleSubmit = async () => {
     if (!approved) {
       await approveMeTokenTx().then((res) => setApproved(true));
     }
-    approveMeTokenTx();
     if (transactionType === 'mint') {
-      await mint;
+      await mint(
+        '0xe79D5121A14a0f48cED6B1628D14F7D30AC3AF85',
+        txData.amount,
+        '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
+        provider,
+      );
     } else {
-      await burn;
+      await burn(
+        '0xe79D5121A14a0f48cED6B1628D14F7D30AC3AF85',
+        txData.amount,
+        '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
+        provider,
+      );
     }
-  }; */
+  };
+
+  const roundNumber = (number: any) =>
+    (Math.round(+ethers.utils.formatEther(number) * 100) / 100).toFixed(2);
 
   if (!collateralTokenData || !meTokenData) return <>Loading....</>;
 
   return (
-    // <Wrap>
-    //   {transactionType === 'mint' ? (
-    //     <>
-    //       <Text>{transactionType}</Text>
-    //       <Wrap border={'2px solid white'}>
-    //         <Text>Amount out</Text>
-    //         <Text>{collateralTokenData.symbol}</Text>
-    //         <Text>{ethers.utils.formatEther(collateralTokenData.balance)}</Text>
-    //       </Wrap>
-    //       <Button backgroundColor={'black'} onClick={changeTransactionType}>
-    //         Reverse
-    //       </Button>
-    //       <Wrap border={'2px solid white'}>
-    //         <Image
-    //           src={profilePicture}
-    //           height="70px"
-    //           width="70px"
-    //           borderRadius={50}
-    //           mx="auto"
-    //           alt="profile picture"
-    //         />
-    //         <Text>{symbol}</Text>
-    //         <Input
-    //           bg="dark"
-    //           w="100%"
-    //           placeholder="Amount to swap"
-    //           _placeholder={{ color: 'whiteAlpha.500' }}
-    //           value={''}
-    //           onChange={() => {}}
-    //           size="lg"
-    //           borderRadius={0}
-    //           borderColor="borderPurple"
-    //           fontSize="md"
-    //           borderWidth="2px"
-    //         />
-    //         <Text>
-    //           Amount in: {ethers.utils.formatEther(meTokenData.balance)}
-    //         </Text>
-    //         <Button backgroundColor={'black'}>Max</Button>
-    //       </Wrap>
-    //     </>
-    //   ) : (
-    //     <>
-    //       <Text>{transactionType}</Text>
-    //       <Wrap border={'2px solid white'}>
-    //         <Image
-    //           src={profilePicture}
-    //           height="70px"
-    //           width="70px"
-    //           borderRadius={50}
-    //           mx="auto"
-    //           alt="profile picture"
-    //         />
-    //         <Text>{symbol}</Text>
-    //         <Input
-    //           bg="dark"
-    //           w="100%"
-    //           placeholder="Amount to swap"
-    //           _placeholder={{ color: 'whiteAlpha.500' }}
-    //           value={''}
-    //           onChange={() => {}}
-    //           size="lg"
-    //           borderRadius={0}
-    //           borderColor="borderPurple"
-    //           fontSize="md"
-    //           borderWidth="2px"
-    //         />
-    //         <Text>
-    //           Amount Out: {ethers.utils.formatEther(meTokenData.balance)}
-    //         </Text>
-    //         <Button backgroundColor={'black'}>Max</Button>
-    //       </Wrap>
-    //       <Button backgroundColor={'black'} onClick={changeTransactionType}>
-    //         Reverse
-    //       </Button>
-    //       <Wrap border={'2px solid white'}>
-    //         <Text>Amount In: </Text>
-    //         <Text>{collateralTokenData.symbol}</Text>
-    //         <Text>{ethers.utils.formatEther(collateralTokenData.balance)}</Text>
-    //       </Wrap>
-    //     </>
-    //   )}
-    //   <Button backgroundColor={'black'} onClick={handleSubmit}>
-    //     {approved ? transactionType : 'Approve meTokens'}
-    //   </Button>
-    // </Wrap>
     <Flex direction="column" gap="4">
       <Tabs align="center" size="md" variant="unstyled" w="100%">
         <TabList>
@@ -206,11 +141,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 <Flex justify="space-between" align="center" p="2">
                   <Box>
                     <Text color="black">
-                      {ethers.utils.formatEther(collateralTokenData.balance)}
+                      {roundNumber(collateralTokenData.balance)}
                     </Text>
-                    <Text color="grey">
-                      {ethers.utils.formatEther(meTokenData.balance)}
-                    </Text>
+                    <Text color="grey">{roundNumber(meTokenData.balance)}</Text>
                   </Box>
                   {transactionType === 'mint' ? (
                     <Wrap align="center">
@@ -226,7 +159,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       </Button>
                       <Text color="black">{collateralTokenData.symbol}</Text>
                       <Text color="black">
-                        {ethers.utils.formatEther(collateralTokenData.balance)}
+                        {roundNumber(collateralTokenData.balance)}
                       </Text>
                     </Wrap>
                   ) : (
@@ -266,13 +199,11 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 <Flex justify="space-between" align="center" p="2">
                   <Box>
                     <Text color="black">
-                      {ethers.utils.formatEther(collateralTokenData.balance)}
+                      {roundNumber(collateralTokenData.balance)}
                     </Text>
-                    <Text color="grey">
-                      {ethers.utils.formatEther(meTokenData.balance)}
-                    </Text>
+                    <Text color="grey">{roundNumber(meTokenData.balance)}</Text>
                   </Box>
-                  {transactionType !== 'mint' ? (
+                  {transactionType === 'burn' ? (
                     <Wrap align="center">
                       <Button
                         borderColor="black"
@@ -286,7 +217,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       </Button>
                       <Text color="black">{collateralTokenData.symbol}</Text>
                       <Text color="black">
-                        {ethers.utils.formatEther(collateralTokenData.balance)}
+                        {roundNumber(collateralTokenData.balance)}
                       </Text>
                     </Wrap>
                   ) : (
@@ -304,15 +235,15 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   )}
                 </Flex>
               </Box>
-              <MetaButton mx="auto" mt="1rem" onClick={() => {}}>
+              <MetaButton mx="auto" mt="1rem" onClick={handleSubmit}>
                 {approved
-                  ? `Swap{' '}
+                  ? `Swap
                 ${
                   transactionType === 'mint'
                     ? collateralTokenData.symbol
                     : symbol
-                }{' '}
-                for{' '}
+                }
+                for
                 ${
                   transactionType === 'mint'
                     ? symbol
@@ -328,11 +259,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 <Flex justify="space-between" align="center" p="2">
                   <Box>
                     <Text color="black">
-                      {ethers.utils.formatEther(collateralTokenData.balance)}
+                      {roundNumber(collateralTokenData.balance)}
                     </Text>
-                    <Text color="grey">
-                      {ethers.utils.formatEther(meTokenData.balance)}
-                    </Text>
+                    <Text color="grey">{roundNumber(meTokenData.balance)}</Text>
                   </Box>
                   <Wrap align="center">
                     <Image
@@ -357,12 +286,10 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     meToken Value
                     <HiOutlineInformationCircle />
                   </Text>
-                  <Text color="black">
-                    {ethers.utils.formatEther(meTokenData.balance)}
-                  </Text>
+                  <Text color="black">{roundNumber(meTokenData.balance)}</Text>
                 </Flex>
               </Box>
-              <MetaButton mx="auto" mt="1rem">
+              <MetaButton mx="auto" mt="1rem" onClick={handleSpendMeTokens}>
                 Spend {symbol}
               </MetaButton>
             </Flex>
