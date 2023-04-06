@@ -23,9 +23,9 @@ import { BoxTypes } from 'utils/boxTypes';
 import {
   approveMeTokens,
   burn,
-  getMeToken,
+  getErc20TokenData,
+  getMeTokenFor,
   getMeTokenInfo,
-  getTokenData,
   mint,
   nullMeToken,
   spendMeTokens,
@@ -48,20 +48,31 @@ type SwapProps = {
   symbol: string;
   profilePicture: string;
   collateral: any;
-  address: string;
+  metokenAddress: string;
+  owner: string;
+  provider: any;
 };
+
+/* type TxData = {
+  meToken: string,
+  amount: string,
+  recipient: string,
+  sender: string,
+} */
 
 const MeTokenSwap: React.FC<SwapProps> = ({
   symbol,
   profilePicture,
-  address,
+  metokenAddress,
   collateral,
+  owner,
+  provider,
 }) => {
   const [collateralTokenData, setCollateralTokenData] = useState<any>();
   const [meTokenData, setMeTokenData] = useState<any>();
   const [transactionType, toggleTransactionType] = useState<string>('');
   const [approved, setApproved] = useState<boolean>(true);
-  const { provider } = useWeb3();
+  // const [tx, setTx] = useState<TxData>();
 
   const txData = {
     meToken: '0xA64fc17B157aaA50AC9a8341BAb72D4647d0f1A7',
@@ -71,11 +82,11 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   };
 
   const handleSpendMeTokens = async () => {
-    await spendMeTokens(txData.meToken, txData.amount, provider);
+    await spendMeTokens(metokenAddress, txData.amount, owner, provider);
   };
 
   const approveMeTokenTx = async () => {
-    await approveMeTokens(txData.meToken, txData.amount, provider).then((res) =>
+    await approveMeTokens(metokenAddress, txData.amount, provider).then((res) =>
       setApproved(true),
     );
   };
@@ -89,36 +100,26 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   };
 
   useEffect(() => {
-    if (!address || !collateral?.asset) return;
+    if (!metokenAddress || !collateral?.asset) return;
     const getInAndOutTokenData = async () => {
-      await getTokenData(collateral.asset).then((res) => {
+      await getErc20TokenData(collateral.asset, owner, provider).then((res) => {
         setCollateralTokenData(res);
       });
-      await getTokenData(address).then((res) => {
+      await getErc20TokenData(metokenAddress, owner, provider).then((res) => {
         setMeTokenData(res);
       });
     };
     getInAndOutTokenData();
-  }, [address, collateral?.asset]);
+  }, [metokenAddress, collateral?.asset]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async () => {
     if (!approved) {
       await approveMeTokenTx().then((res) => setApproved(true));
     }
     if (transactionType === 'mint') {
-      await mint(
-        '0xe79D5121A14a0f48cED6B1628D14F7D30AC3AF85',
-        txData.amount,
-        '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
-        provider,
-      );
+      await mint(metokenAddress, txData.amount, owner, provider);
     } else {
-      await burn(
-        '0xe79D5121A14a0f48cED6B1628D14F7D30AC3AF85',
-        txData.amount,
-        '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
-        provider,
-      );
+      await burn(metokenAddress, txData.amount, owner, provider);
     }
   };
 
@@ -329,23 +330,29 @@ export const PlayerMeTokens: React.FC<Props> = ({
 }) => {
   const [meTokenAddress, setMeTokenAddress] = useState<string>('');
   const [meTokenData, setMeTokenData] = useState<any>('');
+  const { provider } = useWeb3();
+
   useEffect(() => {
     const getTokenByOwner = async () => {
-      await getMeToken(player?.ethereumAddress).then((r) =>
+      await getMeTokenFor(player?.ethereumAddress, provider).then((r) =>
         setMeTokenAddress(r === nullMeToken ? 'Create meToken' : r),
       );
     };
 
     getTokenByOwner();
-  }, [player]);
+  }, [player]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const getInfoByToken = async () => {
-      await getMeTokenInfo(meTokenAddress).then((r) => setMeTokenData(r));
+      await getMeTokenInfo(
+        meTokenAddress,
+        player?.ethereumAddress,
+        provider,
+      ).then((r) => setMeTokenData(r));
     };
 
     getInfoByToken();
-  }, [meTokenAddress]);
+  }, [meTokenAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ProfileSection
@@ -370,15 +377,17 @@ export const PlayerMeTokens: React.FC<Props> = ({
               <>
                 <MeTokenBlock
                   profilePicture={meTokenData?.profilePicture || ''}
-                  address={meTokenData?.address || ''}
+                  address={meTokenData?.tokenAddress || ''}
                   symbol={meTokenData?.symbol || ''}
                   collateral={meTokenData?.collateral || ''}
                 />
                 <MeTokenSwap
                   profilePicture={meTokenData?.profilePicture || ''}
-                  address={meTokenData?.address || ''}
+                  metokenAddress={meTokenData?.tokenAddress || ''}
                   symbol={meTokenData?.symbol || ''}
                   collateral={meTokenData?.collateral || ''}
+                  owner={player.ethereumAddress}
+                  provider={provider}
                 />
               </>
             )}
