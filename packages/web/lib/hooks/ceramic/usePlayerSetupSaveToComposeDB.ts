@@ -1,19 +1,12 @@
 import { useToast } from '@metafam/ds';
 import {
-  ComposeDBField,
   ComposeDBImageMetadata,
   composeDBProfileFieldAvatar,
-  composeDBProfileFieldFiveColorDisposition,
-  dispositionFor,
   getMimeType,
-  HasuraImageFieldKey,
-  isHasuraImageField,
   Maybe,
-  profileMapping,
 } from '@metafam/utils';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
-import { PlayerProfile } from 'graphql/types';
 import { CeramicError } from 'lib/errors';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
@@ -134,36 +127,3 @@ export function usePlayerSetupSaveToComposeDB({
     status,
   };
 }
-
-export const hasuraToComposeDBProfile = (
-  profile: PlayerProfile,
-  images: Record<HasuraImageFieldKey, Maybe<ComposeDBImageMetadata>>,
-) => {
-  // todo we should be able to make this typesafe
-  const composeDBPayload: Record<string, unknown> = {};
-
-  Object.entries(profileMapping).forEach(([hasuraID, composeDBID]) => {
-    const composeDBKey = composeDBID as ComposeDBField;
-    const hasuraKey = hasuraID as keyof typeof profileMapping;
-    if (isHasuraImageField(hasuraKey)) {
-      const imageMetadata = images[hasuraKey as HasuraImageFieldKey];
-      if (imageMetadata) {
-        composeDBPayload[composeDBKey] = imageMetadata;
-      }
-    } else {
-      const hasuraValue = profile[hasuraKey];
-      if (hasuraValue != null) {
-        if (composeDBKey === composeDBProfileFieldFiveColorDisposition) {
-          const maskString = dispositionFor(hasuraValue as number);
-          if (maskString) {
-            composeDBPayload[composeDBKey] = maskString;
-          }
-        } else {
-          composeDBPayload[composeDBKey] = hasuraValue;
-        }
-      }
-    }
-  });
-
-  return composeDBPayload;
-};

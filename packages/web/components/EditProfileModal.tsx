@@ -43,7 +43,6 @@ import {
 import { getPlayer } from 'graphql/getPlayer';
 import { PlayerProfile } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
-import { hasuraToComposeDBProfile } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
 import React, {
   createRef,
@@ -57,6 +56,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
 import { getImageDimensions } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
+import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
 import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
