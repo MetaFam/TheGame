@@ -11,22 +11,17 @@ import {
   Text,
   useToast,
 } from '@metafam/ds';
-import {
-  ComposeDBImageMetadata,
-  ComposeDBProfile,
-  Maybe,
-} from '@metafam/utils';
+import { ComposeDBProfile } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { Player } from 'graphql/autogen/types';
 import { CeramicError } from 'lib/errors';
 import { useWeb3 } from 'lib/hooks';
-import { hasuraToComposeDBProfile } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
+import { useComputeComposeDBImageMetadata } from 'lib/hooks/ceramic/useComputeComposeDBImageMetadata';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { computeImageMetadata } from 'utils/imageHelpers';
-import { getPlayerBackgroundFull, getPlayerImage } from 'utils/playerHelpers';
+import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
 
 export type ComposeDBPromptModalProps = {
   player: Player;
@@ -47,10 +42,25 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
   const [status, setStatus] = useState(initialStatus);
   const { chainId } = useWeb3();
 
-  const [profileImageMetadata, setProfileImageMetadata] =
-    useState<Maybe<ComposeDBImageMetadata>>(null);
-  const [backgroundImageMetadata, setBackgroundImageMetadata] =
-    useState<Maybe<ComposeDBImageMetadata>>(null);
+  const { imageMetadata: profileImageMetadata } =
+    useComputeComposeDBImageMetadata(player, 'profileImageURL');
+  const { imageMetadata: backgroundImageMetadata } =
+    useComputeComposeDBImageMetadata(player, 'backgroundImageURL');
+
+  const areImagesLoaded = useMemo(() => {
+    const isAvatarLoaded =
+      player.profile?.profileImageURL == null || profileImageMetadata != null;
+    const isBackgroundLoaded =
+      player.profile?.backgroundImageURL == null ||
+      backgroundImageMetadata != null;
+    return isAvatarLoaded && isBackgroundLoaded;
+  }, [backgroundImageMetadata, player.profile, profileImageMetadata]);
+
+  useEffect(() => {
+    if (areImagesLoaded) {
+      setStatus('Port your profile data');
+    }
+  }, [areImagesLoaded]);
 
   const { save: saveToComposeDB, status: saveStatus } = useSaveToComposeDB();
 
@@ -67,41 +77,6 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
       setStatus('Authenticating DID…');
     }
   }, [saveStatus]);
-
-  // compute image metadata from the profile fields
-  useEffect(() => {
-    if (player.profile?.profileImageURL) {
-      const url = getPlayerImage(player);
-      computeImageMetadata(url, player.profile.profileImageURL).then(
-        (metadata) => {
-          setProfileImageMetadata(metadata);
-        },
-      );
-    }
-    if (player.profile?.backgroundImageURL) {
-      const url = getPlayerBackgroundFull(player);
-      computeImageMetadata(url, player.profile.backgroundImageURL).then(
-        (metadata) => {
-          setBackgroundImageMetadata(metadata);
-        },
-      );
-    }
-  }, [player]);
-
-  const areImagesLoaded = useMemo(() => {
-    const isAvatarLoaded =
-      player.profile?.profileImageURL == null || profileImageMetadata != null;
-    const isBackgroundLoaded =
-      player.profile?.backgroundImageURL == null ||
-      backgroundImageMetadata != null;
-    return isAvatarLoaded && isBackgroundLoaded;
-  }, [backgroundImageMetadata, player.profile, profileImageMetadata]);
-
-  useEffect(() => {
-    if (areImagesLoaded) {
-      setStatus('Port your profile data');
-    }
-  }, [areImagesLoaded]);
 
   const onClick = useCallback(async () => {
     if (!player.profile) {

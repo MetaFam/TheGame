@@ -1,11 +1,20 @@
 import { isAddress } from '@ethersproject/address';
-import { Maybe } from '@metafam/utils';
+import {
+  ComposeDBField,
+  ComposeDBImageMetadata,
+  composeDBProfileFieldFiveColorDisposition,
+  dispositionFor,
+  HasuraImageFieldKey,
+  isHasuraImageField,
+  Maybe,
+  profileMapping,
+} from '@metafam/utils';
 import ProfileIcon from 'assets/generic-user-icon.svg';
 import GuildCoverImageFull from 'assets/guild-background-full.jpeg';
 import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { AccountType_Enum, Player } from 'graphql/autogen/types';
-import { GuildPlayer } from 'graphql/types';
+import { GuildPlayer, PlayerProfile } from 'graphql/types';
 
 import { optimizedImage } from './imageHelpers';
 
@@ -66,3 +75,36 @@ export const formatIfAddress = (username = ''): string =>
 
 export const hasImage = (player?: Maybe<Player | GuildPlayer>): boolean =>
   !!player?.profile?.profileImageURL;
+
+export const hasuraToComposeDBProfile = (
+  profile: PlayerProfile,
+  images: Record<HasuraImageFieldKey, Maybe<ComposeDBImageMetadata>>,
+) => {
+  // todo we should be able to make this typesafe
+  const composeDBPayload: Record<string, unknown> = {};
+
+  Object.entries(profileMapping).forEach(([hasuraID, composeDBID]) => {
+    const composeDBKey = composeDBID as ComposeDBField;
+    const hasuraKey = hasuraID as keyof typeof profileMapping;
+    if (isHasuraImageField(hasuraKey)) {
+      const imageMetadata = images[hasuraKey as HasuraImageFieldKey];
+      if (imageMetadata) {
+        composeDBPayload[composeDBKey] = imageMetadata;
+      }
+    } else {
+      const hasuraValue = profile[hasuraKey];
+      if (hasuraValue != null) {
+        if (composeDBKey === composeDBProfileFieldFiveColorDisposition) {
+          const maskString = dispositionFor(hasuraValue as number);
+          if (maskString) {
+            composeDBPayload[composeDBKey] = maskString;
+          }
+        } else {
+          composeDBPayload[composeDBKey] = hasuraValue;
+        }
+      }
+    }
+  });
+
+  return composeDBPayload;
+};
