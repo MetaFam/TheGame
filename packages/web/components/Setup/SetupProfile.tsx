@@ -1,12 +1,23 @@
-import { useToast } from '@metafam/ds';
+import { useDisclosure, useToast } from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
+import { ComposeDBPromptModal } from 'components/Player/Profile/ComposeDBPromptModal';
 import { SetupHeader } from 'components/Setup/SetupHeader';
 import { useSetupFlow } from 'contexts/SetupContext';
-import React, { PropsWithChildren, useEffect } from 'react';
+import { useUser } from 'lib/hooks';
+import { useRouter } from 'next/router';
+import React, { PropsWithChildren, useCallback, useEffect } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 
 export const SetupProfile: React.FC<PropsWithChildren> = ({ children }) => {
   const { options, stepIndex } = useSetupFlow();
+
+  const router = useRouter();
+  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
+  const { user } = useUser();
+
+  const handleMigrationCompleted = useCallback(() => {
+    router.push('/me');
+  }, [router]);
 
   return (
     <PageContainer>
@@ -14,6 +25,12 @@ export const SetupProfile: React.FC<PropsWithChildren> = ({ children }) => {
       <FlexContainer flex={1} pt={[10, 12]}>
         {children}
       </FlexContainer>
+      {user?.profile && !user.ceramicProfileId ? (
+        <ComposeDBPromptModal
+          player={user}
+          {...{ isOpen, handleMigrationCompleted, onClose }}
+        />
+      ) : null}
     </PageContainer>
   );
 };
