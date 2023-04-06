@@ -1,5 +1,4 @@
 import { Orbis } from '@orbisclub/orbis-sdk';
-import { CONFIG } from 'config';
 import erc20Abi from 'contracts/erc20.abi';
 import FoundryFacetAbi from 'contracts/FoundryFacet.abi';
 import HubFacetAbi from 'contracts/HubFacet.abi';
@@ -13,74 +12,74 @@ export const foundryFacet = '0xA56AAF637b057a5EDf7b7252D0B7280042E71335';
 export const metokenDiamond = '0x0B4ec400e8D10218D0869a5b0036eA4BCf92d905';
 export const nullMeToken = '0x0000000000000000000000000000000000000000';
 
-const { mainnetRPC } = CONFIG;
+function getContractWithSigner(contractAddress: string, abi: any, signer: any) {
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+  const contractWithSigner = contract.connect(signer);
+  return contractWithSigner;
+}
 
-const mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetRPC);
-
-export const getMeToken = async (address: string) => {
-  const registry = await new Contract(
+export const getMeTokenFor = async (address: string, provider: any) => {
+  const registry = getContractWithSigner(
     metokenDiamond,
     MeTokensRegistryABI,
-    mainnetProvider.getSigner(address),
+    provider.getSigner(),
   );
-  const data = await registry.getOwnerMeToken(address);
-  return data;
+  const meTokenAddress = await registry.getOwnerMeToken(address);
+  return meTokenAddress;
 };
 
-export const getTokenData = async (address: string) => {
-  const tokenData = {
-    symbol: '',
-    name: '',
-    balance: '',
+export const getErc20TokenData = async (
+  tokenAddress: string,
+  owner: string,
+  provider: any,
+) => {
+  const erc20 = getContractWithSigner(
+    tokenAddress,
+    erc20Abi,
+    provider.getSigner(),
+  );
+
+  return {
+    symbol: `$${await erc20.symbol()}`,
+    name: await erc20.name(),
+    balance: await erc20.balanceOf(owner),
   };
-
-  const signer = await mainnetProvider.getSigner(
-    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
-  );
-
-  const erc20 = await new Contract(address, erc20Abi, signer);
-
-  tokenData.symbol = `$${await erc20.symbol()}`;
-  tokenData.name = await erc20.name();
-  tokenData.balance = await erc20.balanceOf(
-    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
-  );
-
-  return tokenData;
 };
 
-export const getMeTokenInfo = async (address: string) => {
+export const getMeTokenInfo = async (
+  tokenAddress: string,
+  owner: string,
+  provider: any,
+) => {
   const orbis = new Orbis();
-  const { data } = await orbis.getDids(
-    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
+  const { data } = await orbis.getDids(owner);
+
+  const erc20 = getContractWithSigner(
+    tokenAddress,
+    erc20Abi,
+    provider.getSigner(),
   );
-
-  const info = {
-    symbol: '',
-    profilePicture: '',
-    collateral: '',
-    address,
-  };
-
-  const signer = await mainnetProvider.getSigner(
-    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
-  );
-
-  const erc20 = await new Contract(address, erc20Abi, signer);
-
-  const registry = await new Contract(
+  const registry = getContractWithSigner(
     metokenDiamond,
     MeTokensRegistryABI,
-    signer,
+    provider.getSigner(),
   );
+  const hub = getContractWithSigner(
+    metokenDiamond,
+    HubFacetAbi,
+    provider.getSigner(),
+  );
+  const tokenInfo = await registry.getMeTokenInfo(tokenAddress);
 
-  const hub = await new Contract(metokenDiamond, HubFacetAbi, signer);
-  const tokenInfo = await registry.getMeTokenInfo(address);
-  const collateral = await hub.getBasicHubInfo(tokenInfo?.hubId);
-  info.profilePicture = data[0]?.details.profile.pfp || '';
-  info.symbol = `$${await erc20.symbol()}`;
-  info.collateral = collateral;
-  return info;
+  const tokenData = {
+    symbol: `$${await erc20.symbol()}`,
+    profilePicture:
+      data[0]?.details.profile.pfp || 'https://tinyurl.com/mr29vhmk',
+    tokenAddress,
+    collateral: await hub.getBasicHubInfo(tokenInfo?.hubId),
+  };
+
+  return { ...tokenData };
 };
 
 export const approveMeTokens = async (
@@ -89,22 +88,19 @@ export const approveMeTokens = async (
   provider: any,
 ) => {
   const erc20 = await new Contract(address, erc20Abi, provider.getSigner());
-
-  const approveTx = await erc20.approve(foundryFacet, amount);
-  return approveTx;
+  const approve = await erc20.approve(foundryFacet, amount);
+  return approve;
 };
 
 export const spendMeTokens = async (
   address: string,
   amount: string,
+  owner: string,
   provider: any,
 ) => {
   const erc20 = await new Contract(address, erc20Abi, provider.getSigner());
 
-  const transferTx = await erc20.transfer(
-    '0xc0163E58648b247c143023CFB26C2BAA42C9d9A9',
-    amount,
-  );
+  const transferTx = await erc20.transfer(owner, amount);
   return transferTx;
 };
 
