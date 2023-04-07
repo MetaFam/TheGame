@@ -4,6 +4,7 @@ import {
   Flex,
   IconButton,
   Image,
+  Input,
   MetaButton,
   Tab,
   TabList,
@@ -14,12 +15,14 @@ import {
   Wrap,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { ethers } from 'ethers';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { HiOutlineInformationCircle, HiSwitchVertical } from 'react-icons/hi';
 import { BoxTypes } from 'utils/boxTypes';
+import { switchChainOnMetaMask } from 'utils/metamask';
 import {
   approveMeTokens,
   burn,
@@ -28,6 +31,7 @@ import {
   getMeTokenInfo,
   mint,
   nullMeToken,
+  preview,
   spendMeTokens,
 } from 'utils/meTokens';
 
@@ -53,13 +57,6 @@ type SwapProps = {
   provider: any;
 };
 
-/* type TxData = {
-  meToken: string,
-  amount: string,
-  recipient: string,
-  sender: string,
-} */
-
 const MeTokenSwap: React.FC<SwapProps> = ({
   symbol,
   profilePicture,
@@ -70,25 +67,30 @@ const MeTokenSwap: React.FC<SwapProps> = ({
 }) => {
   const [collateralTokenData, setCollateralTokenData] = useState<any>();
   const [meTokenData, setMeTokenData] = useState<any>();
-  const [transactionType, toggleTransactionType] = useState<string>('');
-  const [approved, setApproved] = useState<boolean>(true);
-  // const [tx, setTx] = useState<TxData>();
-
-  const txData = {
-    meToken: '0xA64fc17B157aaA50AC9a8341BAb72D4647d0f1A7',
-    amount: '1000000',
-    recipient: '',
-    sender: '',
-  };
+  const [transactionType, toggleTransactionType] = useState<string>('mint');
+  const [approved, setApproved] = useState<boolean>(false);
+  const { chainId, address } = useWeb3();
+  const [amount, setAmount] = useState<string>('0');
 
   const handleSpendMeTokens = async () => {
-    await spendMeTokens(metokenAddress, txData.amount, owner, provider);
+    await spendMeTokens(
+      metokenAddress,
+      ethers.utils.parseEther(amount),
+      owner,
+      provider,
+    );
   };
 
   const approveMeTokenTx = async () => {
-    await approveMeTokens(metokenAddress, txData.amount, provider).then((res) =>
-      setApproved(true),
-    );
+    const approvalToken =
+      transactionType === 'mint'
+        ? '0x6B175474E89094C44Da98b954EedeAC495271d0F'
+        : metokenAddress;
+    await approveMeTokens(
+      approvalToken,
+      ethers.utils.parseEther(amount),
+      provider,
+    ).then((res) => setApproved(true));
   };
 
   const changeTransactionType = () => {
@@ -99,13 +101,24 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     }
   };
 
+  const handlePreview = async () => {
+    if (address)
+      await preview(
+        metokenAddress,
+        ethers.utils.parseEther(amount),
+        address,
+        transactionType,
+        provider,
+      );
+  };
+
   useEffect(() => {
     if (!metokenAddress || !collateral?.asset) return;
     const getInAndOutTokenData = async () => {
-      await getErc20TokenData(collateral.asset, owner, provider).then((res) => {
+      await getErc20TokenData(collateral.asset, owner).then((res) => {
         setCollateralTokenData(res);
       });
-      await getErc20TokenData(metokenAddress, owner, provider).then((res) => {
+      await getErc20TokenData(metokenAddress, owner).then((res) => {
         setMeTokenData(res);
       });
     };
@@ -114,13 +127,30 @@ const MeTokenSwap: React.FC<SwapProps> = ({
 
   const handleSubmit = async () => {
     if (!approved) {
-      await approveMeTokenTx().then((res) => setApproved(true));
+      await approveMeTokenTx().then((res) => {
+        setApproved(true);
+        handlePreview();
+      });
     }
     if (transactionType === 'mint') {
-      await mint(metokenAddress, txData.amount, owner, provider);
+      await mint(
+        metokenAddress,
+        ethers.utils.parseEther(amount),
+        owner,
+        provider,
+      );
     } else {
-      await burn(metokenAddress, txData.amount, owner, provider);
+      await burn(
+        metokenAddress,
+        ethers.utils.parseEther(amount),
+        owner,
+        provider,
+      );
     }
+  };
+
+  const handleSwitchToMainnet = async () => {
+    await switchChainOnMetaMask('0x1');
   };
 
   const roundNumber = (number: any) =>
@@ -141,9 +171,16 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               <Box width="sm" bg="white" borderRadius="lg">
                 <Flex justify="space-between" align="center" p="2">
                   <Box>
-                    <Text color="black">
-                      {roundNumber(collateralTokenData.balance)}
-                    </Text>
+                    <Input
+                      backgroundColor={'#fffff'}
+                      color={'black'}
+                      border={'none'}
+                      value={amount}
+                      type="text"
+                      onChange={(e) => setAmount(e.target.value)}
+                      name="Amount"
+                    />
+                    {roundNumber(collateralTokenData.balance)}
                     <Text color="grey">{roundNumber(meTokenData.balance)}</Text>
                   </Box>
                   {transactionType === 'mint' ? (
@@ -236,22 +273,28 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   )}
                 </Flex>
               </Box>
-              <MetaButton mx="auto" mt="1rem" onClick={handleSubmit}>
-                {approved
-                  ? `Swap
-                ${
-                  transactionType === 'mint'
-                    ? collateralTokenData.symbol
-                    : symbol
-                }
-                for
-                ${
-                  transactionType === 'mint'
-                    ? symbol
-                    : collateralTokenData.symbol
-                }`
-                  : 'Approve meTokens'}
-              </MetaButton>
+              {chainId === '0x1' ? (
+                <MetaButton mx="auto" mt="1rem" onClick={handleSubmit}>
+                  {approved
+                    ? `Swap
+                    ${
+                      transactionType === 'mint'
+                        ? collateralTokenData.symbol
+                        : symbol
+                    }
+                    for
+                    ${
+                      transactionType === 'mint'
+                        ? symbol
+                        : collateralTokenData.symbol
+                    }`
+                    : 'Approve Tokens'}
+                </MetaButton>
+              ) : (
+                <MetaButton mx="auto" mt="1rem" onClick={handleSwitchToMainnet}>
+                  Switch Chain
+                </MetaButton>
+              )}
             </Flex>
           </TabPanel>
           <TabPanel>
@@ -290,9 +333,15 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   <Text color="black">{roundNumber(meTokenData.balance)}</Text>
                 </Flex>
               </Box>
-              <MetaButton mx="auto" mt="1rem" onClick={handleSpendMeTokens}>
-                Spend {symbol}
-              </MetaButton>
+              {chainId === '1' ? (
+                <MetaButton mx="auto" mt="1rem" onClick={handleSpendMeTokens}>
+                  Spend {symbol}
+                </MetaButton>
+              ) : (
+                <Wrap mx="auto" mt="1rem">
+                  <SwitchNetworkButton />
+                </Wrap>
+              )}
             </Flex>
           </TabPanel>
         </TabPanels>
@@ -334,7 +383,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
 
   useEffect(() => {
     const getTokenByOwner = async () => {
-      await getMeTokenFor(player?.ethereumAddress, provider).then((r) =>
+      await getMeTokenFor(player?.ethereumAddress).then((r) =>
         setMeTokenAddress(r === nullMeToken ? 'Create meToken' : r),
       );
     };
@@ -344,11 +393,9 @@ export const PlayerMeTokens: React.FC<Props> = ({
 
   useEffect(() => {
     const getInfoByToken = async () => {
-      await getMeTokenInfo(
-        meTokenAddress,
-        player?.ethereumAddress,
-        provider,
-      ).then((r) => setMeTokenData(r));
+      await getMeTokenInfo(meTokenAddress, player?.ethereumAddress).then((r) =>
+        setMeTokenData(r),
+      );
     };
 
     getInfoByToken();
