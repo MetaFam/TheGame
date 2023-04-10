@@ -71,6 +71,24 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   const [approved, setApproved] = useState<boolean>(false);
   const { chainId, address } = useWeb3();
   const [amount, setAmount] = useState<string>('0');
+  const [previewAmount, setPreviewAmount] = useState<string>('0');
+
+  useEffect(() => {
+    if (!metokenAddress || !collateral?.asset) return;
+    const getInAndOutTokenData = async () => {
+      await getErc20TokenData(collateral.asset, owner).then((res) => {
+        setCollateralTokenData(res);
+      });
+      await getErc20TokenData(metokenAddress, owner).then((res) => {
+        setMeTokenData(res);
+      });
+    };
+    getInAndOutTokenData();
+  }, [metokenAddress, collateral?.asset]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    handlePreview();
+  }, [transactionType, amount, metokenAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSpendMeTokens = async () => {
     await spendMeTokens(
@@ -109,27 +127,15 @@ const MeTokenSwap: React.FC<SwapProps> = ({
         address,
         transactionType,
         provider,
-      );
+      ).then((res) => {
+        setPreviewAmount(res);
+      });
   };
-
-  useEffect(() => {
-    if (!metokenAddress || !collateral?.asset) return;
-    const getInAndOutTokenData = async () => {
-      await getErc20TokenData(collateral.asset, owner).then((res) => {
-        setCollateralTokenData(res);
-      });
-      await getErc20TokenData(metokenAddress, owner).then((res) => {
-        setMeTokenData(res);
-      });
-    };
-    getInAndOutTokenData();
-  }, [metokenAddress, collateral?.asset]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async () => {
     if (!approved) {
       await approveMeTokenTx().then((res) => {
         setApproved(true);
-        handlePreview();
       });
     }
     if (transactionType === 'mint') {
@@ -180,8 +186,6 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       onChange={(e) => setAmount(e.target.value)}
                       name="Amount"
                     />
-                    {roundNumber(collateralTokenData.balance)}
-                    <Text color="grey">{roundNumber(meTokenData.balance)}</Text>
                   </Box>
                   {transactionType === 'mint' ? (
                     <Wrap align="center">
@@ -192,6 +196,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                         textTransform="uppercase"
                         borderRadius="full"
                         size="sm"
+                        onClick={() =>
+                          setAmount(roundNumber(collateralTokenData.balance))
+                        }
                       >
                         Max
                       </Button>
@@ -236,9 +243,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 <hr />
                 <Flex justify="space-between" align="center" p="2">
                   <Box>
-                    <Text color="black">
-                      {roundNumber(collateralTokenData.balance)}
-                    </Text>
+                    <Text color="black">{roundNumber(previewAmount)}</Text>
                     <Text color="grey">{roundNumber(meTokenData.balance)}</Text>
                   </Box>
                   {transactionType === 'burn' ? (

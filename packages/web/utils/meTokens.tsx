@@ -122,23 +122,19 @@ export const preview = async (
     FoundryFacetAbi,
     provider.getSigner(),
   );
-
   if (type === 'mint') {
-    const previewMint = await meTokenFoundry.calculateMeTokensMinted(
-      meTokenAddress,
-      amount,
-    );
-    return previewMint;
+    const tx = await meTokenFoundry
+      .calculateMeTokensMinted(meTokenAddress, amount)
+      .then((res: BigNumber) => res);
+    return tx;
   }
   if (type === 'burn') {
-    const previewBurn = await meTokenFoundry.calculateAssetsReturned(
-      meTokenAddress,
-      amount,
-      senderAddress,
-    );
-    return previewBurn;
+    const tx = await meTokenFoundry
+      .calculateAssetsReturned(meTokenAddress, amount, senderAddress)
+      .then((res: BigNumber) => res);
+    return tx;
   }
-  return 0;
+  return BigNumber.from(0);
 };
 
 export const mint = async (
