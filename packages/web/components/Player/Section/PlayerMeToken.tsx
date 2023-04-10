@@ -45,7 +45,6 @@ type BlockProps = {
   symbol: string;
   profilePicture: string;
   address: string;
-  collateral: any;
 };
 
 type SwapProps = {
@@ -101,9 +100,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
 
   const approveMeTokenTx = async () => {
     const approvalToken =
-      transactionType === 'mint'
-        ? '0x6B175474E89094C44Da98b954EedeAC495271d0F'
-        : metokenAddress;
+      transactionType === 'mint' ? collateral.asset : metokenAddress;
     await approveMeTokens(
       approvalToken,
       ethers.utils.parseEther(amount),
@@ -120,13 +117,12 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   };
 
   const handlePreview = async () => {
-    if (address)
+    if (address && amount)
       await preview(
         metokenAddress,
         ethers.utils.parseEther(amount),
         address,
         transactionType,
-        provider,
       ).then((res) => {
         setPreviewAmount(res);
       });
@@ -138,7 +134,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
         setApproved(true);
       });
     }
-    if (transactionType === 'mint') {
+    if (transactionType === 'mint' && amount) {
       await mint(
         metokenAddress,
         ethers.utils.parseEther(amount),
@@ -209,15 +205,23 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     </Wrap>
                   ) : (
                     <Wrap align="center">
-                      <Image
-                        src={profilePicture}
-                        height="36px"
-                        width="36px"
-                        borderRadius={50}
-                        mx="auto"
-                        alt="profile picture"
-                      />
+                      <Button
+                        borderColor="black"
+                        color="black"
+                        variant="outline"
+                        textTransform="uppercase"
+                        borderRadius="full"
+                        size="sm"
+                        onClick={() =>
+                          setAmount(roundNumber(meTokenData.balance))
+                        }
+                      >
+                        Max
+                      </Button>
                       <Text color="black">{symbol}</Text>
+                      <Text color="black">
+                        {roundNumber(meTokenData.balance)}
+                      </Text>
                     </Wrap>
                   )}
                 </Flex>
@@ -248,16 +252,6 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   </Box>
                   {transactionType === 'burn' ? (
                     <Wrap align="center">
-                      <Button
-                        borderColor="black"
-                        color="black"
-                        variant="outline"
-                        textTransform="uppercase"
-                        borderRadius="full"
-                        size="sm"
-                      >
-                        Max
-                      </Button>
                       <Text color="black">{collateralTokenData.symbol}</Text>
                       <Text color="black">
                         {roundNumber(collateralTokenData.balance)}
@@ -359,7 +353,6 @@ const MeTokenBlock: React.FC<BlockProps> = ({
   symbol,
   profilePicture,
   address,
-  collateral,
 }) => (
   <Flex alignItems="center">
     <Image
@@ -431,7 +424,6 @@ export const PlayerMeTokens: React.FC<Props> = ({
                   profilePicture={meTokenData?.profilePicture || ''}
                   address={meTokenData?.tokenAddress || ''}
                   symbol={meTokenData?.symbol || ''}
-                  collateral={meTokenData?.collateral || ''}
                 />
                 <MeTokenSwap
                   profilePicture={meTokenData?.profilePicture || ''}

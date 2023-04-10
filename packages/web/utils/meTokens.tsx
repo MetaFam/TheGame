@@ -78,6 +78,32 @@ export const getMeTokenInfo = async (tokenAddress: string, owner: string) => {
   return { ...tokenData };
 };
 
+export const preview = async (
+  meTokenAddress: string, // addr meToken
+  amount: BigNumber, // eg, 10e18 (CBOB)
+  senderAddress: string,
+  type: string,
+) => {
+  const meTokenFoundry = await new Contract(
+    metokenDiamond,
+    FoundryFacetAbi,
+    mainnetProvider.getSigner(senderAddress),
+  );
+  if (type === 'mint') {
+    const tx = await meTokenFoundry
+      .calculateMeTokensMinted(meTokenAddress, amount)
+      .then((res: BigNumber) => res);
+    return tx;
+  }
+  if (type === 'burn') {
+    const tx = await meTokenFoundry
+      .calculateAssetsReturned(meTokenAddress, amount, senderAddress)
+      .then((res: BigNumber) => res);
+    return tx;
+  }
+  return BigNumber.from(0);
+};
+
 // Write
 export const approveMeTokens = async (
   tokenAddress: string,
@@ -108,33 +134,6 @@ export const spendMeTokens = async (
 
   const transferTx = await erc20.transfer(owner, amount);
   return transferTx;
-};
-
-export const preview = async (
-  meTokenAddress: string, // addr meToken
-  amount: BigNumber, // eg, 10e18 (CBOB)
-  senderAddress: string,
-  type: string,
-  provider: any,
-) => {
-  const meTokenFoundry = await new Contract(
-    metokenDiamond,
-    FoundryFacetAbi,
-    provider.getSigner(),
-  );
-  if (type === 'mint') {
-    const tx = await meTokenFoundry
-      .calculateMeTokensMinted(meTokenAddress, amount)
-      .then((res: BigNumber) => res);
-    return tx;
-  }
-  if (type === 'burn') {
-    const tx = await meTokenFoundry
-      .calculateAssetsReturned(meTokenAddress, amount, senderAddress)
-      .then((res: BigNumber) => res);
-    return tx;
-  }
-  return BigNumber.from(0);
 };
 
 export const mint = async (
