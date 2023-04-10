@@ -317,7 +317,7 @@ export const QuestChainPlaybooksDetails: Record<
     title: 'Become a buidler on Ethereum',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P10.src,
+    image: P13.src,
   },
   [QuestChainsPlaybooks.HOW_TO_PLAY_TWITTER]: {
     address: '0xd14c9ca6ebd0d8941340b5b57ca3640b0196a61d',
@@ -325,7 +325,7 @@ export const QuestChainPlaybooksDetails: Record<
     title: 'How to Play Twitter',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P11.src,
+    image: P16.src,
   },
   [QuestChainsPlaybooks.UNDERSTANDING_IMPOSTER_SYNDROME]: {
     address: '0xed2c1ed50438379770c0a7e21150810786ebdfd8',
@@ -341,7 +341,7 @@ export const QuestChainPlaybooksDetails: Record<
     title: 'How to join a DAO community',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P13.src,
+    image: P15.src,
   },
   [QuestChainsPlaybooks.HOW_TO_BUILD_A_NETWORK_FOR_IMPACT]: {
     address: '0xe388d673dcb58b6216d869801710e498fe37f24c',
@@ -357,7 +357,7 @@ export const QuestChainPlaybooksDetails: Record<
     title: 'Handling FOMO in Web3',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P15.src,
+    image: P11.src,
   },
   [QuestChainsPlaybooks.MGXP_METAGAME_EXPERIENCE_POINTS]: {
     address: '0x0872df6d8a2f92bf4c5c033be8eea0fd4b3ca39c',
@@ -365,7 +365,7 @@ export const QuestChainPlaybooksDetails: Record<
     title: 'MGXP Metagame Experience Points',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P16.src,
+    image: P10.src,
   },
 };
 
