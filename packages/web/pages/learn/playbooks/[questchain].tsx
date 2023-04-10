@@ -121,7 +121,7 @@ const QuestChainPathPage: React.FC<Props> = ({
         {fetching ? (
           <Spinner my={20} />
         ) : (
-          <Flex w="full" gap={8}>
+          <Flex w="full" gap={8} direction={{ base: 'column', md: 'row' }}>
             {/* content */}
             <Flex
               direction="column"
