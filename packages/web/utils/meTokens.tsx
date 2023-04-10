@@ -4,6 +4,7 @@ import erc20Abi from 'contracts/erc20.abi';
 import FoundryFacetAbi from 'contracts/FoundryFacet.abi';
 import HubFacetAbi from 'contracts/HubFacet.abi';
 import MeTokensRegistryABI from 'contracts/meTokensRegistry.abi';
+import type { Signer } from 'ethers';
 import { BigNumber, Contract, ethers } from 'ethers';
 
 export const metokenRegistry = '0x8b91FcF2230ab04A46e2D83aaF062EC1B5AAAa5c';
@@ -19,7 +20,11 @@ const { mainnetRPC } = CONFIG;
 const mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetRPC);
 
 // Keeping it clean
-function getContractWithSigner(contractAddress: string, abi: any, signer: any) {
+function getContractWithSigner(
+  contractAddress: string,
+  abi: any,
+  signer: Signer,
+) {
   const contract = new ethers.Contract(contractAddress, abi, signer);
   const contractWithSigner = contract.connect(signer);
   return contractWithSigner;
@@ -72,7 +77,9 @@ export const getMeTokenInfo = async (tokenAddress: string, owner: string) => {
     profilePicture:
       data[0]?.details.profile.pfp || 'https://tinyurl.com/mr29vhmk',
     tokenAddress,
-    collateral: await hub.getBasicHubInfo(tokenInfo?.hubId),
+    collateral: await hub
+      .getBasicHubInfo(tokenInfo?.hubId)
+      .then((res: { asset: string }) => res.asset),
   };
 
   return { ...tokenData };

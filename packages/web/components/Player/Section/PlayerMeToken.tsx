@@ -35,6 +35,13 @@ import {
   spendMeTokens,
 } from 'utils/meTokens';
 
+type TokenData = {
+  collateral: string;
+  profilePicture: string;
+  symbol: string;
+  tokenAddress: string;
+};
+
 type Props = {
   player: Player;
   isOwnProfile?: boolean;
@@ -73,9 +80,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   const [previewAmount, setPreviewAmount] = useState<string>('0');
 
   useEffect(() => {
-    if (!metokenAddress || !collateral?.asset) return;
+    if (!metokenAddress || !collateral) return;
     const getInAndOutTokenData = async () => {
-      await getErc20TokenData(collateral.asset, owner).then((res) => {
+      await getErc20TokenData(collateral, owner).then((res) => {
         setCollateralTokenData(res);
       });
       await getErc20TokenData(metokenAddress, owner).then((res) => {
@@ -83,7 +90,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
       });
     };
     getInAndOutTokenData();
-  }, [metokenAddress, collateral?.asset]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [metokenAddress, collateral]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     handlePreview();
@@ -376,7 +383,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
   editing,
 }) => {
   const [meTokenAddress, setMeTokenAddress] = useState<string>('');
-  const [meTokenData, setMeTokenData] = useState<any>('');
+  const [meTokenData, setMeTokenData] = useState<TokenData>();
   const { provider } = useWeb3();
 
   useEffect(() => {
