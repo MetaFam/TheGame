@@ -15,7 +15,6 @@ import {
   Wrap,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { ethers } from 'ethers';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
@@ -133,6 +132,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
       ).then((res) => {
         setPreviewAmount(res);
       });
+    else {
+      setPreviewAmount('0');
+    }
   };
 
   const handleSubmit = async () => {
@@ -158,17 +160,40 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     }
   };
 
+  const handleSetAmount = (swapAmount: string) => {
+    if (
+      transactionType === 'burn' &&
+      +swapAmount > +humanizeNumber(meTokenData.balance)
+    ) {
+      setAmount(humanizeNumber(meTokenData.balance));
+    } else {
+      setAmount(swapAmount);
+    }
+  };
+
+  const handleSetSpendAmount = (spendAmount: string) => {
+    if (transactionType === 'mint') {
+      changeTransactionType();
+      handleSetAmount(spendAmount);
+    } else {
+      handleSetAmount(spendAmount);
+    }
+  };
+
   const handleSwitchToMainnet = async () => {
     await switchChainOnMetaMask('0x1');
   };
 
-  const roundNumber = (number: any) =>
+  const roundNumber = (number: string) =>
     (Math.round(+ethers.utils.formatEther(number) * 100) / 100).toFixed(2);
+
+  const humanizeNumber = (number: number) =>
+    `${+ethers.utils.formatEther(number)}`;
 
   if (!collateralTokenData || !meTokenData) return <>Loading....</>;
 
   return (
-    <Flex direction="column" gap="4">
+    <Flex direction="column" gap="1">
       <Tabs align="center" size="md" variant="unstyled" w="100%">
         <TabList>
           <Tab _selected={{ color: 'teal.200' }}>Swap</Tab>
@@ -178,7 +203,13 @@ const MeTokenSwap: React.FC<SwapProps> = ({
           <TabPanel>
             <Flex direction="column" justifyItems="center">
               <Box width="sm" bg="white" borderRadius="lg">
-                <Flex justify="space-between" align="center" p="2">
+                <Flex
+                  justify="space-between"
+                  align="center"
+                  p="0.5"
+                  pt="2"
+                  pb="2"
+                >
                   <Box>
                     <Input
                       backgroundColor={'#fffff'}
@@ -186,7 +217,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       border={'none'}
                       value={amount}
                       type="text"
-                      onChange={(e) => setAmount(e.target.value)}
+                      onChange={(e) => handleSetAmount(e.target.value)}
                       name="Amount"
                     />
                   </Box>
@@ -200,7 +231,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                         borderRadius="full"
                         size="sm"
                         onClick={() =>
-                          setAmount(roundNumber(collateralTokenData.balance))
+                          setAmount(humanizeNumber(collateralTokenData.balance))
                         }
                       >
                         Max
@@ -220,7 +251,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                         borderRadius="full"
                         size="sm"
                         onClick={() =>
-                          setAmount(roundNumber(meTokenData.balance))
+                          setAmount(humanizeNumber(meTokenData.balance))
                         }
                       >
                         Max
@@ -255,7 +286,6 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 <Flex justify="space-between" align="center" p="2">
                   <Box>
                     <Text color="black">{roundNumber(previewAmount)}</Text>
-                    <Text color="grey">{roundNumber(meTokenData.balance)}</Text>
                   </Box>
                   {transactionType === 'burn' ? (
                     <Wrap align="center">
@@ -308,10 +338,15 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               <Box width="sm" bg="white" borderRadius="lg">
                 <Flex justify="space-between" align="center" p="2">
                   <Box>
-                    <Text color="black">
-                      {roundNumber(collateralTokenData.balance)}
-                    </Text>
-                    <Text color="grey">{roundNumber(meTokenData.balance)}</Text>
+                    <Input
+                      backgroundColor={'#fffff'}
+                      color={'black'}
+                      border={'none'}
+                      value={amount}
+                      type="text"
+                      onChange={(e) => handleSetSpendAmount(e.target.value)}
+                      name="Amount"
+                    />
                   </Box>
                   <Wrap align="center">
                     <Image
@@ -336,7 +371,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     meToken Value
                     <HiOutlineInformationCircle />
                   </Text>
-                  <Text color="black">{roundNumber(meTokenData.balance)}</Text>
+                  <Text color="black">$ {roundNumber(previewAmount)}</Text>
                 </Flex>
               </Box>
               {chainId === '1' ? (
@@ -344,9 +379,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   Spend {symbol}
                 </MetaButton>
               ) : (
-                <Wrap mx="auto" mt="1rem">
-                  <SwitchNetworkButton />
-                </Wrap>
+                <MetaButton mx="auto" mt="1rem" onClick={handleSwitchToMainnet}>
+                  Switch Chain
+                </MetaButton>
               )}
             </Flex>
           </TabPanel>
