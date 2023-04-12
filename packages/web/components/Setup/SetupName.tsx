@@ -1,5 +1,4 @@
 import { Flex, Input } from '@metafam/ds';
-import { getPlayer } from 'graphql/getPlayer';
 import React from 'react';
 
 import { ProfileWizardPane } from './ProfileWizardPane';
@@ -14,7 +13,7 @@ export const SetupName: React.FC = () => {
       title="Name"
       prompt="Hey! What's your name? 🙃"
     >
-      {({ register, dirty, errored }: WizardPaneCallbackProps) => {
+      {({ register, errored }: WizardPaneCallbackProps) => {
         const { ref: registerRef, ...props } = register(field, {
           minLength: {
             value: 1,

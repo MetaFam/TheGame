@@ -29,7 +29,7 @@ import {
   SortOption,
   sortOptionsMap,
   useFiltersUsed,
-} from 'lib/hooks/players';
+} from 'lib/hooks/player/players';
 import { useIsSticky } from 'lib/hooks/useIsSticky';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { getAddressForENS } from 'utils/ensHelpers';

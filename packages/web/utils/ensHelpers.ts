@@ -4,7 +4,7 @@ import { getPlayer } from 'graphql/getPlayer';
 
 const { mainnetRPC } = CONFIG;
 
-const mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetRPC);
+const mainnetProvider = new ethers.providers.StaticJsonRpcProvider(mainnetRPC);
 
 export const getAddressForENS = async (ens: string) => {
   if (!ens) return null;
@@ -26,29 +26,23 @@ export const getENSForAddress = async (address: string | undefined) => {
   }
 };
 
-export const getPlayerData = async (username: string) => {
-  const user = {
-    address: '',
-    ens: '',
-  };
-
+export const getENSAndPlayer = async (username: string) => {
   if (username == null) {
-    return { playerProfile: '', ens: '' };
+    return null;
   }
+
+  let userAddress: string | undefined;
 
   if (username.includes('.')) {
-    await getAddressForENS(username).then((address) => {
-      user.address = address?.toLowerCase() || username;
-    });
-    user.ens = username;
+    const address = await getAddressForENS(username);
+    userAddress = address?.toLowerCase();
   }
-
-  const player = await getPlayer(user.address).then((data) => data);
-
-  const profileInfo = {
-    playerProfile: player,
-    ens: user.ens,
-  };
-
-  return profileInfo;
+  if (userAddress != null) {
+    const player = await getPlayer(userAddress);
+    return {
+      player,
+      ens: username,
+    };
+  }
+  return null;
 };

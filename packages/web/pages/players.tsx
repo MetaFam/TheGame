@@ -12,7 +12,7 @@ import {
   getPlayersWithCount,
   PlayersQueryVariables,
 } from 'graphql/getPlayers';
-import { usePlayerFilter } from 'lib/hooks/players';
+import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useMemo, useRef } from 'react';

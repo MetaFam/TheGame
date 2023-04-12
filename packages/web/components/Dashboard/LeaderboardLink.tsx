@@ -2,17 +2,14 @@ import { Box } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
-import React, { useEffect, useState } from 'react';
-import {
-  formatAddress,
-  getPlayerName,
-  getPlayerURL,
-} from 'utils/playerHelpers';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+import React from 'react';
 
 type Props = {
   position: number;
   player: Player;
-  showSeasonalXP: any;
+  showSeasonalXP: boolean;
 };
 
 export const LeaderboardLink: React.FC<Props> = ({
@@ -20,20 +17,8 @@ export const LeaderboardLink: React.FC<Props> = ({
   showSeasonalXP,
   position,
 }) => {
-  const [linkURL, setLinkURL] = useState<string>(
-    `/player/${player?.ethereumAddress}`,
-  );
-  const [playerName, setPlayerName] = useState<string>(
-    formatAddress(player?.ethereumAddress),
-  );
-
-  useEffect(() => {
-    const getPlayer = async () => {
-      setPlayerName(await getPlayerName(player));
-      setLinkURL((await getPlayerURL(player)) || '');
-    };
-    getPlayer();
-  }, [player]);
+  const playerName = usePlayerName(player);
+  const linkURL = usePlayerURL(player);
 
   return (
     <MetaLink

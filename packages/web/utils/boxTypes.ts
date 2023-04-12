@@ -86,17 +86,4 @@ export const gridSX = {
     boxShadow: '0 0 0 solid rgba(0, 0, 0, 0.8)',
     borderRadius: 'lg',
   },
-  '.react-resizable-handle': {
-    width: '1rem',
-    height: '1rem',
-    background: 'none',
-    borderStyle: 'solid',
-    borderColor: 'pinkShadeOne',
-    borderWidth: '0 2px 2px 0',
-    borderRadius: '0 0 6px 0',
-    margin: '2px',
-  },
-  '.react-resizable-handle::after': {
-    border: 'none',
-  },
 };
