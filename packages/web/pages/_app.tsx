@@ -4,7 +4,7 @@ import 'assets/custom-markdown-editor.scss';
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { UserbackProvider } from '@userback/react';
-import { MegaMenu } from 'components/MegaMenu/index';
+import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
