@@ -22,7 +22,7 @@ import {
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { PlayerAggregates, sortOptions } from 'lib/hooks/players';
+import { PlayerAggregates, sortOptions } from 'lib/hooks/player/players';
 import React, {
   useCallback,
   useEffect,

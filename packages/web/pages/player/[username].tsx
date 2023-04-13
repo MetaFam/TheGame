@@ -15,6 +15,8 @@ import {
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { useProfileField, useUser } from 'lib/hooks';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
@@ -27,14 +29,12 @@ import React, {
 } from 'react';
 import useSWR from 'swr';
 import { LayoutData } from 'utils/boxTypes';
-import { getENSForAddress, getPlayerData } from 'utils/ensHelpers';
+import { getENSAndPlayer } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
   getPlayerDescription,
   getPlayerImage,
-  getPlayerName,
-  getPlayerURL,
 } from 'utils/playerHelpers';
 
 type Props = {
@@ -42,41 +42,62 @@ type Props = {
   ens?: string;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player }) => {
+export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
   const router = useRouter();
-  const { user } = useUser();
-  const [userENS, setENS] = useState('');
-  const [linkURL, setLinkURL] = useState<string>();
-  const [header, setHeader] = useState('');
-  const [playerData, setPlayerData] = useState<Player>(player);
-
   const username = router.query.username as string;
+  const [player, setPlayer] = useState(propPlayer);
 
-  const { data: profileInfo, isValidating } = useSWR(
+  const { user } = useUser();
+
+  const linkURL = usePlayerURL(player);
+  const header = usePlayerName(player);
+
+  const isCurrentPlayerPage =
+    router.pathname === '/me' ||
+    user?.profile?.username === username ||
+    user?.ethereumAddress === username;
+
+  // if this is not the current user's page AND there is no player prop (meaning a
+  // page was not server-side-rendered for this player), AND the path isn't an
+  // ENS name, fetch the player
+  useEffect(() => {
+    if (
+      !isCurrentPlayerPage &&
+      !username?.includes('.') &&
+      propPlayer == null
+    ) {
+      getPlayer(username).then((fetchedPlayer) => {
+        if (fetchedPlayer != null) {
+          setPlayer(fetchedPlayer);
+        }
+      });
+    }
+  }, [isCurrentPlayerPage, propPlayer, router.pathname, username]);
+
+  // if the username contains a dot, look up the player's ETH address and player with ENS
+  const { data: ensAndPlayer, isValidating } = useSWR(
     username && username.includes('.') ? username : null,
-    getPlayerData,
+    getENSAndPlayer,
     {
       revalidateOnFocus: false,
     },
   );
-
+  const ens = ensAndPlayer?.ens ?? undefined;
   useEffect(() => {
-    if (playerData) return;
-    if (profileInfo && profileInfo.playerProfile && profileInfo.ens) {
-      setPlayerData(profileInfo.playerProfile as Player);
-      setENS(profileInfo.ens);
+    if (ensAndPlayer?.player) {
+      setPlayer(ensAndPlayer.player);
     }
-  }, [profileInfo]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ensAndPlayer?.player]);
 
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
-    player: playerData,
+    player,
     getter: getPlayerBannerFull,
   });
 
   const { value: background } = useProfileField({
     field: 'backgroundImageURL',
-    player: playerData,
+    player,
     getter: getPlayerBackgroundFull,
   });
 
@@ -90,39 +111,21 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
   );
 
   useEffect(() => {
-    const resolveName = async () => {
-      if (user && !userENS && router.pathname === '/me') {
-        setPlayerData((await getPlayer(user?.ethereumAddress)) as Player);
-        setENS((await getENSForAddress(user?.ethereumAddress)) || '');
-      }
-      setHeader(await getPlayerName(playerData));
-    };
-    const getURL = async () => {
-      setLinkURL(await getPlayerURL(playerData));
-    };
-    getURL();
-    resolveName();
-  }, [user, playerData, router]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (playerData?.id) {
-      invalidateCache({ playerId: playerData.id });
+    if (player?.id) {
+      invalidateCache({ playerId: player.id });
     }
-  }, [playerData?.id, invalidateCache]);
+  }, [player?.id, invalidateCache]);
 
   if (router.isFallback) {
     return <LoadingState />;
   }
 
-  if (isValidating && !playerData) return <LoadingState />;
+  if (isValidating && !player) return <LoadingState />;
   if (
-    !profileInfo?.playerProfile &&
-    username &&
-    username.includes('.') &&
-    !isValidating
+    (!player && username && username.includes('.') && !isValidating) ||
+    (!player && router.pathname === '/me')
   )
     return <Page404 />;
-  if (!playerData && router.pathname === '/me') return <Page404 />;
 
   const banner = metagamer && background ? '' : bannerURL;
 
@@ -142,12 +145,9 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
     >
       <HeadComponent
         title={`MetaGame Profile: ${header}`}
-        description={(getPlayerDescription(playerData) ?? '').replace(
-          '\n',
-          ' ',
-        )}
+        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
-        img={getPlayerImage(playerData)}
+        img={getPlayerImage(player)}
       />
       {banner && (
         <Box
@@ -177,7 +177,7 @@ export const PlayerPage: React.FC<Props> = ({ player }) => {
             }
           : {})}
       >
-        {playerData && <Grid {...{ player: playerData, ens: userENS }} />}
+        {player && <Grid {...{ player, ens }} />}
       </Flex>
     </PageContainer>
   );

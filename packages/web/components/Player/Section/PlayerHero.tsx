@@ -26,15 +26,11 @@ import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useProfileField, useUser } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import React from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
-import {
-  getPlayerMeetwithWalletCalendarUrl,
-  getPlayerName,
-} from 'utils/playerHelpers';
-
-const MAX_BIO_LENGTH = 240;
+import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
 
 type HeroProps = {
   player: Player;
@@ -188,11 +184,6 @@ const Description: React.FC<DisplayComponentProps> = ({
     field: 'description',
     player,
   });
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setShow((description ?? '').length <= MAX_BIO_LENGTH);
-  }, [description]);
 
   if (!description || description === '') {
     return null;
@@ -211,15 +202,7 @@ const Name: React.FC<DisplayComponentProps> = ({
   player,
   Wrapper = React.Fragment,
 }) => {
-  const [playerName, setPlayerName] = useState<string>('');
-
-  useEffect(() => {
-    const getPlayer = async () => {
-      const name = await getPlayerName(player);
-      setPlayerName(name);
-    };
-    getPlayer();
-  }, [player]);
+  const playerName = usePlayerName(player);
 
   return (
     <Wrapper>

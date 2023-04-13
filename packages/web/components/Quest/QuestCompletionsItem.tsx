@@ -1,19 +1,16 @@
 import { Avatar, HStack, Text } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { CompletionStatusTag } from 'components/Quest/QuestTags';
-import { Player } from 'graphql/autogen/types';
+import { Player, QuestCompletionStatus_Enum } from 'graphql/autogen/types';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import {
-  formatAddress,
-  getPlayerName,
-  getPlayerURL,
-} from 'utils/playerHelpers';
+import React from 'react';
 
 type Props = {
   player: Player;
   submittedAt: string;
-  status: any;
+  status: QuestCompletionStatus_Enum;
 };
 
 export const QuestCompletionsItem: React.FC<Props> = ({
@@ -21,18 +18,8 @@ export const QuestCompletionsItem: React.FC<Props> = ({
   submittedAt,
   status,
 }) => {
-  const [playerName, setPlayerName] = useState<string>(
-    formatAddress(player?.ethereumAddress),
-  );
-  const [linkURL, setLinkURL] = useState<string>();
-
-  useEffect(() => {
-    const getPlayer = async () => {
-      setPlayerName(await getPlayerName(player));
-      setLinkURL(await getPlayerURL(player));
-    };
-    getPlayer();
-  }, [player]);
+  const playerName = usePlayerName(player);
+  const linkURL = usePlayerURL(player);
 
   return (
     <HStack px={4} py={4}>
