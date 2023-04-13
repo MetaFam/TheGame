@@ -12,6 +12,7 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useToast,
   Wrap,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
@@ -77,6 +78,8 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   const { chainId, address } = useWeb3();
   const [amount, setAmount] = useState<string>('0');
   const [previewAmount, setPreviewAmount] = useState<string>('0');
+  const [loading, setLoading] = useState<boolean>(false);
+  const toast = useToast();
 
   useEffect(() => {
     if (!metokenAddress || !collateral) return;
@@ -92,29 +95,74 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   }, [metokenAddress, collateral]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (!amount || !metokenAddress) return;
     handlePreview();
   }, [transactionType, amount, metokenAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSpendMeTokens = async () => {
+    setLoading(true);
     await spendMeTokens(
       metokenAddress,
       ethers.utils.parseEther(amount),
       owner,
       provider,
-    );
+    )
+      .then(() => {
+        toast({
+          title: 'Success',
+          description: `Successfully spent ${meTokenData.symbol} with Issuer.`,
+          status: 'success',
+          isClosable: true,
+        });
+        setLoading(false);
+      })
+      .catch(() => {
+        toast({
+          title: 'Error',
+          description: `Could not spend ${meTokenData.symbol} tokens.`,
+          status: 'error',
+          isClosable: true,
+        });
+        setLoading(false);
+      });
   };
 
   const approveMeTokenTx = async () => {
     const approvalToken =
-      transactionType === 'mint' ? collateral.asset : metokenAddress;
+      transactionType === 'mint' ? collateral : metokenAddress;
     await approveMeTokens(
       approvalToken,
       ethers.utils.parseEther(amount),
       provider,
-    ).then((res) => setApproved(true));
+    )
+      .then(() => {
+        toast({
+          title: 'Success',
+          description: `Tokens approved successfully.`,
+          status: 'success',
+          isClosable: true,
+        });
+        setApproved(true);
+        setLoading(false);
+      })
+      .catch(() => {
+        toast({
+          title: 'Error',
+          description: `Token Approval Failed`,
+          status: 'error',
+          isClosable: true,
+        });
+        setLoading(false);
+      });
+  };
+
+  const clearAmounts = () => {
+    setAmount('0');
+    setPreviewAmount('0');
   };
 
   const changeTransactionType = () => {
+    clearAmounts();
     if (transactionType === 'mint') {
       toggleTransactionType('burn');
     } else {
@@ -138,10 +186,10 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     if (!approved) {
-      await approveMeTokenTx().then((res) => {
-        setApproved(true);
-      });
+      await approveMeTokenTx();
+      return;
     }
     if (transactionType === 'mint' && amount) {
       await mint(
@@ -149,18 +197,55 @@ const MeTokenSwap: React.FC<SwapProps> = ({
         ethers.utils.parseEther(amount),
         owner,
         provider,
-      );
+      )
+        .then(() => {
+          toast({
+            title: 'Success',
+            description: `${meTokenData.symbol} minted successfully.`,
+            status: 'success',
+            isClosable: true,
+          });
+          setLoading(false);
+        })
+        .catch(() => {
+          toast({
+            title: 'Error',
+            description: `${meTokenData.symbol} mint failed.`,
+            status: 'error',
+            isClosable: true,
+          });
+          setLoading(false);
+        });
     } else {
       await burn(
         metokenAddress,
         ethers.utils.parseEther(amount),
         owner,
         provider,
-      );
+      )
+        .then(() => {
+          toast({
+            title: 'Success',
+            description: `${meTokenData.symbol} burned successfully.`,
+            status: 'success',
+            isClosable: true,
+          });
+          setLoading(false);
+        })
+        .catch(() => {
+          toast({
+            title: 'Error',
+            description: `${meTokenData.symbol} burn failed.`,
+            status: 'error',
+            isClosable: true,
+          });
+          setLoading(false);
+        });
     }
   };
 
   const handleSetAmount = (swapAmount: string) => {
+    if (swapAmount && !/^[0-9.]+$/.test(swapAmount)) return;
     if (
       transactionType === 'burn' &&
       +swapAmount > +humanizeNumber(meTokenData.balance)
@@ -197,7 +282,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
       <Tabs align="center" size="md" variant="unstyled" w="100%">
         <TabList>
           <Tab _selected={{ color: 'teal.200' }}>Swap</Tab>
-          <Tab _selected={{ color: 'teal.200' }}>Spend</Tab>
+          <Tab _selected={{ color: 'teal.200' }} onClick={clearAmounts}>
+            Spend
+          </Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -212,6 +299,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 >
                   <Box>
                     <Input
+                      p={2}
                       backgroundColor={'#fffff'}
                       color={'black'}
                       border={'none'}
@@ -310,7 +398,12 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 </Flex>
               </Box>
               {chainId === '0x1' ? (
-                <MetaButton mx="auto" mt="1rem" onClick={handleSubmit}>
+                <MetaButton
+                  mx="auto"
+                  mt="1rem"
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
                   {approved
                     ? `Swap
                     ${
@@ -343,10 +436,19 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       color={'black'}
                       border={'none'}
                       value={amount}
+                      p={2}
                       type="text"
                       onChange={(e) => handleSetSpendAmount(e.target.value)}
                       name="Amount"
                     />
+                    <Text
+                      color="gray"
+                      fontSize={'12'}
+                      textAlign={'left'}
+                      ml={2.5}
+                    >
+                      {roundNumber(meTokenData.balance)}
+                    </Text>
                   </Box>
                   <Wrap align="center">
                     <Image
@@ -374,9 +476,14 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   <Text color="black">$ {roundNumber(previewAmount)}</Text>
                 </Flex>
               </Box>
-              {chainId === '1' ? (
-                <MetaButton mx="auto" mt="1rem" onClick={handleSpendMeTokens}>
-                  Spend {symbol}
+              {chainId === '0x1' ? (
+                <MetaButton
+                  mx="auto"
+                  mt="1rem"
+                  onClick={handleSpendMeTokens}
+                  disabled={loading}
+                >
+                  {loading ? 'Loading..' : `Spend ${symbol}`}
                 </MetaButton>
               ) : (
                 <MetaButton mx="auto" mt="1rem" onClick={handleSwitchToMainnet}>
@@ -407,7 +514,7 @@ const MeTokenBlock: React.FC<BlockProps> = ({
     />
     <Box p="4">
       <Text>{symbol}</Text>
-      <Text>{address}</Text>
+      <Text fontSize={'14px'}>{address}</Text>
     </Box>
   </Flex>
 );
@@ -422,16 +529,23 @@ export const PlayerMeTokens: React.FC<Props> = ({
   const { provider } = useWeb3();
 
   useEffect(() => {
+    if (!player?.ethereumAddress) return;
     const getTokenByOwner = async () => {
-      await getMeTokenFor(player?.ethereumAddress).then((r) =>
-        setMeTokenAddress(r === nullMeToken ? 'Create meToken' : r),
-      );
+      await getMeTokenFor(player?.ethereumAddress).then((r) => {
+        setMeTokenAddress(r === nullMeToken ? 'Create meToken' : r);
+      });
     };
 
     getTokenByOwner();
-  }, [player]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [player?.ethereumAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (
+      !meTokenAddress ||
+      meTokenAddress === 'Create meToken' ||
+      !player?.ethereumAddress
+    )
+      return;
     const getInfoByToken = async () => {
       await getMeTokenInfo(meTokenAddress, player?.ethereumAddress).then((r) =>
         setMeTokenData(r),
@@ -439,7 +553,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
     };
 
     getInfoByToken();
-  }, [meTokenAddress]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [meTokenAddress, player?.ethereumAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ProfileSection
@@ -455,7 +569,9 @@ export const PlayerMeTokens: React.FC<Props> = ({
               target="_blank"
               rel={'noreferrer'}
             >
-              <Text>Create a me token</Text>
+              <MetaButton mx="auto" mt="1rem">
+                <Text>Create a me token</Text>
+              </MetaButton>
             </a>
           </>
         ) : (

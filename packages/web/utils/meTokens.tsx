@@ -32,6 +32,7 @@ function getContractWithSigner(
 
 // Read
 export const getMeTokenFor = async (ownerAddress: string) => {
+  if (!ownerAddress) return '';
   const registry = getContractWithSigner(
     metokenDiamond,
     MeTokensRegistryABI,
@@ -45,6 +46,7 @@ export const getErc20TokenData = async (
   tokenAddress: string,
   owner: string,
 ) => {
+  if (!owner) return '';
   const erc20 = getContractWithSigner(
     tokenAddress,
     erc20Abi,
@@ -59,6 +61,7 @@ export const getErc20TokenData = async (
 };
 
 export const getMeTokenInfo = async (tokenAddress: string, owner: string) => {
+  if (!tokenAddress) return undefined;
   const orbis = new Orbis();
   const { data } = await orbis.getDids(owner);
   const signer = mainnetProvider.getSigner(owner);
@@ -91,6 +94,7 @@ export const preview = async (
   senderAddress: string,
   type: string,
 ) => {
+  if (!amount || !meTokenAddress) return BigNumber.from(0);
   const meTokenFoundry = await new Contract(
     metokenDiamond,
     FoundryFacetAbi,
