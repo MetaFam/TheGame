@@ -26,6 +26,7 @@ import { switchChainOnMetaMask } from 'utils/metamask';
 import {
   approveMeTokens,
   burn,
+  getCollateralData,
   getErc20TokenData,
   getMeTokenFor,
   getMeTokenInfo,
@@ -63,6 +64,11 @@ type SwapProps = {
   provider: any;
 };
 
+type LiveCollateralData = {
+  image: string;
+  currentPrice: string;
+};
+
 const MeTokenSwap: React.FC<SwapProps> = ({
   symbol,
   profilePicture,
@@ -71,6 +77,8 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   owner,
   provider,
 }) => {
+  const [liveCollateralData, setLiveCollateralData] =
+    useState<LiveCollateralData>();
   const [collateralTokenData, setCollateralTokenData] = useState<any>();
   const [meTokenData, setMeTokenData] = useState<any>();
   const [transactionType, toggleTransactionType] = useState<string>('mint');
@@ -80,6 +88,14 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   const [previewAmount, setPreviewAmount] = useState<string>('0');
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
+
+  useEffect(() => {
+    if (!collateral) return;
+    const getLiveData = async () => {
+      setLiveCollateralData(await getCollateralData(collateral));
+    };
+    getLiveData();
+  }, [collateral]);
 
   useEffect(() => {
     if (!metokenAddress || !collateral) return;
@@ -293,7 +309,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 <Flex
                   justify="space-between"
                   align="center"
-                  p="0.5"
+                  p="1"
                   pt="2"
                   pb="2"
                 >
@@ -308,6 +324,16 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       onChange={(e) => handleSetAmount(e.target.value)}
                       name="Amount"
                     />
+                    <Text
+                      color="gray"
+                      fontSize={'12'}
+                      textAlign={'left'}
+                      ml={2.5}
+                    >
+                      {transactionType === 'mint'
+                        ? roundNumber(collateralTokenData.balance)
+                        : roundNumber(meTokenData.balance)}
+                    </Text>
                   </Box>
                   {transactionType === 'mint' ? (
                     <Wrap align="center">
@@ -324,10 +350,15 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       >
                         Max
                       </Button>
+                      <Image
+                        src={liveCollateralData?.image}
+                        height="36px"
+                        width="36px"
+                        borderRadius={50}
+                        mx="auto"
+                        alt="profile picture"
+                      />
                       <Text color="black">{collateralTokenData.symbol}</Text>
-                      <Text color="black">
-                        {roundNumber(collateralTokenData.balance)}
-                      </Text>
                     </Wrap>
                   ) : (
                     <Wrap align="center">
@@ -344,10 +375,15 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       >
                         Max
                       </Button>
+                      <Image
+                        src={profilePicture}
+                        height="36px"
+                        width="36px"
+                        borderRadius={50}
+                        mx="auto"
+                        alt="profile picture"
+                      />
                       <Text color="black">{symbol}</Text>
-                      <Text color="black">
-                        {roundNumber(meTokenData.balance)}
-                      </Text>
                     </Wrap>
                   )}
                 </Flex>
@@ -374,13 +410,28 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 <Flex justify="space-between" align="center" p="2">
                   <Box>
                     <Text color="black">{roundNumber(previewAmount)}</Text>
+                    <Text
+                      color="gray"
+                      fontSize={'12'}
+                      textAlign={'left'}
+                      ml={1}
+                    >
+                      {transactionType === 'mint'
+                        ? roundNumber(meTokenData.balance)
+                        : roundNumber(collateralTokenData.balance)}
+                    </Text>
                   </Box>
                   {transactionType === 'burn' ? (
                     <Wrap align="center">
+                      <Image
+                        src={liveCollateralData?.image}
+                        height="36px"
+                        width="36px"
+                        borderRadius={50}
+                        mx="auto"
+                        alt="profile picture"
+                      />
                       <Text color="black">{collateralTokenData.symbol}</Text>
-                      <Text color="black">
-                        {roundNumber(collateralTokenData.balance)}
-                      </Text>
                     </Wrap>
                   ) : (
                     <Wrap align="center">
@@ -529,7 +580,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
   const { provider } = useWeb3();
 
   useEffect(() => {
-    if (!player?.ethereumAddress) return;
+    if (!player) return;
     const getTokenByOwner = async () => {
       await getMeTokenFor(player?.ethereumAddress).then((r) => {
         setMeTokenAddress(r === nullMeToken ? 'Create meToken' : r);
@@ -540,11 +591,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
   }, [player?.ethereumAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (
-      !meTokenAddress ||
-      meTokenAddress === 'Create meToken' ||
-      !player?.ethereumAddress
-    )
+    if (!meTokenAddress || meTokenAddress === 'Create meToken' || !player)
       return;
     const getInfoByToken = async () => {
       await getMeTokenInfo(meTokenAddress, player?.ethereumAddress).then((r) =>
@@ -576,7 +623,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
           </>
         ) : (
           <>
-            {meTokenData && (
+            {meTokenData && player && provider && (
               <>
                 <MeTokenBlock
                   profilePicture={meTokenData?.profilePicture || ''}

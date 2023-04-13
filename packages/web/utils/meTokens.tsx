@@ -14,6 +14,27 @@ export const foundryFacet = '0xA56AAF637b057a5EDf7b7252D0B7280042E71335';
 export const metokenDiamond = '0x0B4ec400e8D10218D0869a5b0036eA4BCf92d905';
 export const nullMeToken = '0x0000000000000000000000000000000000000000';
 
+const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/';
+const COINQUERY = '?localization=false&tickers=true&market_data=true';
+export const DAIADDRESS = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
+
+export const getCollateralData = async (collateralTokenAddress: string) => {
+  let id;
+  switch (collateralTokenAddress) {
+    case DAIADDRESS:
+      id = 'dai';
+      break;
+    default:
+      id = 'dai';
+  }
+  const tokenResponse = await fetch(`${COINGECKO_API_URL}${id}${COINQUERY}`);
+  const tokenJson = await tokenResponse.json();
+  return {
+    image: tokenJson.image.small,
+    currentPrice: tokenJson.market_data.current_price.usd,
+  };
+};
+
 const { mainnetRPC } = CONFIG;
 
 // Use mainnet provider for reads, to ensure anyone can view the profile regardless of Netork.
@@ -39,6 +60,7 @@ export const getMeTokenFor = async (ownerAddress: string) => {
     mainnetProvider.getSigner(ownerAddress),
   );
   const meTokenAddress = await registry.getOwnerMeToken(ownerAddress);
+
   return meTokenAddress;
 };
 
@@ -53,11 +75,13 @@ export const getErc20TokenData = async (
     mainnetProvider.getSigner(owner),
   );
 
-  return {
-    symbol: `$${await erc20.symbol()}`,
-    name: await erc20.name(),
-    balance: await erc20.balanceOf(owner),
+  const tokenData = {
+    symbol: (await erc20.symbol()) || '',
+    name: (await erc20.name()) || '',
+    balance: (await erc20.balanceOf(owner)) || '',
   };
+
+  return { ...tokenData };
 };
 
 export const getMeTokenInfo = async (tokenAddress: string, owner: string) => {
