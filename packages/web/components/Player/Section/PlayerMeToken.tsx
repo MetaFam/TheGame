@@ -16,13 +16,14 @@ import {
   Wrap,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { ethers } from 'ethers';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { HiOutlineInformationCircle, HiSwitchVertical } from 'react-icons/hi';
 import { BoxTypes } from 'utils/boxTypes';
-import { switchChainOnMetaMask } from 'utils/metamask';
+import { humanizeNumber, roundNumber } from 'utils/mathHelper';
 import {
   approveMeTokens,
   burn,
@@ -108,12 +109,26 @@ const MeTokenSwap: React.FC<SwapProps> = ({
       });
     };
     getInAndOutTokenData();
-  }, [metokenAddress, collateral]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [metokenAddress, collateral, owner]);
+
+  const handlePreview = useCallback(async () => {
+    if (!address && !amount) setPreviewAmount('0');
+    if (address) {
+      setPreviewAmount(
+        await preview(
+          metokenAddress,
+          ethers.utils.parseEther(amount),
+          address,
+          transactionType,
+        ),
+      );
+    }
+  }, [address, amount, transactionType, metokenAddress]);
 
   useEffect(() => {
     if (!amount || !metokenAddress) return;
     handlePreview();
-  }, [transactionType, amount, metokenAddress]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [handlePreview, amount, metokenAddress]);
 
   const handleSpendMeTokens = async () => {
     setLoading(true);
@@ -179,26 +194,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
 
   const changeTransactionType = () => {
     clearAmounts();
-    if (transactionType === 'mint') {
-      toggleTransactionType('burn');
-    } else {
-      toggleTransactionType('mint');
-    }
-  };
-
-  const handlePreview = async () => {
-    if (address && amount)
-      await preview(
-        metokenAddress,
-        ethers.utils.parseEther(amount),
-        address,
-        transactionType,
-      ).then((res) => {
-        setPreviewAmount(res);
-      });
-    else {
-      setPreviewAmount('0');
-    }
+    toggleTransactionType(transactionType === 'mint' ? 'burn' : 'mint');
   };
 
   const handleSubmit = async () => {
@@ -280,16 +276,6 @@ const MeTokenSwap: React.FC<SwapProps> = ({
       handleSetAmount(spendAmount);
     }
   };
-
-  const handleSwitchToMainnet = async () => {
-    await switchChainOnMetaMask('0x1');
-  };
-
-  const roundNumber = (number: string) =>
-    (Math.round(+ethers.utils.formatEther(number) * 100) / 100).toFixed(2);
-
-  const humanizeNumber = (number: number) =>
-    `${+ethers.utils.formatEther(number)}`;
 
   if (!collateralTokenData || !meTokenData) return <>Loading....</>;
 
@@ -471,9 +457,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     : 'Approve Tokens'}
                 </MetaButton>
               ) : (
-                <MetaButton mx="auto" mt="1rem" onClick={handleSwitchToMainnet}>
-                  Switch Chain
-                </MetaButton>
+                <Wrap mx="auto" mt="1rem">
+                  <SwitchNetworkButton />
+                </Wrap>
               )}
             </Flex>
           </TabPanel>
@@ -537,9 +523,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   {loading ? 'Loading..' : `Spend ${symbol}`}
                 </MetaButton>
               ) : (
-                <MetaButton mx="auto" mt="1rem" onClick={handleSwitchToMainnet}>
-                  Switch Chain
-                </MetaButton>
+                <Wrap mx="auto" mt="1rem">
+                  <SwitchNetworkButton />
+                </Wrap>
               )}
             </Flex>
           </TabPanel>

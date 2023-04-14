@@ -126,15 +126,18 @@ export const preview = async (
     mainnetProvider.getSigner(senderAddress),
   );
   if (type === 'mint') {
-    const tx = await meTokenFoundry
-      .calculateMeTokensMinted(meTokenAddress, amount)
-      .then((res: BigNumber) => res);
+    const tx = await meTokenFoundry.calculateMeTokensMinted(
+      meTokenAddress,
+      amount,
+    );
     return tx;
   }
   if (type === 'burn') {
-    const tx = await meTokenFoundry
-      .calculateAssetsReturned(meTokenAddress, amount, senderAddress)
-      .then((res: BigNumber) => res);
+    const tx = await meTokenFoundry.calculateAssetsReturned(
+      meTokenAddress,
+      amount,
+      senderAddress,
+    );
     return tx;
   }
   return BigNumber.from(0);
