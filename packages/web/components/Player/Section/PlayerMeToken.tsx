@@ -130,7 +130,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     handlePreview();
   }, [handlePreview, amount, metokenAddress]);
 
-  const handleSpendMeTokens = async () => {
+  const handleSpendMeTokens = useCallback(async () => {
     setLoading(true);
     await spendMeTokens(
       metokenAddress,
@@ -156,9 +156,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
         });
         setLoading(false);
       });
-  };
+  }, [meTokenData, amount, toast, setLoading, metokenAddress, provider, owner]);
 
-  const approveMeTokenTx = async () => {
+  const approveMeTokenTx = useCallback(async () => {
     const approvalToken =
       transactionType === 'mint' ? collateral : metokenAddress;
     await approveMeTokens(
@@ -185,19 +185,27 @@ const MeTokenSwap: React.FC<SwapProps> = ({
         });
         setLoading(false);
       });
-  };
+  }, [
+    setLoading,
+    transactionType,
+    amount,
+    toast,
+    collateral,
+    metokenAddress,
+    provider,
+  ]);
 
-  const clearAmounts = () => {
+  const clearAmounts = useCallback(() => {
     setAmount('0');
     setPreviewAmount('0');
-  };
+  }, [setAmount, setPreviewAmount]);
 
-  const changeTransactionType = () => {
+  const changeTransactionType = useCallback(() => {
     clearAmounts();
     toggleTransactionType(transactionType === 'mint' ? 'burn' : 'mint');
-  };
+  }, [clearAmounts, toggleTransactionType, transactionType]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     setLoading(true);
     if (!approved) {
       await approveMeTokenTx();
@@ -254,239 +262,184 @@ const MeTokenSwap: React.FC<SwapProps> = ({
           setLoading(false);
         });
     }
-  };
+  }, [
+    setLoading,
+    metokenAddress,
+    owner,
+    provider,
+    toast,
+    amount,
+    meTokenData,
+    approveMeTokenTx,
+    approved,
+    transactionType,
+  ]);
 
-  const handleSetAmount = (swapAmount: string) => {
-    if (swapAmount && !/^[0-9.]+$/.test(swapAmount)) return;
-    if (
-      transactionType === 'burn' &&
-      +swapAmount > +humanizeNumber(meTokenData.balance)
-    ) {
-      setAmount(humanizeNumber(meTokenData.balance));
-    } else {
-      setAmount(swapAmount);
-    }
-  };
+  const handleSetAmount = useCallback(
+    (swapAmount: string) => {
+      if (swapAmount && !/^[0-9.]+$/.test(swapAmount)) return;
+      if (
+        transactionType === 'burn' &&
+        +swapAmount > +humanizeNumber(meTokenData.balance)
+      ) {
+        setAmount(humanizeNumber(meTokenData.balance));
+      } else {
+        setAmount(swapAmount);
+      }
+    },
+    [setAmount, transactionType, meTokenData],
+  );
 
-  const handleSetSpendAmount = (spendAmount: string) => {
-    if (transactionType === 'mint') {
-      changeTransactionType();
-      handleSetAmount(spendAmount);
-    } else {
-      handleSetAmount(spendAmount);
-    }
-  };
+  const handleSetSpendAmount = useCallback(
+    (spendAmount: string) => {
+      if (transactionType === 'mint') {
+        changeTransactionType();
+        handleSetAmount(spendAmount);
+      } else {
+        handleSetAmount(spendAmount);
+      }
+    },
+    [transactionType, handleSetAmount, changeTransactionType],
+  );
 
   if (!collateralTokenData || !meTokenData) return <>Loading....</>;
 
   return (
-    <Flex direction="column" gap="1">
-      <Tabs align="center" size="md" variant="unstyled" w="100%">
-        <TabList>
-          <Tab _selected={{ color: 'teal.200' }}>Swap</Tab>
-          <Tab _selected={{ color: 'teal.200' }} onClick={clearAmounts}>
-            Spend
-          </Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <Flex direction="column" justifyItems="center">
-              <Box width="sm" bg="white" borderRadius="lg">
-                <Flex
-                  justify="space-between"
-                  align="center"
-                  p="1"
-                  pt="2"
-                  pb="2"
-                >
-                  <Box>
-                    <Input
-                      p={2}
-                      backgroundColor={'#fffff'}
-                      color={'black'}
-                      border={'none'}
-                      value={amount}
-                      type="text"
-                      onChange={(e) => handleSetAmount(e.target.value)}
-                      name="Amount"
-                    />
-                    <Text
-                      color="gray"
-                      fontSize={'12'}
-                      textAlign={'left'}
-                      ml={2.5}
-                    >
-                      {transactionType === 'mint'
-                        ? roundNumber(collateralTokenData.balance)
-                        : roundNumber(meTokenData.balance)}
-                    </Text>
-                  </Box>
-                  {transactionType === 'mint' ? (
-                    <Wrap align="center">
-                      <Button
-                        borderColor="black"
-                        color="black"
-                        variant="outline"
-                        textTransform="uppercase"
-                        borderRadius="full"
-                        size="sm"
-                        onClick={() =>
-                          setAmount(humanizeNumber(collateralTokenData.balance))
-                        }
-                      >
-                        Max
-                      </Button>
-                      <Image
-                        src={liveCollateralData?.image}
-                        height="36px"
-                        width="36px"
-                        borderRadius={50}
-                        mx="auto"
-                        alt="profile picture"
-                      />
-                      <Text color="black">{collateralTokenData.symbol}</Text>
-                    </Wrap>
-                  ) : (
-                    <Wrap align="center">
-                      <Button
-                        borderColor="black"
-                        color="black"
-                        variant="outline"
-                        textTransform="uppercase"
-                        borderRadius="full"
-                        size="sm"
-                        onClick={() =>
-                          setAmount(humanizeNumber(meTokenData.balance))
-                        }
-                      >
-                        Max
-                      </Button>
-                      <Image
-                        src={profilePicture}
-                        height="36px"
-                        width="36px"
-                        borderRadius={50}
-                        mx="auto"
-                        alt="profile picture"
-                      />
-                      <Text color="black">{symbol}</Text>
-                    </Wrap>
-                  )}
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  justifyContent="center"
-                  bg="white"
-                  p="0.18rem"
-                  marginBottom="-1.5rem"
-                >
-                  <IconButton
-                    aria-label="reverse transaction"
-                    variant="outline"
-                    backgroundColor="white"
-                    _hover={{ bg: 'white' }}
-                    colorScheme="gray"
-                    onClick={changeTransactionType}
-                    fontSize="20px"
-                    borderRadius="full"
-                    icon={<HiSwitchVertical color="black" />}
+    <Tabs align="center" size="md" variant="unstyled">
+      <TabList>
+        <Tab _selected={{ color: 'teal.200' }}>Swap</Tab>
+        <Tab _selected={{ color: 'teal.200' }} onClick={clearAmounts}>
+          Spend
+        </Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel p={0}>
+          <Flex direction="column" justifyItems="center">
+            <Box
+              width={{ base: '100%', lg: 'sm' }}
+              bg="white"
+              borderRadius="lg"
+            >
+              <Flex justify="space-between" align="center" pt={2} px={2}>
+                <Box>
+                  <Input
+                    pl={2}
+                    htmlSize={10}
+                    width="auto"
+                    variant="unstyled"
+                    backgroundColor={'#fffff'}
+                    color={'black'}
+                    border={'none'}
+                    value={amount}
+                    type="text"
+                    onChange={(e) => handleSetAmount(e.target.value)}
+                    name="Amount"
                   />
-                </Flex>
-                <hr />
-                <Flex justify="space-between" align="center" p="2">
-                  <Box>
-                    <Text color="black">{roundNumber(previewAmount)}</Text>
-                    <Text
-                      color="gray"
-                      fontSize={'12'}
-                      textAlign={'left'}
-                      ml={1}
+                  <Text
+                    color="gray"
+                    fontSize={'12'}
+                    textAlign={'left'}
+                    ml={2.5}
+                  >
+                    {transactionType === 'mint'
+                      ? roundNumber(collateralTokenData.balance)
+                      : roundNumber(meTokenData.balance)}
+                  </Text>
+                </Box>
+                {transactionType === 'mint' ? (
+                  <Wrap align="center">
+                    <Button
+                      borderColor="black"
+                      color="black"
+                      variant="outline"
+                      textTransform="uppercase"
+                      borderRadius="full"
+                      size="sm"
+                      onClick={() =>
+                        setAmount(humanizeNumber(collateralTokenData.balance))
+                      }
                     >
-                      {transactionType === 'mint'
-                        ? roundNumber(meTokenData.balance)
-                        : roundNumber(collateralTokenData.balance)}
-                    </Text>
-                  </Box>
-                  {transactionType === 'burn' ? (
-                    <Wrap align="center">
-                      <Image
-                        src={liveCollateralData?.image}
-                        height="36px"
-                        width="36px"
-                        borderRadius={50}
-                        mx="auto"
-                        alt="profile picture"
-                      />
-                      <Text color="black">{collateralTokenData.symbol}</Text>
-                    </Wrap>
-                  ) : (
-                    <Wrap align="center">
-                      <Image
-                        src={profilePicture}
-                        height="36px"
-                        width="36px"
-                        borderRadius={50}
-                        mx="auto"
-                        alt="profile picture"
-                      />
-                      <Text color="black">{symbol}</Text>
-                    </Wrap>
-                  )}
-                </Flex>
-              </Box>
-              {chainId === '0x1' ? (
-                <MetaButton
-                  mx="auto"
-                  mt="1rem"
-                  onClick={handleSubmit}
-                  disabled={loading}
-                >
-                  {approved
-                    ? `Swap
-                    ${
-                      transactionType === 'mint'
-                        ? collateralTokenData.symbol
-                        : symbol
-                    }
-                    for
-                    ${
-                      transactionType === 'mint'
-                        ? symbol
-                        : collateralTokenData.symbol
-                    }`
-                    : 'Approve Tokens'}
-                </MetaButton>
-              ) : (
-                <Wrap mx="auto" mt="1rem">
-                  <SwitchNetworkButton />
-                </Wrap>
-              )}
-            </Flex>
-          </TabPanel>
-          <TabPanel>
-            <Flex direction="column" justifyItems="center">
-              <Box width="sm" bg="white" borderRadius="lg">
-                <Flex justify="space-between" align="center" p="2">
-                  <Box>
-                    <Input
-                      backgroundColor={'#fffff'}
-                      color={'black'}
-                      border={'none'}
-                      value={amount}
-                      p={2}
-                      type="text"
-                      onChange={(e) => handleSetSpendAmount(e.target.value)}
-                      name="Amount"
+                      Max
+                    </Button>
+                    <Image
+                      src={liveCollateralData?.image}
+                      height="36px"
+                      width="36px"
+                      borderRadius={50}
+                      mx="auto"
+                      alt="profile picture"
                     />
-                    <Text
-                      color="gray"
-                      fontSize={'12'}
-                      textAlign={'left'}
-                      ml={2.5}
+                    <Text color="black">{collateralTokenData.symbol}</Text>
+                  </Wrap>
+                ) : (
+                  <Wrap align="center">
+                    <Button
+                      borderColor="black"
+                      color="black"
+                      variant="outline"
+                      textTransform="uppercase"
+                      borderRadius="full"
+                      size="sm"
+                      onClick={() =>
+                        setAmount(humanizeNumber(meTokenData.balance))
+                      }
                     >
-                      {roundNumber(meTokenData.balance)}
-                    </Text>
-                  </Box>
+                      Max
+                    </Button>
+                    <Image
+                      src={profilePicture}
+                      height="36px"
+                      width="36px"
+                      borderRadius={50}
+                      mx="auto"
+                      alt="profile picture"
+                    />
+                    <Text color="black">{symbol}</Text>
+                  </Wrap>
+                )}
+              </Flex>
+              <Flex
+                alignItems="center"
+                justifyContent="center"
+                bg="white"
+                marginBottom="-1rem"
+              >
+                <IconButton
+                  size="sm"
+                  aria-label="reverse transaction"
+                  variant="outline"
+                  backgroundColor="white"
+                  _hover={{ bg: 'white' }}
+                  colorScheme="gray"
+                  onClick={changeTransactionType}
+                  fontSize="20px"
+                  borderRadius="full"
+                  icon={<HiSwitchVertical color="black" />}
+                />
+              </Flex>
+              <hr />
+              <Flex justify="space-between" align="center" p="2">
+                <Box>
+                  <Text color="black">{roundNumber(previewAmount)}</Text>
+                  <Text color="gray" fontSize={'12'} textAlign={'left'} ml={1}>
+                    {transactionType === 'mint'
+                      ? roundNumber(meTokenData.balance)
+                      : roundNumber(collateralTokenData.balance)}
+                  </Text>
+                </Box>
+                {transactionType === 'burn' ? (
+                  <Wrap align="center">
+                    <Image
+                      src={liveCollateralData?.image}
+                      height="36px"
+                      width="36px"
+                      borderRadius={50}
+                      mx="auto"
+                      alt="profile picture"
+                    />
+                    <Text color="black">{collateralTokenData.symbol}</Text>
+                  </Wrap>
+                ) : (
                   <Wrap align="center">
                     <Image
                       src={profilePicture}
@@ -498,40 +451,113 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     />
                     <Text color="black">{symbol}</Text>
                   </Wrap>
-                </Flex>
-                <hr />
-                <Flex justify="space-between" align="center" p="2">
+                )}
+              </Flex>
+            </Box>
+            {chainId === '0x1' ? (
+              <MetaButton
+                mx="auto"
+                mt="1rem"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {approved
+                  ? `Swap
+                    ${
+                      transactionType === 'mint'
+                        ? collateralTokenData.symbol
+                        : symbol
+                    }
+                    for
+                    ${
+                      transactionType === 'mint'
+                        ? symbol
+                        : collateralTokenData.symbol
+                    }`
+                  : 'Approve Tokens'}
+              </MetaButton>
+            ) : (
+              <Wrap mx="auto" mt="1rem">
+                <SwitchNetworkButton />
+              </Wrap>
+            )}
+          </Flex>
+        </TabPanel>
+        <TabPanel p={0}>
+          <Flex direction="column" justifyItems="center">
+            <Box
+              width={{ base: '100%', lg: 'sm' }}
+              bg="white"
+              borderRadius="lg"
+            >
+              <Flex justify="space-between" align="center" p="2">
+                <Box>
+                  <Input
+                    htmlSize={10}
+                    width="auto"
+                    variant="unstyled"
+                    backgroundColor={'#fffff'}
+                    color={'black'}
+                    border={'none'}
+                    value={amount}
+                    pl={2}
+                    type="text"
+                    onChange={(e) => handleSetSpendAmount(e.target.value)}
+                    name="Amount"
+                  />
                   <Text
-                    display="flex"
-                    alignItems="center"
-                    gap="5px"
-                    color="black"
+                    color="gray"
+                    fontSize={'12'}
+                    textAlign={'left'}
+                    ml={2.5}
                   >
-                    meToken Value
-                    <HiOutlineInformationCircle />
+                    {roundNumber(meTokenData.balance)}
                   </Text>
-                  <Text color="black">$ {roundNumber(previewAmount)}</Text>
-                </Flex>
-              </Box>
-              {chainId === '0x1' ? (
-                <MetaButton
-                  mx="auto"
-                  mt="1rem"
-                  onClick={handleSpendMeTokens}
-                  disabled={loading}
-                >
-                  {loading ? 'Loading..' : `Spend ${symbol}`}
-                </MetaButton>
-              ) : (
-                <Wrap mx="auto" mt="1rem">
-                  <SwitchNetworkButton />
+                </Box>
+                <Wrap align="center">
+                  <Image
+                    src={profilePicture}
+                    height="36px"
+                    width="36px"
+                    borderRadius={50}
+                    mx="auto"
+                    alt="profile picture"
+                  />
+                  <Text color="black">{symbol}</Text>
                 </Wrap>
-              )}
-            </Flex>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </Flex>
+              </Flex>
+              <hr />
+              <Flex justify="space-between" align="center" p="2">
+                <Text
+                  display="flex"
+                  alignItems="center"
+                  gap="5px"
+                  color="black"
+                >
+                  meToken Value
+                  <HiOutlineInformationCircle />
+                </Text>
+                <Text color="black">$ {roundNumber(previewAmount)}</Text>
+              </Flex>
+            </Box>
+            {chainId === '0x1' ? (
+              <MetaButton
+                mx="auto"
+                mt="1rem"
+                onClick={handleSpendMeTokens}
+                disabled={loading}
+              >
+                {loading ? 'Loading..' : `Spend ${symbol}`}
+              </MetaButton>
+            ) : (
+              <Wrap mx="auto" mt="1rem">
+                <SwitchNetworkButton />
+              </Wrap>
+            )}
+          </Flex>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 };
 
@@ -540,7 +566,13 @@ const MeTokenBlock: React.FC<BlockProps> = ({
   profilePicture,
   address,
 }) => (
-  <Flex alignItems="center">
+  <Flex
+    p={2}
+    width="100%"
+    flexDirection={{ base: 'column', lg: 'row' }}
+    alignItems="center"
+    gap={2}
+  >
     <Image
       src={profilePicture}
       height="50px"
@@ -549,9 +581,9 @@ const MeTokenBlock: React.FC<BlockProps> = ({
       mx="auto"
       alt="profile picture"
     />
-    <Box p="4">
+    <Box width="sm" textAlign={{ base: 'center', lg: 'left' }}>
       <Text>{symbol}</Text>
-      <Text fontSize={'14px'}>{address}</Text>
+      <Text fontSize="sm">{address}</Text>
     </Box>
   </Flex>
 );
@@ -577,7 +609,11 @@ export const PlayerMeTokens: React.FC<Props> = ({
   }, [player?.ethereumAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!meTokenAddress || meTokenAddress === 'Create meToken' || !player)
+    if (
+      !meTokenAddress ||
+      meTokenAddress === 'Create meToken' ||
+      !player.ethereumAddress
+    )
       return;
     const getInfoByToken = async () => {
       await getMeTokenInfo(meTokenAddress, player?.ethereumAddress).then((r) =>
