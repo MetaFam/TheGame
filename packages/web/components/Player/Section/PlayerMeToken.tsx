@@ -5,6 +5,7 @@ import {
   IconButton,
   Image,
   Input,
+  LoadingState,
   MetaButton,
   Tab,
   TabList,
@@ -302,7 +303,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     [transactionType, handleSetAmount, changeTransactionType],
   );
 
-  if (!collateralTokenData || !meTokenData) return <>Loading....</>;
+  if (!collateralTokenData || !meTokenData) return <LoadingState />;
 
   return (
     <Tabs align="center" size="md" variant="unstyled">
@@ -606,7 +607,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
     };
 
     getTokenByOwner();
-  }, [player?.ethereumAddress]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [player]);
 
   useEffect(() => {
     if (
@@ -622,7 +623,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
     };
 
     getInfoByToken();
-  }, [meTokenAddress, player?.ethereumAddress]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [meTokenAddress, player?.ethereumAddress]);
 
   return (
     <ProfileSection
@@ -645,7 +646,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
           </>
         ) : (
           <>
-            {meTokenData && player && provider && (
+            {meTokenData && player && provider ? (
               <>
                 <MeTokenBlock
                   profilePicture={meTokenData?.profilePicture || ''}
@@ -661,6 +662,8 @@ export const PlayerMeTokens: React.FC<Props> = ({
                   provider={provider}
                 />
               </>
+            ) : (
+              <LoadingState />
             )}
           </>
         )}
