@@ -63,12 +63,12 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
       <HeadComponent
         title="MetaGame Quests"
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://my.metagame.wtf/quests"
+        url="https://metagame.wtf/quests"
       />
-      <Box w="100%" maxW="80rem">
-        <HStack justify="space-between" w="100%">
+      <Box w="full" maxW="7xl">
+        <HStack justify="space-between" w="full">
           <HStack>
-            <Heading as="h1" fontFamily="body" size="2xl">
+            <Heading as="h1" fontFamily="body" fontWeight="600" fontSize="5xl">
               Quest Explorer
             </Heading>
             <Tooltip label='Note that there are two quest-related dashboard widgets as well. One for managing submissions for quests you created, and another for viewing your own submissions. Click on "Edit Layout" on the dashboard page to check them out.'>
@@ -102,7 +102,7 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
             </Tooltip>
           </Box>
         </HStack>
-        <Box mt={8} w="100%">
+        <Box mt={8} w="full">
           <QuestFilter
             quests={quests || []}
             {...{
@@ -113,7 +113,7 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
             }}
           />
         </Box>
-        <Box mt={8} w="100%">
+        <Box mt={8} w="full">
           {fetching && <LoadingState />}
           {error && <Text>{`Error: ${error.message}`}</Text>}
           {quests && !fetching && <QuestList {...{ quests }} />}
