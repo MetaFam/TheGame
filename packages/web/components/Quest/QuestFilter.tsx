@@ -85,7 +85,7 @@ export const QuestFilter: React.FC<Props> = ({
     value: role,
   }));
 
-  const [limit, setLimit] = useState<FilterString>(limitOptions[0]);
+  const [limit, setLimit] = useState<FilterString>(limitOptions[2]);
   const [order, setOrder] = useState<FilterString>(orderOptions[0]);
   const [status, setStatus] = useState<FilterString>(statusOptions[0]);
   const [guild, setGuild] = useState<FilterString>(guildOptions[0]);
