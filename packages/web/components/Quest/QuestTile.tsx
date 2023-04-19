@@ -81,18 +81,16 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             height="full"
             justifyItems="space-between"
           >
-            {(description || parsedDescription) && (
-              <VStack align="left" spacing={1}>
-                <TileHeading>Description</TileHeading>
-                <Box fontSize="md" noOfLines={4} mt={0}>
-                  {descIsHtml ? (
-                    <Prose>{parsedDescription}</Prose>
-                  ) : (
-                    <Markdown>{description}</Markdown>
-                  )}
-                </Box>
-              </VStack>
-            )}
+            <VStack align="left" spacing={1}>
+              <TileHeading>Description</TileHeading>
+              <Box fontSize="md" noOfLines={4} mt={0}>
+                {descIsHtml ? (
+                  <Prose>{parsedDescription}</Prose>
+                ) : (
+                  <Markdown>{description}</Markdown>
+                )}
+              </Box>
+            </VStack>
 
             <VStack align="left" gap={1} mt="auto">
               {quest.quest_skills.length > 0 && (
