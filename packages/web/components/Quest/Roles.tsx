@@ -42,7 +42,12 @@ export const RolesTags: React.FC<RolesProps> = ({ roles }) => (
     {roles.map(({ role, label, description }) => (
       <WrapItem key={role}>
         <Tooltip label={description}>
-          <MetaTag size="md" fontWeight="normal" backgroundColor="purpleTag">
+          <MetaTag
+            size="md"
+            fontWeight="normal"
+            backgroundColor="purpleTag"
+            borderRadius={4}
+          >
             {label}
           </MetaTag>
         </Tooltip>
