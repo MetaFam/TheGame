@@ -67,6 +67,7 @@ import { EditBackgroundImage } from './Player/Profile/EditBackgroundImage';
 import { EditDescription } from './Player/Profile/EditDescription';
 import { Label } from './Player/Profile/Label';
 
+// Start work here
 type EditProfileFields = {
   profileImageURL?: Maybe<string>;
   backgroundImageURL?: Maybe<string>;
