@@ -1,5 +1,4 @@
-import HoneybadgerSourceMapPlugin from '@honeybadger-io/webpack';
-import { execSync } from 'child_process';
+// import HoneybadgerSourceMapPlugin from '@honeybadger-io/webpack';
 
 const { HONEYBADGER_API_KEY, HONEYBADGER_ASSETS_URL } = process.env;
 
@@ -72,6 +71,14 @@ export default {
         // jsdom is required for draft-js SSR only
         new webpack.IgnorePlugin({ resourceRegExp: /jsdom$/ }),
       );
+
+      config.module.rules = [
+        ...config.module.rules,
+        { sideEffects: false },
+      ]
+      // config.externals = {
+      //   '@emotion/react': '"@emotion/react"',
+      // }
 
       // config.resolve.fallback = {
       //   fs: false,

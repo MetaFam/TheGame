@@ -25,7 +25,7 @@ export const SetupDescription: React.FC = () => {
           <Flex justify="center" mt={5}>
             <Textarea
               maxW="36rem"
-              placeholder="Come on now, don't be shy 🙃"
+              placeholder="Come on now, don't be shy… 🙃"
               h="10em"
               color="white"
               _focus={errored ? { borderColor: 'red' } : undefined}

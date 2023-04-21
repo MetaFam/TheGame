@@ -29,9 +29,10 @@ import {
   SortOption,
   sortOptionsMap,
   useFiltersUsed,
-} from 'lib/hooks/players';
+} from 'lib/hooks/player/players';
 import { useIsSticky } from 'lib/hooks/useIsSticky';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { getAddressForENS } from 'utils/ensHelpers';
 import { SkillOption } from 'utils/skillHelpers';
 
 const Form = chakra.form;
@@ -66,6 +67,16 @@ export const PlayerFilter: React.FC<Props> = ({
   const [sortOption, setSortOption] = useState<ValueType>(
     sortOptionsMap[SortOption.SEASON_XP],
   );
+
+  useEffect(() => {
+    const resolveName = async () => {
+      if (search.includes('.')) {
+        const address = await getAddressForENS(search);
+        setQueryVariable('search', address);
+      }
+    };
+    resolveName();
+  }, [search, setQueryVariable]);
 
   const MIN_SEARCH_LENGTH = 2; // The text in the search box should be at least this long before a search is triggered
 
@@ -262,7 +273,7 @@ export const PlayerFilter: React.FC<Props> = ({
                       setQueryVariable('search', `%%`);
                     }
                   }}
-                  placeholder="SEARCH NAME OR ETH ADDRESS"
+                  placeholder="SEARCH ENS, NAME, OR ETH ADDRESS"
                   _placeholder={{ color: 'whiteAlpha.500' }}
                   size="md"
                   type="text"

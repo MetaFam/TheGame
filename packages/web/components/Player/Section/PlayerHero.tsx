@@ -19,32 +19,30 @@ import {
 import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { EditProfileModal } from 'components/EditProfileModal';
+import { MarkdownViewer } from 'components/MarkdownViewer';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useProfileField, useUser } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import React from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
-import {
-  getPlayerMeetwithWalletCalendarUrl,
-  getPlayerName,
-} from 'utils/playerHelpers';
-
-const MAX_BIO_LENGTH = 240;
+import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
 
 type HeroProps = {
   player: Player;
   editing?: boolean;
+  ens?: string;
 };
 type DisplayComponentProps = {
   player?: Maybe<Player>;
   Wrapper?: React.FC;
 };
 
-export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
+export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
   const { user } = useUser();
 
   const isOwnProfile = user ? user.id === player?.id : null;
@@ -88,7 +86,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       </Flex>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
-          <Name {...{ player }} />
+          <Name {...{ player, ens }} />
         </Box>
 
         <Description {...{ player }} />
@@ -186,11 +184,6 @@ const Description: React.FC<DisplayComponentProps> = ({
     field: 'description',
     player,
   });
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setShow((description ?? '').length <= MAX_BIO_LENGTH);
-  }, [description]);
 
   if (!description || description === '') {
     return null;
@@ -199,32 +192,7 @@ const Description: React.FC<DisplayComponentProps> = ({
   return (
     <Wrapper>
       <PlayerHeroTile title="Bio" align="flexStart">
-        <Text
-          fontSize={{ base: 'sm', sm: 'md' }}
-          textAlign="justify"
-          whiteSpace="pre-wrap"
-        >
-          {show || description.length <= MAX_BIO_LENGTH
-            ? description
-            : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
-          {description.length > MAX_BIO_LENGTH && (
-            <Text
-              as="span"
-              fontSize="xs"
-              color="cyanText"
-              cursor="pointer"
-              onClick={() => setShow((s) => !s)}
-              px={0.5}
-              ml={2}
-              bg="#FFFFFF22"
-              border="1px solid #FFFFFF99"
-              borderRadius="15%"
-              _hover={{ bg: '#FFFFFF44' }}
-            >
-              Read {show ? 'Less' : 'More'}
-            </Text>
-          )}
-        </Text>
+        <MarkdownViewer>{description}</MarkdownViewer>
       </PlayerHeroTile>
     </Wrapper>
   );
@@ -234,11 +202,7 @@ const Name: React.FC<DisplayComponentProps> = ({
   player,
   Wrapper = React.Fragment,
 }) => {
-  const { name } = useProfileField({
-    field: 'name',
-    player,
-    getter: getPlayerName,
-  });
+  const playerName = usePlayerName(player);
 
   return (
     <Wrapper>
@@ -249,9 +213,9 @@ const Name: React.FC<DisplayComponentProps> = ({
         textOverflow="ellipsis"
         whiteSpace="nowrap"
         overflowX="hidden"
-        title={name ?? undefined}
+        title={playerName}
       >
-        {name}
+        {playerName}
       </Text>
     </Wrapper>
   );

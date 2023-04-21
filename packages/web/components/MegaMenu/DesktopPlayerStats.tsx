@@ -15,8 +15,8 @@ import { XPSeedsBalance } from 'components/MegaMenu/XPSeedsBalance';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
+import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import React from 'react';
-import { getPlayerURL } from 'utils/playerHelpers';
 
 type PlayerStatsProps = {
   player: Player;
@@ -24,6 +24,8 @@ type PlayerStatsProps = {
 
 export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
   const { disconnect } = useWeb3();
+
+  const linkURL = usePlayerURL(player);
 
   return (
     <Flex align="center" justifyContent="flex-end">
@@ -69,7 +71,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           />
           <MetaLink
             color="white"
-            href={getPlayerURL(player) ?? '/'}
+            href={linkURL || '/'}
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem

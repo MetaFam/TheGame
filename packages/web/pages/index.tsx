@@ -114,7 +114,7 @@ const Landing: React.FC = () => {
         title="MetaGame: A Massive Online Coordination Game!"
         description="To play metagame is to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy, &amp; earn you money."
         url={hostName}
-        img={`${hostName}/assets/social.png`}
+        img={`${hostName}/assets/social.webp`}
         cardStyle="summary_large_image"
       />
       <LandingHeader />

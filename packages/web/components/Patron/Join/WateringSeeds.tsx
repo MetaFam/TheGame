@@ -1,5 +1,5 @@
 import { Box, Container, Flex, Heading, Image, MetaButton } from '@metafam/ds';
-import SeedsDiagram from 'assets/patron/seed-diagram.png';
+import SeedsDiagram from 'assets/patron/seed-diagram.webp';
 import React from 'react';
 
 export const WateringSeeds: React.FC = () => (

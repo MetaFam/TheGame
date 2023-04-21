@@ -45,13 +45,6 @@ export const getGuildCoverImageFull = (): string => GuildCoverImageFull.src;
 
 export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall.src;
 
-export const getPlayerName = (
-  player?: Maybe<Player | GuildPlayer>,
-): string | undefined =>
-  player?.profile?.name ||
-  formatIfAddress(player?.profile?.username ?? undefined) ||
-  formatAddress(player?.ethereumAddress);
-
 export const getPlayerUsername = (player?: Maybe<Player>): string | undefined =>
   formatIfAddress(player?.profile?.username ?? undefined);
 
@@ -70,20 +63,6 @@ export const formatAddress = (address = ''): string =>
 
 export const formatIfAddress = (username = ''): string =>
   isAddress(username) ? formatAddress(username) : username;
-
-export const getPlayerURL = (
-  player?: Maybe<Player | GuildPlayer>,
-  opts: { rel?: boolean; default?: string } = {},
-): string | undefined => {
-  let { username } = player?.profile ?? {};
-  username ??= player?.ethereumAddress;
-  const { rel: relative = true } = opts;
-  if (username) {
-    const path = `/player/${username}`;
-    return `${relative ? '' : 'https://my.metagame.wtf'}${path}`;
-  }
-  return opts.default;
-};
 
 export const hasImage = (player?: Maybe<Player | GuildPlayer>): boolean =>
   !!player?.profile?.profileImageURL;

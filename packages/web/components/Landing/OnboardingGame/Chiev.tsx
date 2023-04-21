@@ -12,7 +12,7 @@ import {
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import { animated, useSpring } from '@react-spring/web';
-import OctoBg from 'assets/baby_octo.png';
+import OctoBg from 'assets/baby_octo.webp';
 import { LandingConnectButton } from 'components/Landing/LandingConnectButton';
 import { MetaLink } from 'components/Link';
 import { useGame } from 'contexts/GameContext';

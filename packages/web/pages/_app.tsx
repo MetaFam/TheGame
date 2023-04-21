@@ -52,19 +52,21 @@ const App: React.FC<WithUrqlProps> = ({
   resetUrqlClient,
   Component,
 }) => (
-  <ChakraProvider theme={MetaTheme}>
-    <CSSReset />
-    <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MetaGame</title>
-      {environment === 'production' && <Analytics />}
-    </Head>
-    <Web3ContextProvider {...{ resetUrqlClient }}>
-      <MegaMenu hide={pageProps.hideTopMenu}>
-        <Component {...pageProps} />
-      </MegaMenu>
-    </Web3ContextProvider>
-  </ChakraProvider>
+  <React.StrictMode>
+    <ChakraProvider theme={MetaTheme}>
+      <CSSReset />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MetaGame</title>
+        {environment === 'production' && <Analytics />}
+      </Head>
+      <Web3ContextProvider {...{ resetUrqlClient }}>
+        <MegaMenu hide={pageProps.hideTopMenu}>
+          <Component {...pageProps} />
+        </MegaMenu>
+      </Web3ContextProvider>
+    </ChakraProvider>
+  </React.StrictMode>
 );
 
 const DeployedApp: React.FC<WithUrqlProps> = ({

@@ -1,6 +1,6 @@
-import BabyOctopus from 'assets/quests/baby_octo.png';
-import Octopus from 'assets/quests/octopus.png';
-import SpaceOctopi from 'assets/quests/space_octo.png';
+import BabyOctopus from 'assets/quests/baby_octo.webp';
+import Octopus from 'assets/quests/octopus.webp';
+import SpaceOctopi from 'assets/quests/space_octo.webp';
 
 export type GuidanceRole = {
   details: string[];

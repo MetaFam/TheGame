@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingState } from '@metafam/ds';
+import { Flex, LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { GuildSection } from 'components/Guild/GuildSection';
@@ -22,7 +22,6 @@ import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { ReactElement, useCallback, useMemo } from 'react';
 import { BoxTypes, LayoutData } from 'utils/boxTypes';
-import { getGuildCoverImageFull } from 'utils/playerHelpers';
 
 type Props = { guild: GuildFragment };
 

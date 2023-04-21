@@ -21,12 +21,10 @@ import { SkillsTags } from 'components/Quest/Skills';
 import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import type { Patron } from 'graphql/types';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  getPlayerDescription,
-  getPlayerName,
-  getPlayerURL,
-} from 'utils/playerHelpers';
+import { getPlayerDescription } from 'utils/playerHelpers';
 
 import { PlayerRank } from './PlayerRank';
 import { DAOMembershipSmall } from './Section/PlayerMemberships';
@@ -48,6 +46,10 @@ export const PlayerTile: React.FC<Props> = ({
 }) => {
   const description = getPlayerDescription(player);
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
+  // default player name and url
+  const linkURL = usePlayerURL(player);
+  const playerName = usePlayerName(player);
+
   const [loading, setLoading] = useState(true);
   const daosRef = React.useRef<HTMLDivElement>(null);
   const [limit, setLimit] = useState(12);
@@ -71,12 +73,8 @@ export const PlayerTile: React.FC<Props> = ({
   }, [handleResize]);
 
   return (
-    <Link
-      role="group"
-      _hover={{ textDecoration: 'none' }}
-      href={getPlayerURL(player)}
-    >
-      <MetaTile minW="300px" height="full" width="full" cursor="pointer">
+    <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
+      <MetaTile minW={'300px'} height="full" width="full" cursor="pointer">
         <MetaTileHeader>
           {isPatron && typeof index === 'number' && pSeedPrice ? (
             <PatronRank patron={player as Patron} {...{ pSeedPrice, index }} />
@@ -100,7 +98,7 @@ export const PlayerTile: React.FC<Props> = ({
               fontWeight={400}
               textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the logo/avatar is white
             >
-              {getPlayerName(player)}
+              {playerName}
             </Heading>
           </Flex>
         </MetaTileHeader>

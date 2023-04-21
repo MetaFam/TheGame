@@ -26,7 +26,9 @@
     "test": "lerna run test --parallel --",
     "test:full": "yarn lint && yarn typecheck && yarn test",
     "clean": "lerna clean",
-    "clean:full": "CMD='rm -rf node_modules/ packages/*/node_modules/ packages/*/dist/ packages/web/.next/' && echo \"$CMD\" && eval $CMD",
+    "clean:libndist": "CMD='rm -rf node_modules/ packages/*/node_modules/ packages/*/dist/ packages/web/.next/' && echo \"$CMD\" && eval $CMD",
+    "clean:autogen": "find -type d -name autogen -exec rm -rfv '{}' \\; || true",
+    "clean:full": "yarn clean:libndist && yarn clean:autogen",
     "format": "prettier --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\"",
     "lint": "eslint --ignore-path .gitignore \"./packages/**/*.{ts,tsx,js,jsx}\"",
     "typecheck": "lerna run typecheck",
@@ -88,15 +90,9 @@
     "wait-on": "6.0.1"
   },
   "resolutions": {
-    "typescript": "4.8.4",
-    "@types/react": "18.0.21",
-    "@types/node": "18.11.4",
-    "@emotion/react": "11.10.4",
-    "@emotion/cache": "11.10.3",
-    "react-select": "5.6.0",
-    "@ceramicnetwork/streamid": "2.10.0",
     "@ceramicnetwork/common": "2.18.0",
-    "@ethersproject/abstract-provider": "5.7.0"
+    "ethers": "5.7.0",
+    "multihashes": "4.0.3"
   },
   "browserslist": [
     "defaults",
@@ -105,5 +101,6 @@
   "dependencies": {
     "tslib": "^2.4.0",
     "uuid": "8.3.2"
-  }
+  },
+  "packageManager": "yarn@1.19.0"
 }
