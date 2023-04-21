@@ -122,6 +122,7 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                     borderColor={MetaTheme.colors.whiteAlpha[800]}
                     onChange={selectBoxType}
                     sx={{
+                      textTransform: 'capitalize',
                       '& > option': {
                         backgroundColor: MetaTheme.colors.purpleBoxLight,
                       },

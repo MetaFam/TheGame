@@ -28,7 +28,6 @@ import { humanizeNumber, roundNumber } from 'utils/mathHelper';
 import {
   approveMeTokens,
   burn,
-  checkMeTokenApproval,
   getCollateralData,
   getErc20TokenData,
   getMeTokenFor,
@@ -87,7 +86,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   const [transactionType, toggleTransactionType] = useState<string>('mint');
   const [approved, setApproved] = useState<boolean>(false);
   const { chainId, address } = useWeb3();
-  const [amount, setAmount] = useState<string>();
+  const [amount, setAmount] = useState<string>('0');
   const [previewAmount, setPreviewAmount] = useState<string>('0');
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
@@ -119,7 +118,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
       setPreviewAmount(
         await preview(
           metokenAddress,
-          ethers.utils.parseEther(amount || '0'),
+          ethers.utils.parseEther(amount),
           address,
           transactionType,
         ),
@@ -132,12 +131,40 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     handlePreview();
   }, [handlePreview, amount, metokenAddress]);
 
+  const handleSpendMeTokens = useCallback(async () => {
+    setLoading(true);
+    await spendMeTokens(
+      metokenAddress,
+      ethers.utils.parseEther(amount),
+      owner,
+      provider,
+    )
+      .then(() => {
+        toast({
+          title: 'Success',
+          description: `Successfully spent ${meTokenData.symbol} with Issuer.`,
+          status: 'success',
+          isClosable: true,
+        });
+        setLoading(false);
+      })
+      .catch(() => {
+        toast({
+          title: 'Error',
+          description: `Could not spend ${meTokenData.symbol} tokens.`,
+          status: 'error',
+          isClosable: true,
+        });
+        setLoading(false);
+      });
+  }, [meTokenData, amount, toast, setLoading, metokenAddress, provider, owner]);
+
   const approveMeTokenTx = useCallback(async () => {
     const approvalToken =
       transactionType === 'mint' ? collateral : metokenAddress;
     await approveMeTokens(
       approvalToken,
-      ethers.utils.parseEther(amount || '0'),
+      ethers.utils.parseEther(amount),
       provider,
     )
       .then(() => {
@@ -169,50 +196,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     provider,
   ]);
 
-  const handleSpendMeTokens = useCallback(async () => {
-    setLoading(true);
-    if (!approved) {
-      await approveMeTokenTx();
-      return;
-    }
-    await spendMeTokens(
-      metokenAddress,
-      ethers.utils.parseEther(amount || '0'),
-      owner,
-      provider,
-    )
-      .then(() => {
-        toast({
-          title: 'Success',
-          description: `Successfully spent ${meTokenData.symbol} with Issuer.`,
-          status: 'success',
-          isClosable: true,
-        });
-        setLoading(false);
-      })
-      .catch(() => {
-        toast({
-          title: 'Error',
-          description: `Could not spend ${meTokenData.symbol} tokens.`,
-          status: 'error',
-          isClosable: true,
-        });
-        setLoading(false);
-      });
-  }, [
-    meTokenData,
-    amount,
-    toast,
-    approved,
-    setLoading,
-    approveMeTokenTx,
-    metokenAddress,
-    provider,
-    owner,
-  ]);
-
   const clearAmounts = useCallback(() => {
-    toggleTransactionType('burn');
     setAmount('0');
     setPreviewAmount('0');
   }, [setAmount, setPreviewAmount]);
@@ -256,7 +240,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
     } else {
       await burn(
         metokenAddress,
-        ethers.utils.parseEther(amount || '0'),
+        ethers.utils.parseEther(amount),
         owner,
         provider,
       )
@@ -293,7 +277,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   ]);
 
   const handleSetAmount = useCallback(
-    async (swapAmount: string) => {
+    (swapAmount: string) => {
       if (swapAmount && !/^[0-9.]+$/.test(swapAmount)) return;
       if (
         transactionType === 'burn' &&
@@ -303,23 +287,8 @@ const MeTokenSwap: React.FC<SwapProps> = ({
       } else {
         setAmount(swapAmount);
       }
-      if (address && amount) {
-        const approvalToken =
-          transactionType === 'mint' ? collateral : metokenAddress;
-        checkMeTokenApproval(approvalToken, swapAmount, address).then((res) =>
-          setApproved(res),
-        );
-      }
     },
-    [
-      setAmount,
-      transactionType,
-      meTokenData,
-      address,
-      amount,
-      metokenAddress,
-      collateral,
-    ],
+    [setAmount, transactionType, meTokenData],
   );
 
   const handleSetSpendAmount = useCallback(
@@ -363,7 +332,6 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     color={'black'}
                     border={'none'}
                     value={amount}
-                    placeholder="0"
                     type="text"
                     onChange={(e) => handleSetAmount(e.target.value)}
                     name="Amount"
@@ -389,9 +357,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       borderRadius="full"
                       size="sm"
                       onClick={() =>
-                        handleSetAmount(
-                          humanizeNumber(collateralTokenData.balance),
-                        )
+                        setAmount(humanizeNumber(collateralTokenData.balance))
                       }
                     >
                       Max
@@ -416,7 +382,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       borderRadius="full"
                       size="sm"
                       onClick={() =>
-                        handleSetAmount(humanizeNumber(meTokenData.balance))
+                        setAmount(humanizeNumber(meTokenData.balance))
                       }
                     >
                       Max
@@ -535,7 +501,6 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     color={'black'}
                     border={'none'}
                     value={amount}
-                    placeholder="0"
                     pl={2}
                     type="text"
                     onChange={(e) => handleSetSpendAmount(e.target.value)}
@@ -551,19 +516,6 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   </Text>
                 </Box>
                 <Wrap align="center">
-                  <Button
-                    borderColor="black"
-                    color="black"
-                    variant="outline"
-                    textTransform="uppercase"
-                    borderRadius="full"
-                    size="sm"
-                    onClick={() =>
-                      handleSetAmount(humanizeNumber(meTokenData.balance))
-                    }
-                  >
-                    Max
-                  </Button>
                   <Image
                     src={profilePicture}
                     height="36px"
@@ -596,7 +548,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 onClick={handleSpendMeTokens}
                 disabled={loading}
               >
-                {approved ? 'Spend meToken' : 'Approve Token'}
+                {loading ? 'Loading..' : `Spend ${symbol}`}
               </MetaButton>
             ) : (
               <Wrap mx="auto" mt="1rem">
