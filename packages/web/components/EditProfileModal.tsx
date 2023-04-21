@@ -212,7 +212,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
         });
       } else {
         const key = input.name as keyof typeof endpoints;
-        endpoints[key].setLoading(true);
+        endpoints[key].setActive(true);
         endpoints[key].setFile(file);
         const reader = new FileReader();
         reader.addEventListener('load', () => {

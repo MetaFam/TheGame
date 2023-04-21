@@ -35,8 +35,8 @@ import {
 import { errorHandler } from 'utils/errorHandler';
 
 const SEED_TOKEN_ID = 'metagame';
-const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/';
-const TOKEN_QUERY = '?localization=false&tickers=true&market_data=true';
+export const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/';
+export const TOKEN_QUERY = '?localization=false&tickers=true&market_data=true';
 const CHART_QUERY = '/market_chart?vs_currency=usd&days=30&interval=daily';
 
 /**
