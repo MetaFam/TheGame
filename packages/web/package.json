@@ -29,6 +29,7 @@
     "@glazed/tile-loader": "^0.2.1",
     "@honeybadger-io/js": "^4.3.1",
     "@honeybadger-io/react": "^4.4.1",
+    "@orbisclub/orbis-sdk": "^0.4.40",
     "@honeybadger-io/webpack": "^4.3.1",
     "@metafam/ds": "0.2.0",
     "@metafam/utils": "1.0.1",

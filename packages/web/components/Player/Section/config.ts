@@ -19,6 +19,7 @@ export const ALL_BOXES = [
   BoxTypes.EMBEDDED_URL,
   BoxTypes.PLAYER_COMPLETED_QUESTS,
   BoxTypes.CUSTOM_TEXT,
+  BoxTypes.PLAYER_METOKENS,
   // BoxTypes.PLAYER_ACHIEVEMENTS,
   // TODO: Add more types of sections
 ];
