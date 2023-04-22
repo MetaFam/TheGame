@@ -1,21 +1,25 @@
 import {
   Box,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   HStack,
   LoadingState,
   MetaButton,
-  Wrap,
-  WrapItem,
 } from '@metafam/ds';
+import { httpLink } from '@metafam/utils';
+import DefaultQuestImage from 'assets/quests/quest.webp';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
-import { PlayerTile } from 'components/Player/PlayerTile';
 import { QuestCompletions } from 'components/Quest/QuestCompletions';
-import { QuestDetails } from 'components/Quest/QuestDetails';
+import { QuestDetailsDescription } from 'components/Quest/QuestDetailsDescription';
+// import { QuestDetails } from 'components/Quest/QuestDetails'; // Useful code in here still
+import { QuestDetailsHeader } from 'components/Quest/QuestDetailsHeader';
+import { QuestDetailsImage } from 'components/Quest/QuestDetailsImage';
+import { QuestDetailsRequirementsRewards } from 'components/Quest/QuestDetailsRequirementsRewards';
 import { HeadComponent } from 'components/Seo';
 import {
-  Player,
   QuestRepetition_Enum,
   useGetQuestWithCompletionsQuery,
 } from 'graphql/autogen/types';
@@ -30,7 +34,6 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
 import { canCompleteQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -38,7 +41,6 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 export const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const router = useRouter();
   const { user } = useUser();
-
   const [res] = useGetQuestWithCompletionsQuery({
     variables: {
       id: quest_id,
@@ -58,68 +60,84 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
     );
   }
 
+  // Quest image is used in QuestDetailsImage and the share image
+  const questImage = httpLink(quest.image) ?? DefaultQuestImage.src;
+
   return (
     <PageContainer>
       <HeadComponent
         title="MetaGame Quests"
         description={quest.title}
         url={`https://metagame.wtf/quest/${quest_id}`}
+        img={questImage}
       />
-      <Box w="full" maxW="80rem">
-        <Box mb={4} px={2}>
-          <MetaLink href="/quests">
-            <FaArrowLeft
-              fontSize="0.875rem"
-              style={{ display: 'inline-block', marginRight: '0.5rem' }}
-            />
-            Back to Quest Explorer
-          </MetaLink>
-        </Box>
 
-        <Wrap w="100%" justify="center" spacing={8}>
-          <WrapItem flexGrow={3} flexShrink={1} flexBasis={0}>
-            <QuestDetails {...{ quest }} />
-          </WrapItem>
-          <WrapItem
-            flexGrow={1}
-            flexShrink={1}
-            flexBasis={{ base: '100%', lg: 0 }}
+      <Flex flexDirection="column" as="article" width="full" maxW="7xl" mb={6}>
+        <>
+          <QuestDetailsHeader {...{ quest }} />
+
+          <Grid
+            templateColumns={{
+              base: '100%',
+              lg: '1fr 20rem',
+              xl: '1fr 25rem',
+            }}
+            templateRows={{
+              base: 'auto',
+              lg: 'min-content 100%',
+            }}
+            gap={{
+              base: '8',
+              '2xl': '14',
+            }}
+            mb={8}
           >
-            <Flex
-              w="full"
-              align={{ base: 'center', lg: 'start' }}
-              direction="column"
-            >
-              <Heading as="h3" fontFamily="body" size="xl" mb={4} ml={2}>
-                Created By
-              </Heading>
-              <PlayerTile player={quest.player as Player} />
-            </Flex>
-          </WrapItem>
-        </Wrap>
-        <Flex w="100%" direction="column" mt={8} mb={8}>
-          <HStack mb={4} justify="space-between">
-            <Heading>Proposals</Heading>
+            <GridItem>
+              <QuestDetailsImage src={questImage} />
+            </GridItem>
+            <GridItem as="aside" rowSpan={[null, null, null, 2]}>
+              {/**
+               * The aside shows two boxes: Requirements (roles, skills), and Rewards (a note about how the rewards are not fixed)
+               */}
+              <QuestDetailsRequirementsRewards {...{ quest }} />
+            </GridItem>
+            <GridItem>
+              <QuestDetailsDescription {...{ quest }} />
+            </GridItem>
+          </Grid>
 
-            {canSubmit && (
-              <MetaLink
-                as={`/quest/${quest.id}/complete`}
-                href="/quest/[id]/complete"
-              >
-                <MetaButton variant="outline" colorScheme="cyan">
-                  Claim Quest
-                </MetaButton>
-              </MetaLink>
-            )}
-            {!canSubmit && quest.repetition === QuestRepetition_Enum.Recurring && (
-              <MetaButton variant="outline" colorScheme="cyan" isDisabled>
-                (Cooldown)
-              </MetaButton>
-            )}
-          </HStack>
-          <QuestCompletions quest={quest} />
-        </Flex>
-      </Box>
+          <Flex as="footer" w="100%" direction="column" mt={8} mb={8}>
+            <HStack mb={4} justify="space-between">
+              <Heading>Proposals</Heading>
+
+              {canSubmit && (
+                <MetaLink
+                  as={`/quest/${quest.id}/complete`}
+                  href="/quest/[id]/complete"
+                >
+                  <MetaButton variant="outline" colorScheme="cyan">
+                    Claim Quest
+                  </MetaButton>
+                </MetaLink>
+              )}
+              {!canSubmit &&
+                quest.repetition === QuestRepetition_Enum.Recurring && (
+                  <MetaButton variant="outline" colorScheme="cyan" isDisabled>
+                    (Cooldown)
+                  </MetaButton>
+                )}
+            </HStack>
+            <QuestCompletions quest={quest} />
+          </Flex>
+
+          {/* order -1 puts it at the top of the article but putting it down here would keep it out of search engine summaries idk */}
+          <Box mb={6} order={-1}>
+            <MetaLink href="/quests" fontSize="xl">
+              ← Back to Quest Explorer
+            </MetaLink>
+          </Box>
+        </>
+      </Flex>
     </PageContainer>
   );
 };
