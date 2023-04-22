@@ -1,0 +1,140 @@
+import {
+  Box,
+  Flex,
+  HStack,
+  Image,
+  Link,
+  Stack,
+  Text,
+  VStack,
+} from '@metafam/ds';
+import { RolesTags } from 'components/Quest/Roles';
+import { SkillsTags } from 'components/Quest/Skills';
+import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
+import SeedLogoSmol from 'public/assets/seed-logo-smol_46x46.png';
+import React from 'react';
+
+type Props = {
+  quest: QuestFragment;
+};
+
+export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
+  <Stack
+    spacing={{
+      base: '4',
+      md: '8',
+      lg: '6',
+      xl: '10',
+    }}
+    direction={{
+      base: 'column',
+      md: 'row',
+      lg: 'column',
+    }}
+  >
+    <VStack
+      bgColor="whiteAlpha.100"
+      borderRadius={3}
+      p={6}
+      spacing={6}
+      align="left"
+      width={{
+        base: 'full',
+        md: '50%',
+        lg: 'full',
+      }}
+    >
+      <Text
+        color="white"
+        fontSize="lg"
+        fontWeight="600"
+        textTransform="uppercase"
+      >
+        Requirements
+      </Text>
+      <Text>
+        If you’re not a member of MetaGame, completing this quest will require
+        posting in{' '}
+        <Link
+          href="https://discord.com/channels/629411177947987986/629411178837442601"
+          isExternal
+          whiteSpace="nowrap"
+        >
+          🏟-metasquare
+        </Link>
+        .
+      </Text>
+      {quest.quest_skills.length > 0 && (
+        <>
+          <VStack align="left" spacing={1}>
+            <Text textStyle="caption">Required skills</Text>
+            <Box>
+              <SkillsTags
+                skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
+              />
+            </Box>
+          </VStack>
+        </>
+      )}
+      {quest.quest_roles.length > 0 && (
+        <VStack align="left" spacing={1}>
+          <Text textStyle="caption">Needed roles</Text>
+          <Box>
+            <RolesTags
+              roles={
+                quest.quest_roles.map(({ PlayerRole: r }) => r) as PlayerRole[]
+              }
+            />
+          </Box>
+        </VStack>
+      )}
+    </VStack>
+
+    <VStack
+      bgColor="whiteAlpha.100"
+      borderRadius={3}
+      p={6}
+      spacing={6}
+      align="left"
+      width={{
+        base: 'full',
+        md: '50%',
+        lg: 'full',
+      }}
+    >
+      <Text
+        color="white"
+        fontSize="lg"
+        fontWeight="600"
+        textTransform="uppercase"
+      >
+        Rewards
+      </Text>
+
+      <Flex justifyContent="center" gap={12}>
+        <Box fontSize="5xl" fontWeight="600">
+          ?&nbsp;XP
+        </Box>
+        <HStack spacing={2}>
+          <Box fontSize="5xl" fontWeight="600">
+            ?
+          </Box>
+          <Image src={SeedLogoSmol.src} alt="Seed logo" boxSize={46} />
+        </HStack>
+      </Flex>
+
+      <Text as="p" fontWeight="300" fontStyle="italic">
+        Note: Due to the way{' '}
+        <Link
+          href="https://wiki.metagame.wtf/what-we-do/metasys"
+          isExternal
+          textDecoration="underline"
+        >
+          MetaSys
+        </Link>{' '}
+        works, rewards vary based on impact &amp; people’s evaluation, there’s
+        no way to know in advance.
+      </Text>
+    </VStack>
+  </Stack>
+);
