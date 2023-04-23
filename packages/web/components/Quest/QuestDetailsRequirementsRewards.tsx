@@ -49,6 +49,7 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
         fontSize="lg"
         fontWeight="600"
         textTransform="uppercase"
+        as="h3"
       >
         Requirements
       </Text>
@@ -67,7 +68,9 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
       {quest.quest_skills.length > 0 && (
         <>
           <VStack align="left" spacing={1}>
-            <Text textStyle="caption">Required skills</Text>
+            <Text as="h4" textStyle="caption">
+              Required skills
+            </Text>
             <Box>
               <SkillsTags
                 skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
@@ -78,7 +81,9 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
       )}
       {quest.quest_roles.length > 0 && (
         <VStack align="left" spacing={1}>
-          <Text textStyle="caption">Needed roles</Text>
+          <Text as="h4" textStyle="caption">
+            Needed roles
+          </Text>
           <Box>
             <RolesTags
               roles={
@@ -103,6 +108,7 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
       }}
     >
       <Text
+        as="h3"
         color="white"
         fontSize="lg"
         fontWeight="600"
