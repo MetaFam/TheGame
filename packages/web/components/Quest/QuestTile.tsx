@@ -23,7 +23,9 @@ import React, { PropsWithChildren } from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 export const TileHeading: React.FC<PropsWithChildren> = ({ children }) => (
-  <Text textStyle="caption">{children}</Text>
+  <Text as="h3" textStyle="caption">
+    {children}
+  </Text>
 );
 
 type Props = {
@@ -48,6 +50,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             />
             <Box px={5} w="full" pos="absolute" bottom={-6} zIndex={1}>
               <Heading
+                as="h2"
                 fontSize="3xl"
                 color="white"
                 bgColor="whiteAlpha.100"
