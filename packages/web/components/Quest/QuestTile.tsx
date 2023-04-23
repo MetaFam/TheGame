@@ -63,7 +63,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
                 borderRadius={10}
                 fontFamily="body"
                 fontWeight={400}
-                textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the logo/avatar is white
+                textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the quest image has a white background
                 noOfLines={2}
               >
                 {quest.title}
