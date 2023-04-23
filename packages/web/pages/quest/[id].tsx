@@ -12,6 +12,7 @@ import { httpLink } from '@metafam/utils';
 import DefaultQuestImage from 'assets/quests/quest.webp';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
+import { questArticleCss } from 'components/Quest/QuestArticleCss';
 import { QuestCompletions } from 'components/Quest/QuestCompletions';
 import { QuestDetailsDescription } from 'components/Quest/QuestDetailsDescription';
 // import { QuestDetails } from 'components/Quest/QuestDetails'; // Useful code in here still
@@ -64,7 +65,7 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const questImage = httpLink(quest.image) ?? DefaultQuestImage.src;
 
   return (
-    <PageContainer>
+    <PageContainer sx={questArticleCss}>
       <HeadComponent
         title="MetaGame Quests"
         description={quest.title}
@@ -107,7 +108,7 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
           </Grid>
 
           <Flex as="footer" w="100%" direction="column" mt={8} mb={8}>
-            <HStack mb={4} justify="space-between">
+            <HStack mb={4} justify="space-between" align="left">
               <Heading>Proposals</Heading>
 
               {canSubmit && (
