@@ -90,7 +90,9 @@
     "wait-on": "6.0.1"
   },
   "resolutions": {
-    "@ceramicnetwork/common": "2.18.0"
+    "@ceramicnetwork/common": "2.18.0",
+    "ethers": "5.7.0",
+    "multihashes": "4.0.3"
   },
   "browserslist": [
     "defaults",

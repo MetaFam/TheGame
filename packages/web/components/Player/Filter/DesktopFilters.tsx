@@ -10,7 +10,11 @@ import {
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { PlayerAggregates, SortOption, sortOptions } from 'lib/hooks/players';
+import {
+  PlayerAggregates,
+  SortOption,
+  sortOptions,
+} from 'lib/hooks/player/players';
 import React from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 

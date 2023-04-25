@@ -1,8 +1,8 @@
 import { ListItem, MetaTag } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { formatAddress, getPlayerName } from 'utils/playerHelpers';
+import React from 'react';
 
 type Props = {
   player: Player;
@@ -13,16 +13,7 @@ export const QuestCompletionItem: React.FC<Props> = ({
   player,
   submittedAt,
 }) => {
-  const [playerName, setPlayerName] = useState<string>(
-    formatAddress(player?.ethereumAddress),
-  );
-
-  useEffect(() => {
-    const getPlayer = async () => {
-      setPlayerName(await getPlayerName(player));
-    };
-    getPlayer();
-  }, [player]);
+  const playerName = usePlayerName(player);
 
   return (
     <ListItem pb={1}>

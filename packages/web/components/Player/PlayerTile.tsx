@@ -21,13 +21,10 @@ import { SkillsTags } from 'components/Quest/Skills';
 import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import type { Patron } from 'graphql/types';
+import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  formatAddress,
-  getPlayerDescription,
-  getPlayerName,
-  getPlayerURL,
-} from 'utils/playerHelpers';
+import { getPlayerDescription } from 'utils/playerHelpers';
 
 import { PlayerRank } from './PlayerRank';
 import { DAOMembershipSmall } from './Section/PlayerMemberships';
@@ -50,12 +47,9 @@ export const PlayerTile: React.FC<Props> = ({
   const description = getPlayerDescription(player);
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
   // default player name and url
-  const [linkURL, setLinkURL] = useState<string>(
-    `/player/${player?.ethereumAddress}`,
-  );
-  const [playerName, setPlayerName] = useState<string>(
-    formatAddress(player?.ethereumAddress),
-  );
+  const linkURL = usePlayerURL(player);
+  const playerName = usePlayerName(player);
+
   const [loading, setLoading] = useState(true);
   const daosRef = React.useRef<HTMLDivElement>(null);
   const [limit, setLimit] = useState(12);
@@ -77,14 +71,6 @@ export const PlayerTile: React.FC<Props> = ({
     elem?.addEventListener('resize', handleResize);
     return () => elem?.removeEventListener('resize', handleResize);
   }, [handleResize]);
-
-  useEffect(() => {
-    const getPlayer = async () => {
-      setPlayerName(await getPlayerName(player));
-      setLinkURL((await getPlayerURL(player)) as string);
-    };
-    getPlayer();
-  }, [player]);
 
   return (
     <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
