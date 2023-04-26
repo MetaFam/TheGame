@@ -143,6 +143,20 @@ export const preview = async (
   return BigNumber.from(0);
 };
 
+export const checkMeTokenApproval = async (
+  tokenAddress: string,
+  amount: string,
+  owner: string,
+) => {
+  const erc20 = await new Contract(
+    tokenAddress,
+    erc20Abi,
+    mainnetProvider.getSigner(owner),
+  );
+  const approvalAmount = await erc20.allowance(owner, foundryFacet);
+  return ethers.utils.formatEther(approvalAmount) > amount;
+};
+
 // Write
 export const approveMeTokens = async (
   tokenAddress: string,
