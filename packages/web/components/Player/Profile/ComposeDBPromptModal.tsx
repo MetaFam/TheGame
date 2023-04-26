@@ -2,16 +2,21 @@ import {
   Box,
   Center,
   ExternalLinkIcon,
+  ListItem,
   MetaButton,
+  MetaHeading,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
+  ModalHeader,
   ModalOverlay,
   Text,
+  UnorderedList,
   useToast,
 } from '@metafam/ds';
-import { ComposeDBProfile } from '@metafam/utils';
+import { ComposeDBProfile, profileMapping } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { Player } from 'graphql/autogen/types';
@@ -125,6 +130,7 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
     <Modal {...{ isOpen, onClose }}>
       <ModalOverlay />
       <ModalContent>
+        <ModalHeader>Port Data to ComposeDB</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Center flexDirection="column">
@@ -140,24 +146,73 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
                 <ExternalLinkIcon ml={1} />
               </MetaLink>
               for storing profile data.
-            </Box>
-            <Box mt={10}>
-              {chainId === '0x1' ? (
-                <>
-                  {/* <Box>What is this?</Box> */}
-                  <MetaButton disabled={!areImagesLoaded} onClick={onClick}>
-                    {status}
-                  </MetaButton>
-                </>
-              ) : (
-                <Text fontSize="md" w="100%" textAlign="center">
-                  Please switch to <SwitchNetworkButton chainId="0x1" /> to
-                  progress
-                </Text>
-              )}
+              <Box fontStyle="italic" fontSize="large" mt={4} mb={2}>
+                What's this all about?
+              </Box>
+              <Box>
+                The previous version of MyMeta used an old version of Ceramic
+                that is no longer supported. We have since ported MyMeta
+                Profiles to store data in ComposeDB. Unfortunately, there is no
+                way to automatically port your existing data to ComposeDB -- you
+                must explicitly opt in. However, ComposeDB allows data
+                portability -- for example, another web3 application that you
+                trust (and explicitly authorize) could pull in your MyMeta data
+                automatically! This opens up the ability for you to be able to
+                enter your profile information in <em>one place</em> instead of
+                siloing it off into tens of other application databases like in
+                the web2 world.
+              </Box>
+              <Box fontStyle="italic" fontSize="large" mt={4} mb={2}>
+                What data does this include?
+              </Box>
+              <Box>
+                MyMeta's ComposeDB model includes:
+                <UnorderedList mb={2}>
+                  {Object.values(profileMapping).map((field) => (
+                    <ListItem>{field}</ListItem>
+                  ))}
+                </UnorderedList>
+                Note that skills and DAO memberships are currently <em>not</em>{' '}
+                being stored in ComposeDB.
+              </Box>
+              <Box fontStyle="italic" fontSize="large" mt={4} mb={2}>
+                What control do I have over this data? What's the catch?
+              </Box>
+              <Box>
+                All data in ComposeDB is public by default, so don't share
+                anything you're not comfortable being open to the world. There
+                is currently no way to revoke access to this data, though you
+                should be able to clear any field out (if this is not the case,
+                please{' '}
+                <MetaLink
+                  isExternal
+                  href="https://github.com/MetaFam/TheGame/issues/new/choose"
+                  mr={1}
+                  ml={1}
+                >
+                  file an issue
+                  <ExternalLinkIcon ml={1} />
+                </MetaLink>
+                with us). Note that when you port your data, the Ethereum
+                address you are connected with becomes the sole controller of
+                that data.
+              </Box>
             </Box>
           </Center>
         </ModalBody>
+        <ModalFooter justifyContent="center">
+          {chainId === '0x1' ? (
+            <>
+              <MetaButton disabled={!areImagesLoaded} onClick={onClick}>
+                {status}
+              </MetaButton>
+            </>
+          ) : (
+            <Text fontSize="md" w="100%" textAlign="center">
+              Please switch to <SwitchNetworkButton chainId="0x1" /> to progress
+            </Text>
+          )}
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );
