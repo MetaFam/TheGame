@@ -28,7 +28,7 @@ import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { Player } from 'graphql/autogen/types';
 import { useProfileField, useUser } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';

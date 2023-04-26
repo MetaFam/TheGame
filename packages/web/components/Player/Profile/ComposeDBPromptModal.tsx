@@ -4,7 +4,6 @@ import {
   ExternalLinkIcon,
   ListItem,
   MetaButton,
-  MetaHeading,
   Modal,
   ModalBody,
   ModalCloseButton,
