@@ -1,4 +1,4 @@
-import { Center, ITimezoneOption, SelectTimeZone, Text } from '@metafam/ds';
+import { Center, SelectTimeZone, Text } from '@metafam/ds';
 import { composeDBProfileFieldTimeZone } from '@metafam/utils';
 import { useMounted } from 'lib/hooks';
 import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
