@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { JsonRpcProvider } from '@ethersproject/providers';
 import {
   Box,
@@ -23,7 +22,7 @@ import {
 import { Maybe } from '@metafam/utils';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
@@ -118,13 +117,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
   }, [collateralAddress]);
 
   const getTokenData = useCallback(async () => {
-    console.info({ meTokenAddress, owner });
     if (meTokenAddress && collateralAddress) {
       await Promise.all([
-        getERC20TokenData(meTokenAddress, owner).then((res) => {
-          console.info({ res });
-          setMeTokenData(res);
-        }),
+        getERC20TokenData(meTokenAddress, owner).then(setMeTokenData),
         getERC20TokenData(collateralAddress, owner).then(
           setCollateralTokenData,
         ),
