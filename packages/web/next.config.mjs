@@ -65,6 +65,7 @@ export default {
   env: {
     HONEYBADGER_API_KEY,
   },
+  reactStrictMode: true,
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
       config.plugins.push(

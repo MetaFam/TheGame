@@ -1,4 +1,4 @@
-  # This is used to deploy the frontend at metagame.wtf and test.metagame.wtf
+# This is used to deploy the frontend at metagame.wtf and test.metagame.wtf
 # Eventually we will switch the associated backend deployments over to Google Cloud
 # as well, at which time we can just use the single gcp_deploy.yaml file
 # for both PR deployments AND our stage/prod environments
