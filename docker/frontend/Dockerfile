@@ -11,18 +11,19 @@ WORKDIR /usr/src/app
 # Install dependencies not included in the slim image
 RUN apt-get update && apt-get install -y --no-install-recommends g++ make python git ca-certificates
 
-COPY package.json ./
-COPY lerna.json ./
-COPY yarn.lock ./
-COPY schema.graphql ./
-COPY tsconfig*.json ./
-COPY .eslintrc.cjs ./
-COPY packages/web/.eslintrc.cjs packages/web/
-COPY packages/web/*.json packages/web/
-COPY packages/web/codegen.ts packages/web/
-COPY packages/web/graphql/ packages/web/graphql/
-COPY packages/utils/*.json packages/utils/
-COPY packages/design-system/*.json packages/design-system/
+# Install dependencies for dev and prod
+COPY package.json .
+COPY lerna.json .
+COPY yarn.lock .
+COPY schema.graphql .
+COPY tsconfig.base.json .
+COPY tsconfig.json .
+COPY .eslintrc.cjs .
+COPY packages/web/*.json ./packages/web/
+COPY packages/web/codegen.yml ./packages/web/
+COPY packages/web/graphql ./packages/web/graphql/
+COPY packages/utils/*.json ./packages/utils/
+COPY packages/design-system/*.json ./packages/design-system/
 
 RUN yarn policies set-version 1.15.2
 RUN yarn install --pure-lockfile
