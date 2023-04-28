@@ -78,9 +78,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
   const { data: ensAndPlayer, isValidating } = useSWR(
     username && username.includes('.') ? username : null,
     getENSAndPlayer,
-    {
-      revalidateOnFocus: false,
-    },
+    { revalidateOnFocus: false },
   );
   const ens = ensAndPlayer?.ens ?? undefined;
   useEffect(() => {
@@ -124,8 +122,9 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
   if (
     (!player && username && username.includes('.') && !isValidating) ||
     (!player && router.pathname === '/me')
-  )
+  ) {
     return <Page404 />;
+  }
 
   const banner = metagamer && background ? '' : bannerURL;
 
@@ -194,13 +193,15 @@ export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
     [user, fetching, player.id],
   );
 
-  const savedLayoutData = useMemo<LayoutData>(
-    () =>
-      player.profileLayout
-        ? JSON.parse(player.profileLayout)
-        : DEFAULT_PLAYER_LAYOUT_DATA,
-    [player.profileLayout],
-  );
+  const savedLayoutData = useMemo<LayoutData>(() => {
+    // eslint-disable-next-line no-console
+    console.debug({ ppl: player.profileLayout });
+    return player.profileLayout
+      ? JSON.parse(player.profileLayout)
+      : DEFAULT_PLAYER_LAYOUT_DATA;
+  }, [player.profileLayout]);
+  // eslint-disable-next-line no-console
+  console.debug({ player, savedLayoutData });
 
   const persistLayoutData = useCallback(
     async (layoutData: LayoutData) => {

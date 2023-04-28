@@ -163,11 +163,12 @@ export const EditableGridLayout: React.FC<Props> = ({
       const newData = { layouts, layoutItems: currentLayoutItems };
       // automatic height adjustments dirty `changed`
       setChanged(
-        changed || (editing && !isSameLayouts(currentLayoutData, newData)),
+        (already) =>
+          already || (editing && !isSameLayouts(currentLayoutData, newData)),
       );
       setCurrentLayoutData(newData);
     },
-    [currentLayoutData, currentLayoutItems, editing, changed],
+    [currentLayoutData, currentLayoutItems, editing],
   );
 
   const onRemoveBox = useCallback(
@@ -303,15 +304,10 @@ export const EditableGridLayout: React.FC<Props> = ({
           rowHeight={GRID_ROW_HEIGHT}
           isDraggable={!!editing}
           isResizable={!!editing}
-          margin={{
-            lg: [30, 30],
-            md: [30, 30],
-            sm: [30, 30],
-          }}
+          margin={[30, 30]}
           containerPadding={{
-            lg: [0, 30],
-            md: [0, 20],
             sm: [0, 20],
+            lg: [0, 30],
           }}
         >
           {currentLayoutItems.map(({ key, type, metadata }, i) => (

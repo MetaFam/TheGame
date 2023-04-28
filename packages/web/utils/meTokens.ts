@@ -12,7 +12,6 @@ import {
   BigNumber,
   Contract,
   ethers,
-  Transaction,
 } from 'ethers';
 
 export const meTokenRegistry = '0x8b91FcF2230ab04A46e2D83aaF062EC1B5AAAa5c';
