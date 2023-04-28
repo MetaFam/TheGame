@@ -7,11 +7,11 @@ import FoundryFacetABI from 'contracts/FoundryFacet.abi';
 import HubFacetABI from 'contracts/HubFacet.abi';
 import MeTokensRegistryABI from 'contracts/meTokensRegistry.abi';
 import {
-  type BigNumberish,
-  type Signer,
   BigNumber,
+  type BigNumberish,
   Contract,
   ethers,
+  type Signer,
 } from 'ethers';
 
 export const meTokenRegistry = '0x8b91FcF2230ab04A46e2D83aaF062EC1B5AAAa5c';
