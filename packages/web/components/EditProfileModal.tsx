@@ -81,6 +81,7 @@ type EditProfileFields = {
   emoji?: Maybe<string>;
 };
 
+// Start work here
 const getDefaultFormValues = (player: Player): EditProfileFields => {
   if (!player.profile) {
     return {} as EditProfileFields;
