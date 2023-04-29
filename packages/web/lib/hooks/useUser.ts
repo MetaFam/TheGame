@@ -43,7 +43,6 @@ export const useUser = ({
   }
 
   if (!authToken && connected) {
-    // eslint-disable-next-line no-console
     console.warn('`authToken` unset when connected');
   }
 

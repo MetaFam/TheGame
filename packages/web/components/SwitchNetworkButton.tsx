@@ -1,4 +1,4 @@
-import { Button, MetaMaskIcon, Text, Tooltip } from '@metafam/ds';
+import { Button, MetaMaskIcon, Tooltip } from '@metafam/ds';
 import { useWeb3 } from 'lib/hooks';
 import React, { useCallback, useState } from 'react';
 import { switchChain } from 'utils/metamask';

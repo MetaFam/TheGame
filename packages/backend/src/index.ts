@@ -56,6 +56,5 @@ app.use(router);
 app.use(errorMiddleware);
 
 app.listen(CONFIG.port, () => {
-  // eslint-disable-next-line no-console
   console.info(`Listening on port ${CONFIG.port}`);
 });

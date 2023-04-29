@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,

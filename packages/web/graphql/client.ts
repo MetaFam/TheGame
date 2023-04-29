@@ -27,14 +27,12 @@ const retryExchangeFunc = retryExchange({
   maxNumberAttempts: 5,
   initialDelayMs: 1000,
   randomDelay: true,
-  retryIf: (error) => {
-    console.debug('GraphQL Retry', { error }); // eslint-disable-line no-console
-    return !!(
+  retryIf: (error) =>
+    !!(
       errorHasResponseTimeout(error) ||
       error.networkError ||
       error.response?.size === 0
-    );
-  },
+    ),
 });
 
 export const client = createClient({
