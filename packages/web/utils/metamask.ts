@@ -49,7 +49,7 @@ export const switchChain = async (chainId: string): Promise<boolean> => {
   return false;
 };
 
-// ensure that we are on the right when calling this method.
+// ensure that we are on the right chain when calling this method.
 export const addTokenToMetamask = async ({
   address,
   symbol,
