@@ -37,11 +37,11 @@ const Analytics: React.FC = () => (
       defer
       dangerouslySetInnerHTML={{
         __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments) }
-                gtag('js', new Date());
-                gtag('config', '${CONFIG.gaId}');
-              `,
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments) }
+          gtag('js', new Date());
+          gtag('config', '${CONFIG.gaId}');
+        `,
       }}
     />
   </>
@@ -52,21 +52,19 @@ const App: React.FC<WithUrqlProps> = ({
   resetUrqlClient,
   Component,
 }) => (
-  <React.StrictMode>
-    <ChakraProvider theme={MetaTheme}>
-      <CSSReset />
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>MetaGame</title>
-        {environment === 'production' && <Analytics />}
-      </Head>
-      <Web3ContextProvider {...{ resetUrqlClient }}>
-        <MegaMenu hide={pageProps.hideTopMenu}>
-          <Component {...pageProps} />
-        </MegaMenu>
-      </Web3ContextProvider>
-    </ChakraProvider>
-  </React.StrictMode>
+  <ChakraProvider theme={MetaTheme}>
+    <CSSReset />
+    <Head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>MetaGame</title>
+      {environment === 'production' && <Analytics />}
+    </Head>
+    <Web3ContextProvider {...{ resetUrqlClient }}>
+      <MegaMenu hide={pageProps.hideTopMenu}>
+        <Component {...pageProps} />
+      </MegaMenu>
+    </Web3ContextProvider>
+  </ChakraProvider>
 );
 
 const DeployedApp: React.FC<WithUrqlProps> = ({
