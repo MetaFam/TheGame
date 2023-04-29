@@ -88,7 +88,9 @@ export const getErc20TokenData = async (
 export const getMeTokenInfo = async (tokenAddress: string, owner: string) => {
   if (!tokenAddress) return undefined;
   const orbis = new Orbis();
-  const { data } = await orbis.getDids(owner);
+  const {
+    data: [did],
+  } = await orbis.getDids(owner);
   const signer = mainnetProvider.getSigner(owner);
 
   const erc20 = getContractWithSigner(tokenAddress, erc20Abi, signer);
@@ -102,8 +104,7 @@ export const getMeTokenInfo = async (tokenAddress: string, owner: string) => {
 
   const tokenData = {
     symbol: `$${await erc20.symbol()}`,
-    profilePicture:
-      data[0]?.details.profile.pfp || 'https://tinyurl.com/mr29vhmk',
+    profilePicture: did?.details.profile?.pfp || 'https://tinyurl.com/mr29vhmk',
     tokenAddress,
     collateral: await hub
       .getBasicHubInfo(tokenInfo?.hubId)

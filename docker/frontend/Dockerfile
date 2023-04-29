@@ -11,7 +11,8 @@ COPY yarn.lock .
 COPY schema.graphql .
 COPY tsconfig.base.json .
 COPY tsconfig.json .
-COPY .eslintrc.js .
+COPY .eslintrc.cjs .
+COPY packages/web/.eslintrc.cjs ./packages/web/
 COPY packages/web/*.json ./packages/web/
 COPY packages/web/codegen.yml ./packages/web/
 COPY packages/web/graphql ./packages/web/graphql/
