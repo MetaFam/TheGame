@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Maybe } from '@metafam/utils';
 import { Player, useGetMeQuery } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks/useWeb3';
@@ -30,8 +31,7 @@ export const useUser = ({
   });
   const [me] = data?.me ?? [];
 
-  // eslint-disable-next-line no-console
-  console.debug({ me });
+  console.debug({ 'useUser me': me });
 
   const user = useMemo(
     () =>
@@ -40,6 +40,7 @@ export const useUser = ({
         : null,
     [error, authToken, me, connected, fetching],
   );
+  console.debug({ 'useUser user': user });
 
   useEffect(() => {
     if (!redirectTo || fetching || connecting) return;
@@ -50,10 +51,12 @@ export const useUser = ({
       router.push(redirectTo);
     }
   }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
+  console.debug('useUser post effect');
 
   if (!authToken && connected) {
     console.warn('`authToken` unset when connected');
   }
+  console.debug('useUser returning');
 
   return {
     connecting,
