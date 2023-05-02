@@ -31,11 +31,12 @@ COPY packages/@types ./packages/@types/
 ARG GRAPHQL_HOST=hasura
 ARG GRAPHQL_DOMAIN=onrender.com
 ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
+ARG THE_GRAPH_API_TOKEN=unspecified
 
 ENV GRAPHQL_URL $GRAPHQL_URL
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
 ENV CERAMIC_URL https://ceramic.metagame.wtf
-ENV THE_GRAPH_API_TOKEN unspecified
+ENV THE_GRAPH_API_TOKEN $THE_GRAPH_API_TOKEN
 
 # Build
 RUN yarn backend:build
