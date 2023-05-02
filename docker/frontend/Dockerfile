@@ -14,7 +14,7 @@ COPY tsconfig.json .
 COPY .eslintrc.cjs .
 COPY packages/web/.eslintrc.cjs ./packages/web/
 COPY packages/web/*.json ./packages/web/
-COPY packages/web/codegen.yml ./packages/web/
+COPY packages/web/codegen.ts ./packages/web/
 COPY packages/web/graphql ./packages/web/graphql/
 COPY packages/utils/*.json ./packages/utils/
 COPY packages/design-system/*.json ./packages/design-system/
@@ -33,14 +33,14 @@ COPY packages/@types ./packages/@types/
 
 # Set env vars
 ARG NODE_ENV=production
-ARG APP_ENV=${NODE_ENV}
+ARG APP_ENV=$NODE_ENV
 ARG GRAPHQL_HOST=hasura
 ARG GRAPHQL_DOMAIN=onrender.com
 ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 
 ENV NEXT_PUBLIC_GRAPHQL_URL $GRAPHQL_URL
 
-ARG NEXT_PUBLIC_APP_ENV=${APP_ENV}
+ARG NEXT_PUBLIC_APP_ENV=$APP_ENV
 ARG NEXT_PUBLIC_FRONTEND_URL
 ARG NEXT_PUBLIC_YOUTUBE_API_KEY
 ARG NEXT_PUBLIC_GA4_ID
