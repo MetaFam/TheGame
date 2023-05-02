@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
@@ -44,18 +45,25 @@ type Props = {
 
 export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
   const router = useRouter();
+  console.debug('HERE #1');
   const username = router.query.username as string;
+  console.debug('HERE #2');
   const [player, setPlayer] = useState(propPlayer);
+  console.debug('HERE #3');
 
   const { user } = useUser();
+  console.debug('HERE #4');
 
   const linkURL = usePlayerURL(player);
+  console.debug('HERE #5');
   const header = usePlayerName(player);
+  console.debug('HERE #6');
 
   const isCurrentPlayerPage =
     router.pathname === '/me' ||
     user?.profile?.username === username ||
     user?.ethereumAddress === username;
+  console.debug('HERE #7');
 
   // if this is not the current user's page AND there is no player prop (meaning a
   // page was not server-side-rendered for this player), AND the path isn't an
@@ -72,7 +80,8 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
         }
       });
     }
-  }, [isCurrentPlayerPage, propPlayer, router.pathname, username]);
+  }, [isCurrentPlayerPage, propPlayer, username]);
+  console.debug('HERE #8');
 
   // if the username contains a dot, look up the player's ETH address and player with ENS
   const { data: ensAndPlayer, isValidating } = useSWR(
@@ -82,26 +91,32 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
       revalidateOnFocus: false,
     },
   );
+  console.debug('HERE #9');
   const ens = ensAndPlayer?.ens ?? undefined;
+  console.debug('HERE #10');
   useEffect(() => {
     if (ensAndPlayer?.player) {
       setPlayer(ensAndPlayer.player);
     }
   }, [ensAndPlayer?.player]);
+  console.debug('HERE #11');
 
   const { value: bannerURL } = useProfileField({
     field: 'bannerImageURL',
     player,
     getter: getPlayerBannerFull,
   });
+  console.debug('HERE #12');
 
   const { value: background } = useProfileField({
     field: 'backgroundImageURL',
     player,
     getter: getPlayerBackgroundFull,
   });
+  console.debug('HERE #13');
 
   const [, invalidateCache] = useInvalidateCache();
+  console.debug('HERE #14');
   const metagamer = useMemo(
     () =>
       player?.guilds.some(
@@ -109,12 +124,14 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
       ),
     [player],
   );
+  console.debug('HERE #15');
 
   useEffect(() => {
     if (player?.id) {
       invalidateCache({ playerId: player.id });
     }
   }, [player?.id, invalidateCache]);
+  console.debug('HERE #16');
 
   if (router.isFallback) {
     return <LoadingState />;

@@ -20,7 +20,7 @@ export const useUser = ({
   connected: boolean;
   user: Maybe<Player>;
   fetching: boolean;
-  error?: CombinedError;
+  error?: Error;
 } => {
   const { authToken, connecting, connected } = useWeb3();
   const router = useRouter();
@@ -30,6 +30,9 @@ export const useUser = ({
   });
   const [me] = data?.me ?? [];
 
+  // eslint-disable-next-line no-console
+  console.debug({ me });
+
   const user = useMemo(
     () =>
       !error && !fetching && authToken && me && connected
@@ -37,14 +40,6 @@ export const useUser = ({
         : null,
     [error, authToken, me, connected, fetching],
   );
-
-  if (error) {
-    console.error('useUser error', error);
-  }
-
-  if (!authToken && connected) {
-    console.warn('`authToken` unset when connected');
-  }
 
   useEffect(() => {
     if (!redirectTo || fetching || connecting) return;
@@ -55,6 +50,10 @@ export const useUser = ({
       router.push(redirectTo);
     }
   }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
+
+  if (!authToken && connected) {
+    console.warn('`authToken` unset when connected');
+  }
 
   return {
     connecting,

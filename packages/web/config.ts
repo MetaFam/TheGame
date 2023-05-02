@@ -29,8 +29,7 @@ export const CONFIG = {
   ceramicURL:
     process.env.NEXT_PUBLIC_CERAMIC_URL ||
     'https://ceramic.metagame.wtf' || // mainnet
-    'https://ceramic-clay.3boxlabs.com' || // testnet
-    'https://d12-a-ceramic.3boxlabs.com', // mainnet by 3Box
+    'https://ceramic-clay.3boxlabs.com', // testnet
   ceramicNetwork:
     process.env.NEXT_PUBLIC_CERAMIC_NETWORK || 'mainnet' || 'testnet-clay',
   calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
