@@ -35,6 +35,7 @@ ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 ENV GRAPHQL_URL $GRAPHQL_URL
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
 ENV CERAMIC_URL https://ceramic.metagame.wtf
+ENV THE_GRAPH_API_TOKEN unspecified
 
 # Build
 RUN yarn backend:build

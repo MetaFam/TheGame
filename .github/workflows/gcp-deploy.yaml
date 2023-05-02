@@ -253,7 +253,8 @@ jobs:
           args: |
             . -f docker/backend/Dockerfile \
               --tag ${{needs.env.outputs.BACKEND_TAG}} \
-              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
+              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
+              --build-arg THE_GRAPH_API_TOKEN=${{secrets.THE_GRAPH_API_TOKEN}}
           cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/backend/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
