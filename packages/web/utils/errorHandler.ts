@@ -3,8 +3,14 @@ import { useToast } from '@metafam/ds';
 import { useCallback } from 'react';
 import { CombinedError } from 'urql';
 
+import { CONFIG } from '../config';
+
 export const errorHandler = (error: Error | CombinedError): void => {
-  Honeybadger.notify(error);
+  if (CONFIG.environment === 'production') {
+    Honeybadger.notify(error);
+  } else {
+    console.error({ errorHandler: error });
+  }
 };
 
 type DebugErrorReports = {
