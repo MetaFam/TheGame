@@ -9,7 +9,7 @@
     "start": "next start",
     "typecheck": "tsc",
     "precommit": "yarn lint-staged",
-    "generate": "DEBUG=1 graphql-codegen --config=codegen.yml",
+    "generate": "graphql-codegen",
     "prepare": "yarn generate"
   },
   "dependencies": {
@@ -27,12 +27,13 @@
     "@glazed/devtools": "^0.2.0",
     "@glazed/did-datastore": "^0.3.2",
     "@glazed/tile-loader": "^0.2.1",
+    "@graphql-codegen/cli": "^3.3.1",
     "@honeybadger-io/js": "^4.3.1",
     "@honeybadger-io/react": "^4.4.1",
-    "@orbisclub/orbis-sdk": "^0.4.40",
     "@honeybadger-io/webpack": "^4.3.1",
     "@metafam/ds": "0.2.0",
     "@metafam/utils": "1.0.1",
+    "@orbisclub/orbis-sdk": "^0.4.40",
     "@quest-chains/sdk": "^0.1.12",
     "@react-spring/web": "9.4.3",
     "@urql/exchange-retry": "0.3.2",
