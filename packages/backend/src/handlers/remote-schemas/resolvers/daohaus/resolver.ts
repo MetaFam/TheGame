@@ -136,8 +136,9 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] =
 
     const memberships = await Promise.allSettled([
       membershipsOn('ethereum'),
-      membershipsOn('polygon'),
-      membershipsOn('xdai'),
+      // Graphs for these chains are not currently defined
+      // membershipsOn('polygon'),
+      // membershipsOn('xdai'),
     ]);
 
     const members: Member[] = memberships.reduce((allMembers, chainMembers) => {
