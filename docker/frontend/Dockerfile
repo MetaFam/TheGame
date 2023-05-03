@@ -1,4 +1,4 @@
-FROM node:16-slim as base
+FROM node:16-slim AS base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
@@ -23,7 +23,7 @@ RUN yarn policies set-version 1.15.2
 RUN yarn install --pure-lockfile
 
 # Dev environment doesn't run this stage or beyond
-FROM base as build
+FROM base AS build
 
 # Copy source files
 COPY packages/web ./packages/web/
@@ -54,7 +54,7 @@ RUN yarn web:build
 RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
-FROM node:16-slim as app
+FROM node:16-slim AS app
 WORKDIR /app
 
 # Copy necessary files into the stage
@@ -72,4 +72,8 @@ COPY --from=build /usr/src/app/packages/utils/node_modules ./packages/utils/node
 COPY --from=build /usr/src/app/packages/design-system/package.json ./packages/design-system/package.json
 COPY --from=build /usr/src/app/packages/design-system/dist ./packages/design-system/dist
 
+FROM app AS exec-production
 CMD ["yarn", "web", "start"]
+
+FROM app AS exec-development
+CMD ["yarn", "web", "dev"]

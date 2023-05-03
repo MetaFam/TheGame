@@ -19,7 +19,7 @@ env:
   REGISTRY_REPO: thegame
   DEPLOYMENT_DOMAIN: a.run.app
   CLOUDRUN_SUFFIX: mjhnbmqqna-uk
-  DEPLOYMENT_ENV: Test-PR-${{github.event.number}}
+  DEPLOYMENT_NAME: Test-PR-${{github.event.number}}
   DB_NAME: hasura-pr-${{github.event.number}}
   BACKEND_SERVICE: backend-pr-${{github.event.number}}
   FRONTEND_SERVICE: frontend-pr-${{github.event.number}}
@@ -29,6 +29,9 @@ env:
   HASURA_SECRET: metagame_secret
   GA4_ID: G-B1NKK3Q1BP
   APP_ENV: development
+  # This controls whether the Next.js runs in development or
+  # production mode. For debugging test instance only bugs.
+  FRONTEND_ENV: development # production
 
 jobs:
   start-deployment:
@@ -45,7 +48,7 @@ jobs:
         with:
           step: start
           token: ${{github.token}}
-          env: ${{env.DEPLOYMENT_ENV}}
+          env: ${{env.DEPLOYMENT_NAME}}
           desc: "Test instance deployment for PR #${{github.event.number}} of ${{github.event.pull_request.head.label}} by ${{github.event.pull_request.user.login}}"
           ref: ${{github.head_ref}}
           auto_inactive: false
@@ -95,6 +98,7 @@ jobs:
       BACKEND_TAG: ${{env.BACKEND_TAG}}
       HASURA_TAG: ${{env.HASURA_TAG}}
       FRONTEND_TAG: ${{env.FRONTEND_TAG}}
+      FRONTEND_TARGET: ${{env.FRONTEND_TARGET}}
 
     steps:
       - name: First Intepolation of Variables
@@ -111,6 +115,7 @@ jobs:
           echo "FRONTEND_URL=\
           https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
           echo "DB_PASSWORD=$(head -c 48 /dev/urandom | tr -cd [:alnum:])" >> $GITHUB_ENV
+          echo "FRONTEND_TARGET=exec-${{env.FRONTEND_ENV}}" >> $GITHUB_ENV
 
       - name: Those Variables May Now Be Interpolated
         id: second
@@ -463,7 +468,8 @@ jobs:
               --build-arg APP_ENV=${{needs.env.outputs.APP_ENV}} \
               --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
               --build-arg NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
-              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
+              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
+              --target ${{needs.env.outputs.FRONTEND_TARGET}}
           cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
@@ -544,7 +550,7 @@ jobs:
         with:
           step: finish
           token: ${{github.token}}
-          env: ${{env.DEPLOYMENT_ENV}}
+          env: ${{env.DEPLOYMENT_NAME}}
           env_url: ${{needs.env.outputs.FRONTEND_URL}}
           status: ${{env.result == 'skipped' && 'cancelled' || env.result}}
           deployment_id: ${{needs.start-deployment.outputs.deployment_id}}
