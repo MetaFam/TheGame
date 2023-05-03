@@ -1,6 +1,6 @@
-node_modules
-packages/**/node_modules
-packages/**/dist
-packages/**/build
+node_modules/
+packages/**/node_modules/
+packages/**/dist/
+packages/**/build/
 npm-debug.log
-.env*
+**/.env*

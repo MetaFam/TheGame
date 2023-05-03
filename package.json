@@ -16,6 +16,7 @@
     "build": "lerna run build",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --include-dependencies",
     "web:build": "lerna run build --scope @metafam/web --include-dependencies --stream",
+    "web:deps:build": "lerna run build --scope @metafam/ds --scope @metafam/utils",
     "backend:dev": "lerna run dev --parallel --scope @metafam/backend",
     "backend:build": "lerna run build --scope @metafam/backend --include-dependencies --stream",
     "hasura": "hasura --project ./hasura",
