@@ -42,8 +42,6 @@ COPY packages/@types/ packages/@types/
 # ARG GRAPHQL_DOMAIN=onrender.com
 # ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 
-# ENV NEXT_PUBLIC_GRAPHQL_URL
-
 # ARG NEXT_PUBLIC_APP_ENV=$APP_ENV
 # ARG NEXT_PUBLIC_FRONTEND_URL
 # ARG NEXT_PUBLIC_YOUTUBE_API_KEY
@@ -53,6 +51,8 @@ COPY packages/@types/ packages/@types/
 
 # Build
 FROM build AS build-production
+ARG GRAPHQL_URL=https://api.metagame.wtf/v1/graphql
+ENV NEXT_PUBLIC_GRAPHQL_URL=$GRAPHQL_URL
 ONBUILD RUN yarn web:build
 # Delete devDependencies
 ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
