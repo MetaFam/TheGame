@@ -26,6 +26,9 @@ const honeybadgerConfig = {
   // revision: 'git SHA/project version'
 };
 
+// eslint-disable-next-line no-console
+console.debug(`Running in ${APP_ENV} mode.`);
+
 const honeybadger = Honeybadger.configure(honeybadgerConfig);
 
 const Analytics: React.FC = () => (
@@ -73,19 +76,13 @@ const App: React.FC<WithUrqlProps> = ({
   </LoggingErrorBoundary>
 );
 
-const DeployedApp: React.FC<WithUrqlProps> = ({
-  pageProps,
-  resetUrqlClient,
-  Component,
-}) => (
+const DeployedApp: React.FC<WithUrqlProps> = (props) => (
   <HoneybadgerErrorBoundary {...{ honeybadger }}>
     <>
       <UserbackProvider token={userbackToken} />
-      <App {...{ pageProps, resetUrqlClient, Component }} />
+      <App {...props} />
     </>
   </HoneybadgerErrorBoundary>
 );
 
-export default APP_ENV === 'development'
-  ? wrapUrqlClient(App)
-  : wrapUrqlClient(DeployedApp);
+export default wrapUrqlClient(APP_ENV === 'production' ? DeployedApp : App);
