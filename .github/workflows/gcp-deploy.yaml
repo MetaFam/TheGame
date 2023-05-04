@@ -16,7 +16,7 @@ on:
 env:
   # This controls whether the Next.js runs in development or
   # production mode. For debugging test instance only bugs.
-  FRONTEND_TARGET: development # production
+  FRONTEND_TARGET: production # development
   PROJECT_ID: metagame-thegame
   REGISTRY_REGION: us-east4
   REGISTRY_REPO: thegame
