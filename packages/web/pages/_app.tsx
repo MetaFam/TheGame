@@ -3,6 +3,7 @@ import 'assets/custom-markdown-editor.scss';
 
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
+import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import { MegaMenu } from 'components/MegaMenu/index';
 import { CONFIG } from 'config';
@@ -12,12 +13,13 @@ import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
-const { environment, userbackToken, honeybadgerApiKey } = CONFIG;
+const { userbackToken, honeybadgerApiKey } = CONFIG;
+const { APP_ENV } = Constants;
 const honeybadgerConfig = {
   apiKey: honeybadgerApiKey,
-  environment,
+  APP_ENV,
   enableUncaught: true,
-  reportData: environment !== 'development',
+  reportData: APP_ENV !== 'development',
   // TODO include git SHA in github action deployment
   // revision: 'git SHA/project version'
 };
@@ -57,7 +59,7 @@ const App: React.FC<WithUrqlProps> = ({
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>MetaGame</title>
-      {environment === 'production' && <Analytics />}
+      {APP_ENV === 'production' && <Analytics />}
     </Head>
     <Web3ContextProvider {...{ resetUrqlClient }}>
       <MegaMenu hide={pageProps.hideTopMenu}>
@@ -74,12 +76,12 @@ const DeployedApp: React.FC<WithUrqlProps> = ({
 }) => (
   <HoneybadgerErrorBoundary {...{ honeybadger }}>
     <>
-      <UserbackProvider token={userbackToken}></UserbackProvider>
+      <UserbackProvider token={userbackToken} />
       <App {...{ pageProps, resetUrqlClient, Component }} />
     </>
   </HoneybadgerErrorBoundary>
 );
 
-export default environment === 'development'
+export default APP_ENV === 'development'
   ? wrapUrqlClient(App)
   : wrapUrqlClient(DeployedApp);

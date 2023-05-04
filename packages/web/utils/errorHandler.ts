@@ -44,8 +44,8 @@ export const useDebugErrorReports = (): DebugErrorReports => {
         } catch (err) {
           const error = err as Error;
           toast({
-            title: 'Error debug',
-            description: `Throwing handled error: ${error.message}.`,
+            title: 'Error Debug',
+            description: `Throwing handled error: "${error.message}".`,
             status: 'error',
             isClosable: true,
           });
@@ -55,7 +55,5 @@ export const useDebugErrorReports = (): DebugErrorReports => {
     }
   }, [toast]);
 
-  return {
-    debugErrorReports,
-  };
+  return { debugErrorReports };
 };
