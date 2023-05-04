@@ -502,7 +502,7 @@ jobs:
             --region ${{needs.env.outputs.CLOUDRUN_REGION}} \
             --port ${{needs.env.outputs.FRONTEND_PORT}} \
             --cpu 1 \
-            --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '768Mi' || '512Mi'}} \
+            --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '1Gi' || '512Mi'}} \
             --ingress all \
             --max-instances 1 \
             --allow-unauthenticated \
