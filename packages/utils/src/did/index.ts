@@ -44,7 +44,7 @@ export async function verifyToken(
   provider: providers.JsonRpcProvider,
   connectedAddress?: string,
 ): Promise<Maybe<Claim>> {
-  const rawToken = Base64.decode(token, 'base64');
+  const rawToken = Base64.decode(token);
   const [proof, rawClaim] = JSON.parse(rawToken);
   const claim: Claim = JSON.parse(rawClaim);
   const claimant = claim.iss;

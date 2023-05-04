@@ -36,20 +36,20 @@ COPY packages/design-system/ packages/design-system/
 COPY packages/@types/ packages/@types/
 
 # Set env vars
-ARG NODE_ENV=production
-ARG APP_ENV=$NODE_ENV
-ARG GRAPHQL_HOST=hasura
-ARG GRAPHQL_DOMAIN=onrender.com
-ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
+# ARG NODE_ENV=production
+# ARG APP_ENV=$NODE_ENV
+# ARG GRAPHQL_HOST=hasura
+# ARG GRAPHQL_DOMAIN=onrender.com
+# ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 
-ENV NEXT_PUBLIC_GRAPHQL_URL=$GRAPHQL_URL
+# ENV NEXT_PUBLIC_GRAPHQL_URL
 
-ARG NEXT_PUBLIC_APP_ENV=$APP_ENV
-ARG NEXT_PUBLIC_FRONTEND_URL
-ARG NEXT_PUBLIC_YOUTUBE_API_KEY
-ARG NEXT_PUBLIC_GA4_ID
-ARG NEXT_PUBLIC_HONEYBADGER_API_KEY
-ARG NEXT_PUBLIC_USERBACK_TOKEN
+# ARG NEXT_PUBLIC_APP_ENV=$APP_ENV
+# ARG NEXT_PUBLIC_FRONTEND_URL
+# ARG NEXT_PUBLIC_YOUTUBE_API_KEY
+# ARG NEXT_PUBLIC_GA4_ID
+# ARG NEXT_PUBLIC_HONEYBADGER_API_KEY
+# ARG NEXT_PUBLIC_USERBACK_TOKEN
 
 # Build
 FROM build AS build-production
@@ -62,7 +62,7 @@ ONBUILD RUN yarn web:deps:build
 
 FROM "build-$TARGET" as built
 
-# Create completely new stage including only necessary files
+# New stage including only necessary files
 FROM node:16-slim AS app
 WORKDIR /app
 
@@ -87,14 +87,16 @@ ONBUILD CMD ["yarn", "web", "start"]
 FROM app AS copy-development
 ONBUILD COPY --from=built /usr/src/app/schema.graphql ./
 ONBUILD COPY --from=built /usr/src/app/tsconfig*.json ./
+ONBUILD COPY --from=built /usr/src/app/lerna.json ./
 ONBUILD COPY --from=built /usr/src/app/packages/design-system/ packages/design-system/
 ONBUILD COPY --from=built /usr/src/app/packages/utils/ packages/utils/
 ONBUILD COPY --from=built /usr/src/app/packages/web/ packages/web/
 
+ONBUILD RUN rm -rf packages/design-system/dist/
 ONBUILD RUN rm -rf packages/web/.next/
 
-ONBUILD CMD ["yarn", "web", "dev"]
+ONBUILD CMD ["yarn", "web:dev"]
 
 FROM "copy-$TARGET" AS final
 
-RUN echo "Generated ${TARGET} image for frontend."
+RUN echo "Generated $TARGET image for frontend."

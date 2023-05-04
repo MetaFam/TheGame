@@ -1,12 +1,11 @@
 import Honeybadger from '@honeybadger-io/js';
 import { useToast } from '@metafam/ds';
+import { Constants } from '@metafam/utils';
 import { useCallback } from 'react';
 import { CombinedError } from 'urql';
 
-import { CONFIG } from '../config';
-
 export const errorHandler = (error: Error | CombinedError): void => {
-  if (CONFIG.environment === 'production') {
+  if (Constants.APP_ENV === 'production') {
     Honeybadger.notify(error);
   } else {
     console.error({ errorHandler: error });
