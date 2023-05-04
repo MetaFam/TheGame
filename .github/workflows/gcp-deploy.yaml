@@ -501,7 +501,7 @@ jobs:
             --image ${{needs.env.outputs.FRONTEND_TAG}} \
             --region ${{needs.env.outputs.CLOUDRUN_REGION}} \
             --port ${{needs.env.outputs.FRONTEND_PORT}} \
-            --cpu 1 \
+            --cpu ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '2' || '1'}} \
             --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '5Gi' || '512Mi'}} \
             --ingress all \
             --max-instances 1 \
