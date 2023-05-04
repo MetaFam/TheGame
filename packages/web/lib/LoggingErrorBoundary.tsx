@@ -5,17 +5,15 @@ interface Props {
 }
 
 interface State {
-  hasError: boolean;
+  error?: string;
 }
 
 class LoggingErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false,
-  };
+  public state: State = {};
 
-  public static getDerivedStateFromError(_: Error): State {
+  public static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true };
+    return { error: error.message ?? error ?? 'Unknown Error' };
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -24,8 +22,13 @@ class LoggingErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
-    if (this.state.hasError) {
-      return <h1>Sorry… There was an error.</h1>;
+    const { error } = this.state;
+    if (error) {
+      return (
+        <h1>
+          Sorry… There was an error: <q>{error}</q>
+        </h1>
+      );
     }
 
     return this.props.children;

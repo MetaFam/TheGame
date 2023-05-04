@@ -24,7 +24,7 @@ export const IPFS_LINK_PATTERN =
   'https://{v1cid}.ipfs.dweb.link/{path}';
 
 export const APP_ENV =
-  process.env.NEXT_PUBLIC_APP_ENV ?? process.env.NODE_ENV ?? 'production';
+  process.env.NEXT_PUBLIC_APP_ENV || process.env.NODE_ENV || 'production';
 export const PSEED_ADDRESS = '0x8a8fcd351ed553fc75aecbc566a32f94471f302e';
 export const PSEED_DECIMALS = 18;
 export const PSEED_FOR_QUEST = APP_ENV === 'production' ? 100 : 0;

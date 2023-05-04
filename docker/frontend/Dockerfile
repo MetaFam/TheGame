@@ -35,24 +35,18 @@ COPY packages/utils/ packages/utils/
 COPY packages/design-system/ packages/design-system/
 COPY packages/@types/ packages/@types/
 
-# Set env vars
-# ARG NODE_ENV=production
-# ARG APP_ENV=$NODE_ENV
-# ARG GRAPHQL_HOST=hasura
-# ARG GRAPHQL_DOMAIN=onrender.com
-# ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
-
-# ARG NEXT_PUBLIC_APP_ENV=$APP_ENV
-# ARG NEXT_PUBLIC_FRONTEND_URL
-# ARG NEXT_PUBLIC_YOUTUBE_API_KEY
-# ARG NEXT_PUBLIC_GA4_ID
-# ARG NEXT_PUBLIC_HONEYBADGER_API_KEY
-# ARG NEXT_PUBLIC_USERBACK_TOKEN
 
 # Build
 FROM build AS build-production
+ARG APP_ENV=$NODE_ENV
 ARG GRAPHQL_URL=https://api.metagame.wtf/v1/graphql
+ENV NEXT_PUBLIC_APP_ENV=$APP_ENV
 ENV NEXT_PUBLIC_GRAPHQL_URL=$GRAPHQL_URL
+ARG NEXT_PUBLIC_FRONTEND_URL
+ARG NEXT_PUBLIC_YOUTUBE_API_KEY
+ARG NEXT_PUBLIC_GA4_ID
+ARG NEXT_PUBLIC_HONEYBADGER_API_KEY
+ARG NEXT_PUBLIC_USERBACK_TOKEN
 ONBUILD RUN yarn web:build
 # Delete devDependencies
 ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
