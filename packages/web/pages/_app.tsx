@@ -13,6 +13,8 @@ import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
+import LoggingErrorBoundary from '../lib/LoggingErrorBoundary';
+
 const { userbackToken, honeybadgerApiKey } = CONFIG;
 const { APP_ENV } = Constants;
 const honeybadgerConfig = {
@@ -54,19 +56,21 @@ const App: React.FC<WithUrqlProps> = ({
   resetUrqlClient,
   Component,
 }) => (
-  <ChakraProvider theme={MetaTheme}>
-    <CSSReset />
-    <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MetaGame</title>
-      {APP_ENV === 'production' && <Analytics />}
-    </Head>
-    <Web3ContextProvider {...{ resetUrqlClient }}>
-      <MegaMenu hide={pageProps.hideTopMenu}>
-        <Component {...pageProps} />
-      </MegaMenu>
-    </Web3ContextProvider>
-  </ChakraProvider>
+  <LoggingErrorBoundary>
+    <ChakraProvider theme={MetaTheme}>
+      <CSSReset />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MetaGame</title>
+        {APP_ENV === 'production' && <Analytics />}
+      </Head>
+      <Web3ContextProvider {...{ resetUrqlClient }}>
+        <MegaMenu hide={pageProps.hideTopMenu}>
+          <Component {...pageProps} />
+        </MegaMenu>
+      </Web3ContextProvider>
+    </ChakraProvider>
+  </LoggingErrorBoundary>
 );
 
 const DeployedApp: React.FC<WithUrqlProps> = ({
