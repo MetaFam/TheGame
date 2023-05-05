@@ -194,15 +194,13 @@ export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
     [user, fetching, player.id],
   );
 
-  const savedLayoutData = useMemo<LayoutData>(() => {
-    // eslint-disable-next-line no-console
-    console.debug({ ppl: player.profileLayout });
-    return player.profileLayout
-      ? JSON.parse(player.profileLayout)
-      : DEFAULT_PLAYER_LAYOUT_DATA;
-  }, [player.profileLayout]);
-  // eslint-disable-next-line no-console
-  console.debug({ player, savedLayoutData });
+  const savedLayoutData = useMemo<LayoutData>(
+    () =>
+      player.profileLayout
+        ? JSON.parse(player.profileLayout)
+        : DEFAULT_PLAYER_LAYOUT_DATA,
+    [player.profileLayout],
+  );
 
   const persistLayoutData = useCallback(
     async (layoutData: LayoutData) => {

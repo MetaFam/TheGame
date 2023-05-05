@@ -8,17 +8,12 @@ import React from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export const getStaticProps = async () => {
-  const guilds = await getGuilds();
-  // eslint-disable-next-line no-console
-  console.debug({ guilds });
-  return {
-    props: {
-      guilds,
-    },
-    revalidate: 1,
-  };
-};
+export const getStaticProps = async () => ({
+  props: {
+    guilds: await getGuilds(),
+  },
+  revalidate: 1,
+});
 
 const GuildsPage: React.FC<Props> = ({ guilds }) => (
   <PageContainer>

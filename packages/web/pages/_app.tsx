@@ -69,9 +69,6 @@ const DeployedApp: React.FC<WithUrqlProps> = (props) => {
   };
   const honeybadger = Honeybadger.configure(honeybadgerConfig);
 
-  // eslint-disable-next-line no-console
-  console.debug('Wrapping in Honeybadger.');
-
   return (
     <HoneybadgerErrorBoundary {...{ honeybadger }}>
       <>
