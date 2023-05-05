@@ -7,7 +7,7 @@ import ABI from '../../../contracts/BulkDisbursableNFTs.abi';
 
 export const chievContractAddress =
   '0x85fCaAFc0dA050FCE685DcB8965F0C1Aa1Ba466b';
-const { alchemyApiKey } = CONFIG;
+const { alchemyAPIKey } = CONFIG;
 
 export const chievId = BigInt(
   '0x480000000000000000000000000000000000000000000000000000000002',
@@ -23,7 +23,7 @@ export interface IChievMetadata {
 /** function to get the token image url from the nft metadata */
 export const getTokenImage = async (): Promise<IChievMetadata | void> => {
   try {
-    const provider = new providers.AlchemyProvider('matic', alchemyApiKey);
+    const provider = new providers.AlchemyProvider('matic', alchemyAPIKey);
     const token = new Contract(chievContractAddress, ABI, provider);
     const metadataURI = await token.uri(chievId);
     if (!metadataURI || metadataURI === '') {

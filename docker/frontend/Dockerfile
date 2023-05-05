@@ -35,13 +35,10 @@ COPY packages/utils/ packages/utils/
 COPY packages/design-system/ packages/design-system/
 COPY packages/@types/ packages/@types/
 
-
 # Build
 FROM build AS build-production
-ARG APP_ENV=$NODE_ENV
+ARG APP_ENV=production
 ARG GRAPHQL_URL=https://api.metagame.wtf/v1/graphql
-ENV NEXT_PUBLIC_APP_ENV=$APP_ENV
-ENV NEXT_PUBLIC_GRAPHQL_URL=$GRAPHQL_URL
 ARG NEXT_PUBLIC_FRONTEND_URL
 ARG NEXT_PUBLIC_YOUTUBE_API_KEY
 ARG NEXT_PUBLIC_GA4_ID
@@ -68,10 +65,10 @@ COPY --from=built /usr/src/app/node_modules/ node_modules/
 FROM app AS copy-production
 ONBUILD COPY --from=built /usr/src/app/packages/utils/package.json packages/utils/
 ONBUILD COPY --from=built /usr/src/app/packages/utils/dist/ packages/utils/dist/
-# ONBUILD COPY --from=built /usr/src/app/packages/utils/node_modules/ packages/utils/node_modules/
 ONBUILD COPY --from=built /usr/src/app/packages/design-system/package.json packages/design-system/
 ONBUILD COPY --from=built /usr/src/app/packages/design-system/dist/ packages/design-system/dist/
 ONBUILD COPY --from=built /usr/src/app/packages/web/package.json packages/web/
+ONBUILD COPY --from=built /usr/src/app/packages/web/node_modules/ packages/web/node_modules/
 ONBUILD COPY --from=built /usr/src/app/packages/web/public/ packages/web/public/
 ONBUILD COPY --from=built /usr/src/app/packages/web/.next/ packages/web/.next/
 

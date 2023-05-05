@@ -6,7 +6,7 @@ import { OpenSeaAssetQuery } from 'opensea-js/lib/types';
 import { isEmpty } from 'utils/objectHelpers';
 import { Collectible, parseOpenSeaAssets } from 'utils/openseaHelpers';
 
-const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
+const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaAPIKey });
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       if (/403.*unauthorized/i.test(msg)) {
         status = 403;
         msg = 'Unauthorized';
-        if (CONFIG.openseaApiKey == null || isEmpty(CONFIG.openseaApiKey)) {
+        if (CONFIG.openseaAPIKey == null || isEmpty(CONFIG.openseaAPIKey)) {
           msg += ': Missing OPENSEA_API_KEY Environment Variable';
         }
       }

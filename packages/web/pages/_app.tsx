@@ -3,7 +3,6 @@ import 'assets/custom-markdown-editor.scss';
 
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
-import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import { MegaMenu } from 'components/MegaMenu/index';
 import { CONFIG } from 'config';
@@ -13,76 +12,74 @@ import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
-import LoggingErrorBoundary from '../lib/LoggingErrorBoundary';
+const { userbackToken, honeybadgerAPIKey } = CONFIG;
 
-const { userbackToken, honeybadgerApiKey } = CONFIG;
-const { APP_ENV } = Constants;
-const honeybadgerConfig = {
-  apiKey: honeybadgerApiKey,
-  APP_ENV,
-  enableUncaught: true,
-  reportData: APP_ENV !== 'development',
-  // TODO include git SHA in github action deployment
-  // revision: 'git SHA/project version'
-};
-
-// eslint-disable-next-line no-console
-console.debug(`Running in ${APP_ENV} mode.`);
-
-const honeybadger = Honeybadger.configure(honeybadgerConfig);
-
-const Analytics: React.FC = () => (
-  <>
-    <script
-      async
-      defer
-      src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
-    />
-    <script
-      type="text/javascript"
-      async
-      defer
-      dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments) }
-          gtag('js', new Date());
-          gtag('config', '${CONFIG.gaId}');
-        `,
-      }}
-    />
-  </>
-);
+const Analytics: React.FC = () =>
+  !CONFIG.gaId ? null : (
+    <>
+      <script
+        async
+        defer
+        src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
+      />
+      <script
+        type="text/javascript"
+        async
+        defer
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments) }
+            gtag('js', new Date());
+            gtag('config', '${CONFIG.gaId}');
+          `,
+        }}
+      />
+    </>
+  );
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
   resetUrqlClient,
   Component,
 }) => (
-  <LoggingErrorBoundary>
-    <ChakraProvider theme={MetaTheme}>
-      <CSSReset />
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>MetaGame</title>
-        {APP_ENV === 'production' && <Analytics />}
-      </Head>
-      <Web3ContextProvider {...{ resetUrqlClient }}>
-        <MegaMenu hide={pageProps.hideTopMenu}>
-          <Component {...pageProps} />
-        </MegaMenu>
-      </Web3ContextProvider>
-    </ChakraProvider>
-  </LoggingErrorBoundary>
+  <ChakraProvider theme={MetaTheme}>
+    <CSSReset />
+    <Head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>MetaGame</title>
+      {CONFIG.appEnv === 'production' && <Analytics />}
+    </Head>
+    <Web3ContextProvider {...{ resetUrqlClient }}>
+      <MegaMenu hide={pageProps.hideTopMenu}>
+        <Component {...pageProps} />
+      </MegaMenu>
+    </Web3ContextProvider>
+  </ChakraProvider>
 );
 
-const DeployedApp: React.FC<WithUrqlProps> = (props) => (
-  <HoneybadgerErrorBoundary {...{ honeybadger }}>
-    <>
-      <UserbackProvider token={userbackToken} />
-      <App {...props} />
-    </>
-  </HoneybadgerErrorBoundary>
-);
+const DeployedApp: React.FC<WithUrqlProps> = (props) => {
+  const honeybadgerConfig = {
+    apiKey: honeybadgerAPIKey,
+    environment: CONFIG.appEnv,
+    enableUncaught: true,
+    reportData: CONFIG.useHoneybadger,
+    // TODO include git SHA in github action deployment
+    // revision: 'git SHA/project version'
+  };
+  const honeybadger = Honeybadger.configure(honeybadgerConfig);
 
-export default wrapUrqlClient(APP_ENV === 'production' ? DeployedApp : App);
+  // eslint-disable-next-line no-console
+  console.debug('Wrapping in Honeybadger.');
+
+  return (
+    <HoneybadgerErrorBoundary {...{ honeybadger }}>
+      <>
+        {userbackToken && <UserbackProvider token={userbackToken} />}
+        <App {...props} />
+      </>
+    </HoneybadgerErrorBoundary>
+  );
+};
+
+export default wrapUrqlClient(CONFIG.useHoneybadger ? DeployedApp : App);
