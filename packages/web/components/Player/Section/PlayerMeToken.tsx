@@ -1,7 +1,11 @@
+/* eslint-disable no-console */
+import { JsonRpcProvider } from '@ethersproject/providers';
 import {
   Box,
   Button,
+  chakra,
   Flex,
+  FormLabel,
   IconButton,
   Image,
   Input,
@@ -16,34 +20,40 @@ import {
   useToast,
   Wrap,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import { HiOutlineInformationCircle, HiSwitchVertical } from 'react-icons/hi';
-import { BoxTypes } from 'utils/boxTypes';
-import { humanizeNumber, roundNumber } from 'utils/mathHelper';
+import { ethToWei, weiToEth } from 'utils/mathHelper';
 import {
-  approveMeTokens,
+  approveTokens,
   burn,
-  checkMeTokenApproval,
   getCollateralData,
-  getErc20TokenData,
+  getERC20TokenData,
   getMeTokenFor,
   getMeTokenInfo,
+  isApproved,
   mint,
-  nullMeToken,
+  nullToken,
   preview,
-  spendMeTokens,
+  spendTokens,
 } from 'utils/meTokens';
 
 type TokenData = {
-  collateral: string;
+  collateralAddress: string;
   profilePicture: string;
   symbol: string;
   tokenAddress: string;
+};
+
+type ERC20Info = {
+  symbol: string;
+  name: string;
+  balance?: BigNumber;
 };
 
 type Props = {
@@ -55,16 +65,17 @@ type Props = {
 type BlockProps = {
   symbol: string;
   profilePicture: string;
-  address: string;
+  tokenAddress: string;
+  owner: string;
 };
 
 type SwapProps = {
   symbol: string;
   profilePicture: string;
-  collateral: any;
-  metokenAddress: string;
+  collateralAddress: string;
+  meTokenAddress: string;
   owner: string;
-  provider: any;
+  provider: JsonRpcProvider;
 };
 
 type LiveCollateralData = {
@@ -72,269 +83,319 @@ type LiveCollateralData = {
   currentPrice: string;
 };
 
+type ContractError = Error & { reason?: string };
+
 const MeTokenSwap: React.FC<SwapProps> = ({
   symbol,
   profilePicture,
-  metokenAddress,
-  collateral,
+  meTokenAddress,
+  collateralAddress,
   owner,
   provider,
 }) => {
   const [liveCollateralData, setLiveCollateralData] =
     useState<LiveCollateralData>();
-  const [collateralTokenData, setCollateralTokenData] = useState<any>();
-  const [meTokenData, setMeTokenData] = useState<any>();
-  const [transactionType, toggleTransactionType] = useState<string>('mint');
-  const [approved, setApproved] = useState<boolean>(false);
-  const { chainId, address } = useWeb3();
-  const [amount, setAmount] = useState<string>();
+  const [collateralTokenData, setCollateralTokenData] = useState<ERC20Info>();
+  const [meTokenData, setMeTokenData] = useState<ERC20Info>();
+  const [txType, setTxType] = useState<'mint' | 'burn'>('mint');
+  const [approved, setApproved] = useState<boolean>(true);
+  const { chainId, address: userAddress } = useWeb3();
+  const [amount, setAmount] = useState<BigNumber>(BigNumber.from(0));
+  const [displayAmount, setDisplayAmount] = useState<string>('0');
   const [previewAmount, setPreviewAmount] = useState<string>('0');
   const [loading, setLoading] = useState<boolean>(false);
-  const toast = useToast();
+  const toast = useToast({
+    isClosable: true,
+    duration: 13.5 * 1000,
+  });
 
   useEffect(() => {
-    if (!collateral) return;
+    if (!collateralAddress) return;
     const getLiveData = async () => {
-      setLiveCollateralData(await getCollateralData(collateral));
+      setLiveCollateralData(await getCollateralData(collateralAddress));
     };
     getLiveData();
-  }, [collateral]);
+  }, [collateralAddress]);
+
+  const getTokenData = useCallback(async () => {
+    console.info({ meTokenAddress, owner });
+    if (meTokenAddress && collateralAddress) {
+      await Promise.all([
+        getERC20TokenData(meTokenAddress, owner).then((res) => {
+          console.info({ res });
+          setMeTokenData(res);
+        }),
+        getERC20TokenData(collateralAddress, owner).then(
+          setCollateralTokenData,
+        ),
+      ]);
+    }
+  }, [collateralAddress, meTokenAddress, owner]);
 
   useEffect(() => {
-    if (!metokenAddress || !collateral) return;
-    const getInAndOutTokenData = async () => {
-      await getErc20TokenData(collateral, owner).then((res) => {
-        setCollateralTokenData(res);
-      });
-      await getErc20TokenData(metokenAddress, owner).then((res) => {
-        setMeTokenData(res);
-      });
-    };
-    getInAndOutTokenData();
-  }, [metokenAddress, collateral, owner]);
+    if (owner) {
+      getTokenData();
+    }
+  }, [getTokenData, owner]);
 
   const handlePreview = useCallback(async () => {
-    if (!address && !amount) setPreviewAmount('0');
-    if (address) {
+    if (!userAddress) {
+      setPreviewAmount('0');
+    } else {
       setPreviewAmount(
-        await preview(
-          metokenAddress,
-          ethers.utils.parseEther(amount || '0'),
-          address,
-          transactionType,
-        ),
+        await preview(meTokenAddress, amount, userAddress, txType),
       );
     }
-  }, [address, amount, transactionType, metokenAddress]);
+  }, [userAddress, amount, txType, meTokenAddress]);
 
   useEffect(() => {
-    if (!amount || !metokenAddress) return;
+    if (!amount || !meTokenAddress) return;
     handlePreview();
-  }, [handlePreview, amount, metokenAddress]);
+  }, [handlePreview, amount, meTokenAddress]);
 
-  const approveMeTokenTx = useCallback(async () => {
+  const approveToken = useCallback(async () => {
     const approvalToken =
-      transactionType === 'mint' ? collateral : metokenAddress;
-    await approveMeTokens(
-      approvalToken,
-      ethers.utils.parseEther(amount || '0'),
-      provider,
-    )
-      .then(() => {
-        toast({
-          title: 'Success',
-          description: `Tokens approved successfully.`,
-          status: 'success',
-          isClosable: true,
-        });
-        setApproved(true);
-        setLoading(false);
-      })
-      .catch(() => {
-        toast({
-          title: 'Error',
-          description: `Token Approval Failed`,
-          status: 'error',
-          isClosable: true,
-        });
-        setLoading(false);
+      txType === 'mint' ? collateralAddress : meTokenAddress;
+    try {
+      const tx = await approveTokens(approvalToken, amount, provider);
+      await tx.wait();
+      toast({
+        title: 'Success',
+        description: `Tokens approved successfully.`,
+        status: 'success',
       });
+      setApproved(true);
+    } catch (err) {
+      const error = err as ContractError;
+      toast({
+        title: 'Token Approval Failed',
+        description: error.reason ?? error.message,
+        status: 'error',
+      });
+    } finally {
+      setLoading(false);
+    }
   }, [
     setLoading,
-    transactionType,
+    txType,
     amount,
     toast,
-    collateral,
-    metokenAddress,
+    collateralAddress,
+    meTokenAddress,
     provider,
   ]);
 
-  const handleSpendMeTokens = useCallback(async () => {
-    setLoading(true);
-    if (!approved) {
-      await approveMeTokenTx();
-      return;
-    }
-    await spendMeTokens(
-      metokenAddress,
-      ethers.utils.parseEther(amount || '0'),
-      owner,
-      provider,
-    )
-      .then(() => {
+  const handleSpendMeTokens = useCallback(
+    async (evt: FormEvent) => {
+      evt.preventDefault();
+
+      try {
+        if (!meTokenData)
+          throw new Error('No `meTokenData` in `handleSpendMeTokens`.');
+
+        setLoading(true);
+        if (!approved) {
+          await approveToken();
+          return;
+        }
+        const tx = await spendTokens(meTokenAddress, amount, owner, provider);
+        const reciept = await tx.wait();
         toast({
           title: 'Success',
-          description: `Successfully spent ${meTokenData.symbol} with Issuer.`,
+          description: (
+            <>
+              Successfully spent {meTokenData.symbol} with Issuer.
+              <chakra.a
+                href={`https://etherscan.io/tx/${reciept.transactionHash}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View on Etherscan.
+              </chakra.a>
+            </>
+          ),
           status: 'success',
-          isClosable: true,
         });
-        setLoading(false);
-      })
-      .catch(() => {
+      } catch (err) {
+        const error = err as ContractError;
         toast({
-          title: 'Error',
-          description: `Could not spend ${meTokenData.symbol} tokens.`,
+          title: `Error Spending ${meTokenData?.symbol ?? '$𝑼𝒏𝒌𝒏𝒐𝒘𝒏'}`,
+          description: error.reason ?? error.message,
           status: 'error',
-          isClosable: true,
         });
+      } finally {
         setLoading(false);
-      });
-  }, [
-    meTokenData,
-    amount,
-    toast,
-    approved,
-    setLoading,
-    approveMeTokenTx,
-    metokenAddress,
-    provider,
-    owner,
-  ]);
+      }
+    },
+    [
+      meTokenData,
+      amount,
+      toast,
+      approved,
+      approveToken,
+      meTokenAddress,
+      provider,
+      owner,
+    ],
+  );
 
   const clearAmounts = useCallback(() => {
-    toggleTransactionType('burn');
-    setAmount('0');
+    setAmount(BigNumber.from(0));
+    setDisplayAmount('0');
     setPreviewAmount('0');
-  }, [setAmount, setPreviewAmount]);
+  }, []);
 
-  const changeTransactionType = useCallback(() => {
+  const toggleTxType = useCallback(() => {
     clearAmounts();
-    toggleTransactionType(transactionType === 'mint' ? 'burn' : 'mint');
-  }, [clearAmounts, toggleTransactionType, transactionType]);
+    setTxType((type) => (type === 'mint' ? 'burn' : 'mint'));
+  }, [clearAmounts]);
 
-  const handleSubmit = useCallback(async () => {
-    setLoading(true);
-    if (!approved) {
-      await approveMeTokenTx();
-      return;
-    }
-    if (transactionType === 'mint' && amount) {
-      await mint(
-        metokenAddress,
-        ethers.utils.parseEther(amount),
-        owner,
-        provider,
-      )
-        .then(() => {
+  const handleSubmit = useCallback(
+    async (evt: FormEvent) => {
+      evt.preventDefault();
+
+      try {
+        if (!meTokenData)
+          throw new Error('No `meTokenData` in `handleSubmit`.');
+
+        setLoading(true);
+        if (!approved) {
+          await approveToken();
+          return;
+        }
+
+        if (amount.eq(0)) {
+          throw new Error('Amount is 0.');
+        }
+
+        const actions = { mint, burn };
+
+        const tx = await actions[txType](
+          meTokenAddress,
+          amount,
+          owner,
+          provider,
+        );
+
+        const confirmCount = 3;
+
+        let reciept;
+        for (let i = 1; i <= confirmCount; i++) {
           toast({
-            title: 'Success',
-            description: `${meTokenData.symbol} minted successfully.`,
-            status: 'success',
-            isClosable: true,
+            title: `Waiting On ${i}/${confirmCount} Confirmations`,
+            description: `${meTokenData.symbol} ${txType} begun.`,
+            status: 'info',
           });
-          setLoading(false);
-        })
-        .catch(() => {
-          toast({
-            title: 'Error',
-            description: `${meTokenData.symbol} mint failed.`,
-            status: 'error',
-            isClosable: true,
-          });
-          setLoading(false);
+          // eslint-disable-next-line no-await-in-loop
+          reciept = await tx.wait(i);
+          toast.closeAll();
+        }
+
+        await getTokenData();
+
+        toast({
+          title: 'Success',
+          description: (
+            <>
+              {meTokenData.symbol} {txType}ed successfully.{' '}
+              {reciept?.transactionHash && (
+                <chakra.a
+                  href={`https://etherscan.io/tx/${reciept.transactionHash}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  textDecoration="underline"
+                >
+                  View the transaction.
+                </chakra.a>
+              )}
+            </>
+          ),
+          status: 'success',
+          duration: 20 * 1000,
         });
-    } else {
-      await burn(
-        metokenAddress,
-        ethers.utils.parseEther(amount || '0'),
-        owner,
-        provider,
-      )
-        .then(() => {
-          toast({
-            title: 'Success',
-            description: `${meTokenData.symbol} burned successfully.`,
-            status: 'success',
-            isClosable: true,
-          });
-          setLoading(false);
-        })
-        .catch(() => {
-          toast({
-            title: 'Error',
-            description: `${meTokenData.symbol} burn failed.`,
-            status: 'error',
-            isClosable: true,
-          });
-          setLoading(false);
+      } catch (err) {
+        const error = err as ContractError;
+        toast({
+          title: (
+            <chakra.span textTransform="capitalize">{txType} Error</chakra.span>
+          ),
+          description: error.reason ?? error.message,
+          status: 'error',
+          isClosable: true,
         });
-    }
-  }, [
-    setLoading,
-    metokenAddress,
-    owner,
-    provider,
-    toast,
-    amount,
-    meTokenData,
-    approveMeTokenTx,
-    approved,
-    transactionType,
-  ]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [
+      meTokenData,
+      approved,
+      txType,
+      amount,
+      approveToken,
+      meTokenAddress,
+      owner,
+      provider,
+      getTokenData,
+      toast,
+    ],
+  );
 
   const handleSetAmount = useCallback(
-    async (swapAmount: string) => {
-      if (swapAmount && !/^[0-9.]+$/.test(swapAmount)) return;
-      if (
-        transactionType === 'burn' &&
-        +swapAmount > +humanizeNumber(meTokenData.balance)
-      ) {
-        setAmount(humanizeNumber(meTokenData.balance));
-      } else {
-        setAmount(swapAmount);
-      }
-      if (address && amount) {
-        const approvalToken =
-          transactionType === 'mint' ? collateral : metokenAddress;
-        checkMeTokenApproval(approvalToken, swapAmount, address).then((res) =>
-          setApproved(res),
+    async (quantity: string | number) => {
+      if (!meTokenData?.balance) throw new Error('No meToken balance found.');
+
+      let swapEth = quantity
+        .toString()
+        .replace(/[^0-9.]/g, '')
+        .replace(
+          /^(?:0*)([1-9]?\d*)(\.?\d*)$/,
+          (_, whole, decimals) =>
+            `${whole.length > 0 ? whole : '0'}${decimals.slice(0, 19)}`,
         );
+      let swapWei = ethToWei(swapEth);
+
+      if (txType === 'burn' && swapWei.gt(meTokenData.balance)) {
+        swapWei = meTokenData.balance;
+        swapEth = weiToEth(swapWei).toFixed(8);
+      }
+
+      setAmount(swapWei);
+      setDisplayAmount(swapEth);
+
+      if (userAddress && swapWei.gt(0)) {
+        const tokenAddress =
+          txType === 'mint' ? collateralAddress : meTokenAddress;
+        isApproved(tokenAddress, swapWei, userAddress).then(setApproved);
       }
     },
     [
       setAmount,
-      transactionType,
+      txType,
       meTokenData,
-      address,
-      amount,
-      metokenAddress,
-      collateral,
+      userAddress,
+      meTokenAddress,
+      collateralAddress,
     ],
   );
 
   const handleSetSpendAmount = useCallback(
     (spendAmount: string) => {
-      if (transactionType === 'mint') {
-        changeTransactionType();
-        handleSetAmount(spendAmount);
-      } else {
-        handleSetAmount(spendAmount);
-      }
+      setTxType('burn');
+      handleSetAmount(spendAmount);
     },
-    [transactionType, handleSetAmount, changeTransactionType],
+    [handleSetAmount],
   );
 
-  if (!collateralTokenData || !meTokenData) return <LoadingState />;
+  if (!collateralTokenData || !meTokenData) {
+    return <LoadingState />;
+  }
+
+  const datums = [collateralTokenData, meTokenData];
+  if (txType === 'burn') {
+    datums.reverse();
+  }
+  const [srcTkn, dstTkn] = datums;
 
   return (
     <Tabs align="center" size="md" variant="unstyled">
@@ -345,7 +406,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
         </Tab>
       </TabList>
       <TabPanels>
-        <TabPanel p={0}>
+        <TabPanel p={0} as="form" onSubmit={handleSubmit}>
           <Flex direction="column" justifyItems="center">
             <Box
               width={{ base: '100%', lg: 'sm' }}
@@ -353,85 +414,65 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               borderRadius="lg"
             >
               <Flex justify="space-between" align="center" pt={2} px={2}>
-                <Box>
+                <Box flexGrow={1}>
                   <Input
+                    id="swap-amount"
                     pl={2}
                     htmlSize={10}
-                    width="auto"
+                    width="100%"
                     variant="unstyled"
-                    backgroundColor={'#fffff'}
-                    color={'black'}
-                    border={'none'}
-                    value={amount}
-                    placeholder="0"
-                    type="text"
-                    onChange={(e) => handleSetAmount(e.target.value)}
-                    name="Amount"
+                    backgroundColor="#FFF"
+                    color="#000"
+                    border="none"
+                    value={displayAmount}
+                    type="number"
+                    pattern="\d+\.?\d*"
+                    step="any"
+                    min={0}
+                    autoComplete="off"
+                    onChange={({ target: { value } }) => {
+                      handleSetAmount(value);
+                    }}
                   />
-                  <Text
-                    color="gray"
-                    fontSize={'12'}
-                    textAlign={'left'}
-                    ml={2.5}
-                  >
-                    {transactionType === 'mint'
-                      ? roundNumber(collateralTokenData.balance)
-                      : roundNumber(meTokenData.balance)}
+                  <Text color="gray" fontSize={12} textAlign={'left'} ml={2.5}>
+                    {weiToEth(srcTkn.balance).toFixed(4)}
                   </Text>
                 </Box>
-                {transactionType === 'mint' ? (
-                  <Wrap align="center">
-                    <Button
-                      borderColor="black"
-                      color="black"
-                      variant="outline"
-                      textTransform="uppercase"
-                      borderRadius="full"
-                      size="sm"
-                      onClick={() =>
-                        handleSetAmount(
-                          humanizeNumber(collateralTokenData.balance),
-                        )
-                      }
-                    >
-                      Max
-                    </Button>
+                <Wrap align="center">
+                  <Button
+                    borderColor="black"
+                    color="black"
+                    variant="outline"
+                    textTransform="uppercase"
+                    borderRadius="full"
+                    size="sm"
+                    onClick={() =>
+                      handleSetAmount(weiToEth(srcTkn.balance).toFixed(8))
+                    }
+                  >
+                    Max
+                  </Button>
+                  <FormLabel
+                    htmlFor="swap-amount"
+                    display="flex"
+                    alignItems="center"
+                    gap={1}
+                  >
                     <Image
-                      src={liveCollateralData?.image}
+                      src={
+                        txType === 'mint'
+                          ? liveCollateralData?.image
+                          : profilePicture
+                      }
                       height="36px"
                       width="36px"
                       borderRadius={50}
                       mx="auto"
                       alt="profile picture"
                     />
-                    <Text color="black">{collateralTokenData.symbol}</Text>
-                  </Wrap>
-                ) : (
-                  <Wrap align="center">
-                    <Button
-                      borderColor="black"
-                      color="black"
-                      variant="outline"
-                      textTransform="uppercase"
-                      borderRadius="full"
-                      size="sm"
-                      onClick={() =>
-                        handleSetAmount(humanizeNumber(meTokenData.balance))
-                      }
-                    >
-                      Max
-                    </Button>
-                    <Image
-                      src={profilePicture}
-                      height="36px"
-                      width="36px"
-                      borderRadius={50}
-                      mx="auto"
-                      alt="profile picture"
-                    />
-                    <Text color="black">{symbol}</Text>
-                  </Wrap>
-                )}
+                    <Text color="black">{srcTkn.symbol}</Text>
+                  </FormLabel>
+                </Wrap>
               </Flex>
               <Flex
                 alignItems="center"
@@ -446,79 +487,53 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   backgroundColor="white"
                   _hover={{ bg: 'white' }}
                   colorScheme="gray"
-                  onClick={changeTransactionType}
+                  onClick={toggleTxType}
                   fontSize="20px"
                   borderRadius="full"
                   icon={<HiSwitchVertical color="black" />}
                 />
               </Flex>
               <hr />
-              <Flex justify="space-between" align="center" p="2">
+              <Flex justify="space-between" align="center" p={2}>
                 <Box>
-                  <Text color="black">{roundNumber(previewAmount)}</Text>
-                  <Text color="gray" fontSize={'12'} textAlign={'left'} ml={1}>
-                    {transactionType === 'mint'
-                      ? roundNumber(meTokenData.balance)
-                      : roundNumber(collateralTokenData.balance)}
+                  <Text color="black">
+                    {weiToEth(previewAmount).toFixed(2)}
+                  </Text>
+                  <Text color="gray" fontSize={12} textAlign="left" ml={1}>
+                    {weiToEth(dstTkn.balance).toFixed(2)}
                   </Text>
                 </Box>
-                {transactionType === 'burn' ? (
-                  <Wrap align="center">
-                    <Image
-                      src={liveCollateralData?.image}
-                      height="36px"
-                      width="36px"
-                      borderRadius={50}
-                      mx="auto"
-                      alt="profile picture"
-                    />
-                    <Text color="black">{collateralTokenData.symbol}</Text>
-                  </Wrap>
-                ) : (
-                  <Wrap align="center">
-                    <Image
-                      src={profilePicture}
-                      height="36px"
-                      width="36px"
-                      borderRadius={50}
-                      mx="auto"
-                      alt="profile picture"
-                    />
-                    <Text color="black">{symbol}</Text>
-                  </Wrap>
-                )}
+                <Wrap align="center">
+                  <Image
+                    src={
+                      txType === 'mint'
+                        ? profilePicture
+                        : liveCollateralData?.image
+                    }
+                    height="36px"
+                    width="36px"
+                    borderRadius={50}
+                    mx="auto"
+                    alt="profile picture"
+                  />
+                  <Text color="black">{dstTkn.symbol}</Text>
+                </Wrap>
               </Flex>
             </Box>
-            {chainId === '0x1' ? (
-              <MetaButton
-                mx="auto"
-                mt="1rem"
-                onClick={handleSubmit}
-                disabled={loading}
-              >
-                {approved
-                  ? `Swap
-                    ${
-                      transactionType === 'mint'
-                        ? collateralTokenData.symbol
-                        : symbol
-                    }
-                    for
-                    ${
-                      transactionType === 'mint'
-                        ? symbol
-                        : collateralTokenData.symbol
-                    }`
-                  : 'Approve Tokens'}
-              </MetaButton>
-            ) : (
+            {chainId !== '0x1' ? (
               <Wrap mx="auto" mt="1rem">
                 <SwitchNetworkButton />
               </Wrap>
+            ) : (
+              <MetaButton mx="auto" mt="1rem" type="submit" disabled={loading}>
+                {approved
+                  ? `Swap ${srcTkn.symbol} for ${dstTkn.symbol}`
+                  : 'Approve Tokens'}
+              </MetaButton>
             )}
           </Flex>
         </TabPanel>
-        <TabPanel p={0}>
+        <TabPanel p={0} as="form" onSubmit={handleSpendMeTokens}>
           <Flex direction="column" justifyItems="center">
             <Box
               width={{ base: '100%', lg: 'sm' }}
@@ -526,20 +541,22 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               borderRadius="lg"
             >
               <Flex justify="space-between" align="center" p="2">
-                <Box>
+                <Box flexGrow={1}>
                   <Input
                     htmlSize={10}
                     width="auto"
                     variant="unstyled"
-                    backgroundColor={'#fffff'}
-                    color={'black'}
-                    border={'none'}
-                    value={amount}
-                    placeholder="0"
+                    backgroundColor="#FFF"
+                    color="#000"
+                    border="none"
+                    value={displayAmount}
                     pl={2}
-                    type="text"
-                    onChange={(e) => handleSetSpendAmount(e.target.value)}
-                    name="Amount"
+                    type="number"
+                    inputMode="numeric"
+                    step="any"
+                    onChange={({ target: { value } }) =>
+                      handleSetSpendAmount(value)
+                    }
                   />
                   <Text
                     color="gray"
@@ -547,7 +564,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     textAlign={'left'}
                     ml={2.5}
                   >
-                    {roundNumber(meTokenData.balance)}
+                    {weiToEth(meTokenData.balance).toFixed(2)}
                   </Text>
                 </Box>
                 <Wrap align="center">
@@ -559,7 +576,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     borderRadius="full"
                     size="sm"
                     onClick={() =>
-                      handleSetAmount(humanizeNumber(meTokenData.balance))
+                      handleSetAmount(weiToEth(meTokenData.balance))
                     }
                   >
                     Max
@@ -576,7 +593,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 </Wrap>
               </Flex>
               <hr />
-              <Flex justify="space-between" align="center" p="2">
+              <Flex justify="space-between" align="center" p={2}>
                 <Text
                   display="flex"
                   alignItems="center"
@@ -586,16 +603,13 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   meToken Value
                   <HiOutlineInformationCircle />
                 </Text>
-                <Text color="black">$ {roundNumber(previewAmount)}</Text>
+                <Text color="black">
+                  $ {weiToEth(previewAmount).toFixed(2)}
+                </Text>
               </Flex>
             </Box>
             {chainId === '0x1' ? (
-              <MetaButton
-                mx="auto"
-                mt="1rem"
-                onClick={handleSpendMeTokens}
-                disabled={loading}
-              >
+              <MetaButton mx="auto" mt="1rem" type="submit" disabled={loading}>
                 {approved ? 'Spend meToken' : 'Approve Token'}
               </MetaButton>
             ) : (
@@ -613,28 +627,35 @@ const MeTokenSwap: React.FC<SwapProps> = ({
 const MeTokenBlock: React.FC<BlockProps> = ({
   symbol,
   profilePicture,
-  address,
+  tokenAddress,
+  owner,
 }) => (
-  <Flex
-    p={2}
-    width="100%"
-    flexDirection={{ base: 'column', lg: 'row' }}
-    alignItems="center"
-    gap={2}
+  <a
+    href={`https://metokens.com/profile/${owner}`}
+    target="_blank"
+    rel="noreferrer"
   >
-    <Image
-      src={profilePicture}
-      height="50px"
-      width="50px"
-      borderRadius={50}
-      mx="auto"
-      alt="profile picture"
-    />
-    <Box width="sm" textAlign={{ base: 'center', lg: 'left' }}>
-      <Text>{symbol}</Text>
-      <Text fontSize="sm">{address}</Text>
-    </Box>
-  </Flex>
+    <Flex
+      p={2}
+      width="100%"
+      flexDirection={{ base: 'column', lg: 'row' }}
+      alignItems="center"
+      gap={2}
+    >
+      <Image
+        src={profilePicture}
+        height="50px"
+        width="50px"
+        borderRadius={50}
+        mx="auto"
+        alt="profile picture"
+      />
+      <Box width="sm" textAlign={{ base: 'center', lg: 'left' }}>
+        <Text>{symbol}</Text>
+        <Text fontSize="sm">{tokenAddress}</Text>
+      </Box>
+    </Flex>
+  </a>
 );
 
 export const PlayerMeTokens: React.FC<Props> = ({
@@ -642,73 +663,57 @@ export const PlayerMeTokens: React.FC<Props> = ({
   isOwnProfile,
   editing,
 }) => {
-  const [meTokenAddress, setMeTokenAddress] = useState<string>('');
+  const [meTokenAddress, setMeTokenAddress] = useState<Maybe<string>>(null);
   const [meTokenData, setMeTokenData] = useState<TokenData>();
   const { provider } = useWeb3();
 
   useEffect(() => {
     if (!player) return;
-    const getTokenByOwner = async () => {
-      await getMeTokenFor(player?.ethereumAddress).then((r) => {
-        setMeTokenAddress(r === nullMeToken ? 'Create meToken' : r);
-      });
-    };
 
-    getTokenByOwner();
+    getMeTokenFor(player?.ethereumAddress).then((r) => {
+      setMeTokenAddress(r === nullToken ? null : r);
+    });
   }, [player]);
 
   useEffect(() => {
-    if (
-      !meTokenAddress ||
-      meTokenAddress === 'Create meToken' ||
-      !player.ethereumAddress
-    )
+    if (!meTokenAddress || meTokenAddress === null || !player.ethereumAddress) {
       return;
-    const getInfoByToken = async () => {
-      await getMeTokenInfo(meTokenAddress, player?.ethereumAddress).then((r) =>
-        setMeTokenData(r),
-      );
-    };
-
-    getInfoByToken();
+    }
+    getMeTokenInfo(meTokenAddress, player.ethereumAddress).then(setMeTokenData);
   }, [meTokenAddress, player?.ethereumAddress]);
 
   return (
     <ProfileSection title="MeToken" {...{ isOwnProfile, editing }}>
       <Wrap mb={4} justify="center">
-        {meTokenAddress === 'Create meToken' ? (
-          <>
-            <a
-              href="https://metokens.com/create-token"
-              target="_blank"
-              rel={'noreferrer'}
-            >
-              <MetaButton mx="auto" mt="1rem">
-                <Text>Create a me token</Text>
-              </MetaButton>
-            </a>
-          </>
+        {/* eslint-disable-next-line no-nested-ternary */}
+        {meTokenAddress === null ? (
+          <a
+            href="https://metokens.com/create-token"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <MetaButton mx="auto" mt="1rem">
+              <Text>Create a meToken</Text>
+            </MetaButton>
+          </a>
+        ) : !meTokenData || !player || !provider ? (
+          <LoadingState />
         ) : (
           <>
-            {meTokenData && player && provider ? (
-              <>
-                <MeTokenBlock
-                  profilePicture={meTokenData?.profilePicture || ''}
-                  address={meTokenData?.tokenAddress || ''}
-                  symbol={meTokenData?.symbol || ''}
-                />
-                <MeTokenSwap
-                  profilePicture={meTokenData?.profilePicture || ''}
-                  metokenAddress={meTokenData?.tokenAddress || ''}
-                  symbol={meTokenData?.symbol || ''}
-                  collateral={meTokenData?.collateral || ''}
-                  owner={player.ethereumAddress}
-                  provider={provider}
-                />
-              </>
-            ) : (
-              <LoadingState />
-            )}
+            <MeTokenBlock
+              profilePicture={meTokenData.profilePicture}
+              tokenAddress={meTokenData.tokenAddress}
+              symbol={meTokenData.symbol}
+              owner={player.ethereumAddress}
+            />
+            <MeTokenSwap
+              profilePicture={meTokenData.profilePicture}
+              meTokenAddress={meTokenData.tokenAddress}
+              symbol={meTokenData.symbol}
+              collateralAddress={meTokenData.collateralAddress}
+              owner={player.ethereumAddress}
+              {...{ provider }}
+            />
           </>
         )}
       </Wrap>

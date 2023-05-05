@@ -1,223 +1,212 @@
+import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers';
 import { Orbis } from '@orbisclub/orbis-sdk';
 import { COINGECKO_API_URL, TOKEN_QUERY } from 'components/Dashboard/Seed';
 import { CONFIG } from 'config';
-import erc20Abi from 'contracts/erc20.abi';
-import FoundryFacetAbi from 'contracts/FoundryFacet.abi';
-import HubFacetAbi from 'contracts/HubFacet.abi';
+import erc20ABI from 'contracts/erc20.abi';
+import FoundryFacetABI from 'contracts/FoundryFacet.abi';
+import HubFacetABI from 'contracts/HubFacet.abi';
 import MeTokensRegistryABI from 'contracts/meTokensRegistry.abi';
-import type { Signer } from 'ethers';
-import { BigNumber, Contract, ethers } from 'ethers';
+import {
+  BigNumber,
+  type BigNumberish,
+  Contract,
+  ethers,
+  type Signer,
+  Transaction,
+} from 'ethers';
 
-export const metokenRegistry = '0x8b91FcF2230ab04A46e2D83aaF062EC1B5AAAa5c';
-export const metokenFactory = '0x8D4ee3599aF814bF3Aa884c161f0dE81d9e97225';
+export const meTokenRegistry = '0x8b91FcF2230ab04A46e2D83aaF062EC1B5AAAa5c';
+export const meTokenFactory = '0x8D4ee3599aF814bF3Aa884c161f0dE81d9e97225';
 export const hubFacet = '0x4555cf6E984186F6C0dfeba1A26764b21553B39f';
 export const foundryFacet = '0xA56AAF637b057a5EDf7b7252D0B7280042E71335';
-export const metokenDiamond = '0x0B4ec400e8D10218D0869a5b0036eA4BCf92d905';
-export const nullMeToken = '0x0000000000000000000000000000000000000000';
-// Collateral token
-export const DAIADDRESS = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
+export const meTokenDiamond = '0x0B4ec400e8D10218D0869a5b0036eA4BCf92d905';
+export const nullToken = `0x${'0'.repeat(40)}`;
+export const daiAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
 
 export const getCollateralData = async (collateralTokenAddress: string) => {
   let id;
   // Metokens will have multiple options for collateral
   // When a new token can be used as collateral add a case to match token with ID for query.
   switch (collateralTokenAddress) {
-    case DAIADDRESS:
+    case daiAddress:
       id = 'dai';
       break;
     default:
-      id = 'dai';
+      throw new Error('Only DAI is supported as collateral currently.');
   }
-  const tokenResponse = await fetch(`${COINGECKO_API_URL}${id}${TOKEN_QUERY}`);
-  const tokenJson = await tokenResponse.json();
+
+  const tokenURL = `${COINGECKO_API_URL}${id}${TOKEN_QUERY}`;
+  const tokenResponse = await fetch(tokenURL);
+  const tokenInfo = await tokenResponse.json();
   return {
-    image: tokenJson.image.small,
-    currentPrice: tokenJson.market_data.current_price.usd,
+    image: tokenInfo.image.small,
+    currentPrice: tokenInfo.market_data.current_price.usd,
   };
 };
 
 const { mainnetRPC } = CONFIG;
 
-// Use mainnet provider for reads, to ensure anyone can view the profile regardless of Netork.
+// Use mainnet provider for reads, to ensure anyone can view the profile regardless of Network.
 const mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetRPC);
 
-// Keeping it clean
-function getContractWithSigner(
+export const getContractWithSigner = (
   contractAddress: string,
-  abi: any,
+  abi: ethers.ContractInterface,
   signer: Signer,
-) {
+) => {
   const contract = new ethers.Contract(contractAddress, abi, signer);
-  const contractWithSigner = contract.connect(signer);
-  return contractWithSigner;
-}
+  return contract.connect(signer);
+};
 
-// Read
 export const getMeTokenFor = async (ownerAddress: string) => {
-  if (!ownerAddress) return '';
+  if (!ownerAddress) throw new Error('Owner required for `getMeTokenFor`.');
+
   const registry = getContractWithSigner(
-    metokenDiamond,
+    meTokenDiamond,
     MeTokensRegistryABI,
     mainnetProvider.getSigner(ownerAddress),
   );
-  const meTokenAddress = await registry.getOwnerMeToken(ownerAddress);
-
-  return meTokenAddress;
+  return registry.getOwnerMeToken(ownerAddress);
 };
 
-export const getErc20TokenData = async (
-  tokenAddress: string,
-  owner: string,
-) => {
-  if (!owner) return '';
+export const getERC20TokenData = async (address: string, owner: string) => {
+  if (!address) throw new Error('`address` required for `getERC20TokenData`.');
+  if (!owner) throw new Error('`owner` required for `getERC20TokenData`.');
+
   const erc20 = getContractWithSigner(
-    tokenAddress,
-    erc20Abi,
+    address,
+    erc20ABI,
     mainnetProvider.getSigner(owner),
   );
 
-  const tokenData = {
-    symbol: (await erc20.symbol()) || '',
-    name: (await erc20.name()) || '',
-    balance: (await erc20.balanceOf(owner)) || '',
-  };
+  const [symbol, name, balance] = await Promise.all([
+    erc20.symbol(),
+    erc20.name(),
+    erc20.balanceOf(owner),
+  ]);
 
-  return { ...tokenData };
+  return { symbol, name, balance, address };
 };
 
 export const getMeTokenInfo = async (tokenAddress: string, owner: string) => {
-  if (!tokenAddress) return undefined;
+  if (!tokenAddress)
+    throw new Error('Token address required for `getMeTokenInfo`.');
+
   const orbis = new Orbis();
-  const {
-    data: [did],
-  } = await orbis.getDids(owner);
+  const { data: dids } = await orbis.getDids(owner);
   const signer = mainnetProvider.getSigner(owner);
 
-  const erc20 = getContractWithSigner(tokenAddress, erc20Abi, signer);
+  const erc20 = getContractWithSigner(tokenAddress, erc20ABI, signer);
   const registry = getContractWithSigner(
-    metokenDiamond,
+    meTokenDiamond,
     MeTokensRegistryABI,
     signer,
   );
-  const hub = getContractWithSigner(metokenDiamond, HubFacetAbi, signer);
+  const hub = getContractWithSigner(meTokenDiamond, HubFacetABI, signer);
   const tokenInfo = await registry.getMeTokenInfo(tokenAddress);
 
-  const tokenData = {
+  return {
     symbol: `$${await erc20.symbol()}`,
-    profilePicture: did?.details.profile?.pfp || 'https://tinyurl.com/mr29vhmk',
+    profilePicture:
+      dids?.[0]?.details.profile?.pfp || 'https://tinyurl.com/mr29vhmk',
     tokenAddress,
-    collateral: await hub
+    collateralAddress: await hub
       .getBasicHubInfo(tokenInfo?.hubId)
-      .then((res: { asset: string }) => res.asset),
+      .then(({ asset }: { asset: string }) => asset),
   };
-
-  return { ...tokenData };
 };
 
 export const preview = async (
-  meTokenAddress: string, // addr meToken
-  amount: BigNumber, // eg, 10e18 (CBOB)
+  meTokenAddress: string,
+  amount: BigNumber,
   senderAddress: string,
   type: string,
 ) => {
   if (!amount || !meTokenAddress) return BigNumber.from(0);
+
   const meTokenFoundry = await new Contract(
-    metokenDiamond,
-    FoundryFacetAbi,
+    meTokenDiamond,
+    FoundryFacetABI,
     mainnetProvider.getSigner(senderAddress),
   );
   if (type === 'mint') {
-    const tx = await meTokenFoundry.calculateMeTokensMinted(
-      meTokenAddress,
-      amount,
-    );
-    return tx;
+    return meTokenFoundry.calculateMeTokensMinted(meTokenAddress, amount);
   }
   if (type === 'burn') {
-    const tx = await meTokenFoundry.calculateAssetsReturned(
+    return meTokenFoundry.calculateAssetsReturned(
       meTokenAddress,
       amount,
       senderAddress,
     );
-    return tx;
   }
   return BigNumber.from(0);
 };
 
-export const checkMeTokenApproval = async (
+export const isApproved = async (
   tokenAddress: string,
-  amount: string,
+  amount: BigNumberish,
   owner: string,
 ) => {
   const erc20 = await new Contract(
     tokenAddress,
-    erc20Abi,
+    erc20ABI,
     mainnetProvider.getSigner(owner),
   );
   const approvalAmount = await erc20.allowance(owner, foundryFacet);
-  return ethers.utils.formatEther(approvalAmount) > amount;
+  return approvalAmount.gt(amount);
 };
 
-// Write
-export const approveMeTokens = async (
+export const approveTokens = async (
   tokenAddress: string,
   amount: BigNumber,
-  provider: any,
-) => {
+  provider: JsonRpcProvider,
+): Promise<TransactionResponse> => {
   const erc20 = await new Contract(
     tokenAddress,
-    erc20Abi,
+    erc20ABI,
     provider.getSigner(),
   );
-  const approve = await erc20.approve(foundryFacet, amount);
-  return approve;
+  return erc20.approve(foundryFacet, amount);
 };
 
-// Spend meToken with issuer
-export const spendMeTokens = async (
+export const spendTokens = async (
   tokenAddress: string,
   amount: BigNumber,
   owner: string,
-  provider: any,
-) => {
+  provider: JsonRpcProvider,
+): Promise<TransactionResponse> => {
   const erc20 = await new Contract(
     tokenAddress,
-    erc20Abi,
+    erc20ABI,
     provider.getSigner(),
   );
-
-  const transferTx = await erc20.transfer(owner, amount);
-  return transferTx;
+  return erc20.transfer(owner, amount);
 };
 
-export const mint = async (
+export const mint = (
   meToken: string,
   amount: BigNumber,
   recipient: string,
-  provider: any,
-) => {
-  const meTokenFoundry = await new Contract(
-    metokenDiamond,
-    FoundryFacetAbi,
+  provider: JsonRpcProvider,
+): Promise<TransactionResponse> => {
+  const meTokenFoundry = new Contract(
+    meTokenDiamond,
+    FoundryFacetABI,
     provider.getSigner(),
   );
-
-  const mintTx = await meTokenFoundry.mint(meToken, amount, recipient);
-  return mintTx;
+  return meTokenFoundry.mint(meToken, amount, recipient);
 };
 
-export const burn = async (
+export const burn = (
   meToken: string,
   amount: BigNumber,
-  recipient: string,
-  provider: any,
-) => {
-  const meTokenFoundry = await new Contract(
-    metokenDiamond,
-    FoundryFacetAbi,
+  sender: string,
+  provider: JsonRpcProvider,
+): Promise<TransactionResponse> => {
+  const meTokenFoundry = new Contract(
+    meTokenDiamond,
+    FoundryFacetABI,
     provider.getSigner(),
   );
-
-  const mintTx = await meTokenFoundry.burn(meToken, amount, recipient);
-  return mintTx;
+  return meTokenFoundry.burn(meToken, amount, sender);
 };
