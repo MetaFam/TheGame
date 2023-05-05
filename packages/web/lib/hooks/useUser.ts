@@ -4,7 +4,7 @@ import { Player, useGetMeQuery } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks/useWeb3';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
-import { CombinedError, RequestPolicy } from 'urql';
+import { RequestPolicy } from 'urql';
 
 type UseUserOpts = {
   redirectTo?: string;
@@ -31,8 +31,6 @@ export const useUser = ({
   });
   const [me] = data?.me ?? [];
 
-  console.debug({ 'useUser me': me });
-
   const user = useMemo(
     () =>
       !error && !fetching && authToken && me && connected
@@ -40,7 +38,6 @@ export const useUser = ({
         : null,
     [error, authToken, me, connected, fetching],
   );
-  console.debug({ 'useUser user': user });
 
   useEffect(() => {
     if (!redirectTo || fetching || connecting) return;
@@ -51,12 +48,10 @@ export const useUser = ({
       router.push(redirectTo);
     }
   }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
-  console.debug('useUser post effect');
 
   if (!authToken && connected) {
-    console.warn('`authToken` unset when connected');
+    console.warn('`authToken` unset when connected.');
   }
-  console.debug('useUser returning');
 
   return {
     connecting,
