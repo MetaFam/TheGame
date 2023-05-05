@@ -25,7 +25,7 @@ const GuildsPage: React.FC<Props> = ({ guilds }) => (
     <HeadComponent
       title="MetaGame Guilds"
       description="MetaGame is a Massive Online Coordination Game! Guilds participating in MetaGame…"
-      url="https://my.metagame.wtf/guilds"
+      url="https://metagame.wtf/guilds"
     />
 
     {/* VStack is used to make a consistent gap between the Join CTA and the Guilds list */}

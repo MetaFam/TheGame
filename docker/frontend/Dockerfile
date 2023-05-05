@@ -12,15 +12,14 @@ WORKDIR /usr/src/app
 RUN apt-get update && apt-get install -y --no-install-recommends g++ make python git ca-certificates
 
 # Install dependencies for dev and prod
-COPY package.json .
-COPY lerna.json .
-COPY yarn.lock .
-COPY schema.graphql .
-COPY tsconfig.base.json .
-COPY tsconfig.json .
-COPY .eslintrc.cjs .
+COPY package.json ./
+COPY lerna.json ./
+COPY yarn.lock ./
+COPY schema.graphql ./
+COPY tsconfig.*json ./
+COPY .eslintrc.cjs ./
 COPY packages/web/*.json ./packages/web/
-COPY packages/web/codegen.yml ./packages/web/
+COPY packages/web/codegen.ts ./packages/web/
 COPY packages/web/graphql ./packages/web/graphql/
 COPY packages/utils/*.json ./packages/utils/
 COPY packages/design-system/*.json ./packages/design-system/
