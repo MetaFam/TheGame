@@ -374,7 +374,7 @@ jobs:
           context: hasura
           tags: ${{needs.env.outputs.HASURA_TAG}}
           build-args: |
-            BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}} \
+            BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}}
             BACKEND_PROTOCOL=https
           push: true
 
