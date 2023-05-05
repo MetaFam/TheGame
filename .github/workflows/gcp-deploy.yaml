@@ -455,22 +455,12 @@ jobs:
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        uses: mattes/cached-docker-build-action@v1
-        with:
-          args: |
-            . -f docker/frontend/Dockerfile \
-              --tag ${{needs.env.outputs.FRONTEND_TAG}} \
-              --build-arg APP_ENV=${{needs.env.outputs.APP_ENV}} \
-              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-              --build-arg NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
-              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
-              --build-arg TARGET=${{needs.env.outputs.FRONTEND_TARGET}}
-          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -479,8 +469,18 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        run: docker push ${{needs.env.outputs.FRONTEND_TAG}}
+      - name: "Build & Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
+        uses: docker/build-push-action@v4
+        with:
+          file: docker/frontend/Dockerfile
+          tags: ${{needs.env.outputs.FRONTEND_TAG}}
+          build-args: |
+            APP_ENV=${{needs.env.outputs.APP_ENV}}
+            GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
+            NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
+            NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
+            TARGET=${{needs.env.outputs.FRONTEND_TARGET}}
+          push: true
 
   deploy-frontend:
     name: Deploy Frontend
