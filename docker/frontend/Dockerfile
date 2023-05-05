@@ -38,7 +38,9 @@ COPY packages/@types/ packages/@types/
 # Build
 FROM build AS build-production
 ARG APP_ENV=production
+ARG NEXT_PUBLIC_APP_ENV=$APP_ENV
 ARG GRAPHQL_URL=https://api.metagame.wtf/v1/graphql
+ARG NEXT_PUBLIC_GRAPHQL_URL=$GRAPHQL_URL
 ARG NEXT_PUBLIC_FRONTEND_URL
 ARG NEXT_PUBLIC_YOUTUBE_API_KEY
 ARG NEXT_PUBLIC_GA4_ID

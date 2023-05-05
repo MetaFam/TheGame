@@ -26,11 +26,9 @@ export const CONFIG = {
     process.env.NEXT_PUBLIC_CERAMIC_NETWORK || 'mainnet' || 'testnet-clay',
   calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
   googleDataAPIKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
-  web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
-  openseaAPIKey: process.env.OPENSEA_API_KEY || '',
-  alchemyRPCUrl: process.env.NEXT_ALCHEMY_ENDPOINT || '',
-  alchemyAPIKey:
-    process.env.NEXT_ALCHEMY_API_KEY || 'eoEduI_LCCxfMPe9MKrpvly-qWtBBY7I',
+  web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
+  openseaAPIKey: process.env.OPENSEA_API_KEY,
+  alchemyAPIKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
   hostName: 'https://metagame.wtf',
   mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
 };
