@@ -490,12 +490,15 @@ jobs:
     needs: [env, build-frontend]
 
     steps:
-      - name: Set Up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0.6.0
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1.1.0
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
+
+      - name: Set Up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1.1.0
 
       - name: "Deploy Container Image: ${{needs.env.outputs.FRONTEND_SERVICE}}"
         run: |
