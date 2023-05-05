@@ -10,7 +10,8 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const guilds = await getGuilds();
-
+  // eslint-disable-next-line no-console
+  console.debug({ guilds });
   return {
     props: {
       guilds,
