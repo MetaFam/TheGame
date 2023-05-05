@@ -248,19 +248,12 @@ jobs:
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
-        uses: mattes/cached-docker-build-action@v1
-        with:
-          args: |
-            . -f docker/backend/Dockerfile \
-              --tag ${{needs.env.outputs.BACKEND_TAG}} \
-              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-              --build-arg THE_GRAPH_API_TOKEN=${{secrets.THE_GRAPH_API_TOKEN}}
-          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/backend/**', 'packages/utils/**', 'package.json')}}"
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -269,8 +262,15 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
-        run: docker push ${{needs.env.outputs.BACKEND_TAG}}
+      - name: "Build & Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
+        uses: docker/build-push-action@v4
+        with:
+          file: docker/backend/Dockerfile
+          tags: ${{needs.env.outputs.BACKEND_TAG}}
+          build-args: |
+            GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
+            THE_GRAPH_API_TOKEN=${{secrets.THE_GRAPH_API_TOKEN}}
+          push: true
 
   deploy-backend:
     name: Deploy Backend
@@ -353,19 +353,12 @@ jobs:
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container Image: ${{needs.env.outputs.HASURA_TAG}}"
-        uses: mattes/cached-docker-build-action@v1
-        with:
-          args: |
-            ./hasura -f hasura/Dockerfile \
-              --tag ${{needs.env.outputs.HASURA_TAG}} \
-              --build-arg BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}} \
-              --build-arg BACKEND_PROTOCOL=https
-          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('hasura/**', 'package.json')}}"
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -374,8 +367,17 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
-        run: docker push ${{needs.env.outputs.HASURA_TAG}}
+      - name: "Build & Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
+        uses: docker/build-push-action@v4
+        with:
+          file: hasura/Dockerfile
+          context: hasura
+          tags: ${{needs.env.outputs.HASURA_TAG}}
+          build-args: |
+            BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}} \
+            BACKEND_PROTOCOL=https
+          push: true
+
 
   deploy-hasura:
     name: Deploy Hasura
@@ -459,7 +461,7 @@ jobs:
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: Set up Docker Buildx
+      - name: Set Up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
