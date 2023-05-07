@@ -13,6 +13,7 @@ import { Constants } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
+import { questListDescriptionCss } from 'components/Quest/QuestListDescriptionCss';
 import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
 import { getQuests } from 'graphql/getQuests';
@@ -59,7 +60,7 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
   );
 
   return (
-    <PageContainer>
+    <PageContainer sx={questListDescriptionCss}>
       <HeadComponent
         title="MetaGame Quests"
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
