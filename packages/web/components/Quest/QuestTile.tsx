@@ -14,6 +14,7 @@ import {
 } from '@metafam/ds';
 import { httpLink, isSGML } from '@metafam/utils';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
+import { QuestTileImage } from 'components/Quest/QuestTileImage';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
 import { SquareImage } from 'components/SquareImage';
@@ -44,9 +45,8 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
       <MetaTileHeader>
         <LinkBox>
           <LinkOverlay href={`/quest/${quest.id}`}>
-            <SquareImage
+            <QuestTileImage
               src={httpLink(quest.image) ?? DefaultQuestImage.src}
-              size="xl"
             />
             <Box px={5} w="full" pos="absolute" bottom={-6} zIndex={1}>
               <Heading
