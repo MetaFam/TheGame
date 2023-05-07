@@ -17,7 +17,6 @@ import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { QuestTileImage } from 'components/Quest/QuestTileImage';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
-import { SquareImage } from 'components/SquareImage';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React, { PropsWithChildren } from 'react';
