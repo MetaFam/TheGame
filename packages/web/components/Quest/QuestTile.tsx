@@ -13,12 +13,12 @@ import {
   VStack,
 } from '@metafam/ds';
 import { httpLink, isSGML } from '@metafam/utils';
-import BackgroundImage from 'assets/quests/quest.webp';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
 import { SquareImage } from 'components/SquareImage';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
+import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React, { PropsWithChildren } from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
@@ -45,7 +45,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
         <LinkBox>
           <LinkOverlay href={`/quest/${quest.id}`}>
             <SquareImage
-              src={httpLink(quest.image) ?? BackgroundImage.src}
+              src={httpLink(quest.image) ?? DefaultQuestImage.src}
               size="xl"
             />
             <Box px={5} w="full" pos="absolute" bottom={-6} zIndex={1}>

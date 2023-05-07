@@ -9,7 +9,6 @@ import {
   MetaButton,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
-import DefaultQuestImage from 'assets/quests/quest.webp';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { questArticleCss } from 'components/Quest/QuestArticleCss';
@@ -34,6 +33,7 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import { useRouter } from 'next/router';
+import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React, { useMemo } from 'react';
 import { canCompleteQuest } from 'utils/questHelpers';
 
