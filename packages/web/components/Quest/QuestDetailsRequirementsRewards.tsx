@@ -34,7 +34,7 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
   >
     <VStack
       bgColor="whiteAlpha.100"
-      borderRadius={3}
+      borderRadius={10}
       p={6}
       spacing={6}
       align="left"
@@ -97,7 +97,7 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
 
     <VStack
       bgColor="whiteAlpha.100"
-      borderRadius={3}
+      borderRadius={10}
       p={6}
       spacing={6}
       align="left"
