@@ -86,11 +86,13 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             <VStack align="left" spacing={1}>
               <TileHeading>Description</TileHeading>
               <Box fontSize="md" noOfLines={4} mt={0}>
-                {descIsHtml ? (
-                  <Prose>{parsedDescription}</Prose>
-                ) : (
-                  <Markdown>{description}</Markdown>
-                )}
+                <Box className="mg-quest-tile-description">
+                  {descIsHtml ? (
+                    <Prose>{parsedDescription}</Prose>
+                  ) : (
+                    <Markdown>{description}</Markdown>
+                  )}
+                </Box>
               </Box>
             </VStack>
 
