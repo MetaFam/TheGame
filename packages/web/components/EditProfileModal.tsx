@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   Grid,
   GridItem,
   InfoIcon,
@@ -41,7 +42,6 @@ import {
   Player,
   useInsertCacheInvalidationMutation,
 } from 'graphql/autogen/types';
-import { getPlayer } from 'graphql/getPlayer';
 import { PlayerProfile } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
@@ -61,7 +61,6 @@ import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
 import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
-import MeetWithWalletProfileEdition from './Player/MeetWithWalletProfileEdition';
 import { EditAvatarImage } from './Player/Profile/EditAvatarImage';
 import { EditBackgroundImage } from './Player/Profile/EditBackgroundImage';
 import { EditDescription } from './Player/Profile/EditDescription';
@@ -124,6 +123,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const {
     handleSubmit,
     register,
+    watch,
     setValue,
     control,
     reset,
@@ -146,6 +146,14 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   }, [initialFormValues, reset]);
 
   useEffect(resetData, [resetData]);
+
+  const MAX_NAME_LEN = 150; // characters
+
+  const displayName = watch('name');
+  const nameRemaining = useMemo(
+    () => MAX_NAME_LEN - (displayName?.length ?? 0),
+    [displayName],
+  );
 
   const imageFieldRefs = Object.fromEntries(
     hasuraImageFields.map((key) => [key, createRef<HTMLImageElement>()]),
@@ -286,14 +294,11 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     <Modal {...{ isOpen, onClose }}>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-        <ModalHeader>Profile</ModalHeader>
+        <ModalHeader>Edit Profile</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormProvider {...formMethods}>
-            <Grid
-              templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
-              gap={6}
-            >
+            <Grid templateColumns={['1fr']} gap={6} p={8}>
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditAvatarImage
                   ref={imageFieldRefs.profileImageURL}
@@ -307,34 +312,14 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   }}
                 />
               </GridItem>
-              <GridItem flex={1} alignItems="center" h="10em">
-                <EditBackgroundImage
-                  player={player}
-                  ref={imageFieldRefs.profileBackgroundURL}
-                  initialURL={initialFormValues.backgroundImageURL}
-                  onFilePicked={({ file, dataURL }) => {
-                    setPickedFiles({
-                      ...pickedFiles,
-                      backgroundImageURL: file,
-                    });
-                    setPickedFileDataURLs({
-                      ...pickedFileDataURLs,
-                      backgroundImageURL: dataURL,
-                    });
-                  }}
-                />
-              </GridItem>
-              <GridItem flex={1}>
-                <EditDescription />
-              </GridItem>
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.name}>
-                  <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
-                    <Label htmlFor="name" userSelect="none">
-                      Display Name
-                      <InfoIcon ml={2} />
-                    </Label>
-                  </Tooltip>
+                  <Label htmlFor="name" userSelect="none">
+                    Display Name
+                  </Label>
+                  <FormHelperText pb={3} color="white">
+                    Arbitrary letters, spaces, & punctuation.
+                  </FormHelperText>
                   <Input
                     w="100%"
                     placeholder="Imma User"
@@ -345,6 +330,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                       },
                     })}
                   />
+                  <FormHelperText color="white">
+                    {nameRemaining} characters left.
+                  </FormHelperText>
                   <Box minH="3em">
                     <FormErrorMessage>
                       {errors.name?.message?.toString()}
@@ -352,7 +340,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              <GridItem flex={1} alignItems="center">
+              <GridItem flex={1}>
+                <EditDescription />
+              </GridItem>
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.username}>
                   <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
                     <Label htmlFor="username" userSelect="none">
@@ -398,37 +389,13 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
-              <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.timeZone}>
-                  <Label htmlFor="name">Time Zone</Label>
-                  <Controller
-                    {...{ control }}
-                    name="timeZone"
-                    defaultValue={
-                      Intl.DateTimeFormat().resolvedOptions().timeZone
-                    }
-                    render={({ field: { onChange, value, ref, ...props } }) => (
-                      <SelectTimeZone
-                        labelStyle="abbrev"
-                        onChange={(tz: ITimezoneOption) => {
-                          onChange(tz.value);
-                        }}
-                        value={value ?? undefined}
-                        {...props}
-                      />
-                    )}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.timeZone?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem>
+              </GridItem> */}
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.availableHours}>
                   <Label htmlFor="availableHours">Availability</Label>
+                  <FormHelperText pb={3} color="white">
+                    Maximum amount of time you can commit to MetaGame.
+                  </FormHelperText>
                   <InputGroup w="100%">
                     <InputLeftElement>
                       <Text as="span" role="img" aria-label="clock">
@@ -471,6 +438,36 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 </FormControl>
               </GridItem>
               <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.timeZone}>
+                  <Label htmlFor="name">Time Zone</Label>
+                  <FormHelperText pb={3} color="white">
+                    Maximum amount of time you can commit to MetaGame.
+                  </FormHelperText>
+                  <Controller
+                    {...{ control }}
+                    name="timeZone"
+                    defaultValue={
+                      Intl.DateTimeFormat().resolvedOptions().timeZone
+                    }
+                    render={({ field: { onChange, value, ref, ...props } }) => (
+                      <SelectTimeZone
+                        labelStyle="abbrev"
+                        onChange={(tz: ITimezoneOption) => {
+                          onChange(tz.value);
+                        }}
+                        value={value ?? undefined}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Box minH="3em">
+                    <FormErrorMessage>
+                      {errors.timeZone?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem>
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.pronouns}>
                   <Label htmlFor="pronouns">Pronouns</Label>
                   <Input
@@ -490,7 +487,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
+              </GridItem> */}
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.website}>
                   <Label htmlFor="name">Website</Label>
@@ -516,7 +513,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              <GridItem flex={1} alignItems="center">
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.location}>
                   <Label htmlFor="location">Location</Label>
                   <Input
@@ -536,8 +533,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
-              <GridItem flex={1} alignItems="center">
+              </GridItem> */}
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.emoji}>
                   <Label htmlFor="emoji">Spirit Emoji</Label>
                   <Input
@@ -559,8 +556,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
-              <GridItem gridColumn={'1/-1'} alignItems="center">
+              </GridItem> */}
+              {/* <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
                   <Label>Meeting calendar</Label>
                   <MeetWithWalletProfileEdition
@@ -568,6 +565,23 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     player={player}
                   />
                 </FormControl>
+              </GridItem> */}
+              <GridItem flex={1} alignItems="center" h="10em">
+                <EditBackgroundImage
+                  player={player}
+                  ref={imageFieldRefs.profileBackgroundURL}
+                  initialURL={initialFormValues.backgroundImageURL}
+                  onFilePicked={({ file, dataURL }) => {
+                    setPickedFiles({
+                      ...pickedFiles,
+                      backgroundImageURL: file,
+                    });
+                    setPickedFileDataURLs({
+                      ...pickedFileDataURLs,
+                      backgroundImageURL: dataURL,
+                    });
+                  }}
+                />
               </GridItem>
             </Grid>
           </FormProvider>
@@ -577,7 +591,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             <WrapItem>
               <StatusedSubmitButton
                 isDisabled={isEmpty(dirtyFields)}
-                label="Save Changes"
+                label="Save"
                 {...{ status }}
               />
             </WrapItem>
@@ -593,7 +607,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 _active={{ bg: '#FF000011' }}
                 disabled={!!status}
               >
-                Close
+                Cancel
               </Button>
             </WrapItem>
           </Wrap>

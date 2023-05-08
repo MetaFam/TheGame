@@ -1,23 +1,21 @@
 import {
   Box,
+  Button,
   Center,
   FormControl,
   FormErrorMessage,
   Image,
-  InfoIcon,
   Input,
   Spinner,
-  Tooltip,
+  Text,
   useToast,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
-import { ChangeEvent, forwardRef, useCallback, useState } from 'react';
+import { forwardRef, useCallback, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
-
-import { Label } from './Label';
 
 export type EditAvatarImageProps = {
   initialURL?: Maybe<string>;
@@ -71,12 +69,12 @@ export const EditAvatarImage = forwardRef<
 
   return (
     <FormControl isInvalid={!!errors.profileImageURL}>
-      <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
+      {/* <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
         <Label htmlFor="profileImageURL" userSelect="none">
           Profile Image
           <InfoIcon ml={2} />
         </Label>
-      </Tooltip>
+      </Tooltip> */}
       <Center
         w="full"
         position="relative"
@@ -113,26 +111,78 @@ export const EditAvatarImage = forwardRef<
           name="profileImageURL"
           defaultValue={[]}
           render={({ field: { onChange, value, ...props } }) => (
-            <Input
-              {...props}
-              type="file"
-              value={value?.filename ?? ''}
-              onChange={async (evt: ChangeEvent<HTMLInputElement>) => {
-                onChange(evt.target.files);
-                onFileChange(evt);
-              }}
-              minW="100% !important"
-              minH="100%"
-              accept="image/*"
-              position="absolute"
-              top={0}
-              bottom={0}
-              left={0}
-              right={0}
-              opacity={0}
-              onFocus={() => setActive(true)}
-              onBlur={() => setActive(false)}
-            />
+            // <Input
+            //   {...props}
+            //   colorScheme="blue"
+            //   px={8}
+            //   letterSpacing="0.1em"
+            //   size="md"
+            //   fontSize="sm"
+            //   mt={{ base: 2, md: 6 }}
+            //   color="white"
+            //   rounded="md"
+            //   _hover={{ bg: 'blue.600' }}
+            //   _active={{ bg: 'blue.700' }}
+            //   type="file"
+            //   value={value?.filename ?? ''}
+            //   onChange={async (evt: ChangeEvent<HTMLInputElement>) => {
+            //     onChange(evt.target.files);
+            //     onFileChange(evt);
+            //   }}
+            //   accept="image/*"
+            //   onFocus={() => setActive(true)}
+            //   onBlur={() => setActive(false)}
+            // />
+            <>
+              <Button
+                as="label"
+                htmlFor="upload-image"
+                colorScheme="blue"
+                bg="blue.600"
+                py={4}
+                px={8}
+                letterSpacing="0.1em"
+                size="md"
+                fontSize="sm"
+                ml={3}
+                color="white"
+                rounded="md"
+                _hover={{ bg: 'blue.700' }}
+                _active={{ bg: 'blue.800' }}
+                cursor="pointer"
+              >
+                Upload Image
+                <Input
+                  {...props}
+                  id="upload-image"
+                  type="file"
+                  display="none"
+                  onChange={async (evt) => {
+                    onChange(evt.target.files);
+                    onFileChange(evt);
+                  }}
+                  accept="image/*"
+                />
+              </Button>
+              {/* <Text
+                as="label"
+                htmlFor="upload"
+                colorScheme="blue"
+                bg="blue.600"
+                p={4}
+                letterSpacing="0.1em"
+                size="md"
+                fontSize="sm"
+                mt={{ base: 2, md: 6 }}
+                color="white"
+                rounded="md"
+                _hover={{ bg: 'blue.700' }}
+                _active={{ bg: 'blue.800' }}
+                cursor="pointer"
+              >
+                {value?.filename ?? 'Upload Image'}
+              </Text> */}
+            </>
           )}
         />
       </Center>

@@ -1,19 +1,24 @@
 import {
+  Box,
+  Button,
   Center,
   FormControl,
   FormErrorMessage,
   Image,
-  InfoIcon,
   Input,
-  Spinner,
-  Tooltip,
   useToast,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
-import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Player } from 'graphql/autogen/types';
 import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
-import { ChangeEvent, forwardRef, useCallback, useMemo, useState } from 'react';
+import {
+  ChangeEvent,
+  DragEvent,
+  forwardRef,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
 
@@ -89,16 +94,9 @@ export const EditBackgroundImage = forwardRef<
 
   return (
     <FormControl isInvalid={!!errors.backgroundImageURL} h="full">
-      <Tooltip label={tooltipLabel}>
-        <Label
-          htmlFor="backgroundImageURL"
-          userSelect="none"
-          whiteSpace="nowrap"
-        >
-          Page Background
-          <InfoIcon ml={2} />
-        </Label>
-      </Tooltip>
+      <Label htmlFor="backgroundImageURL" userSelect="none" whiteSpace="nowrap">
+        Background Photo
+      </Label>
       <Center
         position="relative"
         w="full"
@@ -119,41 +117,84 @@ export const EditBackgroundImage = forwardRef<
           h="full"
           w="full"
         />
-        {loading &&
+        {/* {loading &&
           (url == null ? (
             <Image w="5em" mx="2.5em" src={FileOpenIcon.src} opacity={0.5} />
           ) : (
             <Spinner size="xl" color="purple.500" thickness="4px" />
-          ))}
+          ))} */}
         <Controller
           control={control}
           name="backgroundImageURL"
           defaultValue={[]}
           render={({ field: { onChange, value, ...props } }) => (
             <>
-              <Input
-                type="file"
-                {...props}
-                value={value?.filename}
-                onChange={async (evt: ChangeEvent<HTMLInputElement>) => {
-                  const file = evt.target.files?.[0];
-                  if (file) {
-                    onChange(file);
-                    onFileChange(file);
-                  }
-                }}
-                maxW="100%"
-                minH="100%"
-                position="absolute"
-                accept="image/*"
-                top={0}
-                bottom={0}
-                left={0}
-                right={0}
-                opacity={0}
-                onFocus={() => setActive(true)}
-                onBlur={() => setActive(false)}
-              />
+              <Box
+                as="label"
+                h="full"
+                w="full"
+                ml={3}
+                htmlFor="upload-bg-image"
+                border="1px"
+                color="white"
+                borderColor="blue.600"
+                borderRadius="4px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Input
+                  id="upload-bg-image"
+                  h="full"
+                  w="full"
+                  position="absolute"
+                  type="file"
+                  opacity={0}
+                  {...props}
+                  value={value?.filename}
+                  onChange={async (evt: ChangeEvent<HTMLInputElement>) => {
+                    evt.preventDefault();
+                    const file = evt.target.files?.[0];
+                    if (file) {
+                      onChange(file);
+                      onFileChange(file);
+                    }
+                  }}
+                  onDragOver={async (evt: DragEvent<HTMLInputElement>) => {
+                    evt.preventDefault();
+                  }}
+                  onDrop={async (evt: DragEvent<HTMLInputElement>) => {
+                    evt.preventDefault();
+                    const file = evt.dataTransfer.files?.[0];
+                    if (file) {
+                      onChange(file);
+                      onFileChange(file);
+                    }
+                  }}
+                  accept="image/*"
+                />
+                Drag and drop an image or
+                <Button
+                  as="label"
+                  htmlFor="upload-bg-image"
+                  colorScheme="blue"
+                  variant="outline"
+                  borderColor="blue.600"
+                  py={4}
+                  px={8}
+                  letterSpacing="0.1em"
+                  size="md"
+                  fontSize="sm"
+                  ml={3}
+                  color="white"
+                  rounded="md"
+                  _hover={{ borderColor: 'blue.700' }}
+                  _active={{ borderColor: 'blue.800' }}
+                  cursor="pointer"
+                >
+                  Upload Image
+                </Button>
+              </Box>
               {/* 
               Disabled until we figure out a good way to clear
               {url && !loading && (
