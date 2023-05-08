@@ -45,7 +45,7 @@ export {
   multiSelectStyles,
   searchSelectStyles,
   selectStyles,
-} from './theme/index.js';
+} from './theme';
 export * from './typography.js';
 export * from './ViewAllButton.js';
 export {

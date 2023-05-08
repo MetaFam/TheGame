@@ -74,7 +74,7 @@ export default {
 
       config.module.rules = [
         ...config.module.rules,
-        { sideEffects: false },
+        // { sideEffects: false }, // causes global CSS not to load
       ]
       // config.externals = {
       //   '@emotion/react': '"@emotion/react"',
