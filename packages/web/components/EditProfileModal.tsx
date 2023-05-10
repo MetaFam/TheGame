@@ -8,7 +8,6 @@ import {
   FormHelperText,
   Grid,
   GridItem,
-  InfoIcon,
   Input,
   InputGroup,
   InputLeftElement,
@@ -24,7 +23,6 @@ import {
   SelectTimeZone,
   StatusedSubmitButton,
   Text,
-  Tooltip,
   useToast,
   Wrap,
   WrapItem,
@@ -61,6 +59,7 @@ import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
 import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
+import MeetWithWalletProfileEdition from './Player/MeetWithWalletProfileEdition';
 import { EditAvatarImage } from './Player/Profile/EditAvatarImage';
 import { EditBackgroundImage } from './Player/Profile/EditBackgroundImage';
 import { EditDescription } from './Player/Profile/EditDescription';
@@ -343,14 +342,14 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               <GridItem flex={1}>
                 <EditDescription />
               </GridItem>
-              {/* <GridItem flex={1} alignItems="center">
+              <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.username}>
-                  <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
-                    <Label htmlFor="username" userSelect="none">
-                      Name
-                      <InfoIcon ml={2} />
-                    </Label>
-                  </Tooltip>
+                  <Label htmlFor="username" userSelect="none">
+                    Username
+                  </Label>
+                  <FormHelperText pb={3} color="white">
+                    Lowercase alpha, digits, dashes, & underscores only.
+                  </FormHelperText>
                   <Input
                     w="100%"
                     placeholder="i-am-a-user"
@@ -389,7 +388,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem> */}
+              </GridItem>
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.availableHours}>
                   <Label htmlFor="availableHours">Availability</Label>
@@ -467,7 +466,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              {/* <GridItem flex={1} alignItems="center">
+              <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.pronouns}>
                   <Label htmlFor="pronouns">Pronouns</Label>
                   <Input
@@ -487,7 +486,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem> */}
+              </GridItem>
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.website}>
                   <Label htmlFor="name">Website</Label>
@@ -513,7 +512,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              {/* <GridItem flex={1} alignItems="center">
+              <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.location}>
                   <Label htmlFor="location">Location</Label>
                   <Input
@@ -533,8 +532,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem> */}
-              {/* <GridItem flex={1} alignItems="center">
+              </GridItem>
+              <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.emoji}>
                   <Label htmlFor="emoji">Spirit Emoji</Label>
                   <Input
@@ -556,8 +555,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem> */}
-              {/* <GridItem gridColumn={'1/-1'} alignItems="center">
+              </GridItem>
+              <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
                   <Label>Meeting calendar</Label>
                   <MeetWithWalletProfileEdition
@@ -565,7 +564,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     player={player}
                   />
                 </FormControl>
-              </GridItem> */}
+              </GridItem>
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditBackgroundImage
                   player={player}

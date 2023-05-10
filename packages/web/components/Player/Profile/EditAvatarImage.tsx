@@ -7,7 +7,6 @@ import {
   Image,
   Input,
   Spinner,
-  Text,
   useToast,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
