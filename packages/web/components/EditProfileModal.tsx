@@ -40,6 +40,7 @@ import {
   Player,
   useInsertCacheInvalidationMutation,
 } from 'graphql/autogen/types';
+import { getPlayer } from 'graphql/getPlayer';
 import { PlayerProfile } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
 import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
