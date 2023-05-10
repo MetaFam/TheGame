@@ -5,6 +5,22 @@ import dapps from 'assets/houses/dapps.png';
 import definance from 'assets/houses/definance.png';
 import ethereum from 'assets/houses/ethereum.png';
 import nfts from 'assets/houses/nfts.png';
+import P1 from 'assets/playbooks/P1.png';
+import P2 from 'assets/playbooks/P2.png';
+import P3 from 'assets/playbooks/P3.png';
+import P4 from 'assets/playbooks/P4.png';
+import P5 from 'assets/playbooks/P5.png';
+import P6 from 'assets/playbooks/P6.png';
+import P7 from 'assets/playbooks/P7.png';
+import P8 from 'assets/playbooks/P8.png';
+import P9 from 'assets/playbooks/P9.png';
+import P10 from 'assets/playbooks/P10.png';
+import P11 from 'assets/playbooks/P11.png';
+import P12 from 'assets/playbooks/P12.png';
+import P13 from 'assets/playbooks/P13.png';
+import P14 from 'assets/playbooks/P14.png';
+import P15 from 'assets/playbooks/P15.png';
+import P16 from 'assets/playbooks/P16.png';
 import bridge from 'assets/quests/bridge.png';
 import builders from 'assets/quests/builders.png';
 import design from 'assets/quests/design.png';
@@ -48,6 +64,28 @@ export const QuestChainsGreatHouses = {
   HOUSE_OF_DAPPS: 'house-of-dapps',
   HOUSE_OF_NFTS: 'house-of-nfts',
   HOUSE_OF_DEFINANCE: 'house-of-definance',
+};
+
+export const QuestChainsPlaybooks = {
+  MEME_DRIVEN_ORGANIZATIONS: 'meme-driven-organizations',
+  INSTALL_A_WEB3_WALLET_AND_GET_GAS: 'install-a-web3-wallet-and-get-gas',
+  BUILDING_A_STRONG_DAO_FOUNDATION_ESSENTIAL_QUESTIONS_FROM_DAO_CANVAS:
+    'building-a-strong-dao-foundation-essential-questions-from-dao-canvas',
+  GUILDING_101_A_STARTER_KIT_FOR_SUCCESSFUL_TEAMS:
+    'guilding-101-a-starter-kit-for-successful-teams',
+  BUILDING_SUCCESSFUL_TEAMS: 'building-successful-teams',
+  ADDING_VALUE_TO_A_DAO_WITHOUT_TECHNICAL_SKILLS_UNLOCK_YOUR_POTENTIAL:
+    'adding-value-to-a-dao-without-technical-skills-unlock-your-potential',
+  HOW_TO_COACH_ETH: 'how-to-coach-eth',
+  ENTERING_DAOS_AS_A_WRITER: 'entering-daos-as-a-writer',
+  HOW_TO_BECOME_AN_ETHEREUM_DEVELOPER: 'how-to-become-an-ethereum-developer',
+  BECOME_A_BUIDLER_ON_ETHEREUM: 'become-a-buidler-on-ethereum',
+  HOW_TO_PLAY_TWITTER: 'how-to-play-twitter',
+  UNDERSTANDING_IMPOSTER_SYNDROME: 'understanding-imposter-syndrome',
+  HOW_TO_JOIN_A_DAO_COMMUNITY: 'how-to-join-a-dao-community',
+  HOW_TO_BUILD_A_NETWORK_FOR_IMPACT: 'how-to-build-a-network-for-impact',
+  HANDLING_FOMO_IN_WEB3: 'handling-fomo-in-web3',
+  MGXP_METAGAME_EXPERIENCE_POINTS: 'mgxp-metagame-experience-points',
 };
 
 export const Difficulty = {
@@ -190,6 +228,144 @@ export const QuestChainGreatHousesDetails: Record<
     description:
       'House of DeFinance is here to help you see how a new financial system is being built & how banks will be made obsolete.',
     image: definance.src,
+  },
+};
+
+export const QuestChainPlaybooksDetails: Record<
+  QuestChainType,
+  QuestChainInfo
+> = {
+  [QuestChainsPlaybooks.MEME_DRIVEN_ORGANIZATIONS]: {
+    address: '0xd39a3d0eb714a2f62dd57f95af7fadc216f64e8e',
+    chainId: '0x89',
+    title: 'Meme Driven Organizations',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P1.src,
+  },
+  [QuestChainsPlaybooks.INSTALL_A_WEB3_WALLET_AND_GET_GAS]: {
+    address: '0xa1e05963535a060bfc2e9332c3fa7467c1ed607b',
+    chainId: '0x89',
+    title: 'Install a Web3 Wallet and get gas',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P2.src,
+  },
+  [QuestChainsPlaybooks.BUILDING_A_STRONG_DAO_FOUNDATION_ESSENTIAL_QUESTIONS_FROM_DAO_CANVAS]:
+    {
+      address: '0x29fca34daa48dcf2ba63c4a417ad4ef95a952e46',
+      chainId: '0x89',
+      title:
+        'Building a strong DAO foundation: Essential questions from DAO Canvas',
+      description:
+        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      image: P3.src,
+    },
+  [QuestChainsPlaybooks.GUILDING_101_A_STARTER_KIT_FOR_SUCCESSFUL_TEAMS]: {
+    address: '0x340804f8ea5d5d660b7f3fa8f2c37408920bf7fe',
+    chainId: '0x89',
+    title: 'Guilding 101: A starter-kit for successful teams',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P4.src,
+  },
+  [QuestChainsPlaybooks.BUILDING_SUCCESSFUL_TEAMS]: {
+    address: '0xd52fdc2ce552c73cdbbc6dbdc6ff739d3ad919ca',
+    chainId: '0x89',
+    title: 'Building Successful Teams',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P5.src,
+  },
+  [QuestChainsPlaybooks.ADDING_VALUE_TO_A_DAO_WITHOUT_TECHNICAL_SKILLS_UNLOCK_YOUR_POTENTIAL]:
+    {
+      address: '0x90a44808a7b4efc4e5ef09747c60c530551c47cf',
+      chainId: '0x89',
+      title:
+        'Adding Value to a DAO Without Technical Skills: Unlock Your Potential',
+      description:
+        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      image: P6.src,
+    },
+  [QuestChainsPlaybooks.HOW_TO_COACH_ETH]: {
+    address: '0xba480bc74150fa05e9d1c815e7f4dd03bab82e85',
+    chainId: '0x89',
+    title: 'How to Coach Eth',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P7.src,
+  },
+  [QuestChainsPlaybooks.ENTERING_DAOS_AS_A_WRITER]: {
+    address: '0xa5b4578b954e75287a409974ba15b9a7e5e47ab3',
+    chainId: '0x89',
+    title: 'Entering DAOs as a Writer',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P8.src,
+  },
+  [QuestChainsPlaybooks.HOW_TO_BECOME_AN_ETHEREUM_DEVELOPER]: {
+    address: '0x64baec377babbbb62419af890e459d0a26b11074',
+    chainId: '0x89',
+    title: 'How to become an Ethereum Developer',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P9.src,
+  },
+  [QuestChainsPlaybooks.BECOME_A_BUIDLER_ON_ETHEREUM]: {
+    address: '0xe62bda16bc819840e6369fd3b5db528929932b01',
+    chainId: '0x89',
+    title: 'Become a buidler on Ethereum',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P13.src,
+  },
+  [QuestChainsPlaybooks.HOW_TO_PLAY_TWITTER]: {
+    address: '0xd14c9ca6ebd0d8941340b5b57ca3640b0196a61d',
+    chainId: '0x89',
+    title: 'How to Play Twitter',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P16.src,
+  },
+  [QuestChainsPlaybooks.UNDERSTANDING_IMPOSTER_SYNDROME]: {
+    address: '0xed2c1ed50438379770c0a7e21150810786ebdfd8',
+    chainId: '0x89',
+    title: 'Understanding Imposter Syndrome',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P12.src,
+  },
+  [QuestChainsPlaybooks.HOW_TO_JOIN_A_DAO_COMMUNITY]: {
+    address: '0x7e5a92f7f440e4d29558913bbea7343f5593b6d3',
+    chainId: '0x89',
+    title: 'How to join a DAO community',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P15.src,
+  },
+  [QuestChainsPlaybooks.HOW_TO_BUILD_A_NETWORK_FOR_IMPACT]: {
+    address: '0xe388d673dcb58b6216d869801710e498fe37f24c',
+    chainId: '0x89',
+    title: 'How to build a network for impact',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P14.src,
+  },
+  [QuestChainsPlaybooks.HANDLING_FOMO_IN_WEB3]: {
+    address: '0xad8b64dc695b676e03d49e819d2153ad9465db83',
+    chainId: '0x89',
+    title: 'Handling FOMO in Web3',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P11.src,
+  },
+  [QuestChainsPlaybooks.MGXP_METAGAME_EXPERIENCE_POINTS]: {
+    address: '0x0872df6d8a2f92bf4c5c033be8eea0fd4b3ca39c',
+    chainId: '0x89',
+    title: 'MGXP Metagame Experience Points',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: P10.src,
   },
 };
 

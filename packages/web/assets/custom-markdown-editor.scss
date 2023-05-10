@@ -2,11 +2,13 @@
   border-radius: 0.375rem;
   border-color: inherit;
   background: none;
+
   &.full {
     background: #1b0d2a;
     border-radius: 0;
     z-index: 2000;
   }
+
   .rc-md-navigation {
     background: none;
     border-bottom-color: inherit;

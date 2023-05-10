@@ -24,7 +24,7 @@ export const parseSkills = (
       options: [],
     };
     skillsMap[skill.category].options?.push({
-      get value() {
+      get value(): string {
         return this.id;
       },
       get label() {

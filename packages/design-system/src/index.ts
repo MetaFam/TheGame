@@ -18,6 +18,7 @@ export {
   MetaTileBody,
   MetaTileHeader,
   MetaTileLinkWrapper,
+  MetaTilePlaybook,
 } from './MetaTile.js';
 export { MultiSelect } from './MultiSelect.js';
 export { ResponsiveText } from './ResponsiveText.js';
@@ -44,7 +45,7 @@ export {
   multiSelectStyles,
   searchSelectStyles,
   selectStyles,
-} from './theme/index.js';
+} from './theme';
 export * from './typography.js';
 export * from './ViewAllButton.js';
 export {

@@ -13,6 +13,8 @@ import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import {
   getQuestChainContract,
+  QuestChainGreatHousesDetails,
+  QuestChainPlaybooksDetails,
   QuestChainRolesDetails,
   QuestChainType,
 } from 'utils/questChains';
@@ -99,6 +101,12 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
     }
   }, [onSuccess, questChain, address, chainId, provider, addToast]);
 
+  const details =
+    QuestChainRolesDetails[name] ||
+    QuestChainGreatHousesDetails[name] ||
+    QuestChainPlaybooksDetails[name];
+  const image = details?.image;
+
   return (
     <VStack
       w="100%"
@@ -111,11 +119,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
       textAlign="center"
       spacing={4}
     >
-      <Image
-        src={QuestChainRolesDetails[name].image}
-        alt="Success"
-        h="13.75rem"
-      />
+      <Image src={image} alt="Success" h="13.75rem" />
       <Text>
         {`You have successfully finished ${
           completed > 1 ? `all ${completed} quests` : 'all quests'

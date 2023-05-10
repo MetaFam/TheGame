@@ -41,7 +41,7 @@
     "@vitejs/plugin-react": "^2.1.0",
     "city-timezones": "1.2.0",
     "framer-motion": "^7.5.4",
-    "next": "^13.1.6",
+    "next": "^13.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-font-loader": "^1.1.0",

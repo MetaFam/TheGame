@@ -79,7 +79,6 @@ type EditProfileFields = {
   emoji?: Maybe<string>;
 };
 
-// Start work here
 const getDefaultFormValues = (player: Player): EditProfileFields => {
   if (!player.profile) {
     return {} as EditProfileFields;
@@ -339,9 +338,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              <GridItem flex={1}>
-                <EditDescription />
-              </GridItem>
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.username}>
                   <Label htmlFor="username" userSelect="none">
@@ -388,6 +384,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
+              </GridItem>
+              <GridItem flex={1}>
+                <EditDescription />
               </GridItem>
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.availableHours}>
