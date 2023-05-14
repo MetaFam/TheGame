@@ -226,7 +226,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         updateWeb3State(prov);
       });
     } catch (error) {
-      console.error('`connect` Error', error); // eslint-disable-line no-console
+      console.error('`connect` Error', error);
       errorHandler(error as Error);
       disconnect();
     } finally {

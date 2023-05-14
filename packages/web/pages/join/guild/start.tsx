@@ -37,13 +37,13 @@ const GuildSetupAuthCallback: React.FC = () => {
     client_id: Constants.DISCORD_BOT_CLIENT_ID,
     // This will be passed-back and verified after the Discord auth redirect
     state: stateGuid as string,
-    permissions: `${Constants.JOIN_GUILD_DISCORD_BOT_PERMISSIONS}`,
+    permissions: Constants.JOIN_GUILD_DISCORD_BOT_PERMISSIONS,
     redirect_uri: encodeURI(discordOAuthCallbackURL),
     scope: Constants.JOIN_GUILD_DISCORD_OAUTH_SCOPES,
   });
 
   const discordAuthURL = `${
-    CONFIG.discordApiBaseUrl
+    CONFIG.discordAPIBaseUrl
   }/oauth2/authorize?${discordAuthParams.toString()}`;
 
   return (

@@ -4,7 +4,6 @@ import {
   getLatestEthAddress,
   getNumWeeksInSeason,
   isDefined,
-  isNewSeason,
 } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
@@ -39,7 +38,6 @@ const parseAlias = (alias: SCAlias) => {
 
     return { type, identifier };
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error('Unable to parse alias:', {
       error: (e as Error).message,
       alias,

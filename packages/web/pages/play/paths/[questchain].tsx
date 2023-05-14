@@ -149,8 +149,7 @@ export const getStaticProps = async (
     const info = QuestChainRolesDetails[questchain];
     questChain = await getQuestChainInfo(info.chainId, info.address);
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('error', error);
+    console.error({ error });
     errorHandler(error as Error);
   }
 

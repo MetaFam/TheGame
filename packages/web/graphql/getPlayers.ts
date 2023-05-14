@@ -13,11 +13,7 @@ import {
   Player_Bool_Exp,
 } from 'graphql/autogen/types';
 import { client as defaultClient } from 'graphql/client';
-import {
-  PlayerDaoMembershipFragment,
-  PlayerFragment,
-  PlayerSkillFragment,
-} from 'graphql/fragments';
+import { PlayerFragment, PlayerSkillFragment } from 'graphql/fragments';
 import { Client } from 'urql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions

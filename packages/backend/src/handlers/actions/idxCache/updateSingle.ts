@@ -219,7 +219,6 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
                 ],
               });
             if (insert?.affected_rows === undefined) {
-              // eslint-disable-next-line no-console
               console.warn(
                 `Unable to insert ${service} user ${username} for playerId ${playerId}.`,
               );

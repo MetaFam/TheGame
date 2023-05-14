@@ -113,7 +113,7 @@ const Custom404: FC = () => {
             </Link>
           </Box>
           <Box pt={5}>
-            <Link href="https://discord.gg/metagame">
+            <Link href="https://chat.metagame.wtf">
               <MetaSecondaryButton
                 width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
               >

@@ -62,3 +62,5 @@ export type GuildMetadata = {
     administratorRoleIds: string[];
   };
 };
+
+export type ContractError = Error & { reason?: string };

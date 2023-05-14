@@ -149,8 +149,6 @@ export const getStaticProps = async (
     const info = QuestChainGreatHousesDetails[questchain];
     questChain = await getQuestChainInfo(info.chainId, info.address);
   } catch (error) {
-    // eslint-disable-next-line no-console
-
     errorHandler(error as Error);
   }
 

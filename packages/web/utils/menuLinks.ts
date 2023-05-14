@@ -51,7 +51,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       {
         title: 'Discord',
         explainerText: 'Engage in conversations with the MetaGame community ',
-        url: 'https://discord.gg/metagame',
+        url: 'https://chat.metagame.wtf',
         icon: 'discord',
       },
       {

@@ -27,7 +27,6 @@ export const useBoxHeights = (items: Array<Maybe<HTMLElement>>) => {
           newHeights[key] = target.scrollHeight;
           observer.observe(target);
         } else {
-          // eslint-disable-next-line no-console
           console.warn(`Invalid box data, missing:`, target, key);
         }
       }

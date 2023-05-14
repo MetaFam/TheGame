@@ -1,13 +1,13 @@
-import { Button, MetaMaskIcon, Text, Tooltip } from '@metafam/ds';
+import { Button, MetaMaskIcon, Tooltip } from '@metafam/ds';
 import { useWeb3 } from 'lib/hooks';
 import React, { useCallback, useState } from 'react';
-import { switchChainOnMetaMask } from 'utils/metamask';
+import { switchChain } from 'utils/metamask';
 import { NETWORK_INFO } from 'utils/networks';
 
 export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
   chainId = '0x1',
 }) => {
-  const { connected, isMetaMask } = useWeb3();
+  const { connected } = useWeb3();
   const networkInfo = NETWORK_INFO[chainId];
 
   const [isLoading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
   const onClick = useCallback(async () => {
     if (connected) {
       setLoading(true);
-      await switchChainOnMetaMask(chainId);
+      await switchChain(chainId);
       setLoading(false);
     }
   }, [connected, chainId]);
@@ -24,8 +24,8 @@ export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
 
   const { name } = networkInfo;
 
-  return isMetaMask ? (
-    <Tooltip label="Click to switch network on Metamask" hasArrow>
+  return (
+    <Tooltip label="Click to switch network." hasArrow>
       <Button
         size="sm"
         fontSize="md"
@@ -37,7 +37,5 @@ export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
         {name}
       </Button>
     </Tooltip>
-  ) : (
-    <Text as="span">{name}</Text>
   );
 };

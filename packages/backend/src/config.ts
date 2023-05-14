@@ -13,7 +13,7 @@ interface IConfig {
   daoHausXdaiGraphqlURL: string;
   daoHausMetadataUrl: string;
   seedGraphqlURL: string;
-  githubApiToken: string;
+  githubAPIToken: string;
   adminKey: string;
   infuraId: string;
   brightIdAppURL: string;
@@ -52,7 +52,7 @@ export const CONFIG: IConfig = {
   ),
   daoHausGraphqlURL: parseEnv(
     process.env.DAOHAUS_GRAPHQL_URL,
-    'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus',
+    `https://gateway.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/9uvKq57ZiNCdT9uZ6xaFhp3yYczTM4Fgr7CJHM6tdX9H`,
   ),
   daoHausPolygonGraphqlURL: parseEnv(
     process.env.DAOHAUS_POLYGON_GRAPHQL_URL,
@@ -71,7 +71,7 @@ export const CONFIG: IConfig = {
     process.env.SEED_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
   ),
-  githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
+  githubAPIToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   adminKey: parseEnv(
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,
     'metagame_secret',

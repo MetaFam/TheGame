@@ -74,7 +74,7 @@ export const SetupDone: React.FC = () => {
                 textDecor="underline"
                 fontWeight="bold"
                 color="pink.400"
-                href="//discord.gg/metagame"
+                href="//chat.metagame.wtf"
                 isExternal
               >
                 discord

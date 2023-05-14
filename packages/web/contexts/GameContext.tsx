@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { Text, useToast, VStack } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import type {
@@ -12,6 +10,7 @@ import { chievContractAddress } from 'components/Landing/OnboardingGame/nft';
 import { MetaLink } from 'components/Link';
 import ABI from 'contracts/BulkDisbursableNFTs.abi';
 import { Contract } from 'ethers';
+import { ContractError } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
 import { get, remove, set } from 'lib/store';
 import type { PropsWithChildren } from 'react';
@@ -122,7 +121,6 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
         }
         throw new Error('Game progression failed');
       } catch (error) {
-        // eslint-disable-next-line no-console
         errorHandler(error as Error);
         console.error(error);
         return undefined;
@@ -160,7 +158,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   }, []);
 
   const mintChiev = useCallback(
-    async (tokenId: bigint): Promise<any> => {
+    async (tokenId: bigint) => {
       try {
         if (address === undefined) await connect();
         if (provider == null) throw new Error('Provider not set.');
@@ -236,18 +234,18 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
         });
 
         return receipt;
-      } catch (error: any) {
-        // eslint-disable-next-line no-console
+      } catch (err) {
+        const error = err as ContractError;
         console.error('mintChiev error', { error });
-        const msg = (error?.reason as string) || 'unknown error';
+        const msg = error.reason ?? error.message ?? 'Unknown error.';
         toast({
-          title: 'Claim failed',
+          title: 'Claim Failed',
           description: msg,
           status: 'error',
           isClosable: true,
           duration: 5000,
         });
-        errorHandler(error as Error);
+        errorHandler(error);
         return msg;
       } finally {
         setTxLoading(false);

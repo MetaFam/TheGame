@@ -4,7 +4,7 @@ import { CredGraph, LedgerManager, sourcecred } from 'sourcecred';
 import { CONFIG } from '../config.js';
 
 const storage = new sourcecred.ledger.storage.GithubStorage({
-  apiToken: CONFIG.githubApiToken,
+  apiToken: CONFIG.githubAPIToken,
   repo: 'MetaFam/XP',
   branch: CONFIG.sourceCredLedgerBranch,
 });

@@ -40,7 +40,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
 
   // 9tails.eth: As there is no current way of editing Profile Accounts,
   // and the MWW integratino happens on the EditProfileModal, to avoid
-  // adding a new column to the table just to do the followig, I decided
+  // adding a new column to the table just to do the following, I decided
   // to this this cast as any to use the information from the form and
   // don't do bigger changes on the data structure just because of it
   const profileFields = useProfileField({

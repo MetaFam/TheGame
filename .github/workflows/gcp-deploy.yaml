@@ -14,12 +14,15 @@ on:
       - synchronize
 
 env:
+  # This controls whether the Next.js runs in development or
+  # production mode. For debugging test instance only bugs.
+  FRONTEND_TARGET: production # development
   PROJECT_ID: metagame-thegame
   REGISTRY_REGION: us-east4
   REGISTRY_REPO: thegame
   DEPLOYMENT_DOMAIN: a.run.app
   CLOUDRUN_SUFFIX: mjhnbmqqna-uk
-  DEPLOYMENT_ENV: Test-PR-${{github.event.number}}
+  DEPLOYMENT_NAME: Test-PR-${{github.event.number}}
   DB_NAME: hasura-pr-${{github.event.number}}
   BACKEND_SERVICE: backend-pr-${{github.event.number}}
   FRONTEND_SERVICE: frontend-pr-${{github.event.number}}
@@ -45,7 +48,7 @@ jobs:
         with:
           step: start
           token: ${{github.token}}
-          env: ${{env.DEPLOYMENT_ENV}}
+          env: ${{env.DEPLOYMENT_NAME}}
           desc: "Test instance deployment for PR #${{github.event.number}} of ${{github.event.pull_request.head.label}} by ${{github.event.pull_request.user.login}}"
           ref: ${{github.head_ref}}
           auto_inactive: false
@@ -95,6 +98,7 @@ jobs:
       BACKEND_TAG: ${{env.BACKEND_TAG}}
       HASURA_TAG: ${{env.HASURA_TAG}}
       FRONTEND_TAG: ${{env.FRONTEND_TAG}}
+      FRONTEND_TARGET: ${{env.FRONTEND_TARGET}}
 
     steps:
       - name: First Intepolation of Variables
@@ -111,6 +115,7 @@ jobs:
           echo "FRONTEND_URL=\
           https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
           echo "DB_PASSWORD=$(head -c 48 /dev/urandom | tr -cd [:alnum:])" >> $GITHUB_ENV
+          echo "FRONTEND_TARGET=${{env.FRONTEND_TARGET}}" >> $GITHUB_ENV
 
       - name: Those Variables May Now Be Interpolated
         id: second
@@ -243,18 +248,12 @@ jobs:
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
-        uses: mattes/cached-docker-build-action@v1
-        with:
-          args: |
-            . -f docker/backend/Dockerfile \
-              --tag ${{needs.env.outputs.BACKEND_TAG}} \
-              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
-          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/backend/**', 'packages/utils/**', 'package.json')}}"
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -263,8 +262,15 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
-        run: docker push ${{needs.env.outputs.BACKEND_TAG}}
+      - name: "Build & Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
+        uses: docker/build-push-action@v4
+        with:
+          file: docker/backend/Dockerfile
+          tags: ${{needs.env.outputs.BACKEND_TAG}}
+          build-args: |
+            GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
+            THE_GRAPH_API_TOKEN=${{secrets.THE_GRAPH_API_TOKEN}}
+          push: true
 
   deploy-backend:
     name: Deploy Backend
@@ -294,7 +300,8 @@ jobs:
             --set-env-vars GITHUB_API_TOKEN=${{secrets.GH_API_TOKEN}} \
             --set-env-vars SOURCECRED_LEDGER_BRANCH=master \
             --set-env-vars GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-            --set-env-vars DISCORD_BOT_TOKEN=${{secrets.DISCORD_BOT_TOKEN}}
+            --set-env-vars DISCORD_BOT_TOKEN=${{secrets.DISCORD_BOT_TOKEN}} \
+            --set-env-vars THE_GRAPH_API_TOKEN=${{secrets.THE_GRAPH_API_TOKEN}}
 
   undeploy-hasura:
     name: Undeploy Hasura
@@ -346,19 +353,12 @@ jobs:
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container Image: ${{needs.env.outputs.HASURA_TAG}}"
-        uses: mattes/cached-docker-build-action@v1
-        with:
-          args: |
-            ./hasura -f hasura/Dockerfile \
-              --tag ${{needs.env.outputs.HASURA_TAG}} \
-              --build-arg BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}} \
-              --build-arg BACKEND_PROTOCOL=https
-          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('hasura/**', 'package.json')}}"
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -367,8 +367,17 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
-        run: docker push ${{needs.env.outputs.HASURA_TAG}}
+      - name: "Build & Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
+        uses: docker/build-push-action@v4
+        with:
+          file: hasura/Dockerfile
+          context: hasura
+          tags: ${{needs.env.outputs.HASURA_TAG}}
+          build-args: |
+            BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}}
+            BACKEND_PROTOCOL=https
+          push: true
+
 
   deploy-hasura:
     name: Deploy Hasura
@@ -448,21 +457,12 @@ jobs:
 
     steps:
       - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        uses: mattes/cached-docker-build-action@v1
-        with:
-          args: |
-            . -f docker/frontend/Dockerfile \
-              --tag ${{needs.env.outputs.FRONTEND_TAG}} \
-              --build-arg APP_ENV=${{needs.env.outputs.APP_ENV}} \
-              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-              --build-arg NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
-              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
-          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -471,8 +471,18 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        run: docker push ${{needs.env.outputs.FRONTEND_TAG}}
+      - name: "Build & Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
+        uses: docker/build-push-action@v4
+        with:
+          file: docker/frontend/Dockerfile
+          tags: ${{needs.env.outputs.FRONTEND_TAG}}
+          build-args: |
+            APP_ENV=${{needs.env.outputs.APP_ENV}}
+            GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
+            NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
+            NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
+            TARGET=${{needs.env.outputs.FRONTEND_TARGET}}
+          push: true
 
   deploy-frontend:
     name: Deploy Frontend
@@ -480,29 +490,37 @@ jobs:
     needs: [env, build-frontend]
 
     steps:
-      - name: Set Up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0.6.0
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1.1.0
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
-          service_account_key: ${{secrets.GCP_SA_KEY}}
-          export_default_credentials: true
+          credentials_json: ${{secrets.GCP_SA_KEY}}
+          create_credentials_file: true
+
+      - name: Set Up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1.1.0
 
       - name: "Deploy Container Image: ${{needs.env.outputs.FRONTEND_SERVICE}}"
+        # this is running a shell script of unknown provision that's failing
+        # the deployment, however, isn't
+        continue-on-error: true
         run: |
           gcloud -q run deploy ${{needs.env.outputs.FRONTEND_SERVICE}} \
             --image ${{needs.env.outputs.FRONTEND_TAG}} \
             --region ${{needs.env.outputs.CLOUDRUN_REGION}} \
             --port ${{needs.env.outputs.FRONTEND_PORT}} \
-            --cpu 1 \
-            --memory 512Mi \
+            --cpu ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '2' || '1'}} \
+            --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '5Gi' || '512Mi'}} \
             --ingress all \
             --max-instances 1 \
             --allow-unauthenticated \
-            --set-env-vars NEXT_PUBLIC_APP_ENV=${{secrets.APP_ENV}} \
             --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
             --set-env-vars OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}} \
+            --set-env-vars NEXT_PUBLIC_APP_ENV=${{needs.env.outputs.APP_ENV}} \
             --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}} \
             --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
+            --set-env-vars NEXT_PUBLIC_HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}} \
+            --set-env-vars NEXT_PUBLIC_USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}} \
             --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
             --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
 
@@ -542,7 +560,7 @@ jobs:
         with:
           step: finish
           token: ${{github.token}}
-          env: ${{env.DEPLOYMENT_ENV}}
+          env: ${{env.DEPLOYMENT_NAME}}
           env_url: ${{needs.env.outputs.FRONTEND_URL}}
           status: ${{env.result == 'skipped' && 'cancelled' || env.result}}
           deployment_id: ${{needs.start-deployment.outputs.deployment_id}}
