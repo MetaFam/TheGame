@@ -72,15 +72,13 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
         }
       });
     }
-  }, [isCurrentPlayerPage, propPlayer, router.pathname, username]);
+  }, [isCurrentPlayerPage, propPlayer, username]);
 
   // if the username contains a dot, look up the player's ETH address and player with ENS
   const { data: ensAndPlayer, isValidating } = useSWR(
     username && username.includes('.') ? username : null,
     getENSAndPlayer,
-    {
-      revalidateOnFocus: false,
-    },
+    { revalidateOnFocus: false },
   );
   const ens = ensAndPlayer?.ens ?? undefined;
   useEffect(() => {
@@ -121,11 +119,13 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
   }
 
   if (isValidating && !player) return <LoadingState />;
+
   if (
     (!player && username && username.includes('.') && !isValidating) ||
     (!player && router.pathname === '/me')
-  )
+  ) {
     return <Page404 />;
+  }
 
   const banner = metagamer && background ? '' : bannerURL;
 

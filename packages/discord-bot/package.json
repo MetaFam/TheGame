@@ -18,7 +18,7 @@
     "dev-ts": "nodemon",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
-    "generate": "graphql-codegen --config=codegen.yml",
+    "generate": "graphql-codegen",
     "lintfix": "eslint --fix",
     "test": "jest --passWithNoTests"
   },

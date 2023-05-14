@@ -16,6 +16,9 @@ export const handler: (
   res: NextApiResponse<Record<string, string>>,
 ) => {
   const upload = new Promise<Record<string, string>>((resolve, reject) => {
+    if (!CONFIG.web3StorageToken) {
+      throw new Error('Missing `$WEB3_STORAGE_TOKEN`.');
+    }
     const storage = new Web3Storage({ token: CONFIG.web3StorageToken });
     const busboy = Busboy({ headers: req.headers });
     const files: { field: string; name: string }[] = [];

@@ -104,7 +104,6 @@ export const handleOAuthCallback = async (
             discordMetadata,
             playerId,
           );
-          res.json(createGuildResponse);
         } else {
           throw creationError;
         }
@@ -116,9 +115,7 @@ export const handleOAuthCallback = async (
     const errorResponse: DiscordGuildAuthResponse = {
       success: false,
       error:
-        (error as Error).message ||
-        (error as string) ||
-        'An unexpected error occurred',
+        (error as Error).message ?? error ?? 'An unexpected error occurred.',
     };
     res.json(errorResponse);
   }

@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 import { Maybe } from '@metafam/utils';
 import { Player, useGetMeQuery } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks/useWeb3';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
-import { CombinedError, RequestPolicy } from 'urql';
+import { RequestPolicy } from 'urql';
 
 type UseUserOpts = {
   redirectTo?: string;
@@ -20,7 +21,7 @@ export const useUser = ({
   connected: boolean;
   user: Maybe<Player>;
   fetching: boolean;
-  error?: CombinedError;
+  error?: Error;
 } => {
   const { authToken, connecting, connected } = useWeb3();
   const router = useRouter();
@@ -38,15 +39,6 @@ export const useUser = ({
     [error, authToken, me, connected, fetching],
   );
 
-  if (error) {
-    console.error('useUser error', error);
-  }
-
-  if (!authToken && connected) {
-    // eslint-disable-next-line no-console
-    console.warn('`authToken` unset when connected');
-  }
-
   useEffect(() => {
     if (!redirectTo || fetching || connecting) return;
 
@@ -56,6 +48,10 @@ export const useUser = ({
       router.push(redirectTo);
     }
   }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
+
+  if (!authToken && connected) {
+    console.warn('`authToken` unset when connected.');
+  }
 
   return {
     connecting,

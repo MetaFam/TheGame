@@ -1,6 +1,9 @@
 // import HoneybadgerSourceMapPlugin from '@honeybadger-io/webpack';
 
-const { HONEYBADGER_API_KEY, HONEYBADGER_ASSETS_URL } = process.env;
+const {
+  HONEYBADGER_API_KEY,
+  // HONEYBADGER_ASSETS_URL,
+} = process.env;
 
 /**
  * TODO: needs to get revision from the build but is currently breaking the build.
@@ -65,6 +68,7 @@ export default {
   env: {
     HONEYBADGER_API_KEY,
   },
+  reactStrictMode: true,
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
       config.plugins.push(

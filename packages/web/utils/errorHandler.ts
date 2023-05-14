@@ -3,8 +3,16 @@ import { useToast } from '@metafam/ds';
 import { useCallback } from 'react';
 import { CombinedError } from 'urql';
 
+import { CONFIG } from '../config';
+
 export const errorHandler = (error: Error | CombinedError): void => {
-  Honeybadger.notify(error);
+  // eslint-disable-next-line no-console
+  console.info(`In errorHandler: ${CONFIG.appEnv}`);
+  if (CONFIG.useHoneybadger) {
+    Honeybadger.notify(error);
+  } else {
+    console.error({ errorHandler: error });
+  }
 };
 
 type DebugErrorReports = {
@@ -39,8 +47,8 @@ export const useDebugErrorReports = (): DebugErrorReports => {
         } catch (err) {
           const error = err as Error;
           toast({
-            title: 'Error debug',
-            description: `Throwing handled error: ${error.message}.`,
+            title: 'Error Debug',
+            description: `Throwing handled error: "${error.message}".`,
             status: 'error',
             isClosable: true,
           });
@@ -50,7 +58,5 @@ export const useDebugErrorReports = (): DebugErrorReports => {
     }
   }, [toast]);
 
-  return {
-    debugErrorReports,
-  };
+  return { debugErrorReports };
 };

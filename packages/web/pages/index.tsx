@@ -12,9 +12,6 @@ import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
 import { CONFIG } from 'config';
-// import { gsap } from "gsap";
-// import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
-// import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
@@ -224,7 +221,7 @@ export const Socials: React.FC = () => (
             </Box>
           </Tooltip>
         </MetaLink>
-        <MetaLink href="https://discord.com/invite/metagame" isExternal>
+        <MetaLink href="https://chat.metagame.wtf" isExternal>
           <Tooltip label="Discord" hasArrow placement="right">
             <Box as="span">
               <FaDiscord />

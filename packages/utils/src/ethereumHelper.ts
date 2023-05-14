@@ -47,8 +47,7 @@ async function getWalletType(
         resolve(c);
       })
       .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error('`.getCode` Error', err);
+        console.error('`.getCode` Error', { err });
         reject(err);
       });
   });
