@@ -54,6 +54,8 @@ export const ConnectedPage: React.FC<{
     );
   }
 
+  console.warn({ connected, mounted });
+
   return (
     <Text textAlign="center" mt="25vh">
       Not sure how we got here… Something is decidedly amiss. Please{' '}
