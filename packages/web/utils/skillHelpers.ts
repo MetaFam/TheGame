@@ -19,7 +19,8 @@ export const parseSkills = (
 ): Array<CategoryOption> => {
   const skillsMap: SkillMap = {};
   skills.forEach((skill) => {
-    skillsMap[skill.category] ??= {
+    // `??=` miscompiles in webpack
+    skillsMap[skill.category] = skillsMap[skill.category] ?? {
       label: skill.category,
       options: [],
     };
