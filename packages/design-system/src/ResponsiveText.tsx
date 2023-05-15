@@ -6,7 +6,7 @@ interface Content {
   content: any[] | Record<string, any>;
 }
 
-export type Props = Content & TextProps;
+export type Props = Content & Omit<TextProps, keyof Content>;
 
 export const ResponsiveText: React.FC<Props> = ({ content, ...props }) => {
   const value = useBreakpointValue(content);
