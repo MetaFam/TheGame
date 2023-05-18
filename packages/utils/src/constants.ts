@@ -28,3 +28,5 @@ export const APP_ENV =
 export const PSEED_ADDRESS = '0x8a8fcd351ed553fc75aecbc566a32f94471f302e';
 export const PSEED_DECIMALS = 18;
 export const PSEED_FOR_QUEST = APP_ENV === 'production' ? 100 : 0;
+
+export const PLAUSIBLE_DATA_DOMAIN = 'metagame.wtf';
