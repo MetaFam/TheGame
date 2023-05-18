@@ -3,12 +3,14 @@ import 'assets/custom-markdown-editor.scss';
 
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
+import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
 import Head from 'next/head';
+import Script from 'next/script';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
@@ -50,6 +52,13 @@ const App: React.FC<WithUrqlProps> = ({
       <title>MetaGame</title>
       {CONFIG.appEnv === 'production' && <Analytics />}
     </Head>
+    <Script
+      type="text/javascript"
+      defer
+      data-domain={Constants.PLAUSIBLE_DATA_DOMAIN}
+      data-api="/rjlhmwzgtf/api/event"
+      src="/rjlhmwzgtf/js/script.js"
+    />
     <Web3ContextProvider {...{ resetUrqlClient }}>
       <MegaMenu hide={pageProps.hideTopMenu}>
         <Component {...pageProps} />
