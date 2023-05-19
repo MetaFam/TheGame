@@ -47,26 +47,41 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             <QuestTileImage
               src={httpLink(quest.image) ?? DefaultQuestImage.src}
             />
-            <Box px={5} w="full" pos="absolute" bottom={-6} zIndex={1}>
-              <Heading
-                as="h2"
-                fontSize="3xl"
-                color="white"
-                bgColor="whiteAlpha.100"
-                backdropFilter="blur(10px)"
-                lineHeight={1.1}
+            <Box
+              // For positioning of the heading over the quest image
+              pos="absolute"
+              bottom={-6}
+              zIndex={1}
+              w="100%"
+            >
+              <Box
+                // For the background and padding
+                // (So the line-clamp clips properly with the desired line-height and padding of the heading)
+                mx={5}
+                boxSizing="border-box"
                 px={4}
                 py={3}
-                width="full"
-                textAlign="center"
                 borderRadius={10}
-                fontFamily="body"
-                fontWeight={400}
-                textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the quest image has a white background
-                noOfLines={2}
+                bgColor="whiteAlpha.100"
+                backdropFilter="blur(10px)"
               >
-                {quest.title}
-              </Heading>
+                <Heading
+                  // The actual heading
+                  // If vertical padding is applied here, the ascenders of tall letters on the 3rd line poke up from the bottom
+                  as="h2"
+                  fontSize="3xl"
+                  color="white"
+                  lineHeight={1.1}
+                  width="full"
+                  textAlign="center"
+                  fontFamily="body"
+                  fontWeight={400}
+                  textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the quest image has a white background
+                  noOfLines={2}
+                >
+                  {quest.title}
+                </Heading>
+              </Box>
             </Box>
           </LinkOverlay>
         </LinkBox>
@@ -85,7 +100,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           >
             <VStack align="left" spacing={1}>
               <TileHeading>Description</TileHeading>
-              <Box fontSize="md" noOfLines={4} mt={0}>
+              <Box fontSize="md" noOfLines={3} mt={0}>
                 <Box className="mg-quest-tile-description">
                   {descIsHtml ? (
                     <Prose>{parsedDescription}</Prose>

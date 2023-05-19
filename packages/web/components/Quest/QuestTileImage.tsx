@@ -7,6 +7,6 @@ type Props = {
 
 export const QuestTileImage: React.FC<Props> = ({ src }) => (
   <AspectRatio ratio={1}>
-    <Image src={src} alt="" borderRadius={10} fit="cover" />
+    <Image src={src} alt="" borderTopRadius={10} fit="cover" />
   </AspectRatio>
 );
