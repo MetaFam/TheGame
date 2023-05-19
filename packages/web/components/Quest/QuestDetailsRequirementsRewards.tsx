@@ -130,16 +130,7 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
       </Flex>
 
       <Text as="p" fontWeight="300" fontStyle="italic">
-        Note: Due to the way{' '}
-        <Link
-          href="https://wiki.metagame.wtf/what-we-do/metasys"
-          isExternal
-          textDecoration="underline"
-        >
-          MetaSys
-        </Link>{' '}
-        works, rewards vary based on impact &amp; people’s evaluation, there’s
-        no way to know in advance.
+        Note: Rewards vary based on quality of outcome.
       </Text>
     </VStack>
   </Stack>
