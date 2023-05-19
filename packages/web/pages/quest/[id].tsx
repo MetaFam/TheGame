@@ -109,7 +109,15 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
 
           <Flex as="footer" w="100%" direction="column" mt={8} mb={8}>
             <HStack mb={4} justify="space-between" align="left">
-              <Heading>Proposals</Heading>
+              <Heading
+                as="h2"
+                fontFamily="body"
+                fontWeight="600"
+                fontSize={{ base: '4xl', md: '6xl' }}
+                lineHeight={1.1}
+              >
+                Proposals
+              </Heading>
 
               {canSubmit && (
                 <MetaLink
