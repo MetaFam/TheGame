@@ -14,19 +14,6 @@ export enum TrackEvent {
   ChainCreated = 'Chain created',
 }
 
-type PlausibleArgs = [TrackEvent, () => void] | [TrackEvent];
-
-declare global {
-  const plausible: {
-    (...args: PlausibleArgs): void;
-    q?: PlausibleArgs[];
-  };
-
-  interface Window {
-    plausible?: typeof plausible;
-  }
-}
-
 class MetaDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext,
@@ -44,12 +31,6 @@ class MetaDocument extends Document {
             rel="stylesheet"
           />
           <link rel="shortcut icon" href="/favicon.png" />
-          <script
-            dangerouslySetInnerHTML={{
-              __html:
-                'window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }',
-            }}
-          />
         </Head>
         <body>
           <Main />
