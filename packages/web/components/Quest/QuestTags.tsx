@@ -30,7 +30,8 @@ export const RepetitionTag: React.FC<RepetitionProps> = ({
 }) => (
   <Tooltip label={getRepetitionText({ repetition, cooldown })}>
     <MetaTag
-      size="md"
+      borderRadius={4}
+      size="lg"
       fontWeight="normal"
       backgroundColor={RepetitionColors[repetition]}
     >
@@ -47,7 +48,12 @@ interface StatusProps {
   status: QuestStatus_Enum;
 }
 export const StatusTag: React.FC<StatusProps> = ({ status }) => (
-  <MetaTag fontWeight="normal" size="md" backgroundColor={StatusColors[status]}>
+  <MetaTag
+    borderRadius={4}
+    fontWeight="normal"
+    size="lg"
+    backgroundColor={StatusColors[status]}
+  >
     {status}
   </MetaTag>
 );
@@ -67,8 +73,9 @@ export const CompletionStatusTag: React.FC<QuestCompletionProps> = ({
   status,
 }) => (
   <MetaTag
+    borderRadius={4}
     fontWeight="normal"
-    size="md"
+    size="lg"
     backgroundColor={CompletionStatusColors[status]}
   >
     {status}

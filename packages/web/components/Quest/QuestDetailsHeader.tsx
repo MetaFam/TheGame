@@ -6,6 +6,8 @@ import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import React from 'react';
 
+import { RepetitionTag, StatusTag } from './QuestTags';
+
 type Props = {
   quest: QuestFragment;
 };
@@ -13,6 +15,14 @@ type Props = {
 export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
   const playerName = usePlayerName(quest.player);
   const playerProfileLinkURL = usePlayerURL(quest.player);
+  const {
+    repetition,
+    cooldown,
+    // createdAt,
+    // externalLink: link,
+    title,
+    // status,
+  } = quest;
 
   return (
     <Box as="header" mb={[8, 8, 12]}>
@@ -23,9 +33,15 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
         fontSize={{ base: '5xl', md: '8xl' }}
         mb={5}
       >
-        {quest.title}
+        {title}
       </Heading>
-      <Flex gap={2} fontSize="2xl" lineHeight="1.1" alignItems="flex-start">
+      <Flex
+        gap={2}
+        fontSize="2xl"
+        lineHeight="1.1"
+        alignItems="flex-start"
+        mb={5}
+      >
         <Text as="div" fontWeight="400" whiteSpace="nowrap">
           Created by
         </Text>
@@ -39,6 +55,12 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
             <MetaLink href={playerProfileLinkURL}>{playerName}</MetaLink>
           </Text>
         </Flex>
+      </Flex>
+
+      <Flex gap={2}>
+        <StatusTag status={quest.status} />
+
+        <RepetitionTag {...{ repetition, cooldown }} />
       </Flex>
     </Box>
   );
