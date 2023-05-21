@@ -1,7 +1,8 @@
-import { Box, Flex, Heading, Text } from '@metafam/ds';
+import { Box, Flex, Heading, MetaButton, Text, VStack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { QuestFragment } from 'graphql/autogen/types';
+import { Quest, QuestFragment } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import React from 'react';
@@ -15,13 +16,15 @@ type Props = {
 export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
   const playerName = usePlayerName(quest.player);
   const playerProfileLinkURL = usePlayerURL(quest.player);
+  const { user } = useUser();
+  const isMyQuest = user?.id === (quest as Quest).player.id;
   const {
     repetition,
     cooldown,
     // createdAt,
     // externalLink: link,
     title,
-    // status,
+    status,
   } = quest;
 
   return (
@@ -57,11 +60,20 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
         </Flex>
       </Flex>
 
-      <Flex gap={2}>
-        <StatusTag status={quest.status} />
+      {/** Example only, would use isMyQuest to put this in (or not)
+       * (My quest: {isMyQuest ? "Y" : "N"})
+       */}
+      <VStack spacing={5} align="left">
+        <Flex gap={2}>
+          <MetaButton size="md">Edit</MetaButton>
+          <MetaButton size="md">Delete</MetaButton>
+        </Flex>
 
-        <RepetitionTag {...{ repetition, cooldown }} />
-      </Flex>
+        <Flex gap={2}>
+          <StatusTag status={status} />
+          <RepetitionTag {...{ repetition, cooldown }} />
+        </Flex>
+      </VStack>
     </Box>
   );
 };
