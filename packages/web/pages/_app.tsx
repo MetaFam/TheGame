@@ -10,7 +10,6 @@ import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
 import Head from 'next/head';
-import Script from 'next/script';
 import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
@@ -46,21 +45,19 @@ const App: React.FC<WithUrqlProps> = ({
   resetUrqlClient,
   Component,
 }) => (
-  <PlausibleProvider domain={Constants.PLAUSIBLE_DATA_DOMAIN}>
-    <ChakraProvider theme={MetaTheme}>
-      <CSSReset />
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>MetaGame</title>
-        {CONFIG.appEnv === 'production' && <Analytics />}
-      </Head>
-      <Web3ContextProvider {...{ resetUrqlClient }}>
-        <MegaMenu hide={pageProps.hideTopMenu}>
-          <Component {...pageProps} />
-        </MegaMenu>
-      </Web3ContextProvider>
-    </ChakraProvider>
-  </PlausibleProvider>
+  <ChakraProvider theme={MetaTheme}>
+    <CSSReset />
+    <Head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>MetaGame</title>
+      {CONFIG.appEnv === 'production' && <Analytics />}
+    </Head>
+    <Web3ContextProvider {...{ resetUrqlClient }}>
+      <MegaMenu hide={pageProps.hideTopMenu}>
+        <Component {...pageProps} />
+      </MegaMenu>
+    </Web3ContextProvider>
+  </ChakraProvider>
 );
 
 const DeployedApp: React.FC<WithUrqlProps> = (props) => {
@@ -75,12 +72,14 @@ const DeployedApp: React.FC<WithUrqlProps> = (props) => {
   const honeybadger = Honeybadger.configure(honeybadgerConfig);
 
   return (
-    <HoneybadgerErrorBoundary {...{ honeybadger }}>
-      <>
-        {userbackToken && <UserbackProvider token={userbackToken} />}
-        <App {...props} />
-      </>
-    </HoneybadgerErrorBoundary>
+    <PlausibleProvider domain={Constants.PLAUSIBLE_DATA_DOMAIN}>
+      <HoneybadgerErrorBoundary {...{ honeybadger }}>
+        <>
+          {userbackToken && <UserbackProvider token={userbackToken} />}
+          <App {...props} />
+        </>
+      </HoneybadgerErrorBoundary>
+    </PlausibleProvider>
   );
 };
 
