@@ -158,7 +158,7 @@ export const isApproved = async (
 export const approveTokens = async (
   tokenAddress: string,
   amount: BigNumber,
-  provider: JsonRpcProvider,
+  provider: JsonRpcProvider | any,
 ): Promise<TransactionResponse> => {
   const erc20 = await new Contract(
     tokenAddress,
@@ -172,7 +172,7 @@ export const spendTokens = async (
   tokenAddress: string,
   amount: BigNumber,
   owner: string,
-  provider: JsonRpcProvider,
+  provider: JsonRpcProvider | any,
 ): Promise<TransactionResponse> => {
   const erc20 = await new Contract(
     tokenAddress,
@@ -186,7 +186,7 @@ export const mint = (
   meToken: string,
   amount: BigNumber,
   recipient: string,
-  provider: JsonRpcProvider,
+  provider: JsonRpcProvider | any,
 ): Promise<TransactionResponse> => {
   const meTokenFoundry = new Contract(
     meTokenDiamond,
@@ -200,7 +200,7 @@ export const burn = (
   meToken: string,
   amount: BigNumber,
   sender: string,
-  provider: JsonRpcProvider,
+  provider: JsonRpcProvider | any,
 ): Promise<TransactionResponse> => {
   const meTokenFoundry = new Contract(
     meTokenDiamond,
