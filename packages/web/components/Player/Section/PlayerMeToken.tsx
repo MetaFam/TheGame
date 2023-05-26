@@ -1,4 +1,4 @@
-import { JsonRpcProvider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import {
   Box,
   Button,
@@ -74,7 +74,7 @@ type SwapProps = {
   collateralAddress: string;
   meTokenAddress: string;
   owner: string;
-  provider: JsonRpcProvider;
+  provider: JsonRpcProvider | Maybe<Web3Provider>;
 };
 
 type LiveCollateralData = {
@@ -664,7 +664,6 @@ export const PlayerMeTokens: React.FC<Props> = ({
 
   useEffect(() => {
     if (!player) return;
-
     getMeTokenFor(player?.ethereumAddress).then((r) => {
       setMeTokenAddress(r === nullToken ? null : r);
     });
@@ -674,7 +673,9 @@ export const PlayerMeTokens: React.FC<Props> = ({
     if (!meTokenAddress || meTokenAddress === null || !player.ethereumAddress) {
       return;
     }
-    getMeTokenInfo(meTokenAddress, player.ethereumAddress).then(setMeTokenData);
+    getMeTokenInfo(meTokenAddress, player.ethereumAddress).then((r) => {
+      setMeTokenData(r);
+    });
   }, [meTokenAddress, player?.ethereumAddress]);
 
   return (
@@ -691,7 +692,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
               <Text>Create a meToken</Text>
             </MetaButton>
           </a>
-        ) : !meTokenData || !player || !provider ? (
+        ) : !meTokenData || !player ? (
           <LoadingState />
         ) : (
           <>
@@ -707,7 +708,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
               symbol={meTokenData.symbol}
               collateralAddress={meTokenData.collateralAddress}
               owner={player.ethereumAddress}
-              {...{ provider }}
+              provider={provider}
             />
           </>
         )}
