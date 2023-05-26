@@ -74,7 +74,7 @@ type SwapProps = {
   collateralAddress: string;
   meTokenAddress: string;
   owner: string;
-  provider: JsonRpcProvider | Maybe<Web3Provider>;
+  provider?: JsonRpcProvider;
 };
 
 type LiveCollateralData = {
@@ -538,7 +538,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               <Flex justify="space-between" align="center" p="2">
                 <Box flexGrow={1}>
                   <Input
-                    htmlSize={10}
+                    htmlSize={0}
                     width="auto"
                     variant="unstyled"
                     backgroundColor="#FFF"
@@ -673,9 +673,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
     if (!meTokenAddress || meTokenAddress === null || !player.ethereumAddress) {
       return;
     }
-    getMeTokenInfo(meTokenAddress, player.ethereumAddress).then((r) => {
-      setMeTokenData(r);
-    });
+    getMeTokenInfo(meTokenAddress, player.ethereumAddress).then(setMeTokenData);
   }, [meTokenAddress, player?.ethereumAddress]);
 
   return (
@@ -708,7 +706,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
               symbol={meTokenData.symbol}
               collateralAddress={meTokenData.collateralAddress}
               owner={player.ethereumAddress}
-              provider={provider}
+              provider={(provider as JsonRpcProvider)}
             />
           </>
         )}
@@ -716,3 +714,4 @@ export const PlayerMeTokens: React.FC<Props> = ({
     </ProfileSection>
   );
 };
+
