@@ -321,7 +321,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </FormHelperText>
                   <Input
                     w="100%"
-                    placeholder="Imma User"
+                    placeholder="e.g., Meta Player 10x!"
                     {...register('name', {
                       maxLength: {
                         value: 150,
@@ -342,43 +342,54 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.username}>
                   <Label htmlFor="username" userSelect="none">
-                    Username
+                    Profile URL
                   </Label>
                   <FormHelperText pb={3} color="white">
                     Lowercase alpha, digits, dashes, & underscores only.
                   </FormHelperText>
-                  <Input
-                    w="100%"
-                    placeholder="i-am-a-user"
-                    {...register('username', {
-                      validate: async (value) => {
-                        if (value && /0x[0-9a-z]{40}/i.test(value)) {
-                          return `Name "${value}" has the same format as an Ethereum address.`;
-                        }
-                        if (
-                          value &&
-                          value !== username &&
-                          (await getPlayer(value))
-                        ) {
-                          return `Name "${value}" is already in use.`;
-                        }
-                        return true;
-                      },
-                      pattern: {
-                        value: /^[a-z0-9-_]+$/,
-                        message:
-                          'Only lowercase letters, digits, dashes, & underscores allowed.',
-                      },
-                      minLength: {
-                        value: 3,
-                        message: 'Must have at least three characters.',
-                      },
-                      maxLength: {
-                        value: 150,
-                        message: 'Maximum length is 150 characters.',
-                      },
-                    })}
-                  />
+                  <InputGroup w="100%">
+                    <InputLeftElement
+                      pointerEvents="none"
+                      pl={130}
+                      children=" https://metagame.wtf/players/"
+                    />
+                    <Input
+                      w="100%"
+                      flex={1}
+                      minW={20}
+                      maxW="100%"
+                      pl={250}
+                      placeholder="e.g., meta_player-10x"
+                      {...register('username', {
+                        validate: async (value) => {
+                          if (value && /0x[0-9a-z]{40}/i.test(value)) {
+                            return `Name "${value}" has the same format as an Ethereum address.`;
+                          }
+                          if (
+                            value &&
+                            value !== username &&
+                            (await getPlayer(value))
+                          ) {
+                            return `Name "${value}" is already in use.`;
+                          }
+                          return true;
+                        },
+                        pattern: {
+                          value: /^[a-z0-9-_]+$/,
+                          message:
+                            'Only lowercase letters, digits, dashes, & underscores allowed.',
+                        },
+                        minLength: {
+                          value: 3,
+                          message: 'Must have at least three characters.',
+                        },
+                        maxLength: {
+                          value: 150,
+                          message: 'Maximum length is 150 characters.',
+                        },
+                      })}
+                    />
+                  </InputGroup>
                   <Box minH="3em">
                     <FormErrorMessage>
                       {errors.username?.message?.toString()}
@@ -466,7 +477,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              <GridItem flex={1} alignItems="center">
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.pronouns}>
                   <Label htmlFor="pronouns">Pronouns</Label>
                   <Input
@@ -486,7 +497,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
+              </GridItem> */}
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.website}>
                   <Label htmlFor="name">Website</Label>
@@ -512,7 +523,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              <GridItem flex={1} alignItems="center">
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.location}>
                   <Label htmlFor="location">Location</Label>
                   <Input
@@ -532,8 +543,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
-              <GridItem flex={1} alignItems="center">
+              </GridItem> */}
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.emoji}>
                   <Label htmlFor="emoji">Spirit Emoji</Label>
                   <Input
@@ -555,7 +566,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
+              </GridItem> */}
               <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
                   <Label>Meeting calendar</Label>
