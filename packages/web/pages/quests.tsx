@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Flex,
   Heading,
@@ -60,6 +65,14 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
     [pSeedBalance],
   );
 
+  // Quest dashboard widget tooltip
+  // - The text is shown as a hoverable tooltip for big screens
+  // - For small screens the tooltip is replaced with a toggle accordion
+  const questDashboardTooltipText = {
+    title: 'Quests info right in your dashboard',
+    text: 'Note that there are two quest-related dashboard widgets as well. One for managing submissions for quests you created, and another for viewing your own submissions. Click on “Edit Layout” on the dashboard page to check them out.',
+  };
+
   return (
     <PageContainer sx={questListDescriptionCss}>
       <HeadComponent
@@ -68,6 +81,35 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
         url="https://metagame.wtf/quests"
       />
       <Box w="full" maxW="7xl">
+        <Accordion
+          allowToggle
+          w="full"
+          mb={8}
+          mt={{ base: '3', sm: '0' }}
+          display={{ base: 'block', md: 'none' }}
+        >
+          <AccordionItem
+            px={2}
+            py={2}
+            bgColor="blackAlpha.400"
+            borderColor="whiteAlpha.400"
+            borderRadius={4}
+            borderWidth={1}
+            fontSize="sm"
+          >
+            {/* "AccordionButton must be wrapped in an element with role=heading" */}
+            <h2>
+              <AccordionButton color="gray.300" fontSize="sm" p={0}>
+                <AccordionIcon mr={2} />
+                {questDashboardTooltipText.title}
+              </AccordionButton>
+            </h2>
+            <AccordionPanel color="white" pb={2} pl={6}>
+              <Text maxW="60ch">{questDashboardTooltipText.text}</Text>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+
         <Flex
           align="left"
           alignItems="center"
@@ -86,8 +128,8 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
             >
               Quest Explorer
             </Heading>
-            <Tooltip label='Note that there are two quest-related dashboard widgets as well. One for managing submissions for quests you created, and another for viewing your own submissions. Click on "Edit Layout" on the dashboard page to check them out.'>
-              <InfoIcon />
+            <Tooltip label={questDashboardTooltipText.text}>
+              <InfoIcon display={{ base: 'none', md: 'block' }} />
             </Tooltip>
           </HStack>
           <Box w="full" maxW={{ base: '100%', md: '11rem' }}>
