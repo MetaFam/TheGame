@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Heading,
   HStack,
   InfoIcon,
@@ -67,16 +68,29 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
         url="https://metagame.wtf/quests"
       />
       <Box w="full" maxW="7xl">
-        <HStack justify="space-between" w="full">
-          <HStack>
-            <Heading as="h1" fontFamily="body" fontWeight="600" fontSize="5xl">
+        <Flex
+          align="left"
+          alignItems="center"
+          flexDirection={{
+            base: 'column',
+            md: 'row',
+          }}
+          gap={6}
+        >
+          <HStack w="full" flexBasis="100%">
+            <Heading
+              as="h1"
+              fontFamily="body"
+              fontWeight="600"
+              fontSize={{ base: '4xl', sm: '5xl' }}
+            >
               Quest Explorer
             </Heading>
             <Tooltip label='Note that there are two quest-related dashboard widgets as well. One for managing submissions for quests you created, and another for viewing your own submissions. Click on "Edit Layout" on the dashboard page to check them out.'>
               <InfoIcon />
             </Tooltip>
           </HStack>
-          <Box>
+          <Box w="full" maxW={{ base: '100%', md: '11rem' }}>
             <Tooltip
               label={
                 !canCreateQuest &&
@@ -84,6 +98,11 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
               }
             >
               <MetaButton
+                borderRadius={4}
+                fontSize="md"
+                letterSpacing="auto"
+                size="md"
+                w="full"
                 isLoading={fetchingBalance}
                 onClick={() => {
                   if (!canCreateQuest) {
@@ -98,11 +117,11 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
                   }
                 }}
               >
-                New Quest
+                Create Quest
               </MetaButton>
             </Tooltip>
           </Box>
-        </HStack>
+        </Flex>
         <Box mt={8} w="full">
           <QuestFilter
             quests={quests || []}
