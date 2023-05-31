@@ -404,7 +404,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 <FormControl isInvalid={!!errors.availableHours}>
                   <Label htmlFor="availableHours">Availability</Label>
                   <FormHelperText pb={3} color="white">
-                    Maximum amount of time you can commit to MetaGame.
+                    What is your weekly availability for any kind of freelance
+                    work?
                   </FormHelperText>
                   <InputGroup w="100%">
                     <InputLeftElement>
@@ -450,9 +451,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.timeZone}>
                   <Label htmlFor="name">Time Zone</Label>
-                  <FormHelperText pb={3} color="white">
-                    Maximum amount of time you can commit to MetaGame.
-                  </FormHelperText>
                   <Controller
                     {...{ control }}
                     name="timeZone"

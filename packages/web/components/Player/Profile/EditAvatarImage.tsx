@@ -68,12 +68,6 @@ export const EditAvatarImage = forwardRef<
 
   return (
     <FormControl isInvalid={!!errors.profileImageURL}>
-      {/* <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
-        <Label htmlFor="profileImageURL" userSelect="none">
-          Profile Image
-          <InfoIcon ml={2} />
-        </Label>
-      </Tooltip> */}
       <Center
         w="full"
         position="relative"
@@ -110,28 +104,6 @@ export const EditAvatarImage = forwardRef<
           name="profileImageURL"
           defaultValue={[]}
           render={({ field: { onChange, value, ...props } }) => (
-            // <Input
-            //   {...props}
-            //   colorScheme="blue"
-            //   px={8}
-            //   letterSpacing="0.1em"
-            //   size="md"
-            //   fontSize="sm"
-            //   mt={{ base: 2, md: 6 }}
-            //   color="white"
-            //   rounded="md"
-            //   _hover={{ bg: 'blue.600' }}
-            //   _active={{ bg: 'blue.700' }}
-            //   type="file"
-            //   value={value?.filename ?? ''}
-            //   onChange={async (evt: ChangeEvent<HTMLInputElement>) => {
-            //     onChange(evt.target.files);
-            //     onFileChange(evt);
-            //   }}
-            //   accept="image/*"
-            //   onFocus={() => setActive(true)}
-            //   onBlur={() => setActive(false)}
-            // />
             <>
               <Button
                 as="label"
@@ -163,24 +135,6 @@ export const EditAvatarImage = forwardRef<
                   accept="image/*"
                 />
               </Button>
-              {/* <Text
-                as="label"
-                htmlFor="upload"
-                colorScheme="blue"
-                bg="blue.600"
-                p={4}
-                letterSpacing="0.1em"
-                size="md"
-                fontSize="sm"
-                mt={{ base: 2, md: 6 }}
-                color="white"
-                rounded="md"
-                _hover={{ bg: 'blue.700' }}
-                _active={{ bg: 'blue.800' }}
-                cursor="pointer"
-              >
-                {value?.filename ?? 'Upload Image'}
-              </Text> */}
             </>
           )}
         />
