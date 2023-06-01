@@ -4,9 +4,9 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   Grid,
   GridItem,
-  InfoIcon,
   Input,
   InputGroup,
   InputLeftElement,
@@ -22,7 +22,6 @@ import {
   SelectTimeZone,
   StatusedSubmitButton,
   Text,
-  Tooltip,
   useToast,
   Wrap,
   WrapItem,
@@ -122,6 +121,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const {
     handleSubmit,
     register,
+    watch,
     setValue,
     control,
     reset,
@@ -144,6 +144,14 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   }, [initialFormValues, reset]);
 
   useEffect(resetData, [resetData]);
+
+  const MAX_NAME_LEN = 150; // characters
+
+  const displayName = watch('name');
+  const nameRemaining = useMemo(
+    () => MAX_NAME_LEN - (displayName?.length ?? 0),
+    [displayName],
+  );
 
   const imageFieldRefs = Object.fromEntries(
     hasuraImageFields.map((key) => [key, createRef<HTMLImageElement>()]),
@@ -284,14 +292,11 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     <Modal {...{ isOpen, onClose }}>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-        <ModalHeader>Profile</ModalHeader>
+        <ModalHeader>Edit Profile</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormProvider {...formMethods}>
-            <Grid
-              templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
-              gap={6}
-            >
+            <Grid templateColumns={['1fr']} gap={6} p={8}>
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditAvatarImage
                   ref={imageFieldRefs.profileImageURL}
@@ -305,37 +310,17 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   }}
                 />
               </GridItem>
-              <GridItem flex={1} alignItems="center" h="10em">
-                <EditBackgroundImage
-                  player={player}
-                  ref={imageFieldRefs.profileBackgroundURL}
-                  initialURL={initialFormValues.backgroundImageURL}
-                  onFilePicked={({ file, dataURL }) => {
-                    setPickedFiles({
-                      ...pickedFiles,
-                      backgroundImageURL: file,
-                    });
-                    setPickedFileDataURLs({
-                      ...pickedFileDataURLs,
-                      backgroundImageURL: dataURL,
-                    });
-                  }}
-                />
-              </GridItem>
-              <GridItem flex={1}>
-                <EditDescription />
-              </GridItem>
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.name}>
-                  <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
-                    <Label htmlFor="name" userSelect="none">
-                      Display Name
-                      <InfoIcon ml={2} />
-                    </Label>
-                  </Tooltip>
+                  <Label htmlFor="name" userSelect="none">
+                    Display Name
+                  </Label>
+                  <FormHelperText pb={3} color="white">
+                    Arbitrary letters, spaces, & punctuation.
+                  </FormHelperText>
                   <Input
                     w="100%"
-                    placeholder="Imma User"
+                    placeholder="e.g., Meta Player 10x!"
                     {...register('name', {
                       maxLength: {
                         value: 150,
@@ -343,6 +328,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                       },
                     })}
                   />
+                  <FormHelperText color="white">
+                    {nameRemaining} characters left.
+                  </FormHelperText>
                   <Box minH="3em">
                     <FormErrorMessage>
                       {errors.name?.message?.toString()}
@@ -352,44 +340,55 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               </GridItem>
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.username}>
-                  <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
-                    <Label htmlFor="username" userSelect="none">
-                      Name
-                      <InfoIcon ml={2} />
-                    </Label>
-                  </Tooltip>
-                  <Input
-                    w="100%"
-                    placeholder="i-am-a-user"
-                    {...register('username', {
-                      validate: async (value) => {
-                        if (value && /0x[0-9a-z]{40}/i.test(value)) {
-                          return `Name "${value}" has the same format as an Ethereum address.`;
-                        }
-                        if (
-                          value &&
-                          value !== username &&
-                          (await getPlayer(value))
-                        ) {
-                          return `Name "${value}" is already in use.`;
-                        }
-                        return true;
-                      },
-                      pattern: {
-                        value: /^[a-z0-9-_]+$/,
-                        message:
-                          'Only lowercase letters, digits, dashes, & underscores allowed.',
-                      },
-                      minLength: {
-                        value: 3,
-                        message: 'Must have at least three characters.',
-                      },
-                      maxLength: {
-                        value: 150,
-                        message: 'Maximum length is 150 characters.',
-                      },
-                    })}
-                  />
+                  <Label htmlFor="username" userSelect="none">
+                    Profile URL
+                  </Label>
+                  <FormHelperText pb={3} color="white">
+                    Lowercase alpha, digits, dashes, & underscores only.
+                  </FormHelperText>
+                  <InputGroup w="100%">
+                    <InputLeftElement
+                      pointerEvents="none"
+                      pl={130}
+                      children=" https://metagame.wtf/players/"
+                    />
+                    <Input
+                      w="100%"
+                      flex={1}
+                      minW={20}
+                      maxW="100%"
+                      pl={250}
+                      placeholder="e.g., meta_player-10x"
+                      {...register('username', {
+                        validate: async (value) => {
+                          if (value && /0x[0-9a-z]{40}/i.test(value)) {
+                            return `Name "${value}" has the same format as an Ethereum address.`;
+                          }
+                          if (
+                            value &&
+                            value !== username &&
+                            (await getPlayer(value))
+                          ) {
+                            return `Name "${value}" is already in use.`;
+                          }
+                          return true;
+                        },
+                        pattern: {
+                          value: /^[a-z0-9-_]+$/,
+                          message:
+                            'Only lowercase letters, digits, dashes, & underscores allowed.',
+                        },
+                        minLength: {
+                          value: 3,
+                          message: 'Must have at least three characters.',
+                        },
+                        maxLength: {
+                          value: 150,
+                          message: 'Maximum length is 150 characters.',
+                        },
+                      })}
+                    />
+                  </InputGroup>
                   <Box minH="3em">
                     <FormErrorMessage>
                       {errors.username?.message?.toString()}
@@ -397,36 +396,16 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.timeZone}>
-                  <Label htmlFor="name">Time Zone</Label>
-                  <Controller
-                    {...{ control }}
-                    name="timeZone"
-                    defaultValue={
-                      Intl.DateTimeFormat().resolvedOptions().timeZone
-                    }
-                    render={({ field: { onChange, value, ref, ...props } }) => (
-                      <SelectTimeZone
-                        labelStyle="abbrev"
-                        onChange={(tz: ITimezoneOption) => {
-                          onChange(tz.value);
-                        }}
-                        value={value ?? undefined}
-                        {...props}
-                      />
-                    )}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.timeZone?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
+              <GridItem flex={1}>
+                <EditDescription />
               </GridItem>
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.availableHours}>
                   <Label htmlFor="availableHours">Availability</Label>
+                  <FormHelperText pb={3} color="white">
+                    What is your weekly availability for any kind of freelance
+                    work?
+                  </FormHelperText>
                   <InputGroup w="100%">
                     <InputLeftElement>
                       <Text as="span" role="img" aria-label="clock">
@@ -469,6 +448,33 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 </FormControl>
               </GridItem>
               <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.timeZone}>
+                  <Label htmlFor="name">Time Zone</Label>
+                  <Controller
+                    {...{ control }}
+                    name="timeZone"
+                    defaultValue={
+                      Intl.DateTimeFormat().resolvedOptions().timeZone
+                    }
+                    render={({ field: { onChange, value, ref, ...props } }) => (
+                      <SelectTimeZone
+                        labelStyle="abbrev"
+                        onChange={(tz: ITimezoneOption) => {
+                          onChange(tz.value);
+                        }}
+                        value={value ?? undefined}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Box minH="3em">
+                    <FormErrorMessage>
+                      {errors.timeZone?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem>
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.pronouns}>
                   <Label htmlFor="pronouns">Pronouns</Label>
                   <Input
@@ -488,7 +494,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
+              </GridItem> */}
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.website}>
                   <Label htmlFor="name">Website</Label>
@@ -514,7 +520,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              <GridItem flex={1} alignItems="center">
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.location}>
                   <Label htmlFor="location">Location</Label>
                   <Input
@@ -534,8 +540,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
-              <GridItem flex={1} alignItems="center">
+              </GridItem> */}
+              {/* <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.emoji}>
                   <Label htmlFor="emoji">Spirit Emoji</Label>
                   <Input
@@ -557,7 +563,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
-              </GridItem>
+              </GridItem> */}
               <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
                   <Label>Meeting calendar</Label>
@@ -567,6 +573,23 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   />
                 </FormControl>
               </GridItem>
+              <GridItem flex={1} alignItems="center" h="10em">
+                <EditBackgroundImage
+                  player={player}
+                  ref={imageFieldRefs.profileBackgroundURL}
+                  initialURL={initialFormValues.backgroundImageURL}
+                  onFilePicked={({ file, dataURL }) => {
+                    setPickedFiles({
+                      ...pickedFiles,
+                      backgroundImageURL: file,
+                    });
+                    setPickedFileDataURLs({
+                      ...pickedFileDataURLs,
+                      backgroundImageURL: dataURL,
+                    });
+                  }}
+                />
+              </GridItem>
             </Grid>
           </FormProvider>
         </ModalBody>
@@ -575,7 +598,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             <WrapItem>
               <StatusedSubmitButton
                 isDisabled={isEmpty(dirtyFields)}
-                label="Save Changes"
+                label="Save"
                 {...{ status }}
               />
             </WrapItem>
@@ -591,7 +614,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 _active={{ bg: '#FF000011' }}
                 disabled={!!status}
               >
-                Close
+                Cancel
               </Button>
             </WrapItem>
           </Wrap>
