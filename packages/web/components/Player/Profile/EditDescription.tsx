@@ -1,10 +1,8 @@
 import {
   FormControl,
   FormErrorMessage,
-  InfoIcon,
-  Text,
+  FormHelperText,
   Textarea,
-  Tooltip,
 } from '@metafam/ds';
 import React, { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -27,16 +25,12 @@ export const EditDescription: React.FC = () => {
 
   return (
     <FormControl isInvalid={!!errors.description}>
-      <Tooltip label={`${MAX_DESC_LEN} characters max.`}>
-        <Label htmlFor="description" userSelect="none">
-          Bio
-          <Text as="sup" ml={2}>
-            {remaining}
-          </Text>
-          ⁄<Text as="sub">{MAX_DESC_LEN}</Text>
-          <InfoIcon ml={2} />
-        </Label>
-      </Tooltip>
+      <Label htmlFor="description" userSelect="none">
+        Bio
+      </Label>
+      <FormHelperText pb={3} color="white">
+        A brief description of yourself shown on your profile.
+      </FormHelperText>
       <Textarea
         placeholder="Describe yourself."
         minW="min(18em, calc(100vw - 2rem))"
@@ -49,6 +43,9 @@ export const EditDescription: React.FC = () => {
           },
         })}
       />
+      <FormHelperText py={1} color="white">
+        {remaining} characters left.
+      </FormHelperText>
       <FormErrorMessage>
         {errors.description?.message?.toString()}
       </FormErrorMessage>
