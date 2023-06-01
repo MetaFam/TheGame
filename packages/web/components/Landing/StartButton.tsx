@@ -9,7 +9,10 @@ export const StartButton: React.FC<{ text: string }> = ({
   const buttonSize = useBreakpointValue({ base: 'sm', xl: 'lg' });
   return (
     <Button
-      className="screen-esque"
+      sx={{
+        backgroundColor: '#FF03FF',
+        color: '#261561',
+      }}
       background="landing150"
       colorScheme="white"
       rounded="md"

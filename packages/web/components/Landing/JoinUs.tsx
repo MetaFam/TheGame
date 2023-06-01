@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  HStack,
-  Text,
-  useBreakpointValue,
-  VStack,
-} from '@metafam/ds';
+import { Box, Container, HStack, Input, Text, VStack } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/sections/section-7.webp';
 import { FullPageContainer } from 'components/Container';
 import { StartButton } from 'components/Landing/StartButton';
@@ -26,7 +18,6 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   const root = typeof window !== 'undefined' ? document.body : null;
   const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
-  const buttonSize = useBreakpointValue({ base: 'sm', xl: 'lg' });
 
   return (
     <FullPageContainer
@@ -113,26 +104,41 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
                 .
               </Text>
             </Text>
-            <HStack
-              opacity={displayElement ? 1 : 0}
-              transition={
-                noMotion
-                  ? 'none'
-                  : 'transform 0.3s 1.8s ease-in-out, opacity 0.5s 2s ease-in'
-              }
-            >
-              <MetaLink _hover={{}} href="/dashboard">
-                <Button
-                  className="screen-esque--alt"
-                  colorScheme="white"
-                  size={buttonSize}
-                  minW="7rem"
-                >
-                  Watch
-                </Button>
-              </MetaLink>
-              <StartButton text="Join" />
-            </HStack>
+            <StartButton text="Join" />
+
+            <Box>
+              <hr
+                style={{
+                  width: '502px',
+                  border: '1px solid #FFFFFF16',
+                  marginTop: '60px',
+                }}
+              />
+              <Text
+                fontSize={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
+                lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
+                fontWeight="700"
+                mb={{ base: 3, lg: 8 }}
+              >
+                Stay in the loop
+              </Text>
+              <Input
+                id="swap-amount"
+                pl={2}
+                htmlSize={10}
+                width="100%"
+                variant="unstyled"
+                backgroundColor="#FFF"
+                color="#000"
+                border="none"
+                value={''}
+                type="number"
+                pattern="\d+\.?\d*"
+                step="any"
+                min={0}
+                autoComplete="off"
+              />
+            </Box>
           </VStack>
         </Box>
         <Box
