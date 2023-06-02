@@ -39,6 +39,7 @@ jobs:
         run: yarn typecheck
         env:
           CI: true
+          THE_GRAPH_API_TOKEN: ${{secrets.THE_GRAPH_API_TOKEN}}
 
       - name: Linting
         run: yarn lint
