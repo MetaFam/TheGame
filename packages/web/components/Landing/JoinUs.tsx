@@ -122,12 +122,6 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
               >
                 Stay in the loop
               </Text>
-              <iframe
-                src="https://metagame.substack.com/embed"
-                width="480"
-                height="320"
-                style={{ border: '1px solid #EEE', background: 'white' }}
-              />
             </Box>
           </VStack>
         </Box>
