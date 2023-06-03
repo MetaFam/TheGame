@@ -122,21 +122,11 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
               >
                 Stay in the loop
               </Text>
-              <Input
-                id="swap-amount"
-                pl={2}
-                htmlSize={10}
-                width="100%"
-                variant="unstyled"
-                backgroundColor="#FFF"
-                color="#000"
-                border="none"
-                value={''}
-                type="number"
-                pattern="\d+\.?\d*"
-                step="any"
-                min={0}
-                autoComplete="off"
+              <iframe
+                src="https://metagame.substack.com/embed"
+                width="480"
+                height="320"
+                style={{ border: '1px solid #EEE', background: 'white' }}
               />
             </Box>
           </VStack>
