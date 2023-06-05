@@ -1,10 +1,11 @@
-import { Box, Container, HStack, Input, Text, VStack } from '@metafam/ds';
+import { Box, Container, HStack, Text, VStack } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/sections/section-7.webp';
 import { FullPageContainer } from 'components/Container';
 import { StartButton } from 'components/Landing/StartButton';
 import { MetaLink } from 'components/Link';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
+import Script from 'next/script';
 import React, { useRef } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
@@ -66,12 +67,12 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
             },
           }}
         >
-          <VStack flex={1}>
+          <VStack flex={1} pb={2} mb={20}>
             <Text
               fontSize={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
               lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
               fontWeight="700"
-              mb={{ base: 3, lg: 8 }}
+              mb={{ base: 1, lg: 3 }}
             >
               The revolution will be televized, <br />
               but{' '}
@@ -111,7 +112,8 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
                 style={{
                   width: '502px',
                   border: '1px solid #FFFFFF16',
-                  marginTop: '60px',
+                  marginTop: '30px',
+                  marginBottom: '30px',
                 }}
               />
               <Text
@@ -122,6 +124,32 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
               >
                 Stay in the loop
               </Text>
+              <div
+                id="custom-substack-embed"
+                style={{
+                  marginLeft: '3em',
+                }}
+              />
+              <Script id="rendered-component">
+                {`window.CustomSubstackWidget = {
+                  substackUrl: "metagame.substack.com",
+                  placeholder: "example@gmail.com",
+                  buttonText: "Subscribe",
+                  theme: "custom",
+                  colors: {
+                    primary: "#FF03FF",
+                    input: "#2E0A67",
+                    email: "#FF03FF",
+                    text: "#000000",
+                  }
+                };
+                `}
+              </Script>
+              <Script
+                src="https://substackapi.com/widget.js"
+                async
+                id="render-component"
+              />
             </Box>
           </VStack>
         </Box>
@@ -146,6 +174,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
           }
           zIndex={100}
           sx={{
+            pt: '1em',
             svg: {
               color: 'landing500',
               filter: 'drop-shadow(0 0 5px var(--chakra-colors-landing500))',
