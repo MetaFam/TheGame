@@ -147,6 +147,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
                 Stay in the loop
               </Text>
               <div id="custom-substack-embed" />
+              {/* Load substack form */}
               <Script id="rendered-component">
                 {`window.CustomSubstackWidget = {
                   substackUrl: "metagame.substack.com",
