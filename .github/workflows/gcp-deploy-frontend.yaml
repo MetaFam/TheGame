@@ -25,7 +25,6 @@ env:
   DEPLOYMENT_ENV: ${{github.ref_name}}
   FRONTEND_SERVICE: frontend-${{github.ref_name}}
   FRONTEND_PORT: 3000
-  APP_ENV: development
   FRONTEND_TARGET: development
 
 jobs:
@@ -78,7 +77,7 @@ jobs:
       DOCKER_PATH: ${{env.DOCKER_PATH}}
       GRAPHQL_URL: ${{env.GRAPHQL_URL}}
       FRONTEND_TAG: ${{env.FRONTEND_TAG}}
-      NODE_ENV: ${{env.NODE_ENV}}
+      APP_ENV: ${{env.APP_ENV}}
 
     steps:
       - name: First Interpolation of Variables
@@ -87,11 +86,11 @@ jobs:
           echo "CLOUDRUN_REGION=${{env.REGISTRY_REGION}}" >> $GITHUB_ENV
           echo "DOCKER_REGISTRY=${{env.REGISTRY_REGION}}-docker.pkg.dev" >> $GITHUB_ENV
           if [[ ${{github.ref_name}} == 'master' ]]; then
-              echo "NODE_ENV=production" >> $GITHUB_ENV
+              echo "APP_ENV=production" >> $GITHUB_ENV
               echo "HASURA_HOST=api.metagame.wtf" >> $GITHUB_ENV
               echo "FRONTEND_URL=https://metagame.wtf" >> $GITHUB_ENV
           else
-              echo "NODE_ENV=test" >> $GITHUB_ENV
+              echo "APP_ENV=test" >> $GITHUB_ENV
               echo "HASURA_HOST=api-staging.metagame.wtf" >> $GITHUB_ENV
               echo "FRONTEND_URL=https://test.metagame.wtf" >> $GITHUB_ENV
           fi

@@ -1,6 +1,5 @@
 export const CONFIG = {
-  environment: process.env.NODE_ENV || 'development',
-  appEnv: process.env.APP_ENV || process.env.NODE_ENV || 'development',
+  appEnv: process.env.APP_ENV || 'development',
   graphqlURL:
     process.env.NEXT_PUBLIC_GRAPHQL_URL || 'http://localhost:8080/v1/graphql',
   infuraId:
@@ -10,7 +9,7 @@ export const CONFIG = {
   brightIdNodeURL:
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
   publicURL: process.env.NEXT_PUBLIC_FRONTEND_URL,
-  gaId: process.env.NEXT_PUBLIC_GA4_ID || 'G-B1NKK3Q1BP',
+  gaId: process.env.NEXT_PUBLIC_GA4_ID,
   honeybadgerAPIKey: process.env.NEXT_PUBLIC_HONEYBADGER_API_KEY,
   get useHoneybadger() {
     return this.appEnv === 'production' && !!this.honeybadgerAPIKey;
@@ -29,7 +28,6 @@ export const CONFIG = {
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
   openseaAPIKey: process.env.OPENSEA_API_KEY,
   alchemyAPIKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
-  hostName: 'https://metagame.wtf',
   mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
 };
 // eslint-disable-next-line no-console
