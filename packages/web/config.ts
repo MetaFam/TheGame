@@ -30,5 +30,3 @@ export const CONFIG = {
   alchemyAPIKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
   mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
 };
-// eslint-disable-next-line no-console
-console.log(CONFIG);
