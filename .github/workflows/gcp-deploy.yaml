@@ -484,6 +484,7 @@ jobs:
             IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
             HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}} 
             USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}} 
+            GA4_ID=${{env.GA4_ID}}
             WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} 
             OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
           push: true

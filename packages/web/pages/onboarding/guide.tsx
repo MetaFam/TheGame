@@ -13,15 +13,15 @@ export const getStaticProps = async () => ({
 });
 
 const OnboardingGuide: React.FC = () => {
-  const { hostName } = CONFIG;
+  const { publicURL } = CONFIG;
 
   return (
     <>
       <HeadComponent
         title="MetaGame: Onboarding Guide 🐙"
         description="Your journey into MetaGame has just begun. Here's how it works…"
-        url={hostName}
-        img={`${hostName}/assets/social.webp`}
+        url={publicURL}
+        img={`${publicURL}/assets/social.webp`}
         cardStyle="summary_large_image"
       />
       <LandingHeader />
