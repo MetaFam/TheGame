@@ -23,8 +23,13 @@ Runs the NextJS server for production use (We generate a static site right now, 
 
 ### Troubleshooting
 
-You can build and debug the Docker container (that is used in production) with:
+To build and debug the Docker container (that is used in production):
+
+- Make sure the backend services are running with e.g. `yarn docker:start`
+- Build the container. Note that the GRAPHQL_URL is pointing to the docker host: `docker build -f docker/frontend/Dockerfile --build-arg GRAPHQL_URL=http://host.docker.internal:8080/v1/graphql -t the-game-frontend .`
+
+Then you can run that container with
 
 ```
-docker build -f docker/frontend/Dockerfile --build-arg GRAPHQL_URL=http://host.docker.internal:8080/v1/graphql  .
+docker run -p 3000:3000 -e NEXT_PUBLIC_GRAPHQL_URL=http://localhost:8080/v1/graphql the-game-frontend
 ```
