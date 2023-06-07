@@ -25,6 +25,8 @@ env:
   DEPLOYMENT_ENV: ${{github.ref_name}}
   FRONTEND_SERVICE: frontend-${{github.ref_name}}
   FRONTEND_PORT: 3000
+  APP_ENV: development
+  FRONTEND_TARGET: development
 
 jobs:
   start-deployment:
@@ -118,16 +120,8 @@ jobs:
         with:
           ref: ${{github.event.after}}
 
-      - name: "Build Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        uses: mattes/cached-docker-build-action@v1
-        with:
-          args: |
-            . -f docker/frontend/Dockerfile \
-              --tag ${{needs.env.outputs.FRONTEND_TAG}} \
-              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-              --build-arg FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
-              --build-arg YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
-          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v2
@@ -136,8 +130,23 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        run: docker push ${{needs.env.outputs.FRONTEND_TAG}}
+      - name: "Build & Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
+        uses: docker/build-push-action@v4
+        with:
+          file: docker/frontend/Dockerfile
+          tags: ${{needs.env.outputs.FRONTEND_TAG}}
+          build-args: |
+            TARGET=${{env.FRONTEND_TARGET}}
+            APP_ENV=${{env.APP_ENV}}
+            GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
+            FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
+            YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
+            IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
+            HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}} 
+            USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}} 
+            WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} 
+            OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
+         push: true
 
   deploy-frontend:
     name: Deploy Frontend
@@ -162,15 +171,7 @@ jobs:
             --memory 512Mi \
             --ingress all \
             --min-instances 1 \
-            --allow-unauthenticated \
-            --set-env-vars NODE_ENV=${{needs.env.outputs.NODE_ENV}} \
-            --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
-            --set-env-vars OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}} \
-            --set-env-vars NEXT_PUBLIC_APP_ENV=${{needs.env.outputs.NODE_ENV}} \
-            --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}} \
-            --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
-            --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-            --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
+            --allow-unauthenticated 
 
   finish-deployment:
     name: Finish Deployment

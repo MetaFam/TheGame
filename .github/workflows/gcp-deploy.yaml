@@ -378,7 +378,6 @@ jobs:
             BACKEND_PROTOCOL=https
           push: true
 
-
   deploy-hasura:
     name: Deploy Hasura
     runs-on: ubuntu-latest
@@ -477,11 +476,16 @@ jobs:
           file: docker/frontend/Dockerfile
           tags: ${{needs.env.outputs.FRONTEND_TAG}}
           build-args: |
+            TARGET=${{needs.env.outputs.FRONTEND_TARGET}}
             APP_ENV=${{needs.env.outputs.APP_ENV}}
             GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
-            NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
-            NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
-            TARGET=${{needs.env.outputs.FRONTEND_TARGET}}
+            FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
+            YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
+            IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
+            HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}} 
+            USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}} 
+            WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} 
+            OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
           push: true
 
   deploy-frontend:
@@ -513,16 +517,7 @@ jobs:
             --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '5Gi' || '512Mi'}} \
             --ingress all \
             --max-instances 1 \
-            --allow-unauthenticated \
-            --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
-            --set-env-vars OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}} \
-            --set-env-vars NEXT_PUBLIC_APP_ENV=${{needs.env.outputs.APP_ENV}} \
-            --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}} \
-            --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
-            --set-env-vars NEXT_PUBLIC_HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}} \
-            --set-env-vars NEXT_PUBLIC_USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}} \
-            --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-            --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
+            --allow-unauthenticated
 
   seed-db:
     name: Seed Database

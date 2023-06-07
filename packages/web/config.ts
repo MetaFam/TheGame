@@ -32,3 +32,5 @@ export const CONFIG = {
   hostName: 'https://metagame.wtf',
   mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
 };
+// eslint-disable-next-line no-console
+console.log(CONFIG);

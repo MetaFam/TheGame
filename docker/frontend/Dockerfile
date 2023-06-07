@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
 
+# This is not intended to be used for local development!
+
 # For this file to build, it needs to have a `$TARGET` specified.
 # Either `production` or `development` to run either the built
 # site or dev environment respectively.
@@ -37,16 +39,27 @@ COPY packages/@types/ packages/@types/
 
 # Build
 FROM build AS build-production
-ARG APP_ENV=production
-ARG NEXT_PUBLIC_APP_ENV=$APP_ENV
-ARG GRAPHQL_URL=https://api.metagame.wtf/v1/graphql
-ARG NEXT_PUBLIC_GRAPHQL_URL=$GRAPHQL_URL
-ARG NEXT_PUBLIC_FRONTEND_URL=$FRONTEND_URL
-ARG NEXT_PUBLIC_YOUTUBE_API_KEY=$YOUTUBE_API_KEY
-ARG NEXT_PUBLIC_GA4_ID
-ARG NEXT_PUBLIC_HONEYBADGER_API_KEY
-ARG NEXT_PUBLIC_USERBACK_TOKEN
-ENV NEXT_PUBLIC_GRAPHQL_URL=$NEXT_PUBLIC_GRAPHQL_URL
+
+# These should match the build-args in `.github/workflows/gcp-deploy.yaml`
+ARG APP_ENV
+ARG GRAPHQL_URL https://api.metagame.wtf/v1/graphql
+ARG FRONTEND_URL https://metagame.wtf
+ARG YOUTUBE_API_KEY
+
+# ARGs are not available at runtime, so define ENV variables
+# These ENVs should match the --set-env-vars in `.github/workflows/gcp-deploy.yaml`
+# see https://www.saltycrane.com/blog/2021/04/buildtime-vs-runtime-environment-variables-nextjs-docker/
+ENV NEXT_PUBLIC_APP_ENV $APP_ENV
+ENV NEXT_PUBLIC_GRAPHQL_URL $GRAPHQL_URL
+ENV NEXT_PUBLIC_FRONTEND_URL $FRONTEND_URL
+ENV NEXT_PUBLIC_IMGIX_TOKEN $IMGIX_TOKEN
+ENV NEXT_PUBLIC_YOUTUBE_API_KEY $YOUTUBE_API_KEY
+ENV NEXT_PUBLIC_HONEYBADGER_API_KEY $HONEYBADGER_API_KEY
+ENV NEXT_PUBLIC_USERBACK_TOKEN $USERBACK_TOKEN
+# These are not exposed to the browser
+ENV WEB3_STORAGE_TOKEN $WEB3_STORAGE_TOKEN
+ENV OPENSEA_API_KEY $OPENSEA_API_KEY
+
 ONBUILD RUN yarn web:build
 # Delete devDependencies
 ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
