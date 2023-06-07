@@ -1,4 +1,13 @@
-import { Box, Container, HStack, Text, VStack } from '@metafam/ds';
+import {
+  AbsoluteCenter,
+  Box,
+  Circle,
+  Container,
+  Divider,
+  HStack,
+  Text,
+  VStack,
+} from '@metafam/ds';
 import BackgroundImage from 'assets/landing/sections/section-7.webp';
 import { FullPageContainer } from 'components/Container';
 import { StartButton } from 'components/Landing/StartButton';
@@ -67,69 +76,77 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
             },
           }}
         >
-          <VStack flex={1} pb={2} mb={20}>
-            <Text
-              fontSize={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
-              lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
-              fontWeight="700"
-              mb={{ base: 1, lg: 3 }}
-            >
-              The revolution will be televized, <br />
-              but{' '}
-              <Text
-                as="span"
-                opacity={displayElement ? 1 : 0}
-                transition={noMotion ? 'none' : 'opacity 0.5s 0.9s ease-in'}
-              >
-                don’t{' '}
-              </Text>
-              <Text
-                as="span"
-                opacity={displayElement ? 1 : 0}
-                transition={noMotion ? 'none' : 'opacity 0.5s 1.2s ease-in'}
-              >
-                just{' '}
-              </Text>
-              <Text
-                as="span"
-                opacity={displayElement ? 1 : 0}
-                transition={noMotion ? 'none' : 'opacity 0.5s 1.5s ease-in'}
-              >
-                watch
-              </Text>
-              <Text
-                as="span"
-                opacity={displayElement ? 1 : 0}
-                transition={noMotion ? 'none' : 'opacity 0.5s 1.8s ease-in'}
-              >
-                .
-              </Text>
-            </Text>
-            <StartButton text="Join" />
-
+          <VStack flex={1} pb={2} mb={20} gap={5}>
             <Box>
-              <hr
-                style={{
-                  width: '502px',
-                  border: '1px solid #FFFFFF16',
-                  marginTop: '30px',
-                  marginBottom: '30px',
-                }}
-              />
               <Text
-                fontSize={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
+                fontSize={{ base: 'sm', md: '2xl' }}
+                lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
+                fontWeight="700"
+                mb={{ base: 1, lg: 3 }}
+              >
+                The revolution will be televized, <br />
+                but{' '}
+                <Text
+                  as="span"
+                  opacity={displayElement ? 1 : 0}
+                  transition={noMotion ? 'none' : 'opacity 0.5s 0.9s ease-in'}
+                >
+                  don’t{' '}
+                </Text>
+                <Text
+                  as="span"
+                  opacity={displayElement ? 1 : 0}
+                  transition={noMotion ? 'none' : 'opacity 0.5s 1.2s ease-in'}
+                >
+                  just{' '}
+                </Text>
+                <Text
+                  as="span"
+                  opacity={displayElement ? 1 : 0}
+                  transition={noMotion ? 'none' : 'opacity 0.5s 1.5s ease-in'}
+                >
+                  watch
+                </Text>
+                <Text
+                  as="span"
+                  opacity={displayElement ? 1 : 0}
+                  transition={noMotion ? 'none' : 'opacity 0.5s 1.8s ease-in'}
+                >
+                  .
+                </Text>
+              </Text>
+              <StartButton text="Join" />
+            </Box>
+            <Box position="relative" padding={{ base: 2, md: 10 }}>
+              <Divider
+                borderColor="#FFFFFF50"
+                width={{ base: '200px', md: '502px' }}
+              />
+              <AbsoluteCenter bg="#270E62">
+                <Circle
+                  size={{ base: 10, md: 50 }}
+                  border="2px solid #FFFFFF16"
+                >
+                  <Text color="#77649C">OR</Text>
+                </Circle>
+              </AbsoluteCenter>
+            </Box>
+            <Box
+              w="100%"
+              display="flex"
+              flexDir="column"
+              alignItems="center"
+              justifyItems="center"
+            >
+              <Text
+                fontSize={{ base: 'md', md: '2xl' }}
                 lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
                 fontWeight="700"
                 mb={{ base: 3, lg: 8 }}
               >
                 Stay in the loop
               </Text>
-              <div
-                id="custom-substack-embed"
-                style={{
-                  marginLeft: '3em',
-                }}
-              />
+              <div id="custom-substack-embed" />
               <Script id="rendered-component">
                 {`window.CustomSubstackWidget = {
                   substackUrl: "metagame.substack.com",
@@ -166,7 +183,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
           height="75px"
           maxH="75px"
           width="100%"
-          maxW={{ base: '90%', md: 'lg', lg: 'md', '2xl': '2xl', '4xl': '4xl' }}
+          maxW={{ base: '90%', md: 'lg', lg: 'xl' }}
           transform={`translate3d(0, ${displayElement ? '0' : '50px'}, 0)`}
           opacity={displayElement ? 1 : 0}
           transition={
@@ -181,7 +198,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
             },
           }}
         >
-          <Text>&copy; 2022 MetaGame</Text>
+          <Text>&copy; {new Date().getFullYear()} MetaGame</Text>
           <HStack fontSize={{ base: 'lg', lg: '2xl' }} spacing={5}>
             <MetaLink href="https://github.com/metafam" isExternal>
               <FaGithub />
