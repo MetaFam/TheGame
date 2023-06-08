@@ -69,7 +69,6 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      APP_ENV: ${{env.APP_ENV}}
       PROJECT_ID: ${{env.PROJECT_ID}}
       REGISTRY_REGION: ${{env.REGISTRY_REGION}}
       REGISTRY_REPO: ${{env.REGISTRY_REPO}}
@@ -98,10 +97,9 @@ jobs:
       BACKEND_TAG: ${{env.BACKEND_TAG}}
       HASURA_TAG: ${{env.HASURA_TAG}}
       FRONTEND_TAG: ${{env.FRONTEND_TAG}}
-      FRONTEND_TARGET: ${{env.FRONTEND_TARGET}}
 
     steps:
-      - name: First Intepolation of Variables
+      - name: First Interpolation of Variables
         id: first
         run: |
           echo "CLOUDRUN_REGION=${{env.REGISTRY_REGION}}" >> $GITHUB_ENV
@@ -115,7 +113,6 @@ jobs:
           echo "FRONTEND_URL=\
           https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
           echo "DB_PASSWORD=$(head -c 48 /dev/urandom | tr -cd [:alnum:])" >> $GITHUB_ENV
-          echo "FRONTEND_TARGET=${{env.FRONTEND_TARGET}}" >> $GITHUB_ENV
 
       - name: Those Variables May Now Be Interpolated
         id: second
@@ -476,8 +473,8 @@ jobs:
           file: docker/frontend/Dockerfile
           tags: ${{needs.env.outputs.FRONTEND_TAG}}
           build-args: |
-            TARGET=${{needs.env.outputs.FRONTEND_TARGET}}
-            APP_ENV=${{needs.env.outputs.APP_ENV}}
+            TARGET=${{env.FRONTEND_TARGET}}
+            APP_ENV=${{env.APP_ENV}}
             GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
             FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
             YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
@@ -514,8 +511,8 @@ jobs:
             --image ${{needs.env.outputs.FRONTEND_TAG}} \
             --region ${{needs.env.outputs.CLOUDRUN_REGION}} \
             --port ${{needs.env.outputs.FRONTEND_PORT}} \
-            --cpu ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '2' || '1'}} \
-            --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '5Gi' || '512Mi'}} \
+            --cpu 1 \
+            --memory 768Mi \
             --ingress all \
             --max-instances 1 \
             --allow-unauthenticated
