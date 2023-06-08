@@ -170,7 +170,7 @@ jobs:
             --memory 512Mi \
             --ingress all \
             --min-instances 1 \
-            --allow-unauthenticated 
+            --allow-unauthenticated
 
   finish-deployment:
     name: Finish Deployment
