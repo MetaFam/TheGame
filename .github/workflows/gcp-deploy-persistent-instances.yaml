@@ -1,4 +1,4 @@
-name: Deploy ComposeDB to Cloud Run
+name: Update Deployment on Cloud Run
 
 on:
   workflow_dispatch:
@@ -7,11 +7,7 @@ on:
         description: Optional cache key component to force invalidation of the build cache.
         required: false
         default: ""
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
+  push:
     branches:
       - feature/composedb
 
@@ -24,10 +20,10 @@ env:
   REGISTRY_REPO: thegame
   DEPLOYMENT_DOMAIN: a.run.app
   CLOUDRUN_SUFFIX: mjhnbmqqna-uk
-  DEPLOYMENT_NAME: Test-PR-${{github.event.number}}
-  DB_NAME: hasura-pr-${{github.event.number}}
-  BACKEND_SERVICE: backend-pr-${{github.event.number}}
-  FRONTEND_SERVICE: frontend-pr-${{github.event.number}}
+  DEPLOYMENT_NAME: test-composedb
+  DB_NAME: hasura-pr-1493
+  BACKEND_SERVICE: backend-composedb
+  FRONTEND_SERVICE: frontend-composedb
   BACKEND_PORT: 4000
   HASURA_PORT: 8080
   FRONTEND_PORT: 3000
@@ -91,7 +87,6 @@ jobs:
       DOCKER_REGISTRY: ${{env.DOCKER_REGISTRY}}
       BACKEND_HOST: ${{env.BACKEND_HOST}}
       FRONTEND_URL: ${{env.FRONTEND_URL}}
-      DB_PASSWORD: ${{env.DB_PASSWORD}}
       HASURA_HOST: ${{env.HASURA_HOST}}
       DOCKER_PATH: ${{env.DOCKER_PATH}}
       SC_SYNC_URL: ${{env.SC_SYNC_URL}}
@@ -115,7 +110,6 @@ jobs:
           ${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
           echo "FRONTEND_URL=\
           https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=$(head -c 48 /dev/urandom | tr -cd [:alnum:])" >> $GITHUB_ENV
 
       - name: Those Variables May Now Be Interpolated
         id: second
@@ -135,11 +129,11 @@ jobs:
           echo "GRAPHQL_URL=\
           https://${{env.HASURA_HOST}}/v1/graphql" >> $GITHUB_ENV
           echo "BACKEND_TAG=\
-          ${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
+          ${{env.DOCKER_PATH}}/backend:composedb" >> $GITHUB_ENV
           echo "HASURA_TAG=\
-          ${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
+          ${{env.DOCKER_PATH}}/hasura:composedb" >> $GITHUB_ENV
           echo "FRONTEND_TAG=\
-          ${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
+          ${{env.DOCKER_PATH}}/frontend:composedb" >> $GITHUB_ENV
 
   build-backend:
     name: Build Backend Container Image
@@ -242,8 +236,8 @@ jobs:
     needs: [env, build-hasura, deploy-backend]
 
     env:
-      db: ${{needs.env.outputs.DB_NAME}}
-      pass: ${{needs.env.outputs.DB_PASSWORD}}
+      user: ${{needs.env.outputs.DB_NAME}}
+      pass: ${{secrets.DB_PASSWORD_COMPOSEDB}}
       host: ${{needs.env.outputs.DB_HOST}}
 
     steps:
@@ -266,7 +260,7 @@ jobs:
             --allow-unauthenticated \
             --add-cloudsql-instances ${{needs.env.outputs.CLOUDSQL_CONNECTION_NAME}} \
             --max-instances 1 \
-            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${{env.db}}:${{env.pass}}@${{env.host}} \
+            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${{env.user}}:${{env.pass}}@${{env.host}} \
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=${{needs.env.outputs.HASURA_SECRET}} \
             --set-env-vars HASURA_GRAPHQL_SERVER_PORT=${{needs.env.outputs.HASURA_PORT}} \
             --set-env-vars HASURA_GRAPHQL_ENABLE_CONSOLE=true
@@ -337,7 +331,7 @@ jobs:
             --region ${{needs.env.outputs.CLOUDRUN_REGION}} \
             --port ${{needs.env.outputs.FRONTEND_PORT}} \
             --cpu 1 \
-            --memory 768Mi \
+            --memory 512Mi \
             --ingress all \
             --max-instances 1 \
             --allow-unauthenticated
