@@ -145,7 +145,7 @@ jobs:
             USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}} 
             WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} 
             OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
-         push: true
+          push: true
 
   deploy-frontend:
     name: Deploy Frontend
