@@ -25,7 +25,7 @@ env:
   DEPLOYMENT_ENV: ${{github.ref_name}}
   FRONTEND_SERVICE: frontend-${{github.ref_name}}
   FRONTEND_PORT: 3000
-  FRONTEND_TARGET: development
+  FRONTEND_TARGET: production
 
 jobs:
   start-deployment:
