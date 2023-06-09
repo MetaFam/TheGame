@@ -16,7 +16,6 @@ import React, { useRef } from 'react';
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
 import { Rain } from './OnboardingGame/Rain';
-import UserGrid from './UserGrid';
 
 export const WhatDo: React.FC<LandingPageSectionProps> = ({
   section,
@@ -137,13 +136,17 @@ export const WhatDo: React.FC<LandingPageSectionProps> = ({
           >
             <ListItem gridArea="first">
               <Text as="h3">
-                <Text as="span">01</Text>Players (Builders)
+                <Text as="span">01</Text>Producing content
               </Text>
-              <UserGrid />
+              <Text>
+                Educational content such as Playbooks &amp; Great Houses as well
+                as something more fun, like our podcasts, news or recordings of
+                the below.
+              </Text>
             </ListItem>
             <ListItem gridArea="second">
               <Text as="h3">
-                <Text as="span">02</Text>Elders (Advisors)
+                <Text as="span">02</Text>Organizing events
               </Text>
               <Text>
                 Regularly bringing awesome people to present at our community
@@ -153,7 +156,7 @@ export const WhatDo: React.FC<LandingPageSectionProps> = ({
             </ListItem>
             <ListItem gridArea="third" justifySelf="end">
               <Text as="h3">
-                <Text as="span">03</Text>Patrons (Funders) of MetaGame
+                <Text as="span">03</Text>Assembling the puzzle
               </Text>
               <Text>
                 Building things like MetaSys &amp; MyMeta as well as the MetaOS
@@ -162,7 +165,7 @@ export const WhatDo: React.FC<LandingPageSectionProps> = ({
             </ListItem>
             <ListItem gridArea="fourth" justifySelf="end">
               <Text as="h3">
-                <Text as="span">04</Text>MetaAlliance (Member Projects)
+                <Text as="span">04</Text>Uniting aligned peoples
               </Text>
               <Text>
                 Bringing together anyone aligned on the idea of building a new
