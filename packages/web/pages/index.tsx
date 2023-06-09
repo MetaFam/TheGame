@@ -64,7 +64,7 @@ const Landing: React.FC = () => {
       ? document.getElementById('scroll-container')
       : null;
   const [section, setSection] = useState(0);
-  const [hostName, setHostName] = useState(CONFIG.hostName);
+  const [hostName, setHostName] = useState(CONFIG.publicURL);
 
   const handleScroll = useCallback(() => {
     if (!scrollContainer) return;
