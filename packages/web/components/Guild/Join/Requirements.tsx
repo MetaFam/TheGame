@@ -82,7 +82,7 @@ export const Requirements: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
+                href="/play/paths/engaged-octos-path"
                 minW="10rem"
                 mt={2}
                 px={6}
