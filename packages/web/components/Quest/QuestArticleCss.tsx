@@ -34,9 +34,9 @@ export const questArticleCss = {
       marginTop: 'var(--chakra-space-12)', // extra space between heading and preceding content ...
       marginBottom: 'var(--chakra-space-8)',
     },
-    'h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child':
+    'h1:first-of-type, h2:first-of-type, h3:first-of-type, h4:first-of-type, h5:first-of-type, h6:first-of-type':
       {
-        marginTop: '0', // ... unless it's the first child
+        marginTop: '0', // ... unless it's the first one
       },
 
     ':is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6)': {
