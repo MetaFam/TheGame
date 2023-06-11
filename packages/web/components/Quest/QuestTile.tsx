@@ -100,7 +100,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           >
             <VStack align="left" spacing={1}>
               <TileHeading>Description</TileHeading>
-              <Box fontSize="md" noOfLines={3} mt={0}>
+              <Box fontSize="md" noOfLines={3}>
                 <Box className="mg-quest-tile-description">
                   {descIsHtml ? (
                     <Prose>{parsedDescription}</Prose>
@@ -111,39 +111,20 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
               </Box>
             </VStack>
 
-            <VStack align="left" gap={1} mt="auto">
-              {quest.quest_skills.length > 0 && (
-                <>
-                  <VStack align="left" spacing={1}>
-                    <TileHeading>Skills</TileHeading>
-                    <Box>
-                      <SkillsTags
-                        skills={
-                          quest.quest_skills.map(
-                            ({ skill }) => skill,
-                          ) as Skill[]
-                        }
-                      />
-                    </Box>
-                  </VStack>
-                </>
-              )}
-
-              {quest.quest_roles.length > 0 && (
-                <VStack align="left" spacing={1}>
-                  <TileHeading>Roles</TileHeading>
+            {quest.quest_skills.length > 0 && (
+              <>
+                <VStack align="left" mt="auto" spacing={1}>
+                  <TileHeading>Skills</TileHeading>
                   <Box>
-                    <RolesTags
-                      roles={
-                        quest.quest_roles.map(
-                          ({ PlayerRole: r }) => r,
-                        ) as PlayerRole[]
+                    <SkillsTags
+                      skills={
+                        quest.quest_skills.map(({ skill }) => skill) as Skill[]
                       }
                     />
                   </Box>
                 </VStack>
-              )}
-            </VStack>
+              </>
+            )}
           </Flex>
           {/**
            * A hidden link overlay that makes the MetaTileBody a clickable link
