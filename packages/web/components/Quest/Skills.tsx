@@ -91,7 +91,7 @@ export const SkillsTags: React.FC<SkillsProps> = ({
     {skills.length > maxSkills && (
       <WrapItem>
         <MetaTag size="md" fontWeight="normal" borderRadius={4}>
-          {`+${skills.length - maxSkills}`}
+          {`+${skills.length - maxSkills} more`}
         </MetaTag>
       </WrapItem>
     )}
