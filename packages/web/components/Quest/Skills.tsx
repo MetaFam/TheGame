@@ -97,3 +97,22 @@ export const SkillsTags: React.FC<SkillsProps> = ({
     )}
   </Wrap>
 );
+
+export const SkillsTagsAll: React.FC<SkillsProps> = ({ skills }) => (
+  <Wrap>
+    {skills.map((skill) => (
+      <WrapItem key={skill.id}>
+        <Tooltip label={skill.category}>
+          <MetaTag
+            size="md"
+            borderRadius={4}
+            fontWeight="normal"
+            backgroundColor={SkillColors[skill.category]}
+          >
+            {skill.name}
+          </MetaTag>
+        </Tooltip>
+      </WrapItem>
+    ))}
+  </Wrap>
+);
