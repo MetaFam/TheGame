@@ -31,21 +31,87 @@ export const theme = extendTheme(
       },
       Button: {
         variants: {
-          outline: {
-            borderColor: 'blue.300',
-            color: 'blue.300',
+          secondary: {
+            bg: 'black',
+            borderColor: '#2F1646',
+            borderRadius: 4,
+            borderWidth: 1,
+            boxShadow: 'xs',
+            color: 'white',
+            fontWeight: 600,
             _hover: {
-              bg: 'rgba(0, 0, 0, 0.24)',
-              borderColor: 'blue.200',
-              color: 'blue.200',
+              bg: '#2B1441',
+              borderColor: '#3E1C5D',
+              color: 'white',
             },
             _active: {
-              bg: 'rgba(0, 0, 0, 0.48)',
-              borderColor: 'blue.800',
-              color: 'blue.800',
+              bg: '#3E1C5D',
+              borderColor: '#2F1646',
+              color: 'white',
+            },
+            _disabled: {
+              opacity: 0.4,
+              color: 'white',
+            },
+          },
+          outline: {
+            borderColor: 'blueLight',
+            borderRadius: 4,
+            borderWidth: 1,
+            color: 'blueLight',
+            fontWeight: 600,
+            _hover: {
+              bg: '#141838',
+              borderColor: 'blueLight',
+              color: 'blueLight',
+            },
+            _active: {
+              bg: '#214781',
+              borderColor: 'blueLight',
+              color: 'white',
             },
             _disabled: {
               opacity: 0.5,
+              color: 'whiteAlpha.700',
+            },
+          },
+          ghost: {
+            bg: 'none',
+            borderRadius: 4,
+            border: 'none',
+            color: 'landing450',
+            fontWeight: 600,
+            _hover: {
+              bg: 'none',
+              textDecoration: 'underline',
+            },
+            _active: {
+              bg: '#2F1646',
+              textDecoration: 'underline',
+            },
+            _disabled: {
+              opacity: 0.5,
+            },
+          },
+          warning: {
+            borderColor: 'red.500',
+            borderRadius: 4,
+            borderWidth: 1,
+            color: 'red.500',
+            fontWeight: 600,
+            _hover: {
+              bg: '#410834',
+              borderColor: 'red.500',
+              color: 'red.500',
+            },
+            _active: {
+              bg: 'red.800',
+              borderColor: 'red.500',
+              color: 'red.50',
+            },
+            _disabled: {
+              opacity: 0.5,
+              color: 'red.500',
             },
           },
         },
