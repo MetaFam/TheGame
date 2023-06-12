@@ -91,48 +91,16 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
         {/* Stacked vertically after md breakpoint */}
         <Stack spacing={5} direction={{ base: 'row', md: 'column' }}>
           <Button
+            variant="outline"
+            borderWidth={2}
             size="lg"
             fontSize="md"
-            variant="edit"
             w="full"
-            borderColor="blueLight"
-            borderRadius={4}
-            borderWidth={2}
-            color="blueLight"
-            _hover={{
-              bg: 'blackAlpha.200',
-              borderColor: 'secondaryBlue.200',
-              color: 'secondaryBlue.200',
-            }}
-            _active={{
-              bg: 'blackAlpha.200',
-              borderColor: 'blueLight',
-              color: 'blueLight',
-            }}
           >
             Edit quest
           </Button>
 
-          <Button
-            size="lg"
-            fontSize="md"
-            variant="delete"
-            w="full"
-            borderColor="red.500"
-            borderRadius={4}
-            borderWidth={1}
-            color="red.500"
-            _hover={{
-              bg: 'blackAlpha.200',
-              borderColor: 'red.700',
-              color: 'red.500',
-            }}
-            _active={{
-              bg: 'blackAlpha.200',
-              borderColor: 'red.500',
-              color: 'red.500',
-            }}
-          >
+          <Button variant="warning" size="lg" fontSize="md" w="full">
             Delete quest
           </Button>
         </Stack>
