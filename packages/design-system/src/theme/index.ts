@@ -33,20 +33,20 @@ export const theme = extendTheme(
         variants: {
           secondary: {
             bg: 'black',
-            borderColor: '#2F1646',
+            borderColor: 'darkMagenta',
             borderRadius: 4,
             borderWidth: 1,
             boxShadow: 'xs',
             color: 'white',
             fontWeight: 600,
             _hover: {
-              bg: '#2B1441',
-              borderColor: '#3E1C5D',
+              bg: 'deepMagenta',
+              borderColor: 'plum',
               color: 'white',
             },
             _active: {
-              bg: '#3E1C5D',
-              borderColor: '#2F1646',
+              bg: 'plum',
+              borderColor: 'darkMagenta',
               color: 'white',
             },
             _disabled: {
@@ -61,12 +61,12 @@ export const theme = extendTheme(
             color: 'blueLight',
             fontWeight: 600,
             _hover: {
-              bg: '#141838',
+              bg: 'midnightBlue',
               borderColor: 'blueLight',
               color: 'blueLight',
             },
             _active: {
-              bg: '#214781',
+              bg: 'royalBlue',
               borderColor: 'blueLight',
               color: 'white',
             },
@@ -86,7 +86,7 @@ export const theme = extendTheme(
               textDecoration: 'underline',
             },
             _active: {
-              bg: '#2F1646',
+              bg: 'darkMagenta',
               textDecoration: 'underline',
             },
             _disabled: {
@@ -100,7 +100,7 @@ export const theme = extendTheme(
             color: 'red.500',
             fontWeight: 600,
             _hover: {
-              bg: '#410834',
+              bg: 'wine',
               borderColor: 'red.500',
               color: 'red.500',
             },
