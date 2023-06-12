@@ -9,7 +9,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { RolesTags } from 'components/Quest/Roles';
-import { SkillsTags } from 'components/Quest/Skills';
+import { SkillsTagsAll } from 'components/Quest/Skills';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import SeedLogoSmol from 'public/assets/seed-logo-smol_46x46.png';
 import React from 'react';
@@ -72,7 +72,7 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
               Required skills
             </Text>
             <Box>
-              <SkillsTags
+              <SkillsTagsAll
                 skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
               />
             </Box>
