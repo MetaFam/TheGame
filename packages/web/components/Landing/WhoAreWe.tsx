@@ -21,6 +21,44 @@ import { LandingPageSectionProps } from './landingSection';
 import { Rain } from './OnboardingGame/Rain';
 import { UserGrid } from './UserGrid';
 
+const elders = [
+  {
+    name: 'Griff Green',
+    img: 'https://pbs.twimg.com/profile_images/1639672195981926401/FecL3AYi_400x400.jpg',
+    link: 'https://twitter.com/thegrifft',
+  },
+  {
+    name: 'mZ -- Planeswalker',
+    img: 'https://pbs.twimg.com/profile_images/1444846865242103816/Qp3oy1Ox_400x400.jpg',
+    link: 'https://twitter.com/mZargham',
+  },
+  {
+    name: 'James Young',
+    img: 'https://pbs.twimg.com/profile_images/1441126892623458304/dxwcOlSg_400x400.jpg',
+    link: 'https://twitter.com/jamesyoung',
+  },
+  {
+    name: 'Hanzi Freinacht',
+    img: 'https://pbs.twimg.com/profile_images/1339720086261800960/vdrivSWI_400x400.jpg',
+    link: 'https://twitter.com/HFreinacht',
+  },
+  {
+    name: 'You?',
+    img: 'https://i.imgur.com/tdi3NGa.png',
+    link: '',
+  },
+  {
+    name: 'You?',
+    img: 'https://i.imgur.com/tdi3NGa.png',
+    link: '',
+  },
+  {
+    name: 'You?',
+    img: 'https://i.imgur.com/tdi3NGa.png',
+    link: '',
+  },
+];
+
 interface LandingPageSectionPropsWithPatronsGuildsAndElders
   extends LandingPageSectionProps {
   patrons: Patron[];
@@ -171,7 +209,7 @@ export const WhoAreWe: React.FC<
               <Text as="h3">
                 <Text as="span">03</Text>Elders (Advisors)
               </Text>
-              {patrons && <UserGrid players={patrons} link={'/players'} />}
+              {patrons && <UserGrid elders={elders} link={'/players'} />}
             </ListItem>
             <ListItem gridArea="fourth" justifySelf="end">
               <Text as="h3">
