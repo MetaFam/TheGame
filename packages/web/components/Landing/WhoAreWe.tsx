@@ -9,19 +9,27 @@ import {
 import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.webp';
 import BackgroundImageDesktop from 'assets/landing/sections/section-5.webp';
 import { FullPageContainer } from 'components/Container';
+import { GuildFragment, Player } from 'graphql/autogen/types';
+import { Patron } from 'graphql/types';
+import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
 import { Rain } from './OnboardingGame/Rain';
-import UserGrid from './UserGrid';
+import { UserGrid } from './UserGrid';
 
-export const WhoAreWe: React.FC<LandingPageSectionProps> = ({
-  section,
-  nextSection,
-}) => {
+interface LandingPageSectionPropsWithPatronsGuildsAndElders
+  extends LandingPageSectionProps {
+  patrons: Patron[];
+  guilds: GuildFragment[];
+}
+
+export const WhoAreWe: React.FC<
+  LandingPageSectionPropsWithPatronsGuildsAndElders
+> = ({ section, nextSection, patrons, guilds }) => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const root = typeof window !== 'undefined' ? document.body : null;
@@ -31,6 +39,16 @@ export const WhoAreWe: React.FC<LandingPageSectionProps> = ({
     base: BackgroundImageMobile,
     md: BackgroundImageDesktop,
   });
+
+  const { players } = usePlayerFilter();
+
+  const [topPlayers, setTopPlayers] = useState<Player[]>();
+
+  useEffect(() => {
+    if (players.length) {
+      setTopPlayers(players.slice(0, 7));
+    }
+  }, [players]);
 
   return (
     <FullPageContainer
@@ -89,7 +107,7 @@ export const WhoAreWe: React.FC<LandingPageSectionProps> = ({
           }}
         >
           <Text as="h2" fontWeight="700">
-            What are we doing?
+            Who we are?
           </Text>
           <UnorderedList
             display={{ base: 'flex', lg: 'grid' }}
@@ -139,48 +157,29 @@ export const WhoAreWe: React.FC<LandingPageSectionProps> = ({
               <Text as="h3">
                 <Text as="span">01</Text>Players (Builders)
               </Text>
-              <UserGrid />
+              {topPlayers && (
+                <UserGrid players={topPlayers} link={'/players'} />
+              )}
             </ListItem>
             <ListItem gridArea="second">
               <Text as="h3">
                 <Text as="span">02</Text>Patrons (Funders)
               </Text>
-              <Text>
-                Regularly bringing awesome people to present at our community
-                calls or do workshops. Also organized a conference, a hackathon
-                &amp; a festival.
-              </Text>
+              {patrons && <UserGrid players={patrons} link={'/patrons'} />}
             </ListItem>
             <ListItem gridArea="third" justifySelf="end">
               <Text as="h3">
                 <Text as="span">03</Text>Elders (Advisors)
               </Text>
-              <Text>
-                Building things like MetaSys &amp; MyMeta as well as the MetaOS
-                - to make it easy to integrate other people's building blocks
-              </Text>
+              {patrons && <UserGrid players={patrons} link={'/players'} />}
             </ListItem>
             <ListItem gridArea="fourth" justifySelf="end">
               <Text as="h3">
                 <Text as="span">04</Text>MetaAlliance (Member projects)
               </Text>
-              <Text>
-                Bringing together anyone aligned on the idea of building a new
-                kind of society; individuals joining MetaFam as well as projects
-                joining MetaAlliance.
-              </Text>
+              {guilds && <UserGrid guilds={guilds} link={'/guilds'} />}
             </ListItem>
           </UnorderedList>
-
-          <Text
-            fontWeight={700}
-            width={{ base: '95%', xl: '100%', '2xl': '50%' }}
-            align="center"
-            mx="auto"
-          >
-            In short, anything &amp; everything related to DAOs &amp; helping
-            people build the future they want to live in.
-          </Text>
         </Box>
       </Container>
       <Rain effectOpacity={0.2} />
