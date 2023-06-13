@@ -3,13 +3,20 @@ import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
 import { SquareImage } from 'components/SquareImage';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import React from 'react';
-import { formatAddress, formatIfAddress } from 'utils/playerHelpers';
+import { formatAddress } from 'utils/playerHelpers';
+
+type Elder = {
+  name: string;
+  img: string;
+  link: string;
+};
 
 export const UserGrid: React.FC<{
   players?: Player[];
   guilds?: GuildFragment[];
+  elders?: Elder[];
   link?: string;
-}> = ({ players, guilds, link }) => (
+}> = ({ players, guilds, elders, link }) => (
   <Box
     sx={{
       display: 'flex',
@@ -41,7 +48,7 @@ export const UserGrid: React.FC<{
 
     {guilds?.map((guild, i) => (
       <Box
-        key={`user-${i}`}
+        key={`guild-user-${i}`}
         sx={{
           width: '20%',
           marginRight: '5%',
@@ -55,6 +62,28 @@ export const UserGrid: React.FC<{
         />
         <Text sx={{ fontSize: 'xss' }}>{guild.guildname}</Text>
       </Box>
+    ))}
+
+    {elders?.map((elder, i) => (
+      <Link
+        role="group"
+        _hover={{ textDecoration: 'none' }}
+        href={elder.link}
+        sx={{
+          width: '20%',
+          marginRight: '5%',
+          marginBottom: '10px',
+        }}
+      >
+        <Box key={`elder-user-${i}`}>
+          <SquareImage
+            size="xxs"
+            sx={{ borderRadius: '50px' }}
+            src={elder.img || ''}
+          />
+          <Text sx={{ fontSize: 'xss' }}>{elder.name}</Text>
+        </Box>
+      </Link>
     ))}
     <Box
       sx={{
