@@ -13,6 +13,9 @@ import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
 import { CONFIG } from 'config';
+import { getPatrons } from 'graphql/getPatrons';
+import { getGuilds } from 'graphql/queries/guild';
+import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
@@ -24,11 +27,20 @@ import {
   FaUserCircle,
 } from 'react-icons/fa';
 
-export const getStaticProps = async () => ({
-  props: {
-    hideTopMenu: true,
-  },
-});
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+export const getStaticProps = async () => {
+  const patrons = await getPatrons(11);
+  const guilds = await getGuilds(7);
+
+  return {
+    props: {
+      guilds,
+      patrons,
+      hideTopMenu: true,
+    },
+  };
+};
 
 const ArrowUp: React.FC = () => (
   <svg
@@ -59,7 +71,7 @@ const ArrowUp: React.FC = () => (
   </svg>
 );
 
-const Landing: React.FC = () => {
+const Landing: React.FC<Props> = ({ patrons, guilds }) => {
   const scrollContainer =
     typeof document !== 'undefined'
       ? document.getElementById('scroll-container')
@@ -148,6 +160,8 @@ const Landing: React.FC = () => {
           activeSectionIndex={section}
         />
         <WhoAreWe
+          guilds={guilds}
+          patrons={patrons}
           section={sections[6]}
           nextSection={sections[7]}
           activeSectionIndex={section}
