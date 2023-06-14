@@ -31,7 +31,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const patrons = await getPatrons(11);
-  const guilds = await getGuilds(7);
+  const guilds = await getGuilds();
 
   return {
     props: {

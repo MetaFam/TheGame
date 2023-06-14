@@ -79,7 +79,6 @@ export const WhoAreWe: React.FC<
   });
 
   const { players } = usePlayerFilter();
-
   const [topPlayers, setTopPlayers] = useState<Player[]>();
 
   useEffect(() => {
