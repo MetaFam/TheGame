@@ -5,6 +5,17 @@ import { GuildFragment, Player } from 'graphql/autogen/types';
 import React from 'react';
 import { formatAddress } from 'utils/playerHelpers';
 
+// this will work with production DB
+const whoWeAreGuilds = [
+  'cr8rdao',
+  'metacartelventures',
+  'daohaus',
+  'metafactory',
+  'bloomnetwork',
+  'raidguild',
+  'Giveth',
+];
+
 type Elder = {
   name: string;
   img: string;
@@ -46,23 +57,29 @@ export const UserGrid: React.FC<{
         ))
       : ''}
 
-    {guilds?.map((guild, i) => (
-      <Box
-        key={`guild-user-${i}`}
-        sx={{
-          width: '20%',
-          marginRight: '5%',
-          marginBottom: '10px',
-        }}
-      >
-        <SquareImage
-          size="xxs"
-          sx={{ borderRadius: '50px' }}
-          src={guild.logo || ''}
-        />
-        <Text sx={{ fontSize: 'xss' }}>{guild.guildname}</Text>
-      </Box>
-    ))}
+    {guilds
+      ?.filter((guild) => whoWeAreGuilds.includes(guild.guildname))
+      ?.map((guild, i) => (
+        <Link
+          role="group"
+          _hover={{ textDecoration: 'none' }}
+          href={`guild/${guild.guildname}`}
+          sx={{
+            width: '20%',
+            marginRight: '5%',
+            marginBottom: '10px',
+          }}
+        >
+          <Box key={`guild-user-${i}`}>
+            <SquareImage
+              size="xxs"
+              sx={{ borderRadius: '50px' }}
+              src={guild.logo || ''}
+            />
+            <Text sx={{ fontSize: 'xss' }}>{guild.guildname}</Text>
+          </Box>
+        </Link>
+      ))}
 
     {elders?.map((elder, i) => (
       <Link
