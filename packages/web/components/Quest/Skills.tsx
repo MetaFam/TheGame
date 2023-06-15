@@ -72,32 +72,52 @@ interface SkillsProps {
 export const SkillsTags: React.FC<SkillsProps> = ({
   maxSkills = 6,
   skills,
-}) => (
-  <Wrap>
-    {skills.slice(0, maxSkills).map((skill) => (
-      <WrapItem key={skill.id} zIndex={10}>
-        {/* zIndex so the tooltip is lifted above the LinkOverlay that makes the whole tile a click target */}
-        <Tooltip label={skill.category}>
-          <MetaTag
-            size="md"
-            borderRadius={4}
-            fontWeight="normal"
-            backgroundColor={SkillColors[skill.category]}
-          >
-            {skill.name}
-          </MetaTag>
-        </Tooltip>
-      </WrapItem>
-    ))}
-    {skills.length > maxSkills && (
-      <WrapItem>
-        <MetaTag size="md" fontWeight="normal" borderRadius={4}>
-          {`+${skills.length - maxSkills} more`}
-        </MetaTag>
-      </WrapItem>
-    )}
-  </Wrap>
-);
+}) => {
+  /**
+   * If there are more skills than maxSkills, collect the
+   * extra skills in a string to show in a tooltip
+   * moreSkills will be an empty string if skills.length is not greater than maxSkills
+   */
+  const moreSkills: string = Array.from(skills.values())
+    .slice(maxSkills)
+    .map((skill) => skill.name)
+    .join(', ');
+
+  return (
+    <Wrap>
+      {/* Print a limited number of skills as tags/chips */}
+      {skills.slice(0, maxSkills).map((skill) => (
+        <WrapItem key={skill.id} zIndex={10}>
+          {/* zIndex so the tooltip is lifted above the LinkOverlay that makes the whole tile a click target */}
+          <Tooltip label={skill.category}>
+            <MetaTag
+              size="md"
+              borderRadius={4}
+              fontWeight="normal"
+              backgroundColor={SkillColors[skill.category]}
+            >
+              {skill.name}
+            </MetaTag>
+          </Tooltip>
+        </WrapItem>
+      ))}
+      {skills.length > maxSkills && (
+        <>
+          {/**
+           * Print a tag/chip that shows how many more skills are associated with the quest, with a tooltip that shows those extra skill names on hover
+           */}
+          <WrapItem zIndex={10}>
+            <Tooltip label={moreSkills}>
+              <MetaTag size="md" fontWeight="normal" borderRadius={4}>
+                {`+${skills.length - maxSkills} more`}
+              </MetaTag>
+            </Tooltip>
+          </WrapItem>
+        </>
+      )}
+    </Wrap>
+  );
+};
 
 export const SkillsTagsAll: React.FC<SkillsProps> = ({ skills }) => (
   <Wrap>
