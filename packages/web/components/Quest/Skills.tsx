@@ -109,7 +109,7 @@ export const SkillsTags: React.FC<SkillsProps> = ({
           <WrapItem zIndex={10}>
             <Tooltip label={moreSkills}>
               <MetaTag size="md" fontWeight="normal" borderRadius={4}>
-                {`+${skills.length - maxSkills} more`}
+                {`+${skills.length - maxSkills}`}
               </MetaTag>
             </Tooltip>
           </WrapItem>
