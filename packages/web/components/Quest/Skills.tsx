@@ -70,7 +70,7 @@ interface SkillsProps {
   maxSkills?: number;
 }
 export const SkillsTags: React.FC<SkillsProps> = ({
-  maxSkills = 6,
+  maxSkills = 5,
   skills,
 }) => {
   /**
