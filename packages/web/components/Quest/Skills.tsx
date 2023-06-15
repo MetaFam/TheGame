@@ -75,7 +75,8 @@ export const SkillsTags: React.FC<SkillsProps> = ({
 }) => (
   <Wrap>
     {skills.slice(0, maxSkills).map((skill) => (
-      <WrapItem key={skill.id}>
+      <WrapItem key={skill.id} zIndex={10}>
+        {/* zIndex so the tooltip is lifted above the LinkOverlay that makes the whole tile a click target */}
         <Tooltip label={skill.category}>
           <MetaTag
             size="md"
