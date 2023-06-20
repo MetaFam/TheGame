@@ -9,7 +9,7 @@ import { getPlayerImage } from 'utils/playerHelpers';
 
 type PlayerProfilePictureProps = AvatarProps & {
   player?: Player | GuildPlayer;
-  round: boolean;
+  round?: boolean;
 };
 
 export const PlayerProfilePicture: React.FC<PlayerProfilePictureProps> = ({
