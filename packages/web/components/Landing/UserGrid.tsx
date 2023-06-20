@@ -1,6 +1,6 @@
 import { Box, Link, Text } from '@metafam/ds';
 import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
-import { SquareImage } from 'components/SquareImage';
+import { RoundImage } from 'components/RoundImage';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import React from 'react';
 import { formatAddress } from 'utils/playerHelpers';
@@ -37,8 +37,13 @@ export const UserGrid: React.FC<{
   >
     {players?.length
       ? players?.map((player, i) => (
-          <Box
+          <Link
             key={`user-${i}`}
+            role="group"
+            _hover={{ textDecoration: 'none' }}
+            href={`player/${
+              player.profile?.username || player.ethereumAddress
+            }`}
             sx={{
               width: '20%',
               marginRight: '5%',
@@ -47,13 +52,14 @@ export const UserGrid: React.FC<{
           >
             <PlayerProfilePicture
               {...{ player }}
+              round={true}
               size="xxs"
-              sx={{ borderRadius: '50px' }}
+              sx={{ borderRadius: '50%' }}
             />
-            <Text sx={{ fontSize: 'xss' }}>
+            <Text sx={{ fontSize: 'xs' }}>
               {player.profile?.name || formatAddress(player.ethereumAddress)}
             </Text>
-          </Box>
+          </Link>
         ))
       : ''}
 
@@ -71,12 +77,8 @@ export const UserGrid: React.FC<{
           }}
         >
           <Box key={`guild-user-${i}`}>
-            <SquareImage
-              size="xxs"
-              sx={{ borderRadius: '50px' }}
-              src={guild.logo || ''}
-            />
-            <Text sx={{ fontSize: 'xss' }}>{guild.guildname}</Text>
+            <RoundImage size="xxs" src={guild.logo || ''} />
+            <Text sx={{ fontSize: 'xs' }}>{guild.guildname}</Text>
           </Box>
         </Link>
       ))}
@@ -93,12 +95,8 @@ export const UserGrid: React.FC<{
         }}
       >
         <Box key={`elder-user-${i}`}>
-          <SquareImage
-            size="xxs"
-            sx={{ borderRadius: '50px' }}
-            src={elder.img || ''}
-          />
-          <Text sx={{ fontSize: 'xss' }}>{elder.name}</Text>
+          <RoundImage size="xxs" src={elder.img || ''} />
+          <Text sx={{ fontSize: 'xs' }}>{elder.name}</Text>
         </Box>
       </Link>
     ))}
@@ -107,11 +105,21 @@ export const UserGrid: React.FC<{
         width: '20%',
         marginRight: '5%',
         marginBottom: '10px',
-        borderRadius: '50px',
+        borderRadius: '50%',
       }}
     >
       <Link role="group" _hover={{ textDecoration: 'none' }} href={link}>
-        View All
+        <Text
+          sx={{
+            border: '2px solid whiteAlpha.400',
+            borderRadius: '50%',
+            color: '#E839B7',
+            display: 'flex',
+          }}
+          size="sm"
+        >
+          see all
+        </Text>
       </Link>
     </Box>
   </Box>
