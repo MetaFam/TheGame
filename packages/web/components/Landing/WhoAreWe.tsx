@@ -104,7 +104,7 @@ export const WhoAreWe: React.FC<
           {...{ ref }}
           display="flex"
           flexDirection="column"
-          justifyContent={{ base: 'flex-start', xl: 'center' }}
+          justifyContent="center"
           fontSize={{ base: 'md', md: 'xl', xl: 'xl', '2xl': '3xl' }}
           lineHeight={{
             base: '1.25rem',
@@ -131,6 +131,10 @@ export const WhoAreWe: React.FC<
           }
           sx={{
             h2: {
+              position: 'absolute',
+              top: 40,
+              left: 50,
+              right: 50,
               color: 'landing500',
               fontSize: { base: 'xl', md: '3xl', xl: '3xl', '2xl': '4xl' },
               textAlign: 'center',

@@ -15,11 +15,15 @@ export const RoundImage: React.FC<RoundImageProps> = ({ src, ...props }) => (
       display: 'block',
       paddingBottom: '100%',
     }}
+    border="2px"
+    borderRadius="50%"
+    borderColor="whiteAlpha.400"
+    _hover={{ bgGradient: 'linear(to-r, #7900FD, #FC01FC)' }}
   >
     <Image
       position="absolute"
+      bg="#222"
       borderRadius="50%"
-      // width="full"
       w="100%"
       height="full"
       objectFit="cover"

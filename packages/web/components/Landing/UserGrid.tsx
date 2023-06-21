@@ -40,7 +40,11 @@ export const UserGrid: React.FC<{
           <Link
             key={`user-${i}`}
             role="group"
-            _hover={{ textDecoration: 'none' }}
+            _hover={{
+              textDecoration: 'none',
+              color: '#E839B7',
+              fontWeight: 'semibold',
+            }}
             href={`player/${
               player.profile?.username || player.ethereumAddress
             }`}
@@ -48,14 +52,10 @@ export const UserGrid: React.FC<{
               width: '20%',
               marginRight: '5%',
               marginBottom: '10px',
+              textAlign: 'center',
             }}
           >
-            <PlayerProfilePicture
-              {...{ player }}
-              round={true}
-              size="xxs"
-              sx={{ borderRadius: '50%' }}
-            />
+            <PlayerProfilePicture {...{ player }} round={true} size="xxs" />
             <Text sx={{ fontSize: 'xs' }}>
               {player.profile?.name || formatAddress(player.ethereumAddress)}
             </Text>
@@ -68,7 +68,11 @@ export const UserGrid: React.FC<{
       ?.map((guild, i) => (
         <Link
           role="group"
-          _hover={{ textDecoration: 'none' }}
+          _hover={{
+            textDecoration: 'none',
+            color: '#E839B7',
+            fontWeight: 'semibold',
+          }}
           href={`guild/${guild.guildname}`}
           sx={{
             width: '20%',
@@ -76,7 +80,7 @@ export const UserGrid: React.FC<{
             marginBottom: '10px',
           }}
         >
-          <Box key={`guild-user-${i}`}>
+          <Box key={`guild-user-${i}`} textAlign="center">
             <RoundImage size="xxs" src={guild.logo || ''} />
             <Text sx={{ fontSize: 'xs' }}>{guild.guildname}</Text>
           </Box>
@@ -86,7 +90,11 @@ export const UserGrid: React.FC<{
     {elders?.map((elder, i) => (
       <Link
         role="group"
-        _hover={{ textDecoration: 'none' }}
+        _hover={{
+          textDecoration: 'none',
+          color: '#E839B7',
+          fontWeight: 'semibold',
+        }}
         href={elder.link}
         sx={{
           width: '20%',
@@ -94,7 +102,7 @@ export const UserGrid: React.FC<{
           marginBottom: '10px',
         }}
       >
-        <Box key={`elder-user-${i}`}>
+        <Box key={`elder-user-${i}`} textAlign="center">
           <RoundImage size="xxs" src={elder.img || ''} />
           <Text sx={{ fontSize: 'xs' }}>{elder.name}</Text>
         </Box>
@@ -108,18 +116,40 @@ export const UserGrid: React.FC<{
         borderRadius: '50%',
       }}
     >
-      <Link role="group" _hover={{ textDecoration: 'none' }} href={link}>
-        <Text
-          sx={{
-            border: '2px solid whiteAlpha.400',
-            borderRadius: '50%',
-            color: '#E839B7',
-            display: 'flex',
-          }}
-          size="sm"
+      <Link
+        role="group"
+        borderRadius="50%"
+        _hover={{ textDecoration: 'none' }}
+        href={link}
+      >
+        <Box
+          height={20}
+          width={20}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          border="2px"
+          borderRadius="50%"
+          borderColor="whiteAlpha.400"
+          _hover={{ bgGradient: 'linear(to-r, #7900FD, #FC01FC)' }}
         >
-          see all
-        </Text>
+          <Box
+            height="full"
+            width="full"
+            as="button"
+            lineHeight="1.2"
+            transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+            px="8px"
+            borderRadius="50%"
+            fontSize="14px"
+            fontWeight="semibold"
+            borderColor="whiteAlpha.400"
+            color="#E839B7"
+            bg="#222"
+          >
+            see all
+          </Box>
+        </Box>
       </Link>
     </Box>
   </Box>
