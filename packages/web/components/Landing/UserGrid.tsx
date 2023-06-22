@@ -56,7 +56,7 @@ export const UserGrid: React.FC<{
             }}
           >
             <PlayerProfilePicture {...{ player }} round={true} size="xxs" />
-            <Text sx={{ fontSize: 'xs' }}>
+            <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
               {player.profile?.name || formatAddress(player.ethereumAddress)}
             </Text>
           </Link>
@@ -82,7 +82,9 @@ export const UserGrid: React.FC<{
         >
           <Box key={`guild-user-${i}`} textAlign="center">
             <RoundImage size="xxs" src={guild.logo || ''} />
-            <Text sx={{ fontSize: 'xs' }}>{guild.guildname}</Text>
+            <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
+              {guild.guildname}
+            </Text>
           </Box>
         </Link>
       ))}
@@ -104,7 +106,9 @@ export const UserGrid: React.FC<{
       >
         <Box key={`elder-user-${i}`} textAlign="center">
           <RoundImage size="xxs" src={elder.img || ''} />
-          <Text sx={{ fontSize: 'xs' }}>{elder.name}</Text>
+          <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
+            {elder.name}
+          </Text>
         </Box>
       </Link>
     ))}
@@ -145,7 +149,7 @@ export const UserGrid: React.FC<{
             fontWeight="semibold"
             borderColor="whiteAlpha.400"
             color="#E839B7"
-            bg="#222"
+            bg="#1B0D2A"
           >
             see all
           </Box>
