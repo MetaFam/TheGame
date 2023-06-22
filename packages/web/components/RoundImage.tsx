@@ -22,7 +22,7 @@ export const RoundImage: React.FC<RoundImageProps> = ({ src, ...props }) => (
   >
     <Image
       position="absolute"
-      bg="#222"
+      bg="#1B0D2A"
       borderRadius="50%"
       w="100%"
       height="full"
