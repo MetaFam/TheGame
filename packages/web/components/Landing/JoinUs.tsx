@@ -1,10 +1,11 @@
 import {
+  AbsoluteCenter,
   Box,
-  Button,
+  Circle,
   Container,
+  Divider,
   HStack,
   Text,
-  useBreakpointValue,
   VStack,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/sections/section-7.webp';
@@ -13,6 +14,7 @@ import { StartButton } from 'components/Landing/StartButton';
 import { MetaLink } from 'components/Link';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
+import Script from 'next/script';
 import React, { useRef } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
@@ -26,7 +28,6 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   const root = typeof window !== 'undefined' ? document.body : null;
   const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
-  const buttonSize = useBreakpointValue({ base: 'sm', xl: 'lg' });
 
   return (
     <FullPageContainer
@@ -75,64 +76,99 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
             },
           }}
         >
-          <VStack flex={1}>
-            <Text
-              fontSize={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
-              lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
-              fontWeight="700"
-              mb={{ base: 3, lg: 8 }}
-            >
-              The revolution will be televized, <br />
-              but{' '}
+          <VStack flex={1} pb={2} mb={20} gap={5}>
+            <Box>
               <Text
-                as="span"
-                opacity={displayElement ? 1 : 0}
-                transition={noMotion ? 'none' : 'opacity 0.5s 0.9s ease-in'}
+                fontSize={{ base: 'sm', md: '2xl' }}
+                lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
+                fontWeight="700"
+                mb={{ base: 1, lg: 3 }}
               >
-                don’t{' '}
-              </Text>
-              <Text
-                as="span"
-                opacity={displayElement ? 1 : 0}
-                transition={noMotion ? 'none' : 'opacity 0.5s 1.2s ease-in'}
-              >
-                just{' '}
-              </Text>
-              <Text
-                as="span"
-                opacity={displayElement ? 1 : 0}
-                transition={noMotion ? 'none' : 'opacity 0.5s 1.5s ease-in'}
-              >
-                watch
-              </Text>
-              <Text
-                as="span"
-                opacity={displayElement ? 1 : 0}
-                transition={noMotion ? 'none' : 'opacity 0.5s 1.8s ease-in'}
-              >
-                .
-              </Text>
-            </Text>
-            <HStack
-              opacity={displayElement ? 1 : 0}
-              transition={
-                noMotion
-                  ? 'none'
-                  : 'transform 0.3s 1.8s ease-in-out, opacity 0.5s 2s ease-in'
-              }
-            >
-              <MetaLink _hover={{}} href="/dashboard">
-                <Button
-                  className="screen-esque--alt"
-                  colorScheme="white"
-                  size={buttonSize}
-                  minW="7rem"
+                The revolution will be televized, <br />
+                but{' '}
+                <Text
+                  as="span"
+                  opacity={displayElement ? 1 : 0}
+                  transition={noMotion ? 'none' : 'opacity 0.5s 0.9s ease-in'}
                 >
-                  Watch
-                </Button>
-              </MetaLink>
+                  don’t{' '}
+                </Text>
+                <Text
+                  as="span"
+                  opacity={displayElement ? 1 : 0}
+                  transition={noMotion ? 'none' : 'opacity 0.5s 1.2s ease-in'}
+                >
+                  just{' '}
+                </Text>
+                <Text
+                  as="span"
+                  opacity={displayElement ? 1 : 0}
+                  transition={noMotion ? 'none' : 'opacity 0.5s 1.5s ease-in'}
+                >
+                  watch
+                </Text>
+                <Text
+                  as="span"
+                  opacity={displayElement ? 1 : 0}
+                  transition={noMotion ? 'none' : 'opacity 0.5s 1.8s ease-in'}
+                >
+                  .
+                </Text>
+              </Text>
               <StartButton text="Join" />
-            </HStack>
+            </Box>
+            <Box position="relative" padding={{ base: 2, md: 10 }}>
+              <Divider
+                borderColor="#FFFFFF50"
+                width={{ base: '200px', md: '502px' }}
+              />
+              <AbsoluteCenter bg="#270E62">
+                <Circle
+                  size={{ base: 10, md: 50 }}
+                  border="2px solid #FFFFFF16"
+                >
+                  <Text color="#77649C">OR</Text>
+                </Circle>
+              </AbsoluteCenter>
+            </Box>
+            <Box
+              w="100%"
+              display="flex"
+              flexDir="column"
+              alignItems="center"
+              justifyItems="center"
+            >
+              <Text
+                fontSize={{ base: 'md', md: '2xl' }}
+                lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
+                fontWeight="700"
+                mb={{ base: 3, lg: 8 }}
+              >
+                Stay in the loop
+              </Text>
+              <div id="custom-substack-embed" />
+              {/* Load substack form */}
+              <Script id="rendered-component">
+                {`window.CustomSubstackWidget = {
+                  substackUrl: "metagame.substack.com",
+                  placeholder: "example@gmail.com",
+                  buttonText: "Subscribe",
+                  theme: "custom",
+                  colors: {
+                    primary: "#FF03FF",
+                    input: "#2E0A67",
+                    email: "#FF03FF",
+                    text: "#000000",
+                  }
+                };
+                `}
+              </Script>
+              <Script
+                src="https://substackapi.com/widget.js"
+                async
+                id="render-component"
+              />
+            </Box>
           </VStack>
         </Box>
         <Box
@@ -148,7 +184,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
           height="75px"
           maxH="75px"
           width="100%"
-          maxW={{ base: '90%', md: 'lg', lg: 'md', '2xl': '2xl', '4xl': '4xl' }}
+          maxW={{ base: '90%', md: 'lg', lg: 'xl' }}
           transform={`translate3d(0, ${displayElement ? '0' : '50px'}, 0)`}
           opacity={displayElement ? 1 : 0}
           transition={
@@ -156,13 +192,14 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
           }
           zIndex={100}
           sx={{
+            pt: '1em',
             svg: {
               color: 'landing500',
               filter: 'drop-shadow(0 0 5px var(--chakra-colors-landing500))',
             },
           }}
         >
-          <Text>&copy; 2022 MetaGame</Text>
+          <Text>&copy; {new Date().getFullYear()} MetaGame</Text>
           <HStack fontSize={{ base: 'lg', lg: '2xl' }} spacing={5}>
             <MetaLink href="https://github.com/metafam" isExternal>
               <FaGithub />
