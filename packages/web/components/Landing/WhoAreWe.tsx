@@ -28,9 +28,9 @@ const elders = [
     link: 'https://twitter.com/thegrifft',
   },
   {
-    name: 'mZ -- Planeswalker',
-    img: 'https://pbs.twimg.com/profile_images/1444846865242103816/Qp3oy1Ox_400x400.jpg',
-    link: 'https://twitter.com/mZargham',
+    name: 'Zargham',
+    img: 'https://bafybeid364yqceeedrximgjcejam6plca2eqcdwi7hkmjjpvrap5au5xye.ipfs.dweb.link/',
+    link: '/player/mz',
   },
   {
     name: 'James Young',
@@ -43,9 +43,9 @@ const elders = [
     link: 'https://twitter.com/HFreinacht',
   },
   {
-    name: 'You?',
-    img: 'https://i.imgur.com/tdi3NGa.png',
-    link: '',
+    name: 'Jeremy Akers',
+    img: 'https://pbs.twimg.com/profile_images/1661292382032207873/NRDsrDS1_400x400.jpg',
+    link: 'https://twitter.com/gospelofchange',
   },
   {
     name: 'You?',
