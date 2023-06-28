@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import {
   Box,
   Button,
@@ -706,7 +706,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
               symbol={meTokenData.symbol}
               collateralAddress={meTokenData.collateralAddress}
               owner={player.ethereumAddress}
-              provider={(provider as JsonRpcProvider)}
+              provider={provider as JsonRpcProvider}
             />
           </>
         )}
@@ -714,4 +714,3 @@ export const PlayerMeTokens: React.FC<Props> = ({
     </ProfileSection>
   );
 };
-
