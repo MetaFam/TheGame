@@ -44,6 +44,12 @@ export type MetaColors = ChakraTheme['colors'] & {
   landing600: string;
   landing650: string;
   landingDarkGlass: string;
+  midnightBlue: string;
+  royalBlue: string;
+  deepMagenta: string;
+  darkMagenta: string;
+  plum: string;
+  wine: string;
 };
 
 export const colors: MetaColors = {
@@ -72,6 +78,12 @@ export const colors: MetaColors = {
   cyanText: '#79F8FB',
   discord: '#7289da',
   discordDark: '#5d6eb3',
+  midnightBlue: '#141838',
+  royalBlue: '#214781',
+  deepMagenta: '#2B1441',
+  darkMagenta: '#2F1646',
+  plum: '#3E1C5D',
+  wine: '#410834',
   cyan: {
     50: '#dbffff',
     100: '#b1fcfe',
@@ -143,6 +155,18 @@ export const colors: MetaColors = {
     700: '#1a2b65',
     800: '#0d1a40',
     900: '#02091b',
+  },
+  gray: {
+    50: '#F7FAFC',
+    100: '#EDF2F7',
+    200: '#E2E8F0',
+    300: '#CBD5E0',
+    400: '#A0AEC0',
+    500: '#718096',
+    600: '#4A5568',
+    700: '#2D3748',
+    800: '#1A202C',
+    900: '#171923',
   },
   landing50: '#1A0340',
   landing100: '#240E74',

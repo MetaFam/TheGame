@@ -106,7 +106,7 @@ import { Client } from 'urql';
 `;
 
 export const defaultQueryVariables: GetQuestsQueryVariables = {
-  limit: 10,
+  limit: 50,
   status: QuestStatus_Enum.Open,
   guildId: undefined,
   order: Order_By.Desc,
