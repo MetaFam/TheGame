@@ -107,6 +107,7 @@ export const MegaMenuHeader: React.FC = () => {
           justify="center"
           align="center"
           pos="relative"
+          display={{ base: 'none', sm: 'none', md: 'none', lg: 'flex' }}
         >
           <Logo
             link={user ? '/dashboard' : '/'}
