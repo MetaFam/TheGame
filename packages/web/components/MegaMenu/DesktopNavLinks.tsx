@@ -35,10 +35,10 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
                   variant="link"
                   minW="fit-content"
                   color="white"
-                  fontSize="lg"
+                  fontSize={{ lg: 'm', xl: 'lg' }}
                   fontWeight={700}
                   textTransform="uppercase"
-                  mx={6}
+                  mx={{ lg: 3, xl: 6 }}
                   _expanded={{ color: 'cyan.300' }}
                   _focus={{ outline: 'none', border: 'none' }}
                   rightIcon={
@@ -112,7 +112,6 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
                   target={section.type === 'external-link' ? '_blank' : ''}
                   w="full"
                   h="full"
-                  p={4}
                   alignItems="center"
                   _focus={{ outline: 'none' }}
                 >
@@ -123,10 +122,10 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
                     color={
                       section.type === 'external-link' ? '#79F8FB' : 'white'
                     }
-                    fontSize="lg"
+                    fontSize={{ lg: 'm', xl: 'lg' }}
                     fontWeight={700}
                     textTransform="uppercase"
-                    mx={6}
+                    mx={{ lg: 3, xl: 6 }}
                     _expanded={{ color: 'cyan.300' }}
                     _focus={{ outline: 'none', border: 'none' }}
                     rightIcon={
