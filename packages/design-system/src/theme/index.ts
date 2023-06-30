@@ -170,7 +170,7 @@ export const theme = extendTheme(
       sm: '30em',
       md: '48em',
       lg: '71.5em',
-      xl: '80em',
+      xl: '87.5em',
       '2xl': '96em',
       '3xl': '120em',
       '4xl': '160em',
