@@ -9,12 +9,12 @@ import {
 import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.webp';
 import BackgroundImageDesktop from 'assets/landing/sections/section-5.webp';
 import { FullPageContainer } from 'components/Container';
-import { GuildFragment, Player } from 'graphql/autogen/types';
+import { GuildFragment } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
 import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
@@ -79,13 +79,8 @@ export const WhoAreWe: React.FC<
   });
 
   const { players } = usePlayerFilter();
-  const [topPlayers, setTopPlayers] = useState<Player[]>();
 
-  useEffect(() => {
-    if (players.length) {
-      setTopPlayers(players.slice(0, 7));
-    }
-  }, [players]);
+  const topPlayers = useMemo(() => players.slice(0, 7), [players]);
 
   return (
     <FullPageContainer

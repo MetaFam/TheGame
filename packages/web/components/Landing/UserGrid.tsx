@@ -1,5 +1,5 @@
 import { Box, Link, Text } from '@metafam/ds';
-import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
+import { PlayerProfilePictureRound } from 'components/Player/PlayerProfilePictureRound';
 import { RoundImage } from 'components/RoundImage';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import React from 'react';
@@ -55,7 +55,7 @@ export const UserGrid: React.FC<{
               textAlign: 'center',
             }}
           >
-            <PlayerProfilePicture {...{ player }} round={true} size="xxs" />
+            <PlayerProfilePictureRound {...{ player }} size="xxs" />
             <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
               {player.profile?.name || formatAddress(player.ethereumAddress)}
             </Text>
