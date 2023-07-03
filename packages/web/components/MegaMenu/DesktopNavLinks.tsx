@@ -35,7 +35,7 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
                   variant="link"
                   minW="fit-content"
                   color="white"
-                  fontSize={{ lg: 'm', xl: 'lg' }}
+                  fontSize={{ m: 's', lg: 'm', xl: 'lg' }}
                   fontWeight={700}
                   textTransform="uppercase"
                   mx={{ lg: 3, xl: 6 }}
@@ -122,7 +122,7 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
                     color={
                       section.type === 'external-link' ? '#79F8FB' : 'white'
                     }
-                    fontSize={{ lg: 'm', xl: 'lg' }}
+                    fontSize={{ m: 's', lg: 'm', xl: 'lg' }}
                     fontWeight={700}
                     textTransform="uppercase"
                     mx={{ lg: 3, xl: 6 }}
