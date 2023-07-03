@@ -4,25 +4,26 @@ import {
   Heading,
   LinkBox,
   LinkOverlay,
-  MetaButton,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
   Prose,
   Text,
+  VisuallyHidden,
+  VStack,
 } from '@metafam/ds';
-import { httpLink, isSGML, Maybe } from '@metafam/utils';
-import BackgroundImage from 'assets/quests/quest.webp';
+import { httpLink, isSGML } from '@metafam/utils';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
+import { QuestTileImage } from 'components/Quest/QuestTileImage';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
-import { SquareImage } from 'components/SquareImage';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
-import React, { PropsWithChildren, useEffect, useRef } from 'react';
+import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
+import React, { PropsWithChildren } from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 export const TileHeading: React.FC<PropsWithChildren> = ({ children }) => (
-  <Text as="h3" textStyle="caption" pb={1}>
+  <Text as="h3" textStyle="caption">
     {children}
   </Text>
 );
@@ -37,101 +38,108 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
   const parsedDescription = descIsHtml
     ? safelyParseNChakrifyHtml(description)
     : null;
-  const descriptionRef = useRef<Maybe<HTMLDivElement>>(null);
-  const [clamped, setClamped] = React.useState(false);
-  const descriptionContent = descriptionRef.current?.textContent;
-
-  useEffect(() => {
-    const handleResize = () => {
-      const desc = descriptionRef.current;
-      if (desc) {
-        setClamped(desc.scrollHeight > desc.clientHeight);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, [descriptionContent]);
 
   return (
-    <LinkBox>
-      <LinkOverlay href={`/quest/${quest.id}`} w="full" justifyContent="center">
-        <MetaTile height="full" width="full">
-          <MetaTileHeader>
-            <SquareImage src={httpLink(quest.image) ?? BackgroundImage.src} />
-            <Flex justify="center" position="absolute" bottom="-15%" w="full">
-              <Heading
-                zIndex={3}
-                size="lg"
-                color="white"
-                bgColor="whiteAlpha.300"
-                backdropFilter="blur(10px)"
-                lineHeight={1.1}
-                px={3}
-                py={1}
-                mb={8}
-                textAlign="center"
+    <MetaTile minW={'300px'} height="full" width="full">
+      <MetaTileHeader>
+        <LinkBox>
+          <LinkOverlay href={`/quest/${quest.id}`}>
+            <QuestTileImage
+              src={httpLink(quest.image) ?? DefaultQuestImage.src}
+            />
+            <Box
+              // For positioning of the heading over the quest image
+              pos="absolute"
+              bottom={-6}
+              zIndex={1}
+              w="100%"
+            >
+              <Box
+                // For the background and padding
+                // (So the line-clamp clips properly with the desired line-height and padding of the heading)
+                mx={5}
+                boxSizing="border-box"
+                px={4}
+                py={3}
                 borderRadius={10}
-                fontFamily="body"
-                fontWeight="normal"
-                noOfLines={3}
+                bgColor="whiteAlpha.100"
+                backdropFilter="blur(10px)"
               >
-                {quest.title}
-              </Heading>
-            </Flex>
-          </MetaTileHeader>
-          <MetaTileBody>
-            <Flex direction="column">
-              <Box pb={2}>
-                <TileHeading>Description</TileHeading>
-                <Box noOfLines={3} ref={descriptionRef}>
+                <Heading
+                  // The actual heading
+                  // If vertical padding is applied here, the ascenders of tall letters on the 3rd line poke up from the bottom
+                  as="h2"
+                  fontSize="3xl"
+                  color="white"
+                  lineHeight={1.1}
+                  width="full"
+                  textAlign="center"
+                  fontFamily="body"
+                  fontWeight={400}
+                  textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the quest image has a white background
+                  noOfLines={2}
+                >
+                  {quest.title}
+                </Heading>
+              </Box>
+            </Box>
+          </LinkOverlay>
+        </LinkBox>
+      </MetaTileHeader>
+
+      <MetaTileBody pt={0}>
+        <LinkBox height="full">
+          <Flex
+            direction="column"
+            gap={4}
+            px={2}
+            pb={2}
+            pt={10}
+            height="full"
+            justifyItems="space-between"
+          >
+            <VStack align="left" spacing={1}>
+              <TileHeading>Description</TileHeading>
+              <Box fontSize="md" noOfLines={3}>
+                <Box className="mg-quest-tile-description">
                   {descIsHtml ? (
                     <Prose>{parsedDescription}</Prose>
                   ) : (
                     <Markdown>{description}</Markdown>
                   )}
                 </Box>
-                {clamped && (
-                  <Flex justifyContent="end" mr={5}>
-                    <MetaButton
-                      href={`/quest/${quest.id}`}
-                      h="auto"
-                      size="sm"
-                      px={3}
-                      py={1}
-                    >
-                      Read More…
-                    </MetaButton>
-                  </Flex>
-                )}
               </Box>
-              <Box pb={2}>
-                <TileHeading>Skills</TileHeading>
-                <SkillsTags
-                  skills={
-                    quest.quest_skills.map(({ skill }) => skill) as Skill[]
-                  }
-                />
-              </Box>
-              <Box pb={2}>
-                <TileHeading>Roles</TileHeading>
-                {quest.quest_roles.length > 0 ? (
-                  <RolesTags
-                    roles={
-                      quest.quest_roles.map(
-                        ({ PlayerRole: r }) => r,
-                      ) as PlayerRole[]
-                    }
-                  />
-                ) : (
-                  <Text>None</Text>
-                )}
-              </Box>
-            </Flex>
-          </MetaTileBody>
-        </MetaTile>
-      </LinkOverlay>
-    </LinkBox>
+            </VStack>
+
+            {quest.quest_skills.length > 0 && (
+              <>
+                <VStack align="left" mt="auto" spacing={1}>
+                  <TileHeading>Skills</TileHeading>
+                  <Box>
+                    <SkillsTags
+                      skills={
+                        quest.quest_skills.map(({ skill }) => skill) as Skill[]
+                      }
+                    />
+                  </Box>
+                </VStack>
+              </>
+            )}
+          </Flex>
+          {/**
+           * A hidden link overlay that makes the MetaTileBody a clickable link
+           * Why?
+           * 1. Links are allowed in the Quest Description
+           * 2. If there is a link in the Quest Description it causes a hydration error because you can't have links inside links
+           * 3. So the link overlay cannot wrap the description
+           * 4. If the link overlay is added to the Skills or Roles Tags, it can't break out of the Vstack that wraps it, and the description is then not included in the link target
+           * 5. So there's a hidden link down here
+           */}
+          <LinkOverlay href={`/quest/${quest.id}`}>
+            <VisuallyHidden as="span">Read more</VisuallyHidden>
+          </LinkOverlay>
+        </LinkBox>
+      </MetaTileBody>
+    </MetaTile>
   );
 };

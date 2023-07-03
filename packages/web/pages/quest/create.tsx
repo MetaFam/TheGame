@@ -1,5 +1,4 @@
 import { MetaHeading, useToast } from '@metafam/ds';
-import DefaultQuestImage from 'assets/quests/quest.png';
 import { PageContainer } from 'components/Container';
 import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import { HeadComponent } from 'components/Seo';
@@ -13,6 +12,7 @@ import { getGuilds } from 'graphql/queries/guild';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
+import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React from 'react';
 import { transformCooldownForBackend } from 'utils/questHelpers';
 import { parseSkills } from 'utils/skillHelpers';

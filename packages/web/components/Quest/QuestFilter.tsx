@@ -85,7 +85,7 @@ export const QuestFilter: React.FC<Props> = ({
     value: role,
   }));
 
-  const [limit, setLimit] = useState<FilterString>(limitOptions[0]);
+  const [limit, setLimit] = useState<FilterString>(limitOptions[2]);
   const [order, setOrder] = useState<FilterString>(orderOptions[0]);
   const [status, setStatus] = useState<FilterString>(statusOptions[0]);
   const [guild, setGuild] = useState<FilterString>(guildOptions[0]);
@@ -101,12 +101,13 @@ export const QuestFilter: React.FC<Props> = ({
         borderTop="1px solid transparent"
         zIndex={1}
         justifyContent="center"
-        maxW="79rem"
         bg="whiteAlpha.200"
         px="1.5rem"
         py={6}
         borderRadius="6px"
         overflow="visible"
+        width="full"
+        mb={6}
       >
         <WrapItem>
           <MetaFilterSelectSearch
@@ -239,7 +240,11 @@ export const QuestFilter: React.FC<Props> = ({
           </WrapItem>
         )}
       </Wrap>
-      {quests && <Text fontWeight="bold">{quests.length} quests</Text>}
+      {quests && (
+        <Text fontWeight="700" fontSize="xl">
+          {quests.length} quests
+        </Text>
+      )}
     </Flex>
   );
 };

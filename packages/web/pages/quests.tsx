@@ -1,5 +1,11 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
+  Flex,
   Heading,
   HStack,
   InfoIcon,
@@ -13,6 +19,7 @@ import { Constants } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
+import { questListDescriptionCss } from 'components/Quest/QuestListDescriptionCss';
 import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
 import { getQuests } from 'graphql/getQuests';
@@ -58,24 +65,74 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
     [pSeedBalance],
   );
 
+  // Quest dashboard widget tooltip
+  // - The text is shown as a hoverable tooltip for big screens
+  // - For small screens the tooltip is replaced with a toggle accordion
+  const questDashboardTooltipText = {
+    title: 'Quests info right in your dashboard',
+    text: 'Note that there are two quest-related dashboard widgets as well. One for managing submissions for quests you created, and another for viewing your own submissions. Click on “Edit Layout” on the dashboard page to check them out.',
+  };
+
   return (
-    <PageContainer>
+    <PageContainer sx={questListDescriptionCss}>
       <HeadComponent
         title="MetaGame Quests"
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://my.metagame.wtf/quests"
+        url="https://metagame.wtf/quests"
       />
-      <Box w="100%" maxW="80rem">
-        <HStack justify="space-between" w="100%">
-          <HStack>
-            <Heading as="h1" fontFamily="body" size="2xl">
+      <Box w="full" maxW="7xl">
+        <Accordion
+          allowToggle
+          w="full"
+          mb={8}
+          mt={{ base: '3', sm: '0' }}
+          display={{ base: 'block', md: 'none' }}
+        >
+          <AccordionItem
+            px={2}
+            py={2}
+            bgColor="blackAlpha.400"
+            borderColor="whiteAlpha.400"
+            borderRadius={4}
+            borderWidth={1}
+            fontSize="sm"
+          >
+            {/* "AccordionButton must be wrapped in an element with role=heading" */}
+            <h2>
+              <AccordionButton color="gray.300" fontSize="sm" p={0}>
+                <AccordionIcon mr={2} />
+                {questDashboardTooltipText.title}
+              </AccordionButton>
+            </h2>
+            <AccordionPanel color="white" pb={2} pl={6}>
+              <Text maxW="60ch">{questDashboardTooltipText.text}</Text>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+
+        <Flex
+          align="left"
+          alignItems="center"
+          flexDirection={{
+            base: 'column',
+            md: 'row',
+          }}
+          gap={6}
+        >
+          <HStack w="full" flexBasis="100%">
+            <Heading
+              as="h1"
+              fontFamily="body"
+              fontWeight="600"
+              fontSize={{ base: '4xl', sm: '5xl' }}
+            >
               Quest Explorer
             </Heading>
-            <Tooltip label='Note that there are two quest-related dashboard widgets as well. One for managing submissions for quests you created, and another for viewing your own submissions. Click on "Edit Layout" on the dashboard page to check them out.'>
-              <InfoIcon />
+            <Tooltip label={questDashboardTooltipText.text}>
+              <InfoIcon display={{ base: 'none', md: 'block' }} />
             </Tooltip>
           </HStack>
-          <Box>
+          <Box w="full" maxW={{ base: '100%', md: '11rem' }}>
             <Tooltip
               label={
                 !canCreateQuest &&
@@ -83,6 +140,11 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
               }
             >
               <MetaButton
+                borderRadius={4}
+                fontSize="md"
+                letterSpacing="auto"
+                size="md"
+                w="full"
                 isLoading={fetchingBalance}
                 onClick={() => {
                   if (!canCreateQuest) {
@@ -97,12 +159,12 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
                   }
                 }}
               >
-                New Quest
+                Create Quest
               </MetaButton>
             </Tooltip>
           </Box>
-        </HStack>
-        <Box mt={8} w="100%">
+        </Flex>
+        <Box mt={8} w="full">
           <QuestFilter
             quests={quests || []}
             {...{
@@ -113,7 +175,7 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
             }}
           />
         </Box>
-        <Box mt={8} w="100%">
+        <Box mt={8} w="full">
           {fetching && <LoadingState />}
           {error && <Text>{`Error: ${error.message}`}</Text>}
           {quests && !fetching && <QuestList {...{ quests }} />}
