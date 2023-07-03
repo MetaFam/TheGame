@@ -86,7 +86,7 @@ export const MegaMenuHeader: React.FC = () => {
           cursor="pointer"
           h={8}
           w={8}
-          display={{ base: 'flex', lg: 'none' }}
+          display={{ base: 'flex', lg: 'flex', xl: 'none' }}
           p={2}
           my="auto"
         >
@@ -107,7 +107,13 @@ export const MegaMenuHeader: React.FC = () => {
           justify="center"
           align="center"
           pos="relative"
-          display={{ base: 'none', sm: 'none', md: 'none', lg: 'flex' }}
+          display={{
+            base: 'none',
+            sm: 'none',
+            md: 'none',
+            lg: 'none',
+            xl: 'flex',
+          }}
         >
           <Logo
             link={user ? '/dashboard' : '/'}

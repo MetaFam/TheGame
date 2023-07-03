@@ -83,6 +83,12 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         url: '/learn/playbooks',
         icon: 'playbooks',
       },
+      {
+        title: 'The Great Houses',
+        explainerText: descriptions.thegreathouses,
+        url: '/learn/thegreathouses',
+        icon: 'thegreathouses',
+      },
     ],
   },
   {
