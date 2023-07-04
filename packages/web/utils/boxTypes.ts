@@ -14,6 +14,7 @@ export const BoxTypes = {
   PLAYER_ROLES: 'player-roles',
   PLAYER_COMPLETED_QUESTS: 'completed-quests',
   PLAYER_METOKENS: 'meToken',
+  DEWORK: 'dework',
   // Guild Profile Boxes
   GUILD_HERO: 'guild-hero',
   GUILD_SKILLS: 'guild-skills',
