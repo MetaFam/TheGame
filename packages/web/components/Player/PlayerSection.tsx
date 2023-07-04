@@ -16,6 +16,7 @@ import React, { forwardRef, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
+import { PlayerDework } from './Section/PlayerDework';
 import { PlayerMeTokens } from './Section/PlayerMeToken';
 
 type Props = {
@@ -55,6 +56,8 @@ const PlayerSectionInner: React.FC<
       return <PlayerCompletedQuests {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_METOKENS:
       return <PlayerMeTokens {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.DEWORK:
+      return <PlayerDework {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
