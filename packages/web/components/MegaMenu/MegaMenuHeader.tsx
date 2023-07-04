@@ -151,6 +151,13 @@ export const MegaMenuHeader: React.FC = () => {
             )}
           </Box>
         </Flex>
+        <Logo
+          display={{ lg: 'flex', xl: 'none' }}
+          link={user ? '/dashboard' : '/'}
+          pos={{ base: 'initial', lg: 'absolute' }}
+          pt={1}
+          right={4}
+        />
       </Flex>
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
