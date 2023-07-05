@@ -54,9 +54,11 @@ const App: React.FC<WithUrqlProps> = ({
       {CONFIG.appEnv === 'production' && <Analytics />}
     </Head>
     <Web3ContextProvider {...{ resetUrqlClient }}>
-      <MegaMenu hide={pageProps.hideTopMenu}>
-        <Component {...pageProps} />
-      </MegaMenu>
+      <ComposeDBContextProvider>
+        <MegaMenu hide={pageProps.hideTopMenu}>
+          <Component {...pageProps} />
+        </MegaMenu>
+      </ComposeDBContextProvider>
     </Web3ContextProvider>
   </ChakraProvider>
 );
