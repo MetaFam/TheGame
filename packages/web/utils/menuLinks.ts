@@ -8,7 +8,9 @@ export interface MenuLinkItem {
 
 export interface MenuLinkSet {
   label: string;
-  menuItems: MenuLinkItem[];
+  url?: string;
+  type: string;
+  menuItems?: MenuLinkItem[];
 }
 
 export const descriptions = {
@@ -32,7 +34,13 @@ export const descriptions = {
 
 export const MenuSectionLinks: MenuLinkSet[] = [
   {
+    label: 'dashboard',
+    type: 'internal-link',
+    url: '/dashboard',
+  },
+  {
     label: 'community',
+    type: 'menu',
     menuItems: [
       {
         title: 'Players',
@@ -49,89 +57,17 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         icon: 'patrons',
       },
       {
-        title: 'Discord',
-        explainerText: 'Engage in conversations with the MetaGame community ',
-        url: 'https://chat.metagame.wtf',
-        icon: 'discord',
-      },
-      {
         title: 'Guilds',
         explainerText:
           'Discover the guilds of MetaGame; groups of players set around more specific goals',
         url: '/guilds',
         icon: 'guilds',
       },
-      {
-        title: 'Events',
-        explainerText: descriptions.events,
-        url: '/community/events',
-        icon: 'events',
-      },
-      {
-        title: 'Forum',
-        explainerText: descriptions.forum,
-        url: 'https://forum.metagame.wtf/',
-        icon: 'forum',
-      },
     ],
   },
   {
     label: 'learn',
-    menuItems: [
-      {
-        title: 'MetaGame Wiki',
-        explainerText: descriptions.wiki,
-        url: '/learn/wiki',
-        icon: 'metagamewiki',
-      },
-      {
-        title: 'The Great Houses',
-        explainerText: descriptions.thegreathouses,
-        url: '/learn/thegreathouses',
-        icon: 'thegreathouses',
-      },
-      // {
-      //   title: 'Skill Trees',
-      //   explainerText:
-      //     'Skill Trees are meant to help people discover paths of self-development',
-      //   url: 'https://wiki.metagame.wtf/',
-      //   icon: 'learn',
-      // },
-      {
-        title: 'Welcome to MetaGame',
-        explainerText: descriptions.welcome,
-        url: 'https://meta-game.notion.site/meta-game/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28',
-        icon: 'welcometometagame',
-      },
-      {
-        title: 'Playbooks',
-        explainerText: descriptions.playbooks,
-        url: '/learn/playbooks',
-        icon: 'playbooks',
-      },
-      // {
-      //   title: 'Asketh',
-      //   explainerText:
-      //     'Asketh is a place for players of MetaGame to ask whatever question they might have',
-      //   url: 'https://wiki.metagame.wtf/',
-      //   icon: 'asketh',
-      // },
-      {
-        title: 'MetaRadio',
-        explainerText: descriptions.metaradio,
-        url: '/learn/metaradio',
-        icon: 'metaradio',
-      },
-      {
-        title: 'MetaMedia',
-        explainerText: descriptions.youtube,
-        url: 'https://www.youtube.com/metamedia',
-        icon: 'youtube',
-      },
-    ],
-  },
-  {
-    label: 'contribute',
+    type: 'menu',
     menuItems: [
       {
         title: 'Roles',
@@ -142,25 +78,37 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         icon: 'roles',
       },
       {
-        title: 'Raids',
-        explainerText:
-          'See which raids are currently ongoing, learn more about them & get involved',
-        url: '/raids',
-        icon: 'raids',
+        title: 'Playbooks',
+        explainerText: descriptions.playbooks,
+        url: '/learn/playbooks',
+        icon: 'playbooks',
       },
       {
-        title: 'Quests',
-        explainerText:
-          'Take a look at available quest and claim ones that suit you best',
-        url: '/quests',
-        icon: 'quests',
-      },
-      {
-        title: 'Seeds',
-        explainerText: descriptions.seeds,
-        url: '/seeds',
-        icon: 'seeds',
+        title: 'The Great Houses',
+        explainerText: descriptions.thegreathouses,
+        url: '/learn/thegreathouses',
+        icon: 'thegreathouses',
       },
     ],
+  },
+  {
+    label: 'quests',
+    type: 'internal-link',
+    url: '/quests',
+  },
+  {
+    label: 'seeds',
+    type: 'internal-link',
+    url: '/seeds',
+  },
+  {
+    label: 'discord',
+    type: 'external-link',
+    url: 'https://discord.gg/XGNFdUaxCH',
+  },
+  {
+    label: 'forum',
+    type: 'external-link',
+    url: 'https://forum.metagame.wtf/',
   },
 ];
