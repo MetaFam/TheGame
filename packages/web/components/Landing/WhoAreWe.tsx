@@ -117,6 +117,7 @@ export const WhoAreWe: React.FC<
           maxH={{ base: '60%', md: '90%', lg: 'initial' }}
           mt={{ base: '50%', xl: 'unset' }}
           overflowY={{ base: 'auto', xl: 'visible' }}
+          overflowX={{ base: 'visible', lg: 'auto' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${displayElement ? '0' : '50px'}, 0)`}
@@ -126,10 +127,10 @@ export const WhoAreWe: React.FC<
           }
           sx={{
             h2: {
-              position: 'absolute',
-              top: 40,
-              left: 50,
-              right: 50,
+              position: { base: 'unset', lg: 'absolute' },
+              top: { base: 0, lg: 20 },
+              left: { base: 0, lg: 50 },
+              right: { base: 0, lg: 50 },
               color: 'landing500',
               fontSize: { base: 'xl', md: '3xl', xl: '3xl', '2xl': '4xl' },
               textAlign: 'center',
@@ -147,8 +148,10 @@ export const WhoAreWe: React.FC<
           </Text>
           <UnorderedList
             display={{ base: 'flex', lg: 'grid' }}
-            flexFlow={{ base: 'column wrap', lg: 'unset' }}
+            flexFlow={{ base: 'row', lg: 'unset' }}
+            gap={{ base: 12, lg: 0 }}
             pb={{ base: 2, xl: 0, '2xl': '2.188rem' }}
+            overflowX={{ base: 'auto', lg: 'visible' }}
             listStyleType="none"
             mt={{ base: 8, xl: 0, '2xl': -14 }}
             ml={0}
@@ -190,7 +193,7 @@ export const WhoAreWe: React.FC<
             }}
           >
             <ListItem gridArea="first">
-              <Text as="h3">
+              <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">01</Text>Players (Builders)
               </Text>
               {topPlayers && (
@@ -198,19 +201,19 @@ export const WhoAreWe: React.FC<
               )}
             </ListItem>
             <ListItem gridArea="second">
-              <Text as="h3">
+              <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">02</Text>Patrons (Funders)
               </Text>
               {patrons && <UserGrid players={patrons} link={'/patrons'} />}
             </ListItem>
             <ListItem gridArea="third" justifySelf="end">
-              <Text as="h3">
+              <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">03</Text>Elders (Advisors)
               </Text>
               {patrons && <UserGrid elders={elders} link={'/players'} />}
             </ListItem>
             <ListItem gridArea="fourth" justifySelf="end">
-              <Text as="h3">
+              <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">04</Text>MetaAlliance (Member projects)
               </Text>
               {guilds && <UserGrid guilds={guilds} link={'/guilds'} />}
