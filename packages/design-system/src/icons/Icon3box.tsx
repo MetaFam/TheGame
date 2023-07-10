@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const Icon3box = createIcon({
+export const Icon3box: typeof Icon = createIcon({
   displayName: '3BoxIcon',
   path: (
     <path

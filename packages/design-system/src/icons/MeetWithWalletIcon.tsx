@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const MeetWithWalletIcon = createIcon({
+export const MeetWithWalletIcon: typeof Icon = createIcon({
   displayName: 'MeetWithWalletIcon',
   path: (
     <g>

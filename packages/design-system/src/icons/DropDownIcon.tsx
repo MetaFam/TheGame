@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const DropDownIcon = createIcon({
+export const DropDownIcon: typeof Icon = createIcon({
   displayName: 'DropDownIcon',
   path: (
     <path

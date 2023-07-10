@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const MetaMaskIcon = createIcon({
+export const MetaMaskIcon: typeof Icon = createIcon({
   displayName: 'MetaMask',
   viewBox: '0 0 35 33',
   path: (

@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const LogOut = createIcon({
+export const LogOut: typeof Icon = createIcon({
   displayName: 'LogOut',
   path: (
     <g>

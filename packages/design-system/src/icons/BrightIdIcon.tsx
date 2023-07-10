@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const BrightIdIcon = createIcon({
+export const BrightIdIcon: typeof Icon = createIcon({
   displayName: 'BrightIdIcon',
   path: (
     <g>

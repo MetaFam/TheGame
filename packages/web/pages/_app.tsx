@@ -1,6 +1,7 @@
 import 'react-markdown-editor-lite/lib/index.css';
 import 'assets/custom-markdown-editor.scss';
 
+import { CacheProvider } from '@chakra-ui/next-js';
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
@@ -45,19 +46,21 @@ const App: React.FC<WithUrqlProps> = ({
   resetUrqlClient,
   Component,
 }) => (
-  <ChakraProvider theme={MetaTheme}>
-    <CSSReset />
-    <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MetaGame</title>
-      {CONFIG.appEnv === 'production' && <Analytics />}
-    </Head>
-    <Web3ContextProvider {...{ resetUrqlClient }}>
-      <MegaMenu hide={pageProps.hideTopMenu}>
-        <Component {...pageProps} />
-      </MegaMenu>
-    </Web3ContextProvider>
-  </ChakraProvider>
+  <CacheProvider>
+    <ChakraProvider theme={MetaTheme}>
+      <CSSReset />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MetaGame</title>
+        {CONFIG.appEnv === 'production' && <Analytics />}
+      </Head>
+      <Web3ContextProvider {...{ resetUrqlClient }}>
+        <MegaMenu hide={pageProps.hideTopMenu}>
+          <Component {...pageProps} />
+        </MegaMenu>
+      </Web3ContextProvider>
+    </ChakraProvider>
+  </CacheProvider>
 );
 
 const DeployedApp: React.FC<WithUrqlProps> = (props) => {

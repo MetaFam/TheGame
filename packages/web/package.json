@@ -19,6 +19,7 @@
     "@ceramicnetwork/common": "^2.18.0",
     "@ceramicnetwork/http-client": "^2.15.0",
     "@ceramicnetwork/stream-caip10-link": "^2.13.0",
+    "@chakra-ui/next-js": "^2.1.4",
     "@datamodels/identity-profile-basic": "^0.2.0",
     "@didtools/pkh-ethereum": "^0.0.3",
     "@ethersproject/address": "5.6.0",

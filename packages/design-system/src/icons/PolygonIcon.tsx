@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const PolygonIcon = createIcon({
+export const PolygonIcon: typeof Icon = createIcon({
   displayName: 'Polygon',
   path: (
     <path

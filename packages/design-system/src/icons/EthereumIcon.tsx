@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const EthereumIcon = createIcon({
+export const EthereumIcon: typeof Icon = createIcon({
   displayName: 'Ethereum',
   path: (
     <g>

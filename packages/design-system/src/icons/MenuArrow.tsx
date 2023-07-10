@@ -1,7 +1,7 @@
-import { createIcon } from '@chakra-ui/icons';
+import { createIcon, Icon } from '@chakra-ui/icons';
 import * as React from 'react';
 
-export const MenuArrow = createIcon({
+export const MenuArrow: typeof Icon = createIcon({
   displayName: 'MenuArrow',
   path: (
     <g>
