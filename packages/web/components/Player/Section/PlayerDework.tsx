@@ -1,15 +1,15 @@
 import {
   Box,
+  Button,
   ExternalLinkIcon,
+  Heading,
   Image,
+  Input,
   Spinner,
   Text,
   VStack,
   Wrap,
   WrapItem,
-  Button,
-  Input,
-  Heading,
 } from '@metafam/ds';
 import { generateUUID } from '@metafam/utils';
 import DeworkLogo from 'assets/integrationLogos/deworkLogo.png';
@@ -45,6 +45,7 @@ export const DeworkSectionWrapper: React.FC<DeworkSectionWrapperProps> = ({
   <VStack
     display="inline-flex"
     flex="0 0 50%"
+    maxWidth="50%"
     textAlign="left"
     alignItems="left"
     mb={3}
@@ -72,7 +73,7 @@ export const PlayerDework: React.FC<Props> = ({
 
   const [role, setRole] = useState<string>('AddURL')
   const [playerDeworkURL, setPlayerDeworkURL] = useState<string>('');
-  
+
   useMemo(
     () => setRole(playerDeworkURL ? 'DeworkProfile' : 'AddURL'),
     [playerDeworkURL],
@@ -88,7 +89,7 @@ export const PlayerDework: React.FC<Props> = ({
 const DeworkProfile: React.FC<{ player: Player }> = ({ player }) => {
   const [deworkData, setDeworkData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
- 
+
 
   useEffect(() => {
     const getData = async () => {
