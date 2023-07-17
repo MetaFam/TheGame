@@ -1,5 +1,4 @@
 import { Box, Container, Flex, HStack, Text } from '@metafam/ds';
-import NextBackgroundImage from 'assets/landing/what-say-next-bg.png';
 import { FullPageContainer } from 'components/Container';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
@@ -140,7 +139,7 @@ const WhatSayCard: React.FC<{
   testimony: string;
   username?: string;
 }> = ({ player, testimony, username }) => {
-  const [pfp, setPfp] = useState<Player>({});
+  const [pfp, setPfp] = useState<Player | undefined>(undefined);
 
   useEffect(() => {
     const getPfp = async () => {
@@ -165,7 +164,7 @@ const WhatSayCard: React.FC<{
       boxShadow="0px 8px 28px 4px rgba(137, 59, 153, 0.25)"
     >
       <HStack mb={3}>
-        <PlayerAvatar size="sm" player={pfp} />
+        <PlayerAvatar size="sm" player={pfp || ({} as Player)} />
         <Text>{player}</Text>
       </HStack>
       <Text lineHeight="1.5rem">{testimony}</Text>
