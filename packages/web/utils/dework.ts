@@ -41,6 +41,13 @@ export const processDeworkData = (data: any) => {
   });
   // extract
   const uniqueTags = [...new Set(tags)];
+
+  // get tag grouping and sort by count
+  const tagGrouping = uniqueTags.map((tag) => ({
+      name: tag,
+      count: tags.filter((t) => t === tag).length,
+    }));
+
   // extract unique organisations' links and names
   const uniqueOrganisations: Organisation[] = [];
   organisations.forEach((org: any) => {
@@ -57,6 +64,7 @@ export const processDeworkData = (data: any) => {
     uniqueTags,
     uniqueOrganisations,
     totalEarnedInUSDC,
+    tagGrouping,
   };
 };
 
