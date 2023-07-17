@@ -412,7 +412,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 <Box flexGrow={1}>
                   <Input
                     id="swap-amount"
-                    pl={2}
+                    pl={0}
                     htmlSize={10}
                     width="100%"
                     variant="unstyled"
@@ -429,11 +429,11 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       handleSetAmount(value);
                     }}
                   />
-                  <Text color="gray" fontSize={12} textAlign={'left'} ml={2.5}>
+                  <Text color="gray" fontSize={12} textAlign={'left'} ml={0}>
                     {weiToEth(srcTkn.balance).toFixed(4)}
                   </Text>
                 </Box>
-                <Wrap align="center">
+                <Wrap align="center" justifyContent="flex-end">
                   <Button
                     borderColor="black"
                     color="black"
@@ -452,6 +452,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     display="flex"
                     alignItems="center"
                     gap={1}
+                    m={0}
                   >
                     <Image
                       src={
@@ -488,13 +489,13 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   icon={<HiSwitchVertical color="black" />}
                 />
               </Flex>
-              <hr />
+              <Box as="hr" />
               <Flex justify="space-between" align="center" p={2}>
                 <Box>
                   <Text color="black">
                     {weiToEth(previewAmount).toFixed(2)}
                   </Text>
-                  <Text color="gray" fontSize={12} textAlign="left" ml={1}>
+                  <Text color="gray" fontSize={12} textAlign="left" ml={0}>
                     {weiToEth(dstTkn.balance).toFixed(2)}
                   </Text>
                 </Box>
