@@ -27,7 +27,16 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
+import {
+  FaDiscord,
+  FaGithub,
+  FaHome,
+  FaToggleOff,
+  FaToggleOn,
+  FaTrophy,
+  FaTwitter,
+  FaUserCircle,
+} from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 
 import { AnimatedWaves, upDownAnimation } from './animations';
@@ -300,7 +309,11 @@ export const LandingHeader: React.FC = () => {
           fontSize={{ base: 'md', md: 'lg', lg: '2xl' }}
           zIndex={2}
         >
-          <VStack spacing={4} alignItems="flex-start">
+          <VStack
+            spacing={4}
+            alignItems="flex-start"
+            display={{ base: 'none', sm: 'none', md: 'none', lg: 'flex' }}
+          >
             {sections.map((section, index) => (
               <NavLink
                 key={index}
@@ -311,6 +324,112 @@ export const LandingHeader: React.FC = () => {
                 {section.title}
               </NavLink>
             ))}
+          </VStack>
+          <VStack
+            display={{ base: 'flex', sm: 'flex', md: 'flex', lg: 'none' }}
+            spacing={3}
+            minW={5}
+            zIndex={400}
+            flexFlow="column-reverse"
+            sx={{
+              opacity: 1,
+              transition: 'opacity 0.2s 0.2s ease',
+              '&:hover': { opacity: 0.8 },
+              a: {
+                color: 'white',
+                fontSize: { base: 'md', lg: '2xl' },
+                transition: 'transform 0.2s ease',
+                '&:hover': {
+                  transform: 'scale(1.1)',
+                  filter: 'drop-shadow(0 0 30px #333)',
+                },
+              },
+            }}
+          >
+            <MetaLink href="https://github.com/metafam" my={3} isExternal>
+              <Tooltip label="Github" hasArrow placement="right">
+                <Box
+                  as="span"
+                  display={'flex'}
+                  flexDir={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  w={'35vw'}
+                >
+                  <FaGithub /> Github
+                </Box>
+              </Tooltip>
+            </MetaLink>
+            <MetaLink href="https://chat.metagame.wtf" isExternal>
+              <Tooltip label="Discord" hasArrow placement="right">
+                <Box
+                  as="span"
+                  display={'flex'}
+                  flexDir={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  w={'35vw'}
+                >
+                  <FaDiscord /> Discord
+                </Box>
+              </Tooltip>
+            </MetaLink>
+            <MetaLink href="https://twitter.com/metafam" isExternal>
+              <Tooltip label="Twitter" hasArrow placement="right">
+                <Box
+                  as="span"
+                  display={'flex'}
+                  flexDir={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  w={'35vw'}
+                >
+                  <FaTwitter /> Twitter
+                </Box>
+              </Tooltip>
+            </MetaLink>
+            <MetaLink href="/players">
+              <Tooltip label="Leaderboard" hasArrow placement="right">
+                <Box
+                  as="span"
+                  display={'flex'}
+                  flexDir={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  w={'35vw'}
+                >
+                  <FaTrophy /> Leaderboard
+                </Box>
+              </Tooltip>
+            </MetaLink>
+            <MetaLink href="/dashboard">
+              <Tooltip label="Dashboard" hasArrow placement="right">
+                <Box
+                  as="span"
+                  display={'flex'}
+                  flexDir={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  w={'35vw'}
+                >
+                  <FaHome /> Dashboard
+                </Box>
+              </Tooltip>
+            </MetaLink>
+            <MetaLink href="/me">
+              <Tooltip label="Player Profile" hasArrow placement="right">
+                <Box
+                  as="span"
+                  display={'flex'}
+                  flexDir={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  w={'35vw'}
+                >
+                  <FaUserCircle /> Profile
+                </Box>
+              </Tooltip>
+            </MetaLink>
           </VStack>
         </Stack>
         <AnimatedWaves

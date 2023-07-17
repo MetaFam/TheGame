@@ -183,6 +183,7 @@ export const Socials: React.FC = () => (
     height="100vh"
     minH="100vh"
     zIndex={400}
+    display={{ base: 'none', sm: 'none', md: 'none', lg: 'flex' }}
   >
     {/* {currentWaypoint !== 6 && ( */}
     <Box
