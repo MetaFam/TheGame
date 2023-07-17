@@ -165,7 +165,7 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
           nextSection={sections[8]}
           activeSectionIndex={section}
         />
-        <JoinUs section={sections[7]} activeSectionIndex={section} />
+        <JoinUs section={sections[8]} activeSectionIndex={section} />
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
       <SocialsDesktop />
