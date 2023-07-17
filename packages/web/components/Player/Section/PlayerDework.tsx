@@ -42,6 +42,7 @@ export const DeworkSectionWrapper: React.FC<DeworkSectionWrapperProps> = ({
   <VStack
     display="inline-flex"
     flex="0 0 50%"
+    maxWidth="50%"
     textAlign="left"
     alignItems="left"
     mb={3}

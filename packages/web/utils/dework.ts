@@ -42,7 +42,7 @@ export const processDeworkData = (data: any) => {
   // extract
   const uniqueTags = [...new Set(tags)];
 
-  // get tag grouping and sort by count
+  // get tag grouping
   const tagGrouping = uniqueTags.map((tag) => ({
     name: tag,
     count: tags.filter((t) => t === tag).length,
