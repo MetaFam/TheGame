@@ -42,7 +42,12 @@ export const sections = [
   },
   {
     label: '07',
+    internalLinkId: 'what-say',
+    title: '7. What people are saying',
+  },
+  {
+    label: '08',
     internalLinkId: 'join-us',
-    title: '7. Join us!',
+    title: '8. Join us!',
   },
 ];

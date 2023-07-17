@@ -7,6 +7,7 @@ import { JoinUs } from 'components/Landing/JoinUs';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import { sections } from 'components/Landing/landingSection';
 import { WhatDo } from 'components/Landing/WhatDo';
+import { WhatSay } from 'components/Landing/WhatSay';
 import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
@@ -146,7 +147,12 @@ const Landing: React.FC = () => {
           nextSection={sections[6]}
           activeSectionIndex={section}
         />
-        <JoinUs section={sections[6]} activeSectionIndex={section} />
+        <WhatSay
+          section={sections[6]}
+          nextSection={sections[7]}
+          activeSectionIndex={section}
+        />
+        <JoinUs section={sections[7]} activeSectionIndex={section} />
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
       <Socials />
