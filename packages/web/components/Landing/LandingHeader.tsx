@@ -309,11 +309,7 @@ export const LandingHeader: React.FC = () => {
           fontSize={{ base: 'md', md: 'lg', lg: '2xl' }}
           zIndex={2}
         >
-          <VStack
-            spacing={4}
-            alignItems="flex-start"
-            display={{ base: 'none', sm: 'none', md: 'none', lg: 'flex' }}
-          >
+          <VStack spacing={4} alignItems="flex-start">
             {sections.map((section, index) => (
               <NavLink
                 key={index}
@@ -325,14 +321,12 @@ export const LandingHeader: React.FC = () => {
               </NavLink>
             ))}
           </VStack>
-          <VStack
+          <HStack
             display={{ base: 'flex', sm: 'flex', md: 'flex', lg: 'none' }}
-            spacing={3}
-            minW={5}
-            zIndex={400}
-            flexFlow="column-reverse"
+            justifyContent={'space-around'}
+            flexDirection={'row'}
             sx={{
-              opacity: 1,
+              opacity: 0.7,
               transition: 'opacity 0.2s 0.2s ease',
               '&:hover': { opacity: 0.8 },
               a: {
@@ -348,89 +342,47 @@ export const LandingHeader: React.FC = () => {
           >
             <MetaLink href="https://github.com/metafam" my={3} isExternal>
               <Tooltip label="Github" hasArrow placement="right">
-                <Box
-                  as="span"
-                  display={'flex'}
-                  flexDir={'row'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  w={'35vw'}
-                >
-                  <FaGithub /> Github
+                <Box as="span">
+                  <FaGithub />
                 </Box>
               </Tooltip>
             </MetaLink>
             <MetaLink href="https://chat.metagame.wtf" isExternal>
               <Tooltip label="Discord" hasArrow placement="right">
-                <Box
-                  as="span"
-                  display={'flex'}
-                  flexDir={'row'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  w={'35vw'}
-                >
-                  <FaDiscord /> Discord
+                <Box as="span">
+                  <FaDiscord />
                 </Box>
               </Tooltip>
             </MetaLink>
             <MetaLink href="https://twitter.com/metafam" isExternal>
               <Tooltip label="Twitter" hasArrow placement="right">
-                <Box
-                  as="span"
-                  display={'flex'}
-                  flexDir={'row'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  w={'35vw'}
-                >
-                  <FaTwitter /> Twitter
+                <Box as="span">
+                  <FaTwitter />
                 </Box>
               </Tooltip>
             </MetaLink>
             <MetaLink href="/players">
               <Tooltip label="Leaderboard" hasArrow placement="right">
-                <Box
-                  as="span"
-                  display={'flex'}
-                  flexDir={'row'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  w={'35vw'}
-                >
-                  <FaTrophy /> Leaderboard
+                <Box as="span">
+                  <FaTrophy />
                 </Box>
               </Tooltip>
             </MetaLink>
             <MetaLink href="/dashboard">
               <Tooltip label="Dashboard" hasArrow placement="right">
-                <Box
-                  as="span"
-                  display={'flex'}
-                  flexDir={'row'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  w={'35vw'}
-                >
-                  <FaHome /> Dashboard
+                <Box as="span">
+                  <FaHome />
                 </Box>
               </Tooltip>
             </MetaLink>
             <MetaLink href="/me">
               <Tooltip label="Player Profile" hasArrow placement="right">
-                <Box
-                  as="span"
-                  display={'flex'}
-                  flexDir={'row'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  w={'35vw'}
-                >
-                  <FaUserCircle /> Profile
+                <Box as="span">
+                  <FaUserCircle />
                 </Box>
               </Tooltip>
             </MetaLink>
-          </VStack>
+          </HStack>
         </Stack>
         <AnimatedWaves
           animationName={upDownAnimation}
