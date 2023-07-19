@@ -4,6 +4,7 @@ import {
   ButtonGroup,
   Flex,
   Link,
+  MetaButton,
   MetaTag,
   Stat,
   StatArrow,
@@ -15,7 +16,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
-import { useUser } from 'lib/hooks';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { useUserXP } from 'lib/hooks/useUserXP';
 import React, { FC, ReactNode, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
@@ -28,10 +29,23 @@ import {
 
 export const XP = (): React.ReactElement => {
   const { user } = useUser();
+  const { connect, connecting, connected } = useWeb3();
 
   const xpStats = useUserXP(user?.ethereumAddress || '');
+  const mounted = useMounted();
 
-  if (xpStats == null) {
+  if (!mounted || (!connecting && !connected)) {
+    return (
+      <Flex direction="column" align="center" justify="center" h="17rem">
+        <Text textAlign="center">
+          Please <MetaButton onClick={connect}>connect</MetaButton> to see your
+          xp
+        </Text>
+      </Flex>
+    );
+  }
+
+  if (xpStats === null) {
     return (
       <VStack spacing={0} w="100%" p={6}>
         <Flex align="center" justify="center" h="17rem">
