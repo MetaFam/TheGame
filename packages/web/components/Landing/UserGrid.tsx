@@ -67,6 +67,7 @@ export const UserGrid: React.FC<{
       ?.filter((guild) => whoWeAreGuilds.includes(guild.guildname))
       ?.map((guild, i) => (
         <Link
+          key={`guild-user-${i}`}
           role="group"
           _hover={{
             textDecoration: 'none',
@@ -80,7 +81,7 @@ export const UserGrid: React.FC<{
             marginBottom: '10px',
           }}
         >
-          <Box key={`guild-user-${i}`} textAlign="center">
+          <Box textAlign="center">
             <RoundImage size="xxs" src={guild.logo || ''} />
             <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
               {guild.guildname}
@@ -91,6 +92,7 @@ export const UserGrid: React.FC<{
 
     {elders?.map((elder, i) => (
       <Link
+        key={`elder-user-${i}`}
         role="group"
         _hover={{
           textDecoration: 'none',
@@ -104,7 +106,7 @@ export const UserGrid: React.FC<{
           marginBottom: '10px',
         }}
       >
-        <Box key={`elder-user-${i}`} textAlign="center">
+        <Box textAlign="center">
           <RoundImage size="xxs" src={elder.img || ''} />
           <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
             {elder.name}
