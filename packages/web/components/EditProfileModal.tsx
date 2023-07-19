@@ -296,7 +296,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           <FormProvider {...formMethods}>
-            <Grid templateColumns={['1fr']} gap={6} p={8}>
+            <Grid templateColumns={['1fr']} gap={6} p={[0, 8]}>
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditAvatarImage
                   ref={imageFieldRefs.profileImageURL}
@@ -331,7 +331,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   <FormHelperText color="white">
                     {nameRemaining} characters left.
                   </FormHelperText>
-                  <Box minH="3em">
+                  <Box>
                     <FormErrorMessage>
                       {errors.name?.message?.toString()}
                     </FormErrorMessage>
@@ -349,8 +349,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   <InputGroup w="100%">
                     <InputLeftElement
                       pointerEvents="none"
-                      pl={130}
-                      children=" https://metagame.wtf/players/"
+                      children="https://metagame.wtf/players/"
+                      width="auto"
+                      paddingLeft="1em"
+                      color="whiteAlpha.700"
                     />
                     <Input
                       w="100%"
@@ -406,7 +408,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     What is your weekly availability for any kind of freelance
                     work?
                   </FormHelperText>
-                  <InputGroup w="100%">
+                  <InputGroup w="5em">
                     <InputLeftElement>
                       <Text as="span" role="img" aria-label="clock">
                         🕛
