@@ -3,8 +3,8 @@ import NextImage from 'next/legacy/image';
 import React from 'react';
 
 export const BoxedNextImage: React.FC<
-  | React.ComponentProps<typeof Box>
-  | { src: string | number; alt: string | number }
+  React.ComponentProps<typeof Box>
+  & { src: string; alt: string }
 > = ({ src, alt, ...props }) => (
   <Box
     pos="relative"
