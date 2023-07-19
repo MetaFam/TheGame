@@ -15,7 +15,7 @@ export const EditDescription: React.FC = () => {
   const {
     watch,
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useFormContext();
   const description = watch('description');
   const remaining = useMemo(
@@ -43,9 +43,11 @@ export const EditDescription: React.FC = () => {
           },
         })}
       />
-      <FormHelperText py={1} color="white">
-        {remaining} characters left.
-      </FormHelperText>
+      {isDirty ? (
+        <FormHelperText py={1} color="white">
+          {remaining} characters left.
+        </FormHelperText>
+      ) : null}
       <FormErrorMessage>
         {errors.description?.message?.toString()}
       </FormErrorMessage>

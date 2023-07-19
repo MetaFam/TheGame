@@ -142,7 +142,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
             Meet with Wallet
           </Link>{' '}
           is a web3 powered meeting schedule platform. If you don't have an
-          account, one will be created automatically for you.
+          account, one will be created automatically for you on connect.
         </Text>
       );
       buttonCopy = 'Connect to Meet with Wallet';
@@ -151,7 +151,8 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
       information = (
         <Text pb={4} color="white">
           Meet with Wallet is a web3 powered meeting schedule platform. If you
-          don't have an account, one will be created automatically for you.
+          don't have an account, one will be created automatically for you on
+          connect.
         </Text>
       );
       buttonCopy = 'Connect to Meet with Wallet';
