@@ -143,7 +143,7 @@ export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
   return (
     <TimeZoneSelect
       value={value ?? ''}
-      styles={timeZoneSelectStyles as StylesConfig}
+      styles={timeZoneSelectStyles as StylesConfig<ITimezone, false, GroupBase<ITimezone>>}
       filterOption={null}
       timezones={Object.fromEntries(
         options.map(({ location, title }) => [location, title ?? '']),
