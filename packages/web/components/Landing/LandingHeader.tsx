@@ -18,6 +18,7 @@ import {
 import OctoBg from 'assets/baby_octo.webp';
 import MetaGameLogo from 'assets/logo.webp';
 import { MetaLink } from 'components/Link';
+import { Socials } from 'components/SocialLinks';
 import { SetStateAction } from 'jotai';
 import { get, set } from 'lib/store';
 import React, {
@@ -27,16 +28,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import {
-  FaDiscord,
-  FaGithub,
-  FaHome,
-  FaToggleOff,
-  FaToggleOn,
-  FaTrophy,
-  FaTwitter,
-  FaUserCircle,
-} from 'react-icons/fa';
+import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 
 import { AnimatedWaves, upDownAnimation } from './animations';
@@ -303,7 +295,7 @@ export const LandingHeader: React.FC = () => {
       >
         <Stack
           spacing={4}
-          direction={{ base: 'column', md: 'row' }}
+          direction={{ base: 'column', md: 'column' }}
           opacity={menuToggle ? 1 : 0}
           transition={noMotion ? 'none' : 'opacity 0.3s 0.5s ease-in-out'}
           fontSize={{ base: 'md', md: 'lg', lg: '2xl' }}
@@ -321,68 +313,7 @@ export const LandingHeader: React.FC = () => {
               </NavLink>
             ))}
           </VStack>
-          <HStack
-            display={{ base: 'flex', sm: 'flex', md: 'flex', lg: 'none' }}
-            justifyContent={'space-around'}
-            flexDirection={'row'}
-            sx={{
-              opacity: 0.7,
-              transition: 'opacity 0.2s 0.2s ease',
-              '&:hover': { opacity: 0.8 },
-              a: {
-                color: 'white',
-                fontSize: { base: 'md', lg: '2xl' },
-                transition: 'transform 0.2s ease',
-                '&:hover': {
-                  transform: 'scale(1.1)',
-                  filter: 'drop-shadow(0 0 30px #333)',
-                },
-              },
-            }}
-          >
-            <MetaLink href="https://github.com/metafam" my={3} isExternal>
-              <Tooltip label="Github" hasArrow placement="right">
-                <Box as="span">
-                  <FaGithub />
-                </Box>
-              </Tooltip>
-            </MetaLink>
-            <MetaLink href="https://chat.metagame.wtf" isExternal>
-              <Tooltip label="Discord" hasArrow placement="right">
-                <Box as="span">
-                  <FaDiscord />
-                </Box>
-              </Tooltip>
-            </MetaLink>
-            <MetaLink href="https://twitter.com/metafam" isExternal>
-              <Tooltip label="Twitter" hasArrow placement="right">
-                <Box as="span">
-                  <FaTwitter />
-                </Box>
-              </Tooltip>
-            </MetaLink>
-            <MetaLink href="/players">
-              <Tooltip label="Leaderboard" hasArrow placement="right">
-                <Box as="span">
-                  <FaTrophy />
-                </Box>
-              </Tooltip>
-            </MetaLink>
-            <MetaLink href="/dashboard">
-              <Tooltip label="Dashboard" hasArrow placement="right">
-                <Box as="span">
-                  <FaHome />
-                </Box>
-              </Tooltip>
-            </MetaLink>
-            <MetaLink href="/me">
-              <Tooltip label="Player Profile" hasArrow placement="right">
-                <Box as="span">
-                  <FaUserCircle />
-                </Box>
-              </Tooltip>
-            </MetaLink>
-          </HStack>
+          <Socials />
         </Stack>
         <AnimatedWaves
           animationName={upDownAnimation}

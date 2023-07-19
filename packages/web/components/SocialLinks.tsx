@@ -1,0 +1,75 @@
+import { Box, HStack, Tooltip } from '@metafam/ds';
+import { MetaLink } from 'components/Link';
+import {
+  FaDiscord,
+  FaGithub,
+  FaHome,
+  FaTrophy,
+  FaTwitter,
+  FaUserCircle,
+} from 'react-icons/fa';
+
+export const Socials: React.FC = () => (
+  <HStack
+    display={{ base: 'flex', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' }}
+    justifyContent={'space-around'}
+    flexDirection={'row'}
+    sx={{
+      opacity: 0.7,
+      transition: 'opacity 0.2s 0.2s ease',
+      '&:hover': { opacity: 0.8 },
+      a: {
+        color: 'white',
+        fontSize: { base: 'md', lg: '2xl' },
+        transition: 'transform 0.2s ease',
+        '&:hover': {
+          transform: 'scale(1.1)',
+          filter: 'drop-shadow(0 0 30px #333)',
+        },
+      },
+    }}
+  >
+    <MetaLink href="https://github.com/metafam" my={3} isExternal>
+      <Tooltip label="Github" hasArrow placement="right">
+        <Box as="span">
+          <FaGithub />
+        </Box>
+      </Tooltip>
+    </MetaLink>
+    <MetaLink href="https://chat.metagame.wtf" isExternal>
+      <Tooltip label="Discord" hasArrow placement="right">
+        <Box as="span">
+          <FaDiscord />
+        </Box>
+      </Tooltip>
+    </MetaLink>
+    <MetaLink href="https://twitter.com/metafam" isExternal>
+      <Tooltip label="Twitter" hasArrow placement="right">
+        <Box as="span">
+          <FaTwitter />
+        </Box>
+      </Tooltip>
+    </MetaLink>
+    <MetaLink href="/players">
+      <Tooltip label="Leaderboard" hasArrow placement="right">
+        <Box as="span">
+          <FaTrophy />
+        </Box>
+      </Tooltip>
+    </MetaLink>
+    <MetaLink href="/dashboard">
+      <Tooltip label="Dashboard" hasArrow placement="right">
+        <Box as="span">
+          <FaHome />
+        </Box>
+      </Tooltip>
+    </MetaLink>
+    <MetaLink href="/me">
+      <Tooltip label="Player Profile" hasArrow placement="right">
+        <Box as="span">
+          <FaUserCircle />
+        </Box>
+      </Tooltip>
+    </MetaLink>
+  </HStack>
+);
