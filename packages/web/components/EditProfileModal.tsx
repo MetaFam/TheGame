@@ -59,11 +59,11 @@ import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
 import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
-import MeetWithWalletProfileEdition from './Player/MeetWithWalletProfileEdition';
 import { EditAvatarImage } from './Player/Profile/EditAvatarImage';
 import { EditBackgroundImage } from './Player/Profile/EditBackgroundImage';
 import { EditDescription } from './Player/Profile/EditDescription';
 import { Label } from './Player/Profile/Label';
+import MeetWithWalletProfileEdition from './Player/Profile/MeetWithWalletProfileEdition';
 
 type EditProfileFields = {
   profileImageURL?: Maybe<string>;
@@ -117,6 +117,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
   const formMethods = useForm({
     defaultValues: initialFormValues,
+    mode: 'onTouched',
   });
   const {
     handleSubmit,
@@ -322,6 +323,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     w="100%"
                     placeholder="e.g., Meta Player 10x!"
                     {...register('name', {
+                      required: 'We have to identify you somehow! 😱',
                       maxLength: {
                         value: 150,
                         message: 'Maximum length is 150 characters.',
@@ -333,7 +335,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </FormHelperText>
                   <Box>
                     <FormErrorMessage>
-                      {JSON.stringify(errors)}
+                      {errors.name?.message?.toString()}
                     </FormErrorMessage>
                   </Box>
                 </FormControl>
@@ -391,7 +393,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                       })}
                     />
                   </InputGroup>
-                  <Box minH="3em">
+                  <Box>
                     <FormErrorMessage>
                       {errors.username?.message?.toString()}
                     </FormErrorMessage>
@@ -442,7 +444,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                       <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
                     </InputRightAddon>
                   </InputGroup>
-                  <Box minH="3em">
+                  <Box>
                     <FormErrorMessage>
                       {errors.availableHours?.message?.toString()}
                     </FormErrorMessage>
@@ -469,7 +471,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                       />
                     )}
                   />
-                  <Box minH="3em">
+                  <Box>
                     <FormErrorMessage>
                       {errors.timeZone?.message?.toString()}
                     </FormErrorMessage>
@@ -515,7 +517,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                       },
                     })}
                   />
-                  <Box minH="3em">
+                  <Box>
                     <FormErrorMessage>
                       {errors.website?.message?.toString()}
                     </FormErrorMessage>
