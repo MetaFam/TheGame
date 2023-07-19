@@ -11,12 +11,17 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldDescription;
 
 export const SetupDescription: React.FC = () => {
-  const { error, result: existing } =
-    useGetOwnProfileFieldFromComposeDB<string>(field);
+  const {
+    fetching,
+    error,
+    result: existing,
+  } = useGetOwnProfileFieldFromComposeDB<string>(field);
 
   useShowToastOnQueryError(error);
 
-  const formMethods = useForm<{ [field]: string | undefined }>();
+  const formMethods = useForm<{ [field]: string | undefined }>({
+    mode: 'onTouched',
+  });
   const {
     watch,
     setValue,
@@ -37,7 +42,7 @@ export const SetupDescription: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <WizardPane
-        {...{ field, onSubmit, status }}
+        {...{ field, onSubmit, status, fetching }}
         title="Bio"
         prompt="This is where you get to tell the world who you are! What interests you? What are you up to these days? What are your goals & aspirations?? Why are you here???"
       >

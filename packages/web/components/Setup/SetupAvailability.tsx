@@ -17,12 +17,17 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldAvailability;
 
 export const SetupAvailability: React.FC = () => {
-  const { error, result: existing } =
-    useGetOwnProfileFieldFromComposeDB<string>(field);
+  const {
+    fetching,
+    error,
+    result: existing,
+  } = useGetOwnProfileFieldFromComposeDB<string>(field);
 
   useShowToastOnQueryError(error);
 
-  const formMethods = useForm<{ [field]: string | undefined }>();
+  const formMethods = useForm<{ [field]: string | undefined }>({
+    mode: 'onTouched',
+  });
   const {
     watch,
     setValue,
@@ -43,7 +48,7 @@ export const SetupAvailability: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <WizardPane<number>
-        {...{ field, onSubmit, status }}
+        {...{ field, onSubmit, status, fetching }}
         title="Avail&#xAD;ability"
         prompt="What is your weekly availability for any kind of freelance work?"
       >

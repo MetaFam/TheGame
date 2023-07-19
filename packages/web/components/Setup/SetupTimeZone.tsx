@@ -17,8 +17,11 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldTimeZone;
 
 export const SetupTimeZone: React.FC = () => {
-  const { error, result: existing } =
-    useGetOwnProfileFieldFromComposeDB<string>(field);
+  const {
+    fetching,
+    error,
+    result: existing,
+  } = useGetOwnProfileFieldFromComposeDB<string>(field);
 
   useShowToastOnQueryError(error);
 
@@ -43,7 +46,7 @@ export const SetupTimeZone: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <WizardPane
-        {...{ field, onSubmit, status }}
+        {...{ field, onSubmit, status, fetching }}
         title="Time Zone"
         prompt="Which zone are you in?"
       >
