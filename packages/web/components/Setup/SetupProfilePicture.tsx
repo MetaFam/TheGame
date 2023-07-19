@@ -23,8 +23,11 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldAvatar;
 
 export const SetupProfilePicture: React.FC = () => {
-  const { error, result: existing } =
-    useGetOwnProfileFieldFromComposeDB<ComposeDBImageMetadata>(field);
+  const {
+    fetching,
+    error,
+    result: existing,
+  } = useGetOwnProfileFieldFromComposeDB<ComposeDBImageMetadata>(field);
 
   useShowToastOnQueryError(error);
 
@@ -49,7 +52,7 @@ export const SetupProfilePicture: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <WizardPane<ComposeDBImageMetadata>
-        {...{ field, onSubmit, status }}
+        {...{ field, onSubmit, status, fetching }}
         title="Profile Picture"
         prompt="Upload an image that will make you instantly recognizable."
       >

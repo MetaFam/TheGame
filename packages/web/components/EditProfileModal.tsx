@@ -333,7 +333,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </FormHelperText>
                   <Box>
                     <FormErrorMessage>
-                      {errors.name?.message?.toString()}
+                      {JSON.stringify(errors)}
                     </FormErrorMessage>
                   </Box>
                 </FormControl>

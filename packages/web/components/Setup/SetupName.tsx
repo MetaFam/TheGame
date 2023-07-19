@@ -11,18 +11,19 @@ import { WizardPane } from './WizardPane';
 const field = composeDBProfileFieldName;
 
 export const SetupName: React.FC = () => {
-  const { error, result: existing } =
-    useGetOwnProfileFieldFromComposeDB<string>(field);
+  const {
+    error,
+    result: existing,
+    fetching,
+  } = useGetOwnProfileFieldFromComposeDB<string>(field);
 
   useShowToastOnQueryError(error);
 
-  const formMethods = useForm<{ [field]: string | undefined }>();
-  const {
-    watch,
-    setValue,
-    formState: { dirtyFields },
-  } = formMethods;
-
+  const formMethods = useForm<{ [field]: string | undefined }>({
+    mode: 'onTouched',
+  });
+  const { watch, setValue, formState } = formMethods;
+  const { dirtyFields } = formState;
   useEffect(() => {
     setValue(field, existing);
   }, [existing, setValue]);
@@ -37,7 +38,7 @@ export const SetupName: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <WizardPane<string>
-        {...{ field, onSubmit, status }}
+        {...{ field, onSubmit, status, fetching }}
         title="Name"
         prompt="Hey! What's your name? 🙃"
       >
@@ -48,12 +49,12 @@ export const SetupName: React.FC = () => {
 };
 
 const SetupNameInput: React.FC = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
+  const { register, formState } = useFormContext();
+
+  const { errors } = formState;
 
   const { ref: registerRef, ...props } = register(field, {
+    required: 'We have to identify you somehow! 😱',
     maxLength: {
       value: 150,
       message: 'Maximum length is 150 characters.',
@@ -62,17 +63,19 @@ const SetupNameInput: React.FC = () => {
 
   return (
     <Flex justify="center" mt={5}>
-      <Input
-        background="dark"
-        placeholder="NAME"
-        w="auto"
-        _focus={errors[field] ? { borderColor: 'red' } : undefined}
-        ref={(ref) => {
-          ref?.focus();
-          registerRef(ref);
-        }}
-        {...props}
-      />
+      <>
+        <Input
+          background="dark"
+          placeholder="NAME"
+          w="auto"
+          _focus={errors[field] ? { borderColor: 'red' } : undefined}
+          ref={(ref) => {
+            ref?.focus();
+            registerRef(ref);
+          }}
+          {...props}
+        />
+      </>
     </Flex>
   );
 };

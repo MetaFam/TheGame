@@ -17,8 +17,7 @@ import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useWeb3 } from 'lib/hooks';
-import type { ReactNode } from 'react';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 export type MaybeModalProps = {
@@ -61,8 +60,24 @@ export const WizardPane = <T,>({
   const { connecting, connected, chainId } = useWeb3();
   const {
     handleSubmit,
-    formState: { errors, isValidating: validating },
+    watch,
+    resetField,
+    formState: { errors, isValidating: validating, defaultValues, dirtyFields },
   } = useFormContext();
+
+  // When the form is first rendered, the default value has probably not been fetched from ComposeDB yet. So for
+  // react-hook-form validation to work, we have to reset the field so that it knows what to compare the dirty value to
+  const current = watch(field);
+  useEffect(() => {
+    if (
+      defaultValues != null &&
+      !defaultValues[field] &&
+      !dirtyFields[field] &&
+      current
+    ) {
+      resetField(field, { defaultValue: current });
+    }
+  }, [current, defaultValues, dirtyFields, field, resetField]);
 
   const wrongChain = chainId != null && chainId !== '0x1';
   if ((!connecting && !connected) || wrongChain) {
@@ -138,13 +153,14 @@ export const WizardPanePrompt: React.FC<WizardPanePromptProps> = ({
   </>
 );
 
-// todo this should not be used on the edit profile page as well,
-// extract into a separate component
 export const WizardPaneSubmit: React.FC<WizardPaneSubmitProps> = ({
   status,
   buttonLabel,
   onClose,
 }) => {
+  const {
+    formState: { isValid },
+  } = useFormContext();
   const { nextButtonLabel } = useSetupFlow();
   return (
     <Wrap align="center">
@@ -152,6 +168,7 @@ export const WizardPaneSubmit: React.FC<WizardPaneSubmitProps> = ({
         <StatusedSubmitButton
           px={[8, 12]}
           label={buttonLabel ?? nextButtonLabel}
+          isDisabled={!isValid}
           {...{ status }}
         />
       </WrapItem>
