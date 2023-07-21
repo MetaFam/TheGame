@@ -11,6 +11,7 @@ import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+import { SocialsDesktop } from 'components/SocialLinks';
 import { CONFIG } from 'config';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -141,6 +142,7 @@ const Landing: React.FC = () => {
         <JoinUs section={sections[6]} activeSectionIndex={section} />
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
+      <SocialsDesktop />
       <MetaLink
         position="fixed"
         bottom={{ base: 20, md: 4 }}
