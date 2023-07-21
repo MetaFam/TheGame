@@ -2,6 +2,7 @@ import { PageContainer } from 'components/Container';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import { Onboard } from 'components/Landing/Onboard';
 import { HeadComponent } from 'components/Seo';
+import { SocialsDesktop } from 'components/SocialLinks';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 export const getStaticProps = async () => ({
@@ -74,6 +75,7 @@ const Onboarding: React.FC = () => {
       <LandingHeader />
       <PageContainer p={0}>
         <Onboard />
+        <SocialsDesktop />
       </PageContainer>
     </>
   );

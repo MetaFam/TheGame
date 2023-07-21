@@ -12,6 +12,7 @@ import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+import { SocialsDesktop } from 'components/SocialLinks';
 import { CONFIG } from 'config';
 import { getPatrons } from 'graphql/getPatrons';
 import { getGuilds } from 'graphql/queries/guild';
@@ -161,6 +162,7 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
         <JoinUs section={sections[7]} activeSectionIndex={section} />
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
+      <SocialsDesktop />
       <MetaLink
         position="fixed"
         bottom={{ base: 20, md: 4 }}
