@@ -8,22 +8,11 @@ import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { GuildFragment } from 'graphql/autogen/types';
 import React, { forwardRef } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
+import { BoxTypes, createBoxKey, DisplayComponent } from 'utils/boxTypes';
 
-type Props = {
-  type: BoxType;
-  guild?: GuildFragment;
-  metadata?: BoxMetadata;
-  editing?: boolean;
-  onRemoveBox?: (boxKey: string) => void;
-};
-
-const GuildSectionInner: React.FC<Props & { guild: GuildFragment }> = ({
-  metadata,
-  type,
-  guild,
-  editing = false,
-}) => {
+const GuildSectionInner: React.FC<
+  DisplayComponent & { guild: GuildFragment }
+> = ({ metadata, type, guild, editing = false }) => {
   switch (type) {
     case BoxTypes.GUILD_HERO:
       return <GuildHero {...{ guild, editing }} />;
@@ -43,21 +32,22 @@ const GuildSectionInner: React.FC<Props & { guild: GuildFragment }> = ({
         <CustomTextSection {...{ title, content }} />
       ) : null;
     }
-    default:
+    default: {
       return null;
+    }
   }
 };
 
-export const GuildSection = forwardRef<HTMLDivElement, Props>(
+export const GuildSection = forwardRef<HTMLDivElement, DisplayComponent>(
   ({ metadata, type, guild, editing = false, onRemoveBox }, ref) => {
-    const key = createBoxKey(type, metadata);
-
     if (!guild) return null;
+
+    const key = createBoxKey(type, metadata);
 
     return (
       <Flex
-        w="100%"
         {...{ ref }}
+        w="100%"
         direction="column"
         h="auto"
         minH="100%"

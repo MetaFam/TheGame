@@ -1,8 +1,11 @@
 import { Maybe } from '@metafam/utils';
-import { useEffect, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { getBoxKey } from 'utils/boxTypes';
 
-export const useBoxHeights = (items: Array<Maybe<HTMLElement>>) => {
+export const useBoxHeights = (
+  items: Array<Maybe<PropsWithChildren<ReactElement>>>,
+) => {
   const [heights, setHeights] = useState<Record<string, number>>({});
 
   useEffect(() => {
@@ -20,7 +23,7 @@ export const useBoxHeights = (items: Array<Maybe<HTMLElement>>) => {
 
     const newHeights: Record<string, number> = {};
     items.forEach((item) => {
-      if (item) {
+      if (item && Array.isArray(item.children)) {
         const target = item.children[0] as HTMLElement;
         const key = getBoxKey(target);
         if (key && target) {

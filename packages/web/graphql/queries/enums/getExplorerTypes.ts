@@ -14,7 +14,7 @@ export const GetExplorerTypes = /* GraphQL */ `
 
 export const getExplorerTypes = async () => {
   const { data, error } = await client
-    .query<GetExplorerTypesQuery>(GetExplorerTypes)
+    .query<GetExplorerTypesQuery>(GetExplorerTypes, {})
     .toPromise();
 
   if (!data) {

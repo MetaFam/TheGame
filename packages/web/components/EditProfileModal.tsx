@@ -439,7 +439,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
             gap={6}
           >
             <GridItem flex={1} alignItems="center" h="10em">
-              <FormControl isInvalid={errors.profileImageURL}>
+              <FormControl isInvalid={!!errors.profileImageURL}>
                 <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
                   <Label htmlFor="profileImageURL" userSelect="none">
                     Profile Image
@@ -538,7 +538,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   />
                 </Center>
                 <FormErrorMessage>
-                  {errors.profileImageURL?.message}
+                  {errors.profileImageURL?.message as string}
                 </FormErrorMessage>
               </FormControl>
             </GridItem>
@@ -561,7 +561,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
               },
             ].map(({ key, title, description: spec }) => (
               <GridItem flex={1} alignItems="center" h="10em" {...{ key }}>
-                <FormControl isInvalid={errors[key]} h="full">
+                <FormControl isInvalid={!!errors[key]} h="full">
                   <Tooltip label={spec}>
                     <Label
                       htmlFor={key}
@@ -658,12 +658,14 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                       )}
                     />
                   </Center>
-                  <FormErrorMessage>{errors[key]?.message}</FormErrorMessage>
+                  <FormErrorMessage>
+                    {errors[key]?.message as string}
+                  </FormErrorMessage>
                 </FormControl>
               </GridItem>
             ))}
             <GridItem flex={1}>
-              <FormControl isInvalid={errors.description}>
+              <FormControl isInvalid={!!errors.description}>
                 <Tooltip label={`${MAX_DESC_LEN} characters max.`}>
                   <Label htmlFor="description" userSelect="none">
                     Bio
@@ -687,12 +689,12 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   })}
                 />
                 <FormErrorMessage>
-                  {errors.description?.message}
+                  {errors.description?.message as string}
                 </FormErrorMessage>
               </FormControl>
             </GridItem>
             <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.name}>
+              <FormControl isInvalid={!!errors.name}>
                 <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
                   <Label htmlFor="name" userSelect="none">
                     Display Name
@@ -710,12 +712,14 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   })}
                 />
                 <Box minH="3em">
-                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                  <FormErrorMessage>
+                    {errors.name?.message as string}
+                  </FormErrorMessage>
                 </Box>
               </FormControl>
             </GridItem>
             <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.username}>
+              <FormControl isInvalid={!!errors.username}>
                 <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
                   <Label htmlFor="username" userSelect="none">
                     Name
@@ -752,13 +756,13 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 />
                 <Box minH="3em">
                   <FormErrorMessage>
-                    {errors.username?.message}
+                    {errors.username?.message as string}
                   </FormErrorMessage>
                 </Box>
               </FormControl>
             </GridItem>
             <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.timeZone}>
+              <FormControl isInvalid={!!errors.timeZone}>
                 <Label htmlFor="name">Time Zone</Label>
                 <Controller
                   {...{ control }}
@@ -778,13 +782,13 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 />
                 <Box minH="3em">
                   <FormErrorMessage>
-                    {errors.timeZone?.message}
+                    {errors.timeZone?.message as string}
                   </FormErrorMessage>
                 </Box>
               </FormControl>
             </GridItem>
             <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.availableHours}>
+              <FormControl isInvalid={!!errors.availableHours}>
                 <Label htmlFor="availableHours">Availability</Label>
                 <InputGroup w="100%">
                   <InputLeftElement>
@@ -822,13 +826,13 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 </InputGroup>
                 <Box minH="3em">
                   <FormErrorMessage>
-                    {errors.availableHours?.message}
+                    {errors.availableHours?.message as string}
                   </FormErrorMessage>
                 </Box>
               </FormControl>
             </GridItem>
             <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.pronouns}>
+              <FormControl isInvalid={!!errors.pronouns}>
                 <Label htmlFor="pronouns">Pronouns</Label>
                 <Input
                   w="100%"
@@ -843,7 +847,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 />
                 <Box minH="3em">
                   <FormErrorMessage>
-                    {errors.pronouns?.message}
+                    {errors.pronouns?.message as string}
                   </FormErrorMessage>
                 </Box>
               </FormControl>
@@ -855,7 +859,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
           </GridItem>
         */}
             <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.website}>
+              <FormControl isInvalid={!!errors.website}>
                 <Label htmlFor="name">Website</Label>
                 <Input
                   w="100%"
@@ -873,12 +877,14 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   })}
                 />
                 <Box minH="3em">
-                  <FormErrorMessage>{errors.website?.message}</FormErrorMessage>
+                  <FormErrorMessage>
+                    {errors.website?.message as string}
+                  </FormErrorMessage>
                 </Box>
               </FormControl>
             </GridItem>
             <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.location}>
+              <FormControl isInvalid={!!errors.location}>
                 <Label htmlFor="location">Location</Label>
                 <Input
                   id="location"
@@ -893,13 +899,13 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 />
                 <Box minH="3em">
                   <FormErrorMessage>
-                    {errors.location?.message}
+                    {errors.location?.message as string}
                   </FormErrorMessage>
                 </Box>
               </FormControl>
             </GridItem>
             <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.emoji}>
+              <FormControl isInvalid={!!errors.emoji}>
                 <Label htmlFor="emoji">Spirit Emoji</Label>
                 <Input
                   id="emoji"
@@ -915,7 +921,9 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   })}
                 />
                 <Box minH="3em">
-                  <FormErrorMessage>{errors.emoji?.message}</FormErrorMessage>
+                  <FormErrorMessage>
+                    {errors.emoji?.message as string}
+                  </FormErrorMessage>
                 </Box>
               </FormControl>
             </GridItem>

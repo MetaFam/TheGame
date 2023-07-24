@@ -1,4 +1,6 @@
 import { Maybe, Values } from '@metafam/utils';
+import { GuildFragment, Player } from 'graphql/autogen/types';
+import { JSXElementConstructor, ReactElement, RefAttributes } from 'react';
 import { Layouts } from 'react-grid-layout';
 import { hashCode } from 'utils/stringHelpers';
 
@@ -89,3 +91,18 @@ export const gridSX = {
     borderRadius: 'lg',
   },
 };
+
+export type DisplayComponent = {
+  editing?: boolean;
+  onRemoveBox?: (boxKey: string) => void;
+  metadata?: BoxMetadata;
+  type: BoxType;
+  player?: Player;
+  guild?: GuildFragment;
+  ens?: string;
+} & RefAttributes<HTMLDivElement>;
+
+export type DisplayOutput = (
+  props: DisplayComponent,
+) => ReactElement<DisplayComponent, JSXElementConstructor<HTMLDivElement>>;
+export type DisplayOutputOut = ReturnType<DisplayOutput>;

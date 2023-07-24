@@ -21,7 +21,10 @@ import deepEquals from 'deep-equal';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import { useBoxHeights } from 'lib/hooks/useBoxHeights';
 import React, {
+  ForwardRefExoticComponent,
+  JSXElementConstructor,
   ReactElement,
+  RefAttributes,
   useCallback,
   useEffect,
   useMemo,
@@ -34,6 +37,8 @@ import {
   BoxType,
   BoxTypes,
   createBoxKey,
+  DisplayOutput,
+  DisplayOutputOut,
   gridSX,
   LayoutData,
 } from 'utils/boxTypes';
@@ -61,15 +66,7 @@ type Props = {
   showEditButton: boolean;
   allBoxOptions: BoxType[];
   ens?: string;
-  displayComponent: (props: {
-    ref?: (e: Maybe<HTMLElement>) => void;
-    editing?: boolean;
-    onRemoveBox?: (boxKey: string) => void;
-    metadata?: BoxMetadata;
-    type: BoxType;
-    player?: Player;
-    guild?: GuildFragment;
-  }) => JSX.Element | null;
+  displayComponent: DisplayOutput;
 } & BoxProps;
 
 export const EditableGridLayout: React.FC<Props> = ({
@@ -84,13 +81,13 @@ export const EditableGridLayout: React.FC<Props> = ({
   displayComponent: DisplaySection,
   ens,
   ...props
-}): ReactElement => {
+}) => {
   const [saving, setSaving] = useState(false);
   const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
   const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
   const [changed, setChanged] = useState(false);
   const [editing, setEditing] = useState(false);
-  const itemsRef = useRef<Array<Maybe<HTMLElement>>>([]);
+  const itemsRef = useRef<Array<Maybe<DisplayOutputOut>>>([]);
   const heights = useBoxHeights(itemsRef.current);
   const mobile = useBreakpointValue({ base: true, sm: false });
   const toast = useToast();
@@ -324,10 +321,10 @@ export const EditableGridLayout: React.FC<Props> = ({
               {type === BoxTypes.ADD_NEW_BOX ? (
                 <AddBoxSection
                   boxes={availableBoxes}
-                  previewComponent={DisplaySection}
+                  previewComponent={DisplaySection ?? null}
                   {...{ player, guild, onAddBox }}
-                  ref={(e: Maybe<HTMLElement>) => {
-                    itemsRef.current[i] = e;
+                  ref={(e: HTMLDivElement) => {
+                    itemsRef.current[i] = <>{e}</>;
                   }}
                 />
               ) : (
@@ -341,8 +338,8 @@ export const EditableGridLayout: React.FC<Props> = ({
                     onRemoveBox,
                     ens,
                   }}
-                  ref={(e: Maybe<HTMLElement>) => {
-                    itemsRef.current[i] = e;
+                  ref={(e: Maybe<HTMLDivElement>) => {
+                    itemsRef.current[i] = <>{e}</>;
                   }}
                 />
               )}

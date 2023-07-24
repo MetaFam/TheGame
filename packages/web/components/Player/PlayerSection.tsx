@@ -14,24 +14,14 @@ import { Player } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import React, { forwardRef, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
+import { BoxTypes, createBoxKey, DisplayComponent } from 'utils/boxTypes';
 
 import { PlayerDework } from './Section/PlayerDework';
 import { PlayerMeTokens } from './Section/PlayerMeToken';
 
-type Props = {
-  type: BoxType;
-  player?: Player;
-  metadata?: BoxMetadata;
-  ens?: string;
-  editing?: boolean;
-  onRemoveBox?: (boxKey: string) => void;
-};
-
 const PlayerSectionInner: React.FC<
-  Props & {
+  DisplayComponent & {
     player: Player;
-    ens?: string;
     isOwnProfile?: boolean;
   }
 > = ({ metadata, type, player, isOwnProfile, editing, ens }) => {
@@ -73,7 +63,7 @@ const PlayerSectionInner: React.FC<
   }
 };
 
-export const PlayerSection = forwardRef<HTMLDivElement, Props>(
+export const PlayerSection = forwardRef<HTMLDivElement, DisplayComponent>(
   ({ metadata, type, player, editing = false, onRemoveBox, ens }, ref) => {
     const key = createBoxKey(type, metadata);
     const { user } = useUser();
