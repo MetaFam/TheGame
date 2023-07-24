@@ -12,7 +12,7 @@ import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef, LegacyRef, ReactElement, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxTypes, createBoxKey, DisplayComponent } from 'utils/boxTypes';
 
@@ -63,7 +63,7 @@ const PlayerSectionInner: React.FC<
   }
 };
 
-export const PlayerSection = forwardRef<HTMLDivElement, DisplayComponent>(
+export const PlayerSection = forwardRef<ReactElement, DisplayComponent>(
   ({ metadata, type, player, editing = false, onRemoveBox, ens }, ref) => {
     const key = createBoxKey(type, metadata);
     const { user } = useUser();
@@ -77,8 +77,8 @@ export const PlayerSection = forwardRef<HTMLDivElement, DisplayComponent>(
 
     return (
       <Flex
+        ref={ref as LegacyRef<HTMLDivElement>}
         w="100%"
-        {...{ ref }}
         direction="column"
         h="auto"
         minH="100%"

@@ -1,4 +1,4 @@
-import { Box, Heading, Link, Prose, Text } from '@metafam/ds';
+import { Box, Prose } from '@metafam/ds';
 import { isSGML } from '@metafam/utils';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { QuestFragment } from 'graphql/autogen/types';

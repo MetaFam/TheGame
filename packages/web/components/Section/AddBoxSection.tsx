@@ -50,7 +50,7 @@ export type AddBoxReference = ForwardRefExoticComponent<
 export type AddBoxOutput = (
   props: AddBoxComponent,
 ) => ReactElement<AddBoxComponent, JSXElementConstructor<HTMLDivElement>>;
-export type AddBoxOutputOut = ReturnType<AddBoxOutput>;
+export type AddBoxElement = ReturnType<AddBoxOutput>;
 
 export const AddBoxSection = forwardRef<HTMLDivElement, AddBoxComponent>(
   (
@@ -86,12 +86,12 @@ export const AddBoxSection = forwardRef<HTMLDivElement, AddBoxComponent>(
 
     return (
       <Flex
+        {...{ ref }}
         w="full"
         h="full"
         direction="column"
         boxShadow="md"
         pos="relative"
-        {...{ ref }}
       >
         <Flex
           bg="whiteAlpha.200"

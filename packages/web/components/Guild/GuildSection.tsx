@@ -6,7 +6,7 @@ import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
 import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { GuildFragment } from 'graphql/autogen/types';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, LegacyRef, ReactElement } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxTypes, createBoxKey, DisplayComponent } from 'utils/boxTypes';
 
@@ -38,7 +38,7 @@ const GuildSectionInner: React.FC<
   }
 };
 
-export const GuildSection = forwardRef<HTMLDivElement, DisplayComponent>(
+export const GuildSection = forwardRef<ReactElement, DisplayComponent>(
   ({ metadata, type, guild, editing = false, onRemoveBox }, ref) => {
     if (!guild) return null;
 
@@ -46,7 +46,7 @@ export const GuildSection = forwardRef<HTMLDivElement, DisplayComponent>(
 
     return (
       <Flex
-        {...{ ref }}
+        ref={ref as LegacyRef<HTMLDivElement>}
         w="100%"
         direction="column"
         h="auto"

@@ -1,11 +1,8 @@
 import { Maybe } from '@metafam/utils';
-import type { PropsWithChildren } from 'react';
-import { ReactElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getBoxKey } from 'utils/boxTypes';
 
-export const useBoxHeights = (
-  items: Array<Maybe<PropsWithChildren<ReactElement>>>,
-) => {
+export const useBoxHeights = (items: Array<Maybe<HTMLElement>>) => {
   const [heights, setHeights] = useState<Record<string, number>>({});
 
   useEffect(() => {
@@ -23,8 +20,9 @@ export const useBoxHeights = (
 
     const newHeights: Record<string, number> = {};
     items.forEach((item) => {
-      if (item && Array.isArray(item.children)) {
-        const target = item.children[0] as HTMLElement;
+      if (item) {
+        const children = Array.from(item.children);
+        const target = children[0] as HTMLElement;
         const key = getBoxKey(target);
         if (key && target) {
           newHeights[key] = target.scrollHeight;

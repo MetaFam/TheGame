@@ -100,9 +100,9 @@ export type DisplayComponent = {
   player?: Player;
   guild?: GuildFragment;
   ens?: string;
-} & RefAttributes<HTMLDivElement>;
+} & RefAttributes<HTMLElement>;
 
 export type DisplayOutput = (
   props: DisplayComponent,
 ) => ReactElement<DisplayComponent, JSXElementConstructor<HTMLDivElement>>;
-export type DisplayOutputOut = ReturnType<DisplayOutput>;
+export type DisplayElement = ReturnType<DisplayOutput>;

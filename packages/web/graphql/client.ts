@@ -14,7 +14,6 @@ import {
   Client,
   CombinedError,
   createClient,
-  dedupExchange,
   fetchExchange,
   ssrExchange,
 } from 'urql';
