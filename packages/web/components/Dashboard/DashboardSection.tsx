@@ -61,7 +61,6 @@ const DashboardSectionInner: React.FC<Props> = ({
 export const DashboardSection = forwardRef<HTMLDivElement, Props>(
   ({ metadata, type, player, editing = false, onRemoveBox }, ref) => {
     const key = createBoxKey(type, metadata);
-    // if (!player) return null;
 
     return (
       <Flex

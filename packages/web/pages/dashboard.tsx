@@ -26,12 +26,14 @@ const DashboardPage: React.FC = () => {
 
   const persistLayoutData = useCallback(
     async (layoutData: LayoutData) => {
-      const { error } = await saveLayoutData({
-        playerId: player?.id,
-        dashboardLayout: JSON.stringify(layoutData),
-      });
+      if (player) {
+        const { error } = await saveLayoutData({
+          playerId: player.id,
+          dashboardLayout: JSON.stringify(layoutData),
+        });
 
-      if (error) throw error;
+        if (error) throw error;
+      }
     },
     [saveLayoutData, player],
   );

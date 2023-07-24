@@ -39,7 +39,7 @@ export const XP = (): React.ReactElement => {
       <Flex direction="column" align="center" justify="center" h="17rem">
         <Text textAlign="center">
           Please <MetaButton onClick={connect}>connect</MetaButton> to see your
-          xp
+          XP
         </Text>
       </Flex>
     );
