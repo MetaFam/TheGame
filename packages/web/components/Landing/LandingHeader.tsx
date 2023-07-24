@@ -18,6 +18,7 @@ import {
 import OctoBg from 'assets/baby_octo.webp';
 import MetaGameLogo from 'assets/logo.webp';
 import { MetaLink } from 'components/Link';
+import { Socials } from 'components/SocialLinks';
 import { SetStateAction } from 'jotai';
 import { get, set } from 'lib/store';
 import React, {
@@ -294,7 +295,7 @@ export const LandingHeader: React.FC = () => {
       >
         <Stack
           spacing={4}
-          direction={{ base: 'column', md: 'row' }}
+          direction={{ base: 'column', md: 'column' }}
           opacity={menuToggle ? 1 : 0}
           transition={noMotion ? 'none' : 'opacity 0.3s 0.5s ease-in-out'}
           fontSize={{ base: 'md', md: 'lg', lg: '2xl' }}
@@ -312,6 +313,7 @@ export const LandingHeader: React.FC = () => {
               </NavLink>
             ))}
           </VStack>
+          <Socials />
         </Stack>
         <AnimatedWaves
           animationName={upDownAnimation}
