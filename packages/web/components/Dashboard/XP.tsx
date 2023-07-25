@@ -50,15 +50,24 @@ export const XP = (): React.ReactElement => {
       <VStack spacing={0} w="100%" p={6}>
         <Flex align="center" justify="center" h="17rem">
           <Text fontStyle="italic" textAlign="center" px={4} w="100%">
-            If you want your XP stats to appear, you gotta earn some XP first!
-            Go{' '}
+            Hey, you don't have any XP! 😱 If you want to start earning XP, you
+            gotta{' '}
             <Link
-              href="https://meta-game.notion.site/Welcome-to-MetaGame-349d9b6434d543b48539bccabf10b60a"
+              href=" https://metagame.wtf/roles"
               target="_tab"
+              fontWeight="semibold"
             >
-              here
+              join as a player or a patron
             </Link>{' '}
-            & join the onboarding call
+            first. Check out{' '}
+            <Link
+              href="https://metagame.wtf/onboarding"
+              target="_tab"
+              fontWeight="semibold"
+            >
+              the onboarding game
+            </Link>{' '}
+            & get involved!
           </Text>
         </Flex>
       </VStack>
