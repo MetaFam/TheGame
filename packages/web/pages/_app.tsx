@@ -1,9 +1,8 @@
 import 'react-markdown-editor-lite/lib/index.css';
 import 'assets/custom-markdown-editor.scss';
 
-import { ChakraProvider } from '@chakra-ui/react';
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
-import { CSSReset, MetaTheme } from '@metafam/ds';
+import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import { MegaMenu } from 'components/MegaMenu';
