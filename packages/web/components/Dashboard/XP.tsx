@@ -26,6 +26,7 @@ import {
   LineSeries,
 } from 'react-vis';
 
+// @todo update
 export const XP = (): React.ReactElement => {
   const { user } = useUser();
 
