@@ -3,7 +3,7 @@
 // get organisations worked for
 // get number of tasks for each organisation you've worked for
 
-interface Organisation {
+export interface Organisation {
   name: string;
   permalink: string;
 }
@@ -44,9 +44,9 @@ export const processDeworkData = (data: any) => {
 
   // get tag grouping and sort by count
   const tagGrouping = uniqueTags.map((tag) => ({
-      name: tag,
-      count: tags.filter((t) => t === tag).length,
-    }));
+    name: tag,
+    count: tags.filter((t) => t === tag).length,
+  }));
 
   // extract unique organisations' links and names
   const uniqueOrganisations: Organisation[] = [];

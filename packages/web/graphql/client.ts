@@ -14,7 +14,6 @@ import {
   Client,
   CombinedError,
   createClient,
-  dedupExchange,
   fetchExchange,
   ssrExchange,
 } from 'urql';
@@ -38,7 +37,7 @@ const retryExchangeFunc = retryExchange({
 export const client = createClient({
   url: CONFIG.graphqlURL,
   suspense: false,
-  exchanges: [dedupExchange, cacheExchange, retryExchangeFunc, fetchExchange],
+  exchanges: [cacheExchange, retryExchangeFunc, fetchExchange],
 });
 
 export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
@@ -49,7 +48,6 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
       url: CONFIG.graphqlURL,
       exchanges: [
         // debugExchange,
-        dedupExchange,
         cacheExchange,
         ssrCache,
         retryExchangeFunc,
@@ -82,6 +80,7 @@ export const wrapUrqlClient = (AppOrPage: React.FC<WithUrqlProps>) =>
     withUrqlClient(
       (_ssrExchange, ctx) => ({
         url: CONFIG.graphqlURL,
+        exchanges: [cacheExchange, retryExchangeFunc, fetchExchange],
         fetchOptions: () => {
           const token = ctx
             ? ctx?.req?.headers?.authorization

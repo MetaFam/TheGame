@@ -21,7 +21,7 @@ import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { ReactElement, useCallback, useMemo } from 'react';
-import { BoxTypes, LayoutData } from 'utils/boxTypes';
+import { BoxTypes, DisplayOutput, LayoutData } from 'utils/boxTypes';
 
 type Props = { guild: GuildFragment };
 
@@ -142,7 +142,7 @@ export const Grid: React.FC<Props> = ({ guild }): ReactElement => {
         persistLayoutData,
         persisting,
         allBoxOptions,
-        displayComponent: GuildSection,
+        displayComponent: GuildSection as DisplayOutput,
         // pt: canAdministerGuild ? 0 : '4rem',
       }}
     />

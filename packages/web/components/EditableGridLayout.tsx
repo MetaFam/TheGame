@@ -21,7 +21,6 @@ import deepEquals from 'deep-equal';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import { useBoxHeights } from 'lib/hooks/useBoxHeights';
 import React, {
-  ReactElement,
   useCallback,
   useEffect,
   useMemo,
@@ -34,6 +33,7 @@ import {
   BoxType,
   BoxTypes,
   createBoxKey,
+  DisplayOutput,
   gridSX,
   LayoutData,
 } from 'utils/boxTypes';
@@ -61,15 +61,7 @@ type Props = React.PropsWithChildren<{
   showEditButton: boolean;
   allBoxOptions: BoxType[];
   ens?: string;
-  displayComponent: (props: {
-    ref?: (e: Maybe<HTMLElement>) => void;
-    editing?: boolean;
-    onRemoveBox?: (boxKey: string) => void;
-    metadata?: BoxMetadata;
-    type: BoxType;
-    player?: Player;
-    guild?: GuildFragment;
-  }) => JSX.Element | null;
+  displayComponent: DisplayOutput;
 }> &
   BoxProps;
 
@@ -86,7 +78,7 @@ export const EditableGridLayout: React.FC<Props> = ({
   displayComponent: DisplaySection,
   ens,
   ...props
-}): ReactElement => {
+}) => {
   const [saving, setSaving] = useState(false);
   const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
   const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
@@ -327,7 +319,7 @@ export const EditableGridLayout: React.FC<Props> = ({
               {type === BoxTypes.ADD_NEW_BOX ? (
                 <AddBoxSection
                   boxes={availableBoxes}
-                  previewComponent={DisplaySection}
+                  previewComponent={DisplaySection ?? null}
                   {...{ player, guild, onAddBox }}
                   ref={(e: Maybe<HTMLElement>) => {
                     itemsRef.current[i] = e;
