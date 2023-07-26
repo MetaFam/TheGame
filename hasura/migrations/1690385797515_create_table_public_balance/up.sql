@@ -1,0 +1,2 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE TABLE "public"."balance"("player_id" uuid NOT NULL, "token_address" text NOT NULL, "block_height" integer NOT NULL, "amount" integer NOT NULL, "id" uuid NOT NULL DEFAULT gen_random_uuid(), PRIMARY KEY ("id") , FOREIGN KEY ("player_id") REFERENCES "public"."player"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("token_address") REFERENCES "public"."token"("address") ON UPDATE cascade ON DELETE cascade, UNIQUE ("id"));

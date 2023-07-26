@@ -153,6 +153,9 @@
   is_enum: true
 - table:
     schema: public
+    name: balance
+- table:
+    schema: public
     name: dao
   configuration:
     custom_root_fields: {}
@@ -1166,3 +1169,9 @@
       - id
       filter: {}
       allow_aggregations: true
+- table:
+    schema: public
+    name: token
+- table:
+    schema: public
+    name: xp
