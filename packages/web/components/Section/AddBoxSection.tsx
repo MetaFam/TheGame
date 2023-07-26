@@ -19,26 +19,40 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { GuildFragment, Player } from 'graphql/autogen/types';
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
+import React, {
+  ChangeEvent,
+  forwardRef,
+  ForwardRefExoticComponent,
+  JSXElementConstructor,
+  ReactElement,
+  RefAttributes,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { BoxMetadata, BoxType, BoxTypes, DisplayOutput } from 'utils/boxTypes';
 
 import { CustomTextSectionMetadata } from './CustomTextSection';
 import { EmbeddedUrlMetadata } from './EmbeddedUrlSection';
 
-type Props = FlexProps & {
+export type AddBoxComponent = FlexProps & {
   player?: Player;
   guild?: GuildFragment;
   boxes: Array<BoxType>;
   onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
-  previewComponent: (props: {
-    metadata: BoxMetadata;
-    type: BoxType;
-    player?: Player;
-    guild?: GuildFragment;
-  }) => JSX.Element | null;
+  previewComponent: DisplayOutput;
 };
 
-export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
+export type AddBoxReference = ForwardRefExoticComponent<
+  Omit<AddBoxComponent, 'ref'> & RefAttributes<HTMLDivElement>
+>;
+
+export type AddBoxOutput = (
+  props: AddBoxComponent,
+) => ReactElement<AddBoxComponent, JSXElementConstructor<HTMLDivElement>>;
+export type AddBoxElement = ReturnType<AddBoxOutput>;
+
+export const AddBoxSection = forwardRef<HTMLDivElement, AddBoxComponent>(
   (
     {
       player,
@@ -72,12 +86,12 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
 
     return (
       <Flex
+        {...{ ref }}
         w="full"
         h="full"
         direction="column"
         boxShadow="md"
         pos="relative"
-        {...{ ref }}
       >
         <Flex
           bg="whiteAlpha.200"

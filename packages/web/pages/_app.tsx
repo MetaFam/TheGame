@@ -46,7 +46,7 @@ const App: React.FC<WithUrqlProps> = ({
   resetUrqlClient,
   Component,
 }) => (
-  <ChakraProvider theme={MetaTheme}>
+  <ChakraProvider theme={MetaTheme} resetCSS={true}>
     <CSSReset />
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
