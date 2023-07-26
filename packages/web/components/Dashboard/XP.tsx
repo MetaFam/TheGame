@@ -4,6 +4,7 @@ import {
   ButtonGroup,
   Flex,
   Link,
+  MetaButton,
   MetaTag,
   Stat,
   StatArrow,
@@ -15,7 +16,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
-import { useUser } from 'lib/hooks';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { useUserXP } from 'lib/hooks/useUserXP';
 import React, { FC, ReactNode, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
@@ -28,23 +29,45 @@ import {
 
 export const XP = (): React.ReactElement => {
   const { user } = useUser();
+  const { connect, connecting, connected } = useWeb3();
 
   const xpStats = useUserXP(user?.ethereumAddress || '');
+  const mounted = useMounted();
 
-  if (xpStats == null) {
+  if (!mounted || (!connecting && !connected)) {
+    return (
+      <Flex direction="column" align="center" justify="center" h="17rem">
+        <Text textAlign="center">
+          Please <MetaButton onClick={connect}>connect</MetaButton> to see your
+          XP
+        </Text>
+      </Flex>
+    );
+  }
+
+  if (xpStats === null) {
     return (
       <VStack spacing={0} w="100%" p={6}>
         <Flex align="center" justify="center" h="17rem">
           <Text fontStyle="italic" textAlign="center" px={4} w="100%">
-            If you want your XP stats to appear, you gotta earn some XP first!
-            Go{' '}
+            Hey, you don't have any XP! 😱 If you want to start earning XP, you
+            gotta{' '}
             <Link
-              href="https://meta-game.notion.site/Welcome-to-MetaGame-349d9b6434d543b48539bccabf10b60a"
+              href=" https://metagame.wtf/roles"
               target="_tab"
+              fontWeight="semibold"
             >
-              here
+              join as a player or a patron
             </Link>{' '}
-            & join the onboarding call
+            first. Check out{' '}
+            <Link
+              href="https://metagame.wtf/onboarding"
+              target="_tab"
+              fontWeight="semibold"
+            >
+              the onboarding game
+            </Link>{' '}
+            & get involved!
           </Text>
         </Flex>
       </VStack>
