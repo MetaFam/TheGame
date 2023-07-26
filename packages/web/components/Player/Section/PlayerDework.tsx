@@ -14,7 +14,11 @@ import { MetaLink } from 'components/Link';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import React, { useEffect, useMemo, useState } from 'react';
-import { getDeworkData, processDeworkData } from 'utils/dework';
+import {
+  getDeworkData,
+  type Organisation,
+  processDeworkData,
+} from 'utils/dework';
 
 type Props = {
   player: Player;
@@ -68,10 +72,10 @@ export const PlayerDework: React.FC<Props> = ({
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
-      await getDeworkData(player?.ethereumAddress).then(
-        (res: any) => setDeworkData(res),
-        setLoading(false),
-      );
+      await getDeworkData(player?.ethereumAddress).then((res: any) => {
+        setDeworkData(res);
+        setLoading(false);
+      });
     };
     getData();
   }, [player?.ethereumAddress]);
@@ -107,7 +111,7 @@ export const PlayerDework: React.FC<Props> = ({
                 <DeworkSectionHeading text="Types of tasks" />
                 {processedData?.tagGrouping.length > 0 ? (
                   processedData?.tagGrouping.map(
-                    (tag: Record<string, number>, i: number) => {
+                    (tag: { name: string; count: number }, i: number) => {
                       const total: number = processedData?.tagGrouping.length;
                       if (i < 3) {
                         return (
@@ -141,7 +145,7 @@ export const PlayerDework: React.FC<Props> = ({
                 <DeworkSectionHeading text="Organizations" />
                 {processedData?.uniqueOrganisations.length > 0 ? (
                   processedData?.uniqueOrganisations.map(
-                    (org: Record<string, string>, i: number) => {
+                    (org: Organisation, i: number) => {
                       const total: number =
                         processedData?.uniqueOrganisations.length;
                       if (i < 3) {
