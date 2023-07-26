@@ -81,6 +81,7 @@ export {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  forwardRef,
   Grid,
   GridItem,
   Heading,
