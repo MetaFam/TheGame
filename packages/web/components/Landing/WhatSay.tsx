@@ -116,7 +116,7 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
             <Flex flex="1" direction="column" gap={8}>
               <WhatSayCard
                 player="Griff Green"
-                testimony="MetaGame embodies the actual fucking point of crypto, it's vision is the world I want to live in."
+                testimony="MetaGame embodies the actual fucking point of crypto. Its vision is the world I want to live in."
               />
               <WhatSayCard
                 player="Alp"
