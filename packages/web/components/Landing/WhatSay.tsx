@@ -88,7 +88,7 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
             <Flex flex="1" direction="column" gap={8}>
               <WhatSayCard
                 player="METADREAMER"
-                testimony="MetaGame was my gateway drug to web3. It felt like I was reading my own internal thoughts on how the world could be, and to this day it’s my guiding philosophy for the future of society. Being able to collaborate with people who felt the same to help build it was the best way to start contributing in web3 and became a launchpad / network to a bunch of the best projects and people in the space"
+                testimony="MetaGame was my gateway drug to Web3. It felt like I was reading my own internal thoughts on how the world could be, and to this day it’s my guiding philosophy for the future of society. Being able to collaborate with people who felt the same to help build it was the best way to start contributing in Web3 and became a launchpad / network to a bunch of the best projects and people in the space."
                 username="metadreamer"
               />
 
