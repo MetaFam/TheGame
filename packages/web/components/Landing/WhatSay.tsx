@@ -101,8 +101,10 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
             <Flex flex="1" direction="column" gap={8}>
               <WhatSayCard
                 player="Yalor"
-                testimony="MetaGame inspired me join the Web3 ecosystem after a season of disillusionment and ICO scams 😛
-      Through MetaGame I found the most amazing community of values aligned ecosystem innovators that I still work with today 🤩"
+                testimony={
+                  <Text>MetaGame inspired me join the Web3 ecosystem after a season of disillusionment and ICO scams 😛</Text>
+                  <Text>Through MetaGame I found the most amazing community of values aligned ecosystem innovators that I still work with today 🤩</Text>
+                }
                 username="yalormewn"
               />
               <WhatSayCard
