@@ -122,7 +122,7 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
               />
               <WhatSayCard
                 player="Saimano"
-                testimony="Metagame, my gateway to a new world. It not only helped me forge a career in web3 but also introduced me to an amazing community with a sense of belonging that fueled my growth & propelled me forward."
+                testimony="MetaGame, my gateway to a new world. It not only helped me forge a career in Web3 but also introduced me to an amazing community with a sense of belonging that fueled my growth & propelled me forward."
                 username="saimano"
               />
             </Flex>
