@@ -85,7 +85,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       opacity: 0;
     }
   `;
-  const typingAnimation = `${blink} 1s steps(10, start) infinite`;
+  const typingAnimation = `${blink} 0.5s steps(2, start) infinite`;
   // const pulseAnimation = `${blink} 2s infinite`;
   const visits = visitedElements();
   const [chievFound, setChievFound] = useState(false);
