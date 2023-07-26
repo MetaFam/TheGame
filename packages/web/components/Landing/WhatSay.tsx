@@ -107,7 +107,7 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
               />
               <WhatSayCard
                 player="Geleeroyale"
-                testimony="I love Metagame as it still stands alone between the Ethereum communities. I have never met a more passionate bunch — the vibes are legendary, the fun is permeating, and the compassion revolutionary. Metagame is a prime example of how networks can improve peoples life permanently."
+                testimony="I love MetaGame as it still stands alone between the Ethereum communities. I have never met a more passionate bunch — the vibes are legendary, the fun is permeating, and the compassion revolutionary. MetaGame is a prime example of how networks can improve peoples life permanently."
                 username="geleeroyale"
               />
             </Flex>
