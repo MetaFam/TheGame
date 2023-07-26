@@ -48,7 +48,7 @@ export const sections = [
   {
     label: '08',
     internalLinkId: 'what-say',
-    title: '8. What people are saying',
+    title: '8. What people are saying.',
   },
   {
     label: '09',
