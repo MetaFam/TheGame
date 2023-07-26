@@ -1,11 +1,12 @@
 import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import { getResolver as get3IDResolver } from '@ceramicnetwork/3id-did-resolver';
-import type { CeramicApi } from '@ceramicnetwork/common';
+import type { CeramicApi } from '@ceramicnetwork/common/lib/index';
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
 import { did, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
+import type { ResolverRegistry } from 'did-resolver';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
 import { getResolver as getKeyResolver } from 'key-did-resolver';
@@ -63,7 +64,7 @@ const [web3Modal, ceramic] =
           cacheProvider: true,
           providerOptions,
         }),
-        new CeramicClient(CONFIG.ceramicURL) as CeramicApi,
+        new CeramicClient(CONFIG.ceramicURL) as unknown as CeramicApi,
       ];
 
 export async function getExistingAuth(
@@ -186,7 +187,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
               resolver: {
                 ...get3IDResolver(ceramic),
                 ...getKeyResolver(),
-              },
+              } as ResolverRegistry,
             });
             break;
           }
