@@ -5,7 +5,7 @@ import { Player } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
@@ -102,8 +102,17 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
               <WhatSayCard
                 player="Yalor"
                 testimony={
-                  <Text>MetaGame inspired me join the Web3 ecosystem after a season of disillusionment and ICO scams 😛</Text>
-                  <Text>Through MetaGame I found the most amazing community of values aligned ecosystem innovators that I still work with today 🤩</Text>
+                  <>
+                    <Text>
+                      MetaGame inspired me join the Web3 ecosystem after a
+                      season of disillusionment and ICO scams 😛
+                    </Text>
+                    <Text>
+                      Through MetaGame I found the most amazing community of
+                      values aligned ecosystem innovators that I still work with
+                      today 🤩
+                    </Text>
+                  </>
                 }
                 username="yalormewn"
               />
@@ -138,7 +147,7 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
 
 const WhatSayCard: React.FC<{
   player: string;
-  testimony: string;
+  testimony: string | ReactNode;
   username?: string;
 }> = ({ player, testimony, username }) => {
   const [pfp, setPfp] = useState<Player | undefined>(undefined);
