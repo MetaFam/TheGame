@@ -118,7 +118,7 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
               />
               <WhatSayCard
                 player="Alp"
-                testimony="Looking back at the early days,  I remember minting one of the first DAO member attestation NFTs of MetaGame. The community embraced the DAO vision early on and pioneering the space ever since."
+                testimony="Looking back at the early days,  I remember minting one of the first DAO member attestation NFTs of MetaGame. The community embraced the DAO vision early on and has been pioneering the space ever since."
               />
               <WhatSayCard
                 player="Saimano"
