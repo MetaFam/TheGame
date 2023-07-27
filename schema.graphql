@@ -180,6 +180,357 @@ enum AccountType_update_column {
 }
 
 """
+columns and relationships of "balance"
+"""
+type balance {
+  amount: Int!
+  block_height: Int!
+  id: uuid!
+  player_id: uuid!
+  token_address: String!
+}
+
+"""
+aggregated selection of "balance"
+"""
+type balance_aggregate {
+  aggregate: balance_aggregate_fields
+  nodes: [balance!]!
+}
+
+"""
+aggregate fields of "balance"
+"""
+type balance_aggregate_fields {
+  avg: balance_avg_fields
+  count(columns: [balance_select_column!], distinct: Boolean): Int
+  max: balance_max_fields
+  min: balance_min_fields
+  stddev: balance_stddev_fields
+  stddev_pop: balance_stddev_pop_fields
+  stddev_samp: balance_stddev_samp_fields
+  sum: balance_sum_fields
+  var_pop: balance_var_pop_fields
+  var_samp: balance_var_samp_fields
+  variance: balance_variance_fields
+}
+
+"""
+order by aggregate values of table "balance"
+"""
+input balance_aggregate_order_by {
+  avg: balance_avg_order_by
+  count: order_by
+  max: balance_max_order_by
+  min: balance_min_order_by
+  stddev: balance_stddev_order_by
+  stddev_pop: balance_stddev_pop_order_by
+  stddev_samp: balance_stddev_samp_order_by
+  sum: balance_sum_order_by
+  var_pop: balance_var_pop_order_by
+  var_samp: balance_var_samp_order_by
+  variance: balance_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "balance"
+"""
+input balance_arr_rel_insert_input {
+  data: [balance_insert_input!]!
+  on_conflict: balance_on_conflict
+}
+
+"""aggregate avg on columns"""
+type balance_avg_fields {
+  amount: Float
+  block_height: Float
+}
+
+"""
+order by avg() on columns of table "balance"
+"""
+input balance_avg_order_by {
+  amount: order_by
+  block_height: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "balance". All fields are combined with a logical 'AND'.
+"""
+input balance_bool_exp {
+  _and: [balance_bool_exp]
+  _not: balance_bool_exp
+  _or: [balance_bool_exp]
+  amount: Int_comparison_exp
+  block_height: Int_comparison_exp
+  id: uuid_comparison_exp
+  player_id: uuid_comparison_exp
+  token_address: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "balance"
+"""
+enum balance_constraint {
+  """unique or primary key constraint"""
+  balance_pkey
+}
+
+"""
+input type for incrementing integer column in table "balance"
+"""
+input balance_inc_input {
+  amount: Int
+  block_height: Int
+}
+
+"""
+input type for inserting data into table "balance"
+"""
+input balance_insert_input {
+  amount: Int
+  block_height: Int
+  id: uuid
+  player_id: uuid
+  token_address: String
+}
+
+"""aggregate max on columns"""
+type balance_max_fields {
+  amount: Int
+  block_height: Int
+  id: uuid
+  player_id: uuid
+  token_address: String
+}
+
+"""
+order by max() on columns of table "balance"
+"""
+input balance_max_order_by {
+  amount: order_by
+  block_height: order_by
+  id: order_by
+  player_id: order_by
+  token_address: order_by
+}
+
+"""aggregate min on columns"""
+type balance_min_fields {
+  amount: Int
+  block_height: Int
+  id: uuid
+  player_id: uuid
+  token_address: String
+}
+
+"""
+order by min() on columns of table "balance"
+"""
+input balance_min_order_by {
+  amount: order_by
+  block_height: order_by
+  id: order_by
+  player_id: order_by
+  token_address: order_by
+}
+
+"""
+response of any mutation on the table "balance"
+"""
+type balance_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [balance!]!
+}
+
+"""
+input type for inserting object relation for remote table "balance"
+"""
+input balance_obj_rel_insert_input {
+  data: balance_insert_input!
+  on_conflict: balance_on_conflict
+}
+
+"""
+on conflict condition type for table "balance"
+"""
+input balance_on_conflict {
+  constraint: balance_constraint!
+  update_columns: [balance_update_column!]!
+  where: balance_bool_exp
+}
+
+"""
+ordering options when selecting data from "balance"
+"""
+input balance_order_by {
+  amount: order_by
+  block_height: order_by
+  id: order_by
+  player_id: order_by
+  token_address: order_by
+}
+
+"""
+primary key columns input for table: "balance"
+"""
+input balance_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "balance"
+"""
+enum balance_select_column {
+  """column name"""
+  amount
+
+  """column name"""
+  block_height
+
+  """column name"""
+  id
+
+  """column name"""
+  player_id
+
+  """column name"""
+  token_address
+}
+
+"""
+input type for updating data in table "balance"
+"""
+input balance_set_input {
+  amount: Int
+  block_height: Int
+  id: uuid
+  player_id: uuid
+  token_address: String
+}
+
+"""aggregate stddev on columns"""
+type balance_stddev_fields {
+  amount: Float
+  block_height: Float
+}
+
+"""
+order by stddev() on columns of table "balance"
+"""
+input balance_stddev_order_by {
+  amount: order_by
+  block_height: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type balance_stddev_pop_fields {
+  amount: Float
+  block_height: Float
+}
+
+"""
+order by stddev_pop() on columns of table "balance"
+"""
+input balance_stddev_pop_order_by {
+  amount: order_by
+  block_height: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type balance_stddev_samp_fields {
+  amount: Float
+  block_height: Float
+}
+
+"""
+order by stddev_samp() on columns of table "balance"
+"""
+input balance_stddev_samp_order_by {
+  amount: order_by
+  block_height: order_by
+}
+
+"""aggregate sum on columns"""
+type balance_sum_fields {
+  amount: Int
+  block_height: Int
+}
+
+"""
+order by sum() on columns of table "balance"
+"""
+input balance_sum_order_by {
+  amount: order_by
+  block_height: order_by
+}
+
+"""
+update columns of table "balance"
+"""
+enum balance_update_column {
+  """column name"""
+  amount
+
+  """column name"""
+  block_height
+
+  """column name"""
+  id
+
+  """column name"""
+  player_id
+
+  """column name"""
+  token_address
+}
+
+"""aggregate var_pop on columns"""
+type balance_var_pop_fields {
+  amount: Float
+  block_height: Float
+}
+
+"""
+order by var_pop() on columns of table "balance"
+"""
+input balance_var_pop_order_by {
+  amount: order_by
+  block_height: order_by
+}
+
+"""aggregate var_samp on columns"""
+type balance_var_samp_fields {
+  amount: Float
+  block_height: Float
+}
+
+"""
+order by var_samp() on columns of table "balance"
+"""
+input balance_var_samp_order_by {
+  amount: order_by
+  block_height: order_by
+}
+
+"""aggregate variance on columns"""
+type balance_variance_fields {
+  amount: Float
+  block_height: Float
+}
+
+"""
+order by variance() on columns of table "balance"
+"""
+input balance_variance_order_by {
+  amount: order_by
+  block_height: order_by
+}
+
+"""
 expression to compare columns of type Boolean. All fields are combined with logical 'AND'.
 """
 input Boolean_comparison_exp {
@@ -1074,6 +1425,14 @@ type DiscordGuildAuthResponse {
   exists: Boolean
   guildname: String
   success: Boolean!
+}
+
+type DiscordGuildsSyncOutput {
+  name: String!
+  numDeleted: Int
+  numInserted: Int
+  numSkipped: Int
+  username: String!
 }
 
 type DiscordRole {
@@ -3301,6 +3660,19 @@ type mutation_root {
   delete_SkillCategory_by_pk(name: String!): SkillCategory
 
   """
+  delete data from the table: "balance"
+  """
+  delete_balance(
+    """filter the rows which have to be deleted"""
+    where: balance_bool_exp!
+  ): balance_mutation_response
+
+  """
+  delete single row from the table: "balance"
+  """
+  delete_balance_by_pk(id: uuid!): balance
+
+  """
   delete data from the table: "dao"
   """
   delete_dao(
@@ -3489,6 +3861,32 @@ type mutation_root {
   delete single row from the table: "skill"
   """
   delete_skill_by_pk(id: uuid!): skill
+
+  """
+  delete data from the table: "token"
+  """
+  delete_token(
+    """filter the rows which have to be deleted"""
+    where: token_bool_exp!
+  ): token_mutation_response
+
+  """
+  delete single row from the table: "token"
+  """
+  delete_token_by_pk(address: String!): token
+
+  """
+  delete data from the table: "xp"
+  """
+  delete_xp(
+    """filter the rows which have to be deleted"""
+    where: xp_bool_exp!
+  ): xp_mutation_response
+
+  """
+  delete single row from the table: "xp"
+  """
+  delete_xp_by_pk(id: uuid!): xp
 
   """
   insert data into the table: "AccountType"
@@ -3731,6 +4129,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: SkillCategory_on_conflict
   ): SkillCategory
+
+  """
+  insert data into the table: "balance"
+  """
+  insert_balance(
+    """the rows to be inserted"""
+    objects: [balance_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: balance_on_conflict
+  ): balance_mutation_response
+
+  """
+  insert a single row into the table: "balance"
+  """
+  insert_balance_one(
+    """the row to be inserted"""
+    object: balance_insert_input!
+
+    """on conflict condition"""
+    on_conflict: balance_on_conflict
+  ): balance
 
   """
   insert data into the table: "dao"
@@ -4063,6 +4483,50 @@ type mutation_root {
   ): skill
 
   """
+  insert data into the table: "token"
+  """
+  insert_token(
+    """the rows to be inserted"""
+    objects: [token_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: token_on_conflict
+  ): token_mutation_response
+
+  """
+  insert a single row into the table: "token"
+  """
+  insert_token_one(
+    """the row to be inserted"""
+    object: token_insert_input!
+
+    """on conflict condition"""
+    on_conflict: token_on_conflict
+  ): token
+
+  """
+  insert data into the table: "xp"
+  """
+  insert_xp(
+    """the rows to be inserted"""
+    objects: [xp_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: xp_on_conflict
+  ): xp_mutation_response
+
+  """
+  insert a single row into the table: "xp"
+  """
+  insert_xp_one(
+    """the row to be inserted"""
+    object: xp_insert_input!
+
+    """on conflict condition"""
+    on_conflict: xp_on_conflict
+  ): xp
+
+  """
   perform the action: "saveGuildInformation"
   """
   saveGuildInformation(guildInformation: GuildInfoInput!): SaveGuildResponse
@@ -4071,6 +4535,16 @@ type mutation_root {
   perform the action: "saveGuildLayout"
   """
   saveGuildLayout(guildLayoutInfo: GuildLayoutInfoInput!): SaveGuildLayoutResponse
+
+  """
+  perform the action: "syncAllGuildDiscordMembers"
+  """
+  syncAllGuildDiscordMembers: [DiscordGuildsSyncOutput]
+
+  """
+  perform the action: "syncSourceCredAccounts"
+  """
+  syncSourceCredAccounts: SourceCredSyncOutput
 
   """
   perform the action: "updateExpiredIDXProfiles"
@@ -4318,6 +4792,32 @@ type mutation_root {
     _set: SkillCategory_set_input
     pk_columns: SkillCategory_pk_columns_input!
   ): SkillCategory
+
+  """
+  update data of the table: "balance"
+  """
+  update_balance(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: balance_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: balance_set_input
+
+    """filter the rows which have to be updated"""
+    where: balance_bool_exp!
+  ): balance_mutation_response
+
+  """
+  update single row of the table: "balance"
+  """
+  update_balance_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: balance_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: balance_set_input
+    pk_columns: balance_pk_columns_input!
+  ): balance
 
   """
   update data of the table: "dao"
@@ -4695,6 +5195,58 @@ type mutation_root {
     _set: skill_set_input
     pk_columns: skill_pk_columns_input!
   ): skill
+
+  """
+  update data of the table: "token"
+  """
+  update_token(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: token_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: token_set_input
+
+    """filter the rows which have to be updated"""
+    where: token_bool_exp!
+  ): token_mutation_response
+
+  """
+  update single row of the table: "token"
+  """
+  update_token_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: token_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: token_set_input
+    pk_columns: token_pk_columns_input!
+  ): token
+
+  """
+  update data of the table: "xp"
+  """
+  update_xp(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: xp_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: xp_set_input
+
+    """filter the rows which have to be updated"""
+    where: xp_bool_exp!
+  ): xp_mutation_response
+
+  """
+  update single row of the table: "xp"
+  """
+  update_xp_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: xp_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: xp_set_input
+    pk_columns: xp_pk_columns_input!
+  ): xp
 }
 
 scalar numeric
@@ -7735,6 +8287,49 @@ type query_root {
   SkillCategory_by_pk(name: String!): SkillCategory
 
   """
+  fetch data from the table: "balance"
+  """
+  balance(
+    """distinct select on columns"""
+    distinct_on: [balance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [balance_order_by!]
+
+    """filter the rows returned"""
+    where: balance_bool_exp
+  ): [balance!]!
+
+  """
+  fetch aggregated fields from the table: "balance"
+  """
+  balance_aggregate(
+    """distinct select on columns"""
+    distinct_on: [balance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [balance_order_by!]
+
+    """filter the rows returned"""
+    where: balance_bool_exp
+  ): balance_aggregate!
+
+  """fetch data from the table: "balance" using primary key columns"""
+  balance_by_pk(id: uuid!): balance
+
+  """
   fetch data from the table: "dao"
   """
   dao(
@@ -8427,6 +9022,49 @@ type query_root {
   skill_by_pk(id: uuid!): skill
 
   """
+  fetch data from the table: "token"
+  """
+  token(
+    """distinct select on columns"""
+    distinct_on: [token_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_order_by!]
+
+    """filter the rows returned"""
+    where: token_bool_exp
+  ): [token!]!
+
+  """
+  fetch aggregated fields from the table: "token"
+  """
+  token_aggregate(
+    """distinct select on columns"""
+    distinct_on: [token_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_order_by!]
+
+    """filter the rows returned"""
+    where: token_bool_exp
+  ): token_aggregate!
+
+  """fetch data from the table: "token" using primary key columns"""
+  token_by_pk(address: String!): token
+
+  """
   retrieve the result of action: "updateIDXProfile"
   """
   updateIDXProfile(
@@ -8435,6 +9073,49 @@ type query_root {
     """
     id: uuid!
   ): updateIDXProfile
+
+  """
+  fetch data from the table: "xp"
+  """
+  xp(
+    """distinct select on columns"""
+    distinct_on: [xp_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [xp_order_by!]
+
+    """filter the rows returned"""
+    where: xp_bool_exp
+  ): [xp!]!
+
+  """
+  fetch aggregated fields from the table: "xp"
+  """
+  xp_aggregate(
+    """distinct select on columns"""
+    distinct_on: [xp_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [xp_order_by!]
+
+    """filter the rows returned"""
+    where: xp_bool_exp
+  ): xp_aggregate!
+
+  """fetch data from the table: "xp" using primary key columns"""
+  xp_by_pk(id: uuid!): xp
 }
 
 """
@@ -10838,6 +11519,13 @@ enum SkillCategory_update_column {
   name
 }
 
+type SourceCredSyncOutput {
+  numInserted: Int!
+  numSkipped: Int!
+  numUnclaimed: Int!
+  numUpdated: Int!
+}
+
 """
 expression to compare columns of type String. All fields are combined with logical 'AND'.
 """
@@ -11335,6 +12023,49 @@ type subscription_root {
 
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
+
+  """
+  fetch data from the table: "balance"
+  """
+  balance(
+    """distinct select on columns"""
+    distinct_on: [balance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [balance_order_by!]
+
+    """filter the rows returned"""
+    where: balance_bool_exp
+  ): [balance!]!
+
+  """
+  fetch aggregated fields from the table: "balance"
+  """
+  balance_aggregate(
+    """distinct select on columns"""
+    distinct_on: [balance_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [balance_order_by!]
+
+    """filter the rows returned"""
+    where: balance_bool_exp
+  ): balance_aggregate!
+
+  """fetch data from the table: "balance" using primary key columns"""
+  balance_by_pk(id: uuid!): balance
 
   """
   fetch data from the table: "dao"
@@ -12021,6 +12752,49 @@ type subscription_root {
   skill_by_pk(id: uuid!): skill
 
   """
+  fetch data from the table: "token"
+  """
+  token(
+    """distinct select on columns"""
+    distinct_on: [token_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_order_by!]
+
+    """filter the rows returned"""
+    where: token_bool_exp
+  ): [token!]!
+
+  """
+  fetch aggregated fields from the table: "token"
+  """
+  token_aggregate(
+    """distinct select on columns"""
+    distinct_on: [token_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [token_order_by!]
+
+    """filter the rows returned"""
+    where: token_bool_exp
+  ): token_aggregate!
+
+  """fetch data from the table: "token" using primary key columns"""
+  token_by_pk(address: String!): token
+
+  """
   retrieve the result of action: "updateIDXProfile"
   """
   updateIDXProfile(
@@ -12029,6 +12803,49 @@ type subscription_root {
     """
     id: uuid!
   ): updateIDXProfile
+
+  """
+  fetch data from the table: "xp"
+  """
+  xp(
+    """distinct select on columns"""
+    distinct_on: [xp_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [xp_order_by!]
+
+    """filter the rows returned"""
+    where: xp_bool_exp
+  ): [xp!]!
+
+  """
+  fetch aggregated fields from the table: "xp"
+  """
+  xp_aggregate(
+    """distinct select on columns"""
+    distinct_on: [xp_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [xp_order_by!]
+
+    """filter the rows returned"""
+    where: xp_bool_exp
+  ): xp_aggregate!
+
+  """fetch data from the table: "xp" using primary key columns"""
+  xp_by_pk(id: uuid!): xp
 }
 
 scalar timestamptz
@@ -12046,6 +12863,334 @@ input timestamptz_comparison_exp {
   _lte: timestamptz
   _neq: timestamptz
   _nin: [timestamptz!]
+}
+
+"""
+columns and relationships of "token"
+"""
+type token {
+  address: String!
+  chain_id: Int!
+  guild_id: uuid!
+  safe_address: String!
+}
+
+"""
+aggregated selection of "token"
+"""
+type token_aggregate {
+  aggregate: token_aggregate_fields
+  nodes: [token!]!
+}
+
+"""
+aggregate fields of "token"
+"""
+type token_aggregate_fields {
+  avg: token_avg_fields
+  count(columns: [token_select_column!], distinct: Boolean): Int
+  max: token_max_fields
+  min: token_min_fields
+  stddev: token_stddev_fields
+  stddev_pop: token_stddev_pop_fields
+  stddev_samp: token_stddev_samp_fields
+  sum: token_sum_fields
+  var_pop: token_var_pop_fields
+  var_samp: token_var_samp_fields
+  variance: token_variance_fields
+}
+
+"""
+order by aggregate values of table "token"
+"""
+input token_aggregate_order_by {
+  avg: token_avg_order_by
+  count: order_by
+  max: token_max_order_by
+  min: token_min_order_by
+  stddev: token_stddev_order_by
+  stddev_pop: token_stddev_pop_order_by
+  stddev_samp: token_stddev_samp_order_by
+  sum: token_sum_order_by
+  var_pop: token_var_pop_order_by
+  var_samp: token_var_samp_order_by
+  variance: token_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "token"
+"""
+input token_arr_rel_insert_input {
+  data: [token_insert_input!]!
+  on_conflict: token_on_conflict
+}
+
+"""aggregate avg on columns"""
+type token_avg_fields {
+  chain_id: Float
+}
+
+"""
+order by avg() on columns of table "token"
+"""
+input token_avg_order_by {
+  chain_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "token". All fields are combined with a logical 'AND'.
+"""
+input token_bool_exp {
+  _and: [token_bool_exp]
+  _not: token_bool_exp
+  _or: [token_bool_exp]
+  address: String_comparison_exp
+  chain_id: Int_comparison_exp
+  guild_id: uuid_comparison_exp
+  safe_address: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "token"
+"""
+enum token_constraint {
+  """unique or primary key constraint"""
+  token_address_key
+
+  """unique or primary key constraint"""
+  token_guild_id_key
+
+  """unique or primary key constraint"""
+  token_pkey
+
+  """unique or primary key constraint"""
+  token_safe_address_key
+}
+
+"""
+input type for incrementing integer column in table "token"
+"""
+input token_inc_input {
+  chain_id: Int
+}
+
+"""
+input type for inserting data into table "token"
+"""
+input token_insert_input {
+  address: String
+  chain_id: Int
+  guild_id: uuid
+  safe_address: String
+}
+
+"""aggregate max on columns"""
+type token_max_fields {
+  address: String
+  chain_id: Int
+  guild_id: uuid
+  safe_address: String
+}
+
+"""
+order by max() on columns of table "token"
+"""
+input token_max_order_by {
+  address: order_by
+  chain_id: order_by
+  guild_id: order_by
+  safe_address: order_by
+}
+
+"""aggregate min on columns"""
+type token_min_fields {
+  address: String
+  chain_id: Int
+  guild_id: uuid
+  safe_address: String
+}
+
+"""
+order by min() on columns of table "token"
+"""
+input token_min_order_by {
+  address: order_by
+  chain_id: order_by
+  guild_id: order_by
+  safe_address: order_by
+}
+
+"""
+response of any mutation on the table "token"
+"""
+type token_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [token!]!
+}
+
+"""
+input type for inserting object relation for remote table "token"
+"""
+input token_obj_rel_insert_input {
+  data: token_insert_input!
+  on_conflict: token_on_conflict
+}
+
+"""
+on conflict condition type for table "token"
+"""
+input token_on_conflict {
+  constraint: token_constraint!
+  update_columns: [token_update_column!]!
+  where: token_bool_exp
+}
+
+"""
+ordering options when selecting data from "token"
+"""
+input token_order_by {
+  address: order_by
+  chain_id: order_by
+  guild_id: order_by
+  safe_address: order_by
+}
+
+"""
+primary key columns input for table: "token"
+"""
+input token_pk_columns_input {
+  address: String!
+}
+
+"""
+select columns of table "token"
+"""
+enum token_select_column {
+  """column name"""
+  address
+
+  """column name"""
+  chain_id
+
+  """column name"""
+  guild_id
+
+  """column name"""
+  safe_address
+}
+
+"""
+input type for updating data in table "token"
+"""
+input token_set_input {
+  address: String
+  chain_id: Int
+  guild_id: uuid
+  safe_address: String
+}
+
+"""aggregate stddev on columns"""
+type token_stddev_fields {
+  chain_id: Float
+}
+
+"""
+order by stddev() on columns of table "token"
+"""
+input token_stddev_order_by {
+  chain_id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type token_stddev_pop_fields {
+  chain_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "token"
+"""
+input token_stddev_pop_order_by {
+  chain_id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type token_stddev_samp_fields {
+  chain_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "token"
+"""
+input token_stddev_samp_order_by {
+  chain_id: order_by
+}
+
+"""aggregate sum on columns"""
+type token_sum_fields {
+  chain_id: Int
+}
+
+"""
+order by sum() on columns of table "token"
+"""
+input token_sum_order_by {
+  chain_id: order_by
+}
+
+"""
+update columns of table "token"
+"""
+enum token_update_column {
+  """column name"""
+  address
+
+  """column name"""
+  chain_id
+
+  """column name"""
+  guild_id
+
+  """column name"""
+  safe_address
+}
+
+"""aggregate var_pop on columns"""
+type token_var_pop_fields {
+  chain_id: Float
+}
+
+"""
+order by var_pop() on columns of table "token"
+"""
+input token_var_pop_order_by {
+  chain_id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type token_var_samp_fields {
+  chain_id: Float
+}
+
+"""
+order by var_samp() on columns of table "token"
+"""
+input token_var_samp_order_by {
+  chain_id: order_by
+}
+
+"""aggregate variance on columns"""
+type token_variance_fields {
+  chain_id: Float
+}
+
+"""
+order by variance() on columns of table "token"
+"""
+input token_variance_order_by {
+  chain_id: order_by
 }
 
 type TokenBalances {
@@ -12107,5 +13252,324 @@ input uuid_comparison_exp {
   _lte: uuid
   _neq: uuid
   _nin: [uuid!]
+}
+
+"""
+columns and relationships of "xp"
+"""
+type xp {
+  balance: Int!
+  id: uuid!
+  player_id: uuid!
+  token_address: String!
+}
+
+"""
+aggregated selection of "xp"
+"""
+type xp_aggregate {
+  aggregate: xp_aggregate_fields
+  nodes: [xp!]!
+}
+
+"""
+aggregate fields of "xp"
+"""
+type xp_aggregate_fields {
+  avg: xp_avg_fields
+  count(columns: [xp_select_column!], distinct: Boolean): Int
+  max: xp_max_fields
+  min: xp_min_fields
+  stddev: xp_stddev_fields
+  stddev_pop: xp_stddev_pop_fields
+  stddev_samp: xp_stddev_samp_fields
+  sum: xp_sum_fields
+  var_pop: xp_var_pop_fields
+  var_samp: xp_var_samp_fields
+  variance: xp_variance_fields
+}
+
+"""
+order by aggregate values of table "xp"
+"""
+input xp_aggregate_order_by {
+  avg: xp_avg_order_by
+  count: order_by
+  max: xp_max_order_by
+  min: xp_min_order_by
+  stddev: xp_stddev_order_by
+  stddev_pop: xp_stddev_pop_order_by
+  stddev_samp: xp_stddev_samp_order_by
+  sum: xp_sum_order_by
+  var_pop: xp_var_pop_order_by
+  var_samp: xp_var_samp_order_by
+  variance: xp_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "xp"
+"""
+input xp_arr_rel_insert_input {
+  data: [xp_insert_input!]!
+  on_conflict: xp_on_conflict
+}
+
+"""aggregate avg on columns"""
+type xp_avg_fields {
+  balance: Float
+}
+
+"""
+order by avg() on columns of table "xp"
+"""
+input xp_avg_order_by {
+  balance: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "xp". All fields are combined with a logical 'AND'.
+"""
+input xp_bool_exp {
+  _and: [xp_bool_exp]
+  _not: xp_bool_exp
+  _or: [xp_bool_exp]
+  balance: Int_comparison_exp
+  id: uuid_comparison_exp
+  player_id: uuid_comparison_exp
+  token_address: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "xp"
+"""
+enum xp_constraint {
+  """unique or primary key constraint"""
+  xp_pkey
+}
+
+"""
+input type for incrementing integer column in table "xp"
+"""
+input xp_inc_input {
+  balance: Int
+}
+
+"""
+input type for inserting data into table "xp"
+"""
+input xp_insert_input {
+  balance: Int
+  id: uuid
+  player_id: uuid
+  token_address: String
+}
+
+"""aggregate max on columns"""
+type xp_max_fields {
+  balance: Int
+  id: uuid
+  player_id: uuid
+  token_address: String
+}
+
+"""
+order by max() on columns of table "xp"
+"""
+input xp_max_order_by {
+  balance: order_by
+  id: order_by
+  player_id: order_by
+  token_address: order_by
+}
+
+"""aggregate min on columns"""
+type xp_min_fields {
+  balance: Int
+  id: uuid
+  player_id: uuid
+  token_address: String
+}
+
+"""
+order by min() on columns of table "xp"
+"""
+input xp_min_order_by {
+  balance: order_by
+  id: order_by
+  player_id: order_by
+  token_address: order_by
+}
+
+"""
+response of any mutation on the table "xp"
+"""
+type xp_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [xp!]!
+}
+
+"""
+input type for inserting object relation for remote table "xp"
+"""
+input xp_obj_rel_insert_input {
+  data: xp_insert_input!
+  on_conflict: xp_on_conflict
+}
+
+"""
+on conflict condition type for table "xp"
+"""
+input xp_on_conflict {
+  constraint: xp_constraint!
+  update_columns: [xp_update_column!]!
+  where: xp_bool_exp
+}
+
+"""
+ordering options when selecting data from "xp"
+"""
+input xp_order_by {
+  balance: order_by
+  id: order_by
+  player_id: order_by
+  token_address: order_by
+}
+
+"""
+primary key columns input for table: "xp"
+"""
+input xp_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "xp"
+"""
+enum xp_select_column {
+  """column name"""
+  balance
+
+  """column name"""
+  id
+
+  """column name"""
+  player_id
+
+  """column name"""
+  token_address
+}
+
+"""
+input type for updating data in table "xp"
+"""
+input xp_set_input {
+  balance: Int
+  id: uuid
+  player_id: uuid
+  token_address: String
+}
+
+"""aggregate stddev on columns"""
+type xp_stddev_fields {
+  balance: Float
+}
+
+"""
+order by stddev() on columns of table "xp"
+"""
+input xp_stddev_order_by {
+  balance: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type xp_stddev_pop_fields {
+  balance: Float
+}
+
+"""
+order by stddev_pop() on columns of table "xp"
+"""
+input xp_stddev_pop_order_by {
+  balance: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type xp_stddev_samp_fields {
+  balance: Float
+}
+
+"""
+order by stddev_samp() on columns of table "xp"
+"""
+input xp_stddev_samp_order_by {
+  balance: order_by
+}
+
+"""aggregate sum on columns"""
+type xp_sum_fields {
+  balance: Int
+}
+
+"""
+order by sum() on columns of table "xp"
+"""
+input xp_sum_order_by {
+  balance: order_by
+}
+
+"""
+update columns of table "xp"
+"""
+enum xp_update_column {
+  """column name"""
+  balance
+
+  """column name"""
+  id
+
+  """column name"""
+  player_id
+
+  """column name"""
+  token_address
+}
+
+"""aggregate var_pop on columns"""
+type xp_var_pop_fields {
+  balance: Float
+}
+
+"""
+order by var_pop() on columns of table "xp"
+"""
+input xp_var_pop_order_by {
+  balance: order_by
+}
+
+"""aggregate var_samp on columns"""
+type xp_var_samp_fields {
+  balance: Float
+}
+
+"""
+order by var_samp() on columns of table "xp"
+"""
+input xp_var_samp_order_by {
+  balance: order_by
+}
+
+"""aggregate variance on columns"""
+type xp_variance_fields {
+  balance: Float
+}
+
+"""
+order by variance() on columns of table "xp"
+"""
+input xp_variance_order_by {
+  balance: order_by
 }
 
