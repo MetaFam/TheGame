@@ -11,6 +11,9 @@ import {
   Order_By,
   Player,
   Player_Bool_Exp,
+  SearchPlayersDocument,
+  SearchPlayersQuery,
+  SearchPlayersQueryVariables,
 } from 'graphql/autogen/types';
 import { client as defaultClient } from 'graphql/client';
 import { PlayerFragment, PlayerSkillFragment } from 'graphql/fragments';
@@ -191,4 +194,37 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
   if (error) throw new Error(error.message);
 
   return data;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+/* GraphQL */ `
+ query SearchPlayers($search: String! ,$forLoginDisplay: Boolean! = false, $limit: Int = 3) {
+  player(where: { _or: [
+    { profile: { username: { _ilike: $search } } },
+
+        { ethereumAddress: { _ilike: $search } }
+  ] }, limit: $limit) {
+  ...PlayerFragment
+}
+  ${PlayerFragment}
+}
+`;
+
+export const searchPlayers = async (
+  text: string,
+  client: Client = defaultClient,
+) => {
+  const { data, error } = await client
+    .query<SearchPlayersQuery, SearchPlayersQueryVariables>(
+      SearchPlayersDocument,
+      {
+        search: `%${text}%`,
+      },
+    )
+    .toPromise();
+
+  return {
+    players: data?.player || [],
+    error,
+  };
 };

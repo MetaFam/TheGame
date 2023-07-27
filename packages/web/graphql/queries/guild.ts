@@ -14,6 +14,8 @@ import {
   GuildFragment as GuildFragmentType,
   GuildStatus_Enum,
   Maybe,
+  SearchGuildsQuery,
+  SearchGuildsQueryVariables,
 } from 'graphql/autogen/types';
 import { GuildFragment, PlayerFragment } from 'graphql/fragments';
 import { GuildPlayer } from 'graphql/types';
@@ -200,4 +202,28 @@ export const getGuildAnnouncements = async (
 
   if (!data) return [];
   return data.guild[0].discordAnnouncements;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+const guildSearch = /* GraphQL */ `
+  query SearchGuilds($search: String!, $limit: Int = 3) {
+    guild(where: { guildname: { _ilike: $search } }, limit: $limit) {
+      ...GuildFragment
+    }
+  }
+  ${GuildFragment}
+`;
+
+export const searchGuilds = async (search = '') => {
+  const { data, error } = await client
+    .query<SearchGuildsQuery, SearchGuildsQueryVariables>(guildSearch, {
+      search: `%${search}%`,
+    })
+    .toPromise();
+
+  if (!data && error) throw new Error(`Error:- ${error}`);
+
+  return {
+    guilds: data?.guild || [],
+  };
 };

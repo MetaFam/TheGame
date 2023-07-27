@@ -83,6 +83,7 @@
     "react-vis": "1.11.7",
     "remark-gfm": "^3.0.1",
     "rss-to-json": "2.0.2",
+    "rxjs": "^7.8.1",
     "sass": "^1.54.8",
     "sourcecred": "0.11.0",
     "swr": "2.0.3",

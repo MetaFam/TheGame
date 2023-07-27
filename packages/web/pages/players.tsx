@@ -137,7 +137,7 @@ type MorePlayersProps = {
   showSeasonalXP?: boolean;
 };
 
-const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
+export const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
   ({ fetching, total, queryVariables, showSeasonalXP = false }, ref) => {
     const isTimeZoneSelected = useMemo(
       () => queryVariables.timeZones && queryVariables.timeZones.length > 0,
