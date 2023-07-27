@@ -200,8 +200,7 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
 /* GraphQL */ `
  query SearchPlayers($search: String! ,$forLoginDisplay: Boolean! = false, $limit: Int = 3) {
   player(where: { _or: [
-    { profile: { username: { _ilike: $search } } },
-
+    { profile: { username: { _ilike: $search }, name: { _ilike: $search } } },
         { ethereumAddress: { _ilike: $search } }
   ] }, limit: $limit) {
   ...PlayerFragment
