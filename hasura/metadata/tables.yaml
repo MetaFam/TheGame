@@ -89,6 +89,10 @@
       filter: {}
 - table:
     schema: public
+    name: LinkType
+  is_enum: true
+- table:
+    schema: public
     name: PlayerRank
   is_enum: true
 - table:
@@ -440,6 +444,9 @@
       - guild_id
       - player_id
       filter: {}
+- table:
+    schema: public
+    name: link
 - table:
     schema: public
     name: me

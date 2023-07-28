@@ -1,0 +1,1 @@
+INSERT INTO "LinkType" (type) VALUES ('TWITTER'), ('GITHUB'), ('DISCORD'), ('TELEGRAM'), ('LENSTER'), ('FARCASTER'), ('YOUTUBE');
