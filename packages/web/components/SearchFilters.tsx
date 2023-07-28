@@ -44,7 +44,6 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
       >
         {FilterItems.map((item) => (
           <Box
-            justify="center"
             p={4}
             borderBottomWidth={activeFilter === item.name ? '1px' : '0px'}
             borderBottomColor={
