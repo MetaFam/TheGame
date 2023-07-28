@@ -83,7 +83,17 @@ interface OptionProps {
 }
 
 const Option = ({ onClick, name, image, text }: OptionProps) => (
-  <Flex align="center" {...{ onClick }} px={3} py={2} cursor="pointer">
+  <Flex
+    _hover={{
+      background: 'purple.50',
+    }}
+    align="center"
+    {...{ onClick }}
+    px={3}
+    py={2}
+    cursor="pointer"
+    rounded="lg"
+  >
     <Avatar name={name} src={image} w={6} h={6} />
     <Text
       px={2}
@@ -150,6 +160,7 @@ const Search = () => {
     players: [],
     guilds: [],
   });
+
   const dropdown = useRef<Maybe<HTMLDivElement>>(null);
   const handleSubmit: FormEventHandler<HTMLDivElement> &
     FormEventHandler<HTMLFormElement> = (e) => {
@@ -228,7 +239,7 @@ const Search = () => {
             variant="unstyled"
             color="white"
             w="100%"
-            placeholder="Find anything"
+            placeholder="Find Players, Guilds"
             _placeholder={{ color: 'whiteAlpha.500' }}
             value={query}
             onChange={({ target: { value } }) => setQuery(value)}
@@ -259,6 +270,7 @@ const Search = () => {
             p={2}
           >
             {players.length > 0 && <ResultsTitle>Players</ResultsTitle>}
+
             {players?.map((player: PlayerFragment) => (
               <Option
                 key={player.id}
@@ -268,7 +280,11 @@ const Search = () => {
                 }}
                 name={getPlayerName(player) ?? 'Unknown'}
                 image={getPlayerImage(player)}
-                text={getPlayerUsername(player as Maybe<Player>) ?? 'Unknown'}
+                text={
+                  (getPlayerUsername(player as Maybe<Player>) ||
+                    getPlayerName(player)) ??
+                  'Unknown'
+                }
               />
             ))}
             {atLimit(players.length) && (
