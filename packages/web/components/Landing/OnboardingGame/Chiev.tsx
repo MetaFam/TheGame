@@ -30,7 +30,7 @@ import { errorHandler } from 'utils/errorHandler';
 import { POLYGON } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';
 
-import { chievId, getTokenImage, IChievMetadata } from './nft';
+import { chievTokenId, getTokenImage, IChievMetadata } from './nft';
 
 export const Chiev = ({
   won,
@@ -96,7 +96,7 @@ export const Chiev = ({
   const handleMinting = useCallback(async () => {
     try {
       setClaiming(true);
-      await mintChiev(chievId);
+      await mintChiev(chievTokenId);
     } catch (error) {
       errorHandler(error as Error);
       console.error('handleMintingError', error);

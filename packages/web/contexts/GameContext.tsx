@@ -6,8 +6,8 @@ import type {
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
 import gameJson from 'components/Landing/OnboardingGame/metagame-onboarding-game.json';
-import { chievContractAddress } from 'components/Landing/OnboardingGame/nft';
 import { MetaLink } from 'components/Link';
+import CONFIG from 'config';
 import ABI from 'contracts/BulkDisbursableNFTs.abi';
 import { Contract } from 'ethers';
 import { ContractError } from 'graphql/types';
@@ -165,7 +165,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
         setTxLoading(true);
 
         const token = new Contract(
-          chievContractAddress,
+          CONFIG.chievAddress,
           ABI,
           provider.getSigner(),
         );

@@ -29,4 +29,12 @@ export const CONFIG = {
   openseaAPIKey: process.env.OPENSEA_API_KEY,
   alchemyAPIKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
   mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
+  chievAddress:
+    process.env.NEXT_PUBLIC_CHIEV_ADDRESS ||
+    '0x85fCaAFc0dA050FCE685DcB8965F0C1Aa1Ba466b',
+  chievTokenId: BigInt(
+    process.env.NEXT_PUBLIC_CHIEV_TOKEN_ID ||
+      '0x480000000000000000000000000000000000000000000000000000000002',
+  ),
+  paymasterURL: process.env.NEXT_PUBLIC_PAYMASTER_URL,
 };
