@@ -6,7 +6,11 @@ export const PlayerFragment = /* GraphQL */ `
     rank
     ethereumAddress
     profileLayout
-
+    links {
+      url
+      name
+      type
+    }
     profile {
       name
       username

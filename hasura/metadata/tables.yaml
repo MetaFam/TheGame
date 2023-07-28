@@ -447,6 +447,48 @@
 - table:
     schema: public
     name: link
+  object_relationships:
+  - name: player
+    using:
+      foreign_key_constraint_on: player_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        player_id:
+          _eq: X-Hasura-User-Id
+      columns:
+      - name
+      - player_id
+      - type
+      - url
+      backend_only: false
+  select_permissions:
+  - role: public
+    permission:
+      columns:
+      - name
+      - player_id
+      - type
+      - url
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - name
+      - type
+      - url
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+      check: {}
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: me
@@ -518,6 +560,13 @@
         table:
           schema: public
           name: guild_player
+  - name: links
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: link
   - name: quest_completions
     using:
       foreign_key_constraint_on:
