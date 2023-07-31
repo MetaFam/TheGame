@@ -5,11 +5,7 @@ import {
 } from '@biconomy/account';
 import { Bundler, IBundler } from '@biconomy/bundler';
 import { ChainId } from '@biconomy/core-types';
-import {
-  BiconomyPaymaster,
-  IPaymaster,
-  PaymasterMode,
-} from '@biconomy/paymaster';
+import { BiconomyPaymaster, IPaymaster } from '@biconomy/paymaster';
 import { Link, MetaButton, Text, useToast } from '@metafam/ds';
 import {
   chievAddress,
@@ -92,6 +88,9 @@ export const Gasless: React.FC = () => {
 
       const partialUserOp = await account.buildUserOp([transaction]);
 
+      // eslint-disable-next-line no-console
+      console.debug({ partialUserOp });
+
       toast({
         title: <code>UserOperation</code>,
         status: 'info',
@@ -145,9 +144,11 @@ export const Gasless: React.FC = () => {
   }, [address, chainId, provider, toast]);
 
   return connected ? (
-    <MetaButton onClick={mint}>Mint</MetaButton>
+    <MetaButton onClick={mint} disabled={minting}>
+      Mint
+    </MetaButton>
   ) : (
-    <Text>Connect Your Wallet</Text>
+    <Text textAlign="center">Connect Your Wallet</Text>
   );
 };
 

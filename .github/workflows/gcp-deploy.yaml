@@ -484,6 +484,8 @@ jobs:
             GA4_ID=${{env.GA4_ID}}
             WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} 
             OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
+            PAYMASTER_URL=${{secrets.PAYMASTER_URL}}
+            BUNDLER_URL=${{secrets.BUNDLER_URL}}
           push: true
 
   deploy-frontend:
