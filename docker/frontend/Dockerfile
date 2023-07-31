@@ -45,6 +45,8 @@ ARG APP_ENV
 ARG GRAPHQL_URL https://api.metagame.wtf/v1/graphql
 ARG FRONTEND_URL https://metagame.wtf
 ARG YOUTUBE_API_KEY
+ARG PAYMASTER_URL
+ARG BUNDLER_URL
 
 # ARGs are not available at runtime, so define ENV variables
 # These ENVs should match the --set-env-vars in `.github/workflows/gcp-deploy.yaml`
