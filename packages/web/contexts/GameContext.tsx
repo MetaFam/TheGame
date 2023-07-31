@@ -7,7 +7,7 @@ import type {
 } from 'components/Landing/OnboardingGame/gameTypes';
 import gameJson from 'components/Landing/OnboardingGame/metagame-onboarding-game.json';
 import { MetaLink } from 'components/Link';
-import CONFIG from 'config';
+import { CONFIG } from 'config';
 import ABI from 'contracts/BulkDisbursableNFTs.abi';
 import { Contract } from 'ethers';
 import { ContractError } from 'graphql/types';

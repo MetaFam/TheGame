@@ -5,7 +5,11 @@ import {
 } from '@biconomy/account';
 import { Bundler, IBundler } from '@biconomy/bundler';
 import { ChainId } from '@biconomy/core-types';
-import { BiconomyPaymaster, IPaymaster } from '@biconomy/paymaster';
+import {
+  BiconomyPaymaster,
+  IPaymaster,
+  PaymasterMode,
+} from '@biconomy/paymaster';
 import { Link, MetaButton, Text, useToast } from '@metafam/ds';
 import {
   chievAddress,
@@ -28,6 +32,7 @@ export const Gasless: React.FC = () => {
       if (!provider) throw new Error('No provider.');
       if (chainId == null) throw new Error('No chainId.');
       if (!CONFIG.paymasterURL) throw new Error('No Paymaster URL.');
+      if (!CONFIG.bundlerURL) throw new Error('No Bundler URL.');
       if (Number(chainId) !== ChainId.POLYGON_MAINNET) {
         throw new Error('Must be connected to the Polygon network.');
       }
@@ -44,42 +49,47 @@ export const Gasless: React.FC = () => {
         paymasterUrl: CONFIG.paymasterURL,
       });
       const bundler: IBundler = new Bundler({
-        bundlerUrl: 'https://polygon.llamarpc.com',
-        // bundlerUrl: 'https://bundler.biconomy.io/api/v2/80001/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44', // you can get this value from biconomy dashboard.
-        chainId: ChainId.POLYGON_MUMBAI,
+        bundlerUrl: CONFIG.bundlerURL,
+        chainId: ChainId.POLYGON_MAINNET,
         entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
       });
       const accountConfig: BiconomySmartAccountConfig = {
         signer: provider.getSigner(),
-        chainId: Number(chainId),
+        chainId: ChainId.POLYGON_MAINNET,
         // rpcUrl: '',
         paymaster,
         bundler,
       };
       const accountObject = new BiconomySmartAccount(accountConfig);
       const account = await accountObject.init();
+      const accountAddress = await account.getSmartAccountAddress();
+      const accountDeployed = await account.isAccountDeployed(accountAddress);
 
       toast({
         title: 'Smart Account',
         status: 'info',
-        description: `Created a Biconomy Smart Account at ${account.address}.`,
+        description:
+          'Created a Biconomy Smart Account at ' +
+          `${accountAddress} which is ` +
+          `${accountDeployed ? '' : 'not '}deployed.`,
       });
 
       const mintTx = new ethers.utils.Interface(ABI);
-      const data = mintTx.encodeFunctionData('mint(address[],uint256,bytes)', [
-        [address],
-        chievTokenId,
-        [],
-      ]);
-
-      // eslint-disable-next-line no-console
-      console.debug({ txData: data });
+      const args = [[address], `0x${chievTokenId.toString(16)}`, []];
+      const data = mintTx.encodeFunctionData(
+        'mint(address[],uint256,bytes)',
+        args,
+      );
 
       const transaction = {
         to: chievAddress,
         data,
         value: 0,
       };
+
+      // eslint-disable-next-line no-console
+      console.debug({ args, transaction });
+
       const partialUserOp = await account.buildUserOp([transaction]);
 
       toast({
@@ -112,7 +122,10 @@ export const Gasless: React.FC = () => {
         description: (
           <p>
             Minted a token in the{' '}
-            <Link href={null}>transaction {txDetails.hash}</Link>.
+            <Link href={'#'}>
+              transaction {txDetails.receipt.transactionHash}
+            </Link>
+            .
           </p>
         ),
       });
