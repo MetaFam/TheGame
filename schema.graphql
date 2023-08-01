@@ -183,11 +183,11 @@ enum AccountType_update_column {
 columns and relationships of "balance"
 """
 type balance {
-  amount: Int!
-  block_height: Int!
+  amount: float8!
+  blockHeight: Int!
   id: uuid!
-  player_id: uuid!
-  token_address: String!
+  playerAddress: String!
+  tokenAddress: String!
 }
 
 """
@@ -243,7 +243,7 @@ input balance_arr_rel_insert_input {
 """aggregate avg on columns"""
 type balance_avg_fields {
   amount: Float
-  block_height: Float
+  blockHeight: Float
 }
 
 """
@@ -251,7 +251,7 @@ order by avg() on columns of table "balance"
 """
 input balance_avg_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
 }
 
 """
@@ -261,11 +261,11 @@ input balance_bool_exp {
   _and: [balance_bool_exp]
   _not: balance_bool_exp
   _or: [balance_bool_exp]
-  amount: Int_comparison_exp
-  block_height: Int_comparison_exp
+  amount: float8_comparison_exp
+  blockHeight: Int_comparison_exp
   id: uuid_comparison_exp
-  player_id: uuid_comparison_exp
-  token_address: String_comparison_exp
+  playerAddress: String_comparison_exp
+  tokenAddress: String_comparison_exp
 }
 
 """
@@ -280,28 +280,28 @@ enum balance_constraint {
 input type for incrementing integer column in table "balance"
 """
 input balance_inc_input {
-  amount: Int
-  block_height: Int
+  amount: float8
+  blockHeight: Int
 }
 
 """
 input type for inserting data into table "balance"
 """
 input balance_insert_input {
-  amount: Int
-  block_height: Int
+  amount: float8
+  blockHeight: Int
   id: uuid
-  player_id: uuid
-  token_address: String
+  playerAddress: String
+  tokenAddress: String
 }
 
 """aggregate max on columns"""
 type balance_max_fields {
-  amount: Int
-  block_height: Int
+  amount: float8
+  blockHeight: Int
   id: uuid
-  player_id: uuid
-  token_address: String
+  playerAddress: String
+  tokenAddress: String
 }
 
 """
@@ -309,19 +309,19 @@ order by max() on columns of table "balance"
 """
 input balance_max_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
   id: order_by
-  player_id: order_by
-  token_address: order_by
+  playerAddress: order_by
+  tokenAddress: order_by
 }
 
 """aggregate min on columns"""
 type balance_min_fields {
-  amount: Int
-  block_height: Int
+  amount: float8
+  blockHeight: Int
   id: uuid
-  player_id: uuid
-  token_address: String
+  playerAddress: String
+  tokenAddress: String
 }
 
 """
@@ -329,10 +329,10 @@ order by min() on columns of table "balance"
 """
 input balance_min_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
   id: order_by
-  player_id: order_by
-  token_address: order_by
+  playerAddress: order_by
+  tokenAddress: order_by
 }
 
 """
@@ -368,10 +368,10 @@ ordering options when selecting data from "balance"
 """
 input balance_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
   id: order_by
-  player_id: order_by
-  token_address: order_by
+  playerAddress: order_by
+  tokenAddress: order_by
 }
 
 """
@@ -389,33 +389,33 @@ enum balance_select_column {
   amount
 
   """column name"""
-  block_height
+  blockHeight
 
   """column name"""
   id
 
   """column name"""
-  player_id
+  playerAddress
 
   """column name"""
-  token_address
+  tokenAddress
 }
 
 """
 input type for updating data in table "balance"
 """
 input balance_set_input {
-  amount: Int
-  block_height: Int
+  amount: float8
+  blockHeight: Int
   id: uuid
-  player_id: uuid
-  token_address: String
+  playerAddress: String
+  tokenAddress: String
 }
 
 """aggregate stddev on columns"""
 type balance_stddev_fields {
   amount: Float
-  block_height: Float
+  blockHeight: Float
 }
 
 """
@@ -423,13 +423,13 @@ order by stddev() on columns of table "balance"
 """
 input balance_stddev_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type balance_stddev_pop_fields {
   amount: Float
-  block_height: Float
+  blockHeight: Float
 }
 
 """
@@ -437,13 +437,13 @@ order by stddev_pop() on columns of table "balance"
 """
 input balance_stddev_pop_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type balance_stddev_samp_fields {
   amount: Float
-  block_height: Float
+  blockHeight: Float
 }
 
 """
@@ -451,13 +451,13 @@ order by stddev_samp() on columns of table "balance"
 """
 input balance_stddev_samp_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
 }
 
 """aggregate sum on columns"""
 type balance_sum_fields {
-  amount: Int
-  block_height: Int
+  amount: float8
+  blockHeight: Int
 }
 
 """
@@ -465,7 +465,7 @@ order by sum() on columns of table "balance"
 """
 input balance_sum_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
 }
 
 """
@@ -476,22 +476,22 @@ enum balance_update_column {
   amount
 
   """column name"""
-  block_height
+  blockHeight
 
   """column name"""
   id
 
   """column name"""
-  player_id
+  playerAddress
 
   """column name"""
-  token_address
+  tokenAddress
 }
 
 """aggregate var_pop on columns"""
 type balance_var_pop_fields {
   amount: Float
-  block_height: Float
+  blockHeight: Float
 }
 
 """
@@ -499,13 +499,13 @@ order by var_pop() on columns of table "balance"
 """
 input balance_var_pop_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
 }
 
 """aggregate var_samp on columns"""
 type balance_var_samp_fields {
   amount: Float
-  block_height: Float
+  blockHeight: Float
 }
 
 """
@@ -513,13 +513,13 @@ order by var_samp() on columns of table "balance"
 """
 input balance_var_samp_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
 }
 
 """aggregate variance on columns"""
 type balance_variance_fields {
   amount: Float
-  block_height: Float
+  blockHeight: Float
 }
 
 """
@@ -527,7 +527,7 @@ order by variance() on columns of table "balance"
 """
 input balance_variance_order_by {
   amount: order_by
-  block_height: order_by
+  blockHeight: order_by
 }
 
 """
@@ -1804,6 +1804,23 @@ order by variance() on columns of table "ExplorerType"
 """
 input ExplorerType_variance_order_by {
   id: order_by
+}
+
+scalar float8
+
+"""
+expression to compare columns of type float8. All fields are combined with logical 'AND'.
+"""
+input float8_comparison_exp {
+  _eq: float8
+  _gt: float8
+  _gte: float8
+  _in: [float8!]
+  _is_null: Boolean
+  _lt: float8
+  _lte: float8
+  _neq: float8
+  _nin: [float8!]
 }
 
 """
@@ -12870,9 +12887,13 @@ columns and relationships of "token"
 """
 type token {
   address: String!
-  chain_id: Int!
-  guild_id: uuid!
-  safe_address: String!
+  chainId: Int!
+
+  """An object relationship"""
+  guild: guild!
+  guildId: uuid!
+  lastOffset: Int!
+  safeAddress: String!
 }
 
 """
@@ -12927,14 +12948,16 @@ input token_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type token_avg_fields {
-  chain_id: Float
+  chainId: Float
+  lastOffset: Float
 }
 
 """
 order by avg() on columns of table "token"
 """
 input token_avg_order_by {
-  chain_id: order_by
+  chainId: order_by
+  lastOffset: order_by
 }
 
 """
@@ -12945,9 +12968,11 @@ input token_bool_exp {
   _not: token_bool_exp
   _or: [token_bool_exp]
   address: String_comparison_exp
-  chain_id: Int_comparison_exp
-  guild_id: uuid_comparison_exp
-  safe_address: String_comparison_exp
+  chainId: Int_comparison_exp
+  guild: guild_bool_exp
+  guildId: uuid_comparison_exp
+  lastOffset: Int_comparison_exp
+  safeAddress: String_comparison_exp
 }
 
 """
@@ -12971,7 +12996,8 @@ enum token_constraint {
 input type for incrementing integer column in table "token"
 """
 input token_inc_input {
-  chain_id: Int
+  chainId: Int
+  lastOffset: Int
 }
 
 """
@@ -12979,17 +13005,20 @@ input type for inserting data into table "token"
 """
 input token_insert_input {
   address: String
-  chain_id: Int
-  guild_id: uuid
-  safe_address: String
+  chainId: Int
+  guild: guild_obj_rel_insert_input
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
 }
 
 """aggregate max on columns"""
 type token_max_fields {
   address: String
-  chain_id: Int
-  guild_id: uuid
-  safe_address: String
+  chainId: Int
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
 }
 
 """
@@ -12997,17 +13026,19 @@ order by max() on columns of table "token"
 """
 input token_max_order_by {
   address: order_by
-  chain_id: order_by
-  guild_id: order_by
-  safe_address: order_by
+  chainId: order_by
+  guildId: order_by
+  lastOffset: order_by
+  safeAddress: order_by
 }
 
 """aggregate min on columns"""
 type token_min_fields {
   address: String
-  chain_id: Int
-  guild_id: uuid
-  safe_address: String
+  chainId: Int
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
 }
 
 """
@@ -13015,9 +13046,10 @@ order by min() on columns of table "token"
 """
 input token_min_order_by {
   address: order_by
-  chain_id: order_by
-  guild_id: order_by
-  safe_address: order_by
+  chainId: order_by
+  guildId: order_by
+  lastOffset: order_by
+  safeAddress: order_by
 }
 
 """
@@ -13053,9 +13085,11 @@ ordering options when selecting data from "token"
 """
 input token_order_by {
   address: order_by
-  chain_id: order_by
-  guild_id: order_by
-  safe_address: order_by
+  chainId: order_by
+  guild: guild_order_by
+  guildId: order_by
+  lastOffset: order_by
+  safeAddress: order_by
 }
 
 """
@@ -13073,13 +13107,16 @@ enum token_select_column {
   address
 
   """column name"""
-  chain_id
+  chainId
 
   """column name"""
-  guild_id
+  guildId
 
   """column name"""
-  safe_address
+  lastOffset
+
+  """column name"""
+  safeAddress
 }
 
 """
@@ -13087,57 +13124,66 @@ input type for updating data in table "token"
 """
 input token_set_input {
   address: String
-  chain_id: Int
-  guild_id: uuid
-  safe_address: String
+  chainId: Int
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
 }
 
 """aggregate stddev on columns"""
 type token_stddev_fields {
-  chain_id: Float
+  chainId: Float
+  lastOffset: Float
 }
 
 """
 order by stddev() on columns of table "token"
 """
 input token_stddev_order_by {
-  chain_id: order_by
+  chainId: order_by
+  lastOffset: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type token_stddev_pop_fields {
-  chain_id: Float
+  chainId: Float
+  lastOffset: Float
 }
 
 """
 order by stddev_pop() on columns of table "token"
 """
 input token_stddev_pop_order_by {
-  chain_id: order_by
+  chainId: order_by
+  lastOffset: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type token_stddev_samp_fields {
-  chain_id: Float
+  chainId: Float
+  lastOffset: Float
 }
 
 """
 order by stddev_samp() on columns of table "token"
 """
 input token_stddev_samp_order_by {
-  chain_id: order_by
+  chainId: order_by
+  lastOffset: order_by
 }
 
 """aggregate sum on columns"""
 type token_sum_fields {
-  chain_id: Int
+  chainId: Int
+  lastOffset: Int
 }
 
 """
 order by sum() on columns of table "token"
 """
 input token_sum_order_by {
-  chain_id: order_by
+  chainId: order_by
+  lastOffset: order_by
 }
 
 """
@@ -13148,49 +13194,58 @@ enum token_update_column {
   address
 
   """column name"""
-  chain_id
+  chainId
 
   """column name"""
-  guild_id
+  guildId
 
   """column name"""
-  safe_address
+  lastOffset
+
+  """column name"""
+  safeAddress
 }
 
 """aggregate var_pop on columns"""
 type token_var_pop_fields {
-  chain_id: Float
+  chainId: Float
+  lastOffset: Float
 }
 
 """
 order by var_pop() on columns of table "token"
 """
 input token_var_pop_order_by {
-  chain_id: order_by
+  chainId: order_by
+  lastOffset: order_by
 }
 
 """aggregate var_samp on columns"""
 type token_var_samp_fields {
-  chain_id: Float
+  chainId: Float
+  lastOffset: Float
 }
 
 """
 order by var_samp() on columns of table "token"
 """
 input token_var_samp_order_by {
-  chain_id: order_by
+  chainId: order_by
+  lastOffset: order_by
 }
 
 """aggregate variance on columns"""
 type token_variance_fields {
-  chain_id: Float
+  chainId: Float
+  lastOffset: Float
 }
 
 """
 order by variance() on columns of table "token"
 """
 input token_variance_order_by {
-  chain_id: order_by
+  chainId: order_by
+  lastOffset: order_by
 }
 
 type TokenBalances {
@@ -13258,10 +13313,10 @@ input uuid_comparison_exp {
 columns and relationships of "xp"
 """
 type xp {
-  balance: Int!
+  balance: float8!
   id: uuid!
-  player_id: uuid!
-  token_address: String!
+  playerId: uuid!
+  tokenAddress: String!
 }
 
 """
@@ -13333,10 +13388,10 @@ input xp_bool_exp {
   _and: [xp_bool_exp]
   _not: xp_bool_exp
   _or: [xp_bool_exp]
-  balance: Int_comparison_exp
+  balance: float8_comparison_exp
   id: uuid_comparison_exp
-  player_id: uuid_comparison_exp
-  token_address: String_comparison_exp
+  playerId: uuid_comparison_exp
+  tokenAddress: String_comparison_exp
 }
 
 """
@@ -13351,25 +13406,25 @@ enum xp_constraint {
 input type for incrementing integer column in table "xp"
 """
 input xp_inc_input {
-  balance: Int
+  balance: float8
 }
 
 """
 input type for inserting data into table "xp"
 """
 input xp_insert_input {
-  balance: Int
+  balance: float8
   id: uuid
-  player_id: uuid
-  token_address: String
+  playerId: uuid
+  tokenAddress: String
 }
 
 """aggregate max on columns"""
 type xp_max_fields {
-  balance: Int
+  balance: float8
   id: uuid
-  player_id: uuid
-  token_address: String
+  playerId: uuid
+  tokenAddress: String
 }
 
 """
@@ -13378,16 +13433,16 @@ order by max() on columns of table "xp"
 input xp_max_order_by {
   balance: order_by
   id: order_by
-  player_id: order_by
-  token_address: order_by
+  playerId: order_by
+  tokenAddress: order_by
 }
 
 """aggregate min on columns"""
 type xp_min_fields {
-  balance: Int
+  balance: float8
   id: uuid
-  player_id: uuid
-  token_address: String
+  playerId: uuid
+  tokenAddress: String
 }
 
 """
@@ -13396,8 +13451,8 @@ order by min() on columns of table "xp"
 input xp_min_order_by {
   balance: order_by
   id: order_by
-  player_id: order_by
-  token_address: order_by
+  playerId: order_by
+  tokenAddress: order_by
 }
 
 """
@@ -13434,8 +13489,8 @@ ordering options when selecting data from "xp"
 input xp_order_by {
   balance: order_by
   id: order_by
-  player_id: order_by
-  token_address: order_by
+  playerId: order_by
+  tokenAddress: order_by
 }
 
 """
@@ -13456,20 +13511,20 @@ enum xp_select_column {
   id
 
   """column name"""
-  player_id
+  playerId
 
   """column name"""
-  token_address
+  tokenAddress
 }
 
 """
 input type for updating data in table "xp"
 """
 input xp_set_input {
-  balance: Int
+  balance: float8
   id: uuid
-  player_id: uuid
-  token_address: String
+  playerId: uuid
+  tokenAddress: String
 }
 
 """aggregate stddev on columns"""
@@ -13510,7 +13565,7 @@ input xp_stddev_samp_order_by {
 
 """aggregate sum on columns"""
 type xp_sum_fields {
-  balance: Int
+  balance: float8
 }
 
 """
@@ -13531,10 +13586,10 @@ enum xp_update_column {
   id
 
   """column name"""
-  player_id
+  playerId
 
   """column name"""
-  token_address
+  tokenAddress
 }
 
 """aggregate var_pop on columns"""

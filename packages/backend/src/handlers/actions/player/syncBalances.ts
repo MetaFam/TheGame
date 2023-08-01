@@ -1,37 +1,32 @@
 import { Request, Response } from 'express';
-
+import ethers from "ethers";
 import { queueRecache } from '../../../lib/cacheHelper.js';
 import { client } from '../../../lib/hasuraClient.js';
 
 const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
 
-type BalanceAddressPair = {
-  [address: string]: bigint
-}
-
-
-
 // @todo return balance of token of player in guild
-const getBalances = async ({
+const setBalances = async ({
   safeAddress,
   offset = 0,
 }: {
   safeAddress: string;
   offset?: number,
 }) => {
-  const out: BalanceAddressPair = {}
   const res = await fetch(`https://safe-transaction-polygon.safe.global/api/v1/safes/${safeAddress}/all-transactions/?limit=100&offset=${offset}&executed=true&queued=false&trusted=true`)
   const { results } = await res.json()
   const airdrops = results.filter((tx: any) => tx.origin?.includes('CSV Airdrop'))
-  airdrops.forEach((airdrop: any) => {
-    airdrop.transfers.forEach(({ value, to }: { value: string, to: string }) => {
-      if (!out[to]) {
-        out[to] = 0n
-      }
-      out[to] += BigInt(value)
+  let address = null;
+
+  await Promise.all(airdrops.map((airdrop: any) => {
+    airdrop.transfers.map( async ({ value, to, tokenAddress }: { value: string, to: string, tokenAddress: string }) => {
+      const amount = Number(ethers.utils.formatEther(value))
+      await client.AddBalance({ amount, blockHeight: airdrop.blockNumber, playerAddress: to, tokenAddress }) 
+      address = tokenAddress;
     })
-  });
-  return out
+  }).flat());
+  
+  await client.UpdateLastOffset({ tokenAddress: address, offset: offset + results.length })
 };
 
 // @todo only query guilds that have a token ID
@@ -47,7 +42,7 @@ export default async (req: Request, res: Response): Promise<void> => {
 
   const members = await Promise.all(
     tokens.map(async ({ safeAddress, lastOffset: offset, guildId  }) => {
-      const balances = await getBalances({ safeAddress, offset })
+      const balances = await setBalances({ safeAddress, offset })
 
       const { guild: players } = await client.GetGuildMembers({ id: guildId });
       players.map(async ({ player }) =>

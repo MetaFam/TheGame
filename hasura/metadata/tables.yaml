@@ -154,6 +154,12 @@
 - table:
     schema: public
     name: balance
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      player_address: playerAddress
+      block_height: blockHeight
+      token_address: tokenAddress
 - table:
     schema: public
     name: dao
@@ -1175,8 +1181,10 @@
   configuration:
     custom_root_fields: {}
     custom_column_names:
+      chain_id: chainId
       safe_address: safeAddress
       last_offset: lastOffset
+      guild_id: guildId
   object_relationships:
   - name: guild
     using:
@@ -1184,3 +1192,8 @@
 - table:
     schema: public
     name: xp
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      player_id: playerId
+      token_address: tokenAddress

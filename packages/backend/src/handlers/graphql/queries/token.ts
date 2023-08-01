@@ -1,16 +1,16 @@
 export const TokenQueries = /* GraphQL */ `
   query GetGuildToken($guildId: uuid!) {
-    token(where: { guild_id: { _eq: $guildId } }) {
+    token(where: { guildId: { _eq: $guildId } }) {
       address
-      chain_id
+      chainId
     }
   }
 
   query GetTokens {
     token {
       address
-      chain_id
-      safe_address
+      chainId
+      safeAddress
     }
   }
 `;
