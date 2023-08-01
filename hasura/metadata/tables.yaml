@@ -292,6 +292,13 @@
         table:
           schema: public
           name: guild_player
+  - name: links
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: link
   - name: quests
     using:
       foreign_key_constraint_on:
@@ -448,6 +455,9 @@
     schema: public
     name: link
   object_relationships:
+  - name: guild
+    using:
+      foreign_key_constraint_on: guild_id
   - name: player
     using:
       foreign_key_constraint_on: player_id

@@ -1545,6 +1545,42 @@ type guild {
   guildname: String!
   id: uuid!
   joinButtonUrl: String
+
+  """An array relationship"""
+  links(
+    """distinct select on columns"""
+    distinct_on: [link_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [link_order_by!]
+
+    """filter the rows returned"""
+    where: link_bool_exp
+  ): [link!]!
+
+  """An aggregated array relationship"""
+  links_aggregate(
+    """distinct select on columns"""
+    distinct_on: [link_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [link_order_by!]
+
+    """filter the rows returned"""
+    where: link_bool_exp
+  ): link_aggregate!
   logo: String
   membershipThroughDiscord: Boolean!
 
@@ -1677,6 +1713,7 @@ input guild_bool_exp {
   guildname: String_comparison_exp
   id: uuid_comparison_exp
   joinButtonUrl: String_comparison_exp
+  links: link_bool_exp
   logo: String_comparison_exp
   membershipThroughDiscord: Boolean_comparison_exp
   metadata: guild_metadata_bool_exp
@@ -1729,6 +1766,7 @@ input guild_insert_input {
   guildname: String
   id: uuid
   joinButtonUrl: String
+  links: link_arr_rel_insert_input
   logo: String
   membershipThroughDiscord: Boolean
   metadata: guild_metadata_obj_rel_insert_input
@@ -2107,6 +2145,7 @@ input guild_order_by {
   guildname: order_by
   id: order_by
   joinButtonUrl: order_by
+  links_aggregate: link_aggregate_order_by
   logo: order_by
   membershipThroughDiscord: order_by
   metadata: guild_metadata_order_by
@@ -3021,6 +3060,9 @@ input jsonb_comparison_exp {
 columns and relationships of "link"
 """
 type link {
+  """An object relationship"""
+  guild: guild!
+  guild_id: uuid!
   id: uuid!
   name: String
 
@@ -3072,6 +3114,8 @@ input link_bool_exp {
   _and: [link_bool_exp]
   _not: link_bool_exp
   _or: [link_bool_exp]
+  guild: guild_bool_exp
+  guild_id: uuid_comparison_exp
   id: uuid_comparison_exp
   name: String_comparison_exp
   player: player_bool_exp
@@ -3092,6 +3136,8 @@ enum link_constraint {
 input type for inserting data into table "link"
 """
 input link_insert_input {
+  guild: guild_obj_rel_insert_input
+  guild_id: uuid
   id: uuid
   name: String
   player: player_obj_rel_insert_input
@@ -3102,6 +3148,7 @@ input link_insert_input {
 
 """aggregate max on columns"""
 type link_max_fields {
+  guild_id: uuid
   id: uuid
   name: String
   player_id: uuid
@@ -3112,6 +3159,7 @@ type link_max_fields {
 order by max() on columns of table "link"
 """
 input link_max_order_by {
+  guild_id: order_by
   id: order_by
   name: order_by
   player_id: order_by
@@ -3120,6 +3168,7 @@ input link_max_order_by {
 
 """aggregate min on columns"""
 type link_min_fields {
+  guild_id: uuid
   id: uuid
   name: String
   player_id: uuid
@@ -3130,6 +3179,7 @@ type link_min_fields {
 order by min() on columns of table "link"
 """
 input link_min_order_by {
+  guild_id: order_by
   id: order_by
   name: order_by
   player_id: order_by
@@ -3168,6 +3218,8 @@ input link_on_conflict {
 ordering options when selecting data from "link"
 """
 input link_order_by {
+  guild: guild_order_by
+  guild_id: order_by
   id: order_by
   name: order_by
   player: player_order_by
@@ -3188,6 +3240,9 @@ select columns of table "link"
 """
 enum link_select_column {
   """column name"""
+  guild_id
+
+  """column name"""
   id
 
   """column name"""
@@ -3207,6 +3262,7 @@ enum link_select_column {
 input type for updating data in table "link"
 """
 input link_set_input {
+  guild_id: uuid
   id: uuid
   name: String
   player_id: uuid
@@ -3218,6 +3274,9 @@ input link_set_input {
 update columns of table "link"
 """
 enum link_update_column {
+  """column name"""
+  guild_id
+
   """column name"""
   id
 

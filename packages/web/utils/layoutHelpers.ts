@@ -130,8 +130,8 @@ export const isSameLayouts = (inputA: LayoutData, inputB: LayoutData) => {
         return layoutA.reduce(
           (t, item, i) =>
             t &&
-            item.x === layoutB[i].x &&
-            item.i === layoutB[i].i &&
+            item?.x === layoutB[i]?.x &&
+            item?.i === layoutB[i]?.i &&
             (!isBoxResizable(getBoxType(item.i)) || item.h === layoutB[i].h),
           true,
         );
