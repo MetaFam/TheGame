@@ -5,14 +5,34 @@ import { client } from '../../../lib/hasuraClient.js';
 
 const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
 
+type BalanceAddressPair = {
+  [address: string]: bigint
+}
+
+
+
 // @todo return balance of token of player in guild
-const getBalance = ({
-  playerId,
-  guildId,
+const getBalances = async ({
+  safeAddress,
+  offset = 0,
 }: {
-  playerId: string;
-  guildId: string;
-}) => {};
+  safeAddress: string;
+  offset?: number,
+}) => {
+  const out: BalanceAddressPair = {}
+  const res = await fetch(`https://safe-transaction-polygon.safe.global/api/v1/safes/${safeAddress}/all-transactions/?limit=100&offset=${offset}&executed=true&queued=false&trusted=true`)
+  const { results } = await res.json()
+  const airdrops = results.filter((tx: any) => tx.origin?.includes('CSV Airdrop'))
+  airdrops.forEach((airdrop: any) => {
+    airdrop.transfers.forEach(({ value, to }: { value: string, to: string }) => {
+      if (!out[to]) {
+        out[to] = 0n
+      }
+      out[to] += BigInt(value)
+    })
+  });
+  return out
+};
 
 // @todo only query guilds that have a token ID
 export default async (req: Request, res: Response): Promise<void> => {
@@ -23,28 +43,30 @@ export default async (req: Request, res: Response): Promise<void> => {
       ? parseInt(req.query.invalidate_after_days as string, 10)
       : INVALIDATE_AFTER_DAYS;
   expiration.setDate(expiration.getDate() - invalidateAfterDays);
-  const { guild: guilds } = await client.GetGuilds();
+  const { token: tokens } = await client.GetTokens();
 
   const members = await Promise.all(
-    guilds.map(async (guild) => {
-      const { guild: players } = await client.GetGuildMembers({ id: guild.id });
+    tokens.map(async ({ safeAddress, lastOffset: offset, guildId  }) => {
+      const balances = await getBalances({ safeAddress, offset })
+
+      const { guild: players } = await client.GetGuildMembers({ id: guildId });
+      players.map(async ({ player }) =>
+        player.xp += balances[player.ethereumAddress]
+      )
       return {
         players,
-        guildId: guild.id,
+        guildId,
       };
     }),
   );
 
   // Iterates through list of members in a guild
-  await Promise.all(
-    members
-      .map(async ({ players, guildId }) =>
-        players.map(async (player) => {
-          await getBalance({ playerId: player.id, guildId });
-        }),
-      )
+  /* const balances = await Promise.all(
+   
       .flat(),
   );
+
+   */
 
   /*  const ids = (
     await Promise.all(

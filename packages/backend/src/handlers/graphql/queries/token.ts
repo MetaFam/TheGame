@@ -5,4 +5,12 @@ export const TokenQueries = /* GraphQL */ `
       chain_id
     }
   }
+
+  query GetTokens {
+    token {
+      address
+      chain_id
+      safe_address
+    }
+  }
 `;

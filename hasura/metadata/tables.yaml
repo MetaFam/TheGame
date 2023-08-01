@@ -1172,6 +1172,15 @@
 - table:
     schema: public
     name: token
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      safe_address: safeAddress
+      last_offset: lastOffset
+  object_relationships:
+  - name: guild
+    using:
+      foreign_key_constraint_on: guild_id
 - table:
     schema: public
     name: xp
