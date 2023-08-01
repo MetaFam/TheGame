@@ -4,8 +4,13 @@ import {
   DEFAULT_ENTRYPOINT_ADDRESS,
 } from '@biconomy/account';
 import { Bundler, IBundler } from '@biconomy/bundler';
-import { ChainId } from '@biconomy/core-types';
-import { BiconomyPaymaster, IPaymaster } from '@biconomy/paymaster';
+import { ChainId, UserOperation } from '@biconomy/core-types';
+import {
+  BiconomyPaymaster,
+  IPaymaster,
+  PaymasterAndDataResponse,
+  PaymasterMode,
+} from '@biconomy/paymaster';
 import { Link, MetaButton, Text, useToast } from '@metafam/ds';
 import {
   chievAddress,
@@ -19,19 +24,15 @@ import { CONFIG } from '../config';
 import ABI from '../contracts/BulkDisbursableNFTs.abi';
 
 export const Gasless: React.FC = () => {
-  const { connected, provider, chainId, address } = useWeb3();
+  const { connected, provider, address } = useWeb3();
   const toast = useToast({});
   const [minting, setMinting] = useState(false);
 
   const mint = useCallback(async () => {
     try {
       if (!provider) throw new Error('No provider.');
-      if (chainId == null) throw new Error('No chainId.');
       if (!CONFIG.paymasterURL) throw new Error('No Paymaster URL.');
       if (!CONFIG.bundlerURL) throw new Error('No Bundler URL.');
-      if (Number(chainId) !== ChainId.POLYGON_MAINNET) {
-        throw new Error('Must be connected to the Polygon network.');
-      }
 
       setMinting(true);
 
@@ -70,9 +71,9 @@ export const Gasless: React.FC = () => {
           `${accountDeployed ? '' : 'not '}deployed.`,
       });
 
-      const mintTx = new ethers.utils.Interface(ABI);
+      const chievesInterface = new ethers.utils.Interface(ABI);
       const args = [[address], `0x${chievTokenId.toString(16)}`, []];
-      const data = mintTx.encodeFunctionData(
+      const data = chievesInterface.encodeFunctionData(
         'mint(address[],uint256,bytes)',
         args,
       );
@@ -88,6 +89,16 @@ export const Gasless: React.FC = () => {
 
       const partialUserOp = await account.buildUserOp([transaction]);
 
+      // typing is missing 2nd param in 3.1.0a
+      const { getPaymasterAndData } = account.paymaster;
+      const { paymasterAndData } = await (
+        getPaymasterAndData as (
+          op: Partial<UserOperation>,
+          config: { mode: PaymasterMode },
+        ) => Promise<PaymasterAndDataResponse>
+      )(partialUserOp, { mode: PaymasterMode.SPONSORED });
+      Object.assign(partialUserOp, { paymasterAndData });
+
       // eslint-disable-next-line no-console
       console.debug({ partialUserOp });
 
@@ -101,7 +112,7 @@ export const Gasless: React.FC = () => {
         ),
       });
 
-      const userOpResponse = await account.sendUserOp(partialUserOp);
+      const opResponse = await account.sendUserOp(partialUserOp);
 
       toast({
         title: 'Bundler',
@@ -113,7 +124,7 @@ export const Gasless: React.FC = () => {
         ),
       });
 
-      const txDetails = await userOpResponse.wait();
+      const txDetails = await opResponse.wait();
 
       toast({
         title: 'Minted',
@@ -141,7 +152,7 @@ export const Gasless: React.FC = () => {
     } finally {
       setMinting(false);
     }
-  }, [address, chainId, provider, toast]);
+  }, [address, provider, toast]);
 
   return connected ? (
     <MetaButton onClick={mint} disabled={minting}>
