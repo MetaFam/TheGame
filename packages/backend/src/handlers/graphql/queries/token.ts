@@ -11,6 +11,8 @@ export const TokenQueries = /* GraphQL */ `
       address
       chainId
       safeAddress
+      lastOffset
+      guildId
     }
   }
 `;

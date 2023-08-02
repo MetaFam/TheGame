@@ -16,7 +16,6 @@ package-lock.json
 
 # build files
 build
-autogen
 __generated__
 dist
 out/

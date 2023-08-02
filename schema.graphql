@@ -274,6 +274,9 @@ unique or primary key constraints on table "balance"
 enum balance_constraint {
   """unique or primary key constraint"""
   balance_pkey
+
+  """unique or primary key constraint"""
+  balance_token_address_player_address_block_height_key
 }
 
 """

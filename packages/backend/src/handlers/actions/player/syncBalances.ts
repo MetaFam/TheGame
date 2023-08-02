@@ -1,5 +1,7 @@
+import ethers from 'ethers';
 import { Request, Response } from 'express';
-import ethers from "ethers";
+import fetch from 'node-fetch';
+
 import { queueRecache } from '../../../lib/cacheHelper.js';
 import { client } from '../../../lib/hasuraClient.js';
 
@@ -11,22 +13,49 @@ const setBalances = async ({
   offset = 0,
 }: {
   safeAddress: string;
-  offset?: number,
+  offset?: number;
 }) => {
-  const res = await fetch(`https://safe-transaction-polygon.safe.global/api/v1/safes/${safeAddress}/all-transactions/?limit=100&offset=${offset}&executed=true&queued=false&trusted=true`)
-  const { results } = await res.json()
-  const airdrops = results.filter((tx: any) => tx.origin?.includes('CSV Airdrop'))
+  const res = await fetch(
+    `https://safe-transaction-polygon.safe.global/api/v1/safes/${safeAddress}/all-transactions/?limit=100&offset=${offset}&executed=true&queued=false&trusted=true`,
+  );
+  const { results } = (await res.json()) as any;
+  const airdrops = results.filter((tx: any) =>
+    tx.origin?.includes('CSV Airdrop'),
+  );
   let address = null;
+  console.log({ airdrops });
+  await Promise.all(
+    airdrops
+      .map((airdrop: any) =>
+        airdrop.transfers.map(
+          async ({
+            value,
+            to,
+            tokenAddress,
+          }: {
+            value: string;
+            to: string;
+            tokenAddress: string;
+          }) => {
+            const amount = Number(ethers.utils.formatEther(value));
+            await client.AddBalance({
+              amount,
+              blockHeight: airdrop.blockNumber,
+              playerAddress: to,
+              tokenAddress,
+            });
+            address = tokenAddress;
+          },
+        ),
+      )
+      .flat(),
+  );
 
-  await Promise.all(airdrops.map((airdrop: any) => {
-    airdrop.transfers.map( async ({ value, to, tokenAddress }: { value: string, to: string, tokenAddress: string }) => {
-      const amount = Number(ethers.utils.formatEther(value))
-      await client.AddBalance({ amount, blockHeight: airdrop.blockNumber, playerAddress: to, tokenAddress }) 
-      address = tokenAddress;
-    })
-  }).flat());
-  
-  await client.UpdateLastOffset({ tokenAddress: address, offset: offset + results.length })
+  if (!address) return;
+  await client.UpdateLastOffset({
+    tokenAddress: address,
+    offset: offset + results.length,
+  });
 };
 
 // @todo only query guilds that have a token ID
@@ -41,20 +70,20 @@ export default async (req: Request, res: Response): Promise<void> => {
   const { token: tokens } = await client.GetTokens();
 
   const members = await Promise.all(
-    tokens.map(async ({ safeAddress, lastOffset: offset, guildId  }) => {
-      const balances = await setBalances({ safeAddress, offset })
+    tokens.map(async ({ safeAddress, lastOffset: offset, guildId }) => {
+      const balances = await setBalances({ safeAddress, offset });
 
       const { guild: players } = await client.GetGuildMembers({ id: guildId });
-      players.map(async ({ player }) =>
-        player.xp += balances[player.ethereumAddress]
-      )
+      // players.map(async (player) =>
+      //   player.xp += balances[player.ethereumAddress]
+      // )
       return {
         players,
         guildId,
       };
     }),
   );
-
+  res.json('nothing');
   // Iterates through list of members in a guild
   /* const balances = await Promise.all(
    
