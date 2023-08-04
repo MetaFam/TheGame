@@ -3,17 +3,20 @@
 // get organisations worked for
 // get number of tasks for each organisation you've worked for
 
-interface Organisation {
+
+export interface Organisation {
   name: string;
   permalink: string;
 }
 
 // usdc on all chains, needed to calculate earnings
-// ['ETH', 'POLYGON', 'OPTIMISM']
+// ['ETH', 'POLYGON', 'OPTIMISM', 'SUPERFLUID-USDCX-polygon', 'IbAlluoUSDC-polygon']
 const usdcTokens = [
   '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
   '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-  '0x7f5c764cbc14f9669b88837ca1490cca17c31607,',
+  '0x7f5c764cbc14f9669b88837ca1490cca17c31607',
+  '0xcaa7349cea390f89641fe306d93591f87595dc1f',
+  '0xc2dbaaea2efa47ebda3e572aa0e55b742e408bf6',
 ];
 
 export const processDeworkData = (data: any) => {
@@ -41,6 +44,13 @@ export const processDeworkData = (data: any) => {
   });
   // extract
   const uniqueTags = [...new Set(tags)];
+
+  // get tag grouping and sort by count
+  const tagGrouping = uniqueTags.map((tag) => ({
+    name: tag,
+    count: tags.filter((t) => t === tag).length,
+  }));
+
   // extract unique organisations' links and names
   const uniqueOrganisations: Organisation[] = [];
   organisations.forEach((org: any) => {
@@ -57,6 +67,7 @@ export const processDeworkData = (data: any) => {
     uniqueTags,
     uniqueOrganisations,
     totalEarnedInUSDC,
+    tagGrouping,
   };
 };
 

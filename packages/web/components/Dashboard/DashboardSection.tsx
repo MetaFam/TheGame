@@ -7,7 +7,7 @@ import { XP } from 'components/Dashboard/XP';
 import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, LegacyRef, ReactElement } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 import { isBoxResizable } from 'utils/layoutHelpers';
@@ -58,13 +58,13 @@ const DashboardSectionInner: React.FC<Props> = ({
   }
 };
 
-export const DashboardSection = forwardRef<HTMLDivElement, Props>(
+export const DashboardSection = forwardRef<ReactElement, Props>(
   ({ metadata, type, player, editing = false, onRemoveBox }, ref) => {
     const key = createBoxKey(type, metadata);
 
     return (
       <Flex
-        {...{ ref }}
+        ref={ref as LegacyRef<HTMLDivElement>}
         w="100%"
         direction="column"
         h="auto"

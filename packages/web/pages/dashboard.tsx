@@ -11,7 +11,7 @@ import {
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import React, { useCallback, useMemo } from 'react';
-import { LayoutData } from 'utils/boxTypes';
+import { DisplayOutput, LayoutData } from 'utils/boxTypes';
 
 const DashboardPage: React.FC = () => {
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
@@ -49,7 +49,7 @@ const DashboardPage: React.FC = () => {
           persistLayoutData,
           persisting,
           allBoxOptions: ALL_BOXES,
-          displayComponent: DashboardSection,
+          displayComponent: DashboardSection as DisplayOutput,
         }}
       />
     </PageContainer>

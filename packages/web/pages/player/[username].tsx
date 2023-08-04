@@ -28,7 +28,7 @@ import React, {
   useState,
 } from 'react';
 import useSWR from 'swr';
-import { LayoutData } from 'utils/boxTypes';
+import { DisplayOutput, LayoutData } from 'utils/boxTypes';
 import { getENSAndPlayer } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
@@ -80,7 +80,9 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
     getENSAndPlayer,
     { revalidateOnFocus: false },
   );
+
   const ens = ensAndPlayer?.ens ?? undefined;
+
   useEffect(() => {
     if (ensAndPlayer?.player) {
       setPlayer(ensAndPlayer.player);
@@ -226,7 +228,7 @@ export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
         persistLayoutData,
         persisting,
         allBoxOptions: ALL_BOXES,
-        displayComponent: PlayerSection,
+        displayComponent: PlayerSection as DisplayOutput,
         pt: isOwnProfile ? 0 : '4rem',
         ens,
       }}

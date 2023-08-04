@@ -18,7 +18,7 @@ const skillsQuery = /* GraphQL */ `
 
 export const getSkills = async (): Promise<PlayerSkillFragmentType[]> => {
   const { data, error } = await client
-    .query<GetSkillsQuery>(skillsQuery)
+    .query<GetSkillsQuery>(skillsQuery, {})
     .toPromise();
 
   if (!data) {

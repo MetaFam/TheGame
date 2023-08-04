@@ -21,7 +21,8 @@ export const useBoxHeights = (items: Array<Maybe<HTMLElement>>) => {
     const newHeights: Record<string, number> = {};
     items.forEach((item) => {
       if (item) {
-        const target = item.children[0] as HTMLElement;
+        const children = Array.from(item.children);
+        const target = children[0] as HTMLElement;
         const key = getBoxKey(target);
         if (key && target) {
           newHeights[key] = target.scrollHeight;
