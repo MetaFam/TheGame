@@ -4,6 +4,7 @@ import {
   BoxedNextImage as Image,
   BoxProps,
   CloseIcon,
+  ExternalLinkIcon,
   Flex,
   HamburgerIcon,
   Link,
@@ -85,7 +86,7 @@ export const MegaMenuHeader: React.FC = () => {
           cursor="pointer"
           h={8}
           w={8}
-          display={{ base: 'flex', lg: 'none' }}
+          display={{ base: 'flex', lg: 'flex', xl: 'none' }}
           p={2}
           my="auto"
         >
@@ -106,6 +107,13 @@ export const MegaMenuHeader: React.FC = () => {
           justify="center"
           align="center"
           pos="relative"
+          display={{
+            base: 'none',
+            sm: 'none',
+            md: 'none',
+            lg: 'none',
+            xl: 'flex',
+          }}
         >
           <Logo
             link={user ? '/dashboard' : '/'}
@@ -143,6 +151,13 @@ export const MegaMenuHeader: React.FC = () => {
             )}
           </Box>
         </Flex>
+        <Logo
+          display={{ lg: 'flex', xl: 'none' }}
+          link={user ? '/dashboard' : '/'}
+          pos={{ base: 'initial', lg: 'absolute' }}
+          pt={1}
+          right={4}
+        />
       </Flex>
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
@@ -159,40 +174,57 @@ export const MegaMenuHeader: React.FC = () => {
       >
         {MenuSectionLinks.map((section) => (
           <Stack pt={1} key={section.label}>
-            <Text fontSize={18} fontWeight={600} textTransform="capitalize">
-              {section.label}
-            </Text>
+            <Link
+              href={section?.url}
+              target={section.type === 'external-link' ? '_blank' : ''}
+              display={'flex'}
+              flexDir={'row'}
+              alignItems={'center'}
+            >
+              <Text
+                fontSize={18}
+                fontWeight={600}
+                textTransform="capitalize"
+                color={section.type === 'external-link' ? '#79F8FB' : 'white'}
+              >
+                {section.label}
+              </Text>
+              {section.type === 'external-link' && (
+                <ExternalLinkIcon color="#79F8FB" ml="10px" />
+              )}
+            </Link>
             <SimpleGrid columns={2}>
-              {section.menuItems.map(({ title, icon, url }) => (
-                <Link
-                  key={title}
-                  display="flex"
-                  alignItems="center"
-                  href={url}
-                  border="1px"
-                  _odd={{ marginRight: '-1px' }}
-                  marginBottom="-1px"
-                  borderColor="purple.400"
-                  bg="alphaBlack.50"
-                  px={2}
-                  py={1.5}
-                  _hover={{
-                    bg: 'alphaWhite.50',
-                  }}
-                  isExternal={/^https?:\/\//.test(url)}
-                >
-                  <Avatar
-                    name={title}
-                    src={menuIcons[icon]}
-                    p={0}
-                    w={7}
-                    h={7}
-                    mr={1}
-                    bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
-                  />
-                  <Text fontSize={20}>{title}</Text>
-                </Link>
-              ))}
+              {section?.menuItems?.length &&
+                section.menuItems.map(({ title, icon, url }) => (
+                  <Link
+                    key={title}
+                    display="flex"
+                    alignItems="center"
+                    href={url}
+                    border="1px"
+                    _odd={{ marginRight: '-1px' }}
+                    marginBottom="-1px"
+                    borderColor="purple.400"
+                    bg="alphaBlack.50"
+                    px={2}
+                    py={1.5}
+                    _hover={{
+                      bg: 'alphaWhite.50',
+                    }}
+                    isExternal={/^https?:\/\//.test(url)}
+                  >
+                    <Avatar
+                      name={title}
+                      src={menuIcons[icon]}
+                      p={0}
+                      w={7}
+                      h={7}
+                      mr={1}
+                      bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
+                    />
+                    <Text fontSize={20}>{title}</Text>
+                  </Link>
+                ))}
             </SimpleGrid>
           </Stack>
         ))}
