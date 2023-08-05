@@ -6,6 +6,7 @@ import {
   CloseIcon,
   ExternalLinkIcon,
   Flex,
+  FlexProps,
   HamburgerIcon,
   Input,
   InputGroup,
@@ -150,12 +151,14 @@ interface SearchResults {
   guilds: GuildFragment[];
 }
 
-const Search = () => {
+type SearchProps = FlexProps & { onClose?: () => void };
+
+const Search = (props?: SearchProps) => {
   const router = useRouter();
   const searchInputSubjectRef = useRef(new Subject<string>());
   const searchBarRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState<string>('');
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [{ players, guilds }, setSearchResults] = useState<SearchResults>({
     players: [],
     guilds: [],
@@ -165,6 +168,7 @@ const Search = () => {
   const handleSubmit: FormEventHandler<HTMLDivElement> &
     FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    props?.onClose?.();
     // Default Show Players Matching With Query
     router.push(`/search/players?q=${query}`);
   };
@@ -215,6 +219,7 @@ const Search = () => {
       minWidth={40}
       position="relative"
       ref={dropdown}
+      {...props}
     >
       <Box as="form" onSubmit={handleSubmit} w="full" color="black">
         <InputGroup
@@ -224,9 +229,9 @@ const Search = () => {
           p={2}
           my="auto"
           bg={{
-            xl: '#FFFFFF05',
+            base: '#FFFFFF05',
           }}
-          border={{ base: 'none', xl: '1px solid #2B2244' }}
+          border={{ base: '1px solid #2B2244' }}
           borderRadius={4}
         >
           <InputLeftElement
@@ -276,6 +281,7 @@ const Search = () => {
                 key={player.id}
                 onClick={() => {
                   router.push(getPlayerURL(player) as string);
+                  props?.onClose?.();
                   setShowDropdown(false);
                 }}
                 name={getPlayerName(player) ?? 'Unknown'}
@@ -292,6 +298,7 @@ const Search = () => {
                 type="Players"
                 onClick={() => {
                   router.push(`/search/players?q=${encodeURI(query)}`);
+                  props?.onClose?.();
                   setShowDropdown(false);
                 }}
               />
@@ -302,6 +309,7 @@ const Search = () => {
                 key={guild.id}
                 onClick={() => {
                   router.push(`/guild/${guild.guildname}`);
+                  props?.onClose?.();
                   setShowDropdown(false);
                 }}
                 name={guild.guildname}
@@ -426,13 +434,19 @@ export const MegaMenuHeader: React.FC = () => {
             )}
           </Box>
         </Flex>
-        <Logo
-          display={{ lg: 'flex', xl: 'none' }}
-          link={user ? '/dashboard' : '/'}
-          pos={{ base: 'initial', lg: 'absolute' }}
-          pt={1}
-          right={4}
-        />
+        <Flex align="center" justify="center" pos="relative" display="flex">
+          <Search
+            display={{ base: 'none', sm: 'flex', xl: 'none' }}
+            right={4}
+          />
+          <Logo
+            display={{ lg: 'flex', xl: 'none' }}
+            link={user ? '/dashboard' : '/'}
+            pos={{ base: 'initial', lg: 'relative' }}
+            pt={1}
+            right={4}
+          />
+        </Flex>
       </Flex>
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
@@ -447,6 +461,7 @@ export const MegaMenuHeader: React.FC = () => {
         p="1rem"
         border="none"
       >
+        <Search onClose={onClose} />
         {MenuSectionLinks.map((section) => (
           <Stack pt={1} key={section.label}>
             <Link
