@@ -15,4 +15,14 @@ export const TokenQueries = /* GraphQL */ `
       guildId
     }
   }
+
+  query GetTotalForPlayer($playerAddress: String!, $tokenAddress: String!) {
+    balance_aggregate(where: {tokenAddress: {_ilike: $tokenAddress}, playerAddress: {_ilike: $playerAddress}}) {
+      aggregate {
+        sum {
+          amount
+        }
+      }
+    }
+  }
 `;

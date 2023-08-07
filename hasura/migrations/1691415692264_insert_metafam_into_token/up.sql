@@ -1,0 +1,1 @@
+INSERT INTO token(address, safe_address, chain_id, guild_id) (SELECT '0xEAeCC18198a475c921B24b8A6c1C1f0f5F3F7EA0', '0xbaF60086Da36033B458B892e2432958e219F4Ed6', 137, id FROM guild WHERE name = 'MetaFam');

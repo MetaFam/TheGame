@@ -4,15 +4,9 @@ import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -39,7 +33,7 @@ export type Block_Height = {
 /** Defines the order direction, either ascending or descending */
 export enum OrderDirection {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type Query = {
@@ -52,15 +46,18 @@ export type Query = {
   userTokens: Array<UserToken>;
 };
 
+
 export type Query_MetaArgs = {
   block: InputMaybe<Block_Height>;
 };
+
 
 export type QueryTransferArgs = {
   block: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type QueryTransfersArgs = {
   block: InputMaybe<Block_Height>;
@@ -72,11 +69,13 @@ export type QueryTransfersArgs = {
   where: InputMaybe<Transfer_Filter>;
 };
 
+
 export type QueryUserTokenArgs = {
   block: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type QueryUserTokensArgs = {
   block: InputMaybe<Block_Height>;
@@ -98,15 +97,18 @@ export type Subscription = {
   userTokens: Array<UserToken>;
 };
 
+
 export type Subscription_MetaArgs = {
   block: InputMaybe<Block_Height>;
 };
+
 
 export type SubscriptionTransferArgs = {
   block: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type SubscriptionTransfersArgs = {
   block: InputMaybe<Block_Height>;
@@ -118,11 +120,13 @@ export type SubscriptionTransfersArgs = {
   where: InputMaybe<Transfer_Filter>;
 };
 
+
 export type SubscriptionUserTokenArgs = {
   block: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type SubscriptionUserTokensArgs = {
   block: InputMaybe<Block_Height>;
@@ -223,7 +227,7 @@ export enum Transfer_OrderBy {
   Timestamp = 'timestamp',
   To = 'to',
   Token = 'token',
-  TxHash = 'txHash',
+  TxHash = 'txHash'
 }
 
 export type UserToken = {
@@ -236,6 +240,7 @@ export type UserToken = {
   seedTransfers: Array<Transfer>;
 };
 
+
 export type UserTokenPSeedTransfersArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<Transfer_OrderBy>;
@@ -243,6 +248,7 @@ export type UserTokenPSeedTransfersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<Transfer_Filter>;
 };
+
 
 export type UserTokenSeedTransfersArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -323,7 +329,7 @@ export enum UserToken_OrderBy {
   PSeedBalance = 'pSeedBalance',
   PSeedTransfers = 'pSeedTransfers',
   SeedBalance = 'seedBalance',
-  SeedTransfers = 'seedTransfers',
+  SeedTransfers = 'seedTransfers'
 }
 
 export type _Block_ = {
@@ -357,104 +363,61 @@ export enum _SubgraphErrorPolicy_ {
   /** Data will be returned even if the subgraph has indexing errors */
   Allow = 'allow',
   /** If the subgraph has indexing errors, data will be omitted. The default. */
-  Deny = 'deny',
+  Deny = 'deny'
 }
 
 export type GetTokenBalancesQueryVariables = Exact<{
   address: Scalars['ID'];
 }>;
 
-export type GetTokenBalancesQuery = {
-  __typename?: 'Query';
-  userToken: {
-    __typename?: 'UserToken';
-    id: string;
-    seedBalance: any;
-    pSeedBalance: any;
-  } | null;
-};
+
+export type GetTokenBalancesQuery = { __typename?: 'Query', userToken: { __typename?: 'UserToken', id: string, seedBalance: any, pSeedBalance: any } | null };
 
 export type GetTopPSeedHoldersQueryVariables = Exact<{
   limit: InputMaybe<Scalars['Int']>;
 }>;
 
-export type GetTopPSeedHoldersQuery = {
-  __typename?: 'Query';
-  userTokens: Array<{
-    __typename?: 'UserToken';
-    id: string;
-    seedBalance: any;
-    pSeedBalance: any;
-  }>;
-};
+
+export type GetTopPSeedHoldersQuery = { __typename?: 'Query', userTokens: Array<{ __typename?: 'UserToken', id: string, seedBalance: any, pSeedBalance: any }> };
+
 
 export const GetTokenBalancesDocument = gql`
-  query GetTokenBalances($address: ID!) {
-    userToken(id: $address) {
-      id
-      seedBalance
-      pSeedBalance
-    }
+    query GetTokenBalances($address: ID!) {
+  userToken(id: $address) {
+    id
+    seedBalance
+    pSeedBalance
   }
-`;
+}
+    `;
 export const GetTopPSeedHoldersDocument = gql`
-  query GetTopPSeedHolders($limit: Int) {
-    userTokens(
-      orderBy: pSeedBalance
-      orderDirection: desc
-      where: {
-        pSeedBalance_gt: "0"
-        address_not: "0xbaf60086da36033b458b892e2432958e219f4ed6"
-      }
-      first: $limit
-    ) {
-      id
-      seedBalance
-      pSeedBalance
-    }
+    query GetTopPSeedHolders($limit: Int) {
+  userTokens(
+    orderBy: pSeedBalance
+    orderDirection: desc
+    where: {pSeedBalance_gt: "0", address_not: "0xbaf60086da36033b458b892e2432958e219f4ed6"}
+    first: $limit
+  ) {
+    id
+    seedBalance
+    pSeedBalance
   }
-`;
+}
+    `;
 
-export type SdkFunctionWrapper = <T>(
-  action: (requestHeaders?: Record<string, string>) => Promise<T>,
-  operationName: string,
-) => Promise<T>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
+
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 
-export function getSdk(
-  client: GraphQLClient,
-  withWrapper: SdkFunctionWrapper = defaultWrapper,
-) {
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    GetTokenBalances(
-      variables: GetTokenBalancesQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers'],
-    ): Promise<GetTokenBalancesQuery> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<GetTokenBalancesQuery>(
-            GetTokenBalancesDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'GetTokenBalances',
-      );
+    GetTokenBalances(variables: GetTokenBalancesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTokenBalancesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTokenBalancesQuery>(GetTokenBalancesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetTokenBalances');
     },
-    GetTopPSeedHolders(
-      variables?: GetTopPSeedHoldersQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers'],
-    ): Promise<GetTopPSeedHoldersQuery> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<GetTopPSeedHoldersQuery>(
-            GetTopPSeedHoldersDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'GetTopPSeedHolders',
-      );
-    },
+    GetTopPSeedHolders(variables?: GetTopPSeedHoldersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTopPSeedHoldersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTopPSeedHoldersQuery>(GetTopPSeedHoldersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetTopPSeedHolders');
+    }
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;

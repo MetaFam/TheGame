@@ -1,26 +1,14 @@
 /* eslint-disable */
-import {
-  GraphQLResolveInfo,
-  GraphQLScalarType,
-  GraphQLScalarTypeConfig,
-} from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
 import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
-  [P in K]-?: NonNullable<T[P]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -326,7 +314,7 @@ export enum DaoHausContent_OrderBy {
   Ratified = 'ratified',
   RawData = 'rawData',
   Title = 'title',
-  TransactionHash = 'transactionHash',
+  TransactionHash = 'transactionHash'
 }
 
 export type DaoHausDaoMeta = {
@@ -443,7 +431,7 @@ export enum DaoHausDaoMeta_OrderBy {
   Id = 'id',
   NewContract = 'newContract',
   Title = 'title',
-  Version = 'version',
+  Version = 'version'
 }
 
 export type DaoHausMember = {
@@ -492,6 +480,7 @@ export type DaoHausMember = {
   votes: Maybe<Array<DaoHausVote>>;
 };
 
+
 export type DaoHausMemberRageQuitsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausRageQuit_OrderBy>;
@@ -499,6 +488,7 @@ export type DaoHausMemberRageQuitsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausRageQuit_Filter>;
 };
+
 
 export type DaoHausMemberSubmissionsArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -508,6 +498,7 @@ export type DaoHausMemberSubmissionsArgs = {
   where: InputMaybe<DaoHausProposal_Filter>;
 };
 
+
 export type DaoHausMemberTokenBalancesArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausTokenBalance_OrderBy>;
@@ -515,6 +506,7 @@ export type DaoHausMemberTokenBalancesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausTokenBalance_Filter>;
 };
+
 
 export type DaoHausMemberVotesArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -837,7 +829,7 @@ export enum DaoHausMember_OrderBy {
   Submissions = 'submissions',
   TokenBalances = 'tokenBalances',
   TokenTribute = 'tokenTribute',
-  Votes = 'votes',
+  Votes = 'votes'
 }
 
 export type DaoHausMinion = {
@@ -886,6 +878,7 @@ export type DaoHausMinion = {
   version: Maybe<Scalars['String']>;
 };
 
+
 export type DaoHausMinionProposalsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausProposal_OrderBy>;
@@ -893,6 +886,7 @@ export type DaoHausMinionProposalsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausProposal_Filter>;
 };
+
 
 export type DaoHausMinionStreamsArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -1102,7 +1096,7 @@ export enum DaoHausMinionAction_OrderBy {
   ProposalYesVotes = 'proposal__yesVotes',
   Target = 'target',
   WithdrawToken = 'withdrawToken',
-  WithdrawValue = 'withdrawValue',
+  WithdrawValue = 'withdrawValue'
 }
 
 export type DaoHausMinionStream = {
@@ -1398,7 +1392,7 @@ export enum DaoHausMinionStream_OrderBy {
   Rate = 'rate',
   SuperTokenAddress = 'superTokenAddress',
   To = 'to',
-  TokenAddress = 'tokenAddress',
+  TokenAddress = 'tokenAddress'
 }
 
 export type DaoHausMinion_Filter = {
@@ -1741,7 +1735,7 @@ export enum DaoHausMinion_OrderBy {
   UberHausV22Setup = 'uberHaus__v22Setup',
   UberHausVersion = 'uberHaus__version',
   UberHausVotingPeriodLength = 'uberHaus__votingPeriodLength',
-  Version = 'version',
+  Version = 'version'
 }
 
 export type DaoHausMoloch = {
@@ -1810,6 +1804,7 @@ export type DaoHausMoloch = {
   votingPeriodLength: Scalars['BigInt'];
 };
 
+
 export type DaoHausMolochApprovedTokensArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausToken_OrderBy>;
@@ -1817,6 +1812,7 @@ export type DaoHausMolochApprovedTokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausToken_Filter>;
 };
+
 
 export type DaoHausMolochDocumentsArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -1826,6 +1822,7 @@ export type DaoHausMolochDocumentsArgs = {
   where: InputMaybe<DaoHausContent_Filter>;
 };
 
+
 export type DaoHausMolochMembersArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausMember_OrderBy>;
@@ -1833,6 +1830,7 @@ export type DaoHausMolochMembersArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausMember_Filter>;
 };
+
 
 export type DaoHausMolochMinionsArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -1842,6 +1840,7 @@ export type DaoHausMolochMinionsArgs = {
   where: InputMaybe<DaoHausMinion_Filter>;
 };
 
+
 export type DaoHausMolochProposalsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausProposal_OrderBy>;
@@ -1849,6 +1848,7 @@ export type DaoHausMolochProposalsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausProposal_Filter>;
 };
+
 
 export type DaoHausMolochRageQuitsArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -1858,6 +1858,7 @@ export type DaoHausMolochRageQuitsArgs = {
   where: InputMaybe<DaoHausRageQuit_Filter>;
 };
 
+
 export type DaoHausMolochRecordsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausRecord_OrderBy>;
@@ -1865,6 +1866,7 @@ export type DaoHausMolochRecordsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausRecord_Filter>;
 };
+
 
 export type DaoHausMolochShamansArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -1874,6 +1876,7 @@ export type DaoHausMolochShamansArgs = {
   where: InputMaybe<DaoHausShaman_Filter>;
 };
 
+
 export type DaoHausMolochTokenBalancesArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausTokenBalance_OrderBy>;
@@ -1881,6 +1884,7 @@ export type DaoHausMolochTokenBalancesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausTokenBalance_Filter>;
 };
+
 
 export type DaoHausMolochTokensArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -1935,7 +1939,7 @@ export type DaoHausMolochTransaction_Filter = {
 
 export enum DaoHausMolochTransaction_OrderBy {
   CreatedAt = 'createdAt',
-  Id = 'id',
+  Id = 'id'
 }
 
 export type DaoHausMoloch_Filter = {
@@ -2212,13 +2216,13 @@ export enum DaoHausMoloch_OrderBy {
   TotalShares = 'totalShares',
   V22Setup = 'v22Setup',
   Version = 'version',
-  VotingPeriodLength = 'votingPeriodLength',
+  VotingPeriodLength = 'votingPeriodLength'
 }
 
 /** Defines the order direction, either ascending or descending */
 export enum DaoHausOrderDirection {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type DaoHausProposal = {
@@ -2339,6 +2343,7 @@ export type DaoHausProposal = {
   yesVotes: Scalars['BigInt'];
 };
 
+
 export type DaoHausProposalActionsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy: InputMaybe<DaoHausMinionAction_OrderBy>;
@@ -2346,6 +2351,7 @@ export type DaoHausProposalActionsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where: InputMaybe<DaoHausMinionAction_Filter>;
 };
+
 
 export type DaoHausProposalVotesArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -2526,7 +2532,7 @@ export enum DaoHausProposalEscrow_OrderBy {
   Proposer = 'proposer',
   TokenAddresses = 'tokenAddresses',
   TokenIds = 'tokenIds',
-  TokenTypes = 'tokenTypes',
+  TokenTypes = 'tokenTypes'
 }
 
 export type DaoHausProposal_Filter = {
@@ -3201,7 +3207,7 @@ export enum DaoHausProposal_OrderBy {
   VotingPeriodStarts = 'votingPeriodStarts',
   Whitelist = 'whitelist',
   YesShares = 'yesShares',
-  YesVotes = 'yesVotes',
+  YesVotes = 'yesVotes'
 }
 
 export type DaoHausQuery = {
@@ -3244,15 +3250,18 @@ export type DaoHausQuery = {
   votes: Array<DaoHausVote>;
 };
 
+
 export type DaoHausQuery_MetaArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
 };
+
 
 export type DaoHausQueryContentArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryContentsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3264,11 +3273,13 @@ export type DaoHausQueryContentsArgs = {
   where: InputMaybe<DaoHausContent_Filter>;
 };
 
+
 export type DaoHausQueryDaoMetaArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryDaoMetasArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3280,11 +3291,13 @@ export type DaoHausQueryDaoMetasArgs = {
   where: InputMaybe<DaoHausDaoMeta_Filter>;
 };
 
+
 export type DaoHausQueryMemberArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryMembersArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3296,17 +3309,20 @@ export type DaoHausQueryMembersArgs = {
   where: InputMaybe<DaoHausMember_Filter>;
 };
 
+
 export type DaoHausQueryMinionArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
 
+
 export type DaoHausQueryMinionActionArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryMinionActionsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3318,11 +3334,13 @@ export type DaoHausQueryMinionActionsArgs = {
   where: InputMaybe<DaoHausMinionAction_Filter>;
 };
 
+
 export type DaoHausQueryMinionStreamArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryMinionStreamsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3334,6 +3352,7 @@ export type DaoHausQueryMinionStreamsArgs = {
   where: InputMaybe<DaoHausMinionStream_Filter>;
 };
 
+
 export type DaoHausQueryMinionsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   first?: InputMaybe<Scalars['Int']>;
@@ -3344,17 +3363,20 @@ export type DaoHausQueryMinionsArgs = {
   where: InputMaybe<DaoHausMinion_Filter>;
 };
 
+
 export type DaoHausQueryMolochArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
 
+
 export type DaoHausQueryMolochTransactionArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryMolochTransactionsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3366,6 +3388,7 @@ export type DaoHausQueryMolochTransactionsArgs = {
   where: InputMaybe<DaoHausMolochTransaction_Filter>;
 };
 
+
 export type DaoHausQueryMolochesArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   first?: InputMaybe<Scalars['Int']>;
@@ -3376,17 +3399,20 @@ export type DaoHausQueryMolochesArgs = {
   where: InputMaybe<DaoHausMoloch_Filter>;
 };
 
+
 export type DaoHausQueryProposalArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
 
+
 export type DaoHausQueryProposalEscrowArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryProposalEscrowsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3398,6 +3424,7 @@ export type DaoHausQueryProposalEscrowsArgs = {
   where: InputMaybe<DaoHausProposalEscrow_Filter>;
 };
 
+
 export type DaoHausQueryProposalsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   first?: InputMaybe<Scalars['Int']>;
@@ -3408,11 +3435,13 @@ export type DaoHausQueryProposalsArgs = {
   where: InputMaybe<DaoHausProposal_Filter>;
 };
 
+
 export type DaoHausQueryRageQuitArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryRageQuitsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3424,11 +3453,13 @@ export type DaoHausQueryRageQuitsArgs = {
   where: InputMaybe<DaoHausRageQuit_Filter>;
 };
 
+
 export type DaoHausQueryRecordArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryRecordsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3440,11 +3471,13 @@ export type DaoHausQueryRecordsArgs = {
   where: InputMaybe<DaoHausRecord_Filter>;
 };
 
+
 export type DaoHausQuerySafeMinionArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQuerySafeMinionsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3456,11 +3489,13 @@ export type DaoHausQuerySafeMinionsArgs = {
   where: InputMaybe<DaoHausSafeMinion_Filter>;
 };
 
+
 export type DaoHausQueryShamanArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryShamansArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3472,17 +3507,20 @@ export type DaoHausQueryShamansArgs = {
   where: InputMaybe<DaoHausShaman_Filter>;
 };
 
+
 export type DaoHausQueryTokenArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
 
+
 export type DaoHausQueryTokenBalanceArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryTokenBalancesArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3494,6 +3532,7 @@ export type DaoHausQueryTokenBalancesArgs = {
   where: InputMaybe<DaoHausTokenBalance_Filter>;
 };
 
+
 export type DaoHausQueryTokensArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   first?: InputMaybe<Scalars['Int']>;
@@ -3504,11 +3543,13 @@ export type DaoHausQueryTokensArgs = {
   where: InputMaybe<DaoHausToken_Filter>;
 };
 
+
 export type DaoHausQueryVoteArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausQueryVotesArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -3694,7 +3735,7 @@ export enum DaoHausRageQuit_OrderBy {
   MolochV22Setup = 'moloch__v22Setup',
   MolochVersion = 'moloch__version',
   MolochVotingPeriodLength = 'moloch__votingPeriodLength',
-  Shares = 'shares',
+  Shares = 'shares'
 }
 
 export type DaoHausRecord = {
@@ -3873,7 +3914,7 @@ export enum DaoHausRecord_OrderBy {
   MolochVersion = 'moloch__version',
   MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   Table = 'table',
-  Tag = 'tag',
+  Tag = 'tag'
 }
 
 export type DaoHausSafeMinion = {
@@ -3883,6 +3924,7 @@ export type DaoHausSafeMinion = {
   /** minion scoped to this safe minion */
   minions: Array<DaoHausMinion>;
 };
+
 
 export type DaoHausSafeMinionMinionsArgs = {
   first?: InputMaybe<Scalars['Int']>;
@@ -3916,7 +3958,7 @@ export type DaoHausSafeMinion_Filter = {
 
 export enum DaoHausSafeMinion_OrderBy {
   Id = 'id',
-  Minions = 'minions',
+  Minions = 'minions'
 }
 
 export type DaoHausShaman = {
@@ -4041,7 +4083,7 @@ export enum DaoHausShaman_OrderBy {
   MolochV22Setup = 'moloch__v22Setup',
   MolochVersion = 'moloch__version',
   MolochVotingPeriodLength = 'moloch__votingPeriodLength',
-  ShamanAddress = 'shamanAddress',
+  ShamanAddress = 'shamanAddress'
 }
 
 export type DaoHausSubscription = {
@@ -4084,15 +4126,18 @@ export type DaoHausSubscription = {
   votes: Array<DaoHausVote>;
 };
 
+
 export type DaoHausSubscription_MetaArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
 };
+
 
 export type DaoHausSubscriptionContentArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionContentsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4104,11 +4149,13 @@ export type DaoHausSubscriptionContentsArgs = {
   where: InputMaybe<DaoHausContent_Filter>;
 };
 
+
 export type DaoHausSubscriptionDaoMetaArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionDaoMetasArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4120,11 +4167,13 @@ export type DaoHausSubscriptionDaoMetasArgs = {
   where: InputMaybe<DaoHausDaoMeta_Filter>;
 };
 
+
 export type DaoHausSubscriptionMemberArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionMembersArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4136,17 +4185,20 @@ export type DaoHausSubscriptionMembersArgs = {
   where: InputMaybe<DaoHausMember_Filter>;
 };
 
+
 export type DaoHausSubscriptionMinionArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
 
+
 export type DaoHausSubscriptionMinionActionArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionMinionActionsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4158,11 +4210,13 @@ export type DaoHausSubscriptionMinionActionsArgs = {
   where: InputMaybe<DaoHausMinionAction_Filter>;
 };
 
+
 export type DaoHausSubscriptionMinionStreamArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionMinionStreamsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4174,6 +4228,7 @@ export type DaoHausSubscriptionMinionStreamsArgs = {
   where: InputMaybe<DaoHausMinionStream_Filter>;
 };
 
+
 export type DaoHausSubscriptionMinionsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   first?: InputMaybe<Scalars['Int']>;
@@ -4184,17 +4239,20 @@ export type DaoHausSubscriptionMinionsArgs = {
   where: InputMaybe<DaoHausMinion_Filter>;
 };
 
+
 export type DaoHausSubscriptionMolochArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
 
+
 export type DaoHausSubscriptionMolochTransactionArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionMolochTransactionsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4206,6 +4264,7 @@ export type DaoHausSubscriptionMolochTransactionsArgs = {
   where: InputMaybe<DaoHausMolochTransaction_Filter>;
 };
 
+
 export type DaoHausSubscriptionMolochesArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   first?: InputMaybe<Scalars['Int']>;
@@ -4216,17 +4275,20 @@ export type DaoHausSubscriptionMolochesArgs = {
   where: InputMaybe<DaoHausMoloch_Filter>;
 };
 
+
 export type DaoHausSubscriptionProposalArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
 
+
 export type DaoHausSubscriptionProposalEscrowArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionProposalEscrowsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4238,6 +4300,7 @@ export type DaoHausSubscriptionProposalEscrowsArgs = {
   where: InputMaybe<DaoHausProposalEscrow_Filter>;
 };
 
+
 export type DaoHausSubscriptionProposalsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   first?: InputMaybe<Scalars['Int']>;
@@ -4248,11 +4311,13 @@ export type DaoHausSubscriptionProposalsArgs = {
   where: InputMaybe<DaoHausProposal_Filter>;
 };
 
+
 export type DaoHausSubscriptionRageQuitArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionRageQuitsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4264,11 +4329,13 @@ export type DaoHausSubscriptionRageQuitsArgs = {
   where: InputMaybe<DaoHausRageQuit_Filter>;
 };
 
+
 export type DaoHausSubscriptionRecordArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionRecordsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4280,11 +4347,13 @@ export type DaoHausSubscriptionRecordsArgs = {
   where: InputMaybe<DaoHausRecord_Filter>;
 };
 
+
 export type DaoHausSubscriptionSafeMinionArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionSafeMinionsArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4296,11 +4365,13 @@ export type DaoHausSubscriptionSafeMinionsArgs = {
   where: InputMaybe<DaoHausSafeMinion_Filter>;
 };
 
+
 export type DaoHausSubscriptionShamanArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionShamansArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4312,17 +4383,20 @@ export type DaoHausSubscriptionShamansArgs = {
   where: InputMaybe<DaoHausShaman_Filter>;
 };
 
+
 export type DaoHausSubscriptionTokenArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
 
+
 export type DaoHausSubscriptionTokenBalanceArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionTokenBalancesArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4334,6 +4408,7 @@ export type DaoHausSubscriptionTokenBalancesArgs = {
   where: InputMaybe<DaoHausTokenBalance_Filter>;
 };
 
+
 export type DaoHausSubscriptionTokensArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   first?: InputMaybe<Scalars['Int']>;
@@ -4344,11 +4419,13 @@ export type DaoHausSubscriptionTokensArgs = {
   where: InputMaybe<DaoHausToken_Filter>;
 };
 
+
 export type DaoHausSubscriptionVoteArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
   id: Scalars['ID'];
   subgraphError?: DaoHaus_SubgraphErrorPolicy_;
 };
+
 
 export type DaoHausSubscriptionVotesArgs = {
   block: InputMaybe<DaoHausBlock_Height>;
@@ -4540,7 +4617,7 @@ export enum DaoHausTokenBalance_OrderBy {
   TokenId = 'token__id',
   TokenSymbol = 'token__symbol',
   TokenTokenAddress = 'token__tokenAddress',
-  TokenWhitelisted = 'token__whitelisted',
+  TokenWhitelisted = 'token__whitelisted'
 }
 
 export type DaoHausToken_Filter = {
@@ -4647,7 +4724,7 @@ export enum DaoHausToken_OrderBy {
   MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   Symbol = 'symbol',
   TokenAddress = 'tokenAddress',
-  Whitelisted = 'whitelisted',
+  Whitelisted = 'whitelisted'
 }
 
 export type DaoHausVote = {
@@ -4878,7 +4955,7 @@ export enum DaoHausVote_OrderBy {
   ProposalWhitelist = 'proposal__whitelist',
   ProposalYesShares = 'proposal__yesShares',
   ProposalYesVotes = 'proposal__yesVotes',
-  UintVote = 'uintVote',
+  UintVote = 'uintVote'
 }
 
 export type DaoHaus_Block_ = {
@@ -4912,141 +4989,89 @@ export enum DaoHaus_SubgraphErrorPolicy_ {
   /** Data will be returned even if the subgraph has indexing errors */
   Allow = 'allow',
   /** If the subgraph has indexing errors, data will be omitted. The default. */
-  Deny = 'deny',
+  Deny = 'deny'
 }
 
 export type DaoHausGetDaoHausMembershipsQueryVariables = Exact<{
   memberAddress: Scalars['Bytes'];
 }>;
 
-export type DaoHausGetDaoHausMembershipsQuery = {
-  __typename?: 'Query';
-  members: Array<{
-    __typename?: 'Member';
-    id: string;
-    shares: any;
-    molochAddress: any;
-    createdAt: string;
-    memberAddress: any;
-    loot: any;
-    exists: boolean;
-    kicked: boolean | null;
-    delegateKey: any;
-    moloch: {
-      __typename?: 'Moloch';
-      id: string;
-      version: string | null;
-      summoner: any;
-      totalShares: any;
-      totalLoot: any;
-    };
-  }>;
-};
+
+export type DaoHausGetDaoHausMembershipsQuery = { __typename?: 'Query', members: Array<{ __typename?: 'Member', id: string, shares: any, molochAddress: any, createdAt: string, memberAddress: any, loot: any, exists: boolean, kicked: boolean | null, delegateKey: any, moloch: { __typename?: 'Moloch', id: string, version: string | null, summoner: any, totalShares: any, totalLoot: any } }> };
+
 
 export const GetDaoHausMembershipsDocument = gql`
-  query GetDaoHausMemberships($memberAddress: Bytes!) {
-    members(
-      where: { memberAddress: $memberAddress, didRagequit: false, exists: true }
-    ) {
+    query GetDaoHausMemberships($memberAddress: Bytes!) {
+  members(
+    where: {memberAddress: $memberAddress, didRagequit: false, exists: true}
+  ) {
+    id
+    shares
+    molochAddress
+    createdAt
+    memberAddress
+    loot
+    exists
+    kicked
+    moloch {
       id
-      shares
-      molochAddress
-      createdAt
-      memberAddress
-      loot
-      exists
-      kicked
-      moloch {
-        id
-        version
-        summoner
-        totalShares
-        totalLoot
-      }
-      delegateKey
+      version
+      summoner
+      totalShares
+      totalLoot
     }
+    delegateKey
   }
-`;
+}
+    `;
 
-export type SdkFunctionWrapper = <T>(
-  action: (requestHeaders?: Record<string, string>) => Promise<T>,
-  operationName: string,
-) => Promise<T>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
+
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 
-export function getSdk(
-  client: GraphQLClient,
-  withWrapper: SdkFunctionWrapper = defaultWrapper,
-) {
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    GetDaoHausMemberships(
-      variables: DaoHausGetDaoHausMembershipsQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers'],
-    ): Promise<DaoHausGetDaoHausMembershipsQuery> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<DaoHausGetDaoHausMembershipsQuery>(
-            GetDaoHausMembershipsDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'GetDaoHausMemberships',
-      );
-    },
+    GetDaoHausMemberships(variables: DaoHausGetDaoHausMembershipsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DaoHausGetDaoHausMembershipsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DaoHausGetDaoHausMembershipsQuery>(GetDaoHausMembershipsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetDaoHausMemberships');
+    }
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
 
+
 export type ResolverTypeWrapper<T> = Promise<T> | T;
+
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-  | ResolverFn<TResult, TParent, TContext, TArgs>
-  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs,
-> {
-  subscribe: SubscriptionSubscribeFn<
-    { [key in TKey]: TResult },
-    TParent,
-    TContext,
-    TArgs
-  >;
-  resolve?: SubscriptionResolveFn<
-    TResult,
-    { [key in TKey]: TResult },
-    TContext,
-    TArgs
-  >;
+export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
+  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
+  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -5054,53 +5079,30 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs,
-> =
+export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<
-  TResult,
-  TKey extends string,
-  TParent = {},
-  TContext = {},
-  TArgs = {},
-> =
-  | ((
-      ...args: any[]
-    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
+  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
-  obj: T,
-  context: TContext,
-  info: GraphQLResolveInfo,
-) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<
-  TResult = {},
-  TParent = {},
-  TContext = {},
-  TArgs = {},
-> = (
+export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -5230,1134 +5232,310 @@ export type DaoHausDerivedFromDirectiveArgs = {
   field: Scalars['String'];
 };
 
-export type DaoHausDerivedFromDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = any,
-  Args = DaoHausDerivedFromDirectiveArgs,
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type DaoHausDerivedFromDirectiveResolver<Result, Parent, ContextType = any, Args = DaoHausDerivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type DaoHausEntityDirectiveArgs = {};
+export type DaoHausEntityDirectiveArgs = { };
 
-export type DaoHausEntityDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = any,
-  Args = DaoHausEntityDirectiveArgs,
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type DaoHausEntityDirectiveResolver<Result, Parent, ContextType = any, Args = DaoHausEntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type DaoHausSubgraphIdDirectiveArgs = {
   id: Scalars['String'];
 };
 
-export type DaoHausSubgraphIdDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = any,
-  Args = DaoHausSubgraphIdDirectiveArgs,
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type DaoHausSubgraphIdDirectiveResolver<Result, Parent, ContextType = any, Args = DaoHausSubgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export interface DaoHausBigDecimalScalarConfig
-  extends GraphQLScalarTypeConfig<DaoHausResolversTypes['BigDecimal'], any> {
+export interface DaoHausBigDecimalScalarConfig extends GraphQLScalarTypeConfig<DaoHausResolversTypes['BigDecimal'], any> {
   name: 'BigDecimal';
 }
 
-export interface DaoHausBigIntScalarConfig
-  extends GraphQLScalarTypeConfig<DaoHausResolversTypes['BigInt'], any> {
+export interface DaoHausBigIntScalarConfig extends GraphQLScalarTypeConfig<DaoHausResolversTypes['BigInt'], any> {
   name: 'BigInt';
 }
 
-export interface DaoHausBytesScalarConfig
-  extends GraphQLScalarTypeConfig<DaoHausResolversTypes['Bytes'], any> {
+export interface DaoHausBytesScalarConfig extends GraphQLScalarTypeConfig<DaoHausResolversTypes['Bytes'], any> {
   name: 'Bytes';
 }
 
-export type DaoHausContentResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Content'] = DaoHausResolversParentTypes['Content'],
-> = {
+export type DaoHausContentResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Content'] = DaoHausResolversParentTypes['Content']> = {
   content: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  contentType: Resolver<
-    DaoHausResolversTypes['String'],
-    ParentType,
-    ContextType
-  >;
+  contentType: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  description: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
+  description: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
   location: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  memberAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  moloch: Resolver<
-    Maybe<DaoHausResolversTypes['Moloch']>,
-    ParentType,
-    ContextType
-  >;
-  molochAddress: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
+  memberAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  moloch: Resolver<Maybe<DaoHausResolversTypes['Moloch']>, ParentType, ContextType>;
+  molochAddress: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
   ratified: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
   rawData: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  title: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  transactionHash: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
+  title: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  transactionHash: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausDaoMetaResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['DaoMeta'] = DaoHausResolversParentTypes['DaoMeta'],
-> = {
-  http: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
+export type DaoHausDaoMetaResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['DaoMeta'] = DaoHausResolversParentTypes['DaoMeta']> = {
+  http: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
-  newContract: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  title: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  version: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
+  newContract: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  title: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  version: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausMemberResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Member'] = DaoHausResolversParentTypes['Member'],
-> = {
+export type DaoHausMemberResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Member'] = DaoHausResolversParentTypes['Member']> = {
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  delegateKey: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  didRagequit: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
+  delegateKey: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  didRagequit: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
   exists: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
-  highestIndexYesVote: Resolver<
-    Maybe<DaoHausResolversTypes['Proposal']>,
-    ParentType,
-    ContextType
-  >;
+  highestIndexYesVote: Resolver<Maybe<DaoHausResolversTypes['Proposal']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
-  isDao: Resolver<
-    Maybe<DaoHausResolversTypes['Moloch']>,
-    ParentType,
-    ContextType
-  >;
-  isSafeMinion: Resolver<
-    Maybe<DaoHausResolversTypes['SafeMinion']>,
-    ParentType,
-    ContextType
-  >;
-  jailed: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
-  kicked: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
+  isDao: Resolver<Maybe<DaoHausResolversTypes['Moloch']>, ParentType, ContextType>;
+  isSafeMinion: Resolver<Maybe<DaoHausResolversTypes['SafeMinion']>, ParentType, ContextType>;
+  jailed: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
+  kicked: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
   loot: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
-  memberAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
+  memberAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   moloch: Resolver<DaoHausResolversTypes['Moloch'], ParentType, ContextType>;
-  molochAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  proposedToKick: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  rageQuits: Resolver<
-    Maybe<Array<DaoHausResolversTypes['RageQuit']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMemberRageQuitsArgs, 'first' | 'skip'>
-  >;
+  molochAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  proposedToKick: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  rageQuits: Resolver<Maybe<Array<DaoHausResolversTypes['RageQuit']>>, ParentType, ContextType, RequireFields<DaoHausMemberRageQuitsArgs, 'first' | 'skip'>>;
   shares: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
-  submissions: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Proposal']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMemberSubmissionsArgs, 'first' | 'skip'>
-  >;
-  tokenBalances: Resolver<
-    Maybe<Array<DaoHausResolversTypes['TokenBalance']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMemberTokenBalancesArgs, 'first' | 'skip'>
-  >;
-  tokenTribute: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  votes: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Vote']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMemberVotesArgs, 'first' | 'skip'>
-  >;
+  submissions: Resolver<Maybe<Array<DaoHausResolversTypes['Proposal']>>, ParentType, ContextType, RequireFields<DaoHausMemberSubmissionsArgs, 'first' | 'skip'>>;
+  tokenBalances: Resolver<Maybe<Array<DaoHausResolversTypes['TokenBalance']>>, ParentType, ContextType, RequireFields<DaoHausMemberTokenBalancesArgs, 'first' | 'skip'>>;
+  tokenTribute: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  votes: Resolver<Maybe<Array<DaoHausResolversTypes['Vote']>>, ParentType, ContextType, RequireFields<DaoHausMemberVotesArgs, 'first' | 'skip'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausMinionResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Minion'] = DaoHausResolversParentTypes['Minion'],
-> = {
-  bridgeModule: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
+export type DaoHausMinionResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Minion'] = DaoHausResolversParentTypes['Minion']> = {
+  bridgeModule: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  crossChainMinion: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
+  crossChainMinion: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
   details: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  foreignChainId: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  foreignSafeAddress: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
+  foreignChainId: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  foreignSafeAddress: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
-  minQuorum: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
-  minionAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  minionType: Resolver<
-    DaoHausResolversTypes['String'],
-    ParentType,
-    ContextType
-  >;
+  minQuorum: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
+  minionAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  minionType: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   moloch: Resolver<DaoHausResolversTypes['Moloch'], ParentType, ContextType>;
-  molochAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  proposals: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Proposal']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMinionProposalsArgs, 'first' | 'skip'>
-  >;
-  safeAddress: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  safeMinionVersion: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  streams: Resolver<
-    Maybe<Array<DaoHausResolversTypes['MinionStream']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMinionStreamsArgs, 'first' | 'skip'>
-  >;
-  uberHaus: Resolver<
-    Maybe<DaoHausResolversTypes['Moloch']>,
-    ParentType,
-    ContextType
-  >;
-  uberHausAddress: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  uberHausDelegate: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  uberHausDelegateRewardFactor: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
-  version: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
+  molochAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  proposals: Resolver<Maybe<Array<DaoHausResolversTypes['Proposal']>>, ParentType, ContextType, RequireFields<DaoHausMinionProposalsArgs, 'first' | 'skip'>>;
+  safeAddress: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  safeMinionVersion: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  streams: Resolver<Maybe<Array<DaoHausResolversTypes['MinionStream']>>, ParentType, ContextType, RequireFields<DaoHausMinionStreamsArgs, 'first' | 'skip'>>;
+  uberHaus: Resolver<Maybe<DaoHausResolversTypes['Moloch']>, ParentType, ContextType>;
+  uberHausAddress: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  uberHausDelegate: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  uberHausDelegateRewardFactor: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
+  version: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausMinionActionResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['MinionAction'] = DaoHausResolversParentTypes['MinionAction'],
-> = {
+export type DaoHausMinionActionResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['MinionAction'] = DaoHausResolversParentTypes['MinionAction']> = {
   data: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
   index: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
-  memberOnly: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
-  minionAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  molochAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  proposal: Resolver<
-    DaoHausResolversTypes['Proposal'],
-    ParentType,
-    ContextType
-  >;
+  memberOnly: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
+  minionAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  molochAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  proposal: Resolver<DaoHausResolversTypes['Proposal'], ParentType, ContextType>;
   target: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
-  withdrawToken: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  withdrawValue: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
+  withdrawToken: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  withdrawValue: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausMinionStreamResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['MinionStream'] = DaoHausResolversParentTypes['MinionStream'],
-> = {
+export type DaoHausMinionStreamResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['MinionStream'] = DaoHausResolversParentTypes['MinionStream']> = {
   active: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
-  canceledAt: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  canceledBy: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
+  canceledAt: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  canceledBy: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   ctx: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
-  execTxHash: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
+  execTxHash: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
   executed: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
-  executedAt: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  executedBlock: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
+  executedAt: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  executedBlock: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
-  minDeposit: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
+  minDeposit: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   minion: Resolver<DaoHausResolversTypes['Minion'], ParentType, ContextType>;
-  proposalId: Resolver<
-    DaoHausResolversTypes['String'],
-    ParentType,
-    ContextType
-  >;
+  proposalId: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   proposer: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   rate: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
-  superTokenAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
+  superTokenAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   to: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
-  tokenAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
+  tokenAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausMolochResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Moloch'] = DaoHausResolversParentTypes['Moloch'],
-> = {
-  approvedTokens: Resolver<
-    Array<DaoHausResolversTypes['Token']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochApprovedTokensArgs, 'first' | 'skip'>
-  >;
+export type DaoHausMolochResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Moloch'] = DaoHausResolversParentTypes['Moloch']> = {
+  approvedTokens: Resolver<Array<DaoHausResolversTypes['Token']>, ParentType, ContextType, RequireFields<DaoHausMolochApprovedTokensArgs, 'first' | 'skip'>>;
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  deleted: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  depositToken: Resolver<
-    DaoHausResolversTypes['Token'],
-    ParentType,
-    ContextType
-  >;
-  dilutionBound: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  documents: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Content']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochDocumentsArgs, 'first' | 'skip'>
-  >;
-  gracePeriodLength: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  guildBankAddress: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  guildBankBalanceV1: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
+  deleted: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  depositToken: Resolver<DaoHausResolversTypes['Token'], ParentType, ContextType>;
+  dilutionBound: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  documents: Resolver<Maybe<Array<DaoHausResolversTypes['Content']>>, ParentType, ContextType, RequireFields<DaoHausMolochDocumentsArgs, 'first' | 'skip'>>;
+  gracePeriodLength: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  guildBankAddress: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  guildBankBalanceV1: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
-  members: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Member']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochMembersArgs, 'first' | 'skip'>
-  >;
-  minions: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Minion']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochMinionsArgs, 'first' | 'skip'>
-  >;
-  newContract: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  periodDuration: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  processingReward: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  proposalDeposit: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  proposals: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Proposal']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochProposalsArgs, 'first' | 'skip'>
-  >;
-  rageQuits: Resolver<
-    Maybe<Array<DaoHausResolversTypes['RageQuit']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochRageQuitsArgs, 'first' | 'skip'>
-  >;
-  records: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Record']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochRecordsArgs, 'first' | 'skip'>
-  >;
-  shamans: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Shaman']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochShamansArgs, 'first' | 'skip'>
-  >;
-  spamPreventionAddress: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  spamPreventionAmount: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
+  members: Resolver<Maybe<Array<DaoHausResolversTypes['Member']>>, ParentType, ContextType, RequireFields<DaoHausMolochMembersArgs, 'first' | 'skip'>>;
+  minions: Resolver<Maybe<Array<DaoHausResolversTypes['Minion']>>, ParentType, ContextType, RequireFields<DaoHausMolochMinionsArgs, 'first' | 'skip'>>;
+  newContract: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  periodDuration: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  processingReward: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  proposalDeposit: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  proposals: Resolver<Maybe<Array<DaoHausResolversTypes['Proposal']>>, ParentType, ContextType, RequireFields<DaoHausMolochProposalsArgs, 'first' | 'skip'>>;
+  rageQuits: Resolver<Maybe<Array<DaoHausResolversTypes['RageQuit']>>, ParentType, ContextType, RequireFields<DaoHausMolochRageQuitsArgs, 'first' | 'skip'>>;
+  records: Resolver<Maybe<Array<DaoHausResolversTypes['Record']>>, ParentType, ContextType, RequireFields<DaoHausMolochRecordsArgs, 'first' | 'skip'>>;
+  shamans: Resolver<Maybe<Array<DaoHausResolversTypes['Shaman']>>, ParentType, ContextType, RequireFields<DaoHausMolochShamansArgs, 'first' | 'skip'>>;
+  spamPreventionAddress: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  spamPreventionAmount: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
   summoner: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
-  summoningTime: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  tokenBalances: Resolver<
-    Maybe<Array<DaoHausResolversTypes['TokenBalance']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochTokenBalancesArgs, 'first' | 'skip'>
-  >;
-  tokens: Resolver<
-    Array<DaoHausResolversTypes['Token']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausMolochTokensArgs, 'first' | 'skip'>
-  >;
+  summoningTime: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  tokenBalances: Resolver<Maybe<Array<DaoHausResolversTypes['TokenBalance']>>, ParentType, ContextType, RequireFields<DaoHausMolochTokenBalancesArgs, 'first' | 'skip'>>;
+  tokens: Resolver<Array<DaoHausResolversTypes['Token']>, ParentType, ContextType, RequireFields<DaoHausMolochTokensArgs, 'first' | 'skip'>>;
   totalLoot: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
-  totalShares: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  v22Setup: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  version: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  votingPeriodLength: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
+  totalShares: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  v22Setup: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  version: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  votingPeriodLength: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausMolochTransactionResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['MolochTransaction'] = DaoHausResolversParentTypes['MolochTransaction'],
-> = {
+export type DaoHausMolochTransactionResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['MolochTransaction'] = DaoHausResolversParentTypes['MolochTransaction']> = {
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausProposalResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Proposal'] = DaoHausResolversParentTypes['Proposal'],
-> = {
-  aborted: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  actions: Resolver<
-    Maybe<Array<DaoHausResolversTypes['MinionAction']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausProposalActionsArgs, 'first' | 'skip'>
-  >;
+export type DaoHausProposalResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Proposal'] = DaoHausResolversParentTypes['Proposal']> = {
+  aborted: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  actions: Resolver<Maybe<Array<DaoHausResolversTypes['MinionAction']>>, ParentType, ContextType, RequireFields<DaoHausProposalActionsArgs, 'first' | 'skip'>>;
   applicant: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
-  cancelled: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  cancelledAt: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
+  cancelled: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  cancelledAt: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   createdBy: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
-  delegateKey: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  details: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
+  delegateKey: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  details: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
   didPass: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
-  escrow: Resolver<
-    Maybe<DaoHausResolversTypes['ProposalEscrow']>,
-    ParentType,
-    ContextType
-  >;
-  executed: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  gracePeriodEnds: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  guildkick: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  guildkickOrWhitelistOrMinion: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
+  escrow: Resolver<Maybe<DaoHausResolversTypes['ProposalEscrow']>, ParentType, ContextType>;
+  executed: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  gracePeriodEnds: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  guildkick: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  guildkickOrWhitelistOrMinion: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
   isMinion: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
-  lootRequested: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  maxTotalSharesAndLootAtYesVote: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
+  lootRequested: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  maxTotalSharesAndLootAtYesVote: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
   member: Resolver<DaoHausResolversTypes['Member'], ParentType, ContextType>;
-  memberAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  minion: Resolver<
-    Maybe<DaoHausResolversTypes['Minion']>,
-    ParentType,
-    ContextType
-  >;
-  minionAddress: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  minionExecuteActionTx: Resolver<
-    Maybe<DaoHausResolversTypes['MolochTransaction']>,
-    ParentType,
-    ContextType
-  >;
+  memberAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  minion: Resolver<Maybe<DaoHausResolversTypes['Minion']>, ParentType, ContextType>;
+  minionAddress: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  minionExecuteActionTx: Resolver<Maybe<DaoHausResolversTypes['MolochTransaction']>, ParentType, ContextType>;
   moloch: Resolver<DaoHausResolversTypes['Moloch'], ParentType, ContextType>;
-  molochAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  molochVersion: Resolver<
-    DaoHausResolversTypes['String'],
-    ParentType,
-    ContextType
-  >;
-  newMember: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
+  molochAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  molochVersion: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
+  newMember: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
   noShares: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   noVotes: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
-  paymentRequested: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  paymentToken: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  paymentTokenDecimals: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
-  paymentTokenSymbol: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  processed: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
-  processedAt: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  processor: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  proposalId: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  proposalIndex: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
-  proposer: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  sharesRequested: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
+  paymentRequested: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  paymentToken: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  paymentTokenDecimals: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
+  paymentTokenSymbol: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  processed: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
+  processedAt: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  processor: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  proposalId: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  proposalIndex: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
+  proposer: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  sharesRequested: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   sponsor: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
-  sponsored: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
-  sponsoredAt: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  startingPeriod: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
-  trade: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  tributeOffered: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  tributeToken: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  tributeTokenDecimals: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
-  tributeTokenSymbol: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  uberHausMinionExecuted: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
-  votes: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Vote']>>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausProposalVotesArgs, 'first' | 'skip'>
-  >;
-  votingPeriodEnds: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  votingPeriodStarts: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
-  whitelist: Resolver<
-    Maybe<DaoHausResolversTypes['Boolean']>,
-    ParentType,
-    ContextType
-  >;
+  sponsored: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
+  sponsoredAt: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  startingPeriod: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
+  trade: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  tributeOffered: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  tributeToken: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  tributeTokenDecimals: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
+  tributeTokenSymbol: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  uberHausMinionExecuted: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
+  votes: Resolver<Maybe<Array<DaoHausResolversTypes['Vote']>>, ParentType, ContextType, RequireFields<DaoHausProposalVotesArgs, 'first' | 'skip'>>;
+  votingPeriodEnds: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  votingPeriodStarts: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
+  whitelist: Resolver<Maybe<DaoHausResolversTypes['Boolean']>, ParentType, ContextType>;
   yesShares: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   yesVotes: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausProposalEscrowResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['ProposalEscrow'] = DaoHausResolversParentTypes['ProposalEscrow'],
-> = {
-  amounts: Resolver<
-    Maybe<Array<DaoHausResolversTypes['BigInt']>>,
-    ParentType,
-    ContextType
-  >;
+export type DaoHausProposalEscrowResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['ProposalEscrow'] = DaoHausResolversParentTypes['ProposalEscrow']> = {
+  amounts: Resolver<Maybe<Array<DaoHausResolversTypes['BigInt']>>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
-  minionAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  molochAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  proposal: Resolver<
-    DaoHausResolversTypes['Proposal'],
-    ParentType,
-    ContextType
-  >;
+  minionAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  molochAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  proposal: Resolver<DaoHausResolversTypes['Proposal'], ParentType, ContextType>;
   proposer: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
-  tokenAddresses: Resolver<
-    Maybe<Array<DaoHausResolversTypes['Bytes']>>,
-    ParentType,
-    ContextType
-  >;
-  tokenIds: Resolver<
-    Maybe<Array<DaoHausResolversTypes['BigInt']>>,
-    ParentType,
-    ContextType
-  >;
-  tokenTypes: Resolver<
-    Maybe<Array<DaoHausResolversTypes['BigInt']>>,
-    ParentType,
-    ContextType
-  >;
+  tokenAddresses: Resolver<Maybe<Array<DaoHausResolversTypes['Bytes']>>, ParentType, ContextType>;
+  tokenIds: Resolver<Maybe<Array<DaoHausResolversTypes['BigInt']>>, ParentType, ContextType>;
+  tokenTypes: Resolver<Maybe<Array<DaoHausResolversTypes['BigInt']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausQueryResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Query'] = DaoHausResolversParentTypes['Query'],
-> = {
-  _meta: Resolver<
-    Maybe<DaoHausResolversTypes['_Meta_']>,
-    ParentType,
-    ContextType,
-    Partial<DaoHausQuery_MetaArgs>
-  >;
-  content: Resolver<
-    Maybe<DaoHausResolversTypes['Content']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryContentArgs, 'id' | 'subgraphError'>
-  >;
-  contents: Resolver<
-    Array<DaoHausResolversTypes['Content']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryContentsArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  daoMeta: Resolver<
-    Maybe<DaoHausResolversTypes['DaoMeta']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryDaoMetaArgs, 'id' | 'subgraphError'>
-  >;
-  daoMetas: Resolver<
-    Array<DaoHausResolversTypes['DaoMeta']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryDaoMetasArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  member: Resolver<
-    Maybe<DaoHausResolversTypes['Member']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMemberArgs, 'id' | 'subgraphError'>
-  >;
-  members: Resolver<
-    Array<DaoHausResolversTypes['Member']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMembersArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  minion: Resolver<
-    Maybe<DaoHausResolversTypes['Minion']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMinionArgs, 'id' | 'subgraphError'>
-  >;
-  minionAction: Resolver<
-    Maybe<DaoHausResolversTypes['MinionAction']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMinionActionArgs, 'id' | 'subgraphError'>
-  >;
-  minionActions: Resolver<
-    Array<DaoHausResolversTypes['MinionAction']>,
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausQueryMinionActionsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  minionStream: Resolver<
-    Maybe<DaoHausResolversTypes['MinionStream']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMinionStreamArgs, 'id' | 'subgraphError'>
-  >;
-  minionStreams: Resolver<
-    Array<DaoHausResolversTypes['MinionStream']>,
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausQueryMinionStreamsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  minions: Resolver<
-    Array<DaoHausResolversTypes['Minion']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMinionsArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  moloch: Resolver<
-    Maybe<DaoHausResolversTypes['Moloch']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMolochArgs, 'id' | 'subgraphError'>
-  >;
-  molochTransaction: Resolver<
-    Maybe<DaoHausResolversTypes['MolochTransaction']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMolochTransactionArgs, 'id' | 'subgraphError'>
-  >;
-  molochTransactions: Resolver<
-    Array<DaoHausResolversTypes['MolochTransaction']>,
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausQueryMolochTransactionsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  moloches: Resolver<
-    Array<DaoHausResolversTypes['Moloch']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryMolochesArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  proposal: Resolver<
-    Maybe<DaoHausResolversTypes['Proposal']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryProposalArgs, 'id' | 'subgraphError'>
-  >;
-  proposalEscrow: Resolver<
-    Maybe<DaoHausResolversTypes['ProposalEscrow']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryProposalEscrowArgs, 'id' | 'subgraphError'>
-  >;
-  proposalEscrows: Resolver<
-    Array<DaoHausResolversTypes['ProposalEscrow']>,
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausQueryProposalEscrowsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  proposals: Resolver<
-    Array<DaoHausResolversTypes['Proposal']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryProposalsArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  rageQuit: Resolver<
-    Maybe<DaoHausResolversTypes['RageQuit']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryRageQuitArgs, 'id' | 'subgraphError'>
-  >;
-  rageQuits: Resolver<
-    Array<DaoHausResolversTypes['RageQuit']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryRageQuitsArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  record: Resolver<
-    Maybe<DaoHausResolversTypes['Record']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryRecordArgs, 'id' | 'subgraphError'>
-  >;
-  records: Resolver<
-    Array<DaoHausResolversTypes['Record']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryRecordsArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  safeMinion: Resolver<
-    Maybe<DaoHausResolversTypes['SafeMinion']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQuerySafeMinionArgs, 'id' | 'subgraphError'>
-  >;
-  safeMinions: Resolver<
-    Array<DaoHausResolversTypes['SafeMinion']>,
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausQuerySafeMinionsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  shaman: Resolver<
-    Maybe<DaoHausResolversTypes['Shaman']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryShamanArgs, 'id' | 'subgraphError'>
-  >;
-  shamans: Resolver<
-    Array<DaoHausResolversTypes['Shaman']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryShamansArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  token: Resolver<
-    Maybe<DaoHausResolversTypes['Token']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryTokenArgs, 'id' | 'subgraphError'>
-  >;
-  tokenBalance: Resolver<
-    Maybe<DaoHausResolversTypes['TokenBalance']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryTokenBalanceArgs, 'id' | 'subgraphError'>
-  >;
-  tokenBalances: Resolver<
-    Array<DaoHausResolversTypes['TokenBalance']>,
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausQueryTokenBalancesArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  tokens: Resolver<
-    Array<DaoHausResolversTypes['Token']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryTokensArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  vote: Resolver<
-    Maybe<DaoHausResolversTypes['Vote']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryVoteArgs, 'id' | 'subgraphError'>
-  >;
-  votes: Resolver<
-    Array<DaoHausResolversTypes['Vote']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausQueryVotesArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
+export type DaoHausQueryResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Query'] = DaoHausResolversParentTypes['Query']> = {
+  _meta: Resolver<Maybe<DaoHausResolversTypes['_Meta_']>, ParentType, ContextType, Partial<DaoHausQuery_MetaArgs>>;
+  content: Resolver<Maybe<DaoHausResolversTypes['Content']>, ParentType, ContextType, RequireFields<DaoHausQueryContentArgs, 'id' | 'subgraphError'>>;
+  contents: Resolver<Array<DaoHausResolversTypes['Content']>, ParentType, ContextType, RequireFields<DaoHausQueryContentsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  daoMeta: Resolver<Maybe<DaoHausResolversTypes['DaoMeta']>, ParentType, ContextType, RequireFields<DaoHausQueryDaoMetaArgs, 'id' | 'subgraphError'>>;
+  daoMetas: Resolver<Array<DaoHausResolversTypes['DaoMeta']>, ParentType, ContextType, RequireFields<DaoHausQueryDaoMetasArgs, 'first' | 'skip' | 'subgraphError'>>;
+  member: Resolver<Maybe<DaoHausResolversTypes['Member']>, ParentType, ContextType, RequireFields<DaoHausQueryMemberArgs, 'id' | 'subgraphError'>>;
+  members: Resolver<Array<DaoHausResolversTypes['Member']>, ParentType, ContextType, RequireFields<DaoHausQueryMembersArgs, 'first' | 'skip' | 'subgraphError'>>;
+  minion: Resolver<Maybe<DaoHausResolversTypes['Minion']>, ParentType, ContextType, RequireFields<DaoHausQueryMinionArgs, 'id' | 'subgraphError'>>;
+  minionAction: Resolver<Maybe<DaoHausResolversTypes['MinionAction']>, ParentType, ContextType, RequireFields<DaoHausQueryMinionActionArgs, 'id' | 'subgraphError'>>;
+  minionActions: Resolver<Array<DaoHausResolversTypes['MinionAction']>, ParentType, ContextType, RequireFields<DaoHausQueryMinionActionsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  minionStream: Resolver<Maybe<DaoHausResolversTypes['MinionStream']>, ParentType, ContextType, RequireFields<DaoHausQueryMinionStreamArgs, 'id' | 'subgraphError'>>;
+  minionStreams: Resolver<Array<DaoHausResolversTypes['MinionStream']>, ParentType, ContextType, RequireFields<DaoHausQueryMinionStreamsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  minions: Resolver<Array<DaoHausResolversTypes['Minion']>, ParentType, ContextType, RequireFields<DaoHausQueryMinionsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  moloch: Resolver<Maybe<DaoHausResolversTypes['Moloch']>, ParentType, ContextType, RequireFields<DaoHausQueryMolochArgs, 'id' | 'subgraphError'>>;
+  molochTransaction: Resolver<Maybe<DaoHausResolversTypes['MolochTransaction']>, ParentType, ContextType, RequireFields<DaoHausQueryMolochTransactionArgs, 'id' | 'subgraphError'>>;
+  molochTransactions: Resolver<Array<DaoHausResolversTypes['MolochTransaction']>, ParentType, ContextType, RequireFields<DaoHausQueryMolochTransactionsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  moloches: Resolver<Array<DaoHausResolversTypes['Moloch']>, ParentType, ContextType, RequireFields<DaoHausQueryMolochesArgs, 'first' | 'skip' | 'subgraphError'>>;
+  proposal: Resolver<Maybe<DaoHausResolversTypes['Proposal']>, ParentType, ContextType, RequireFields<DaoHausQueryProposalArgs, 'id' | 'subgraphError'>>;
+  proposalEscrow: Resolver<Maybe<DaoHausResolversTypes['ProposalEscrow']>, ParentType, ContextType, RequireFields<DaoHausQueryProposalEscrowArgs, 'id' | 'subgraphError'>>;
+  proposalEscrows: Resolver<Array<DaoHausResolversTypes['ProposalEscrow']>, ParentType, ContextType, RequireFields<DaoHausQueryProposalEscrowsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  proposals: Resolver<Array<DaoHausResolversTypes['Proposal']>, ParentType, ContextType, RequireFields<DaoHausQueryProposalsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  rageQuit: Resolver<Maybe<DaoHausResolversTypes['RageQuit']>, ParentType, ContextType, RequireFields<DaoHausQueryRageQuitArgs, 'id' | 'subgraphError'>>;
+  rageQuits: Resolver<Array<DaoHausResolversTypes['RageQuit']>, ParentType, ContextType, RequireFields<DaoHausQueryRageQuitsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  record: Resolver<Maybe<DaoHausResolversTypes['Record']>, ParentType, ContextType, RequireFields<DaoHausQueryRecordArgs, 'id' | 'subgraphError'>>;
+  records: Resolver<Array<DaoHausResolversTypes['Record']>, ParentType, ContextType, RequireFields<DaoHausQueryRecordsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  safeMinion: Resolver<Maybe<DaoHausResolversTypes['SafeMinion']>, ParentType, ContextType, RequireFields<DaoHausQuerySafeMinionArgs, 'id' | 'subgraphError'>>;
+  safeMinions: Resolver<Array<DaoHausResolversTypes['SafeMinion']>, ParentType, ContextType, RequireFields<DaoHausQuerySafeMinionsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  shaman: Resolver<Maybe<DaoHausResolversTypes['Shaman']>, ParentType, ContextType, RequireFields<DaoHausQueryShamanArgs, 'id' | 'subgraphError'>>;
+  shamans: Resolver<Array<DaoHausResolversTypes['Shaman']>, ParentType, ContextType, RequireFields<DaoHausQueryShamansArgs, 'first' | 'skip' | 'subgraphError'>>;
+  token: Resolver<Maybe<DaoHausResolversTypes['Token']>, ParentType, ContextType, RequireFields<DaoHausQueryTokenArgs, 'id' | 'subgraphError'>>;
+  tokenBalance: Resolver<Maybe<DaoHausResolversTypes['TokenBalance']>, ParentType, ContextType, RequireFields<DaoHausQueryTokenBalanceArgs, 'id' | 'subgraphError'>>;
+  tokenBalances: Resolver<Array<DaoHausResolversTypes['TokenBalance']>, ParentType, ContextType, RequireFields<DaoHausQueryTokenBalancesArgs, 'first' | 'skip' | 'subgraphError'>>;
+  tokens: Resolver<Array<DaoHausResolversTypes['Token']>, ParentType, ContextType, RequireFields<DaoHausQueryTokensArgs, 'first' | 'skip' | 'subgraphError'>>;
+  vote: Resolver<Maybe<DaoHausResolversTypes['Vote']>, ParentType, ContextType, RequireFields<DaoHausQueryVoteArgs, 'id' | 'subgraphError'>>;
+  votes: Resolver<Array<DaoHausResolversTypes['Vote']>, ParentType, ContextType, RequireFields<DaoHausQueryVotesArgs, 'first' | 'skip' | 'subgraphError'>>;
 };
 
-export type DaoHausRageQuitResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['RageQuit'] = DaoHausResolversParentTypes['RageQuit'],
-> = {
+export type DaoHausRageQuitResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['RageQuit'] = DaoHausResolversParentTypes['RageQuit']> = {
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
   loot: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   member: Resolver<DaoHausResolversTypes['Member'], ParentType, ContextType>;
-  memberAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
+  memberAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   moloch: Resolver<DaoHausResolversTypes['Moloch'], ParentType, ContextType>;
-  molochAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
+  molochAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   shares: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausRecordResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Record'] = DaoHausResolversParentTypes['Record'],
-> = {
+export type DaoHausRecordResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Record'] = DaoHausResolversParentTypes['Record']> = {
   content: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  contentType: Resolver<
-    DaoHausResolversTypes['String'],
-    ParentType,
-    ContextType
-  >;
+  contentType: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   createdBy: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
@@ -6367,484 +5545,107 @@ export type DaoHausRecordResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausSafeMinionResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['SafeMinion'] = DaoHausResolversParentTypes['SafeMinion'],
-> = {
+export type DaoHausSafeMinionResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['SafeMinion'] = DaoHausResolversParentTypes['SafeMinion']> = {
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
-  minions: Resolver<
-    Array<DaoHausResolversTypes['Minion']>,
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSafeMinionMinionsArgs, 'first' | 'skip'>
-  >;
+  minions: Resolver<Array<DaoHausResolversTypes['Minion']>, ParentType, ContextType, RequireFields<DaoHausSafeMinionMinionsArgs, 'first' | 'skip'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausShamanResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Shaman'] = DaoHausResolversParentTypes['Shaman'],
-> = {
+export type DaoHausShamanResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Shaman'] = DaoHausResolversParentTypes['Shaman']> = {
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
   enabled: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
   moloch: Resolver<DaoHausResolversTypes['Moloch'], ParentType, ContextType>;
-  molochAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  shamanAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
+  molochAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  shamanAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausSubscriptionResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Subscription'] = DaoHausResolversParentTypes['Subscription'],
-> = {
-  _meta: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['_Meta_']>,
-    '_meta',
-    ParentType,
-    ContextType,
-    Partial<DaoHausSubscription_MetaArgs>
-  >;
-  content: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Content']>,
-    'content',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionContentArgs, 'id' | 'subgraphError'>
-  >;
-  contents: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Content']>,
-    'contents',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionContentsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  daoMeta: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['DaoMeta']>,
-    'daoMeta',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionDaoMetaArgs, 'id' | 'subgraphError'>
-  >;
-  daoMetas: SubscriptionResolver<
-    Array<DaoHausResolversTypes['DaoMeta']>,
-    'daoMetas',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionDaoMetasArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  member: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Member']>,
-    'member',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionMemberArgs, 'id' | 'subgraphError'>
-  >;
-  members: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Member']>,
-    'members',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionMembersArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  minion: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Minion']>,
-    'minion',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionMinionArgs, 'id' | 'subgraphError'>
-  >;
-  minionAction: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['MinionAction']>,
-    'minionAction',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionMinionActionArgs, 'id' | 'subgraphError'>
-  >;
-  minionActions: SubscriptionResolver<
-    Array<DaoHausResolversTypes['MinionAction']>,
-    'minionActions',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionMinionActionsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  minionStream: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['MinionStream']>,
-    'minionStream',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionMinionStreamArgs, 'id' | 'subgraphError'>
-  >;
-  minionStreams: SubscriptionResolver<
-    Array<DaoHausResolversTypes['MinionStream']>,
-    'minionStreams',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionMinionStreamsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  minions: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Minion']>,
-    'minions',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionMinionsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  moloch: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Moloch']>,
-    'moloch',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionMolochArgs, 'id' | 'subgraphError'>
-  >;
-  molochTransaction: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['MolochTransaction']>,
-    'molochTransaction',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionMolochTransactionArgs,
-      'id' | 'subgraphError'
-    >
-  >;
-  molochTransactions: SubscriptionResolver<
-    Array<DaoHausResolversTypes['MolochTransaction']>,
-    'molochTransactions',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionMolochTransactionsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  moloches: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Moloch']>,
-    'moloches',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionMolochesArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  proposal: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Proposal']>,
-    'proposal',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionProposalArgs, 'id' | 'subgraphError'>
-  >;
-  proposalEscrow: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['ProposalEscrow']>,
-    'proposalEscrow',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionProposalEscrowArgs, 'id' | 'subgraphError'>
-  >;
-  proposalEscrows: SubscriptionResolver<
-    Array<DaoHausResolversTypes['ProposalEscrow']>,
-    'proposalEscrows',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionProposalEscrowsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  proposals: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Proposal']>,
-    'proposals',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionProposalsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  rageQuit: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['RageQuit']>,
-    'rageQuit',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionRageQuitArgs, 'id' | 'subgraphError'>
-  >;
-  rageQuits: SubscriptionResolver<
-    Array<DaoHausResolversTypes['RageQuit']>,
-    'rageQuits',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionRageQuitsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  record: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Record']>,
-    'record',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionRecordArgs, 'id' | 'subgraphError'>
-  >;
-  records: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Record']>,
-    'records',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionRecordsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  safeMinion: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['SafeMinion']>,
-    'safeMinion',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionSafeMinionArgs, 'id' | 'subgraphError'>
-  >;
-  safeMinions: SubscriptionResolver<
-    Array<DaoHausResolversTypes['SafeMinion']>,
-    'safeMinions',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionSafeMinionsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  shaman: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Shaman']>,
-    'shaman',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionShamanArgs, 'id' | 'subgraphError'>
-  >;
-  shamans: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Shaman']>,
-    'shamans',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionShamansArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  token: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Token']>,
-    'token',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionTokenArgs, 'id' | 'subgraphError'>
-  >;
-  tokenBalance: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['TokenBalance']>,
-    'tokenBalance',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionTokenBalanceArgs, 'id' | 'subgraphError'>
-  >;
-  tokenBalances: SubscriptionResolver<
-    Array<DaoHausResolversTypes['TokenBalance']>,
-    'tokenBalances',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionTokenBalancesArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  tokens: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Token']>,
-    'tokens',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionTokensArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  vote: SubscriptionResolver<
-    Maybe<DaoHausResolversTypes['Vote']>,
-    'vote',
-    ParentType,
-    ContextType,
-    RequireFields<DaoHausSubscriptionVoteArgs, 'id' | 'subgraphError'>
-  >;
-  votes: SubscriptionResolver<
-    Array<DaoHausResolversTypes['Vote']>,
-    'votes',
-    ParentType,
-    ContextType,
-    RequireFields<
-      DaoHausSubscriptionVotesArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
+export type DaoHausSubscriptionResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Subscription'] = DaoHausResolversParentTypes['Subscription']> = {
+  _meta: SubscriptionResolver<Maybe<DaoHausResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<DaoHausSubscription_MetaArgs>>;
+  content: SubscriptionResolver<Maybe<DaoHausResolversTypes['Content']>, "content", ParentType, ContextType, RequireFields<DaoHausSubscriptionContentArgs, 'id' | 'subgraphError'>>;
+  contents: SubscriptionResolver<Array<DaoHausResolversTypes['Content']>, "contents", ParentType, ContextType, RequireFields<DaoHausSubscriptionContentsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  daoMeta: SubscriptionResolver<Maybe<DaoHausResolversTypes['DaoMeta']>, "daoMeta", ParentType, ContextType, RequireFields<DaoHausSubscriptionDaoMetaArgs, 'id' | 'subgraphError'>>;
+  daoMetas: SubscriptionResolver<Array<DaoHausResolversTypes['DaoMeta']>, "daoMetas", ParentType, ContextType, RequireFields<DaoHausSubscriptionDaoMetasArgs, 'first' | 'skip' | 'subgraphError'>>;
+  member: SubscriptionResolver<Maybe<DaoHausResolversTypes['Member']>, "member", ParentType, ContextType, RequireFields<DaoHausSubscriptionMemberArgs, 'id' | 'subgraphError'>>;
+  members: SubscriptionResolver<Array<DaoHausResolversTypes['Member']>, "members", ParentType, ContextType, RequireFields<DaoHausSubscriptionMembersArgs, 'first' | 'skip' | 'subgraphError'>>;
+  minion: SubscriptionResolver<Maybe<DaoHausResolversTypes['Minion']>, "minion", ParentType, ContextType, RequireFields<DaoHausSubscriptionMinionArgs, 'id' | 'subgraphError'>>;
+  minionAction: SubscriptionResolver<Maybe<DaoHausResolversTypes['MinionAction']>, "minionAction", ParentType, ContextType, RequireFields<DaoHausSubscriptionMinionActionArgs, 'id' | 'subgraphError'>>;
+  minionActions: SubscriptionResolver<Array<DaoHausResolversTypes['MinionAction']>, "minionActions", ParentType, ContextType, RequireFields<DaoHausSubscriptionMinionActionsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  minionStream: SubscriptionResolver<Maybe<DaoHausResolversTypes['MinionStream']>, "minionStream", ParentType, ContextType, RequireFields<DaoHausSubscriptionMinionStreamArgs, 'id' | 'subgraphError'>>;
+  minionStreams: SubscriptionResolver<Array<DaoHausResolversTypes['MinionStream']>, "minionStreams", ParentType, ContextType, RequireFields<DaoHausSubscriptionMinionStreamsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  minions: SubscriptionResolver<Array<DaoHausResolversTypes['Minion']>, "minions", ParentType, ContextType, RequireFields<DaoHausSubscriptionMinionsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  moloch: SubscriptionResolver<Maybe<DaoHausResolversTypes['Moloch']>, "moloch", ParentType, ContextType, RequireFields<DaoHausSubscriptionMolochArgs, 'id' | 'subgraphError'>>;
+  molochTransaction: SubscriptionResolver<Maybe<DaoHausResolversTypes['MolochTransaction']>, "molochTransaction", ParentType, ContextType, RequireFields<DaoHausSubscriptionMolochTransactionArgs, 'id' | 'subgraphError'>>;
+  molochTransactions: SubscriptionResolver<Array<DaoHausResolversTypes['MolochTransaction']>, "molochTransactions", ParentType, ContextType, RequireFields<DaoHausSubscriptionMolochTransactionsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  moloches: SubscriptionResolver<Array<DaoHausResolversTypes['Moloch']>, "moloches", ParentType, ContextType, RequireFields<DaoHausSubscriptionMolochesArgs, 'first' | 'skip' | 'subgraphError'>>;
+  proposal: SubscriptionResolver<Maybe<DaoHausResolversTypes['Proposal']>, "proposal", ParentType, ContextType, RequireFields<DaoHausSubscriptionProposalArgs, 'id' | 'subgraphError'>>;
+  proposalEscrow: SubscriptionResolver<Maybe<DaoHausResolversTypes['ProposalEscrow']>, "proposalEscrow", ParentType, ContextType, RequireFields<DaoHausSubscriptionProposalEscrowArgs, 'id' | 'subgraphError'>>;
+  proposalEscrows: SubscriptionResolver<Array<DaoHausResolversTypes['ProposalEscrow']>, "proposalEscrows", ParentType, ContextType, RequireFields<DaoHausSubscriptionProposalEscrowsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  proposals: SubscriptionResolver<Array<DaoHausResolversTypes['Proposal']>, "proposals", ParentType, ContextType, RequireFields<DaoHausSubscriptionProposalsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  rageQuit: SubscriptionResolver<Maybe<DaoHausResolversTypes['RageQuit']>, "rageQuit", ParentType, ContextType, RequireFields<DaoHausSubscriptionRageQuitArgs, 'id' | 'subgraphError'>>;
+  rageQuits: SubscriptionResolver<Array<DaoHausResolversTypes['RageQuit']>, "rageQuits", ParentType, ContextType, RequireFields<DaoHausSubscriptionRageQuitsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  record: SubscriptionResolver<Maybe<DaoHausResolversTypes['Record']>, "record", ParentType, ContextType, RequireFields<DaoHausSubscriptionRecordArgs, 'id' | 'subgraphError'>>;
+  records: SubscriptionResolver<Array<DaoHausResolversTypes['Record']>, "records", ParentType, ContextType, RequireFields<DaoHausSubscriptionRecordsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  safeMinion: SubscriptionResolver<Maybe<DaoHausResolversTypes['SafeMinion']>, "safeMinion", ParentType, ContextType, RequireFields<DaoHausSubscriptionSafeMinionArgs, 'id' | 'subgraphError'>>;
+  safeMinions: SubscriptionResolver<Array<DaoHausResolversTypes['SafeMinion']>, "safeMinions", ParentType, ContextType, RequireFields<DaoHausSubscriptionSafeMinionsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  shaman: SubscriptionResolver<Maybe<DaoHausResolversTypes['Shaman']>, "shaman", ParentType, ContextType, RequireFields<DaoHausSubscriptionShamanArgs, 'id' | 'subgraphError'>>;
+  shamans: SubscriptionResolver<Array<DaoHausResolversTypes['Shaman']>, "shamans", ParentType, ContextType, RequireFields<DaoHausSubscriptionShamansArgs, 'first' | 'skip' | 'subgraphError'>>;
+  token: SubscriptionResolver<Maybe<DaoHausResolversTypes['Token']>, "token", ParentType, ContextType, RequireFields<DaoHausSubscriptionTokenArgs, 'id' | 'subgraphError'>>;
+  tokenBalance: SubscriptionResolver<Maybe<DaoHausResolversTypes['TokenBalance']>, "tokenBalance", ParentType, ContextType, RequireFields<DaoHausSubscriptionTokenBalanceArgs, 'id' | 'subgraphError'>>;
+  tokenBalances: SubscriptionResolver<Array<DaoHausResolversTypes['TokenBalance']>, "tokenBalances", ParentType, ContextType, RequireFields<DaoHausSubscriptionTokenBalancesArgs, 'first' | 'skip' | 'subgraphError'>>;
+  tokens: SubscriptionResolver<Array<DaoHausResolversTypes['Token']>, "tokens", ParentType, ContextType, RequireFields<DaoHausSubscriptionTokensArgs, 'first' | 'skip' | 'subgraphError'>>;
+  vote: SubscriptionResolver<Maybe<DaoHausResolversTypes['Vote']>, "vote", ParentType, ContextType, RequireFields<DaoHausSubscriptionVoteArgs, 'id' | 'subgraphError'>>;
+  votes: SubscriptionResolver<Array<DaoHausResolversTypes['Vote']>, "votes", ParentType, ContextType, RequireFields<DaoHausSubscriptionVotesArgs, 'first' | 'skip' | 'subgraphError'>>;
 };
 
-export type DaoHausTokenResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Token'] = DaoHausResolversParentTypes['Token'],
-> = {
-  decimals: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
+export type DaoHausTokenResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Token'] = DaoHausResolversParentTypes['Token']> = {
+  decimals: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
   moloch: Resolver<DaoHausResolversTypes['Moloch'], ParentType, ContextType>;
-  symbol: Resolver<
-    Maybe<DaoHausResolversTypes['String']>,
-    ParentType,
-    ContextType
-  >;
-  tokenAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  whitelisted: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
+  symbol: Resolver<Maybe<DaoHausResolversTypes['String']>, ParentType, ContextType>;
+  tokenAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  whitelisted: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausTokenBalanceResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['TokenBalance'] = DaoHausResolversParentTypes['TokenBalance'],
-> = {
-  ecrowBank: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
-  guildBank: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
+export type DaoHausTokenBalanceResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['TokenBalance'] = DaoHausResolversParentTypes['TokenBalance']> = {
+  ecrowBank: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
+  guildBank: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
-  member: Resolver<
-    Maybe<DaoHausResolversTypes['Member']>,
-    ParentType,
-    ContextType
-  >;
-  memberBank: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
+  member: Resolver<Maybe<DaoHausResolversTypes['Member']>, ParentType, ContextType>;
+  memberBank: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
   moloch: Resolver<DaoHausResolversTypes['Moloch'], ParentType, ContextType>;
   token: Resolver<DaoHausResolversTypes['Token'], ParentType, ContextType>;
-  tokenBalance: Resolver<
-    DaoHausResolversTypes['BigInt'],
-    ParentType,
-    ContextType
-  >;
+  tokenBalance: Resolver<DaoHausResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHausVoteResolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['Vote'] = DaoHausResolversParentTypes['Vote'],
-> = {
+export type DaoHausVoteResolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['Vote'] = DaoHausResolversParentTypes['Vote']> = {
   createdAt: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
-  delegateKey: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
+  delegateKey: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
   id: Resolver<DaoHausResolversTypes['ID'], ParentType, ContextType>;
   member: Resolver<DaoHausResolversTypes['Member'], ParentType, ContextType>;
-  memberAddress: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
-  memberPower: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
-  molochAddress: Resolver<
-    DaoHausResolversTypes['Bytes'],
-    ParentType,
-    ContextType
-  >;
-  proposal: Resolver<
-    DaoHausResolversTypes['Proposal'],
-    ParentType,
-    ContextType
-  >;
-  proposalIndex: Resolver<
-    Maybe<DaoHausResolversTypes['BigInt']>,
-    ParentType,
-    ContextType
-  >;
+  memberAddress: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
+  memberPower: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
+  molochAddress: Resolver<DaoHausResolversTypes['Bytes'], ParentType, ContextType>;
+  proposal: Resolver<DaoHausResolversTypes['Proposal'], ParentType, ContextType>;
+  proposalIndex: Resolver<Maybe<DaoHausResolversTypes['BigInt']>, ParentType, ContextType>;
   uintVote: Resolver<DaoHausResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHaus_Block_Resolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['_Block_'] = DaoHausResolversParentTypes['_Block_'],
-> = {
-  hash: Resolver<
-    Maybe<DaoHausResolversTypes['Bytes']>,
-    ParentType,
-    ContextType
-  >;
+export type DaoHaus_Block_Resolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['_Block_'] = DaoHausResolversParentTypes['_Block_']> = {
+  hash: Resolver<Maybe<DaoHausResolversTypes['Bytes']>, ParentType, ContextType>;
   number: Resolver<DaoHausResolversTypes['Int'], ParentType, ContextType>;
-  timestamp: Resolver<
-    Maybe<DaoHausResolversTypes['Int']>,
-    ParentType,
-    ContextType
-  >;
+  timestamp: Resolver<Maybe<DaoHausResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DaoHaus_Meta_Resolvers<
-  ContextType = any,
-  ParentType extends DaoHausResolversParentTypes['_Meta_'] = DaoHausResolversParentTypes['_Meta_'],
-> = {
+export type DaoHaus_Meta_Resolvers<ContextType = any, ParentType extends DaoHausResolversParentTypes['_Meta_'] = DaoHausResolversParentTypes['_Meta_']> = {
   block: Resolver<DaoHausResolversTypes['_Block_'], ParentType, ContextType>;
-  deployment: Resolver<
-    DaoHausResolversTypes['String'],
-    ParentType,
-    ContextType
-  >;
-  hasIndexingErrors: Resolver<
-    DaoHausResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
+  deployment: Resolver<DaoHausResolversTypes['String'], ParentType, ContextType>;
+  hasIndexingErrors: Resolver<DaoHausResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

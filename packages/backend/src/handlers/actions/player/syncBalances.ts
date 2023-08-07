@@ -2,7 +2,6 @@ import ethers from 'ethers';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 
-import { queueRecache } from '../../../lib/cacheHelper.js';
 import { client } from '../../../lib/hasuraClient.js';
 
 const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
@@ -11,51 +10,55 @@ const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
 const setBalances = async ({
   safeAddress,
   offset = 0,
+  tokenAddress: guildTokenAddress,
 }: {
   safeAddress: string;
   offset?: number;
+  tokenAddress: string;
 }) => {
   const res = await fetch(
     `https://safe-transaction-polygon.safe.global/api/v1/safes/${safeAddress}/all-transactions/?limit=100&offset=${offset}&executed=true&queued=false&trusted=true`,
   );
+
   const { results } = (await res.json()) as any;
+  const uniqueDrops: Record<string, Record<string, number>>  = {}
   const airdrops = results.filter((tx: any) =>
     tx.origin?.includes('CSV Airdrop'),
   );
-  let address = null;
-  console.log({ airdrops });
+
+  airdrops.forEach(({blockNumber, transfers}: any) => {
+    transfers?.forEach(({to, tokenAddress, value}: any) => {
+      uniqueDrops[blockNumber] ??= {}
+      uniqueDrops[blockNumber][to] ??= 0
+      if (tokenAddress == guildTokenAddress) {
+        uniqueDrops[blockNumber][to] += Number(ethers.utils.formatEther(value));
+      }
+    })
+   
+  })
+
   await Promise.all(
-    airdrops
-      .map((airdrop: any) =>
-        airdrop.transfers.map(
-          async ({
-            value,
-            to,
-            tokenAddress,
-          }: {
-            value: string;
-            to: string;
-            tokenAddress: string;
-          }) => {
-            const amount = Number(ethers.utils.formatEther(value));
-            await client.AddBalance({
-              amount,
-              blockHeight: airdrop.blockNumber,
-              playerAddress: to,
-              tokenAddress,
-            });
-            address = tokenAddress;
-          },
-        ),
-      )
-      .flat(),
+    Object.entries(uniqueDrops)
+    .map(([blockHeight, drops]) =>
+      Object.entries(drops).map(
+        async ([to, value]) => {
+          await client.AddBalance({
+            amount: value,
+            blockHeight: Number(blockHeight),
+            playerAddress: to,
+            tokenAddress: guildTokenAddress,
+          });
+        },
+      ),
+    )
+    .flat(),
   );
 
-  if (!address) return;
   await client.UpdateLastOffset({
-    tokenAddress: address,
+    tokenAddress: guildTokenAddress,
     offset: offset + results.length,
   });
+ 
 };
 
 // @todo only query guilds that have a token ID
@@ -68,38 +71,17 @@ export default async (req: Request, res: Response): Promise<void> => {
       : INVALIDATE_AFTER_DAYS;
   expiration.setDate(expiration.getDate() - invalidateAfterDays);
   const { token: tokens } = await client.GetTokens();
-
+  console.log('made it in 1')
   const members = await Promise.all(
-    tokens.map(async ({ safeAddress, lastOffset: offset, guildId }) => {
-      const balances = await setBalances({ safeAddress, offset });
-
+    tokens.map(async ({ safeAddress, lastOffset: offset, guildId, address }) => {
+      const balances = await setBalances({ safeAddress, offset, tokenAddress: address });
+      console.log({ balances })
+      res.json({ balances })
       const { guild: players } = await client.GetGuildMembers({ id: guildId });
-      // players.map(async (player) =>
-      //   player.xp += balances[player.ethereumAddress]
-      // )
-      return {
-        players,
-        guildId,
-      };
+      await Promise.all(players.map( async (player) => {
+        return
+      }))
     }),
   );
   res.json('nothing');
-  // Iterates through list of members in a guild
-  /* const balances = await Promise.all(
-   
-      .flat(),
-  );
-
-   */
-
-  /*  const ids = (
-    await Promise.all(
-      players.map(async ({ playerId }) => {
-        const queued = await queueRecache({ playerId, limiter });
-        return queued ? playerId : null;
-      }),
-    )
-  ).filter((id) => !!id);
-
-  res.json({ ids }); */
 };
