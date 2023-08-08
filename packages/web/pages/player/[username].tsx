@@ -135,6 +135,12 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     }
   }, [ensAndPlayer?.player]);
 
+  useEffect(() => {
+    if (hydratedPlayer != null && hydratedPlayer !== player) {
+      setPlayer(hydratedPlayer);
+    }
+  }, [hydratedPlayer, player]);
+
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
   const isOwnProfile = useMemo(
