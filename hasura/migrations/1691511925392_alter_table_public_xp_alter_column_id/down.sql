@@ -1,0 +1,1 @@
+ALTER TABLE ONLY "public"."xp" ALTER COLUMN "id" DROP DEFAULT;

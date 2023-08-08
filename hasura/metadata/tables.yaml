@@ -160,6 +160,10 @@
       player_address: playerAddress
       block_height: blockHeight
       token_address: tokenAddress
+  object_relationships:
+  - name: token
+    using:
+      foreign_key_constraint_on: token_address
 - table:
     schema: public
     name: dao
@@ -548,6 +552,13 @@
         table:
           schema: public
           name: player_skill
+  - name: xps
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: xp
   remote_relationships:
   - definition:
       remote_field:
@@ -1189,6 +1200,21 @@
   - name: guild
     using:
       foreign_key_constraint_on: guild_id
+  array_relationships:
+  - name: balances
+    using:
+      foreign_key_constraint_on:
+        column: token_address
+        table:
+          schema: public
+          name: balance
+  - name: xps
+    using:
+      foreign_key_constraint_on:
+        column: token_address
+        table:
+          schema: public
+          name: xp
 - table:
     schema: public
     name: xp
@@ -1197,3 +1223,10 @@
     custom_column_names:
       player_id: playerId
       token_address: tokenAddress
+  object_relationships:
+  - name: player
+    using:
+      foreign_key_constraint_on: player_id
+  - name: token
+    using:
+      foreign_key_constraint_on: token_address

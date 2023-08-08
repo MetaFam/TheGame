@@ -34,7 +34,6 @@ const setBalances = async ({
         uniqueDrops[blockNumber][to] += Number(ethers.utils.formatEther(value));
       }
     })
-   
   })
 
   await Promise.all(
@@ -63,7 +62,6 @@ const setBalances = async ({
 
 // @todo only query guilds that have a token ID
 export default async (req: Request, res: Response): Promise<void> => {
-  const { limiter } = req.app.locals;
   const expiration = new Date();
   const invalidateAfterDays =
     req.query.invalidate_after_days != null
@@ -71,17 +69,18 @@ export default async (req: Request, res: Response): Promise<void> => {
       : INVALIDATE_AFTER_DAYS;
   expiration.setDate(expiration.getDate() - invalidateAfterDays);
   const { token: tokens } = await client.GetTokens();
-  console.log('made it in 1')
-  const members = await Promise.all(
+  await Promise.all(
     tokens.map(async ({ safeAddress, lastOffset: offset, guildId, address }) => {
-      const balances = await setBalances({ safeAddress, offset, tokenAddress: address });
-      console.log({ balances })
-      res.json({ balances })
-      const { guild: players } = await client.GetGuildMembers({ id: guildId });
+      await setBalances({ safeAddress, offset, tokenAddress: address });
+      const { guild: [{ guild_players: players }] } = await client.GetGuildMembers({ id: guildId });
       await Promise.all(players.map( async (player) => {
-        return
+        const total = await client.GetTotalForPlayer({ tokenAddress: address, playerAddress: player.Player.ethereumAddress })
+        const balance = total.balance_aggregate.aggregate?.sum?.amount
+        if (balance != null) {
+          await client.UpsertXP({ balance: total.balance_aggregate.aggregate?.sum?.amount, playerId: player.Player.id, tokenAddress: address })
+        }
       }))
     }),
   );
-  res.json('nothing');
+  res.json('complete!')
 };

@@ -3,15 +3,9 @@ import { DocumentNode } from 'graphql';
 import * as Urql from 'urql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -46,6 +40,7 @@ export type AccountType_Aggregate_Fields = {
   min?: Maybe<AccountType_Min_Fields>;
 };
 
+
 /** aggregate fields of "AccountType" */
 export type AccountType_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<AccountType_Select_Column>>;
@@ -76,7 +71,7 @@ export type AccountType_Bool_Exp = {
 /** unique or primary key constraints on table "AccountType" */
 export enum AccountType_Constraint {
   /** unique or primary key constraint */
-  AccountTypePkey = 'AccountType_pkey',
+  AccountTypePkey = 'AccountType_pkey'
 }
 
 export enum AccountType_Enum {
@@ -85,7 +80,7 @@ export enum AccountType_Enum {
   Ethereum = 'ETHEREUM',
   Github = 'GITHUB',
   Meetwithwallet = 'MEETWITHWALLET',
-  Twitter = 'TWITTER',
+  Twitter = 'TWITTER'
 }
 
 /** expression to compare columns of type AccountType_enum. All fields are combined with logical 'AND'. */
@@ -156,7 +151,7 @@ export type AccountType_Pk_Columns_Input = {
 /** select columns of table "AccountType" */
 export enum AccountType_Select_Column {
   /** column name */
-  Type = 'type',
+  Type = 'type'
 }
 
 /** input type for updating data in table "AccountType" */
@@ -167,7 +162,7 @@ export type AccountType_Set_Input = {
 /** update columns of table "AccountType" */
 export enum AccountType_Update_Column {
   /** column name */
-  Type = 'type',
+  Type = 'type'
 }
 
 /** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
@@ -212,6 +207,7 @@ export type ColorAspect = {
   profiles_aggregate: Profile_Aggregate;
 };
 
+
 /** columns and relationships of "ColorAspect" */
 export type ColorAspectProfilesArgs = {
   distinct_on?: InputMaybe<Array<Profile_Select_Column>>;
@@ -220,6 +216,7 @@ export type ColorAspectProfilesArgs = {
   order_by?: InputMaybe<Array<Profile_Order_By>>;
   where?: InputMaybe<Profile_Bool_Exp>;
 };
+
 
 /** columns and relationships of "ColorAspect" */
 export type ColorAspectProfiles_AggregateArgs = {
@@ -250,6 +247,7 @@ export type ColorAspect_Aggregate_Fields = {
   var_samp?: Maybe<ColorAspect_Var_Samp_Fields>;
   variance?: Maybe<ColorAspect_Variance_Fields>;
 };
+
 
 /** aggregate fields of "ColorAspect" */
 export type ColorAspect_Aggregate_FieldsCountArgs = {
@@ -304,7 +302,7 @@ export enum ColorAspect_Constraint {
   /** unique or primary key constraint */
   ColorAspectNameKey = 'ColorAspect_name_key',
   /** unique or primary key constraint */
-  ColorAspectPkey = 'ColorAspect_pkey',
+  ColorAspectPkey = 'ColorAspect_pkey'
 }
 
 /** input type for incrementing integer column in table "ColorAspect" */
@@ -389,7 +387,7 @@ export enum ColorAspect_Select_Column {
   /** column name */
   Mask = 'mask',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** input type for updating data in table "ColorAspect" */
@@ -446,7 +444,7 @@ export enum ColorAspect_Update_Column {
   /** column name */
   Mask = 'mask',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** aggregate var_pop on columns */
@@ -556,6 +554,7 @@ export type ExplorerType = {
   title: Scalars['String'];
 };
 
+
 /** columns and relationships of "ExplorerType" */
 export type ExplorerTypeProfilesArgs = {
   distinct_on?: InputMaybe<Array<Profile_Select_Column>>;
@@ -564,6 +563,7 @@ export type ExplorerTypeProfilesArgs = {
   order_by?: InputMaybe<Array<Profile_Order_By>>;
   where?: InputMaybe<Profile_Bool_Exp>;
 };
+
 
 /** columns and relationships of "ExplorerType" */
 export type ExplorerTypeProfiles_AggregateArgs = {
@@ -594,6 +594,7 @@ export type ExplorerType_Aggregate_Fields = {
   var_samp?: Maybe<ExplorerType_Var_Samp_Fields>;
   variance?: Maybe<ExplorerType_Variance_Fields>;
 };
+
 
 /** aggregate fields of "ExplorerType" */
 export type ExplorerType_Aggregate_FieldsCountArgs = {
@@ -649,7 +650,7 @@ export enum ExplorerType_Constraint {
   /** unique or primary key constraint */
   PlayerTypePkey = 'PlayerType_pkey',
   /** unique or primary key constraint */
-  PlayerTypeTitleKey = 'PlayerType_title_key',
+  PlayerTypeTitleKey = 'PlayerType_title_key'
 }
 
 /** input type for incrementing integer column in table "ExplorerType" */
@@ -742,7 +743,7 @@ export enum ExplorerType_Select_Column {
   /** column name */
   ImageUrl = 'imageURL',
   /** column name */
-  Title = 'title',
+  Title = 'title'
 }
 
 /** input type for updating data in table "ExplorerType" */
@@ -802,7 +803,7 @@ export enum ExplorerType_Update_Column {
   /** column name */
   ImageUrl = 'imageURL',
   /** column name */
-  Title = 'title',
+  Title = 'title'
 }
 
 /** aggregate var_pop on columns */
@@ -883,6 +884,7 @@ export type GuildStatus_Aggregate_Fields = {
   min?: Maybe<GuildStatus_Min_Fields>;
 };
 
+
 /** aggregate fields of "GuildStatus" */
 export type GuildStatus_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<GuildStatus_Select_Column>>;
@@ -913,13 +915,13 @@ export type GuildStatus_Bool_Exp = {
 /** unique or primary key constraints on table "GuildStatus" */
 export enum GuildStatus_Constraint {
   /** unique or primary key constraint */
-  GuildStatusPkey = 'GuildStatus_pkey',
+  GuildStatusPkey = 'GuildStatus_pkey'
 }
 
 export enum GuildStatus_Enum {
   Active = 'ACTIVE',
   Inactive = 'INACTIVE',
-  Pending = 'PENDING',
+  Pending = 'PENDING'
 }
 
 /** expression to compare columns of type GuildStatus_enum. All fields are combined with logical 'AND'. */
@@ -990,7 +992,7 @@ export type GuildStatus_Pk_Columns_Input = {
 /** select columns of table "GuildStatus" */
 export enum GuildStatus_Select_Column {
   /** column name */
-  Status = 'status',
+  Status = 'status'
 }
 
 /** input type for updating data in table "GuildStatus" */
@@ -1001,7 +1003,7 @@ export type GuildStatus_Set_Input = {
 /** update columns of table "GuildStatus" */
 export enum GuildStatus_Update_Column {
   /** column name */
-  Status = 'status',
+  Status = 'status'
 }
 
 /** columns and relationships of "GuildType" */
@@ -1013,6 +1015,7 @@ export type GuildType = {
   name: Scalars['String'];
 };
 
+
 /** columns and relationships of "GuildType" */
 export type GuildTypeGuildsArgs = {
   distinct_on?: InputMaybe<Array<Guild_Select_Column>>;
@@ -1021,6 +1024,7 @@ export type GuildTypeGuildsArgs = {
   order_by?: InputMaybe<Array<Guild_Order_By>>;
   where?: InputMaybe<Guild_Bool_Exp>;
 };
+
 
 /** columns and relationships of "GuildType" */
 export type GuildTypeGuilds_AggregateArgs = {
@@ -1036,7 +1040,7 @@ export enum GuildType_ActionEnum {
   Project = 'PROJECT',
   Research = 'RESEARCH',
   Service = 'SERVICE',
-  Social = 'SOCIAL',
+  Social = 'SOCIAL'
 }
 
 /** aggregated selection of "GuildType" */
@@ -1051,6 +1055,7 @@ export type GuildType_Aggregate_Fields = {
   max?: Maybe<GuildType_Max_Fields>;
   min?: Maybe<GuildType_Min_Fields>;
 };
+
 
 /** aggregate fields of "GuildType" */
 export type GuildType_Aggregate_FieldsCountArgs = {
@@ -1083,7 +1088,7 @@ export type GuildType_Bool_Exp = {
 /** unique or primary key constraints on table "GuildType" */
 export enum GuildType_Constraint {
   /** unique or primary key constraint */
-  GuildTypePkey = 'GuildType_pkey',
+  GuildTypePkey = 'GuildType_pkey'
 }
 
 export enum GuildType_Enum {
@@ -1091,7 +1096,7 @@ export enum GuildType_Enum {
   Project = 'PROJECT',
   Research = 'RESEARCH',
   Service = 'SERVICE',
-  Social = 'SOCIAL',
+  Social = 'SOCIAL'
 }
 
 /** expression to compare columns of type GuildType_enum. All fields are combined with logical 'AND'. */
@@ -1164,7 +1169,7 @@ export type GuildType_Pk_Columns_Input = {
 /** select columns of table "GuildType" */
 export enum GuildType_Select_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** input type for updating data in table "GuildType" */
@@ -1175,7 +1180,7 @@ export type GuildType_Set_Input = {
 /** update columns of table "GuildType" */
 export enum GuildType_Update_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
@@ -1237,6 +1242,7 @@ export type PlayerRank_Aggregate_Fields = {
   min?: Maybe<PlayerRank_Min_Fields>;
 };
 
+
 /** aggregate fields of "PlayerRank" */
 export type PlayerRank_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<PlayerRank_Select_Column>>;
@@ -1267,7 +1273,7 @@ export type PlayerRank_Bool_Exp = {
 /** unique or primary key constraints on table "PlayerRank" */
 export enum PlayerRank_Constraint {
   /** unique or primary key constraint */
-  PlayerRankPkey = 'Player_Rank_pkey',
+  PlayerRankPkey = 'Player_Rank_pkey'
 }
 
 export enum PlayerRank_Enum {
@@ -1275,7 +1281,7 @@ export enum PlayerRank_Enum {
   Diamond = 'DIAMOND',
   Gold = 'GOLD',
   Platinum = 'PLATINUM',
-  Silver = 'SILVER',
+  Silver = 'SILVER'
 }
 
 /** expression to compare columns of type PlayerRank_enum. All fields are combined with logical 'AND'. */
@@ -1346,7 +1352,7 @@ export type PlayerRank_Pk_Columns_Input = {
 /** select columns of table "PlayerRank" */
 export enum PlayerRank_Select_Column {
   /** column name */
-  Rank = 'rank',
+  Rank = 'rank'
 }
 
 /** input type for updating data in table "PlayerRank" */
@@ -1357,7 +1363,7 @@ export type PlayerRank_Set_Input = {
 /** update columns of table "PlayerRank" */
 export enum PlayerRank_Update_Column {
   /** column name */
-  Rank = 'rank',
+  Rank = 'rank'
 }
 
 /** columns and relationships of "PlayerRole" */
@@ -1380,6 +1386,7 @@ export type PlayerRole_Aggregate_Fields = {
   max?: Maybe<PlayerRole_Max_Fields>;
   min?: Maybe<PlayerRole_Min_Fields>;
 };
+
 
 /** aggregate fields of "PlayerRole" */
 export type PlayerRole_Aggregate_FieldsCountArgs = {
@@ -1414,7 +1421,7 @@ export type PlayerRole_Bool_Exp = {
 /** unique or primary key constraints on table "PlayerRole" */
 export enum PlayerRole_Constraint {
   /** unique or primary key constraint */
-  PlayerRolePkey = 'PlayerRole_pkey',
+  PlayerRolePkey = 'PlayerRole_pkey'
 }
 
 /** input type for inserting data into table "PlayerRole" */
@@ -1496,7 +1503,7 @@ export enum PlayerRole_Select_Column {
   /** column name */
   Label = 'label',
   /** column name */
-  Role = 'role',
+  Role = 'role'
 }
 
 /** input type for updating data in table "PlayerRole" */
@@ -1516,7 +1523,7 @@ export enum PlayerRole_Update_Column {
   /** column name */
   Label = 'label',
   /** column name */
-  Role = 'role',
+  Role = 'role'
 }
 
 export type Query = {
@@ -1530,30 +1537,37 @@ export type Query = {
   getTopPSeedHolders?: Maybe<Array<TokenBalances>>;
 };
 
+
 export type QueryGetBrightIdStatusArgs = {
   contextId?: InputMaybe<Scalars['uuid']>;
 };
 
+
 export type QueryGetDaoHausMembershipsArgs = {
   memberAddress?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryGetDiscordServerMemberRolesArgs = {
   guildId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
 
+
 export type QueryGetGuildDiscordAnnouncementsArgs = {
   guildDiscordId?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryGetGuildDiscordRolesArgs = {
   guildDiscordId?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryGetTokenBalancesArgs = {
   address?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryGetTopPSeedHoldersArgs = {
   limit?: InputMaybe<Scalars['Int']>;
@@ -1568,6 +1582,7 @@ export type QuestCompletionStatus = {
   status: Scalars['String'];
 };
 
+
 /** columns and relationships of "QuestCompletionStatus" */
 export type QuestCompletionStatusQuest_CompletionsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Completion_Select_Column>>;
@@ -1576,6 +1591,7 @@ export type QuestCompletionStatusQuest_CompletionsArgs = {
   order_by?: InputMaybe<Array<Quest_Completion_Order_By>>;
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
+
 
 /** columns and relationships of "QuestCompletionStatus" */
 export type QuestCompletionStatusQuest_Completions_AggregateArgs = {
@@ -1588,7 +1604,7 @@ export type QuestCompletionStatusQuest_Completions_AggregateArgs = {
 
 export enum QuestCompletionStatus_ActionEnum {
   Accepted = 'ACCEPTED',
-  Rejected = 'REJECTED',
+  Rejected = 'REJECTED'
 }
 
 /** aggregated selection of "QuestCompletionStatus" */
@@ -1603,6 +1619,7 @@ export type QuestCompletionStatus_Aggregate_Fields = {
   max?: Maybe<QuestCompletionStatus_Max_Fields>;
   min?: Maybe<QuestCompletionStatus_Min_Fields>;
 };
+
 
 /** aggregate fields of "QuestCompletionStatus" */
 export type QuestCompletionStatus_Aggregate_FieldsCountArgs = {
@@ -1635,13 +1652,13 @@ export type QuestCompletionStatus_Bool_Exp = {
 /** unique or primary key constraints on table "QuestCompletionStatus" */
 export enum QuestCompletionStatus_Constraint {
   /** unique or primary key constraint */
-  QuestCompletionStatusPkey = 'QuestCompletionStatus_pkey',
+  QuestCompletionStatusPkey = 'QuestCompletionStatus_pkey'
 }
 
 export enum QuestCompletionStatus_Enum {
   Accepted = 'ACCEPTED',
   Pending = 'PENDING',
-  Rejected = 'REJECTED',
+  Rejected = 'REJECTED'
 }
 
 /** expression to compare columns of type QuestCompletionStatus_enum. All fields are combined with logical 'AND'. */
@@ -1714,7 +1731,7 @@ export type QuestCompletionStatus_Pk_Columns_Input = {
 /** select columns of table "QuestCompletionStatus" */
 export enum QuestCompletionStatus_Select_Column {
   /** column name */
-  Status = 'status',
+  Status = 'status'
 }
 
 /** input type for updating data in table "QuestCompletionStatus" */
@@ -1725,7 +1742,7 @@ export type QuestCompletionStatus_Set_Input = {
 /** update columns of table "QuestCompletionStatus" */
 export enum QuestCompletionStatus_Update_Column {
   /** column name */
-  Status = 'status',
+  Status = 'status'
 }
 
 /** columns and relationships of "QuestRepetition" */
@@ -1737,6 +1754,7 @@ export type QuestRepetition = {
   repetition: Scalars['String'];
 };
 
+
 /** columns and relationships of "QuestRepetition" */
 export type QuestRepetitionQuestsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
@@ -1745,6 +1763,7 @@ export type QuestRepetitionQuestsArgs = {
   order_by?: InputMaybe<Array<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
+
 
 /** columns and relationships of "QuestRepetition" */
 export type QuestRepetitionQuests_AggregateArgs = {
@@ -1758,7 +1777,7 @@ export type QuestRepetitionQuests_AggregateArgs = {
 export enum QuestRepetition_ActionEnum {
   Personal = 'PERSONAL',
   Recurring = 'RECURRING',
-  Unique = 'UNIQUE',
+  Unique = 'UNIQUE'
 }
 
 /** aggregated selection of "QuestRepetition" */
@@ -1773,6 +1792,7 @@ export type QuestRepetition_Aggregate_Fields = {
   max?: Maybe<QuestRepetition_Max_Fields>;
   min?: Maybe<QuestRepetition_Min_Fields>;
 };
+
 
 /** aggregate fields of "QuestRepetition" */
 export type QuestRepetition_Aggregate_FieldsCountArgs = {
@@ -1805,13 +1825,13 @@ export type QuestRepetition_Bool_Exp = {
 /** unique or primary key constraints on table "QuestRepetition" */
 export enum QuestRepetition_Constraint {
   /** unique or primary key constraint */
-  QuestRepetitionPkey = 'QuestRepetition_pkey',
+  QuestRepetitionPkey = 'QuestRepetition_pkey'
 }
 
 export enum QuestRepetition_Enum {
   Personal = 'PERSONAL',
   Recurring = 'RECURRING',
-  Unique = 'UNIQUE',
+  Unique = 'UNIQUE'
 }
 
 /** expression to compare columns of type QuestRepetition_enum. All fields are combined with logical 'AND'. */
@@ -1884,7 +1904,7 @@ export type QuestRepetition_Pk_Columns_Input = {
 /** select columns of table "QuestRepetition" */
 export enum QuestRepetition_Select_Column {
   /** column name */
-  Repetition = 'repetition',
+  Repetition = 'repetition'
 }
 
 /** input type for updating data in table "QuestRepetition" */
@@ -1895,7 +1915,7 @@ export type QuestRepetition_Set_Input = {
 /** update columns of table "QuestRepetition" */
 export enum QuestRepetition_Update_Column {
   /** column name */
-  Repetition = 'repetition',
+  Repetition = 'repetition'
 }
 
 /** columns and relationships of "QuestStatus" */
@@ -1907,6 +1927,7 @@ export type QuestStatus = {
   status: Scalars['String'];
 };
 
+
 /** columns and relationships of "QuestStatus" */
 export type QuestStatusQuestsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
@@ -1915,6 +1936,7 @@ export type QuestStatusQuestsArgs = {
   order_by?: InputMaybe<Array<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
+
 
 /** columns and relationships of "QuestStatus" */
 export type QuestStatusQuests_AggregateArgs = {
@@ -1937,6 +1959,7 @@ export type QuestStatus_Aggregate_Fields = {
   max?: Maybe<QuestStatus_Max_Fields>;
   min?: Maybe<QuestStatus_Min_Fields>;
 };
+
 
 /** aggregate fields of "QuestStatus" */
 export type QuestStatus_Aggregate_FieldsCountArgs = {
@@ -1969,12 +1992,12 @@ export type QuestStatus_Bool_Exp = {
 /** unique or primary key constraints on table "QuestStatus" */
 export enum QuestStatus_Constraint {
   /** unique or primary key constraint */
-  QuestStatusPkey = 'QuestStatus_pkey',
+  QuestStatusPkey = 'QuestStatus_pkey'
 }
 
 export enum QuestStatus_Enum {
   Closed = 'CLOSED',
-  Open = 'OPEN',
+  Open = 'OPEN'
 }
 
 /** expression to compare columns of type QuestStatus_enum. All fields are combined with logical 'AND'. */
@@ -2047,7 +2070,7 @@ export type QuestStatus_Pk_Columns_Input = {
 /** select columns of table "QuestStatus" */
 export enum QuestStatus_Select_Column {
   /** column name */
-  Status = 'status',
+  Status = 'status'
 }
 
 /** input type for updating data in table "QuestStatus" */
@@ -2058,7 +2081,7 @@ export type QuestStatus_Set_Input = {
 /** update columns of table "QuestStatus" */
 export enum QuestStatus_Update_Column {
   /** column name */
-  Status = 'status',
+  Status = 'status'
 }
 
 export type SaveGuildLayoutResponse = {
@@ -2088,6 +2111,7 @@ export type SkillCategory_Aggregate_Fields = {
   max?: Maybe<SkillCategory_Max_Fields>;
   min?: Maybe<SkillCategory_Min_Fields>;
 };
+
 
 /** aggregate fields of "SkillCategory" */
 export type SkillCategory_Aggregate_FieldsCountArgs = {
@@ -2119,7 +2143,7 @@ export type SkillCategory_Bool_Exp = {
 /** unique or primary key constraints on table "SkillCategory" */
 export enum SkillCategory_Constraint {
   /** unique or primary key constraint */
-  SkillCategoryPkey = 'SkillCategory_pkey',
+  SkillCategoryPkey = 'SkillCategory_pkey'
 }
 
 export enum SkillCategory_Enum {
@@ -2128,7 +2152,7 @@ export enum SkillCategory_Enum {
   Dev = 'DEV',
   Engineering = 'ENGINEERING',
   Strategy = 'STRATEGY',
-  Technologies = 'TECHNOLOGIES',
+  Technologies = 'TECHNOLOGIES'
 }
 
 /** expression to compare columns of type SkillCategory_enum. All fields are combined with logical 'AND'. */
@@ -2199,7 +2223,7 @@ export type SkillCategory_Pk_Columns_Input = {
 /** select columns of table "SkillCategory" */
 export enum SkillCategory_Select_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** input type for updating data in table "SkillCategory" */
@@ -2210,7 +2234,7 @@ export type SkillCategory_Set_Input = {
 /** update columns of table "SkillCategory" */
 export enum SkillCategory_Update_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 export type SourceCredSyncOutput = {
@@ -2271,7 +2295,11 @@ export type Balance = {
   amount: Scalars['float8'];
   blockHeight: Scalars['Int'];
   id: Scalars['uuid'];
+  /** An object relationship */
+  player: Player;
   playerAddress: Scalars['String'];
+  /** An object relationship */
+  token: Token;
   tokenAddress: Scalars['String'];
 };
 
@@ -2295,6 +2323,7 @@ export type Balance_Aggregate_Fields = {
   var_samp?: Maybe<Balance_Var_Samp_Fields>;
   variance?: Maybe<Balance_Variance_Fields>;
 };
+
 
 /** aggregate fields of "balance" */
 export type Balance_Aggregate_FieldsCountArgs = {
@@ -2343,7 +2372,9 @@ export type Balance_Bool_Exp = {
   amount?: InputMaybe<Float8_Comparison_Exp>;
   blockHeight?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  player?: InputMaybe<Player_Bool_Exp>;
   playerAddress?: InputMaybe<String_Comparison_Exp>;
+  token?: InputMaybe<Token_Bool_Exp>;
   tokenAddress?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -2352,7 +2383,7 @@ export enum Balance_Constraint {
   /** unique or primary key constraint */
   BalancePkey = 'balance_pkey',
   /** unique or primary key constraint */
-  BalanceTokenAddressPlayerAddressBlockHeightKey = 'balance_token_address_player_address_block_height_key',
+  BalanceTokenAddressPlayerAddressBlockHeightKey = 'balance_token_address_player_address_block_height_key'
 }
 
 /** input type for incrementing integer column in table "balance" */
@@ -2366,7 +2397,9 @@ export type Balance_Insert_Input = {
   amount?: InputMaybe<Scalars['float8']>;
   blockHeight?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['uuid']>;
+  player?: InputMaybe<Player_Obj_Rel_Insert_Input>;
   playerAddress?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Token_Obj_Rel_Insert_Input>;
   tokenAddress?: InputMaybe<Scalars['String']>;
 };
 
@@ -2432,7 +2465,9 @@ export type Balance_Order_By = {
   amount?: InputMaybe<Order_By>;
   blockHeight?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  player?: InputMaybe<Player_Order_By>;
   playerAddress?: InputMaybe<Order_By>;
+  token?: InputMaybe<Token_Order_By>;
   tokenAddress?: InputMaybe<Order_By>;
 };
 
@@ -2452,7 +2487,7 @@ export enum Balance_Select_Column {
   /** column name */
   PlayerAddress = 'playerAddress',
   /** column name */
-  TokenAddress = 'tokenAddress',
+  TokenAddress = 'tokenAddress'
 }
 
 /** input type for updating data in table "balance" */
@@ -2523,7 +2558,7 @@ export enum Balance_Update_Column {
   /** column name */
   PlayerAddress = 'playerAddress',
   /** column name */
-  TokenAddress = 'tokenAddress',
+  TokenAddress = 'tokenAddress'
 }
 
 /** aggregate var_pop on columns */
@@ -2578,6 +2613,7 @@ export type Dao = {
   url?: Maybe<Scalars['String']>;
 };
 
+
 /** columns and relationships of "dao" */
 export type DaoPlayersArgs = {
   distinct_on?: InputMaybe<Array<Dao_Player_Select_Column>>;
@@ -2586,6 +2622,7 @@ export type DaoPlayersArgs = {
   order_by?: InputMaybe<Array<Dao_Player_Order_By>>;
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
+
 
 /** columns and relationships of "dao" */
 export type DaoPlayers_AggregateArgs = {
@@ -2608,6 +2645,7 @@ export type Dao_Aggregate_Fields = {
   max?: Maybe<Dao_Max_Fields>;
   min?: Maybe<Dao_Min_Fields>;
 };
+
 
 /** aggregate fields of "dao" */
 export type Dao_Aggregate_FieldsCountArgs = {
@@ -2648,7 +2686,7 @@ export enum Dao_Constraint {
   /** unique or primary key constraint */
   DaoContractAddressNetworkKey = 'dao_contract_address_network_key',
   /** unique or primary key constraint */
-  DaoPkey = 'dao_pkey',
+  DaoPkey = 'dao_pkey'
 }
 
 /** input type for inserting data into table "dao" */
@@ -2765,6 +2803,7 @@ export type Dao_Player_Aggregate_Fields = {
   min?: Maybe<Dao_Player_Min_Fields>;
 };
 
+
 /** aggregate fields of "dao_player" */
 export type Dao_Player_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Dao_Player_Select_Column>>;
@@ -2799,7 +2838,7 @@ export type Dao_Player_Bool_Exp = {
 /** unique or primary key constraints on table "dao_player" */
 export enum Dao_Player_Constraint {
   /** unique or primary key constraint */
-  DaoPlayerPkey = 'dao_player_pkey',
+  DaoPlayerPkey = 'dao_player_pkey'
 }
 
 /** input type for inserting data into table "dao_player" */
@@ -2878,7 +2917,7 @@ export enum Dao_Player_Select_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  Visible = 'visible',
+  Visible = 'visible'
 }
 
 /** input type for updating data in table "dao_player" */
@@ -2895,7 +2934,7 @@ export enum Dao_Player_Update_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  Visible = 'visible',
+  Visible = 'visible'
 }
 
 /** select columns of table "dao" */
@@ -2911,7 +2950,7 @@ export enum Dao_Select_Column {
   /** column name */
   Network = 'network',
   /** column name */
-  Url = 'url',
+  Url = 'url'
 }
 
 /** input type for updating data in table "dao" */
@@ -2937,7 +2976,7 @@ export enum Dao_Update_Column {
   /** column name */
   Network = 'network',
   /** column name */
-  Url = 'url',
+  Url = 'url'
 }
 
 /** expression to compare columns of type float8. All fields are combined with logical 'AND'. */
@@ -2994,6 +3033,7 @@ export type Guild = {
   websiteUrl?: Maybe<Scalars['String']>;
 };
 
+
 /** columns and relationships of "guild" */
 export type GuildDaosArgs = {
   distinct_on?: InputMaybe<Array<Dao_Select_Column>>;
@@ -3002,6 +3042,7 @@ export type GuildDaosArgs = {
   order_by?: InputMaybe<Array<Dao_Order_By>>;
   where?: InputMaybe<Dao_Bool_Exp>;
 };
+
 
 /** columns and relationships of "guild" */
 export type GuildDaos_AggregateArgs = {
@@ -3012,6 +3053,7 @@ export type GuildDaos_AggregateArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
+
 /** columns and relationships of "guild" */
 export type GuildGuild_PlayersArgs = {
   distinct_on?: InputMaybe<Array<Guild_Player_Select_Column>>;
@@ -3020,6 +3062,7 @@ export type GuildGuild_PlayersArgs = {
   order_by?: InputMaybe<Array<Guild_Player_Order_By>>;
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
+
 
 /** columns and relationships of "guild" */
 export type GuildGuild_Players_AggregateArgs = {
@@ -3030,6 +3073,7 @@ export type GuildGuild_Players_AggregateArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
+
 /** columns and relationships of "guild" */
 export type GuildQuestsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
@@ -3038,6 +3082,7 @@ export type GuildQuestsArgs = {
   order_by?: InputMaybe<Array<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
+
 
 /** columns and relationships of "guild" */
 export type GuildQuests_AggregateArgs = {
@@ -3068,6 +3113,7 @@ export type Guild_Aggregate_Fields = {
   var_samp?: Maybe<Guild_Var_Samp_Fields>;
   variance?: Maybe<Guild_Variance_Fields>;
 };
+
 
 /** aggregate fields of "guild" */
 export type Guild_Aggregate_FieldsCountArgs = {
@@ -3144,7 +3190,7 @@ export enum Guild_Constraint {
   /** unique or primary key constraint */
   GuildDiscordIdKey = 'guild_discord_id_key',
   /** unique or primary key constraint */
-  GuildSortPositionKey = 'guild_sort_position_key',
+  GuildSortPositionKey = 'guild_sort_position_key'
 }
 
 /** input type for incrementing integer column in table "guild" */
@@ -3231,6 +3277,7 @@ export type Guild_Metadata = {
   player?: Maybe<Player>;
 };
 
+
 /**
  * Used to hold private information for guilds
  *
@@ -3253,6 +3300,7 @@ export type Guild_Metadata_Aggregate_Fields = {
   max?: Maybe<Guild_Metadata_Max_Fields>;
   min?: Maybe<Guild_Metadata_Min_Fields>;
 };
+
 
 /** aggregate fields of "guild_metadata" */
 export type Guild_Metadata_Aggregate_FieldsCountArgs = {
@@ -3294,7 +3342,7 @@ export type Guild_Metadata_Bool_Exp = {
 /** unique or primary key constraints on table "guild_metadata" */
 export enum Guild_Metadata_Constraint {
   /** unique or primary key constraint */
-  GuildMetadataPkey = 'guild_metadata_pkey',
+  GuildMetadataPkey = 'guild_metadata_pkey'
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -3403,7 +3451,7 @@ export enum Guild_Metadata_Select_Column {
   /** column name */
   DiscordMetadata = 'discordMetadata',
   /** column name */
-  GuildId = 'guildId',
+  GuildId = 'guildId'
 }
 
 /** input type for updating data in table "guild_metadata" */
@@ -3423,7 +3471,7 @@ export enum Guild_Metadata_Update_Column {
   /** column name */
   DiscordMetadata = 'discordMetadata',
   /** column name */
-  GuildId = 'guildId',
+  GuildId = 'guildId'
 }
 
 /** aggregate min on columns */
@@ -3537,6 +3585,7 @@ export type Guild_Player_Aggregate_Fields = {
   min?: Maybe<Guild_Player_Min_Fields>;
 };
 
+
 /** aggregate fields of "guild_player" */
 export type Guild_Player_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Guild_Player_Select_Column>>;
@@ -3570,7 +3619,7 @@ export type Guild_Player_Bool_Exp = {
 /** unique or primary key constraints on table "guild_player" */
 export enum Guild_Player_Constraint {
   /** unique or primary key constraint */
-  GuildPlayerPkey = 'guild_player_pkey',
+  GuildPlayerPkey = 'guild_player_pkey'
 }
 
 /** input type for inserting data into table "guild_player" */
@@ -3645,7 +3694,7 @@ export enum Guild_Player_Select_Column {
   /** column name */
   GuildId = 'guildId',
   /** column name */
-  PlayerId = 'playerId',
+  PlayerId = 'playerId'
 }
 
 /** input type for updating data in table "guild_player" */
@@ -3659,7 +3708,7 @@ export enum Guild_Player_Update_Column {
   /** column name */
   GuildId = 'guildId',
   /** column name */
-  PlayerId = 'playerId',
+  PlayerId = 'playerId'
 }
 
 /** select columns of table "guild" */
@@ -3697,7 +3746,7 @@ export enum Guild_Select_Column {
   /** column name */
   Type = 'type',
   /** column name */
-  WebsiteUrl = 'websiteUrl',
+  WebsiteUrl = 'websiteUrl'
 }
 
 /** input type for updating data in table "guild" */
@@ -3796,7 +3845,7 @@ export enum Guild_Update_Column {
   /** column name */
   Type = 'type',
   /** column name */
-  WebsiteUrl = 'websiteUrl',
+  WebsiteUrl = 'websiteUrl'
 }
 
 /** aggregate var_pop on columns */
@@ -3887,6 +3936,7 @@ export type Me_Aggregate_Fields = {
   min?: Maybe<Me_Min_Fields>;
 };
 
+
 /** aggregate fields of "me" */
 export type Me_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Me_Select_Column>>;
@@ -3954,7 +4004,7 @@ export enum Me_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Username = 'username',
+  Username = 'username'
 }
 
 /** mutation root */
@@ -4325,155 +4375,186 @@ export type Mutation_Root = {
   update_xp_by_pk?: Maybe<Xp>;
 };
 
+
 /** mutation root */
 export type Mutation_RootAuthenticateDiscordGuildArgs = {
   code: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootCreateQuestArgs = {
   quest: CreateQuestInput;
 };
 
+
 /** mutation root */
 export type Mutation_RootCreateQuestCompletionArgs = {
   questCompletion: CreateQuestCompletionInput;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_AccountTypeArgs = {
   where: AccountType_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_AccountType_By_PkArgs = {
   type: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_ColorAspectArgs = {
   where: ColorAspect_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_ColorAspect_By_PkArgs = {
   mask: Scalars['Int'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_ExplorerTypeArgs = {
   where: ExplorerType_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_ExplorerType_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_GuildStatusArgs = {
   where: GuildStatus_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_GuildStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_GuildTypeArgs = {
   where: GuildType_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_GuildType_By_PkArgs = {
   name: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_PlayerRankArgs = {
   where: PlayerRank_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_PlayerRank_By_PkArgs = {
   rank: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_PlayerRoleArgs = {
   where: PlayerRole_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_PlayerRole_By_PkArgs = {
   role: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_QuestCompletionStatusArgs = {
   where: QuestCompletionStatus_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_QuestCompletionStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_QuestRepetitionArgs = {
   where: QuestRepetition_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_QuestRepetition_By_PkArgs = {
   repetition: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_QuestStatusArgs = {
   where: QuestStatus_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_QuestStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_SkillCategoryArgs = {
   where: SkillCategory_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_SkillCategory_By_PkArgs = {
   name: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_BalanceArgs = {
   where: Balance_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Balance_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_DaoArgs = {
   where: Dao_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Dao_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Dao_PlayerArgs = {
   where: Dao_Player_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Dao_Player_By_PkArgs = {
@@ -4481,30 +4562,36 @@ export type Mutation_RootDelete_Dao_Player_By_PkArgs = {
   playerId: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_GuildArgs = {
   where: Guild_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Guild_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Guild_MetadataArgs = {
   where: Guild_Metadata_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Guild_Metadata_By_PkArgs = {
   guildId: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Guild_PlayerArgs = {
   where: Guild_Player_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Guild_Player_By_PkArgs = {
@@ -4512,25 +4599,30 @@ export type Mutation_RootDelete_Guild_Player_By_PkArgs = {
   playerId: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_PlayerArgs = {
   where: Player_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Player_AccountArgs = {
   where: Player_Account_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Player_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Player_RoleArgs = {
   where: Player_Role_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Player_Role_By_PkArgs = {
@@ -4538,50 +4630,60 @@ export type Mutation_RootDelete_Player_Role_By_PkArgs = {
   role: Scalars['String'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Player_SkillArgs = {
   where: Player_Skill_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Player_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_ProfileArgs = {
   where: Profile_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Profile_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_QuestArgs = {
   where: Quest_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Quest_CompletionArgs = {
   where: Quest_Completion_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Completion_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Quest_RoleArgs = {
   where: Quest_Role_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Role_By_PkArgs = {
@@ -4589,10 +4691,12 @@ export type Mutation_RootDelete_Quest_Role_By_PkArgs = {
   role: Scalars['String'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Quest_SkillArgs = {
   where: Quest_Skill_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Skill_By_PkArgs = {
@@ -4600,35 +4704,42 @@ export type Mutation_RootDelete_Quest_Skill_By_PkArgs = {
   skillId: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_SkillArgs = {
   where: Skill_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_TokenArgs = {
   where: Token_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Token_By_PkArgs = {
   address: Scalars['String'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_XpArgs = {
   where: Xp_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Xp_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_AccountTypeArgs = {
@@ -4636,11 +4747,13 @@ export type Mutation_RootInsert_AccountTypeArgs = {
   on_conflict?: InputMaybe<AccountType_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_AccountType_OneArgs = {
   object: AccountType_Insert_Input;
   on_conflict?: InputMaybe<AccountType_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_ColorAspectArgs = {
@@ -4648,11 +4761,13 @@ export type Mutation_RootInsert_ColorAspectArgs = {
   on_conflict?: InputMaybe<ColorAspect_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_ColorAspect_OneArgs = {
   object: ColorAspect_Insert_Input;
   on_conflict?: InputMaybe<ColorAspect_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_ExplorerTypeArgs = {
@@ -4660,11 +4775,13 @@ export type Mutation_RootInsert_ExplorerTypeArgs = {
   on_conflict?: InputMaybe<ExplorerType_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_ExplorerType_OneArgs = {
   object: ExplorerType_Insert_Input;
   on_conflict?: InputMaybe<ExplorerType_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_GuildStatusArgs = {
@@ -4672,11 +4789,13 @@ export type Mutation_RootInsert_GuildStatusArgs = {
   on_conflict?: InputMaybe<GuildStatus_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_GuildStatus_OneArgs = {
   object: GuildStatus_Insert_Input;
   on_conflict?: InputMaybe<GuildStatus_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_GuildTypeArgs = {
@@ -4684,11 +4803,13 @@ export type Mutation_RootInsert_GuildTypeArgs = {
   on_conflict?: InputMaybe<GuildType_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_GuildType_OneArgs = {
   object: GuildType_Insert_Input;
   on_conflict?: InputMaybe<GuildType_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_PlayerRankArgs = {
@@ -4696,11 +4817,13 @@ export type Mutation_RootInsert_PlayerRankArgs = {
   on_conflict?: InputMaybe<PlayerRank_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_PlayerRank_OneArgs = {
   object: PlayerRank_Insert_Input;
   on_conflict?: InputMaybe<PlayerRank_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_PlayerRoleArgs = {
@@ -4708,11 +4831,13 @@ export type Mutation_RootInsert_PlayerRoleArgs = {
   on_conflict?: InputMaybe<PlayerRole_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_PlayerRole_OneArgs = {
   object: PlayerRole_Insert_Input;
   on_conflict?: InputMaybe<PlayerRole_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_QuestCompletionStatusArgs = {
@@ -4720,11 +4845,13 @@ export type Mutation_RootInsert_QuestCompletionStatusArgs = {
   on_conflict?: InputMaybe<QuestCompletionStatus_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_QuestCompletionStatus_OneArgs = {
   object: QuestCompletionStatus_Insert_Input;
   on_conflict?: InputMaybe<QuestCompletionStatus_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_QuestRepetitionArgs = {
@@ -4732,11 +4859,13 @@ export type Mutation_RootInsert_QuestRepetitionArgs = {
   on_conflict?: InputMaybe<QuestRepetition_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_QuestRepetition_OneArgs = {
   object: QuestRepetition_Insert_Input;
   on_conflict?: InputMaybe<QuestRepetition_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_QuestStatusArgs = {
@@ -4744,11 +4873,13 @@ export type Mutation_RootInsert_QuestStatusArgs = {
   on_conflict?: InputMaybe<QuestStatus_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_QuestStatus_OneArgs = {
   object: QuestStatus_Insert_Input;
   on_conflict?: InputMaybe<QuestStatus_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_SkillCategoryArgs = {
@@ -4756,11 +4887,13 @@ export type Mutation_RootInsert_SkillCategoryArgs = {
   on_conflict?: InputMaybe<SkillCategory_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_SkillCategory_OneArgs = {
   object: SkillCategory_Insert_Input;
   on_conflict?: InputMaybe<SkillCategory_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_BalanceArgs = {
@@ -4768,11 +4901,13 @@ export type Mutation_RootInsert_BalanceArgs = {
   on_conflict?: InputMaybe<Balance_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Balance_OneArgs = {
   object: Balance_Insert_Input;
   on_conflict?: InputMaybe<Balance_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_DaoArgs = {
@@ -4780,11 +4915,13 @@ export type Mutation_RootInsert_DaoArgs = {
   on_conflict?: InputMaybe<Dao_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Dao_OneArgs = {
   object: Dao_Insert_Input;
   on_conflict?: InputMaybe<Dao_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Dao_PlayerArgs = {
@@ -4792,11 +4929,13 @@ export type Mutation_RootInsert_Dao_PlayerArgs = {
   on_conflict?: InputMaybe<Dao_Player_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Dao_Player_OneArgs = {
   object: Dao_Player_Insert_Input;
   on_conflict?: InputMaybe<Dao_Player_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_GuildArgs = {
@@ -4804,11 +4943,13 @@ export type Mutation_RootInsert_GuildArgs = {
   on_conflict?: InputMaybe<Guild_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Guild_MetadataArgs = {
   objects: Array<Guild_Metadata_Insert_Input>;
   on_conflict?: InputMaybe<Guild_Metadata_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Guild_Metadata_OneArgs = {
@@ -4816,11 +4957,13 @@ export type Mutation_RootInsert_Guild_Metadata_OneArgs = {
   on_conflict?: InputMaybe<Guild_Metadata_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Guild_OneArgs = {
   object: Guild_Insert_Input;
   on_conflict?: InputMaybe<Guild_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Guild_PlayerArgs = {
@@ -4828,11 +4971,13 @@ export type Mutation_RootInsert_Guild_PlayerArgs = {
   on_conflict?: InputMaybe<Guild_Player_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Guild_Player_OneArgs = {
   object: Guild_Player_Insert_Input;
   on_conflict?: InputMaybe<Guild_Player_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_PlayerArgs = {
@@ -4840,11 +4985,13 @@ export type Mutation_RootInsert_PlayerArgs = {
   on_conflict?: InputMaybe<Player_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Player_AccountArgs = {
   objects: Array<Player_Account_Insert_Input>;
   on_conflict?: InputMaybe<Player_Account_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Player_Account_OneArgs = {
@@ -4852,11 +4999,13 @@ export type Mutation_RootInsert_Player_Account_OneArgs = {
   on_conflict?: InputMaybe<Player_Account_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Player_OneArgs = {
   object: Player_Insert_Input;
   on_conflict?: InputMaybe<Player_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Player_RoleArgs = {
@@ -4864,11 +5013,13 @@ export type Mutation_RootInsert_Player_RoleArgs = {
   on_conflict?: InputMaybe<Player_Role_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Player_Role_OneArgs = {
   object: Player_Role_Insert_Input;
   on_conflict?: InputMaybe<Player_Role_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Player_SkillArgs = {
@@ -4876,11 +5027,13 @@ export type Mutation_RootInsert_Player_SkillArgs = {
   on_conflict?: InputMaybe<Player_Skill_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Player_Skill_OneArgs = {
   object: Player_Skill_Insert_Input;
   on_conflict?: InputMaybe<Player_Skill_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_ProfileArgs = {
@@ -4888,11 +5041,13 @@ export type Mutation_RootInsert_ProfileArgs = {
   on_conflict?: InputMaybe<Profile_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Profile_OneArgs = {
   object: Profile_Insert_Input;
   on_conflict?: InputMaybe<Profile_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_QuestArgs = {
@@ -4900,11 +5055,13 @@ export type Mutation_RootInsert_QuestArgs = {
   on_conflict?: InputMaybe<Quest_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Quest_CompletionArgs = {
   objects: Array<Quest_Completion_Insert_Input>;
   on_conflict?: InputMaybe<Quest_Completion_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Quest_Completion_OneArgs = {
@@ -4912,11 +5069,13 @@ export type Mutation_RootInsert_Quest_Completion_OneArgs = {
   on_conflict?: InputMaybe<Quest_Completion_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Quest_OneArgs = {
   object: Quest_Insert_Input;
   on_conflict?: InputMaybe<Quest_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Quest_RoleArgs = {
@@ -4924,11 +5083,13 @@ export type Mutation_RootInsert_Quest_RoleArgs = {
   on_conflict?: InputMaybe<Quest_Role_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Quest_Role_OneArgs = {
   object: Quest_Role_Insert_Input;
   on_conflict?: InputMaybe<Quest_Role_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Quest_SkillArgs = {
@@ -4936,11 +5097,13 @@ export type Mutation_RootInsert_Quest_SkillArgs = {
   on_conflict?: InputMaybe<Quest_Skill_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Quest_Skill_OneArgs = {
   object: Quest_Skill_Insert_Input;
   on_conflict?: InputMaybe<Quest_Skill_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_SkillArgs = {
@@ -4948,11 +5111,13 @@ export type Mutation_RootInsert_SkillArgs = {
   on_conflict?: InputMaybe<Skill_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Skill_OneArgs = {
   object: Skill_Insert_Input;
   on_conflict?: InputMaybe<Skill_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_TokenArgs = {
@@ -4960,11 +5125,13 @@ export type Mutation_RootInsert_TokenArgs = {
   on_conflict?: InputMaybe<Token_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Token_OneArgs = {
   object: Token_Insert_Input;
   on_conflict?: InputMaybe<Token_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_XpArgs = {
@@ -4972,31 +5139,37 @@ export type Mutation_RootInsert_XpArgs = {
   on_conflict?: InputMaybe<Xp_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Xp_OneArgs = {
   object: Xp_Insert_Input;
   on_conflict?: InputMaybe<Xp_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootSaveGuildInformationArgs = {
   guildInformation: GuildInfoInput;
 };
+
 
 /** mutation root */
 export type Mutation_RootSaveGuildLayoutArgs = {
   guildLayoutInfo: GuildLayoutInfoInput;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdateIdxProfileArgs = {
   playerId?: InputMaybe<Scalars['uuid']>;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdateQuestCompletionArgs = {
   updateData: UpdateQuestCompletionInput;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_AccountTypeArgs = {
@@ -5004,11 +5177,13 @@ export type Mutation_RootUpdate_AccountTypeArgs = {
   where: AccountType_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_AccountType_By_PkArgs = {
   _set?: InputMaybe<AccountType_Set_Input>;
   pk_columns: AccountType_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_ColorAspectArgs = {
@@ -5017,12 +5192,14 @@ export type Mutation_RootUpdate_ColorAspectArgs = {
   where: ColorAspect_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_ColorAspect_By_PkArgs = {
   _inc?: InputMaybe<ColorAspect_Inc_Input>;
   _set?: InputMaybe<ColorAspect_Set_Input>;
   pk_columns: ColorAspect_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_ExplorerTypeArgs = {
@@ -5031,6 +5208,7 @@ export type Mutation_RootUpdate_ExplorerTypeArgs = {
   where: ExplorerType_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_ExplorerType_By_PkArgs = {
   _inc?: InputMaybe<ExplorerType_Inc_Input>;
@@ -5038,11 +5216,13 @@ export type Mutation_RootUpdate_ExplorerType_By_PkArgs = {
   pk_columns: ExplorerType_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_GuildStatusArgs = {
   _set?: InputMaybe<GuildStatus_Set_Input>;
   where: GuildStatus_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_GuildStatus_By_PkArgs = {
@@ -5050,11 +5230,13 @@ export type Mutation_RootUpdate_GuildStatus_By_PkArgs = {
   pk_columns: GuildStatus_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_GuildTypeArgs = {
   _set?: InputMaybe<GuildType_Set_Input>;
   where: GuildType_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_GuildType_By_PkArgs = {
@@ -5062,11 +5244,13 @@ export type Mutation_RootUpdate_GuildType_By_PkArgs = {
   pk_columns: GuildType_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_PlayerRankArgs = {
   _set?: InputMaybe<PlayerRank_Set_Input>;
   where: PlayerRank_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_PlayerRank_By_PkArgs = {
@@ -5074,11 +5258,13 @@ export type Mutation_RootUpdate_PlayerRank_By_PkArgs = {
   pk_columns: PlayerRank_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_PlayerRoleArgs = {
   _set?: InputMaybe<PlayerRole_Set_Input>;
   where: PlayerRole_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_PlayerRole_By_PkArgs = {
@@ -5086,11 +5272,13 @@ export type Mutation_RootUpdate_PlayerRole_By_PkArgs = {
   pk_columns: PlayerRole_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_QuestCompletionStatusArgs = {
   _set?: InputMaybe<QuestCompletionStatus_Set_Input>;
   where: QuestCompletionStatus_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_QuestCompletionStatus_By_PkArgs = {
@@ -5098,11 +5286,13 @@ export type Mutation_RootUpdate_QuestCompletionStatus_By_PkArgs = {
   pk_columns: QuestCompletionStatus_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_QuestRepetitionArgs = {
   _set?: InputMaybe<QuestRepetition_Set_Input>;
   where: QuestRepetition_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_QuestRepetition_By_PkArgs = {
@@ -5110,11 +5300,13 @@ export type Mutation_RootUpdate_QuestRepetition_By_PkArgs = {
   pk_columns: QuestRepetition_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_QuestStatusArgs = {
   _set?: InputMaybe<QuestStatus_Set_Input>;
   where: QuestStatus_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_QuestStatus_By_PkArgs = {
@@ -5122,17 +5314,20 @@ export type Mutation_RootUpdate_QuestStatus_By_PkArgs = {
   pk_columns: QuestStatus_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_SkillCategoryArgs = {
   _set?: InputMaybe<SkillCategory_Set_Input>;
   where: SkillCategory_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_SkillCategory_By_PkArgs = {
   _set?: InputMaybe<SkillCategory_Set_Input>;
   pk_columns: SkillCategory_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_BalanceArgs = {
@@ -5141,6 +5336,7 @@ export type Mutation_RootUpdate_BalanceArgs = {
   where: Balance_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Balance_By_PkArgs = {
   _inc?: InputMaybe<Balance_Inc_Input>;
@@ -5148,11 +5344,13 @@ export type Mutation_RootUpdate_Balance_By_PkArgs = {
   pk_columns: Balance_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_DaoArgs = {
   _set?: InputMaybe<Dao_Set_Input>;
   where: Dao_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Dao_By_PkArgs = {
@@ -5160,17 +5358,20 @@ export type Mutation_RootUpdate_Dao_By_PkArgs = {
   pk_columns: Dao_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Dao_PlayerArgs = {
   _set?: InputMaybe<Dao_Player_Set_Input>;
   where: Dao_Player_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Dao_Player_By_PkArgs = {
   _set?: InputMaybe<Dao_Player_Set_Input>;
   pk_columns: Dao_Player_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_GuildArgs = {
@@ -5179,12 +5380,14 @@ export type Mutation_RootUpdate_GuildArgs = {
   where: Guild_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Guild_By_PkArgs = {
   _inc?: InputMaybe<Guild_Inc_Input>;
   _set?: InputMaybe<Guild_Set_Input>;
   pk_columns: Guild_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Guild_MetadataArgs = {
@@ -5197,6 +5400,7 @@ export type Mutation_RootUpdate_Guild_MetadataArgs = {
   where: Guild_Metadata_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Guild_Metadata_By_PkArgs = {
   _append?: InputMaybe<Guild_Metadata_Append_Input>;
@@ -5208,17 +5412,20 @@ export type Mutation_RootUpdate_Guild_Metadata_By_PkArgs = {
   pk_columns: Guild_Metadata_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Guild_PlayerArgs = {
   _set?: InputMaybe<Guild_Player_Set_Input>;
   where: Guild_Player_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Guild_Player_By_PkArgs = {
   _set?: InputMaybe<Guild_Player_Set_Input>;
   pk_columns: Guild_Player_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_PlayerArgs = {
@@ -5227,11 +5434,13 @@ export type Mutation_RootUpdate_PlayerArgs = {
   where: Player_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Player_AccountArgs = {
   _set?: InputMaybe<Player_Account_Set_Input>;
   where: Player_Account_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_By_PkArgs = {
@@ -5240,12 +5449,14 @@ export type Mutation_RootUpdate_Player_By_PkArgs = {
   pk_columns: Player_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Player_RoleArgs = {
   _inc?: InputMaybe<Player_Role_Inc_Input>;
   _set?: InputMaybe<Player_Role_Set_Input>;
   where: Player_Role_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_Role_By_PkArgs = {
@@ -5254,12 +5465,14 @@ export type Mutation_RootUpdate_Player_Role_By_PkArgs = {
   pk_columns: Player_Role_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Player_SkillArgs = {
   _inc?: InputMaybe<Player_Skill_Inc_Input>;
   _set?: InputMaybe<Player_Skill_Set_Input>;
   where: Player_Skill_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_Skill_By_PkArgs = {
@@ -5268,12 +5481,14 @@ export type Mutation_RootUpdate_Player_Skill_By_PkArgs = {
   pk_columns: Player_Skill_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_ProfileArgs = {
   _inc?: InputMaybe<Profile_Inc_Input>;
   _set?: InputMaybe<Profile_Set_Input>;
   where: Profile_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Profile_By_PkArgs = {
@@ -5282,12 +5497,14 @@ export type Mutation_RootUpdate_Profile_By_PkArgs = {
   pk_columns: Profile_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_QuestArgs = {
   _inc?: InputMaybe<Quest_Inc_Input>;
   _set?: InputMaybe<Quest_Set_Input>;
   where: Quest_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Quest_By_PkArgs = {
@@ -5296,17 +5513,20 @@ export type Mutation_RootUpdate_Quest_By_PkArgs = {
   pk_columns: Quest_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Quest_CompletionArgs = {
   _set?: InputMaybe<Quest_Completion_Set_Input>;
   where: Quest_Completion_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Quest_Completion_By_PkArgs = {
   _set?: InputMaybe<Quest_Completion_Set_Input>;
   pk_columns: Quest_Completion_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Quest_RoleArgs = {
@@ -5315,6 +5535,7 @@ export type Mutation_RootUpdate_Quest_RoleArgs = {
   where: Quest_Role_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Quest_Role_By_PkArgs = {
   _inc?: InputMaybe<Quest_Role_Inc_Input>;
@@ -5322,11 +5543,13 @@ export type Mutation_RootUpdate_Quest_Role_By_PkArgs = {
   pk_columns: Quest_Role_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Quest_SkillArgs = {
   _set?: InputMaybe<Quest_Skill_Set_Input>;
   where: Quest_Skill_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Quest_Skill_By_PkArgs = {
@@ -5334,17 +5557,20 @@ export type Mutation_RootUpdate_Quest_Skill_By_PkArgs = {
   pk_columns: Quest_Skill_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_SkillArgs = {
   _set?: InputMaybe<Skill_Set_Input>;
   where: Skill_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Skill_By_PkArgs = {
   _set?: InputMaybe<Skill_Set_Input>;
   pk_columns: Skill_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_TokenArgs = {
@@ -5353,6 +5579,7 @@ export type Mutation_RootUpdate_TokenArgs = {
   where: Token_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Token_By_PkArgs = {
   _inc?: InputMaybe<Token_Inc_Input>;
@@ -5360,12 +5587,14 @@ export type Mutation_RootUpdate_Token_By_PkArgs = {
   pk_columns: Token_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_XpArgs = {
   _inc?: InputMaybe<Xp_Inc_Input>;
   _set?: InputMaybe<Xp_Set_Input>;
   where: Xp_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Xp_By_PkArgs = {
@@ -5400,7 +5629,7 @@ export enum Order_By {
   /** in the descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in the descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 /** columns and relationships of "player" */
@@ -5409,6 +5638,10 @@ export type Player = {
   accounts: Array<Player_Account>;
   /** An aggregated array relationship */
   accounts_aggregate: Player_Account_Aggregate;
+  /** An array relationship */
+  balances: Array<Balance>;
+  /** An aggregated array relationship */
+  balances_aggregate: Balance_Aggregate;
   /** Remote relationship field */
   brightid_status?: Maybe<BrightIdStatus>;
   createdAt?: Maybe<Scalars['timestamptz']>;
@@ -5452,7 +5685,12 @@ export type Player = {
   token_balances?: Maybe<TokenBalances>;
   totalXP?: Maybe<Scalars['numeric']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
+  /** An array relationship */
+  xps: Array<Xp>;
+  /** An aggregated array relationship */
+  xps_aggregate: Xp_Aggregate;
 };
+
 
 /** columns and relationships of "player" */
 export type PlayerAccountsArgs = {
@@ -5463,6 +5701,7 @@ export type PlayerAccountsArgs = {
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
 
+
 /** columns and relationships of "player" */
 export type PlayerAccounts_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Account_Select_Column>>;
@@ -5471,6 +5710,27 @@ export type PlayerAccounts_AggregateArgs = {
   order_by?: InputMaybe<Array<Player_Account_Order_By>>;
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
+
+
+/** columns and relationships of "player" */
+export type PlayerBalancesArgs = {
+  distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Balance_Order_By>>;
+  where?: InputMaybe<Balance_Bool_Exp>;
+};
+
+
+/** columns and relationships of "player" */
+export type PlayerBalances_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Balance_Order_By>>;
+  where?: InputMaybe<Balance_Bool_Exp>;
+};
+
 
 /** columns and relationships of "player" */
 export type PlayerDaosArgs = {
@@ -5481,6 +5741,7 @@ export type PlayerDaosArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
+
 /** columns and relationships of "player" */
 export type PlayerDaos_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Dao_Player_Select_Column>>;
@@ -5489,6 +5750,7 @@ export type PlayerDaos_AggregateArgs = {
   order_by?: InputMaybe<Array<Dao_Player_Order_By>>;
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
+
 
 /** columns and relationships of "player" */
 export type PlayerGuildsArgs = {
@@ -5499,6 +5761,7 @@ export type PlayerGuildsArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
+
 /** columns and relationships of "player" */
 export type PlayerGuilds_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Guild_Player_Select_Column>>;
@@ -5507,6 +5770,7 @@ export type PlayerGuilds_AggregateArgs = {
   order_by?: InputMaybe<Array<Guild_Player_Order_By>>;
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
+
 
 /** columns and relationships of "player" */
 export type PlayerQuest_CompletionsArgs = {
@@ -5517,6 +5781,7 @@ export type PlayerQuest_CompletionsArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
+
 /** columns and relationships of "player" */
 export type PlayerQuest_Completions_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Completion_Select_Column>>;
@@ -5525,6 +5790,7 @@ export type PlayerQuest_Completions_AggregateArgs = {
   order_by?: InputMaybe<Array<Quest_Completion_Order_By>>;
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
+
 
 /** columns and relationships of "player" */
 export type PlayerQuestsArgs = {
@@ -5535,6 +5801,7 @@ export type PlayerQuestsArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
+
 /** columns and relationships of "player" */
 export type PlayerQuests_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
@@ -5543,6 +5810,7 @@ export type PlayerQuests_AggregateArgs = {
   order_by?: InputMaybe<Array<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
+
 
 /** columns and relationships of "player" */
 export type PlayerRolesArgs = {
@@ -5553,6 +5821,7 @@ export type PlayerRolesArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
+
 /** columns and relationships of "player" */
 export type PlayerRoles_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Role_Select_Column>>;
@@ -5561,6 +5830,7 @@ export type PlayerRoles_AggregateArgs = {
   order_by?: InputMaybe<Array<Player_Role_Order_By>>;
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
+
 
 /** columns and relationships of "player" */
 export type PlayerSkillsArgs = {
@@ -5571,6 +5841,7 @@ export type PlayerSkillsArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
+
 /** columns and relationships of "player" */
 export type PlayerSkills_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Skill_Select_Column>>;
@@ -5578,6 +5849,26 @@ export type PlayerSkills_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Player_Skill_Order_By>>;
   where?: InputMaybe<Player_Skill_Bool_Exp>;
+};
+
+
+/** columns and relationships of "player" */
+export type PlayerXpsArgs = {
+  distinct_on?: InputMaybe<Array<Xp_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Xp_Order_By>>;
+  where?: InputMaybe<Xp_Bool_Exp>;
+};
+
+
+/** columns and relationships of "player" */
+export type PlayerXps_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Xp_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Xp_Order_By>>;
+  where?: InputMaybe<Xp_Bool_Exp>;
 };
 
 /** columns and relationships of "player_account" */
@@ -5601,6 +5892,7 @@ export type Player_Account_Aggregate_Fields = {
   max?: Maybe<Player_Account_Max_Fields>;
   min?: Maybe<Player_Account_Min_Fields>;
 };
+
 
 /** aggregate fields of "player_account" */
 export type Player_Account_Aggregate_FieldsCountArgs = {
@@ -5635,7 +5927,7 @@ export type Player_Account_Bool_Exp = {
 /** unique or primary key constraints on table "player_account" */
 export enum Player_Account_Constraint {
   /** unique or primary key constraint */
-  AccountIdentifierTypeKey = 'Account_identifier_type_key',
+  AccountIdentifierTypeKey = 'Account_identifier_type_key'
 }
 
 /** input type for inserting data into table "player_account" */
@@ -5706,7 +5998,7 @@ export enum Player_Account_Select_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  Type = 'type',
+  Type = 'type'
 }
 
 /** input type for updating data in table "player_account" */
@@ -5723,7 +6015,7 @@ export enum Player_Account_Update_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  Type = 'type',
+  Type = 'type'
 }
 
 /** aggregated selection of "player" */
@@ -5746,6 +6038,7 @@ export type Player_Aggregate_Fields = {
   var_samp?: Maybe<Player_Var_Samp_Fields>;
   variance?: Maybe<Player_Variance_Fields>;
 };
+
 
 /** aggregate fields of "player" */
 export type Player_Aggregate_FieldsCountArgs = {
@@ -5792,6 +6085,7 @@ export type Player_Bool_Exp = {
   _not?: InputMaybe<Player_Bool_Exp>;
   _or?: InputMaybe<Array<InputMaybe<Player_Bool_Exp>>>;
   accounts?: InputMaybe<Player_Account_Bool_Exp>;
+  balances?: InputMaybe<Balance_Bool_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   daos?: InputMaybe<Dao_Player_Bool_Exp>;
   dashboardLayout?: InputMaybe<String_Comparison_Exp>;
@@ -5810,6 +6104,7 @@ export type Player_Bool_Exp = {
   skills?: InputMaybe<Player_Skill_Bool_Exp>;
   totalXP?: InputMaybe<Numeric_Comparison_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  xps?: InputMaybe<Xp_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "player" */
@@ -5819,7 +6114,7 @@ export enum Player_Constraint {
   /** unique or primary key constraint */
   PlayerPkey = 'Player_pkey',
   /** unique or primary key constraint */
-  PlayerDiscordIdKey = 'player_discord_id_key',
+  PlayerDiscordIdKey = 'player_discord_id_key'
 }
 
 /** input type for incrementing integer column in table "player" */
@@ -5831,6 +6126,7 @@ export type Player_Inc_Input = {
 /** input type for inserting data into table "player" */
 export type Player_Insert_Input = {
   accounts?: InputMaybe<Player_Account_Arr_Rel_Insert_Input>;
+  balances?: InputMaybe<Balance_Arr_Rel_Insert_Input>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   daos?: InputMaybe<Dao_Player_Arr_Rel_Insert_Input>;
   dashboardLayout?: InputMaybe<Scalars['String']>;
@@ -5849,6 +6145,7 @@ export type Player_Insert_Input = {
   skills?: InputMaybe<Player_Skill_Arr_Rel_Insert_Input>;
   totalXP?: InputMaybe<Scalars['numeric']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  xps?: InputMaybe<Xp_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -5931,6 +6228,7 @@ export type Player_On_Conflict = {
 /** ordering options when selecting data from "player" */
 export type Player_Order_By = {
   accounts_aggregate?: InputMaybe<Player_Account_Aggregate_Order_By>;
+  balances_aggregate?: InputMaybe<Balance_Aggregate_Order_By>;
   createdAt?: InputMaybe<Order_By>;
   daos_aggregate?: InputMaybe<Dao_Player_Aggregate_Order_By>;
   dashboardLayout?: InputMaybe<Order_By>;
@@ -5949,6 +6247,7 @@ export type Player_Order_By = {
   skills_aggregate?: InputMaybe<Player_Skill_Aggregate_Order_By>;
   totalXP?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
+  xps_aggregate?: InputMaybe<Xp_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: "player" */
@@ -5985,6 +6284,7 @@ export type Player_Role_Aggregate_Fields = {
   var_samp?: Maybe<Player_Role_Var_Samp_Fields>;
   variance?: Maybe<Player_Role_Variance_Fields>;
 };
+
 
 /** aggregate fields of "player_role" */
 export type Player_Role_Aggregate_FieldsCountArgs = {
@@ -6037,7 +6337,7 @@ export type Player_Role_Bool_Exp = {
 /** unique or primary key constraints on table "player_role" */
 export enum Player_Role_Constraint {
   /** unique or primary key constraint */
-  PlayerRolePkey = 'player_role_pkey',
+  PlayerRolePkey = 'player_role_pkey'
 }
 
 /** input type for incrementing integer column in table "player_role" */
@@ -6123,7 +6423,7 @@ export enum Player_Role_Select_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  Role = 'role',
+  Role = 'role'
 }
 
 /** input type for updating data in table "player_role" */
@@ -6180,7 +6480,7 @@ export enum Player_Role_Update_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  Role = 'role',
+  Role = 'role'
 }
 
 /** aggregate var_pop on columns */
@@ -6236,7 +6536,7 @@ export enum Player_Select_Column {
   /** column name */
   TotalXp = 'totalXP',
   /** column name */
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 /** input type for updating data in table "player" */
@@ -6284,6 +6584,7 @@ export type Player_Skill_Aggregate_Fields = {
   var_samp?: Maybe<Player_Skill_Var_Samp_Fields>;
   variance?: Maybe<Player_Skill_Variance_Fields>;
 };
+
 
 /** aggregate fields of "player_skill" */
 export type Player_Skill_Aggregate_FieldsCountArgs = {
@@ -6339,7 +6640,7 @@ export enum Player_Skill_Constraint {
   /** unique or primary key constraint */
   PlayerSkillPkey = 'player_skill_pkey',
   /** unique or primary key constraint */
-  PlayerSkillPlayerIdSkillIdKey = 'player_skill_player_id_skill_id_key',
+  PlayerSkillPlayerIdSkillIdKey = 'player_skill_player_id_skill_id_key'
 }
 
 /** input type for incrementing integer column in table "player_skill" */
@@ -6432,7 +6733,7 @@ export enum Player_Skill_Select_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  SkillId = 'skill_id',
+  SkillId = 'skill_id'
 }
 
 /** input type for updating data in table "player_skill" */
@@ -6492,7 +6793,7 @@ export enum Player_Skill_Update_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  SkillId = 'skill_id',
+  SkillId = 'skill_id'
 }
 
 /** aggregate var_pop on columns */
@@ -6596,7 +6897,7 @@ export enum Player_Update_Column {
   /** column name */
   TotalXp = 'totalXP',
   /** column name */
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 /** aggregate var_pop on columns */
@@ -6685,6 +6986,7 @@ export type Profile_Aggregate_Fields = {
   variance?: Maybe<Profile_Variance_Fields>;
 };
 
+
 /** aggregate fields of "profile" */
 export type Profile_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Profile_Select_Column>>;
@@ -6764,7 +7066,7 @@ export enum Profile_Constraint {
   /** unique or primary key constraint */
   ProfileUsernameKey = 'profile_username_key',
   /** unique or primary key constraint */
-  UsernameInsensitiveUniqueIdx = 'username_insensitive_unique_idx',
+  UsernameInsensitiveUniqueIdx = 'username_insensitive_unique_idx'
 }
 
 /** input type for incrementing integer column in table "profile" */
@@ -6982,7 +7284,7 @@ export enum Profile_Select_Column {
   /** column name */
   Username = 'username',
   /** column name */
-  Website = 'website',
+  Website = 'website'
 }
 
 /** input type for updating data in table "profile" */
@@ -7095,7 +7397,7 @@ export enum Profile_Update_Column {
   /** column name */
   Username = 'username',
   /** column name */
-  Website = 'website',
+  Website = 'website'
 }
 
 /** aggregate var_pop on columns */
@@ -7324,6 +7626,7 @@ export type Query_Root = {
   xp_by_pk?: Maybe<Xp>;
 };
 
+
 /** query root */
 export type Query_RootAccountTypeArgs = {
   distinct_on?: InputMaybe<Array<AccountType_Select_Column>>;
@@ -7332,6 +7635,7 @@ export type Query_RootAccountTypeArgs = {
   order_by?: InputMaybe<Array<AccountType_Order_By>>;
   where?: InputMaybe<AccountType_Bool_Exp>;
 };
+
 
 /** query root */
 export type Query_RootAccountType_AggregateArgs = {
@@ -7342,10 +7646,12 @@ export type Query_RootAccountType_AggregateArgs = {
   where?: InputMaybe<AccountType_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootAccountType_By_PkArgs = {
   type: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootColorAspectArgs = {
@@ -7356,6 +7662,7 @@ export type Query_RootColorAspectArgs = {
   where?: InputMaybe<ColorAspect_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootColorAspect_AggregateArgs = {
   distinct_on?: InputMaybe<Array<ColorAspect_Select_Column>>;
@@ -7365,10 +7672,12 @@ export type Query_RootColorAspect_AggregateArgs = {
   where?: InputMaybe<ColorAspect_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootColorAspect_By_PkArgs = {
   mask: Scalars['Int'];
 };
+
 
 /** query root */
 export type Query_RootExplorerTypeArgs = {
@@ -7379,6 +7688,7 @@ export type Query_RootExplorerTypeArgs = {
   where?: InputMaybe<ExplorerType_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootExplorerType_AggregateArgs = {
   distinct_on?: InputMaybe<Array<ExplorerType_Select_Column>>;
@@ -7388,10 +7698,12 @@ export type Query_RootExplorerType_AggregateArgs = {
   where?: InputMaybe<ExplorerType_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootExplorerType_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 /** query root */
 export type Query_RootGuildStatusArgs = {
@@ -7402,6 +7714,7 @@ export type Query_RootGuildStatusArgs = {
   where?: InputMaybe<GuildStatus_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuildStatus_AggregateArgs = {
   distinct_on?: InputMaybe<Array<GuildStatus_Select_Column>>;
@@ -7411,10 +7724,12 @@ export type Query_RootGuildStatus_AggregateArgs = {
   where?: InputMaybe<GuildStatus_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuildStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootGuildTypeArgs = {
@@ -7425,6 +7740,7 @@ export type Query_RootGuildTypeArgs = {
   where?: InputMaybe<GuildType_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuildType_AggregateArgs = {
   distinct_on?: InputMaybe<Array<GuildType_Select_Column>>;
@@ -7434,10 +7750,12 @@ export type Query_RootGuildType_AggregateArgs = {
   where?: InputMaybe<GuildType_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuildType_By_PkArgs = {
   name: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootPlayerRankArgs = {
@@ -7448,6 +7766,7 @@ export type Query_RootPlayerRankArgs = {
   where?: InputMaybe<PlayerRank_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayerRank_AggregateArgs = {
   distinct_on?: InputMaybe<Array<PlayerRank_Select_Column>>;
@@ -7457,10 +7776,12 @@ export type Query_RootPlayerRank_AggregateArgs = {
   where?: InputMaybe<PlayerRank_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayerRank_By_PkArgs = {
   rank: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootPlayerRoleArgs = {
@@ -7471,6 +7792,7 @@ export type Query_RootPlayerRoleArgs = {
   where?: InputMaybe<PlayerRole_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayerRole_AggregateArgs = {
   distinct_on?: InputMaybe<Array<PlayerRole_Select_Column>>;
@@ -7480,10 +7802,12 @@ export type Query_RootPlayerRole_AggregateArgs = {
   where?: InputMaybe<PlayerRole_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayerRole_By_PkArgs = {
   role: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootQuestCompletionStatusArgs = {
@@ -7494,6 +7818,7 @@ export type Query_RootQuestCompletionStatusArgs = {
   where?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuestCompletionStatus_AggregateArgs = {
   distinct_on?: InputMaybe<Array<QuestCompletionStatus_Select_Column>>;
@@ -7503,10 +7828,12 @@ export type Query_RootQuestCompletionStatus_AggregateArgs = {
   where?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuestCompletionStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootQuestRepetitionArgs = {
@@ -7517,6 +7844,7 @@ export type Query_RootQuestRepetitionArgs = {
   where?: InputMaybe<QuestRepetition_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuestRepetition_AggregateArgs = {
   distinct_on?: InputMaybe<Array<QuestRepetition_Select_Column>>;
@@ -7526,10 +7854,12 @@ export type Query_RootQuestRepetition_AggregateArgs = {
   where?: InputMaybe<QuestRepetition_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuestRepetition_By_PkArgs = {
   repetition: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootQuestStatusArgs = {
@@ -7540,6 +7870,7 @@ export type Query_RootQuestStatusArgs = {
   where?: InputMaybe<QuestStatus_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuestStatus_AggregateArgs = {
   distinct_on?: InputMaybe<Array<QuestStatus_Select_Column>>;
@@ -7549,10 +7880,12 @@ export type Query_RootQuestStatus_AggregateArgs = {
   where?: InputMaybe<QuestStatus_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuestStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootSkillCategoryArgs = {
@@ -7563,6 +7896,7 @@ export type Query_RootSkillCategoryArgs = {
   where?: InputMaybe<SkillCategory_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootSkillCategory_AggregateArgs = {
   distinct_on?: InputMaybe<Array<SkillCategory_Select_Column>>;
@@ -7572,10 +7906,12 @@ export type Query_RootSkillCategory_AggregateArgs = {
   where?: InputMaybe<SkillCategory_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootSkillCategory_By_PkArgs = {
   name: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootBalanceArgs = {
@@ -7586,6 +7922,7 @@ export type Query_RootBalanceArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootBalance_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
@@ -7595,10 +7932,12 @@ export type Query_RootBalance_AggregateArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootBalance_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootDaoArgs = {
@@ -7609,6 +7948,7 @@ export type Query_RootDaoArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootDao_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Dao_Select_Column>>;
@@ -7618,10 +7958,12 @@ export type Query_RootDao_AggregateArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootDao_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootDao_PlayerArgs = {
@@ -7632,6 +7974,7 @@ export type Query_RootDao_PlayerArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootDao_Player_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Dao_Player_Select_Column>>;
@@ -7641,21 +7984,25 @@ export type Query_RootDao_Player_AggregateArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootDao_Player_By_PkArgs = {
   daoId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
 
+
 /** query root */
 export type Query_RootGetBrightIdStatusArgs = {
   contextId?: InputMaybe<Scalars['uuid']>;
 };
 
+
 /** query root */
 export type Query_RootGetDaoHausMembershipsArgs = {
   memberAddress?: InputMaybe<Scalars['String']>;
 };
+
 
 /** query root */
 export type Query_RootGetDiscordServerMemberRolesArgs = {
@@ -7663,25 +8010,30 @@ export type Query_RootGetDiscordServerMemberRolesArgs = {
   playerId: Scalars['uuid'];
 };
 
+
 /** query root */
 export type Query_RootGetGuildDiscordAnnouncementsArgs = {
   guildDiscordId?: InputMaybe<Scalars['String']>;
 };
+
 
 /** query root */
 export type Query_RootGetGuildDiscordRolesArgs = {
   guildDiscordId?: InputMaybe<Scalars['String']>;
 };
 
+
 /** query root */
 export type Query_RootGetTokenBalancesArgs = {
   address?: InputMaybe<Scalars['String']>;
 };
 
+
 /** query root */
 export type Query_RootGetTopPSeedHoldersArgs = {
   limit?: InputMaybe<Scalars['Int']>;
 };
+
 
 /** query root */
 export type Query_RootGuildArgs = {
@@ -7692,6 +8044,7 @@ export type Query_RootGuildArgs = {
   where?: InputMaybe<Guild_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuild_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Guild_Select_Column>>;
@@ -7701,10 +8054,12 @@ export type Query_RootGuild_AggregateArgs = {
   where?: InputMaybe<Guild_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuild_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootGuild_MetadataArgs = {
@@ -7715,6 +8070,7 @@ export type Query_RootGuild_MetadataArgs = {
   where?: InputMaybe<Guild_Metadata_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuild_Metadata_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Guild_Metadata_Select_Column>>;
@@ -7724,10 +8080,12 @@ export type Query_RootGuild_Metadata_AggregateArgs = {
   where?: InputMaybe<Guild_Metadata_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuild_Metadata_By_PkArgs = {
   guildId: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootGuild_PlayerArgs = {
@@ -7738,6 +8096,7 @@ export type Query_RootGuild_PlayerArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuild_Player_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Guild_Player_Select_Column>>;
@@ -7747,11 +8106,13 @@ export type Query_RootGuild_Player_AggregateArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootGuild_Player_By_PkArgs = {
   guildId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootMeArgs = {
@@ -7762,6 +8123,7 @@ export type Query_RootMeArgs = {
   where?: InputMaybe<Me_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootMe_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Me_Select_Column>>;
@@ -7770,6 +8132,7 @@ export type Query_RootMe_AggregateArgs = {
   order_by?: InputMaybe<Array<Me_Order_By>>;
   where?: InputMaybe<Me_Bool_Exp>;
 };
+
 
 /** query root */
 export type Query_RootPlayerArgs = {
@@ -7780,6 +8143,7 @@ export type Query_RootPlayerArgs = {
   where?: InputMaybe<Player_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayer_AccountArgs = {
   distinct_on?: InputMaybe<Array<Player_Account_Select_Column>>;
@@ -7788,6 +8152,7 @@ export type Query_RootPlayer_AccountArgs = {
   order_by?: InputMaybe<Array<Player_Account_Order_By>>;
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
+
 
 /** query root */
 export type Query_RootPlayer_Account_AggregateArgs = {
@@ -7798,6 +8163,7 @@ export type Query_RootPlayer_Account_AggregateArgs = {
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayer_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Select_Column>>;
@@ -7807,10 +8173,12 @@ export type Query_RootPlayer_AggregateArgs = {
   where?: InputMaybe<Player_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayer_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootPlayer_RoleArgs = {
@@ -7821,6 +8189,7 @@ export type Query_RootPlayer_RoleArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayer_Role_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Role_Select_Column>>;
@@ -7830,11 +8199,13 @@ export type Query_RootPlayer_Role_AggregateArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayer_Role_By_PkArgs = {
   player_id: Scalars['uuid'];
   role: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootPlayer_SkillArgs = {
@@ -7845,6 +8216,7 @@ export type Query_RootPlayer_SkillArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayer_Skill_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Skill_Select_Column>>;
@@ -7854,10 +8226,12 @@ export type Query_RootPlayer_Skill_AggregateArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootPlayer_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootProfileArgs = {
@@ -7868,6 +8242,7 @@ export type Query_RootProfileArgs = {
   where?: InputMaybe<Profile_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootProfile_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Profile_Select_Column>>;
@@ -7877,10 +8252,12 @@ export type Query_RootProfile_AggregateArgs = {
   where?: InputMaybe<Profile_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootProfile_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootQuestArgs = {
@@ -7891,6 +8268,7 @@ export type Query_RootQuestArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuest_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
@@ -7900,10 +8278,12 @@ export type Query_RootQuest_AggregateArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuest_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootQuest_CompletionArgs = {
@@ -7914,6 +8294,7 @@ export type Query_RootQuest_CompletionArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuest_Completion_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Completion_Select_Column>>;
@@ -7923,10 +8304,12 @@ export type Query_RootQuest_Completion_AggregateArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuest_Completion_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootQuest_RoleArgs = {
@@ -7937,6 +8320,7 @@ export type Query_RootQuest_RoleArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuest_Role_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Role_Select_Column>>;
@@ -7946,11 +8330,13 @@ export type Query_RootQuest_Role_AggregateArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuest_Role_By_PkArgs = {
   questId: Scalars['uuid'];
   role: Scalars['String'];
 };
+
 
 /** query root */
 export type Query_RootQuest_SkillArgs = {
@@ -7961,6 +8347,7 @@ export type Query_RootQuest_SkillArgs = {
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuest_Skill_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Skill_Select_Column>>;
@@ -7970,11 +8357,13 @@ export type Query_RootQuest_Skill_AggregateArgs = {
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootQuest_Skill_By_PkArgs = {
   questId: Scalars['uuid'];
   skillId: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootSkillArgs = {
@@ -7985,6 +8374,7 @@ export type Query_RootSkillArgs = {
   where?: InputMaybe<Skill_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootSkill_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Skill_Select_Column>>;
@@ -7994,10 +8384,12 @@ export type Query_RootSkill_AggregateArgs = {
   where?: InputMaybe<Skill_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootSkill_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootTokenArgs = {
@@ -8008,6 +8400,7 @@ export type Query_RootTokenArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootToken_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Token_Select_Column>>;
@@ -8017,15 +8410,18 @@ export type Query_RootToken_AggregateArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootToken_By_PkArgs = {
   address: Scalars['String'];
 };
 
+
 /** query root */
 export type Query_RootUpdateIdxProfileArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** query root */
 export type Query_RootXpArgs = {
@@ -8036,6 +8432,7 @@ export type Query_RootXpArgs = {
   where?: InputMaybe<Xp_Bool_Exp>;
 };
 
+
 /** query root */
 export type Query_RootXp_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Xp_Select_Column>>;
@@ -8044,6 +8441,7 @@ export type Query_RootXp_AggregateArgs = {
   order_by?: InputMaybe<Array<Xp_Order_By>>;
   where?: InputMaybe<Xp_Bool_Exp>;
 };
+
 
 /** query root */
 export type Query_RootXp_By_PkArgs = {
@@ -8085,6 +8483,7 @@ export type Quest = {
   title: Scalars['String'];
 };
 
+
 /** columns and relationships of "quest" */
 export type QuestQuest_CompletionsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Completion_Select_Column>>;
@@ -8093,6 +8492,7 @@ export type QuestQuest_CompletionsArgs = {
   order_by?: InputMaybe<Array<Quest_Completion_Order_By>>;
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
+
 
 /** columns and relationships of "quest" */
 export type QuestQuest_Completions_AggregateArgs = {
@@ -8103,6 +8503,7 @@ export type QuestQuest_Completions_AggregateArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
+
 /** columns and relationships of "quest" */
 export type QuestQuest_RolesArgs = {
   distinct_on?: InputMaybe<Array<Quest_Role_Select_Column>>;
@@ -8111,6 +8512,7 @@ export type QuestQuest_RolesArgs = {
   order_by?: InputMaybe<Array<Quest_Role_Order_By>>;
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
+
 
 /** columns and relationships of "quest" */
 export type QuestQuest_Roles_AggregateArgs = {
@@ -8121,6 +8523,7 @@ export type QuestQuest_Roles_AggregateArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
+
 /** columns and relationships of "quest" */
 export type QuestQuest_SkillsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Skill_Select_Column>>;
@@ -8129,6 +8532,7 @@ export type QuestQuest_SkillsArgs = {
   order_by?: InputMaybe<Array<Quest_Skill_Order_By>>;
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
+
 
 /** columns and relationships of "quest" */
 export type QuestQuest_Skills_AggregateArgs = {
@@ -8159,6 +8563,7 @@ export type Quest_Aggregate_Fields = {
   var_samp?: Maybe<Quest_Var_Samp_Fields>;
   variance?: Maybe<Quest_Variance_Fields>;
 };
+
 
 /** aggregate fields of "quest" */
 export type Quest_Aggregate_FieldsCountArgs = {
@@ -8254,6 +8659,7 @@ export type Quest_Completion_Aggregate_Fields = {
   min?: Maybe<Quest_Completion_Min_Fields>;
 };
 
+
 /** aggregate fields of "quest_completion" */
 export type Quest_Completion_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Completion_Select_Column>>;
@@ -8294,7 +8700,7 @@ export type Quest_Completion_Bool_Exp = {
 /** unique or primary key constraints on table "quest_completion" */
 export enum Quest_Completion_Constraint {
   /** unique or primary key constraint */
-  QuestCompletionPkey = 'quest_completion_pkey',
+  QuestCompletionPkey = 'quest_completion_pkey'
 }
 
 /** input type for inserting data into table "quest_completion" */
@@ -8408,7 +8814,7 @@ export enum Quest_Completion_Select_Column {
   /** column name */
   SubmissionText = 'submissionText',
   /** column name */
-  SubmittedAt = 'submittedAt',
+  SubmittedAt = 'submittedAt'
 }
 
 /** input type for updating data in table "quest_completion" */
@@ -8437,13 +8843,13 @@ export enum Quest_Completion_Update_Column {
   /** column name */
   SubmissionText = 'submissionText',
   /** column name */
-  SubmittedAt = 'submittedAt',
+  SubmittedAt = 'submittedAt'
 }
 
 /** unique or primary key constraints on table "quest" */
 export enum Quest_Constraint {
   /** unique or primary key constraint */
-  QuestPkey = 'quest_pkey',
+  QuestPkey = 'quest_pkey'
 }
 
 /** input type for incrementing integer column in table "quest" */
@@ -8605,6 +9011,7 @@ export type Quest_Role_Aggregate_Fields = {
   variance?: Maybe<Quest_Role_Variance_Fields>;
 };
 
+
 /** aggregate fields of "quest_role" */
 export type Quest_Role_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Role_Select_Column>>;
@@ -8657,7 +9064,7 @@ export type Quest_Role_Bool_Exp = {
 /** unique or primary key constraints on table "quest_role" */
 export enum Quest_Role_Constraint {
   /** unique or primary key constraint */
-  QuestRolePkey = 'quest_role_pkey',
+  QuestRolePkey = 'quest_role_pkey'
 }
 
 /** input type for incrementing integer column in table "quest_role" */
@@ -8745,7 +9152,7 @@ export enum Quest_Role_Select_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  Role = 'role',
+  Role = 'role'
 }
 
 /** input type for updating data in table "quest_role" */
@@ -8802,7 +9209,7 @@ export enum Quest_Role_Update_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  Role = 'role',
+  Role = 'role'
 }
 
 /** aggregate var_pop on columns */
@@ -8858,7 +9265,7 @@ export enum Quest_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  Title = 'title',
+  Title = 'title'
 }
 
 /** input type for updating data in table "quest" */
@@ -8899,6 +9306,7 @@ export type Quest_Skill_Aggregate_Fields = {
   min?: Maybe<Quest_Skill_Min_Fields>;
 };
 
+
 /** aggregate fields of "quest_skill" */
 export type Quest_Skill_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Skill_Select_Column>>;
@@ -8932,7 +9340,7 @@ export type Quest_Skill_Bool_Exp = {
 /** unique or primary key constraints on table "quest_skill" */
 export enum Quest_Skill_Constraint {
   /** unique or primary key constraint */
-  QuestSkillPkey = 'quest_skill_pkey',
+  QuestSkillPkey = 'quest_skill_pkey'
 }
 
 /** input type for inserting data into table "quest_skill" */
@@ -9007,7 +9415,7 @@ export enum Quest_Skill_Select_Column {
   /** column name */
   QuestId = 'questId',
   /** column name */
-  SkillId = 'skillId',
+  SkillId = 'skillId'
 }
 
 /** input type for updating data in table "quest_skill" */
@@ -9021,7 +9429,7 @@ export enum Quest_Skill_Update_Column {
   /** column name */
   QuestId = 'questId',
   /** column name */
-  SkillId = 'skillId',
+  SkillId = 'skillId'
 }
 
 /** aggregate stddev on columns */
@@ -9087,7 +9495,7 @@ export enum Quest_Update_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  Title = 'title',
+  Title = 'title'
 }
 
 /** aggregate var_pop on columns */
@@ -9135,6 +9543,7 @@ export type Skill = {
   quest_skills_aggregate: Quest_Skill_Aggregate;
 };
 
+
 /** columns and relationships of "skill" */
 export type SkillPlayer_SkillsArgs = {
   distinct_on?: InputMaybe<Array<Player_Skill_Select_Column>>;
@@ -9143,6 +9552,7 @@ export type SkillPlayer_SkillsArgs = {
   order_by?: InputMaybe<Array<Player_Skill_Order_By>>;
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
+
 
 /** columns and relationships of "skill" */
 export type SkillPlayer_Skills_AggregateArgs = {
@@ -9153,6 +9563,7 @@ export type SkillPlayer_Skills_AggregateArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
+
 /** columns and relationships of "skill" */
 export type SkillQuest_SkillsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Skill_Select_Column>>;
@@ -9161,6 +9572,7 @@ export type SkillQuest_SkillsArgs = {
   order_by?: InputMaybe<Array<Quest_Skill_Order_By>>;
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
+
 
 /** columns and relationships of "skill" */
 export type SkillQuest_Skills_AggregateArgs = {
@@ -9183,6 +9595,7 @@ export type Skill_Aggregate_Fields = {
   max?: Maybe<Skill_Max_Fields>;
   min?: Maybe<Skill_Min_Fields>;
 };
+
 
 /** aggregate fields of "skill" */
 export type Skill_Aggregate_FieldsCountArgs = {
@@ -9218,7 +9631,7 @@ export type Skill_Bool_Exp = {
 /** unique or primary key constraints on table "skill" */
 export enum Skill_Constraint {
   /** unique or primary key constraint */
-  SkillPkey = 'Skill_pkey',
+  SkillPkey = 'Skill_pkey'
 }
 
 /** input type for inserting data into table "skill" */
@@ -9296,7 +9709,7 @@ export enum Skill_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** input type for updating data in table "skill" */
@@ -9313,7 +9726,7 @@ export enum Skill_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** subscription root */
@@ -9498,6 +9911,7 @@ export type Subscription_Root = {
   xp_by_pk?: Maybe<Xp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootAccountTypeArgs = {
   distinct_on?: InputMaybe<Array<AccountType_Select_Column>>;
@@ -9506,6 +9920,7 @@ export type Subscription_RootAccountTypeArgs = {
   order_by?: InputMaybe<Array<AccountType_Order_By>>;
   where?: InputMaybe<AccountType_Bool_Exp>;
 };
+
 
 /** subscription root */
 export type Subscription_RootAccountType_AggregateArgs = {
@@ -9516,10 +9931,12 @@ export type Subscription_RootAccountType_AggregateArgs = {
   where?: InputMaybe<AccountType_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootAccountType_By_PkArgs = {
   type: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootColorAspectArgs = {
@@ -9530,6 +9947,7 @@ export type Subscription_RootColorAspectArgs = {
   where?: InputMaybe<ColorAspect_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootColorAspect_AggregateArgs = {
   distinct_on?: InputMaybe<Array<ColorAspect_Select_Column>>;
@@ -9539,10 +9957,12 @@ export type Subscription_RootColorAspect_AggregateArgs = {
   where?: InputMaybe<ColorAspect_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootColorAspect_By_PkArgs = {
   mask: Scalars['Int'];
 };
+
 
 /** subscription root */
 export type Subscription_RootExplorerTypeArgs = {
@@ -9553,6 +9973,7 @@ export type Subscription_RootExplorerTypeArgs = {
   where?: InputMaybe<ExplorerType_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootExplorerType_AggregateArgs = {
   distinct_on?: InputMaybe<Array<ExplorerType_Select_Column>>;
@@ -9562,10 +9983,12 @@ export type Subscription_RootExplorerType_AggregateArgs = {
   where?: InputMaybe<ExplorerType_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootExplorerType_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 /** subscription root */
 export type Subscription_RootGuildStatusArgs = {
@@ -9576,6 +9999,7 @@ export type Subscription_RootGuildStatusArgs = {
   where?: InputMaybe<GuildStatus_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuildStatus_AggregateArgs = {
   distinct_on?: InputMaybe<Array<GuildStatus_Select_Column>>;
@@ -9585,10 +10009,12 @@ export type Subscription_RootGuildStatus_AggregateArgs = {
   where?: InputMaybe<GuildStatus_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuildStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootGuildTypeArgs = {
@@ -9599,6 +10025,7 @@ export type Subscription_RootGuildTypeArgs = {
   where?: InputMaybe<GuildType_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuildType_AggregateArgs = {
   distinct_on?: InputMaybe<Array<GuildType_Select_Column>>;
@@ -9608,10 +10035,12 @@ export type Subscription_RootGuildType_AggregateArgs = {
   where?: InputMaybe<GuildType_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuildType_By_PkArgs = {
   name: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootPlayerRankArgs = {
@@ -9622,6 +10051,7 @@ export type Subscription_RootPlayerRankArgs = {
   where?: InputMaybe<PlayerRank_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayerRank_AggregateArgs = {
   distinct_on?: InputMaybe<Array<PlayerRank_Select_Column>>;
@@ -9631,10 +10061,12 @@ export type Subscription_RootPlayerRank_AggregateArgs = {
   where?: InputMaybe<PlayerRank_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayerRank_By_PkArgs = {
   rank: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootPlayerRoleArgs = {
@@ -9645,6 +10077,7 @@ export type Subscription_RootPlayerRoleArgs = {
   where?: InputMaybe<PlayerRole_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayerRole_AggregateArgs = {
   distinct_on?: InputMaybe<Array<PlayerRole_Select_Column>>;
@@ -9654,10 +10087,12 @@ export type Subscription_RootPlayerRole_AggregateArgs = {
   where?: InputMaybe<PlayerRole_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayerRole_By_PkArgs = {
   role: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootQuestCompletionStatusArgs = {
@@ -9668,6 +10103,7 @@ export type Subscription_RootQuestCompletionStatusArgs = {
   where?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuestCompletionStatus_AggregateArgs = {
   distinct_on?: InputMaybe<Array<QuestCompletionStatus_Select_Column>>;
@@ -9677,10 +10113,12 @@ export type Subscription_RootQuestCompletionStatus_AggregateArgs = {
   where?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuestCompletionStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootQuestRepetitionArgs = {
@@ -9691,6 +10129,7 @@ export type Subscription_RootQuestRepetitionArgs = {
   where?: InputMaybe<QuestRepetition_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuestRepetition_AggregateArgs = {
   distinct_on?: InputMaybe<Array<QuestRepetition_Select_Column>>;
@@ -9700,10 +10139,12 @@ export type Subscription_RootQuestRepetition_AggregateArgs = {
   where?: InputMaybe<QuestRepetition_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuestRepetition_By_PkArgs = {
   repetition: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootQuestStatusArgs = {
@@ -9714,6 +10155,7 @@ export type Subscription_RootQuestStatusArgs = {
   where?: InputMaybe<QuestStatus_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuestStatus_AggregateArgs = {
   distinct_on?: InputMaybe<Array<QuestStatus_Select_Column>>;
@@ -9723,10 +10165,12 @@ export type Subscription_RootQuestStatus_AggregateArgs = {
   where?: InputMaybe<QuestStatus_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuestStatus_By_PkArgs = {
   status: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootSkillCategoryArgs = {
@@ -9737,6 +10181,7 @@ export type Subscription_RootSkillCategoryArgs = {
   where?: InputMaybe<SkillCategory_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootSkillCategory_AggregateArgs = {
   distinct_on?: InputMaybe<Array<SkillCategory_Select_Column>>;
@@ -9746,10 +10191,12 @@ export type Subscription_RootSkillCategory_AggregateArgs = {
   where?: InputMaybe<SkillCategory_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootSkillCategory_By_PkArgs = {
   name: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootBalanceArgs = {
@@ -9760,6 +10207,7 @@ export type Subscription_RootBalanceArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootBalance_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
@@ -9769,10 +10217,12 @@ export type Subscription_RootBalance_AggregateArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootBalance_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootDaoArgs = {
@@ -9783,6 +10233,7 @@ export type Subscription_RootDaoArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootDao_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Dao_Select_Column>>;
@@ -9792,10 +10243,12 @@ export type Subscription_RootDao_AggregateArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootDao_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootDao_PlayerArgs = {
@@ -9806,6 +10259,7 @@ export type Subscription_RootDao_PlayerArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootDao_Player_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Dao_Player_Select_Column>>;
@@ -9815,11 +10269,13 @@ export type Subscription_RootDao_Player_AggregateArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootDao_Player_By_PkArgs = {
   daoId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootGuildArgs = {
@@ -9830,6 +10286,7 @@ export type Subscription_RootGuildArgs = {
   where?: InputMaybe<Guild_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuild_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Guild_Select_Column>>;
@@ -9839,10 +10296,12 @@ export type Subscription_RootGuild_AggregateArgs = {
   where?: InputMaybe<Guild_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuild_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootGuild_MetadataArgs = {
@@ -9853,6 +10312,7 @@ export type Subscription_RootGuild_MetadataArgs = {
   where?: InputMaybe<Guild_Metadata_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuild_Metadata_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Guild_Metadata_Select_Column>>;
@@ -9862,10 +10322,12 @@ export type Subscription_RootGuild_Metadata_AggregateArgs = {
   where?: InputMaybe<Guild_Metadata_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuild_Metadata_By_PkArgs = {
   guildId: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootGuild_PlayerArgs = {
@@ -9876,6 +10338,7 @@ export type Subscription_RootGuild_PlayerArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuild_Player_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Guild_Player_Select_Column>>;
@@ -9885,11 +10348,13 @@ export type Subscription_RootGuild_Player_AggregateArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootGuild_Player_By_PkArgs = {
   guildId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootMeArgs = {
@@ -9900,6 +10365,7 @@ export type Subscription_RootMeArgs = {
   where?: InputMaybe<Me_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootMe_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Me_Select_Column>>;
@@ -9908,6 +10374,7 @@ export type Subscription_RootMe_AggregateArgs = {
   order_by?: InputMaybe<Array<Me_Order_By>>;
   where?: InputMaybe<Me_Bool_Exp>;
 };
+
 
 /** subscription root */
 export type Subscription_RootPlayerArgs = {
@@ -9918,6 +10385,7 @@ export type Subscription_RootPlayerArgs = {
   where?: InputMaybe<Player_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayer_AccountArgs = {
   distinct_on?: InputMaybe<Array<Player_Account_Select_Column>>;
@@ -9926,6 +10394,7 @@ export type Subscription_RootPlayer_AccountArgs = {
   order_by?: InputMaybe<Array<Player_Account_Order_By>>;
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
+
 
 /** subscription root */
 export type Subscription_RootPlayer_Account_AggregateArgs = {
@@ -9936,6 +10405,7 @@ export type Subscription_RootPlayer_Account_AggregateArgs = {
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayer_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Select_Column>>;
@@ -9945,10 +10415,12 @@ export type Subscription_RootPlayer_AggregateArgs = {
   where?: InputMaybe<Player_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayer_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootPlayer_RoleArgs = {
@@ -9959,6 +10431,7 @@ export type Subscription_RootPlayer_RoleArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayer_Role_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Role_Select_Column>>;
@@ -9968,11 +10441,13 @@ export type Subscription_RootPlayer_Role_AggregateArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayer_Role_By_PkArgs = {
   player_id: Scalars['uuid'];
   role: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootPlayer_SkillArgs = {
@@ -9983,6 +10458,7 @@ export type Subscription_RootPlayer_SkillArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayer_Skill_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Player_Skill_Select_Column>>;
@@ -9992,10 +10468,12 @@ export type Subscription_RootPlayer_Skill_AggregateArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootPlayer_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootProfileArgs = {
@@ -10006,6 +10484,7 @@ export type Subscription_RootProfileArgs = {
   where?: InputMaybe<Profile_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootProfile_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Profile_Select_Column>>;
@@ -10015,10 +10494,12 @@ export type Subscription_RootProfile_AggregateArgs = {
   where?: InputMaybe<Profile_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootProfile_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootQuestArgs = {
@@ -10029,6 +10510,7 @@ export type Subscription_RootQuestArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuest_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
@@ -10038,10 +10520,12 @@ export type Subscription_RootQuest_AggregateArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuest_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootQuest_CompletionArgs = {
@@ -10052,6 +10536,7 @@ export type Subscription_RootQuest_CompletionArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuest_Completion_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Completion_Select_Column>>;
@@ -10061,10 +10546,12 @@ export type Subscription_RootQuest_Completion_AggregateArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuest_Completion_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootQuest_RoleArgs = {
@@ -10075,6 +10562,7 @@ export type Subscription_RootQuest_RoleArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuest_Role_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Role_Select_Column>>;
@@ -10084,11 +10572,13 @@ export type Subscription_RootQuest_Role_AggregateArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuest_Role_By_PkArgs = {
   questId: Scalars['uuid'];
   role: Scalars['String'];
 };
+
 
 /** subscription root */
 export type Subscription_RootQuest_SkillArgs = {
@@ -10099,6 +10589,7 @@ export type Subscription_RootQuest_SkillArgs = {
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuest_Skill_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Skill_Select_Column>>;
@@ -10108,11 +10599,13 @@ export type Subscription_RootQuest_Skill_AggregateArgs = {
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootQuest_Skill_By_PkArgs = {
   questId: Scalars['uuid'];
   skillId: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootSkillArgs = {
@@ -10123,6 +10616,7 @@ export type Subscription_RootSkillArgs = {
   where?: InputMaybe<Skill_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootSkill_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Skill_Select_Column>>;
@@ -10132,10 +10626,12 @@ export type Subscription_RootSkill_AggregateArgs = {
   where?: InputMaybe<Skill_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootSkill_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootTokenArgs = {
@@ -10146,6 +10642,7 @@ export type Subscription_RootTokenArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootToken_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Token_Select_Column>>;
@@ -10155,15 +10652,18 @@ export type Subscription_RootToken_AggregateArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootToken_By_PkArgs = {
   address: Scalars['String'];
 };
 
+
 /** subscription root */
 export type Subscription_RootUpdateIdxProfileArgs = {
   id: Scalars['uuid'];
 };
+
 
 /** subscription root */
 export type Subscription_RootXpArgs = {
@@ -10174,6 +10674,7 @@ export type Subscription_RootXpArgs = {
   where?: InputMaybe<Xp_Bool_Exp>;
 };
 
+
 /** subscription root */
 export type Subscription_RootXp_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Xp_Select_Column>>;
@@ -10182,6 +10683,7 @@ export type Subscription_RootXp_AggregateArgs = {
   order_by?: InputMaybe<Array<Xp_Order_By>>;
   where?: InputMaybe<Xp_Bool_Exp>;
 };
+
 
 /** subscription root */
 export type Subscription_RootXp_By_PkArgs = {
@@ -10204,12 +10706,60 @@ export type Timestamptz_Comparison_Exp = {
 /** columns and relationships of "token" */
 export type Token = {
   address: Scalars['String'];
+  /** An array relationship */
+  balances: Array<Balance>;
+  /** An aggregated array relationship */
+  balances_aggregate: Balance_Aggregate;
   chainId: Scalars['Int'];
   /** An object relationship */
   guild: Guild;
   guildId: Scalars['uuid'];
   lastOffset: Scalars['Int'];
   safeAddress: Scalars['String'];
+  /** An array relationship */
+  xps: Array<Xp>;
+  /** An aggregated array relationship */
+  xps_aggregate: Xp_Aggregate;
+};
+
+
+/** columns and relationships of "token" */
+export type TokenBalancesArgs = {
+  distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Balance_Order_By>>;
+  where?: InputMaybe<Balance_Bool_Exp>;
+};
+
+
+/** columns and relationships of "token" */
+export type TokenBalances_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Balance_Order_By>>;
+  where?: InputMaybe<Balance_Bool_Exp>;
+};
+
+
+/** columns and relationships of "token" */
+export type TokenXpsArgs = {
+  distinct_on?: InputMaybe<Array<Xp_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Xp_Order_By>>;
+  where?: InputMaybe<Xp_Bool_Exp>;
+};
+
+
+/** columns and relationships of "token" */
+export type TokenXps_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Xp_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Xp_Order_By>>;
+  where?: InputMaybe<Xp_Bool_Exp>;
 };
 
 /** aggregated selection of "token" */
@@ -10232,6 +10782,7 @@ export type Token_Aggregate_Fields = {
   var_samp?: Maybe<Token_Var_Samp_Fields>;
   variance?: Maybe<Token_Variance_Fields>;
 };
+
 
 /** aggregate fields of "token" */
 export type Token_Aggregate_FieldsCountArgs = {
@@ -10278,11 +10829,13 @@ export type Token_Bool_Exp = {
   _not?: InputMaybe<Token_Bool_Exp>;
   _or?: InputMaybe<Array<InputMaybe<Token_Bool_Exp>>>;
   address?: InputMaybe<String_Comparison_Exp>;
+  balances?: InputMaybe<Balance_Bool_Exp>;
   chainId?: InputMaybe<Int_Comparison_Exp>;
   guild?: InputMaybe<Guild_Bool_Exp>;
   guildId?: InputMaybe<Uuid_Comparison_Exp>;
   lastOffset?: InputMaybe<Int_Comparison_Exp>;
   safeAddress?: InputMaybe<String_Comparison_Exp>;
+  xps?: InputMaybe<Xp_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "token" */
@@ -10294,7 +10847,7 @@ export enum Token_Constraint {
   /** unique or primary key constraint */
   TokenPkey = 'token_pkey',
   /** unique or primary key constraint */
-  TokenSafeAddressKey = 'token_safe_address_key',
+  TokenSafeAddressKey = 'token_safe_address_key'
 }
 
 /** input type for incrementing integer column in table "token" */
@@ -10306,11 +10859,13 @@ export type Token_Inc_Input = {
 /** input type for inserting data into table "token" */
 export type Token_Insert_Input = {
   address?: InputMaybe<Scalars['String']>;
+  balances?: InputMaybe<Balance_Arr_Rel_Insert_Input>;
   chainId?: InputMaybe<Scalars['Int']>;
   guild?: InputMaybe<Guild_Obj_Rel_Insert_Input>;
   guildId?: InputMaybe<Scalars['uuid']>;
   lastOffset?: InputMaybe<Scalars['Int']>;
   safeAddress?: InputMaybe<Scalars['String']>;
+  xps?: InputMaybe<Xp_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -10373,11 +10928,13 @@ export type Token_On_Conflict = {
 /** ordering options when selecting data from "token" */
 export type Token_Order_By = {
   address?: InputMaybe<Order_By>;
+  balances_aggregate?: InputMaybe<Balance_Aggregate_Order_By>;
   chainId?: InputMaybe<Order_By>;
   guild?: InputMaybe<Guild_Order_By>;
   guildId?: InputMaybe<Order_By>;
   lastOffset?: InputMaybe<Order_By>;
   safeAddress?: InputMaybe<Order_By>;
+  xps_aggregate?: InputMaybe<Xp_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: "token" */
@@ -10396,7 +10953,7 @@ export enum Token_Select_Column {
   /** column name */
   LastOffset = 'lastOffset',
   /** column name */
-  SafeAddress = 'safeAddress',
+  SafeAddress = 'safeAddress'
 }
 
 /** input type for updating data in table "token" */
@@ -10467,7 +11024,7 @@ export enum Token_Update_Column {
   /** column name */
   LastOffset = 'lastOffset',
   /** column name */
-  SafeAddress = 'safeAddress',
+  SafeAddress = 'safeAddress'
 }
 
 /** aggregate var_pop on columns */
@@ -10535,8 +11092,11 @@ export type Uuid_Comparison_Exp = {
 export type Xp = {
   balance: Scalars['float8'];
   id: Scalars['uuid'];
-  initial?: Maybe<Scalars['float8']>;
+  /** An object relationship */
+  player: Player;
   playerId: Scalars['uuid'];
+  /** An object relationship */
+  token: Token;
   tokenAddress: Scalars['String'];
 };
 
@@ -10560,6 +11120,7 @@ export type Xp_Aggregate_Fields = {
   var_samp?: Maybe<Xp_Var_Samp_Fields>;
   variance?: Maybe<Xp_Variance_Fields>;
 };
+
 
 /** aggregate fields of "xp" */
 export type Xp_Aggregate_FieldsCountArgs = {
@@ -10591,13 +11152,11 @@ export type Xp_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Xp_Avg_Fields = {
   balance?: Maybe<Scalars['Float']>;
-  initial?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "xp" */
 export type Xp_Avg_Order_By = {
   balance?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "xp". All fields are combined with a logical 'AND'. */
@@ -10607,8 +11166,9 @@ export type Xp_Bool_Exp = {
   _or?: InputMaybe<Array<InputMaybe<Xp_Bool_Exp>>>;
   balance?: InputMaybe<Float8_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  initial?: InputMaybe<Float8_Comparison_Exp>;
+  player?: InputMaybe<Player_Bool_Exp>;
   playerId?: InputMaybe<Uuid_Comparison_Exp>;
+  token?: InputMaybe<Token_Bool_Exp>;
   tokenAddress?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -10616,20 +11176,22 @@ export type Xp_Bool_Exp = {
 export enum Xp_Constraint {
   /** unique or primary key constraint */
   XpPkey = 'xp_pkey',
+  /** unique or primary key constraint */
+  XpPlayerIdTokenAddressKey = 'xp_player_id_token_address_key'
 }
 
 /** input type for incrementing integer column in table "xp" */
 export type Xp_Inc_Input = {
   balance?: InputMaybe<Scalars['float8']>;
-  initial?: InputMaybe<Scalars['float8']>;
 };
 
 /** input type for inserting data into table "xp" */
 export type Xp_Insert_Input = {
   balance?: InputMaybe<Scalars['float8']>;
   id?: InputMaybe<Scalars['uuid']>;
-  initial?: InputMaybe<Scalars['float8']>;
+  player?: InputMaybe<Player_Obj_Rel_Insert_Input>;
   playerId?: InputMaybe<Scalars['uuid']>;
+  token?: InputMaybe<Token_Obj_Rel_Insert_Input>;
   tokenAddress?: InputMaybe<Scalars['String']>;
 };
 
@@ -10637,7 +11199,6 @@ export type Xp_Insert_Input = {
 export type Xp_Max_Fields = {
   balance?: Maybe<Scalars['float8']>;
   id?: Maybe<Scalars['uuid']>;
-  initial?: Maybe<Scalars['float8']>;
   playerId?: Maybe<Scalars['uuid']>;
   tokenAddress?: Maybe<Scalars['String']>;
 };
@@ -10646,7 +11207,6 @@ export type Xp_Max_Fields = {
 export type Xp_Max_Order_By = {
   balance?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
   playerId?: InputMaybe<Order_By>;
   tokenAddress?: InputMaybe<Order_By>;
 };
@@ -10655,7 +11215,6 @@ export type Xp_Max_Order_By = {
 export type Xp_Min_Fields = {
   balance?: Maybe<Scalars['float8']>;
   id?: Maybe<Scalars['uuid']>;
-  initial?: Maybe<Scalars['float8']>;
   playerId?: Maybe<Scalars['uuid']>;
   tokenAddress?: Maybe<Scalars['String']>;
 };
@@ -10664,7 +11223,6 @@ export type Xp_Min_Fields = {
 export type Xp_Min_Order_By = {
   balance?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
   playerId?: InputMaybe<Order_By>;
   tokenAddress?: InputMaybe<Order_By>;
 };
@@ -10694,8 +11252,9 @@ export type Xp_On_Conflict = {
 export type Xp_Order_By = {
   balance?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
+  player?: InputMaybe<Player_Order_By>;
   playerId?: InputMaybe<Order_By>;
+  token?: InputMaybe<Token_Order_By>;
   tokenAddress?: InputMaybe<Order_By>;
 };
 
@@ -10711,18 +11270,15 @@ export enum Xp_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Initial = 'initial',
-  /** column name */
   PlayerId = 'playerId',
   /** column name */
-  TokenAddress = 'tokenAddress',
+  TokenAddress = 'tokenAddress'
 }
 
 /** input type for updating data in table "xp" */
 export type Xp_Set_Input = {
   balance?: InputMaybe<Scalars['float8']>;
   id?: InputMaybe<Scalars['uuid']>;
-  initial?: InputMaybe<Scalars['float8']>;
   playerId?: InputMaybe<Scalars['uuid']>;
   tokenAddress?: InputMaybe<Scalars['String']>;
 };
@@ -10730,49 +11286,41 @@ export type Xp_Set_Input = {
 /** aggregate stddev on columns */
 export type Xp_Stddev_Fields = {
   balance?: Maybe<Scalars['Float']>;
-  initial?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "xp" */
 export type Xp_Stddev_Order_By = {
   balance?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Xp_Stddev_Pop_Fields = {
   balance?: Maybe<Scalars['Float']>;
-  initial?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "xp" */
 export type Xp_Stddev_Pop_Order_By = {
   balance?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Xp_Stddev_Samp_Fields = {
   balance?: Maybe<Scalars['Float']>;
-  initial?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "xp" */
 export type Xp_Stddev_Samp_Order_By = {
   balance?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
 export type Xp_Sum_Fields = {
   balance?: Maybe<Scalars['float8']>;
-  initial?: Maybe<Scalars['float8']>;
 };
 
 /** order by sum() on columns of table "xp" */
 export type Xp_Sum_Order_By = {
   balance?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "xp" */
@@ -10782,447 +11330,116 @@ export enum Xp_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Initial = 'initial',
-  /** column name */
   PlayerId = 'playerId',
   /** column name */
-  TokenAddress = 'tokenAddress',
+  TokenAddress = 'tokenAddress'
 }
 
 /** aggregate var_pop on columns */
 export type Xp_Var_Pop_Fields = {
   balance?: Maybe<Scalars['Float']>;
-  initial?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "xp" */
 export type Xp_Var_Pop_Order_By = {
   balance?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Xp_Var_Samp_Fields = {
   balance?: Maybe<Scalars['Float']>;
-  initial?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "xp" */
 export type Xp_Var_Samp_Order_By = {
   balance?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Xp_Variance_Fields = {
   balance?: Maybe<Scalars['Float']>;
-  initial?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "xp" */
 export type Xp_Variance_Order_By = {
   balance?: InputMaybe<Order_By>;
-  initial?: InputMaybe<Order_By>;
 };
 
-export type PlayerFragment = {
-  id: any;
-  totalXP?: any | null;
-  seasonXP: any;
-  rank?: PlayerRank_Enum | null;
-  ethereumAddress: string;
-  profileLayout?: string | null;
-  profile?: {
-    name?: string | null;
-    username?: string | null;
-    description?: string | null;
-    emoji?: string | null;
-    profileImageURL?: string | null;
-    bannerImageURL?: string | null;
-    backgroundImageURL?: string | null;
-    location?: string | null;
-    countryCode?: string | null;
-    website?: string | null;
-    pronouns?: string | null;
-    availableHours?: number | null;
-    timeZone?: string | null;
-    colorMask?: number | null;
-    explorerTypeTitle?: string | null;
-  } | null;
-  skills: Array<{
-    Skill: { category: SkillCategory_Enum; id: any; name: string };
-  }>;
-  roles: Array<{ role: string; rank: number; PlayerRole: { label: string } }>;
-  accounts: Array<{ identifier: string; type: AccountType_Enum }>;
-  guilds: Array<{ Guild: { guildname: string } }>;
-};
+export type PlayerFragment = { id: any, totalXP?: any | null, seasonXP: any, rank?: PlayerRank_Enum | null, ethereumAddress: string, profileLayout?: string | null, profile?: { name?: string | null, username?: string | null, description?: string | null, emoji?: string | null, profileImageURL?: string | null, bannerImageURL?: string | null, backgroundImageURL?: string | null, location?: string | null, countryCode?: string | null, website?: string | null, pronouns?: string | null, availableHours?: number | null, timeZone?: string | null, colorMask?: number | null, explorerTypeTitle?: string | null } | null, skills: Array<{ Skill: { category: SkillCategory_Enum, id: any, name: string } }>, roles: Array<{ role: string, rank: number, PlayerRole: { label: string } }>, accounts: Array<{ identifier: string, type: AccountType_Enum }>, guilds: Array<{ Guild: { guildname: string } }> };
 
-export type GuildFragment = {
-  id: any;
-  guildname: string;
-  profileLayout?: string | null;
-  description?: string | null;
-  discordInviteUrl?: string | null;
-  joinButtonUrl?: string | null;
-  logo?: string | null;
-  name: string;
-  type: GuildType_Enum;
-  websiteUrl?: string | null;
-  githubUrl?: string | null;
-  twitterUrl?: string | null;
-  showDiscordAnnouncements: boolean;
-  daos: Array<{
-    contractAddress: string;
-    network: string;
-    label?: string | null;
-    url?: string | null;
-  }>;
-};
+export type GuildFragment = { id: any, guildname: string, profileLayout?: string | null, description?: string | null, discordInviteUrl?: string | null, joinButtonUrl?: string | null, logo?: string | null, name: string, type: GuildType_Enum, websiteUrl?: string | null, githubUrl?: string | null, twitterUrl?: string | null, showDiscordAnnouncements: boolean, daos: Array<{ contractAddress: string, network: string, label?: string | null, url?: string | null }> };
 
-export type QuestFragment = {
-  id: any;
-  createdAt: any;
-  cooldown?: number | null;
-  description?: string | null;
-  externalLink?: string | null;
-  guildId: any;
-  status: QuestStatus_Enum;
-  title: string;
-  repetition: QuestRepetition_Enum;
-  image?: string | null;
-  guild: { name: string; logo?: string | null };
-  player: { id: any; ethereumAddress: string };
-  quest_skills: Array<{
-    skill: { id: any; name: string; category: SkillCategory_Enum };
-  }>;
-  quest_roles: Array<{
-    PlayerRole: {
-      basic?: boolean | null;
-      role: string;
-      label: string;
-      description?: string | null;
-    };
-  }>;
-};
+export type QuestFragment = { id: any, createdAt: any, cooldown?: number | null, description?: string | null, externalLink?: string | null, guildId: any, status: QuestStatus_Enum, title: string, repetition: QuestRepetition_Enum, image?: string | null, guild: { name: string, logo?: string | null }, player: { id: any, ethereumAddress: string }, quest_skills: Array<{ skill: { id: any, name: string, category: SkillCategory_Enum } }>, quest_roles: Array<{ PlayerRole: { basic?: boolean | null, role: string, label: string, description?: string | null } }> };
 
-export type QuestCompletionFragment = {
-  id: any;
-  completedByPlayerId: any;
-  status: QuestCompletionStatus_Enum;
-  submissionLink?: string | null;
-  submissionText?: string | null;
-  submittedAt: any;
-  questId: any;
-  completed?: { title: string } | null;
-};
+export type QuestCompletionFragment = { id: any, completedByPlayerId: any, status: QuestCompletionStatus_Enum, submissionLink?: string | null, submissionText?: string | null, submittedAt: any, questId: any, completed?: { title: string } | null };
 
-export type TokenBalancesFragment = { pSeedBalance: string; address: string };
+export type TokenBalancesFragment = { pSeedBalance: string, address: string };
 
-export type PlayerSkillFragment = {
-  id: any;
-  name: string;
-  category: SkillCategory_Enum;
-};
+export type PlayerSkillFragment = { id: any, name: string, category: SkillCategory_Enum };
 
-export type QuestWithCompletionFragment = {
-  id: any;
-  createdAt: any;
-  cooldown?: number | null;
-  description?: string | null;
-  externalLink?: string | null;
-  guildId: any;
-  status: QuestStatus_Enum;
-  title: string;
-  repetition: QuestRepetition_Enum;
-  image?: string | null;
-  guild: { name: string; logo?: string | null };
-  quest_skills: Array<{
-    skill: { id: any; name: string; category: SkillCategory_Enum };
-  }>;
-  quest_roles: Array<{
-    PlayerRole: {
-      basic?: boolean | null;
-      role: string;
-      label: string;
-      description?: string | null;
-    };
-  }>;
-  quest_completions: Array<{
-    id: any;
-    completedByPlayerId: any;
-    status: QuestCompletionStatus_Enum;
-    submissionLink?: string | null;
-    submissionText?: string | null;
-    submittedAt: any;
-    questId: any;
-    player: {
-      id: any;
-      ethereumAddress: string;
-      profile?: { username?: string | null } | null;
-    };
-    completed?: { title: string } | null;
-  }>;
-};
+export type QuestWithCompletionFragment = { id: any, createdAt: any, cooldown?: number | null, description?: string | null, externalLink?: string | null, guildId: any, status: QuestStatus_Enum, title: string, repetition: QuestRepetition_Enum, image?: string | null, guild: { name: string, logo?: string | null }, quest_skills: Array<{ skill: { id: any, name: string, category: SkillCategory_Enum } }>, quest_roles: Array<{ PlayerRole: { basic?: boolean | null, role: string, label: string, description?: string | null } }>, quest_completions: Array<{ id: any, completedByPlayerId: any, status: QuestCompletionStatus_Enum, submissionLink?: string | null, submissionText?: string | null, submittedAt: any, questId: any, player: { id: any, ethereumAddress: string, profile?: { username?: string | null } | null }, completed?: { title: string } | null }> };
 
-export type PlayerDaoMembershipFragment = {
-  daohausMemberships: Array<{
-    id: string;
-    shares: string;
-    molochAddress: string;
-    moloch: {
-      id: string;
-      title?: string | null;
-      version?: string | null;
-      totalShares: string;
-      chain: string;
-      avatarURL?: string | null;
-    };
-  }>;
-};
+export type PlayerDaoMembershipFragment = { daohausMemberships: Array<{ id: string, shares: string, molochAddress: string, moloch: { id: string, title?: string | null, version?: string | null, totalShares: string, chain: string, avatarURL?: string | null } }> };
 
-export type GetMeQueryVariables = Exact<{ [key: string]: never }>;
+export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetMeQuery = {
-  me: Array<{
-    record?: {
-      dashboardLayout?: string | null;
-      createdAt?: any | null;
-      id: any;
-      totalXP?: any | null;
-      seasonXP: any;
-      rank?: PlayerRank_Enum | null;
-      ethereumAddress: string;
-      profileLayout?: string | null;
-      profile?: {
-        name?: string | null;
-        username?: string | null;
-        description?: string | null;
-        emoji?: string | null;
-        profileImageURL?: string | null;
-        bannerImageURL?: string | null;
-        backgroundImageURL?: string | null;
-        location?: string | null;
-        countryCode?: string | null;
-        website?: string | null;
-        pronouns?: string | null;
-        availableHours?: number | null;
-        timeZone?: string | null;
-        colorMask?: number | null;
-        explorerTypeTitle?: string | null;
-      } | null;
-      skills: Array<{
-        Skill: { category: SkillCategory_Enum; id: any; name: string };
-      }>;
-      roles: Array<{
-        role: string;
-        rank: number;
-        PlayerRole: { label: string };
-      }>;
-      accounts: Array<{ identifier: string; type: AccountType_Enum }>;
-      guilds: Array<{ Guild: { guildname: string } }>;
-    } | null;
-  }>;
-};
+
+export type GetMeQuery = { me: Array<{ record?: { dashboardLayout?: string | null, createdAt?: any | null, id: any, totalXP?: any | null, seasonXP: any, rank?: PlayerRank_Enum | null, ethereumAddress: string, profileLayout?: string | null, profile?: { name?: string | null, username?: string | null, description?: string | null, emoji?: string | null, profileImageURL?: string | null, bannerImageURL?: string | null, backgroundImageURL?: string | null, location?: string | null, countryCode?: string | null, website?: string | null, pronouns?: string | null, availableHours?: number | null, timeZone?: string | null, colorMask?: number | null, explorerTypeTitle?: string | null } | null, skills: Array<{ Skill: { category: SkillCategory_Enum, id: any, name: string } }>, roles: Array<{ role: string, rank: number, PlayerRole: { label: string } }>, accounts: Array<{ identifier: string, type: AccountType_Enum }>, guilds: Array<{ Guild: { guildname: string } }> } | null }> };
 
 export type GetDaoMembershipsQueryVariables = Exact<{
   address?: InputMaybe<Scalars['String']>;
 }>;
 
-export type GetDaoMembershipsQuery = {
-  getDaoHausMemberships: Array<{
-    id: string;
-    molochAddress: string;
-    moloch: {
-      id: string;
-      title?: string | null;
-      version?: string | null;
-      chain: string;
-      avatarURL?: string | null;
-    };
-  }>;
-};
+
+export type GetDaoMembershipsQuery = { getDaoHausMemberships: Array<{ id: string, molochAddress: string, moloch: { id: string, title?: string | null, version?: string | null, chain: string, avatarURL?: string | null } }> };
 
 export type GetPlayerGuildsQueryVariables = Exact<{
   playerId: Scalars['uuid'];
 }>;
 
-export type GetPlayerGuildsQuery = {
-  guild_player: Array<{
-    guildId: any;
-    Guild: {
-      id: any;
-      logo?: string | null;
-      name: string;
-      guildname: string;
-      membershipThroughDiscord: boolean;
-      daos: Array<{ id: any; contractAddress: string }>;
-    };
-    discordRoles: Array<{ id: string; name: string; position: number }>;
-  }>;
-};
+
+export type GetPlayerGuildsQuery = { guild_player: Array<{ guildId: any, Guild: { id: any, logo?: string | null, name: string, guildname: string, membershipThroughDiscord: boolean, daos: Array<{ id: any, contractAddress: string }> }, discordRoles: Array<{ id: string, name: string, position: number }> }> };
 
 export type GetpSeedBalanceQueryVariables = Exact<{
   address: Scalars['String'];
 }>;
 
-export type GetpSeedBalanceQuery = {
-  getTokenBalances?: { pSeedBalance: string; address: string } | null;
-};
+
+export type GetpSeedBalanceQuery = { getTokenBalances?: { pSeedBalance: string, address: string } | null };
 
 export type GetPatronsQueryVariables = Exact<{
   addresses?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
   limit?: InputMaybe<Scalars['Int']>;
 }>;
 
-export type GetPatronsQuery = {
-  player: Array<{
-    id: any;
-    totalXP?: any | null;
-    seasonXP: any;
-    rank?: PlayerRank_Enum | null;
-    ethereumAddress: string;
-    profileLayout?: string | null;
-    profile?: {
-      name?: string | null;
-      username?: string | null;
-      description?: string | null;
-      emoji?: string | null;
-      profileImageURL?: string | null;
-      bannerImageURL?: string | null;
-      backgroundImageURL?: string | null;
-      location?: string | null;
-      countryCode?: string | null;
-      website?: string | null;
-      pronouns?: string | null;
-      availableHours?: number | null;
-      timeZone?: string | null;
-      colorMask?: number | null;
-      explorerTypeTitle?: string | null;
-    } | null;
-    skills: Array<{
-      Skill: { category: SkillCategory_Enum; id: any; name: string };
-    }>;
-    roles: Array<{ role: string; rank: number; PlayerRole: { label: string } }>;
-    accounts: Array<{ identifier: string; type: AccountType_Enum }>;
-    guilds: Array<{ Guild: { guildname: string } }>;
-  }>;
-};
+
+export type GetPatronsQuery = { player: Array<{ id: any, totalXP?: any | null, seasonXP: any, rank?: PlayerRank_Enum | null, ethereumAddress: string, profileLayout?: string | null, profile?: { name?: string | null, username?: string | null, description?: string | null, emoji?: string | null, profileImageURL?: string | null, bannerImageURL?: string | null, backgroundImageURL?: string | null, location?: string | null, countryCode?: string | null, website?: string | null, pronouns?: string | null, availableHours?: number | null, timeZone?: string | null, colorMask?: number | null, explorerTypeTitle?: string | null } | null, skills: Array<{ Skill: { category: SkillCategory_Enum, id: any, name: string } }>, roles: Array<{ role: string, rank: number, PlayerRole: { label: string } }>, accounts: Array<{ identifier: string, type: AccountType_Enum }>, guilds: Array<{ Guild: { guildname: string } }> }> };
 
 export type GetpSeedHoldersQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
 }>;
 
-export type GetpSeedHoldersQuery = {
-  pSeedHolders?: Array<{ pSeedBalance: string; address: string }> | null;
-};
 
-export type GetPSeedPriceQueryVariables = Exact<{ [key: string]: never }>;
+export type GetpSeedHoldersQuery = { pSeedHolders?: Array<{ pSeedBalance: string, address: string }> | null };
 
-export type GetPSeedPriceQuery = {
-  getPSeedInfo?: { priceUsd?: string | null } | null;
-};
+export type GetPSeedPriceQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPSeedPriceQuery = { getPSeedInfo?: { priceUsd?: string | null } | null };
 
 export type GetPlayerForUsernameQueryVariables = Exact<{
   username: Scalars['String'];
 }>;
 
-export type GetPlayerForUsernameQuery = {
-  player: Array<{
-    id: any;
-    totalXP?: any | null;
-    seasonXP: any;
-    rank?: PlayerRank_Enum | null;
-    ethereumAddress: string;
-    profileLayout?: string | null;
-    profile?: {
-      name?: string | null;
-      username?: string | null;
-      description?: string | null;
-      emoji?: string | null;
-      profileImageURL?: string | null;
-      bannerImageURL?: string | null;
-      backgroundImageURL?: string | null;
-      location?: string | null;
-      countryCode?: string | null;
-      website?: string | null;
-      pronouns?: string | null;
-      availableHours?: number | null;
-      timeZone?: string | null;
-      colorMask?: number | null;
-      explorerTypeTitle?: string | null;
-    } | null;
-    skills: Array<{
-      Skill: { category: SkillCategory_Enum; id: any; name: string };
-    }>;
-    roles: Array<{ role: string; rank: number; PlayerRole: { label: string } }>;
-    accounts: Array<{ identifier: string; type: AccountType_Enum }>;
-    guilds: Array<{ Guild: { guildname: string } }>;
-    daohausMemberships: Array<{
-      id: string;
-      shares: string;
-      molochAddress: string;
-      moloch: {
-        id: string;
-        title?: string | null;
-        version?: string | null;
-        totalShares: string;
-        chain: string;
-        avatarURL?: string | null;
-      };
-    }>;
-  }>;
-};
+
+export type GetPlayerForUsernameQuery = { player: Array<{ id: any, totalXP?: any | null, seasonXP: any, rank?: PlayerRank_Enum | null, ethereumAddress: string, profileLayout?: string | null, profile?: { name?: string | null, username?: string | null, description?: string | null, emoji?: string | null, profileImageURL?: string | null, bannerImageURL?: string | null, backgroundImageURL?: string | null, location?: string | null, countryCode?: string | null, website?: string | null, pronouns?: string | null, availableHours?: number | null, timeZone?: string | null, colorMask?: number | null, explorerTypeTitle?: string | null } | null, skills: Array<{ Skill: { category: SkillCategory_Enum, id: any, name: string } }>, roles: Array<{ role: string, rank: number, PlayerRole: { label: string } }>, accounts: Array<{ identifier: string, type: AccountType_Enum }>, guilds: Array<{ Guild: { guildname: string } }>, daohausMemberships: Array<{ id: string, shares: string, molochAddress: string, moloch: { id: string, title?: string | null, version?: string | null, totalShares: string, chain: string, avatarURL?: string | null } }> }> };
 
 export type GetPlayerForAddressQueryVariables = Exact<{
   address: Scalars['String'];
 }>;
 
-export type GetPlayerForAddressQuery = {
-  player: Array<{
-    id: any;
-    totalXP?: any | null;
-    seasonXP: any;
-    rank?: PlayerRank_Enum | null;
-    ethereumAddress: string;
-    profileLayout?: string | null;
-    profile?: {
-      name?: string | null;
-      username?: string | null;
-      description?: string | null;
-      emoji?: string | null;
-      profileImageURL?: string | null;
-      bannerImageURL?: string | null;
-      backgroundImageURL?: string | null;
-      location?: string | null;
-      countryCode?: string | null;
-      website?: string | null;
-      pronouns?: string | null;
-      availableHours?: number | null;
-      timeZone?: string | null;
-      colorMask?: number | null;
-      explorerTypeTitle?: string | null;
-    } | null;
-    skills: Array<{
-      Skill: { category: SkillCategory_Enum; id: any; name: string };
-    }>;
-    roles: Array<{ role: string; rank: number; PlayerRole: { label: string } }>;
-    accounts: Array<{ identifier: string; type: AccountType_Enum }>;
-    guilds: Array<{ Guild: { guildname: string } }>;
-    daohausMemberships: Array<{
-      id: string;
-      shares: string;
-      molochAddress: string;
-      moloch: {
-        id: string;
-        title?: string | null;
-        version?: string | null;
-        totalShares: string;
-        chain: string;
-        avatarURL?: string | null;
-      };
-    }>;
-  }>;
-};
+
+export type GetPlayerForAddressQuery = { player: Array<{ id: any, totalXP?: any | null, seasonXP: any, rank?: PlayerRank_Enum | null, ethereumAddress: string, profileLayout?: string | null, profile?: { name?: string | null, username?: string | null, description?: string | null, emoji?: string | null, profileImageURL?: string | null, bannerImageURL?: string | null, backgroundImageURL?: string | null, location?: string | null, countryCode?: string | null, website?: string | null, pronouns?: string | null, availableHours?: number | null, timeZone?: string | null, colorMask?: number | null, explorerTypeTitle?: string | null } | null, skills: Array<{ Skill: { category: SkillCategory_Enum, id: any, name: string } }>, roles: Array<{ role: string, rank: number, PlayerRole: { label: string } }>, accounts: Array<{ identifier: string, type: AccountType_Enum }>, guilds: Array<{ Guild: { guildname: string } }>, daohausMemberships: Array<{ id: string, shares: string, molochAddress: string, moloch: { id: string, title?: string | null, version?: string | null, totalShares: string, chain: string, avatarURL?: string | null } }> }> };
 
 export type GetPlayersQueryVariables = Exact<{
   orderBy: Player_Order_By;
@@ -11231,176 +11448,39 @@ export type GetPlayersQueryVariables = Exact<{
   where?: InputMaybe<Player_Bool_Exp>;
 }>;
 
-export type GetPlayersQuery = {
-  player: Array<{
-    id: any;
-    totalXP?: any | null;
-    seasonXP: any;
-    rank?: PlayerRank_Enum | null;
-    ethereumAddress: string;
-    profileLayout?: string | null;
-    profile?: {
-      name?: string | null;
-      username?: string | null;
-      description?: string | null;
-      emoji?: string | null;
-      profileImageURL?: string | null;
-      bannerImageURL?: string | null;
-      backgroundImageURL?: string | null;
-      location?: string | null;
-      countryCode?: string | null;
-      website?: string | null;
-      pronouns?: string | null;
-      availableHours?: number | null;
-      timeZone?: string | null;
-      colorMask?: number | null;
-      explorerTypeTitle?: string | null;
-    } | null;
-    skills: Array<{
-      Skill: { category: SkillCategory_Enum; id: any; name: string };
-    }>;
-    roles: Array<{ role: string; rank: number; PlayerRole: { label: string } }>;
-    accounts: Array<{ identifier: string; type: AccountType_Enum }>;
-    guilds: Array<{ Guild: { guildname: string } }>;
-  }>;
-  player_aggregate: { aggregate?: { count?: number | null } | null };
-};
+
+export type GetPlayersQuery = { player: Array<{ id: any, totalXP?: any | null, seasonXP: any, rank?: PlayerRank_Enum | null, ethereumAddress: string, profileLayout?: string | null, profile?: { name?: string | null, username?: string | null, description?: string | null, emoji?: string | null, profileImageURL?: string | null, bannerImageURL?: string | null, backgroundImageURL?: string | null, location?: string | null, countryCode?: string | null, website?: string | null, pronouns?: string | null, availableHours?: number | null, timeZone?: string | null, colorMask?: number | null, explorerTypeTitle?: string | null } | null, skills: Array<{ Skill: { category: SkillCategory_Enum, id: any, name: string } }>, roles: Array<{ role: string, rank: number, PlayerRole: { label: string } }>, accounts: Array<{ identifier: string, type: AccountType_Enum }>, guilds: Array<{ Guild: { guildname: string } }> }>, player_aggregate: { aggregate?: { count?: number | null } | null } };
 
 export type GetPlayerUsernamesQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
 }>;
 
-export type GetPlayerUsernamesQuery = {
-  player: Array<{
-    ethereumAddress: string;
-    profile?: { username?: string | null } | null;
-  }>;
-};
 
-export type GetPlayerFiltersQueryVariables = Exact<{ [key: string]: never }>;
+export type GetPlayerUsernamesQuery = { player: Array<{ ethereumAddress: string, profile?: { username?: string | null } | null }> };
 
-export type GetPlayerFiltersQuery = {
-  skill_aggregate: { nodes: Array<{ name: SkillCategory_Enum }> };
-  skill: Array<{ id: any; name: string; category: SkillCategory_Enum }>;
-  ExplorerType: Array<{ value: number; label: string }>;
-};
+export type GetPlayerFiltersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPlayerFiltersQuery = { skill_aggregate: { nodes: Array<{ name: SkillCategory_Enum }> }, skill: Array<{ id: any, name: string, category: SkillCategory_Enum }>, ExplorerType: Array<{ value: number, label: string }> };
 
 export type GetQuestQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-export type GetQuestQuery = {
-  quest_by_pk?: {
-    id: any;
-    createdAt: any;
-    cooldown?: number | null;
-    description?: string | null;
-    externalLink?: string | null;
-    guildId: any;
-    status: QuestStatus_Enum;
-    title: string;
-    repetition: QuestRepetition_Enum;
-    image?: string | null;
-    guild: { name: string; logo?: string | null };
-    player: { id: any; ethereumAddress: string };
-    quest_skills: Array<{
-      skill: { id: any; name: string; category: SkillCategory_Enum };
-    }>;
-    quest_roles: Array<{
-      PlayerRole: {
-        basic?: boolean | null;
-        role: string;
-        label: string;
-        description?: string | null;
-      };
-    }>;
-  } | null;
-};
+
+export type GetQuestQuery = { quest_by_pk?: { id: any, createdAt: any, cooldown?: number | null, description?: string | null, externalLink?: string | null, guildId: any, status: QuestStatus_Enum, title: string, repetition: QuestRepetition_Enum, image?: string | null, guild: { name: string, logo?: string | null }, player: { id: any, ethereumAddress: string }, quest_skills: Array<{ skill: { id: any, name: string, category: SkillCategory_Enum } }>, quest_roles: Array<{ PlayerRole: { basic?: boolean | null, role: string, label: string, description?: string | null } }> } | null };
 
 export type GetQuestWithCompletionsQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-export type GetQuestWithCompletionsQuery = {
-  quest_by_pk?: {
-    id: any;
-    createdAt: any;
-    cooldown?: number | null;
-    description?: string | null;
-    externalLink?: string | null;
-    guildId: any;
-    status: QuestStatus_Enum;
-    title: string;
-    repetition: QuestRepetition_Enum;
-    image?: string | null;
-    player: {
-      id: any;
-      totalXP?: any | null;
-      seasonXP: any;
-      rank?: PlayerRank_Enum | null;
-      ethereumAddress: string;
-      profileLayout?: string | null;
-      profile?: {
-        name?: string | null;
-        username?: string | null;
-        description?: string | null;
-        emoji?: string | null;
-        profileImageURL?: string | null;
-        bannerImageURL?: string | null;
-        backgroundImageURL?: string | null;
-        location?: string | null;
-        countryCode?: string | null;
-        website?: string | null;
-        pronouns?: string | null;
-        availableHours?: number | null;
-        timeZone?: string | null;
-        colorMask?: number | null;
-        explorerTypeTitle?: string | null;
-      } | null;
-      skills: Array<{
-        Skill: { category: SkillCategory_Enum; id: any; name: string };
-      }>;
-      roles: Array<{
-        role: string;
-        rank: number;
-        PlayerRole: { label: string };
-      }>;
-      accounts: Array<{ identifier: string; type: AccountType_Enum }>;
-      guilds: Array<{ Guild: { guildname: string } }>;
-    };
-    guild: { name: string; logo?: string | null };
-    quest_skills: Array<{
-      skill: { id: any; name: string; category: SkillCategory_Enum };
-    }>;
-    quest_roles: Array<{
-      PlayerRole: {
-        basic?: boolean | null;
-        role: string;
-        label: string;
-        description?: string | null;
-      };
-    }>;
-    quest_completions: Array<{
-      id: any;
-      completedByPlayerId: any;
-      status: QuestCompletionStatus_Enum;
-      submissionLink?: string | null;
-      submissionText?: string | null;
-      submittedAt: any;
-      questId: any;
-      player: {
-        id: any;
-        ethereumAddress: string;
-        profile?: { username?: string | null } | null;
-      };
-      completed?: { title: string } | null;
-    }>;
-  } | null;
-};
+
+export type GetQuestWithCompletionsQuery = { quest_by_pk?: { id: any, createdAt: any, cooldown?: number | null, description?: string | null, externalLink?: string | null, guildId: any, status: QuestStatus_Enum, title: string, repetition: QuestRepetition_Enum, image?: string | null, player: { id: any, totalXP?: any | null, seasonXP: any, rank?: PlayerRank_Enum | null, ethereumAddress: string, profileLayout?: string | null, profile?: { name?: string | null, username?: string | null, description?: string | null, emoji?: string | null, profileImageURL?: string | null, bannerImageURL?: string | null, backgroundImageURL?: string | null, location?: string | null, countryCode?: string | null, website?: string | null, pronouns?: string | null, availableHours?: number | null, timeZone?: string | null, colorMask?: number | null, explorerTypeTitle?: string | null } | null, skills: Array<{ Skill: { category: SkillCategory_Enum, id: any, name: string } }>, roles: Array<{ role: string, rank: number, PlayerRole: { label: string } }>, accounts: Array<{ identifier: string, type: AccountType_Enum }>, guilds: Array<{ Guild: { guildname: string } }> }, guild: { name: string, logo?: string | null }, quest_skills: Array<{ skill: { id: any, name: string, category: SkillCategory_Enum } }>, quest_roles: Array<{ PlayerRole: { basic?: boolean | null, role: string, label: string, description?: string | null } }>, quest_completions: Array<{ id: any, completedByPlayerId: any, status: QuestCompletionStatus_Enum, submissionLink?: string | null, submissionText?: string | null, submittedAt: any, questId: any, player: { id: any, ethereumAddress: string, profile?: { username?: string | null } | null }, completed?: { title: string } | null }> } | null };
 
 export type GetQuestIdsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
 }>;
+
 
 export type GetQuestIdsQuery = { quest: Array<{ id: any }> };
 
@@ -11413,141 +11493,69 @@ export type GetQuestsQueryVariables = Exact<{
   questRoles?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
-export type GetQuestsQuery = {
-  quest: Array<{
-    id: any;
-    createdAt: any;
-    cooldown?: number | null;
-    description?: string | null;
-    externalLink?: string | null;
-    guildId: any;
-    status: QuestStatus_Enum;
-    title: string;
-    repetition: QuestRepetition_Enum;
-    image?: string | null;
-    guild: { name: string; logo?: string | null };
-    player: { id: any; ethereumAddress: string };
-    quest_skills: Array<{
-      skill: { id: any; name: string; category: SkillCategory_Enum };
-    }>;
-    quest_roles: Array<{
-      PlayerRole: {
-        basic?: boolean | null;
-        role: string;
-        label: string;
-        description?: string | null;
-      };
-    }>;
-  }>;
-};
+
+export type GetQuestsQuery = { quest: Array<{ id: any, createdAt: any, cooldown?: number | null, description?: string | null, externalLink?: string | null, guildId: any, status: QuestStatus_Enum, title: string, repetition: QuestRepetition_Enum, image?: string | null, guild: { name: string, logo?: string | null }, player: { id: any, ethereumAddress: string }, quest_skills: Array<{ skill: { id: any, name: string, category: SkillCategory_Enum } }>, quest_roles: Array<{ PlayerRole: { basic?: boolean | null, role: string, label: string, description?: string | null } }> }> };
 
 export type GetCompletedQuestsByPlayerQueryVariables = Exact<{
   completedByPlayerId?: InputMaybe<Scalars['uuid']>;
   order?: InputMaybe<Order_By>;
 }>;
 
-export type GetCompletedQuestsByPlayerQuery = {
-  quest_completion: Array<{
-    id: any;
-    completedByPlayerId: any;
-    status: QuestCompletionStatus_Enum;
-    submissionLink?: string | null;
-    submissionText?: string | null;
-    submittedAt: any;
-    questId: any;
-    completed?: { title: string } | null;
-  }>;
-};
 
-export type GetQuestGuildsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetCompletedQuestsByPlayerQuery = { quest_completion: Array<{ id: any, completedByPlayerId: any, status: QuestCompletionStatus_Enum, submissionLink?: string | null, submissionText?: string | null, submittedAt: any, questId: any, completed?: { title: string } | null }> };
 
-export type GetQuestGuildsQuery = {
-  quest_aggregate: { nodes: Array<{ guildId: any; guild: { name: string } }> };
-};
+export type GetQuestGuildsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetQuestGuildsQuery = { quest_aggregate: { nodes: Array<{ guildId: any, guild: { name: string } }> } };
 
 export type GetQuestsWithCompletionsQueryVariables = Exact<{
   createdByPlayerId: Scalars['uuid'];
   completionStatus?: InputMaybe<QuestCompletionStatus_Enum>;
 }>;
 
-export type GetQuestsWithCompletionsQuery = {
-  quest: Array<{
-    id: any;
-    title: string;
-    quest_completions: Array<{
-      id: any;
-      submittedAt: any;
-      submissionLink?: string | null;
-      submissionText?: string | null;
-      player: {
-        ethereumAddress: string;
-        profile?: { name?: string | null; username?: string | null } | null;
-      };
-    }>;
-  }>;
-};
+
+export type GetQuestsWithCompletionsQuery = { quest: Array<{ id: any, title: string, quest_completions: Array<{ id: any, submittedAt: any, submissionLink?: string | null, submissionText?: string | null, player: { ethereumAddress: string, profile?: { name?: string | null, username?: string | null } | null } }> }> };
 
 export type CreateQuestMutationVariables = Exact<{
   input: CreateQuestInput;
 }>;
 
-export type CreateQuestMutation = {
-  createQuest?: {
-    success: boolean;
-    error?: string | null;
-    quest_id?: any | null;
-    quest?: { id: any } | null;
-  } | null;
-};
+
+export type CreateQuestMutation = { createQuest?: { success: boolean, error?: string | null, quest_id?: any | null, quest?: { id: any } | null } | null };
 
 export type CreateQuestCompletionMutationVariables = Exact<{
   input: CreateQuestCompletionInput;
 }>;
 
-export type CreateQuestCompletionMutation = {
-  createQuestCompletion?: {
-    success: boolean;
-    error?: string | null;
-    quest_completion_id?: any | null;
-    quest_completion?: { id: any; quest: { id: any } } | null;
-  } | null;
-};
+
+export type CreateQuestCompletionMutation = { createQuestCompletion?: { success: boolean, error?: string | null, quest_completion_id?: any | null, quest_completion?: { id: any, quest: { id: any } } | null } | null };
 
 export type AuthenticateDiscordGuildMutationVariables = Exact<{
   code: Scalars['String'];
 }>;
 
-export type AuthenticateDiscordGuildMutation = {
-  authenticateDiscordGuild?: {
-    success: boolean;
-    guildname?: string | null;
-    error?: string | null;
-    exists?: boolean | null;
-  } | null;
-};
+
+export type AuthenticateDiscordGuildMutation = { authenticateDiscordGuild?: { success: boolean, guildname?: string | null, error?: string | null, exists?: boolean | null } | null };
 
 export type UpdateGuildMutationVariables = Exact<{
   guildInfo: GuildInfoInput;
 }>;
 
-export type UpdateGuildMutation = {
-  saveGuildInformation?: {
-    success?: boolean | null;
-    error?: string | null;
-  } | null;
-};
+
+export type UpdateGuildMutation = { saveGuildInformation?: { success?: boolean | null, error?: string | null } | null };
 
 export type UpdateGuildLayoutMutationVariables = Exact<{
   guildLayoutInfo: GuildLayoutInfoInput;
 }>;
 
-export type UpdateGuildLayoutMutation = {
-  saveGuildLayout?: { success?: boolean | null; error?: string | null } | null;
-};
+
+export type UpdateGuildLayoutMutation = { saveGuildLayout?: { success?: boolean | null, error?: string | null } | null };
 
 export type InsertCacheInvalidationMutationVariables = Exact<{
   playerId: Scalars['uuid'];
 }>;
+
 
 export type InsertCacheInvalidationMutation = { updateIDXProfile: any };
 
@@ -11556,91 +11564,62 @@ export type UpdatePlayerUsernameMutationVariables = Exact<{
   username: Scalars['String'];
 }>;
 
-export type UpdatePlayerUsernameMutation = {
-  update_profile?: {
-    affected_rows: number;
-    returning: Array<{ playerId: any; username?: string | null }>;
-  } | null;
-};
+
+export type UpdatePlayerUsernameMutation = { update_profile?: { affected_rows: number, returning: Array<{ playerId: any, username?: string | null }> } | null };
 
 export type UpdateProfileMutationVariables = Exact<{
   playerId: Scalars['uuid'];
   input: Profile_Set_Input;
 }>;
 
-export type UpdateProfileMutation = {
-  update_profile?: {
-    affected_rows: number;
-    returning: Array<{ playerId: any; username?: string | null }>;
-  } | null;
-};
+
+export type UpdateProfileMutation = { update_profile?: { affected_rows: number, returning: Array<{ playerId: any, username?: string | null }> } | null };
 
 export type UpdateAboutYouMutationVariables = Exact<{
   playerId: Scalars['uuid'];
   input: Player_Set_Input;
 }>;
 
-export type UpdateAboutYouMutation = {
-  update_player_by_pk?: {
-    id: any;
-    profile?: {
-      explorerType?: {
-        id: number;
-        description: string;
-        imageURL?: string | null;
-        title: string;
-      } | null;
-    } | null;
-  } | null;
-};
+
+export type UpdateAboutYouMutation = { update_player_by_pk?: { id: any, profile?: { explorerType?: { id: number, description: string, imageURL?: string | null, title: string } | null } | null } | null };
 
 export type UpdatePlayerSkillsMutationVariables = Exact<{
   skills: Array<Player_Skill_Insert_Input> | Player_Skill_Insert_Input;
 }>;
 
-export type UpdatePlayerSkillsMutation = {
-  delete_player_skill?: { affected_rows: number } | null;
-  insert_player_skill?: { affected_rows: number } | null;
-};
+
+export type UpdatePlayerSkillsMutation = { delete_player_skill?: { affected_rows: number } | null, insert_player_skill?: { affected_rows: number } | null };
 
 export type UpdatePlayerRolesMutationVariables = Exact<{
   roles: Array<Player_Role_Insert_Input> | Player_Role_Insert_Input;
 }>;
 
-export type UpdatePlayerRolesMutation = {
-  delete_player_role?: { affected_rows: number } | null;
-  insert_player_role?: { affected_rows: number } | null;
-};
+
+export type UpdatePlayerRolesMutation = { delete_player_role?: { affected_rows: number } | null, insert_player_role?: { affected_rows: number } | null };
 
 export type UpdatePlayerProfileLayoutMutationVariables = Exact<{
   playerId: Scalars['uuid'];
   profileLayout: Scalars['String'];
 }>;
 
-export type UpdatePlayerProfileLayoutMutation = {
-  update_player_by_pk?: { id: any; profileLayout?: string | null } | null;
-};
+
+export type UpdatePlayerProfileLayoutMutation = { update_player_by_pk?: { id: any, profileLayout?: string | null } | null };
 
 export type UpdatePlayerDashboardLayoutMutationVariables = Exact<{
   playerId: Scalars['uuid'];
   dashboardLayout: Scalars['String'];
 }>;
 
-export type UpdatePlayerDashboardLayoutMutation = {
-  update_player_by_pk?: { id: any; dashboardLayout?: string | null } | null;
-};
+
+export type UpdatePlayerDashboardLayoutMutation = { update_player_by_pk?: { id: any, dashboardLayout?: string | null } | null };
 
 export type UpdateProfilePronounsMutationVariables = Exact<{
   playerId: Scalars['uuid'];
   input: Profile_Set_Input;
 }>;
 
-export type UpdateProfilePronounsMutation = {
-  update_profile?: {
-    affected_rows: number;
-    returning: Array<{ playerId: any }>;
-  } | null;
-};
+
+export type UpdateProfilePronounsMutation = { update_profile?: { affected_rows: number, returning: Array<{ playerId: any }> } | null };
 
 export type UpdateQuestMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -11649,6875 +11628,322 @@ export type UpdateQuestMutationVariables = Exact<{
   roles: Array<Quest_Role_Insert_Input> | Quest_Role_Insert_Input;
 }>;
 
-export type UpdateQuestMutation = {
-  update_quest_by_pk?: { id: any } | null;
-  delete_quest_skill?: { affected_rows: number } | null;
-  insert_quest_skill?: {
-    affected_rows: number;
-    returning: Array<{ questId: any; skillId: any }>;
-  } | null;
-  delete_quest_role?: { affected_rows: number } | null;
-  insert_quest_role?: {
-    affected_rows: number;
-    returning: Array<{ questId: any; role: string }>;
-  } | null;
-};
+
+export type UpdateQuestMutation = { update_quest_by_pk?: { id: any } | null, delete_quest_skill?: { affected_rows: number } | null, insert_quest_skill?: { affected_rows: number, returning: Array<{ questId: any, skillId: any }> } | null, delete_quest_role?: { affected_rows: number } | null, insert_quest_role?: { affected_rows: number, returning: Array<{ questId: any, role: string }> } | null };
 
 export type UpdateQuestCompletionMutationVariables = Exact<{
   questCompletionId: Scalars['String'];
   status: QuestCompletionStatus_ActionEnum;
 }>;
 
-export type UpdateQuestCompletionMutation = {
-  updateQuestCompletion?: {
-    error?: string | null;
-    success: boolean;
-    quest_completion_id?: any | null;
-    quest_completion?: { id: any } | null;
-  } | null;
-};
 
-export type GetExplorerTypesQueryVariables = Exact<{ [key: string]: never }>;
+export type UpdateQuestCompletionMutation = { updateQuestCompletion?: { error?: string | null, success: boolean, quest_completion_id?: any | null, quest_completion?: { id: any } | null } | null };
 
-export type GetExplorerTypesQuery = {
-  ExplorerType: Array<{
-    id: number;
-    title: string;
-    description: string;
-    imageURL?: string | null;
-  }>;
-};
+export type GetExplorerTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetAspectsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAspectsQuery = {
-  ColorAspect: Array<{
-    mask: number;
-    name: string;
-    description?: string | null;
-  }>;
-};
+export type GetExplorerTypesQuery = { ExplorerType: Array<{ id: number, title: string, description: string, imageURL?: string | null }> };
 
-export type GetPlayerRolesQueryVariables = Exact<{ [key: string]: never }>;
+export type GetAspectsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetPlayerRolesQuery = {
-  PlayerRole: Array<{
-    role: string;
-    label: string;
-    description?: string | null;
-    basic?: boolean | null;
-  }>;
-};
 
-export type GetSkillsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetAspectsQuery = { ColorAspect: Array<{ mask: number, name: string, description?: string | null }> };
 
-export type GetSkillsQuery = {
-  skill: Array<{ id: any; name: string; category: SkillCategory_Enum }>;
-};
+export type GetPlayerRolesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPlayerRolesQuery = { PlayerRole: Array<{ role: string, label: string, description?: string | null, basic?: boolean | null }> };
+
+export type GetSkillsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSkillsQuery = { skill: Array<{ id: any, name: string, category: SkillCategory_Enum }> };
 
 export type GetGuildQueryVariables = Exact<{
   guildname: Scalars['String'];
 }>;
 
-export type GetGuildQuery = {
-  guild: Array<{
-    id: any;
-    guildname: string;
-    profileLayout?: string | null;
-    description?: string | null;
-    discordInviteUrl?: string | null;
-    joinButtonUrl?: string | null;
-    logo?: string | null;
-    name: string;
-    type: GuildType_Enum;
-    websiteUrl?: string | null;
-    githubUrl?: string | null;
-    twitterUrl?: string | null;
-    showDiscordAnnouncements: boolean;
-    daos: Array<{
-      contractAddress: string;
-      network: string;
-      label?: string | null;
-      url?: string | null;
-    }>;
-  }>;
-};
+
+export type GetGuildQuery = { guild: Array<{ id: any, guildname: string, profileLayout?: string | null, description?: string | null, discordInviteUrl?: string | null, joinButtonUrl?: string | null, logo?: string | null, name: string, type: GuildType_Enum, websiteUrl?: string | null, githubUrl?: string | null, twitterUrl?: string | null, showDiscordAnnouncements: boolean, daos: Array<{ contractAddress: string, network: string, label?: string | null, url?: string | null }> }> };
 
 export type GetGuildMetadataQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-export type GetGuildMetadataQuery = {
-  guild_metadata: Array<{
-    guildId: any;
-    discordMetadata?: any | null;
-    discordRoles: Array<{ id: string; name: string; position: number }>;
-  }>;
-};
+
+export type GetGuildMetadataQuery = { guild_metadata: Array<{ guildId: any, discordMetadata?: any | null, discordRoles: Array<{ id: string, name: string, position: number }> }> };
 
 export type GetAdministeredGuildsQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-export type GetAdministeredGuildsQuery = {
-  guild_metadata: Array<{ guildId: any }>;
-};
+
+export type GetAdministeredGuildsQuery = { guild_metadata: Array<{ guildId: any }> };
 
 export type GetGuildsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
 }>;
 
-export type GetGuildsQuery = {
-  guild: Array<{
-    id: any;
-    guildname: string;
-    profileLayout?: string | null;
-    description?: string | null;
-    discordInviteUrl?: string | null;
-    joinButtonUrl?: string | null;
-    logo?: string | null;
-    name: string;
-    type: GuildType_Enum;
-    websiteUrl?: string | null;
-    githubUrl?: string | null;
-    twitterUrl?: string | null;
-    showDiscordAnnouncements: boolean;
-    daos: Array<{
-      contractAddress: string;
-      network: string;
-      label?: string | null;
-      url?: string | null;
-    }>;
-  }>;
-};
+
+export type GetGuildsQuery = { guild: Array<{ id: any, guildname: string, profileLayout?: string | null, description?: string | null, discordInviteUrl?: string | null, joinButtonUrl?: string | null, logo?: string | null, name: string, type: GuildType_Enum, websiteUrl?: string | null, githubUrl?: string | null, twitterUrl?: string | null, showDiscordAnnouncements: boolean, daos: Array<{ contractAddress: string, network: string, label?: string | null, url?: string | null }> }> };
 
 export type GetGuildnamesQueryVariables = Exact<{
   status?: InputMaybe<GuildStatus_Enum>;
   limit?: InputMaybe<Scalars['Int']>;
 }>;
 
-export type GetGuildnamesQuery = {
-  guild: Array<{ id: any; guildname: string }>;
-};
+
+export type GetGuildnamesQuery = { guild: Array<{ id: any, guildname: string }> };
 
 export type GetGuildPlayersQueryVariables = Exact<{
   guildId: Scalars['uuid'];
 }>;
 
-export type GetGuildPlayersQuery = {
-  guild_player: Array<{
-    Player: {
-      id: any;
-      totalXP?: any | null;
-      rank?: PlayerRank_Enum | null;
-      ethereumAddress: string;
-      profile?: {
-        username?: string | null;
-        profileImageURL?: string | null;
-        name?: string | null;
-      } | null;
-    };
-  }>;
-};
+
+export type GetGuildPlayersQuery = { guild_player: Array<{ Player: { id: any, totalXP?: any | null, rank?: PlayerRank_Enum | null, ethereumAddress: string, profile?: { username?: string | null, profileImageURL?: string | null, name?: string | null } | null } }> };
 
 export type GetGuildAnnouncementsQueryVariables = Exact<{
   guildId: Scalars['uuid'];
 }>;
 
-export type GetGuildAnnouncementsQuery = {
-  guild: Array<{ id: any; discordAnnouncements?: Array<string> | null }>;
-};
 
-export const PlayerFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'totalXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'seasonXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ethereumAddress' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emoji' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profileImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bannerImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'backgroundImageURL' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pronouns' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'availableHours' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'timeZone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'colorMask' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'explorerTypeTitle' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rank' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accounts' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'type' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'ListValue',
-                              values: [
-                                { kind: 'EnumValue', value: 'TWITTER' },
-                                { kind: 'EnumValue', value: 'GITHUB' },
-                                { kind: 'EnumValue', value: 'MEETWITHWALLET' },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'identifier' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guilds' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Guild' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildname' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const GuildFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'GuildFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'guild' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guildname' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'discordInviteUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'joinButtonUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'websiteUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'githubUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'twitterUrl' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'showDiscordAnnouncements' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'daos' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'contractAddress' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'network' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const QuestFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'cooldown' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'externalLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'repetition' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ethereumAddress' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_roles' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'basic' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const TokenBalancesFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TokenBalancesFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TokenBalances' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'address' },
-            name: { kind: 'Name', value: 'id' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'pSeedBalance' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const PlayerSkillFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerSkillFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'skill' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'category' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const QuestCompletionFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestCompletionFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest_completion' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'completedByPlayerId' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submissionLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submissionText' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submittedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'questId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'completed' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const QuestWithCompletionFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestWithCompletionFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'cooldown' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'externalLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'repetition' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_roles' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'basic' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_completions' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ListValue',
-                  values: [
-                    {
-                      kind: 'ObjectValue',
-                      fields: [
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'submittedAt' },
-                          value: { kind: 'EnumValue', value: 'desc' },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'QuestCompletionFragment' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'player' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'ethereumAddress' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'profile' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'username' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestCompletionFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest_completion' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'completedByPlayerId' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submissionLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submissionText' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submittedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'questId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'completed' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const PlayerDaoMembershipFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerDaoMembershipFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'daohausMemberships' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'shares' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'molochAddress' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'moloch' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'version' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'totalShares' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'avatarURL' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const GetMeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetMe' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'me' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  alias: { kind: 'Name', value: 'record' },
-                  name: { kind: 'Name', value: 'player' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'PlayerFragment' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'dashboardLayout' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'totalXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'seasonXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ethereumAddress' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emoji' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profileImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bannerImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'backgroundImageURL' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pronouns' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'availableHours' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'timeZone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'colorMask' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'explorerTypeTitle' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rank' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accounts' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'type' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'ListValue',
-                              values: [
-                                { kind: 'EnumValue', value: 'TWITTER' },
-                                { kind: 'EnumValue', value: 'GITHUB' },
-                                { kind: 'EnumValue', value: 'MEETWITHWALLET' },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'identifier' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guilds' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Guild' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildname' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export type GetGuildAnnouncementsQuery = { guild: Array<{ id: any, discordAnnouncements?: Array<string> | null }> };
 
-export function useGetMeQuery(
-  options?: Omit<Urql.UseQueryArgs<GetMeQueryVariables>, 'query'>,
-) {
+export const PlayerFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalXP"}},{"kind":"Field","name":{"kind":"Name","value":"seasonXP"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"emoji"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"pronouns"}},{"kind":"Field","name":{"kind":"Name","value":"availableHours"}},{"kind":"Field","name":{"kind":"Name","value":"timeZone"}},{"kind":"Field","name":{"kind":"Name","value":"colorMask"}},{"kind":"Field","name":{"kind":"Name","value":"explorerTypeTitle"}}]}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rank"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"accounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TWITTER"},{"kind":"EnumValue","value":"GITHUB"},{"kind":"EnumValue","value":"MEETWITHWALLET"}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"guilds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildname"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const GuildFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"GuildFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"guild"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"guildname"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"discordInviteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"joinButtonUrl"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"githubUrl"}},{"kind":"Field","name":{"kind":"Name","value":"twitterUrl"}},{"kind":"Field","name":{"kind":"Name","value":"showDiscordAnnouncements"}},{"kind":"Field","name":{"kind":"Name","value":"daos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contractAddress"}},{"kind":"Field","name":{"kind":"Name","value":"network"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode;
+export const QuestFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"cooldown"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"externalLink"}},{"kind":"Field","name":{"kind":"Name","value":"guildId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"repetition"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_roles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const TokenBalancesFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TokenBalancesFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalances"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"address"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"pSeedBalance"}}]}}]} as unknown as DocumentNode;
+export const PlayerSkillFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerSkillFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"skill"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]} as unknown as DocumentNode;
+export const QuestCompletionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestCompletionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest_completion"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"completedByPlayerId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"submissionLink"}},{"kind":"Field","name":{"kind":"Name","value":"submissionText"}},{"kind":"Field","name":{"kind":"Name","value":"submittedAt"}},{"kind":"Field","name":{"kind":"Name","value":"questId"}},{"kind":"Field","name":{"kind":"Name","value":"completed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode;
+export const QuestWithCompletionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestWithCompletionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"cooldown"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"externalLink"}},{"kind":"Field","name":{"kind":"Name","value":"guildId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"repetition"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_roles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_completions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"submittedAt"},"value":{"kind":"EnumValue","value":"desc"}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestCompletionFragment"}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestCompletionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest_completion"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"completedByPlayerId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"submissionLink"}},{"kind":"Field","name":{"kind":"Name","value":"submissionText"}},{"kind":"Field","name":{"kind":"Name","value":"submittedAt"}},{"kind":"Field","name":{"kind":"Name","value":"questId"}},{"kind":"Field","name":{"kind":"Name","value":"completed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode;
+export const PlayerDaoMembershipFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerDaoMembershipFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"daohausMemberships"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"shares"}},{"kind":"Field","name":{"kind":"Name","value":"molochAddress"}},{"kind":"Field","name":{"kind":"Name","value":"moloch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"version"}},{"kind":"Field","name":{"kind":"Name","value":"totalShares"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"avatarURL"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"record"},"name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerFragment"}},{"kind":"Field","name":{"kind":"Name","value":"dashboardLayout"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalXP"}},{"kind":"Field","name":{"kind":"Name","value":"seasonXP"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"emoji"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"pronouns"}},{"kind":"Field","name":{"kind":"Name","value":"availableHours"}},{"kind":"Field","name":{"kind":"Name","value":"timeZone"}},{"kind":"Field","name":{"kind":"Name","value":"colorMask"}},{"kind":"Field","name":{"kind":"Name","value":"explorerTypeTitle"}}]}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rank"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"accounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TWITTER"},{"kind":"EnumValue","value":"GITHUB"},{"kind":"EnumValue","value":"MEETWITHWALLET"}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"guilds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildname"}}]}}]}}]}}]} as unknown as DocumentNode;
+
+export function useGetMeQuery(options?: Omit<Urql.UseQueryArgs<GetMeQueryVariables>, 'query'>) {
   return Urql.useQuery<GetMeQuery>({ query: GetMeDocument, ...options });
-}
-export const GetDaoMembershipsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetDaoMemberships' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'address' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'getDaoHausMemberships' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'memberAddress' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'address' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'molochAddress' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'moloch' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'version' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'avatarURL' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+};
+export const GetDaoMembershipsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetDaoMemberships"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"address"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDaoHausMemberships"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"memberAddress"},"value":{"kind":"Variable","name":{"kind":"Name","value":"address"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"molochAddress"}},{"kind":"Field","name":{"kind":"Name","value":"moloch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"version"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"avatarURL"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetDaoMembershipsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetDaoMembershipsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetDaoMembershipsQuery>({
-    query: GetDaoMembershipsDocument,
-    ...options,
-  });
-}
-export const GetPlayerGuildsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPlayerGuilds' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'playerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild_player' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'playerId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'playerId' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Guild' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildname' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: {
-                          kind: 'Name',
-                          value: 'membershipThroughDiscord',
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'daos' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'contractAddress' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'discordRoles' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'position' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetDaoMembershipsQuery(options?: Omit<Urql.UseQueryArgs<GetDaoMembershipsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetDaoMembershipsQuery>({ query: GetDaoMembershipsDocument, ...options });
+};
+export const GetPlayerGuildsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayerGuilds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guild_player"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"playerId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildId"}},{"kind":"Field","name":{"kind":"Name","value":"Guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"guildname"}},{"kind":"Field","name":{"kind":"Name","value":"membershipThroughDiscord"}},{"kind":"Field","name":{"kind":"Name","value":"daos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contractAddress"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"discordRoles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"position"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetPlayerGuildsQuery(
-  options: Omit<Urql.UseQueryArgs<GetPlayerGuildsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPlayerGuildsQuery>({
-    query: GetPlayerGuildsDocument,
-    ...options,
-  });
-}
-export const GetpSeedBalanceDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetpSeedBalance' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'address' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'getTokenBalances' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'address' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'address' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TokenBalancesFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TokenBalancesFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TokenBalances' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'address' },
-            name: { kind: 'Name', value: 'id' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'pSeedBalance' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPlayerGuildsQuery(options: Omit<Urql.UseQueryArgs<GetPlayerGuildsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPlayerGuildsQuery>({ query: GetPlayerGuildsDocument, ...options });
+};
+export const GetpSeedBalanceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetpSeedBalance"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"address"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTokenBalances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"address"},"value":{"kind":"Variable","name":{"kind":"Name","value":"address"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TokenBalancesFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TokenBalancesFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalances"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"address"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"pSeedBalance"}}]}}]} as unknown as DocumentNode;
 
-export function useGetpSeedBalanceQuery(
-  options: Omit<Urql.UseQueryArgs<GetpSeedBalanceQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetpSeedBalanceQuery>({
-    query: GetpSeedBalanceDocument,
-    ...options,
-  });
-}
-export const GetPatronsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPatrons' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'addresses' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'String' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ethereumAddress' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'addresses' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'PlayerFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'totalXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'seasonXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ethereumAddress' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emoji' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profileImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bannerImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'backgroundImageURL' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pronouns' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'availableHours' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'timeZone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'colorMask' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'explorerTypeTitle' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rank' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accounts' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'type' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'ListValue',
-                              values: [
-                                { kind: 'EnumValue', value: 'TWITTER' },
-                                { kind: 'EnumValue', value: 'GITHUB' },
-                                { kind: 'EnumValue', value: 'MEETWITHWALLET' },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'identifier' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guilds' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Guild' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildname' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetpSeedBalanceQuery(options: Omit<Urql.UseQueryArgs<GetpSeedBalanceQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetpSeedBalanceQuery>({ query: GetpSeedBalanceDocument, ...options });
+};
+export const GetPatronsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPatrons"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"addresses"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"player"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"ethereumAddress"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"addresses"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalXP"}},{"kind":"Field","name":{"kind":"Name","value":"seasonXP"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"emoji"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"pronouns"}},{"kind":"Field","name":{"kind":"Name","value":"availableHours"}},{"kind":"Field","name":{"kind":"Name","value":"timeZone"}},{"kind":"Field","name":{"kind":"Name","value":"colorMask"}},{"kind":"Field","name":{"kind":"Name","value":"explorerTypeTitle"}}]}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rank"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"accounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TWITTER"},{"kind":"EnumValue","value":"GITHUB"},{"kind":"EnumValue","value":"MEETWITHWALLET"}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"guilds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildname"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetPatronsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetPatronsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPatronsQuery>({
-    query: GetPatronsDocument,
-    ...options,
-  });
-}
-export const GetpSeedHoldersDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetpSeedHolders' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'pSeedHolders' },
-            name: { kind: 'Name', value: 'getTopPSeedHolders' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TokenBalancesFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TokenBalancesFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TokenBalances' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'address' },
-            name: { kind: 'Name', value: 'id' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'pSeedBalance' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPatronsQuery(options?: Omit<Urql.UseQueryArgs<GetPatronsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPatronsQuery>({ query: GetPatronsDocument, ...options });
+};
+export const GetpSeedHoldersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetpSeedHolders"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"pSeedHolders"},"name":{"kind":"Name","value":"getTopPSeedHolders"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TokenBalancesFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TokenBalancesFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TokenBalances"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"address"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"pSeedBalance"}}]}}]} as unknown as DocumentNode;
 
-export function useGetpSeedHoldersQuery(
-  options?: Omit<Urql.UseQueryArgs<GetpSeedHoldersQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetpSeedHoldersQuery>({
-    query: GetpSeedHoldersDocument,
-    ...options,
-  });
-}
-export const GetPSeedPriceDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPSeedPrice' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'getPSeedInfo' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'priceUsd' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetpSeedHoldersQuery(options?: Omit<Urql.UseQueryArgs<GetpSeedHoldersQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetpSeedHoldersQuery>({ query: GetpSeedHoldersDocument, ...options });
+};
+export const GetPSeedPriceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPSeedPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPSeedInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"priceUsd"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetPSeedPriceQuery(
-  options?: Omit<Urql.UseQueryArgs<GetPSeedPriceQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPSeedPriceQuery>({
-    query: GetPSeedPriceDocument,
-    ...options,
-  });
-}
-export const GetPlayerForUsernameDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPlayerForUsername' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'profile' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'username' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_ilike' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: { kind: 'Name', value: 'username' },
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'PlayerFragment' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'PlayerDaoMembershipFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'totalXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'seasonXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ethereumAddress' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emoji' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profileImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bannerImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'backgroundImageURL' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pronouns' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'availableHours' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'timeZone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'colorMask' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'explorerTypeTitle' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rank' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accounts' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'type' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'ListValue',
-                              values: [
-                                { kind: 'EnumValue', value: 'TWITTER' },
-                                { kind: 'EnumValue', value: 'GITHUB' },
-                                { kind: 'EnumValue', value: 'MEETWITHWALLET' },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'identifier' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guilds' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Guild' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildname' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerDaoMembershipFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'daohausMemberships' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'shares' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'molochAddress' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'moloch' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'version' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'totalShares' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'avatarURL' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPSeedPriceQuery(options?: Omit<Urql.UseQueryArgs<GetPSeedPriceQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPSeedPriceQuery>({ query: GetPSeedPriceDocument, ...options });
+};
+export const GetPlayerForUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayerForUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"player"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"profile"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"username"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_ilike"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerFragment"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerDaoMembershipFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalXP"}},{"kind":"Field","name":{"kind":"Name","value":"seasonXP"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"emoji"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"pronouns"}},{"kind":"Field","name":{"kind":"Name","value":"availableHours"}},{"kind":"Field","name":{"kind":"Name","value":"timeZone"}},{"kind":"Field","name":{"kind":"Name","value":"colorMask"}},{"kind":"Field","name":{"kind":"Name","value":"explorerTypeTitle"}}]}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rank"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"accounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TWITTER"},{"kind":"EnumValue","value":"GITHUB"},{"kind":"EnumValue","value":"MEETWITHWALLET"}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"guilds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildname"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerDaoMembershipFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"daohausMemberships"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"shares"}},{"kind":"Field","name":{"kind":"Name","value":"molochAddress"}},{"kind":"Field","name":{"kind":"Name","value":"moloch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"version"}},{"kind":"Field","name":{"kind":"Name","value":"totalShares"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"avatarURL"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetPlayerForUsernameQuery(
-  options: Omit<Urql.UseQueryArgs<GetPlayerForUsernameQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPlayerForUsernameQuery>({
-    query: GetPlayerForUsernameDocument,
-    ...options,
-  });
-}
-export const GetPlayerForAddressDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPlayerForAddress' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'address' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ethereumAddress' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_ilike' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'address' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'PlayerFragment' },
-                },
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'PlayerDaoMembershipFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'totalXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'seasonXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ethereumAddress' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emoji' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profileImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bannerImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'backgroundImageURL' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pronouns' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'availableHours' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'timeZone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'colorMask' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'explorerTypeTitle' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rank' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accounts' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'type' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'ListValue',
-                              values: [
-                                { kind: 'EnumValue', value: 'TWITTER' },
-                                { kind: 'EnumValue', value: 'GITHUB' },
-                                { kind: 'EnumValue', value: 'MEETWITHWALLET' },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'identifier' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guilds' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Guild' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildname' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerDaoMembershipFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'daohausMemberships' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'shares' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'molochAddress' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'moloch' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'version' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'totalShares' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'chain' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'avatarURL' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPlayerForUsernameQuery(options: Omit<Urql.UseQueryArgs<GetPlayerForUsernameQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPlayerForUsernameQuery>({ query: GetPlayerForUsernameDocument, ...options });
+};
+export const GetPlayerForAddressDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayerForAddress"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"address"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"player"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"ethereumAddress"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_ilike"},"value":{"kind":"Variable","name":{"kind":"Name","value":"address"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerFragment"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerDaoMembershipFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalXP"}},{"kind":"Field","name":{"kind":"Name","value":"seasonXP"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"emoji"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"pronouns"}},{"kind":"Field","name":{"kind":"Name","value":"availableHours"}},{"kind":"Field","name":{"kind":"Name","value":"timeZone"}},{"kind":"Field","name":{"kind":"Name","value":"colorMask"}},{"kind":"Field","name":{"kind":"Name","value":"explorerTypeTitle"}}]}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rank"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"accounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TWITTER"},{"kind":"EnumValue","value":"GITHUB"},{"kind":"EnumValue","value":"MEETWITHWALLET"}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"guilds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildname"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerDaoMembershipFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"daohausMemberships"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"shares"}},{"kind":"Field","name":{"kind":"Name","value":"molochAddress"}},{"kind":"Field","name":{"kind":"Name","value":"moloch"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"version"}},{"kind":"Field","name":{"kind":"Name","value":"totalShares"}},{"kind":"Field","name":{"kind":"Name","value":"chain"}},{"kind":"Field","name":{"kind":"Name","value":"avatarURL"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetPlayerForAddressQuery(
-  options: Omit<Urql.UseQueryArgs<GetPlayerForAddressQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPlayerForAddressQuery>({
-    query: GetPlayerForAddressDocument,
-    ...options,
-  });
-}
-export const GetPlayersDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPlayers' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderBy' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'player_order_by' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'offset' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'where' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'player_bool_exp' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ListValue',
-                  values: [
-                    {
-                      kind: 'Variable',
-                      name: { kind: 'Name', value: 'orderBy' },
-                    },
-                    {
-                      kind: 'ObjectValue',
-                      fields: [
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'ethereumAddress' },
-                          value: { kind: 'EnumValue', value: 'desc' },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'offset' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'offset' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'PlayerFragment' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player_aggregate' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'where' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'aggregate' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'totalXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'seasonXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ethereumAddress' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emoji' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profileImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bannerImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'backgroundImageURL' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pronouns' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'availableHours' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'timeZone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'colorMask' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'explorerTypeTitle' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rank' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accounts' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'type' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'ListValue',
-                              values: [
-                                { kind: 'EnumValue', value: 'TWITTER' },
-                                { kind: 'EnumValue', value: 'GITHUB' },
-                                { kind: 'EnumValue', value: 'MEETWITHWALLET' },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'identifier' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guilds' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Guild' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildname' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPlayerForAddressQuery(options: Omit<Urql.UseQueryArgs<GetPlayerForAddressQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPlayerForAddressQuery>({ query: GetPlayerForAddressDocument, ...options });
+};
+export const GetPlayersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"player_order_by"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"player_bool_exp"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"player"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ListValue","values":[{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"ethereumAddress"},"value":{"kind":"EnumValue","value":"desc"}}]}]}},{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"player_aggregate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalXP"}},{"kind":"Field","name":{"kind":"Name","value":"seasonXP"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"emoji"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"pronouns"}},{"kind":"Field","name":{"kind":"Name","value":"availableHours"}},{"kind":"Field","name":{"kind":"Name","value":"timeZone"}},{"kind":"Field","name":{"kind":"Name","value":"colorMask"}},{"kind":"Field","name":{"kind":"Name","value":"explorerTypeTitle"}}]}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rank"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"accounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TWITTER"},{"kind":"EnumValue","value":"GITHUB"},{"kind":"EnumValue","value":"MEETWITHWALLET"}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"guilds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildname"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetPlayersQuery(
-  options: Omit<Urql.UseQueryArgs<GetPlayersQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPlayersQuery>({
-    query: GetPlayersDocument,
-    ...options,
-  });
-}
-export const GetPlayerUsernamesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPlayerUsernames' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'totalXP' },
-                      value: { kind: 'EnumValue', value: 'desc' },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ethereumAddress' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profile' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPlayersQuery(options: Omit<Urql.UseQueryArgs<GetPlayersQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPlayersQuery>({ query: GetPlayersDocument, ...options });
+};
+export const GetPlayerUsernamesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayerUsernames"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"player"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"totalXP"},"value":{"kind":"EnumValue","value":"desc"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetPlayerUsernamesQuery(
-  options?: Omit<Urql.UseQueryArgs<GetPlayerUsernamesQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPlayerUsernamesQuery>({
-    query: GetPlayerUsernamesDocument,
-    ...options,
-  });
-}
-export const GetPlayerFiltersDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPlayerFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skill_aggregate' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct_on' },
-                value: { kind: 'EnumValue', value: 'category' },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        alias: { kind: 'Name', value: 'name' },
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skill' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'Player_Skills_aggregate' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'count' },
-                            value: { kind: 'EnumValue', value: 'desc' },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'category' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'PlayerSkillFragment' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ExplorerType' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct_on' },
-                value: { kind: 'EnumValue', value: 'id' },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  alias: { kind: 'Name', value: 'value' },
-                  name: { kind: 'Name', value: 'id' },
-                },
-                {
-                  kind: 'Field',
-                  alias: { kind: 'Name', value: 'label' },
-                  name: { kind: 'Name', value: 'title' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerSkillFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'skill' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'category' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPlayerUsernamesQuery(options?: Omit<Urql.UseQueryArgs<GetPlayerUsernamesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPlayerUsernamesQuery>({ query: GetPlayerUsernamesDocument, ...options });
+};
+export const GetPlayerFiltersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayerFilters"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"skill_aggregate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct_on"},"value":{"kind":"EnumValue","value":"category"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"name"},"name":{"kind":"Name","value":"category"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"skill"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"Player_Skills_aggregate"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"count"},"value":{"kind":"EnumValue","value":"desc"}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"category"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerSkillFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ExplorerType"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct_on"},"value":{"kind":"EnumValue","value":"id"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"value"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","alias":{"kind":"Name","value":"label"},"name":{"kind":"Name","value":"title"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerSkillFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"skill"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]} as unknown as DocumentNode;
 
-export function useGetPlayerFiltersQuery(
-  options?: Omit<Urql.UseQueryArgs<GetPlayerFiltersQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPlayerFiltersQuery>({
-    query: GetPlayerFiltersDocument,
-    ...options,
-  });
-}
-export const GetQuestDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetQuest' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_by_pk' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'QuestFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'cooldown' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'externalLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'repetition' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ethereumAddress' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_roles' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'basic' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPlayerFiltersQuery(options?: Omit<Urql.UseQueryArgs<GetPlayerFiltersQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPlayerFiltersQuery>({ query: GetPlayerFiltersDocument, ...options });
+};
+export const GetQuestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetQuest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quest_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"cooldown"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"externalLink"}},{"kind":"Field","name":{"kind":"Name","value":"guildId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"repetition"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_roles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetQuestQuery(
-  options: Omit<Urql.UseQueryArgs<GetQuestQueryVariables>, 'query'>,
-) {
+export function useGetQuestQuery(options: Omit<Urql.UseQueryArgs<GetQuestQueryVariables>, 'query'>) {
   return Urql.useQuery<GetQuestQuery>({ query: GetQuestDocument, ...options });
-}
-export const GetQuestWithCompletionsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetQuestWithCompletions' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_by_pk' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'QuestWithCompletionFragment' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'player' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'PlayerFragment' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'player' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'totalXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'seasonXP' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'ethereumAddress' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'emoji' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profileImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bannerImageURL' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'backgroundImageURL' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'pronouns' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'availableHours' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'timeZone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'colorMask' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'explorerTypeTitle' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rank' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accounts' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'type' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'ListValue',
-                              values: [
-                                { kind: 'EnumValue', value: 'TWITTER' },
-                                { kind: 'EnumValue', value: 'GITHUB' },
-                                { kind: 'EnumValue', value: 'MEETWITHWALLET' },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'identifier' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guilds' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Guild' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildname' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestCompletionFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest_completion' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'completedByPlayerId' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submissionLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submissionText' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submittedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'questId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'completed' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestWithCompletionFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'cooldown' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'externalLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'repetition' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_roles' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'basic' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_completions' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ListValue',
-                  values: [
-                    {
-                      kind: 'ObjectValue',
-                      fields: [
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'submittedAt' },
-                          value: { kind: 'EnumValue', value: 'desc' },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'QuestCompletionFragment' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'player' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'ethereumAddress' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'profile' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'username' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+};
+export const GetQuestWithCompletionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetQuestWithCompletions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quest_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestWithCompletionFragment"}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"player"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalXP"}},{"kind":"Field","name":{"kind":"Name","value":"seasonXP"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"emoji"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"bannerImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"countryCode"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"pronouns"}},{"kind":"Field","name":{"kind":"Name","value":"availableHours"}},{"kind":"Field","name":{"kind":"Name","value":"timeZone"}},{"kind":"Field","name":{"kind":"Name","value":"colorMask"}},{"kind":"Field","name":{"kind":"Name","value":"explorerTypeTitle"}}]}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rank"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"accounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"TWITTER"},{"kind":"EnumValue","value":"GITHUB"},{"kind":"EnumValue","value":"MEETWITHWALLET"}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"guilds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildname"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestCompletionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest_completion"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"completedByPlayerId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"submissionLink"}},{"kind":"Field","name":{"kind":"Name","value":"submissionText"}},{"kind":"Field","name":{"kind":"Name","value":"submittedAt"}},{"kind":"Field","name":{"kind":"Name","value":"questId"}},{"kind":"Field","name":{"kind":"Name","value":"completed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestWithCompletionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"cooldown"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"externalLink"}},{"kind":"Field","name":{"kind":"Name","value":"guildId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"repetition"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_roles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_completions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"submittedAt"},"value":{"kind":"EnumValue","value":"desc"}}]}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestCompletionFragment"}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetQuestWithCompletionsQuery(
-  options: Omit<
-    Urql.UseQueryArgs<GetQuestWithCompletionsQueryVariables>,
-    'query'
-  >,
-) {
-  return Urql.useQuery<GetQuestWithCompletionsQuery>({
-    query: GetQuestWithCompletionsDocument,
-    ...options,
-  });
-}
-export const GetQuestIdsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetQuestIds' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdAt' },
-                      value: { kind: 'EnumValue', value: 'desc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetQuestWithCompletionsQuery(options: Omit<Urql.UseQueryArgs<GetQuestWithCompletionsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetQuestWithCompletionsQuery>({ query: GetQuestWithCompletionsDocument, ...options });
+};
+export const GetQuestIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetQuestIds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"desc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetQuestIdsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetQuestIdsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetQuestIdsQuery>({
-    query: GetQuestIdsDocument,
-    ...options,
-  });
-}
-export const GetQuestsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetQuests' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'status' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'QuestStatus_enum' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'guildId' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'order' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'order_by' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createdByPlayerId' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'questRoles' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'String' },
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdAt' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'order' },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'status' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'status' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'guildId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'guildId' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdByPlayerId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: {
-                                kind: 'Name',
-                                value: 'createdByPlayerId',
-                              },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'quest_roles' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'role' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_in' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: { kind: 'Name', value: 'questRoles' },
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'QuestFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'cooldown' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'externalLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'repetition' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'image' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'player' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ethereumAddress' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_skills' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'skill' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_roles' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'PlayerRole' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'basic' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetQuestIdsQuery(options?: Omit<Urql.UseQueryArgs<GetQuestIdsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetQuestIdsQuery>({ query: GetQuestIdsDocument, ...options });
+};
+export const GetQuestsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetQuests"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"QuestStatus_enum"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"guildId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"order_by"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createdByPlayerId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"questRoles"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"guildId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"guildId"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"createdByPlayerId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createdByPlayerId"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"quest_roles"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"role"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"questRoles"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"cooldown"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"externalLink"}},{"kind":"Field","name":{"kind":"Name","value":"guildId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"repetition"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"skill"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"quest_roles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"basic"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetQuestsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetQuestsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetQuestsQuery>({
-    query: GetQuestsDocument,
-    ...options,
-  });
-}
-export const GetCompletedQuestsByPlayerDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetCompletedQuestsByPlayer' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'completedByPlayerId' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'order' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'order_by' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_completion' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'submittedAt' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'order' },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'completedByPlayerId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: {
-                                kind: 'Name',
-                                value: 'completedByPlayerId',
-                              },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'QuestCompletionFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'QuestCompletionFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'quest_completion' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'completedByPlayerId' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submissionLink' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submissionText' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'submittedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'questId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'completed' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetQuestsQuery(options?: Omit<Urql.UseQueryArgs<GetQuestsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetQuestsQuery>({ query: GetQuestsDocument, ...options });
+};
+export const GetCompletedQuestsByPlayerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCompletedQuestsByPlayer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"completedByPlayerId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"order_by"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quest_completion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"submittedAt"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"completedByPlayerId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"completedByPlayerId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QuestCompletionFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QuestCompletionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"quest_completion"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"completedByPlayerId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"submissionLink"}},{"kind":"Field","name":{"kind":"Name","value":"submissionText"}},{"kind":"Field","name":{"kind":"Name","value":"submittedAt"}},{"kind":"Field","name":{"kind":"Name","value":"questId"}},{"kind":"Field","name":{"kind":"Name","value":"completed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetCompletedQuestsByPlayerQuery(
-  options?: Omit<
-    Urql.UseQueryArgs<GetCompletedQuestsByPlayerQueryVariables>,
-    'query'
-  >,
-) {
-  return Urql.useQuery<GetCompletedQuestsByPlayerQuery>({
-    query: GetCompletedQuestsByPlayerDocument,
-    ...options,
-  });
-}
-export const GetQuestGuildsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetQuestGuilds' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest_aggregate' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'distinct_on' },
-                value: { kind: 'EnumValue', value: 'guildId' },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guildId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'guild' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetCompletedQuestsByPlayerQuery(options?: Omit<Urql.UseQueryArgs<GetCompletedQuestsByPlayerQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCompletedQuestsByPlayerQuery>({ query: GetCompletedQuestsByPlayerDocument, ...options });
+};
+export const GetQuestGuildsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetQuestGuilds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quest_aggregate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"distinct_on"},"value":{"kind":"EnumValue","value":"guildId"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildId"}},{"kind":"Field","name":{"kind":"Name","value":"guild"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetQuestGuildsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetQuestGuildsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetQuestGuildsQuery>({
-    query: GetQuestGuildsDocument,
-    ...options,
-  });
-}
-export const GetQuestsWithCompletionsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetQuestsWithCompletions' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createdByPlayerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'completionStatus' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'QuestCompletionStatus_enum' },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'quest' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdAt' },
-                      value: { kind: 'EnumValue', value: 'desc' },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'status' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: { kind: 'EnumValue', value: 'OPEN' },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdByPlayerId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: {
-                                kind: 'Name',
-                                value: 'createdByPlayerId',
-                              },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'quest_completions' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'status' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_eq' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'completionStatus',
-                                    },
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'quest_completions' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'player' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'profile' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'username' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ethereumAddress' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'submittedAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'submissionLink' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'submissionText' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetQuestGuildsQuery(options?: Omit<Urql.UseQueryArgs<GetQuestGuildsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetQuestGuildsQuery>({ query: GetQuestGuildsDocument, ...options });
+};
+export const GetQuestsWithCompletionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetQuestsWithCompletions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createdByPlayerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"completionStatus"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"QuestCompletionStatus_enum"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"desc"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"EnumValue","value":"OPEN"}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"createdByPlayerId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createdByPlayerId"}}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"quest_completions"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"completionStatus"}}}]}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"quest_completions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}}]}},{"kind":"Field","name":{"kind":"Name","value":"submittedAt"}},{"kind":"Field","name":{"kind":"Name","value":"submissionLink"}},{"kind":"Field","name":{"kind":"Name","value":"submissionText"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetQuestsWithCompletionsQuery(
-  options: Omit<
-    Urql.UseQueryArgs<GetQuestsWithCompletionsQueryVariables>,
-    'query'
-  >,
-) {
-  return Urql.useQuery<GetQuestsWithCompletionsQuery>({
-    query: GetQuestsWithCompletionsDocument,
-    ...options,
-  });
-}
-export const CreateQuestDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateQuest' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateQuestInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createQuest' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'quest' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'quest_id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'quest' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetQuestsWithCompletionsQuery(options: Omit<Urql.UseQueryArgs<GetQuestsWithCompletionsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetQuestsWithCompletionsQuery>({ query: GetQuestsWithCompletionsDocument, ...options });
+};
+export const CreateQuestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateQuest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateQuestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createQuest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"quest"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"quest_id"}},{"kind":"Field","name":{"kind":"Name","value":"quest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 export function useCreateQuestMutation() {
-  return Urql.useMutation<CreateQuestMutation, CreateQuestMutationVariables>(
-    CreateQuestDocument,
-  );
-}
-export const CreateQuestCompletionDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateQuestCompletion' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateQuestCompletionInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createQuestCompletion' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'questCompletion' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'quest_completion_id' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'quest_completion' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'quest' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<CreateQuestMutation, CreateQuestMutationVariables>(CreateQuestDocument);
+};
+export const CreateQuestCompletionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateQuestCompletion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateQuestCompletionInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createQuestCompletion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"questCompletion"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"quest_completion_id"}},{"kind":"Field","name":{"kind":"Name","value":"quest_completion"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"quest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 export function useCreateQuestCompletionMutation() {
-  return Urql.useMutation<
-    CreateQuestCompletionMutation,
-    CreateQuestCompletionMutationVariables
-  >(CreateQuestCompletionDocument);
-}
-export const AuthenticateDiscordGuildDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AuthenticateDiscordGuild' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'authenticateDiscordGuild' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'code' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'code' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'guildname' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'exists' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<CreateQuestCompletionMutation, CreateQuestCompletionMutationVariables>(CreateQuestCompletionDocument);
+};
+export const AuthenticateDiscordGuildDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AuthenticateDiscordGuild"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"code"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authenticateDiscordGuild"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"code"},"value":{"kind":"Variable","name":{"kind":"Name","value":"code"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"guildname"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"exists"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useAuthenticateDiscordGuildMutation() {
-  return Urql.useMutation<
-    AuthenticateDiscordGuildMutation,
-    AuthenticateDiscordGuildMutationVariables
-  >(AuthenticateDiscordGuildDocument);
-}
-export const UpdateGuildDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateGuild' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'guildInfo' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'GuildInfoInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'saveGuildInformation' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'guildInformation' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'guildInfo' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<AuthenticateDiscordGuildMutation, AuthenticateDiscordGuildMutationVariables>(AuthenticateDiscordGuildDocument);
+};
+export const UpdateGuildDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateGuild"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"guildInfo"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GuildInfoInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"saveGuildInformation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"guildInformation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"guildInfo"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"error"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdateGuildMutation() {
-  return Urql.useMutation<UpdateGuildMutation, UpdateGuildMutationVariables>(
-    UpdateGuildDocument,
-  );
-}
-export const UpdateGuildLayoutDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateGuildLayout' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'guildLayoutInfo' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'GuildLayoutInfoInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'saveGuildLayout' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'guildLayoutInfo' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'guildLayoutInfo' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdateGuildMutation, UpdateGuildMutationVariables>(UpdateGuildDocument);
+};
+export const UpdateGuildLayoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateGuildLayout"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"guildLayoutInfo"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GuildLayoutInfoInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"saveGuildLayout"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"guildLayoutInfo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"guildLayoutInfo"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"error"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdateGuildLayoutMutation() {
-  return Urql.useMutation<
-    UpdateGuildLayoutMutation,
-    UpdateGuildLayoutMutationVariables
-  >(UpdateGuildLayoutDocument);
-}
-export const InsertCacheInvalidationDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'InsertCacheInvalidation' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'playerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'updateIDXProfile' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'playerId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'playerId' },
-                },
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdateGuildLayoutMutation, UpdateGuildLayoutMutationVariables>(UpdateGuildLayoutDocument);
+};
+export const InsertCacheInvalidationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"InsertCacheInvalidation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateIDXProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"playerId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}}}]}]}}]} as unknown as DocumentNode;
 
 export function useInsertCacheInvalidationMutation() {
-  return Urql.useMutation<
-    InsertCacheInvalidationMutation,
-    InsertCacheInvalidationMutationVariables
-  >(InsertCacheInvalidationDocument);
-}
-export const UpdatePlayerUsernameDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdatePlayerUsername' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'playerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'update_profile' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'playerId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'playerId' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: '_set' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'returning' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'playerId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<InsertCacheInvalidationMutation, InsertCacheInvalidationMutationVariables>(InsertCacheInvalidationDocument);
+};
+export const UpdatePlayerUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePlayerUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_profile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"playerId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}},{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playerId"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdatePlayerUsernameMutation() {
-  return Urql.useMutation<
-    UpdatePlayerUsernameMutation,
-    UpdatePlayerUsernameMutationVariables
-  >(UpdatePlayerUsernameDocument);
-}
-export const UpdateProfileDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateProfile' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'playerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'profile_set_input' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'update_profile' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'playerId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'playerId' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: '_set' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'returning' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'playerId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdatePlayerUsernameMutation, UpdatePlayerUsernameMutationVariables>(UpdatePlayerUsernameDocument);
+};
+export const UpdateProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"profile_set_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_profile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"playerId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}},{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playerId"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdateProfileMutation() {
-  return Urql.useMutation<
-    UpdateProfileMutation,
-    UpdateProfileMutationVariables
-  >(UpdateProfileDocument);
-}
-export const UpdateAboutYouDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateAboutYou' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'playerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'player_set_input' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'update_player_by_pk' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'pk_columns' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'id' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'playerId' },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: '_set' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profile' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'explorerType' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'imageURL' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument);
+};
+export const UpdateAboutYouDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAboutYou"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"player_set_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_player_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"explorerType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"imageURL"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdateAboutYouMutation() {
-  return Urql.useMutation<
-    UpdateAboutYouMutation,
-    UpdateAboutYouMutationVariables
-  >(UpdateAboutYouDocument);
-}
-export const UpdatePlayerSkillsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdatePlayerSkills' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'skills' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'ListType',
-              type: {
-                kind: 'NonNullType',
-                type: {
-                  kind: 'NamedType',
-                  name: { kind: 'Name', value: 'player_skill_insert_input' },
-                },
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'delete_player_skill' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: { kind: 'ObjectValue', fields: [] },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'insert_player_skill' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'objects' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skills' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdateAboutYouMutation, UpdateAboutYouMutationVariables>(UpdateAboutYouDocument);
+};
+export const UpdatePlayerSkillsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePlayerSkills"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skills"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"player_skill_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_player_skill"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}},{"kind":"Field","name":{"kind":"Name","value":"insert_player_skill"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skills"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdatePlayerSkillsMutation() {
-  return Urql.useMutation<
-    UpdatePlayerSkillsMutation,
-    UpdatePlayerSkillsMutationVariables
-  >(UpdatePlayerSkillsDocument);
-}
-export const UpdatePlayerRolesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdatePlayerRoles' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'roles' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'ListType',
-              type: {
-                kind: 'NonNullType',
-                type: {
-                  kind: 'NamedType',
-                  name: { kind: 'Name', value: 'player_role_insert_input' },
-                },
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'delete_player_role' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: { kind: 'ObjectValue', fields: [] },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'insert_player_role' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'objects' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'roles' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdatePlayerSkillsMutation, UpdatePlayerSkillsMutationVariables>(UpdatePlayerSkillsDocument);
+};
+export const UpdatePlayerRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePlayerRoles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roles"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"player_role_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_player_role"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}},{"kind":"Field","name":{"kind":"Name","value":"insert_player_role"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roles"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdatePlayerRolesMutation() {
-  return Urql.useMutation<
-    UpdatePlayerRolesMutation,
-    UpdatePlayerRolesMutationVariables
-  >(UpdatePlayerRolesDocument);
-}
-export const UpdatePlayerProfileLayoutDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdatePlayerProfileLayout' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'playerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'profileLayout' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'update_player_by_pk' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'pk_columns' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'id' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'playerId' },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: '_set' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'profileLayout' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'profileLayout' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profileLayout' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdatePlayerRolesMutation, UpdatePlayerRolesMutationVariables>(UpdatePlayerRolesDocument);
+};
+export const UpdatePlayerProfileLayoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePlayerProfileLayout"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"profileLayout"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_player_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"profileLayout"},"value":{"kind":"Variable","name":{"kind":"Name","value":"profileLayout"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdatePlayerProfileLayoutMutation() {
-  return Urql.useMutation<
-    UpdatePlayerProfileLayoutMutation,
-    UpdatePlayerProfileLayoutMutationVariables
-  >(UpdatePlayerProfileLayoutDocument);
-}
-export const UpdatePlayerDashboardLayoutDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdatePlayerDashboardLayout' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'playerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'dashboardLayout' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'update_player_by_pk' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'pk_columns' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'id' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'playerId' },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: '_set' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'dashboardLayout' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'dashboardLayout' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'dashboardLayout' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdatePlayerProfileLayoutMutation, UpdatePlayerProfileLayoutMutationVariables>(UpdatePlayerProfileLayoutDocument);
+};
+export const UpdatePlayerDashboardLayoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePlayerDashboardLayout"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"dashboardLayout"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_player_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"dashboardLayout"},"value":{"kind":"Variable","name":{"kind":"Name","value":"dashboardLayout"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"dashboardLayout"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdatePlayerDashboardLayoutMutation() {
-  return Urql.useMutation<
-    UpdatePlayerDashboardLayoutMutation,
-    UpdatePlayerDashboardLayoutMutationVariables
-  >(UpdatePlayerDashboardLayoutDocument);
-}
-export const UpdateProfilePronounsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'updateProfilePronouns' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'playerId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'profile_set_input' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'update_profile' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'playerId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'playerId' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: '_set' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'returning' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'playerId' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdatePlayerDashboardLayoutMutation, UpdatePlayerDashboardLayoutMutationVariables>(UpdatePlayerDashboardLayoutDocument);
+};
+export const UpdateProfilePronounsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateProfilePronouns"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"profile_set_input"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_profile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"playerId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"playerId"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}},{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playerId"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdateProfilePronounsMutation() {
-  return Urql.useMutation<
-    UpdateProfilePronounsMutation,
-    UpdateProfilePronounsMutationVariables
-  >(UpdateProfilePronounsDocument);
-}
-export const UpdateQuestDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateQuest' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'quest_set_input' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'skills' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'ListType',
-              type: {
-                kind: 'NonNullType',
-                type: {
-                  kind: 'NamedType',
-                  name: { kind: 'Name', value: 'quest_skill_insert_input' },
-                },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'roles' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'ListType',
-              type: {
-                kind: 'NonNullType',
-                type: {
-                  kind: 'NamedType',
-                  name: { kind: 'Name', value: 'quest_role_insert_input' },
-                },
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'update_quest_by_pk' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'pk_columns' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'id' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: '_set' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'delete_quest_skill' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'questId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'insert_quest_skill' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'objects' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'skills' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'returning' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'questId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'skillId' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'delete_quest_role' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'questId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'insert_quest_role' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'objects' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'roles' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'affected_rows' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'returning' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'questId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdateProfilePronounsMutation, UpdateProfilePronounsMutationVariables>(UpdateProfilePronounsDocument);
+};
+export const UpdateQuestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateQuest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"quest_set_input"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skills"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"quest_skill_insert_input"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roles"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"quest_role_insert_input"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"update_quest_by_pk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pk_columns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"delete_quest_skill"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"questId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}},{"kind":"Field","name":{"kind":"Name","value":"insert_quest_skill"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skills"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}},{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"questId"}},{"kind":"Field","name":{"kind":"Name","value":"skillId"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"delete_quest_role"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"questId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}},{"kind":"Field","name":{"kind":"Name","value":"insert_quest_role"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roles"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}},{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"questId"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdateQuestMutation() {
-  return Urql.useMutation<UpdateQuestMutation, UpdateQuestMutationVariables>(
-    UpdateQuestDocument,
-  );
-}
-export const UpdateQuestCompletionDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdateQuestCompletion' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'questCompletionId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'status' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'QuestCompletionStatus_ActionEnum' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'updateQuestCompletion' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'updateData' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'questCompletionId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'questCompletionId' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'status' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'status' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'quest_completion_id' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'quest_completion' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdateQuestMutation, UpdateQuestMutationVariables>(UpdateQuestDocument);
+};
+export const UpdateQuestCompletionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateQuestCompletion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"questCompletionId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QuestCompletionStatus_ActionEnum"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateQuestCompletion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateData"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"questCompletionId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"questCompletionId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"quest_completion_id"}},{"kind":"Field","name":{"kind":"Name","value":"quest_completion"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 export function useUpdateQuestCompletionMutation() {
-  return Urql.useMutation<
-    UpdateQuestCompletionMutation,
-    UpdateQuestCompletionMutationVariables
-  >(UpdateQuestCompletionDocument);
-}
-export const GetExplorerTypesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetExplorerTypes' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ExplorerType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'imageURL' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+  return Urql.useMutation<UpdateQuestCompletionMutation, UpdateQuestCompletionMutationVariables>(UpdateQuestCompletionDocument);
+};
+export const GetExplorerTypesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetExplorerTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ExplorerType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"imageURL"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetExplorerTypesQuery(
-  options?: Omit<Urql.UseQueryArgs<GetExplorerTypesQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetExplorerTypesQuery>({
-    query: GetExplorerTypesDocument,
-    ...options,
-  });
-}
-export const GetAspectsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetAspects' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ColorAspect' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'mask' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetExplorerTypesQuery(options?: Omit<Urql.UseQueryArgs<GetExplorerTypesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetExplorerTypesQuery>({ query: GetExplorerTypesDocument, ...options });
+};
+export const GetAspectsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAspects"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ColorAspect"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"mask"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetAspectsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetAspectsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetAspectsQuery>({
-    query: GetAspectsDocument,
-    ...options,
-  });
-}
-export const GetPlayerRolesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetPlayerRoles' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'PlayerRole' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'basic' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetAspectsQuery(options?: Omit<Urql.UseQueryArgs<GetAspectsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetAspectsQuery>({ query: GetAspectsDocument, ...options });
+};
+export const GetPlayerRolesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlayerRoles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"PlayerRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"basic"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetPlayerRolesQuery(
-  options?: Omit<Urql.UseQueryArgs<GetPlayerRolesQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetPlayerRolesQuery>({
-    query: GetPlayerRolesDocument,
-    ...options,
-  });
-}
-export const GetSkillsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetSkills' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'skill' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'Player_Skills_aggregate' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'count' },
-                            value: { kind: 'EnumValue', value: 'desc' },
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'category' },
-                      value: { kind: 'EnumValue', value: 'asc' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'PlayerSkillFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PlayerSkillFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'skill' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'category' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetPlayerRolesQuery(options?: Omit<Urql.UseQueryArgs<GetPlayerRolesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetPlayerRolesQuery>({ query: GetPlayerRolesDocument, ...options });
+};
+export const GetSkillsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetSkills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"skill"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"Player_Skills_aggregate"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"count"},"value":{"kind":"EnumValue","value":"desc"}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"category"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlayerSkillFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlayerSkillFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"skill"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]} as unknown as DocumentNode;
 
-export function useGetSkillsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetSkillsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetSkillsQuery>({
-    query: GetSkillsDocument,
-    ...options,
-  });
-}
-export const GetGuildDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetGuild' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'guildname' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'guildname' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'guildname' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'GuildFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'GuildFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'guild' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guildname' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'discordInviteUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'joinButtonUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'websiteUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'githubUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'twitterUrl' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'showDiscordAnnouncements' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'daos' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'contractAddress' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'network' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetSkillsQuery(options?: Omit<Urql.UseQueryArgs<GetSkillsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetSkillsQuery>({ query: GetSkillsDocument, ...options });
+};
+export const GetGuildDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGuild"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"guildname"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guild"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"guildname"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"guildname"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"GuildFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"GuildFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"guild"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"guildname"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"discordInviteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"joinButtonUrl"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"githubUrl"}},{"kind":"Field","name":{"kind":"Name","value":"twitterUrl"}},{"kind":"Field","name":{"kind":"Name","value":"showDiscordAnnouncements"}},{"kind":"Field","name":{"kind":"Name","value":"daos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contractAddress"}},{"kind":"Field","name":{"kind":"Name","value":"network"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetGuildQuery(
-  options: Omit<Urql.UseQueryArgs<GetGuildQueryVariables>, 'query'>,
-) {
+export function useGetGuildQuery(options: Omit<Urql.UseQueryArgs<GetGuildQueryVariables>, 'query'>) {
   return Urql.useQuery<GetGuildQuery>({ query: GetGuildDocument, ...options });
-}
-export const GetGuildMetadataDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetGuildMetadata' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild_metadata' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'guildId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'discordMetadata' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'discordRoles' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'position' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+};
+export const GetGuildMetadataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGuildMetadata"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guild_metadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"guildId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildId"}},{"kind":"Field","name":{"kind":"Name","value":"discordMetadata"}},{"kind":"Field","name":{"kind":"Name","value":"discordRoles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"position"}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetGuildMetadataQuery(
-  options: Omit<Urql.UseQueryArgs<GetGuildMetadataQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetGuildMetadataQuery>({
-    query: GetGuildMetadataDocument,
-    ...options,
-  });
-}
-export const GetAdministeredGuildsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetAdministeredGuilds' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild_metadata' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'creatorId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetGuildMetadataQuery(options: Omit<Urql.UseQueryArgs<GetGuildMetadataQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetGuildMetadataQuery>({ query: GetGuildMetadataDocument, ...options });
+};
+export const GetAdministeredGuildsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAdministeredGuilds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guild_metadata"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guildId"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetAdministeredGuildsQuery(
-  options: Omit<
-    Urql.UseQueryArgs<GetAdministeredGuildsQueryVariables>,
-    'query'
-  >,
-) {
-  return Urql.useQuery<GetAdministeredGuildsQuery>({
-    query: GetAdministeredGuildsDocument,
-    ...options,
-  });
-}
-export const GetGuildsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetGuilds' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'status' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: { kind: 'EnumValue', value: 'ACTIVE' },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'order_by' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'sortPosition' },
-                      value: { kind: 'EnumValue', value: 'asc_nulls_last' },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'GuildFragment' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'GuildFragment' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'guild' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guildname' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'profileLayout' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'discordInviteUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'joinButtonUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'logo' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'websiteUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'githubUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'twitterUrl' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'showDiscordAnnouncements' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'daos' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'contractAddress' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'network' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetAdministeredGuildsQuery(options: Omit<Urql.UseQueryArgs<GetAdministeredGuildsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetAdministeredGuildsQuery>({ query: GetAdministeredGuildsDocument, ...options });
+};
+export const GetGuildsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGuilds"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guild"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"EnumValue","value":"ACTIVE"}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"sortPosition"},"value":{"kind":"EnumValue","value":"asc_nulls_last"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"GuildFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"GuildFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"guild"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"guildname"}},{"kind":"Field","name":{"kind":"Name","value":"profileLayout"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"discordInviteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"joinButtonUrl"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"websiteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"githubUrl"}},{"kind":"Field","name":{"kind":"Name","value":"twitterUrl"}},{"kind":"Field","name":{"kind":"Name","value":"showDiscordAnnouncements"}},{"kind":"Field","name":{"kind":"Name","value":"daos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contractAddress"}},{"kind":"Field","name":{"kind":"Name","value":"network"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetGuildsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetGuildsQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetGuildsQuery>({
-    query: GetGuildsDocument,
-    ...options,
-  });
-}
-export const GetGuildnamesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetGuildnames' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'status' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'GuildStatus_enum' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'status' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'status' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'guildname' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetGuildsQuery(options?: Omit<Urql.UseQueryArgs<GetGuildsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetGuildsQuery>({ query: GetGuildsDocument, ...options });
+};
+export const GetGuildnamesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGuildnames"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GuildStatus_enum"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guild"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"guildname"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetGuildnamesQuery(
-  options?: Omit<Urql.UseQueryArgs<GetGuildnamesQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetGuildnamesQuery>({
-    query: GetGuildnamesDocument,
-    ...options,
-  });
-}
-export const GetGuildPlayersDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetGuildPlayers' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'guildId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild_player' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'guildId' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'guildId' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Player' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'totalXP' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'ethereumAddress' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'profile' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'username' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'profileImageURL' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetGuildnamesQuery(options?: Omit<Urql.UseQueryArgs<GetGuildnamesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetGuildnamesQuery>({ query: GetGuildnamesDocument, ...options });
+};
+export const GetGuildPlayersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGuildPlayers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"guildId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guild_player"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"guildId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"guildId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalXP"}},{"kind":"Field","name":{"kind":"Name","value":"rank"}},{"kind":"Field","name":{"kind":"Name","value":"ethereumAddress"}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profileImageURL"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetGuildPlayersQuery(
-  options: Omit<Urql.UseQueryArgs<GetGuildPlayersQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<GetGuildPlayersQuery>({
-    query: GetGuildPlayersDocument,
-    ...options,
-  });
-}
-export const GetGuildAnnouncementsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetGuildAnnouncements' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'guildId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'guild' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'id' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'guildId' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'discordAnnouncements' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
+export function useGetGuildPlayersQuery(options: Omit<Urql.UseQueryArgs<GetGuildPlayersQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetGuildPlayersQuery>({ query: GetGuildPlayersDocument, ...options });
+};
+export const GetGuildAnnouncementsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGuildAnnouncements"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"guildId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"guild"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"guildId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"discordAnnouncements"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useGetGuildAnnouncementsQuery(
-  options: Omit<
-    Urql.UseQueryArgs<GetGuildAnnouncementsQueryVariables>,
-    'query'
-  >,
-) {
-  return Urql.useQuery<GetGuildAnnouncementsQuery>({
-    query: GetGuildAnnouncementsDocument,
-    ...options,
-  });
-}
+export function useGetGuildAnnouncementsQuery(options: Omit<Urql.UseQueryArgs<GetGuildAnnouncementsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetGuildAnnouncementsQuery>({ query: GetGuildAnnouncementsDocument, ...options });
+};

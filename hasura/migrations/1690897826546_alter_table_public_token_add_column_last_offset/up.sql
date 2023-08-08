@@ -1,1 +1,1 @@
-ALTER TABLE "public"."token" ADD COLUMN "last_offset" integer NOT NULL DEFAULT 0;
+ALTER TABLE "public"."token" ADD COLUMN IF NOT EXISTS  "last_offset" integer NOT NULL DEFAULT 0;

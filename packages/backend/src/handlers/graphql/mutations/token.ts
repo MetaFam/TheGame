@@ -25,4 +25,20 @@ export const TokenMutations = /* GraphQL */ `
       }
     }
   }
+
+  mutation UpsertXP (
+    $balance: float8!,
+    $playerId: uuid!,
+    $tokenAddress: String!
+  ) {
+    insert_xp(objects: {balance: $balance, playerId: $playerId, tokenAddress: $tokenAddress}, on_conflict: {update_columns: balance, constraint: xp_player_id_token_address_key}) {
+      returning {
+        balance
+        tokenAddress
+        playerId
+        id
+      }
+    }
+  }
+  
 `
