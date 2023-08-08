@@ -169,6 +169,8 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     [player],
   );
 
+  const avatarImg = useMemo(() => getPlayerImage(player), [player]);
+
   if (router.isFallback) {
     return <LoadingState />;
   }
@@ -202,7 +204,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
         title={`MetaGame Profile: ${header}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
-        img={getPlayerImage(player)}
+        img={avatarImg}
       />
       {banner != null ? (
         <Box
