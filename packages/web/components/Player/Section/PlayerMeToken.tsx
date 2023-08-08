@@ -5,6 +5,7 @@ import {
   chakra,
   Flex,
   FormLabel,
+  HStack,
   IconButton,
   Image,
   Input,
@@ -17,6 +18,7 @@ import {
   Tabs,
   Text,
   useToast,
+  VStack,
   Wrap,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
@@ -408,8 +410,8 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               bg="white"
               borderRadius="lg"
             >
-              <Flex justify="space-between" align="center" pt={2} px={2}>
-                <Box flexGrow={1}>
+              <Flex justify="space-between" align="center" p={2}>
+                <Box flexGrow={0} flexShrink={1}>
                   <Input
                     id="swap-amount"
                     pl={0}
@@ -433,7 +435,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     {weiToEth(srcTkn.balance).toFixed(4)}
                   </Text>
                 </Box>
-                <Wrap align="center" justifyContent="flex-end">
+                <HStack align="center" justifyContent="flex-end" gap={1} flexGrow={0} flexShrink={0}>
                   <Button
                     borderColor="black"
                     color="black"
@@ -463,12 +465,12 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       height="36px"
                       width="36px"
                       borderRadius={50}
-                      mx="auto"
+                      mx={0}
                       alt="profile picture"
                     />
                     <Text color="black">{srcTkn.symbol}</Text>
                   </FormLabel>
-                </Wrap>
+                </HStack>
               </Flex>
               <Flex
                 alignItems="center"
@@ -499,7 +501,7 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     {weiToEth(dstTkn.balance).toFixed(2)}
                   </Text>
                 </Box>
-                <Wrap align="center">
+                <HStack align="center" gap={1}>
                   <Image
                     src={
                       txType === 'mint'
@@ -513,13 +515,13 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     alt="profile picture"
                   />
                   <Text color="black">{dstTkn.symbol}</Text>
-                </Wrap>
+                </HStack>
               </Flex>
             </Box>
             {chainId !== '0x1' ? (
-              <Wrap mx="auto" mt="1rem">
+              <HStack mx="auto" mt="1rem">
                 <SwitchNetworkButton />
-              </Wrap>
+              </HStack>
             ) : (
               <MetaButton mx="auto" mt="1rem" type="submit" disabled={loading}>
                 {approved
@@ -536,17 +538,18 @@ const MeTokenSwap: React.FC<SwapProps> = ({
               bg="white"
               borderRadius="lg"
             >
-              <Flex justify="space-between" align="center" p="2">
-                <Box flexGrow={1}>
+              <Flex justify="space-between" align="center" p={2}>
+                <Box flexGrow={0} flexShrink={1}>
                   <Input
+                    id="spend-amount"
                     htmlSize={0}
-                    width="auto"
+                    width="100%"
                     variant="unstyled"
                     backgroundColor="#FFF"
                     color="#000"
                     border="none"
                     value={displayAmount}
-                    pl={2}
+                    pl={0}
                     type="number"
                     inputMode="numeric"
                     step="any"
@@ -558,12 +561,12 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     color="gray"
                     fontSize={'12'}
                     textAlign={'left'}
-                    ml={2.5}
+                    ml={0}
                   >
                     {weiToEth(meTokenData.balance).toFixed(2)}
                   </Text>
                 </Box>
-                <Wrap align="center">
+                <HStack align="center" justifyContent="flex-end" gap={1} flexGrow={0} flexShrink={0}>
                   <Button
                     borderColor="black"
                     color="black"
@@ -577,16 +580,25 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                   >
                     Max
                   </Button>
+                  <FormLabel
+                    htmlFor="spend-amount"
+                    display={'flex'}
+                    alignItems={'center'}
+                    justifyContent={'flex-end'}
+                    gap={1}
+                    m={0}
+                  >
                   <Image
                     src={profilePicture}
                     height="36px"
                     width="36px"
                     borderRadius={50}
-                    mx="auto"
+                    mx={0}
                     alt="profile picture"
                   />
-                  <Text color="black">{symbol}</Text>
-                </Wrap>
+                    <Text color="black">{symbol}</Text>
+                  </FormLabel>
+                </HStack>
               </Flex>
               <hr />
               <Flex justify="space-between" align="center" p={2}>
@@ -609,9 +621,9 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                 {approved ? 'Spend meToken' : 'Approve Token'}
               </MetaButton>
             ) : (
-              <Wrap mx="auto" mt="1rem">
+              <HStack mx="auto" mt="1rem">
                 <SwitchNetworkButton />
-              </Wrap>
+              </HStack>
             )}
           </Flex>
         </TabPanel>
@@ -679,7 +691,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
 
   return (
     <ProfileSection title="MeToken" {...{ isOwnProfile, editing }}>
-      <Wrap mb={4} justify="center">
+      <VStack mb={4} justify="center">
         {/* eslint-disable-next-line no-nested-ternary */}
         {meTokenAddress === null ? (
           <a
@@ -711,7 +723,7 @@ export const PlayerMeTokens: React.FC<Props> = ({
             />
           </>
         )}
-      </Wrap>
+      </VStack>
     </ProfileSection>
   );
 };
