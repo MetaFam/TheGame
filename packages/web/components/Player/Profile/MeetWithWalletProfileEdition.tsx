@@ -1,15 +1,26 @@
-import { Button, Link, MeetWithWalletIcon, Text, VStack } from '@metafam/ds';
+import {
+  Button,
+  Link,
+  MeetWithWalletIcon,
+  Text,
+  useToast,
+  VStack,
+} from '@metafam/ds';
 import { ethereumHelper, Maybe } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
-import { useProfileField, useWeb3 } from 'lib/hooks';
-import React, { useEffect, useMemo, useState } from 'react';
-import { FieldValues, UseFormSetValue } from 'react-hook-form';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
+import {
+  AccountType_Enum,
+  Player,
+  useInsertPlayerAccountMutation,
+  useRemovePlayerAccountMutation,
+} from 'graphql/autogen/types';
+import { useWeb3 } from 'lib/hooks';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
 
 interface MeetWithWalletProps {
   player?: Maybe<Player>;
-  setValue: UseFormSetValue<FieldValues>;
 }
 
 enum AccountStatus {
@@ -20,39 +31,30 @@ enum AccountStatus {
 
 const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
   player,
-  setValue,
 }) => {
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState(false);
-  const [pleaseSave, setPleaseSave] = useState(false);
   const [accountStatus, setAccountStatus] = useState(AccountStatus.NotCreated);
   const [calendarUrl, setCalendarUrl] = useState('');
+  const toast = useToast();
 
   const { provider } = useWeb3();
+
+  const [, insertAccount] = useInsertPlayerAccountMutation();
+  const [, removeAccount] = useRemovePlayerAccountMutation();
+  const { hydrateFromHasura } = usePlayerHydrationContext();
 
   const address = useMemo(
     () => player?.ethereumAddress,
     [player?.ethereumAddress],
   );
 
-  let information: JSX.Element;
-  let buttonCopy: string;
+  const mwwDomain = useMemo(
+    () => getPlayerMeetwithWalletCalendarUrl(player),
+    [player],
+  );
 
-  // 9tails.eth: As there is no current way of editing Profile Accounts,
-  // and the MWW integratino happens on the EditProfileModal, to avoid
-  // adding a new column to the table just to do the following, I decided
-  // to this this cast as any to use the information from the form and
-  // don't do bigger changes on the data structure just because of it
-  const profileFields = useProfileField({
-    field: 'meetWithWalletDomain',
-    player,
-    getter: getPlayerMeetwithWalletCalendarUrl,
-  });
-
-  // eslint-disable-next-line
-  const mwwDomain = (profileFields as any).meetWithWalletDomain || null;
-
-  const checkAccount = async () => {
+  const checkAccount = useCallback(async () => {
     if (mwwDomain && mwwDomain !== 'mww_remove') {
       setAccountStatus(AccountStatus.Linked);
       setLoading(false);
@@ -72,12 +74,12 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
       errorHandler(e as Error);
     }
     setLoading(false);
-  };
+  }, [address, mwwDomain]);
 
-  const linkAccount = async () => {
+  const linkAccount = useCallback(async () => {
     setConnecting(true);
 
-    let calURl = calendarUrl;
+    let calURL = calendarUrl;
 
     if (accountStatus === AccountStatus.NotCreated && provider != null) {
       try {
@@ -106,7 +108,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
           method: 'POST',
           body: JSON.stringify(accountRequest),
         });
-        calURl = (
+        calURL = (
           await (
             await fetch(`/api/integrations/meetwithwallet/${address}`)
           ).json()
@@ -117,62 +119,113 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
       }
     }
 
-    setValue('meetWithWalletDomain', calURl, { shouldDirty: true });
+    const result = await insertAccount({
+      account: {
+        playerId: player?.id,
+        type: AccountType_Enum.Meetwithwallet,
+        identifier: calURL,
+      },
+    });
+    if (result.data?.insert_player_account_one?.identifier != null) {
+      setAccountStatus(AccountStatus.Linked);
+      hydrateFromHasura();
+    } else {
+      toast({
+        title: 'Could not link your account',
+        description: result.error?.message,
+        status: 'error',
+        isClosable: true,
+        duration: 12000,
+      });
+    }
 
     setConnecting(false);
-    setPleaseSave(true);
-    setAccountStatus(AccountStatus.Linked);
-  };
+  }, [
+    accountStatus,
+    address,
+    calendarUrl,
+    hydrateFromHasura,
+    insertAccount,
+    player?.id,
+    player?.profile?.timeZone,
+    provider,
+    toast,
+  ]);
 
-  const disconnect = async () => {
-    setValue('meetWithWalletDomain', 'mww_remove', { shouldDirty: true });
-    setPleaseSave(true);
-    setAccountStatus(AccountStatus.NotLinked);
-  };
+  const disconnect = useCallback(async () => {
+    const result = await removeAccount({
+      playerId: player?.id,
+      accountType: AccountType_Enum.Meetwithwallet,
+    });
+    if (result.data?.delete_player_account?.affected_rows === 1) {
+      setAccountStatus(AccountStatus.NotLinked);
+      hydrateFromHasura();
+    } else {
+      toast({
+        title: 'Could not unlink your account',
+        description: result.error?.message,
+        status: 'error',
+        isClosable: true,
+        duration: 12000,
+      });
+    }
+  }, [hydrateFromHasura, player?.id, removeAccount, toast]);
 
   useEffect(() => {
     checkAccount();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  switch (accountStatus) {
-    case AccountStatus.NotCreated:
-      information = (
-        <Text pb={4} color="white">
-          <Link isExternal href="https://meetwithwallet.xyz">
-            Meet with Wallet
-          </Link>{' '}
-          is a web3 powered meeting schedule platform. If you don't have an
-          account, one will be created automatically for you on connect.
-        </Text>
-      );
-      buttonCopy = 'Connect to Meet with Wallet';
-      break;
-    case AccountStatus.NotLinked:
-      information = (
-        <Text pb={4} color="white">
-          Meet with Wallet is a web3 powered meeting schedule platform. If you
-          don't have an account, one will be created automatically for you on
-          connect.
-        </Text>
-      );
-      buttonCopy = 'Connect to Meet with Wallet';
-      break;
-    case AccountStatus.Linked:
-      information = (
-        <Text pb={4} color="white">
-          You connected your Meet with Wallet Calendar. You can configure it at{' '}
-          <Link isExternal href="https://meetwithwallet.xyz">
-            meetwithwallet.xyz
-          </Link>
-        </Text>
-      );
-      buttonCopy = 'Disconnect calendar';
-      break;
-    default:
-      information = <div />;
-      buttonCopy = '';
-      break;
-  }
+  const {
+    information,
+    buttonCopy,
+  }: { information: JSX.Element; buttonCopy: string } = useMemo(() => {
+    let info: JSX.Element;
+    let btnCopy: string;
+    switch (accountStatus) {
+      case AccountStatus.NotCreated:
+        info = (
+          <Text pb={4} color="white">
+            <Link isExternal href="https://meetwithwallet.xyz">
+              Meet with Wallet
+            </Link>{' '}
+            is a web3 powered meeting schedule platform. If you don't have an
+            account, one will be created automatically for you on connect.
+          </Text>
+        );
+        btnCopy = 'Connect to Meet with Wallet';
+        break;
+      case AccountStatus.NotLinked:
+        info = (
+          <Text pb={4} color="white">
+            Meet with Wallet is a web3 powered meeting schedule platform. If you
+            don't have an account, one will be created automatically for you on
+            connect.
+          </Text>
+        );
+        btnCopy = 'Connect to Meet with Wallet';
+        break;
+      case AccountStatus.Linked:
+        info = (
+          <Text pb={4} color="white">
+            You connected your Meet with Wallet Calendar. You can configure it
+            at{' '}
+            <Link isExternal href="https://meetwithwallet.xyz">
+              meetwithwallet.xyz
+            </Link>
+          </Text>
+        );
+        btnCopy = 'Disconnect calendar';
+        break;
+      default:
+        info = <div />;
+        btnCopy = '';
+        break;
+    }
+    return {
+      information: info,
+      buttonCopy: btnCopy,
+    };
+  }, [accountStatus]);
 
   return (
     <VStack alignItems="flex-start">
@@ -187,11 +240,6 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
       >
         {buttonCopy}
       </Button>
-      {pleaseSave && (
-        <Text pb={4} color="white">
-          Please save to apply Meet with wallet changes
-        </Text>
-      )}
     </VStack>
   );
 };

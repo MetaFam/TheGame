@@ -1,149 +1,152 @@
 actions:
-- name: authenticateDiscordGuild
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/guild/discord/auth'
-    forward_client_headers: true
-  permissions:
-  - role: player
-  - role: public
-- name: createQuest
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/quests/createQuest'
-    forward_client_headers: true
-  permissions:
-  - role: player
-- name: createQuestCompletion
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/quests/createCompletion'
-    forward_client_headers: true
-  permissions:
-  - role: player
-- name: linkCeramicProfileNode
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/composeDB/linkProfileNode'
-    forward_client_headers: true
-  permissions:
-  - role: player
-- name: saveGuildInformation
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/guild/save'
-    forward_client_headers: true
-  permissions:
-  - role: player
-- name: saveGuildLayout
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/guild/saveLayout'
-    forward_client_headers: true
-  permissions:
-  - role: player
-- name: syncAllGuildDiscordMembers
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/syncAllGuildDiscordMembers'
-- name: syncSourceCredAccounts
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/syncSourceCredAccounts'
-- name: updateCachedProfile
-  definition:
-    kind: asynchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/composeDB/updateCachedProfile'
-    forward_client_headers: true
-  permissions:
-  - role: player
-- name: updateQuestCompletion
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/quests/updateCompletion'
-    forward_client_headers: true
-  permissions:
-  - role: player
+  - name: authenticateDiscordGuild
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/guild/discord/auth'
+      forward_client_headers: true
+    permissions:
+      - role: player
+      - role: public
+  - name: createQuest
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/quests/createQuest'
+      forward_client_headers: true
+    permissions:
+      - role: player
+  - name: createQuestCompletion
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/quests/createCompletion'
+      forward_client_headers: true
+    permissions:
+      - role: player
+  - name: linkCeramicProfileNode
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/composeDB/linkProfileNode'
+      forward_client_headers: true
+    permissions:
+      - role: player
+  - name: saveGuildInformation
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/guild/save'
+      forward_client_headers: true
+    permissions:
+      - role: player
+  - name: saveGuildLayout
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/guild/saveLayout'
+      forward_client_headers: true
+    permissions:
+      - role: player
+  - name: syncAllGuildDiscordMembers
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/syncAllGuildDiscordMembers'
+  - name: syncSourceCredAccounts
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/syncSourceCredAccounts'
+  - name: updateCachedProfile
+    definition:
+      kind: asynchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/composeDB/updateCachedProfile'
+      forward_client_headers: true
+    permissions:
+      - role: player
+  - name: updateQuestCompletion
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/quests/updateCompletion'
+      forward_client_headers: true
+    permissions:
+      - role: player
 custom_types:
   enums:
-  - name: QuestRepetition_ActionEnum
-    values:
-    - description: null
-      is_deprecated: null
-      value: UNIQUE
-    - description: null
-      is_deprecated: null
-      value: PERSONAL
-    - description: null
-      is_deprecated: null
-      value: RECURRING
-  - name: QuestCompletionStatus_ActionEnum
-    values:
-    - description: null
-      is_deprecated: null
-      value: ACCEPTED
-    - description: null
-      is_deprecated: null
-      value: REJECTED
-  - name: GuildType_ActionEnum
-    values:
-    - description: null
-      is_deprecated: null
-      value: PROJECT
-    - description: null
-      is_deprecated: null
-      value: SERVICE
-    - description: null
-      is_deprecated: null
-      value: RESEARCH
-    - description: null
-      is_deprecated: null
-      value: SOCIAL
-    - description: null
-      is_deprecated: null
-      value: FUNDING
+    - name: QuestRepetition_ActionEnum
+      values:
+        - description: null
+          is_deprecated: null
+          value: UNIQUE
+        - description: null
+          is_deprecated: null
+          value: PERSONAL
+        - description: null
+          is_deprecated: null
+          value: RECURRING
+    - name: QuestCompletionStatus_ActionEnum
+      values:
+        - description: null
+          is_deprecated: null
+          value: ACCEPTED
+        - description: null
+          is_deprecated: null
+          value: REJECTED
+    - name: GuildType_ActionEnum
+      values:
+        - description: null
+          is_deprecated: null
+          value: PROJECT
+        - description: null
+          is_deprecated: null
+          value: SERVICE
+        - description: null
+          is_deprecated: null
+          value: RESEARCH
+        - description: null
+          is_deprecated: null
+          value: SOCIAL
+        - description: null
+          is_deprecated: null
+          value: FUNDING
   input_objects:
-  - name: CreateQuestInput
-  - name: CreateQuestCompletionInput
-  - name: UpdateQuestCompletionInput
-  - name: GuildInfoInput
-  - name: GuildDaoInput
-  - name: GuildLayoutInfoInput
+    - name: CreateQuestInput
+    - name: CreateQuestCompletionInput
+    - name: UpdateQuestCompletionInput
+    - name: GuildInfoInput
+    - name: GuildDaoInput
+    - name: GuildLayoutInfoInput
   objects:
-  - name: UpdateIDXProfileResponse
-  - name: CreateQuestOutput
-    relationships:
-    - remote_table:
-        schema: public
-        name: quest
-      name: quest
-      type: object
-      field_mapping:
-        quest_id: id
-  - name: CreateQuestCompletionOutput
-    relationships:
-    - remote_table:
-        schema: public
-        name: quest_completion
-      name: quest_completion
-      type: object
-      field_mapping:
-        quest_completion_id: id
-  - name: UpdateQuestCompletionOutput
-    relationships:
-    - remote_table:
-        schema: public
-        name: quest_completion
-      name: quest_completion
-      type: object
-      field_mapping:
-        quest_completion_id: id
-  - name: DiscordGuildAuthResponse
-  - name: CacheProcessOutput
-  - name: ExpiredPlayerProfiles
-  - name: SaveGuildResponse
-  - name: SaveGuildLayoutResponse
-  - name: SourceCredSyncOutput
-  - name: DiscordGuildsSyncOutput
-  - name: LinkCeramicProfileNodeResponse
+    - name: UpdateIDXProfileResponse
+    - name: CreateQuestOutput
+      relationships:
+        - field_mapping:
+            quest_id: id
+          name: quest
+          remote_table:
+            name: quest
+            schema: public
+          source: default
+          type: object
+    - name: CreateQuestCompletionOutput
+      relationships:
+        - field_mapping:
+            quest_completion_id: id
+          name: quest_completion
+          remote_table:
+            name: quest_completion
+            schema: public
+          source: default
+          type: object
+    - name: UpdateQuestCompletionOutput
+      relationships:
+        - field_mapping:
+            quest_completion_id: id
+          name: quest_completion
+          remote_table:
+            name: quest_completion
+            schema: public
+          source: default
+          type: object
+    - name: DiscordGuildAuthResponse
+    - name: CacheProcessOutput
+    - name: ExpiredPlayerProfiles
+    - name: SaveGuildResponse
+    - name: SaveGuildLayoutResponse
+    - name: SourceCredSyncOutput
+    - name: DiscordGuildsSyncOutput
+    - name: LinkCeramicProfileNodeResponse
   scalars: []

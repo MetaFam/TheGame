@@ -154,10 +154,12 @@ const WhatSayCard: React.FC<{
 
   useEffect(() => {
     const getPfp = async () => {
-      const getPlayerResponse = await getPlayer(username);
+      if (username != null) {
+        const getPlayerResponse = await getPlayer(username);
 
-      if (getPlayerResponse?.profile?.profileImageURL) {
-        setPfp(getPlayerResponse);
+        if (getPlayerResponse?.profile?.profileImageURL) {
+          setPfp(getPlayerResponse);
+        }
       }
     };
     getPfp();

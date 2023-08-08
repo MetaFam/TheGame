@@ -1,13 +1,11 @@
 import {
   Box,
   EditIcon,
-  ExternalLinkIcon,
   Flex,
   getTimeZoneFor,
   Grid,
   HStack,
   IconButton,
-  Link,
   MeetWithWalletIcon,
   MetaButton,
   MetaTag,
@@ -28,9 +26,9 @@ import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { Player } from 'graphql/autogen/types';
-import { useProfileField, useUser } from 'lib/hooks';
+import { useUser } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
@@ -53,19 +51,10 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
 
   const { hydrateFromComposeDB } = usePlayerHydrationContext();
 
-  // 9tails.eth: As there is no current way of editing Profile Accounts,
-  // and the MWW integration happens on the EditProfileModal, to avoid
-  // adding a new column to the table just to do the following, I decided
-  // to this this cast as any to use the information from the form and
-  // don't do bigger changes on the data structure just because of it
-  const profileFields = useProfileField({
-    field: 'meetWithWalletDomain',
-    player,
-    getter: getPlayerMeetwithWalletCalendarUrl,
-  });
-
-  // eslint-disable-next-line
-  const mwwDomain = (profileFields as any).meetWithWalletDomain || null;
+  const mwwDomain = useMemo(
+    () => getPlayerMeetwithWalletCalendarUrl(player),
+    [player],
+  );
 
   return (
     <ProfileSection {...{ editing }} type={BoxTypes.PLAYER_HERO} title={false}>
@@ -120,8 +109,6 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
             Meet With Me
           </MetaButton>
         )}
-
-        <Website {...{ player }} />
       </VStack>
 
       {isOwnProfile && (
@@ -303,34 +290,6 @@ const TimeZone: React.FC<DisplayComponentProps> = ({
             </Tooltip>
           )}
         </Flex>
-      </PlayerHeroTile>
-    </Wrapper>
-  );
-};
-
-const Website: React.FC<DisplayComponentProps> = ({
-  player,
-  Wrapper = React.Fragment,
-}) => {
-  const website = player?.profile?.website;
-
-  if (!website) {
-    return null;
-  }
-
-  return (
-    <Wrapper>
-      <PlayerHeroTile title="Website">
-        <Link
-          href={website}
-          target={'_blank'}
-          display={'flex'}
-          flexDir={'row'}
-          alignItems={'center'}
-        >
-          <Text>{website}</Text>
-          <ExternalLinkIcon ml="10px" />
-        </Link>
       </PlayerHeroTile>
     </Wrapper>
   );

@@ -76,6 +76,7 @@ export const PlayerHydrationContextProvider: React.FC<
         // only update hasura fields, not any profile fields since those come from ComposeDB
         skills: updatedPlayer.skills,
         roles: updatedPlayer.roles,
+        accounts: updatedPlayer.accounts,
       });
     }
     setHydrating(false);
