@@ -2,7 +2,8 @@ import {
   Box,
   Button,
   ExternalLinkIcon,
-  Heading,
+  FormControl,
+  FormLabel,
   Image,
   Input,
   Spinner,
@@ -216,7 +217,7 @@ const DeworkProfile: React.FC<{ player: Player }> = ({ player }) => {
         />
         {deworkData && (
           <MetaLink
-            href={`https://app.dework.xyz/profile/${deworkData.address}`}
+            href={`https://app.dework.xyz/profile/${deworkData.username}`}
             fontWeight={500}
             display="inline-flex"
             alignItems="center"
@@ -250,17 +251,25 @@ const DeworkLink: React.FC<{ setPlayerDeworkURL: any }> = ({
 
   return (
     <>
-      <Heading>Input Dework Username</Heading>
-      <Input
-        value={deworkURL}
-        pl={2}
-        type="text"
-        inputMode="text"
-        placeholder="Example: Sero | Hunters Workshop"
-        step="any"
-        onChange={({ target: { value } }) => setDeworkURL(value)}
-      />
-      <Button onClick={() => setPlayerDeworkURL('Sero | Hunters Workshop')}>
+      <FormControl id="deworkURL" mb={4}>
+        <FormLabel>Input Dework Username</FormLabel>
+        <Input
+          value={deworkURL}
+          pl={2}
+          type="text"
+          inputMode="text"
+          placeholder="Example: Sero | Hunters Workshop"
+          step="any"
+          onChange={({ target: { value } }) => setDeworkURL(value)}
+        />
+      </FormControl>
+      <Button
+        onClick={() => setPlayerDeworkURL('Sero | Hunters Workshop')}
+        isDisabled={!deworkURL}
+        _disabled={{
+          cursor: 'not-allowed',
+        }}
+      >
         {deworkURL ? 'Proceed To Block' : 'Please Enter Dework username'}
       </Button>
     </>
