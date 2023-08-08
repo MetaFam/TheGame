@@ -7,7 +7,6 @@ import {
   FormHelperText,
   Image,
   Input,
-  Tooltip,
   useToast,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
@@ -39,6 +38,7 @@ export const EditBackgroundImage = forwardRef<
   const toast = useToast();
   const readFile = useImageReader();
 
+  const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [url, setURL] = useState<Optional<string>>(
     optimizedImage('backgroundImageURL', initialURL),
@@ -107,7 +107,7 @@ export const EditBackgroundImage = forwardRef<
           w="full"
           h="full"
           border="2px solid"
-          borderColor={'transparent'}
+          borderColor={active && !url ? 'blue.400' : 'transparent'}
         >
           <Image
             ref={ref}
@@ -177,6 +177,8 @@ export const EditBackgroundImage = forwardRef<
                         onFileChange(file);
                       }
                     }}
+                    onFocus={() => setActive(true)}
+                    onBlur={() => setActive(false)}
                     accept="image/*"
                   />
                   Drag and drop an image or
