@@ -4,8 +4,10 @@ import {
   Center,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   Image,
   Input,
+  Tooltip,
   useToast,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
@@ -51,7 +53,7 @@ export const EditBackgroundImage = forwardRef<
     [player],
   );
 
-  const tooltipLabel =
+  const helperLabel =
     // eslint-disable-next-line prefer-template
     'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.' +
     (metagamer ? '' : '\nOnly available to MetaGame players and patrons.');
@@ -95,8 +97,11 @@ export const EditBackgroundImage = forwardRef<
   return (
     <FormControl isInvalid={!!errors.backgroundImageURL} h="full">
       <Label htmlFor="backgroundImageURL" userSelect="none" whiteSpace="nowrap">
-        Background Photo
+        Background Image
       </Label>
+      <FormHelperText pb={3} color="white">
+        {helperLabel}
+      </FormHelperText>
       <Center
         position="relative"
         w="full"
