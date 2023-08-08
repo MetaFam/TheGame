@@ -1,70 +1,58 @@
 type Mutation {
-  authenticateDiscordGuild (
+  authenticateDiscordGuild(
     code: String!
   ): DiscordGuildAuthResponse
 }
 
-
 type Mutation {
-  createQuest (
+  createQuest(
     quest: CreateQuestInput!
   ): CreateQuestOutput
 }
 
-
 type Mutation {
-  createQuestCompletion (
+  createQuestCompletion(
     questCompletion: CreateQuestCompletionInput!
   ): CreateQuestCompletionOutput
 }
 
-
 type Mutation {
-  linkCeramicProfileNode (
+  linkCeramicProfileNode(
     nodeId: String!
   ): LinkCeramicProfileNodeResponse
 }
 
-
 type Mutation {
-  saveGuildInformation (
+  saveGuildInformation(
     guildInformation: GuildInfoInput!
   ): SaveGuildResponse
 }
 
-
 type Mutation {
-  saveGuildLayout (
+  saveGuildLayout(
     guildLayoutInfo: GuildLayoutInfoInput!
   ): SaveGuildLayoutResponse
 }
 
-
 type Mutation {
-  syncAllGuildDiscordMembers : [DiscordGuildsSyncOutput]
+  syncAllGuildDiscordMembers: [DiscordGuildsSyncOutput]
 }
 
-
 type Mutation {
-  syncSourceCredAccounts : SourceCredSyncOutput
+  syncSourceCredAccounts: SourceCredSyncOutput
 }
 
-
 type Mutation {
-  updateCachedProfile (
+  updateCachedProfile(
     playerId: uuid
   ): CacheProcessOutput
 }
 
-
 type Mutation {
-  updateQuestCompletion (
+  updateQuestCompletion(
     updateData: UpdateQuestCompletionInput!
   ): UpdateQuestCompletionOutput
 }
-
-
-
 
 enum QuestRepetition_ActionEnum {
   UNIQUE
@@ -86,129 +74,129 @@ enum GuildType_ActionEnum {
 }
 
 input CreateQuestInput {
-  guildId : uuid!
-  title : String!
-  description : String
-  externalLink : String
-  repetition : QuestRepetition_ActionEnum
-  cooldown : Int
-  roleIds : [uuid]!
-  skillIds : [uuid]!
-  image : String
+  guildId: uuid!
+  title: String!
+  description: String
+  externalLink: String
+  repetition: QuestRepetition_ActionEnum
+  cooldown: Int
+  roleIds: [uuid]!
+  skillIds: [uuid]!
+  image: String
 }
 
 input CreateQuestCompletionInput {
-  questId : String!
-  submissionLink : String
-  submissionText : String
+  questId: String!
+  submissionLink: String
+  submissionText: String
 }
 
 input UpdateQuestCompletionInput {
-  questCompletionId : String!
-  status : QuestCompletionStatus_ActionEnum!
+  questCompletionId: String!
+  status: QuestCompletionStatus_ActionEnum!
 }
 
 input GuildInfoInput {
-  uuid : String!
-  guildname : String!
-  name : String!
-  type : GuildType_ActionEnum!
-  description : String
-  discordInviteUrl : String
-  joinUrl : String
-  logoUrl : String
-  websiteUrl : String
-  twitterUrl : String
-  githubUrl : String
-  membershipThroughDiscord : Boolean
-  discordAdminRoles : [String]!
-  discordMembershipRoles : [String]!
-  daos : [GuildDaoInput!]
+  uuid: String!
+  guildname: String!
+  name: String!
+  type: GuildType_ActionEnum!
+  description: String
+  discordInviteUrl: String
+  joinUrl: String
+  logoUrl: String
+  websiteUrl: String
+  twitterUrl: String
+  githubUrl: String
+  membershipThroughDiscord: Boolean
+  discordAdminRoles: [String]!
+  discordMembershipRoles: [String]!
+  daos: [GuildDaoInput!]
 }
 
 input GuildDaoInput {
-  contractAddress : String!
-  network : String!
-  label : String
-  url : String
+  contractAddress: String!
+  network: String!
+  label: String
+  url: String
 }
 
 input GuildLayoutInfoInput {
-  uuid : String!
-  profileLayout : String!
+  uuid: String!
+  profileLayout: String!
 }
 
 type UpdateIDXProfileResponse {
-  success : Boolean!
-  ceramic : String!
-  did : String
-  ethereumAddress : String
-  accountLinks : [String]
-  fields : [String]
+  success: Boolean!
+  ceramic: String!
+  did: String
+  ethereumAddress: String
+  accountLinks: [String]
+  fields: [String]
 }
 
 type CreateQuestOutput {
-  success : Boolean!
-  quest_id : uuid
-  error : String
+  success: Boolean!
+  quest_id: uuid
+  error: String
 }
 
 type CreateQuestCompletionOutput {
-  success : Boolean!
-  error : String
-  quest_completion_id : uuid
+  success: Boolean!
+  error: String
+  quest_completion_id: uuid
 }
 
 type UpdateQuestCompletionOutput {
-  success : Boolean!
-  error : String
-  quest_completion_id : uuid
+  success: Boolean!
+  error: String
+  quest_completion_id: uuid
 }
 
 type DiscordGuildAuthResponse {
-  success : Boolean!
-  guildname : String
-  exists : Boolean
-  error : String
+  success: Boolean!
+  guildname: String
+  exists: Boolean
+  error: String
 }
 
 type CacheProcessOutput {
-  success : Boolean!
-  queued : Boolean!
-  error : String
+  success: Boolean!
+  queued: Boolean!
+  error: String
 }
 
 type ExpiredPlayerProfiles {
-  ids : [String]!
+  ids: [String]!
 }
 
 type SaveGuildResponse {
-  success : Boolean
-  error : String
+  success: Boolean
+  error: String
 }
 
 type SaveGuildLayoutResponse {
-  success : Boolean
-  error : String
+  success: Boolean
+  error: String
 }
 
 type SourceCredSyncOutput {
-  numSkipped : Int!
-  numUpdated : Int!
-  numInserted : Int!
-  numUnclaimed : Int!
+  numSkipped: Int!
+  numUpdated: Int!
+  numInserted: Int!
+  numUnclaimed: Int!
 }
 
 type DiscordGuildsSyncOutput {
-  name : String!
-  username : String!
-  numInserted : Int
-  numDeleted : Int
-  numSkipped : Int
+  name: String!
+  username: String!
+  numInserted: Int
+  numDeleted: Int
+  numSkipped: Int
 }
 
 type LinkCeramicProfileNodeResponse {
-  verified : Boolean!
-  error : String
+  verified: Boolean!
+  error: String
 }
 

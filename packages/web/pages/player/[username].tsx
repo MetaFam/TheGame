@@ -155,9 +155,6 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     [hydrateFromComposeDB],
   );
 
-  // TODO create a button that migrates a user's data explicitly from
-  // hasura to composeDB. Also use this bannerImageURL for backgroundImageURL
-  // if it exists
   const bannerURL = getPlayerBannerFull(player);
   const background = getPlayerBackgroundFull(player);
 

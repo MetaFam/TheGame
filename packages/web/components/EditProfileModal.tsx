@@ -123,7 +123,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     handleSubmit,
     register,
     watch,
-    setValue,
     control,
     reset,
     formState: { errors, dirtyFields, isDirty },
@@ -571,10 +570,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
                   <Label>Meeting Calendar</Label>
-                  <MeetWithWalletProfileEdition
-                    setValue={setValue}
-                    player={player}
-                  />
+                  <MeetWithWalletProfileEdition {...{ player }} />
                 </FormControl>
               </GridItem>
               <GridItem flex={1} alignItems="center" h="10em">

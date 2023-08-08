@@ -7,7 +7,6 @@ import {
   getTokenFromStore,
   setTokenInStore,
 } from 'lib/auth';
-import { clearJotaiState } from 'lib/jotaiState';
 import React, {
   createContext,
   PropsWithChildren,
@@ -122,7 +121,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     clearWalletConnect();
     clearToken();
     clearDIDSessionCache();
-    clearJotaiState();
     setWeb3State({
       wallet: null,
       provider: null,
