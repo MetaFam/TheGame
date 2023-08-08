@@ -501,7 +501,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               </GridItem> */}
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.website}>
-                  <Label htmlFor="name">Website</Label>
+                  <Label htmlFor="name">Website URL</Label>
                   <Input
                     w="100%"
                     id="website"
@@ -570,7 +570,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               </GridItem> */}
               <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
-                  <Label>Meeting calendar</Label>
+                  <Label>Meeting Calendar</Label>
                   <MeetWithWalletProfileEdition
                     setValue={setValue}
                     player={player}
