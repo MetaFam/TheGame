@@ -223,7 +223,7 @@ const DeworkProfile: React.FC<{ player: Player }> = ({ player }) => {
             alignItems="center"
             isExternal
           >
-            See complete profile on Dework <ExternalLinkIcon mx="2px" />
+            See <Text as="span" display={{ base: 'none', xl: 'inline' }}>&nbsp;complete&nbsp;</Text> profile on Dework <ExternalLinkIcon mx="2px" />
           </MetaLink>
         )}
       </WrapItem>
