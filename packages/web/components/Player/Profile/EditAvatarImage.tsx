@@ -133,6 +133,8 @@ export const EditAvatarImage = forwardRef<
                     onFileChange(evt);
                   }}
                   accept="image/*"
+                  onFocus={() => setActive(true)}
+                  onBlur={() => setActive(false)}
                 />
               </Button>
             </>
