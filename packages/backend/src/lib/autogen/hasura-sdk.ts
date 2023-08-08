@@ -4,9 +4,15 @@ import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -43,7 +49,6 @@ export type AccountType_Aggregate_Fields = {
   readonly min?: Maybe<AccountType_Min_Fields>;
 };
 
-
 /** aggregate fields of "AccountType" */
 export type AccountType_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<AccountType_Select_Column>>;
@@ -74,7 +79,7 @@ export type AccountType_Bool_Exp = {
 /** unique or primary key constraints on table "AccountType" */
 export enum AccountType_Constraint {
   /** unique or primary key constraint */
-  AccountTypePkey = 'AccountType_pkey'
+  AccountTypePkey = 'AccountType_pkey',
 }
 
 export enum AccountType_Enum {
@@ -83,7 +88,7 @@ export enum AccountType_Enum {
   Ethereum = 'ETHEREUM',
   Github = 'GITHUB',
   Meetwithwallet = 'MEETWITHWALLET',
-  Twitter = 'TWITTER'
+  Twitter = 'TWITTER',
 }
 
 /** expression to compare columns of type AccountType_enum. All fields are combined with logical 'AND'. */
@@ -157,7 +162,7 @@ export type AccountType_Pk_Columns_Input = {
 /** select columns of table "AccountType" */
 export enum AccountType_Select_Column {
   /** column name */
-  Type = 'type'
+  Type = 'type',
 }
 
 /** input type for updating data in table "AccountType" */
@@ -168,7 +173,7 @@ export type AccountType_Set_Input = {
 /** update columns of table "AccountType" */
 export enum AccountType_Update_Column {
   /** column name */
-  Type = 'type'
+  Type = 'type',
 }
 
 /** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
@@ -217,7 +222,6 @@ export type ColorAspect = {
   readonly profiles_aggregate: Profile_Aggregate;
 };
 
-
 /** columns and relationships of "ColorAspect" */
 export type ColorAspectProfilesArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Profile_Select_Column>>;
@@ -226,7 +230,6 @@ export type ColorAspectProfilesArgs = {
   order_by?: InputMaybe<ReadonlyArray<Profile_Order_By>>;
   where?: InputMaybe<Profile_Bool_Exp>;
 };
-
 
 /** columns and relationships of "ColorAspect" */
 export type ColorAspectProfiles_AggregateArgs = {
@@ -259,7 +262,6 @@ export type ColorAspect_Aggregate_Fields = {
   readonly var_samp?: Maybe<ColorAspect_Var_Samp_Fields>;
   readonly variance?: Maybe<ColorAspect_Variance_Fields>;
 };
-
 
 /** aggregate fields of "ColorAspect" */
 export type ColorAspect_Aggregate_FieldsCountArgs = {
@@ -315,7 +317,7 @@ export enum ColorAspect_Constraint {
   /** unique or primary key constraint */
   ColorAspectNameKey = 'ColorAspect_name_key',
   /** unique or primary key constraint */
-  ColorAspectPkey = 'ColorAspect_pkey'
+  ColorAspectPkey = 'ColorAspect_pkey',
 }
 
 /** input type for incrementing integer column in table "ColorAspect" */
@@ -403,7 +405,7 @@ export enum ColorAspect_Select_Column {
   /** column name */
   Mask = 'mask',
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** input type for updating data in table "ColorAspect" */
@@ -464,7 +466,7 @@ export enum ColorAspect_Update_Column {
   /** column name */
   Mask = 'mask',
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** aggregate var_pop on columns */
@@ -585,7 +587,6 @@ export type ExplorerType = {
   readonly title: Scalars['String'];
 };
 
-
 /** columns and relationships of "ExplorerType" */
 export type ExplorerTypeProfilesArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Profile_Select_Column>>;
@@ -594,7 +595,6 @@ export type ExplorerTypeProfilesArgs = {
   order_by?: InputMaybe<ReadonlyArray<Profile_Order_By>>;
   where?: InputMaybe<Profile_Bool_Exp>;
 };
-
 
 /** columns and relationships of "ExplorerType" */
 export type ExplorerTypeProfiles_AggregateArgs = {
@@ -627,7 +627,6 @@ export type ExplorerType_Aggregate_Fields = {
   readonly var_samp?: Maybe<ExplorerType_Var_Samp_Fields>;
   readonly variance?: Maybe<ExplorerType_Variance_Fields>;
 };
-
 
 /** aggregate fields of "ExplorerType" */
 export type ExplorerType_Aggregate_FieldsCountArgs = {
@@ -684,7 +683,7 @@ export enum ExplorerType_Constraint {
   /** unique or primary key constraint */
   PlayerTypePkey = 'PlayerType_pkey',
   /** unique or primary key constraint */
-  PlayerTypeTitleKey = 'PlayerType_title_key'
+  PlayerTypeTitleKey = 'PlayerType_title_key',
 }
 
 /** input type for incrementing integer column in table "ExplorerType" */
@@ -780,7 +779,7 @@ export enum ExplorerType_Select_Column {
   /** column name */
   ImageUrl = 'imageURL',
   /** column name */
-  Title = 'title'
+  Title = 'title',
 }
 
 /** input type for updating data in table "ExplorerType" */
@@ -844,7 +843,7 @@ export enum ExplorerType_Update_Column {
   /** column name */
   ImageUrl = 'imageURL',
   /** column name */
-  Title = 'title'
+  Title = 'title',
 }
 
 /** aggregate var_pop on columns */
@@ -931,7 +930,6 @@ export type GuildStatus_Aggregate_Fields = {
   readonly min?: Maybe<GuildStatus_Min_Fields>;
 };
 
-
 /** aggregate fields of "GuildStatus" */
 export type GuildStatus_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<GuildStatus_Select_Column>>;
@@ -962,13 +960,13 @@ export type GuildStatus_Bool_Exp = {
 /** unique or primary key constraints on table "GuildStatus" */
 export enum GuildStatus_Constraint {
   /** unique or primary key constraint */
-  GuildStatusPkey = 'GuildStatus_pkey'
+  GuildStatusPkey = 'GuildStatus_pkey',
 }
 
 export enum GuildStatus_Enum {
   Active = 'ACTIVE',
   Inactive = 'INACTIVE',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 /** expression to compare columns of type GuildStatus_enum. All fields are combined with logical 'AND'. */
@@ -1042,7 +1040,7 @@ export type GuildStatus_Pk_Columns_Input = {
 /** select columns of table "GuildStatus" */
 export enum GuildStatus_Select_Column {
   /** column name */
-  Status = 'status'
+  Status = 'status',
 }
 
 /** input type for updating data in table "GuildStatus" */
@@ -1053,7 +1051,7 @@ export type GuildStatus_Set_Input = {
 /** update columns of table "GuildStatus" */
 export enum GuildStatus_Update_Column {
   /** column name */
-  Status = 'status'
+  Status = 'status',
 }
 
 /** columns and relationships of "GuildType" */
@@ -1066,7 +1064,6 @@ export type GuildType = {
   readonly name: Scalars['String'];
 };
 
-
 /** columns and relationships of "GuildType" */
 export type GuildTypeGuildsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Select_Column>>;
@@ -1075,7 +1072,6 @@ export type GuildTypeGuildsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Guild_Order_By>>;
   where?: InputMaybe<Guild_Bool_Exp>;
 };
-
 
 /** columns and relationships of "GuildType" */
 export type GuildTypeGuilds_AggregateArgs = {
@@ -1091,7 +1087,7 @@ export enum GuildType_ActionEnum {
   Project = 'PROJECT',
   Research = 'RESEARCH',
   Service = 'SERVICE',
-  Social = 'SOCIAL'
+  Social = 'SOCIAL',
 }
 
 /** aggregated selection of "GuildType" */
@@ -1108,7 +1104,6 @@ export type GuildType_Aggregate_Fields = {
   readonly max?: Maybe<GuildType_Max_Fields>;
   readonly min?: Maybe<GuildType_Min_Fields>;
 };
-
 
 /** aggregate fields of "GuildType" */
 export type GuildType_Aggregate_FieldsCountArgs = {
@@ -1141,7 +1136,7 @@ export type GuildType_Bool_Exp = {
 /** unique or primary key constraints on table "GuildType" */
 export enum GuildType_Constraint {
   /** unique or primary key constraint */
-  GuildTypePkey = 'GuildType_pkey'
+  GuildTypePkey = 'GuildType_pkey',
 }
 
 export enum GuildType_Enum {
@@ -1149,7 +1144,7 @@ export enum GuildType_Enum {
   Project = 'PROJECT',
   Research = 'RESEARCH',
   Service = 'SERVICE',
-  Social = 'SOCIAL'
+  Social = 'SOCIAL',
 }
 
 /** expression to compare columns of type GuildType_enum. All fields are combined with logical 'AND'. */
@@ -1225,7 +1220,7 @@ export type GuildType_Pk_Columns_Input = {
 /** select columns of table "GuildType" */
 export enum GuildType_Select_Column {
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** input type for updating data in table "GuildType" */
@@ -1236,7 +1231,7 @@ export type GuildType_Set_Input = {
 /** update columns of table "GuildType" */
 export enum GuildType_Update_Column {
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
@@ -1304,7 +1299,6 @@ export type PlayerRank_Aggregate_Fields = {
   readonly min?: Maybe<PlayerRank_Min_Fields>;
 };
 
-
 /** aggregate fields of "PlayerRank" */
 export type PlayerRank_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<PlayerRank_Select_Column>>;
@@ -1335,7 +1329,7 @@ export type PlayerRank_Bool_Exp = {
 /** unique or primary key constraints on table "PlayerRank" */
 export enum PlayerRank_Constraint {
   /** unique or primary key constraint */
-  PlayerRankPkey = 'Player_Rank_pkey'
+  PlayerRankPkey = 'Player_Rank_pkey',
 }
 
 export enum PlayerRank_Enum {
@@ -1343,7 +1337,7 @@ export enum PlayerRank_Enum {
   Diamond = 'DIAMOND',
   Gold = 'GOLD',
   Platinum = 'PLATINUM',
-  Silver = 'SILVER'
+  Silver = 'SILVER',
 }
 
 /** expression to compare columns of type PlayerRank_enum. All fields are combined with logical 'AND'. */
@@ -1417,7 +1411,7 @@ export type PlayerRank_Pk_Columns_Input = {
 /** select columns of table "PlayerRank" */
 export enum PlayerRank_Select_Column {
   /** column name */
-  Rank = 'rank'
+  Rank = 'rank',
 }
 
 /** input type for updating data in table "PlayerRank" */
@@ -1428,7 +1422,7 @@ export type PlayerRank_Set_Input = {
 /** update columns of table "PlayerRank" */
 export enum PlayerRank_Update_Column {
   /** column name */
-  Rank = 'rank'
+  Rank = 'rank',
 }
 
 /** columns and relationships of "PlayerRole" */
@@ -1454,7 +1448,6 @@ export type PlayerRole_Aggregate_Fields = {
   readonly max?: Maybe<PlayerRole_Max_Fields>;
   readonly min?: Maybe<PlayerRole_Min_Fields>;
 };
-
 
 /** aggregate fields of "PlayerRole" */
 export type PlayerRole_Aggregate_FieldsCountArgs = {
@@ -1489,7 +1482,7 @@ export type PlayerRole_Bool_Exp = {
 /** unique or primary key constraints on table "PlayerRole" */
 export enum PlayerRole_Constraint {
   /** unique or primary key constraint */
-  PlayerRolePkey = 'PlayerRole_pkey'
+  PlayerRolePkey = 'PlayerRole_pkey',
 }
 
 /** input type for inserting data into table "PlayerRole" */
@@ -1574,7 +1567,7 @@ export enum PlayerRole_Select_Column {
   /** column name */
   Label = 'label',
   /** column name */
-  Role = 'role'
+  Role = 'role',
 }
 
 /** input type for updating data in table "PlayerRole" */
@@ -1594,7 +1587,7 @@ export enum PlayerRole_Update_Column {
   /** column name */
   Label = 'label',
   /** column name */
-  Role = 'role'
+  Role = 'role',
 }
 
 export type Query = {
@@ -1602,44 +1595,39 @@ export type Query = {
   readonly getBrightIdStatus?: Maybe<BrightIdStatus>;
   readonly getDaoHausMemberships: ReadonlyArray<Member>;
   readonly getDiscordServerMemberRoles: ReadonlyArray<DiscordRole>;
-  readonly getGuildDiscordAnnouncements?: Maybe<ReadonlyArray<Scalars['String']>>;
+  readonly getGuildDiscordAnnouncements?: Maybe<
+    ReadonlyArray<Scalars['String']>
+  >;
   readonly getGuildDiscordRoles: ReadonlyArray<DiscordRole>;
   readonly getPSeedInfo?: Maybe<PSeedInfo>;
   readonly getTokenBalances?: Maybe<TokenBalances>;
   readonly getTopPSeedHolders?: Maybe<ReadonlyArray<TokenBalances>>;
 };
 
-
 export type QueryGetBrightIdStatusArgs = {
   contextId?: InputMaybe<Scalars['uuid']>;
 };
 
-
 export type QueryGetDaoHausMembershipsArgs = {
   memberAddress?: InputMaybe<Scalars['String']>;
 };
-
 
 export type QueryGetDiscordServerMemberRolesArgs = {
   guildId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
 
-
 export type QueryGetGuildDiscordAnnouncementsArgs = {
   guildDiscordId?: InputMaybe<Scalars['String']>;
 };
-
 
 export type QueryGetGuildDiscordRolesArgs = {
   guildDiscordId?: InputMaybe<Scalars['String']>;
 };
 
-
 export type QueryGetTokenBalancesArgs = {
   address?: InputMaybe<Scalars['String']>;
 };
-
 
 export type QueryGetTopPSeedHoldersArgs = {
   limit?: InputMaybe<Scalars['Int']>;
@@ -1655,7 +1643,6 @@ export type QuestCompletionStatus = {
   readonly status: Scalars['String'];
 };
 
-
 /** columns and relationships of "QuestCompletionStatus" */
 export type QuestCompletionStatusQuest_CompletionsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Completion_Select_Column>>;
@@ -1664,7 +1651,6 @@ export type QuestCompletionStatusQuest_CompletionsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Completion_Order_By>>;
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
-
 
 /** columns and relationships of "QuestCompletionStatus" */
 export type QuestCompletionStatusQuest_Completions_AggregateArgs = {
@@ -1677,7 +1663,7 @@ export type QuestCompletionStatusQuest_Completions_AggregateArgs = {
 
 export enum QuestCompletionStatus_ActionEnum {
   Accepted = 'ACCEPTED',
-  Rejected = 'REJECTED'
+  Rejected = 'REJECTED',
 }
 
 /** aggregated selection of "QuestCompletionStatus" */
@@ -1694,7 +1680,6 @@ export type QuestCompletionStatus_Aggregate_Fields = {
   readonly max?: Maybe<QuestCompletionStatus_Max_Fields>;
   readonly min?: Maybe<QuestCompletionStatus_Min_Fields>;
 };
-
 
 /** aggregate fields of "QuestCompletionStatus" */
 export type QuestCompletionStatus_Aggregate_FieldsCountArgs = {
@@ -1717,9 +1702,13 @@ export type QuestCompletionStatus_Arr_Rel_Insert_Input = {
 
 /** Boolean expression to filter rows from the table "QuestCompletionStatus". All fields are combined with a logical 'AND'. */
 export type QuestCompletionStatus_Bool_Exp = {
-  readonly _and?: InputMaybe<ReadonlyArray<InputMaybe<QuestCompletionStatus_Bool_Exp>>>;
+  readonly _and?: InputMaybe<
+    ReadonlyArray<InputMaybe<QuestCompletionStatus_Bool_Exp>>
+  >;
   readonly _not?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
-  readonly _or?: InputMaybe<ReadonlyArray<InputMaybe<QuestCompletionStatus_Bool_Exp>>>;
+  readonly _or?: InputMaybe<
+    ReadonlyArray<InputMaybe<QuestCompletionStatus_Bool_Exp>>
+  >;
   readonly quest_completions?: InputMaybe<Quest_Completion_Bool_Exp>;
   readonly status?: InputMaybe<String_Comparison_Exp>;
 };
@@ -1727,13 +1716,13 @@ export type QuestCompletionStatus_Bool_Exp = {
 /** unique or primary key constraints on table "QuestCompletionStatus" */
 export enum QuestCompletionStatus_Constraint {
   /** unique or primary key constraint */
-  QuestCompletionStatusPkey = 'QuestCompletionStatus_pkey'
+  QuestCompletionStatusPkey = 'QuestCompletionStatus_pkey',
 }
 
 export enum QuestCompletionStatus_Enum {
   Accepted = 'ACCEPTED',
   Pending = 'PENDING',
-  Rejected = 'REJECTED'
+  Rejected = 'REJECTED',
 }
 
 /** expression to compare columns of type QuestCompletionStatus_enum. All fields are combined with logical 'AND'. */
@@ -1809,7 +1798,7 @@ export type QuestCompletionStatus_Pk_Columns_Input = {
 /** select columns of table "QuestCompletionStatus" */
 export enum QuestCompletionStatus_Select_Column {
   /** column name */
-  Status = 'status'
+  Status = 'status',
 }
 
 /** input type for updating data in table "QuestCompletionStatus" */
@@ -1820,7 +1809,7 @@ export type QuestCompletionStatus_Set_Input = {
 /** update columns of table "QuestCompletionStatus" */
 export enum QuestCompletionStatus_Update_Column {
   /** column name */
-  Status = 'status'
+  Status = 'status',
 }
 
 /** columns and relationships of "QuestRepetition" */
@@ -1833,7 +1822,6 @@ export type QuestRepetition = {
   readonly repetition: Scalars['String'];
 };
 
-
 /** columns and relationships of "QuestRepetition" */
 export type QuestRepetitionQuestsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Select_Column>>;
@@ -1842,7 +1830,6 @@ export type QuestRepetitionQuestsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
-
 
 /** columns and relationships of "QuestRepetition" */
 export type QuestRepetitionQuests_AggregateArgs = {
@@ -1856,7 +1843,7 @@ export type QuestRepetitionQuests_AggregateArgs = {
 export enum QuestRepetition_ActionEnum {
   Personal = 'PERSONAL',
   Recurring = 'RECURRING',
-  Unique = 'UNIQUE'
+  Unique = 'UNIQUE',
 }
 
 /** aggregated selection of "QuestRepetition" */
@@ -1873,7 +1860,6 @@ export type QuestRepetition_Aggregate_Fields = {
   readonly max?: Maybe<QuestRepetition_Max_Fields>;
   readonly min?: Maybe<QuestRepetition_Min_Fields>;
 };
-
 
 /** aggregate fields of "QuestRepetition" */
 export type QuestRepetition_Aggregate_FieldsCountArgs = {
@@ -1896,9 +1882,13 @@ export type QuestRepetition_Arr_Rel_Insert_Input = {
 
 /** Boolean expression to filter rows from the table "QuestRepetition". All fields are combined with a logical 'AND'. */
 export type QuestRepetition_Bool_Exp = {
-  readonly _and?: InputMaybe<ReadonlyArray<InputMaybe<QuestRepetition_Bool_Exp>>>;
+  readonly _and?: InputMaybe<
+    ReadonlyArray<InputMaybe<QuestRepetition_Bool_Exp>>
+  >;
   readonly _not?: InputMaybe<QuestRepetition_Bool_Exp>;
-  readonly _or?: InputMaybe<ReadonlyArray<InputMaybe<QuestRepetition_Bool_Exp>>>;
+  readonly _or?: InputMaybe<
+    ReadonlyArray<InputMaybe<QuestRepetition_Bool_Exp>>
+  >;
   readonly quests?: InputMaybe<Quest_Bool_Exp>;
   readonly repetition?: InputMaybe<String_Comparison_Exp>;
 };
@@ -1906,13 +1896,13 @@ export type QuestRepetition_Bool_Exp = {
 /** unique or primary key constraints on table "QuestRepetition" */
 export enum QuestRepetition_Constraint {
   /** unique or primary key constraint */
-  QuestRepetitionPkey = 'QuestRepetition_pkey'
+  QuestRepetitionPkey = 'QuestRepetition_pkey',
 }
 
 export enum QuestRepetition_Enum {
   Personal = 'PERSONAL',
   Recurring = 'RECURRING',
-  Unique = 'UNIQUE'
+  Unique = 'UNIQUE',
 }
 
 /** expression to compare columns of type QuestRepetition_enum. All fields are combined with logical 'AND'. */
@@ -1988,7 +1978,7 @@ export type QuestRepetition_Pk_Columns_Input = {
 /** select columns of table "QuestRepetition" */
 export enum QuestRepetition_Select_Column {
   /** column name */
-  Repetition = 'repetition'
+  Repetition = 'repetition',
 }
 
 /** input type for updating data in table "QuestRepetition" */
@@ -1999,7 +1989,7 @@ export type QuestRepetition_Set_Input = {
 /** update columns of table "QuestRepetition" */
 export enum QuestRepetition_Update_Column {
   /** column name */
-  Repetition = 'repetition'
+  Repetition = 'repetition',
 }
 
 /** columns and relationships of "QuestStatus" */
@@ -2012,7 +2002,6 @@ export type QuestStatus = {
   readonly status: Scalars['String'];
 };
 
-
 /** columns and relationships of "QuestStatus" */
 export type QuestStatusQuestsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Select_Column>>;
@@ -2021,7 +2010,6 @@ export type QuestStatusQuestsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
-
 
 /** columns and relationships of "QuestStatus" */
 export type QuestStatusQuests_AggregateArgs = {
@@ -2046,7 +2034,6 @@ export type QuestStatus_Aggregate_Fields = {
   readonly max?: Maybe<QuestStatus_Max_Fields>;
   readonly min?: Maybe<QuestStatus_Min_Fields>;
 };
-
 
 /** aggregate fields of "QuestStatus" */
 export type QuestStatus_Aggregate_FieldsCountArgs = {
@@ -2079,12 +2066,12 @@ export type QuestStatus_Bool_Exp = {
 /** unique or primary key constraints on table "QuestStatus" */
 export enum QuestStatus_Constraint {
   /** unique or primary key constraint */
-  QuestStatusPkey = 'QuestStatus_pkey'
+  QuestStatusPkey = 'QuestStatus_pkey',
 }
 
 export enum QuestStatus_Enum {
   Closed = 'CLOSED',
-  Open = 'OPEN'
+  Open = 'OPEN',
 }
 
 /** expression to compare columns of type QuestStatus_enum. All fields are combined with logical 'AND'. */
@@ -2160,7 +2147,7 @@ export type QuestStatus_Pk_Columns_Input = {
 /** select columns of table "QuestStatus" */
 export enum QuestStatus_Select_Column {
   /** column name */
-  Status = 'status'
+  Status = 'status',
 }
 
 /** input type for updating data in table "QuestStatus" */
@@ -2171,7 +2158,7 @@ export type QuestStatus_Set_Input = {
 /** update columns of table "QuestStatus" */
 export enum QuestStatus_Update_Column {
   /** column name */
-  Status = 'status'
+  Status = 'status',
 }
 
 export type SaveGuildLayoutResponse = {
@@ -2207,7 +2194,6 @@ export type SkillCategory_Aggregate_Fields = {
   readonly min?: Maybe<SkillCategory_Min_Fields>;
 };
 
-
 /** aggregate fields of "SkillCategory" */
 export type SkillCategory_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<SkillCategory_Select_Column>>;
@@ -2238,7 +2224,7 @@ export type SkillCategory_Bool_Exp = {
 /** unique or primary key constraints on table "SkillCategory" */
 export enum SkillCategory_Constraint {
   /** unique or primary key constraint */
-  SkillCategoryPkey = 'SkillCategory_pkey'
+  SkillCategoryPkey = 'SkillCategory_pkey',
 }
 
 export enum SkillCategory_Enum {
@@ -2247,7 +2233,7 @@ export enum SkillCategory_Enum {
   Dev = 'DEV',
   Engineering = 'ENGINEERING',
   Strategy = 'STRATEGY',
-  Technologies = 'TECHNOLOGIES'
+  Technologies = 'TECHNOLOGIES',
 }
 
 /** expression to compare columns of type SkillCategory_enum. All fields are combined with logical 'AND'. */
@@ -2321,7 +2307,7 @@ export type SkillCategory_Pk_Columns_Input = {
 /** select columns of table "SkillCategory" */
 export enum SkillCategory_Select_Column {
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** input type for updating data in table "SkillCategory" */
@@ -2332,7 +2318,7 @@ export type SkillCategory_Set_Input = {
 /** update columns of table "SkillCategory" */
 export enum SkillCategory_Update_Column {
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 export type SourceCredSyncOutput = {
@@ -2398,8 +2384,6 @@ export type Balance = {
   readonly amount: Scalars['float8'];
   readonly blockHeight: Scalars['Int'];
   readonly id: Scalars['uuid'];
-  /** An object relationship */
-  readonly player: Player;
   readonly playerAddress: Scalars['String'];
   /** An object relationship */
   readonly token: Token;
@@ -2428,7 +2412,6 @@ export type Balance_Aggregate_Fields = {
   readonly var_samp?: Maybe<Balance_Var_Samp_Fields>;
   readonly variance?: Maybe<Balance_Variance_Fields>;
 };
-
 
 /** aggregate fields of "balance" */
 export type Balance_Aggregate_FieldsCountArgs = {
@@ -2478,7 +2461,6 @@ export type Balance_Bool_Exp = {
   readonly amount?: InputMaybe<Float8_Comparison_Exp>;
   readonly blockHeight?: InputMaybe<Int_Comparison_Exp>;
   readonly id?: InputMaybe<Uuid_Comparison_Exp>;
-  readonly player?: InputMaybe<Player_Bool_Exp>;
   readonly playerAddress?: InputMaybe<String_Comparison_Exp>;
   readonly token?: InputMaybe<Token_Bool_Exp>;
   readonly tokenAddress?: InputMaybe<String_Comparison_Exp>;
@@ -2489,7 +2471,7 @@ export enum Balance_Constraint {
   /** unique or primary key constraint */
   BalancePkey = 'balance_pkey',
   /** unique or primary key constraint */
-  BalanceTokenAddressPlayerAddressBlockHeightKey = 'balance_token_address_player_address_block_height_key'
+  BalanceTokenAddressPlayerAddressBlockHeightKey = 'balance_token_address_player_address_block_height_key',
 }
 
 /** input type for incrementing integer column in table "balance" */
@@ -2503,7 +2485,6 @@ export type Balance_Insert_Input = {
   readonly amount?: InputMaybe<Scalars['float8']>;
   readonly blockHeight?: InputMaybe<Scalars['Int']>;
   readonly id?: InputMaybe<Scalars['uuid']>;
-  readonly player?: InputMaybe<Player_Obj_Rel_Insert_Input>;
   readonly playerAddress?: InputMaybe<Scalars['String']>;
   readonly token?: InputMaybe<Token_Obj_Rel_Insert_Input>;
   readonly tokenAddress?: InputMaybe<Scalars['String']>;
@@ -2574,7 +2555,6 @@ export type Balance_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
   readonly blockHeight?: InputMaybe<Order_By>;
   readonly id?: InputMaybe<Order_By>;
-  readonly player?: InputMaybe<Player_Order_By>;
   readonly playerAddress?: InputMaybe<Order_By>;
   readonly token?: InputMaybe<Token_Order_By>;
   readonly tokenAddress?: InputMaybe<Order_By>;
@@ -2596,7 +2576,7 @@ export enum Balance_Select_Column {
   /** column name */
   PlayerAddress = 'playerAddress',
   /** column name */
-  TokenAddress = 'tokenAddress'
+  TokenAddress = 'tokenAddress',
 }
 
 /** input type for updating data in table "balance" */
@@ -2671,7 +2651,7 @@ export enum Balance_Update_Column {
   /** column name */
   PlayerAddress = 'playerAddress',
   /** column name */
-  TokenAddress = 'tokenAddress'
+  TokenAddress = 'tokenAddress',
 }
 
 /** aggregate var_pop on columns */
@@ -2730,7 +2710,6 @@ export type Dao = {
   readonly url?: Maybe<Scalars['String']>;
 };
 
-
 /** columns and relationships of "dao" */
 export type DaoPlayersArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Dao_Player_Select_Column>>;
@@ -2739,7 +2718,6 @@ export type DaoPlayersArgs = {
   order_by?: InputMaybe<ReadonlyArray<Dao_Player_Order_By>>;
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
-
 
 /** columns and relationships of "dao" */
 export type DaoPlayers_AggregateArgs = {
@@ -2764,7 +2742,6 @@ export type Dao_Aggregate_Fields = {
   readonly max?: Maybe<Dao_Max_Fields>;
   readonly min?: Maybe<Dao_Min_Fields>;
 };
-
 
 /** aggregate fields of "dao" */
 export type Dao_Aggregate_FieldsCountArgs = {
@@ -2805,7 +2782,7 @@ export enum Dao_Constraint {
   /** unique or primary key constraint */
   DaoContractAddressNetworkKey = 'dao_contract_address_network_key',
   /** unique or primary key constraint */
-  DaoPkey = 'dao_pkey'
+  DaoPkey = 'dao_pkey',
 }
 
 /** input type for inserting data into table "dao" */
@@ -2928,7 +2905,6 @@ export type Dao_Player_Aggregate_Fields = {
   readonly min?: Maybe<Dao_Player_Min_Fields>;
 };
 
-
 /** aggregate fields of "dao_player" */
 export type Dao_Player_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Dao_Player_Select_Column>>;
@@ -2963,7 +2939,7 @@ export type Dao_Player_Bool_Exp = {
 /** unique or primary key constraints on table "dao_player" */
 export enum Dao_Player_Constraint {
   /** unique or primary key constraint */
-  DaoPlayerPkey = 'dao_player_pkey'
+  DaoPlayerPkey = 'dao_player_pkey',
 }
 
 /** input type for inserting data into table "dao_player" */
@@ -3045,7 +3021,7 @@ export enum Dao_Player_Select_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  Visible = 'visible'
+  Visible = 'visible',
 }
 
 /** input type for updating data in table "dao_player" */
@@ -3062,7 +3038,7 @@ export enum Dao_Player_Update_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  Visible = 'visible'
+  Visible = 'visible',
 }
 
 /** select columns of table "dao" */
@@ -3078,7 +3054,7 @@ export enum Dao_Select_Column {
   /** column name */
   Network = 'network',
   /** column name */
-  Url = 'url'
+  Url = 'url',
 }
 
 /** input type for updating data in table "dao" */
@@ -3104,7 +3080,7 @@ export enum Dao_Update_Column {
   /** column name */
   Network = 'network',
   /** column name */
-  Url = 'url'
+  Url = 'url',
 }
 
 /** expression to compare columns of type float8. All fields are combined with logical 'AND'. */
@@ -3162,7 +3138,6 @@ export type Guild = {
   readonly websiteUrl?: Maybe<Scalars['String']>;
 };
 
-
 /** columns and relationships of "guild" */
 export type GuildDaosArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Dao_Select_Column>>;
@@ -3171,7 +3146,6 @@ export type GuildDaosArgs = {
   order_by?: InputMaybe<ReadonlyArray<Dao_Order_By>>;
   where?: InputMaybe<Dao_Bool_Exp>;
 };
-
 
 /** columns and relationships of "guild" */
 export type GuildDaos_AggregateArgs = {
@@ -3182,7 +3156,6 @@ export type GuildDaos_AggregateArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
-
 /** columns and relationships of "guild" */
 export type GuildGuild_PlayersArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Player_Select_Column>>;
@@ -3191,7 +3164,6 @@ export type GuildGuild_PlayersArgs = {
   order_by?: InputMaybe<ReadonlyArray<Guild_Player_Order_By>>;
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
-
 
 /** columns and relationships of "guild" */
 export type GuildGuild_Players_AggregateArgs = {
@@ -3202,7 +3174,6 @@ export type GuildGuild_Players_AggregateArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
-
 /** columns and relationships of "guild" */
 export type GuildQuestsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Select_Column>>;
@@ -3211,7 +3182,6 @@ export type GuildQuestsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
-
 
 /** columns and relationships of "guild" */
 export type GuildQuests_AggregateArgs = {
@@ -3244,7 +3214,6 @@ export type Guild_Aggregate_Fields = {
   readonly var_samp?: Maybe<Guild_Var_Samp_Fields>;
   readonly variance?: Maybe<Guild_Variance_Fields>;
 };
-
 
 /** aggregate fields of "guild" */
 export type Guild_Aggregate_FieldsCountArgs = {
@@ -3322,7 +3291,7 @@ export enum Guild_Constraint {
   /** unique or primary key constraint */
   GuildDiscordIdKey = 'guild_discord_id_key',
   /** unique or primary key constraint */
-  GuildSortPositionKey = 'guild_sort_position_key'
+  GuildSortPositionKey = 'guild_sort_position_key',
 }
 
 /** input type for incrementing integer column in table "guild" */
@@ -3411,7 +3380,6 @@ export type Guild_Metadata = {
   readonly player?: Maybe<Player>;
 };
 
-
 /**
  * Used to hold private information for guilds
  *
@@ -3436,7 +3404,6 @@ export type Guild_Metadata_Aggregate_Fields = {
   readonly max?: Maybe<Guild_Metadata_Max_Fields>;
   readonly min?: Maybe<Guild_Metadata_Min_Fields>;
 };
-
 
 /** aggregate fields of "guild_metadata" */
 export type Guild_Metadata_Aggregate_FieldsCountArgs = {
@@ -3464,7 +3431,9 @@ export type Guild_Metadata_Arr_Rel_Insert_Input = {
 
 /** Boolean expression to filter rows from the table "guild_metadata". All fields are combined with a logical 'AND'. */
 export type Guild_Metadata_Bool_Exp = {
-  readonly _and?: InputMaybe<ReadonlyArray<InputMaybe<Guild_Metadata_Bool_Exp>>>;
+  readonly _and?: InputMaybe<
+    ReadonlyArray<InputMaybe<Guild_Metadata_Bool_Exp>>
+  >;
   readonly _not?: InputMaybe<Guild_Metadata_Bool_Exp>;
   readonly _or?: InputMaybe<ReadonlyArray<InputMaybe<Guild_Metadata_Bool_Exp>>>;
   readonly creatorId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -3478,12 +3447,14 @@ export type Guild_Metadata_Bool_Exp = {
 /** unique or primary key constraints on table "guild_metadata" */
 export enum Guild_Metadata_Constraint {
   /** unique or primary key constraint */
-  GuildMetadataPkey = 'guild_metadata_pkey'
+  GuildMetadataPkey = 'guild_metadata_pkey',
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Guild_Metadata_Delete_At_Path_Input = {
-  readonly discordMetadata?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
+  readonly discordMetadata?: InputMaybe<
+    ReadonlyArray<InputMaybe<Scalars['String']>>
+  >;
 };
 
 /**
@@ -3590,7 +3561,7 @@ export enum Guild_Metadata_Select_Column {
   /** column name */
   DiscordMetadata = 'discordMetadata',
   /** column name */
-  GuildId = 'guildId'
+  GuildId = 'guildId',
 }
 
 /** input type for updating data in table "guild_metadata" */
@@ -3610,7 +3581,7 @@ export enum Guild_Metadata_Update_Column {
   /** column name */
   DiscordMetadata = 'discordMetadata',
   /** column name */
-  GuildId = 'guildId'
+  GuildId = 'guildId',
 }
 
 /** aggregate min on columns */
@@ -3729,7 +3700,6 @@ export type Guild_Player_Aggregate_Fields = {
   readonly min?: Maybe<Guild_Player_Min_Fields>;
 };
 
-
 /** aggregate fields of "guild_player" */
 export type Guild_Player_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Guild_Player_Select_Column>>;
@@ -3763,7 +3733,7 @@ export type Guild_Player_Bool_Exp = {
 /** unique or primary key constraints on table "guild_player" */
 export enum Guild_Player_Constraint {
   /** unique or primary key constraint */
-  GuildPlayerPkey = 'guild_player_pkey'
+  GuildPlayerPkey = 'guild_player_pkey',
 }
 
 /** input type for inserting data into table "guild_player" */
@@ -3841,7 +3811,7 @@ export enum Guild_Player_Select_Column {
   /** column name */
   GuildId = 'guildId',
   /** column name */
-  PlayerId = 'playerId'
+  PlayerId = 'playerId',
 }
 
 /** input type for updating data in table "guild_player" */
@@ -3855,7 +3825,7 @@ export enum Guild_Player_Update_Column {
   /** column name */
   GuildId = 'guildId',
   /** column name */
-  PlayerId = 'playerId'
+  PlayerId = 'playerId',
 }
 
 /** select columns of table "guild" */
@@ -3893,7 +3863,7 @@ export enum Guild_Select_Column {
   /** column name */
   Type = 'type',
   /** column name */
-  WebsiteUrl = 'websiteUrl'
+  WebsiteUrl = 'websiteUrl',
 }
 
 /** input type for updating data in table "guild" */
@@ -3996,7 +3966,7 @@ export enum Guild_Update_Column {
   /** column name */
   Type = 'type',
   /** column name */
-  WebsiteUrl = 'websiteUrl'
+  WebsiteUrl = 'websiteUrl',
 }
 
 /** aggregate var_pop on columns */
@@ -4093,7 +4063,6 @@ export type Me_Aggregate_Fields = {
   readonly min?: Maybe<Me_Min_Fields>;
 };
 
-
 /** aggregate fields of "me" */
 export type Me_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Me_Select_Column>>;
@@ -4163,7 +4132,7 @@ export enum Me_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Username = 'username'
+  Username = 'username',
 }
 
 /** mutation root */
@@ -4410,7 +4379,9 @@ export type Mutation_Root = {
   /** perform the action: "saveGuildLayout" */
   readonly saveGuildLayout?: Maybe<SaveGuildLayoutResponse>;
   /** perform the action: "syncAllGuildDiscordMembers" */
-  readonly syncAllGuildDiscordMembers?: Maybe<ReadonlyArray<Maybe<DiscordGuildsSyncOutput>>>;
+  readonly syncAllGuildDiscordMembers?: Maybe<
+    ReadonlyArray<Maybe<DiscordGuildsSyncOutput>>
+  >;
   /** perform the action: "syncSourceCredAccounts" */
   readonly syncSourceCredAccounts?: Maybe<SourceCredSyncOutput>;
   /** perform the action: "updateExpiredIDXProfiles" */
@@ -4535,186 +4506,155 @@ export type Mutation_Root = {
   readonly update_xp_by_pk?: Maybe<Xp>;
 };
 
-
 /** mutation root */
 export type Mutation_RootAuthenticateDiscordGuildArgs = {
   code: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootCreateQuestArgs = {
   quest: CreateQuestInput;
 };
 
-
 /** mutation root */
 export type Mutation_RootCreateQuestCompletionArgs = {
   questCompletion: CreateQuestCompletionInput;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_AccountTypeArgs = {
   where: AccountType_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_AccountType_By_PkArgs = {
   type: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_ColorAspectArgs = {
   where: ColorAspect_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_ColorAspect_By_PkArgs = {
   mask: Scalars['Int'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_ExplorerTypeArgs = {
   where: ExplorerType_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_ExplorerType_By_PkArgs = {
   id: Scalars['Int'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_GuildStatusArgs = {
   where: GuildStatus_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_GuildStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_GuildTypeArgs = {
   where: GuildType_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_GuildType_By_PkArgs = {
   name: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_PlayerRankArgs = {
   where: PlayerRank_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_PlayerRank_By_PkArgs = {
   rank: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_PlayerRoleArgs = {
   where: PlayerRole_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_PlayerRole_By_PkArgs = {
   role: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_QuestCompletionStatusArgs = {
   where: QuestCompletionStatus_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_QuestCompletionStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_QuestRepetitionArgs = {
   where: QuestRepetition_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_QuestRepetition_By_PkArgs = {
   repetition: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_QuestStatusArgs = {
   where: QuestStatus_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_QuestStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_SkillCategoryArgs = {
   where: SkillCategory_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_SkillCategory_By_PkArgs = {
   name: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_BalanceArgs = {
   where: Balance_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Balance_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_DaoArgs = {
   where: Dao_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Dao_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Dao_PlayerArgs = {
   where: Dao_Player_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Dao_Player_By_PkArgs = {
@@ -4722,36 +4662,30 @@ export type Mutation_RootDelete_Dao_Player_By_PkArgs = {
   playerId: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_GuildArgs = {
   where: Guild_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Guild_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Guild_MetadataArgs = {
   where: Guild_Metadata_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Guild_Metadata_By_PkArgs = {
   guildId: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Guild_PlayerArgs = {
   where: Guild_Player_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Guild_Player_By_PkArgs = {
@@ -4759,30 +4693,25 @@ export type Mutation_RootDelete_Guild_Player_By_PkArgs = {
   playerId: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_PlayerArgs = {
   where: Player_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Player_AccountArgs = {
   where: Player_Account_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Player_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Player_RoleArgs = {
   where: Player_Role_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Player_Role_By_PkArgs = {
@@ -4790,60 +4719,50 @@ export type Mutation_RootDelete_Player_Role_By_PkArgs = {
   role: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Player_SkillArgs = {
   where: Player_Skill_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Player_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_ProfileArgs = {
   where: Profile_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Profile_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_QuestArgs = {
   where: Quest_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Quest_CompletionArgs = {
   where: Quest_Completion_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Completion_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Quest_RoleArgs = {
   where: Quest_Role_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Role_By_PkArgs = {
@@ -4851,12 +4770,10 @@ export type Mutation_RootDelete_Quest_Role_By_PkArgs = {
   role: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Quest_SkillArgs = {
   where: Quest_Skill_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Skill_By_PkArgs = {
@@ -4864,42 +4781,35 @@ export type Mutation_RootDelete_Quest_Skill_By_PkArgs = {
   skillId: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_SkillArgs = {
   where: Skill_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_TokenArgs = {
   where: Token_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Token_By_PkArgs = {
   address: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_XpArgs = {
   where: Xp_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Xp_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_AccountTypeArgs = {
@@ -4907,13 +4817,11 @@ export type Mutation_RootInsert_AccountTypeArgs = {
   on_conflict?: InputMaybe<AccountType_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_AccountType_OneArgs = {
   object: AccountType_Insert_Input;
   on_conflict?: InputMaybe<AccountType_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_ColorAspectArgs = {
@@ -4921,13 +4829,11 @@ export type Mutation_RootInsert_ColorAspectArgs = {
   on_conflict?: InputMaybe<ColorAspect_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_ColorAspect_OneArgs = {
   object: ColorAspect_Insert_Input;
   on_conflict?: InputMaybe<ColorAspect_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_ExplorerTypeArgs = {
@@ -4935,13 +4841,11 @@ export type Mutation_RootInsert_ExplorerTypeArgs = {
   on_conflict?: InputMaybe<ExplorerType_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_ExplorerType_OneArgs = {
   object: ExplorerType_Insert_Input;
   on_conflict?: InputMaybe<ExplorerType_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_GuildStatusArgs = {
@@ -4949,13 +4853,11 @@ export type Mutation_RootInsert_GuildStatusArgs = {
   on_conflict?: InputMaybe<GuildStatus_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_GuildStatus_OneArgs = {
   object: GuildStatus_Insert_Input;
   on_conflict?: InputMaybe<GuildStatus_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_GuildTypeArgs = {
@@ -4963,13 +4865,11 @@ export type Mutation_RootInsert_GuildTypeArgs = {
   on_conflict?: InputMaybe<GuildType_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_GuildType_OneArgs = {
   object: GuildType_Insert_Input;
   on_conflict?: InputMaybe<GuildType_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_PlayerRankArgs = {
@@ -4977,13 +4877,11 @@ export type Mutation_RootInsert_PlayerRankArgs = {
   on_conflict?: InputMaybe<PlayerRank_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_PlayerRank_OneArgs = {
   object: PlayerRank_Insert_Input;
   on_conflict?: InputMaybe<PlayerRank_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_PlayerRoleArgs = {
@@ -4991,13 +4889,11 @@ export type Mutation_RootInsert_PlayerRoleArgs = {
   on_conflict?: InputMaybe<PlayerRole_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_PlayerRole_OneArgs = {
   object: PlayerRole_Insert_Input;
   on_conflict?: InputMaybe<PlayerRole_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_QuestCompletionStatusArgs = {
@@ -5005,13 +4901,11 @@ export type Mutation_RootInsert_QuestCompletionStatusArgs = {
   on_conflict?: InputMaybe<QuestCompletionStatus_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_QuestCompletionStatus_OneArgs = {
   object: QuestCompletionStatus_Insert_Input;
   on_conflict?: InputMaybe<QuestCompletionStatus_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_QuestRepetitionArgs = {
@@ -5019,13 +4913,11 @@ export type Mutation_RootInsert_QuestRepetitionArgs = {
   on_conflict?: InputMaybe<QuestRepetition_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_QuestRepetition_OneArgs = {
   object: QuestRepetition_Insert_Input;
   on_conflict?: InputMaybe<QuestRepetition_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_QuestStatusArgs = {
@@ -5033,13 +4925,11 @@ export type Mutation_RootInsert_QuestStatusArgs = {
   on_conflict?: InputMaybe<QuestStatus_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_QuestStatus_OneArgs = {
   object: QuestStatus_Insert_Input;
   on_conflict?: InputMaybe<QuestStatus_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_SkillCategoryArgs = {
@@ -5047,13 +4937,11 @@ export type Mutation_RootInsert_SkillCategoryArgs = {
   on_conflict?: InputMaybe<SkillCategory_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_SkillCategory_OneArgs = {
   object: SkillCategory_Insert_Input;
   on_conflict?: InputMaybe<SkillCategory_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_BalanceArgs = {
@@ -5061,13 +4949,11 @@ export type Mutation_RootInsert_BalanceArgs = {
   on_conflict?: InputMaybe<Balance_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Balance_OneArgs = {
   object: Balance_Insert_Input;
   on_conflict?: InputMaybe<Balance_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_DaoArgs = {
@@ -5075,13 +4961,11 @@ export type Mutation_RootInsert_DaoArgs = {
   on_conflict?: InputMaybe<Dao_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Dao_OneArgs = {
   object: Dao_Insert_Input;
   on_conflict?: InputMaybe<Dao_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Dao_PlayerArgs = {
@@ -5089,13 +4973,11 @@ export type Mutation_RootInsert_Dao_PlayerArgs = {
   on_conflict?: InputMaybe<Dao_Player_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Dao_Player_OneArgs = {
   object: Dao_Player_Insert_Input;
   on_conflict?: InputMaybe<Dao_Player_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_GuildArgs = {
@@ -5103,13 +4985,11 @@ export type Mutation_RootInsert_GuildArgs = {
   on_conflict?: InputMaybe<Guild_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Guild_MetadataArgs = {
   objects: ReadonlyArray<Guild_Metadata_Insert_Input>;
   on_conflict?: InputMaybe<Guild_Metadata_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Guild_Metadata_OneArgs = {
@@ -5117,13 +4997,11 @@ export type Mutation_RootInsert_Guild_Metadata_OneArgs = {
   on_conflict?: InputMaybe<Guild_Metadata_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Guild_OneArgs = {
   object: Guild_Insert_Input;
   on_conflict?: InputMaybe<Guild_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Guild_PlayerArgs = {
@@ -5131,13 +5009,11 @@ export type Mutation_RootInsert_Guild_PlayerArgs = {
   on_conflict?: InputMaybe<Guild_Player_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Guild_Player_OneArgs = {
   object: Guild_Player_Insert_Input;
   on_conflict?: InputMaybe<Guild_Player_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_PlayerArgs = {
@@ -5145,13 +5021,11 @@ export type Mutation_RootInsert_PlayerArgs = {
   on_conflict?: InputMaybe<Player_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Player_AccountArgs = {
   objects: ReadonlyArray<Player_Account_Insert_Input>;
   on_conflict?: InputMaybe<Player_Account_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Player_Account_OneArgs = {
@@ -5159,13 +5033,11 @@ export type Mutation_RootInsert_Player_Account_OneArgs = {
   on_conflict?: InputMaybe<Player_Account_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Player_OneArgs = {
   object: Player_Insert_Input;
   on_conflict?: InputMaybe<Player_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Player_RoleArgs = {
@@ -5173,13 +5045,11 @@ export type Mutation_RootInsert_Player_RoleArgs = {
   on_conflict?: InputMaybe<Player_Role_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Player_Role_OneArgs = {
   object: Player_Role_Insert_Input;
   on_conflict?: InputMaybe<Player_Role_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Player_SkillArgs = {
@@ -5187,13 +5057,11 @@ export type Mutation_RootInsert_Player_SkillArgs = {
   on_conflict?: InputMaybe<Player_Skill_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Player_Skill_OneArgs = {
   object: Player_Skill_Insert_Input;
   on_conflict?: InputMaybe<Player_Skill_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_ProfileArgs = {
@@ -5201,13 +5069,11 @@ export type Mutation_RootInsert_ProfileArgs = {
   on_conflict?: InputMaybe<Profile_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Profile_OneArgs = {
   object: Profile_Insert_Input;
   on_conflict?: InputMaybe<Profile_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_QuestArgs = {
@@ -5215,13 +5081,11 @@ export type Mutation_RootInsert_QuestArgs = {
   on_conflict?: InputMaybe<Quest_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Quest_CompletionArgs = {
   objects: ReadonlyArray<Quest_Completion_Insert_Input>;
   on_conflict?: InputMaybe<Quest_Completion_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Quest_Completion_OneArgs = {
@@ -5229,13 +5093,11 @@ export type Mutation_RootInsert_Quest_Completion_OneArgs = {
   on_conflict?: InputMaybe<Quest_Completion_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Quest_OneArgs = {
   object: Quest_Insert_Input;
   on_conflict?: InputMaybe<Quest_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Quest_RoleArgs = {
@@ -5243,13 +5105,11 @@ export type Mutation_RootInsert_Quest_RoleArgs = {
   on_conflict?: InputMaybe<Quest_Role_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Quest_Role_OneArgs = {
   object: Quest_Role_Insert_Input;
   on_conflict?: InputMaybe<Quest_Role_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Quest_SkillArgs = {
@@ -5257,13 +5117,11 @@ export type Mutation_RootInsert_Quest_SkillArgs = {
   on_conflict?: InputMaybe<Quest_Skill_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Quest_Skill_OneArgs = {
   object: Quest_Skill_Insert_Input;
   on_conflict?: InputMaybe<Quest_Skill_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_SkillArgs = {
@@ -5271,13 +5129,11 @@ export type Mutation_RootInsert_SkillArgs = {
   on_conflict?: InputMaybe<Skill_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Skill_OneArgs = {
   object: Skill_Insert_Input;
   on_conflict?: InputMaybe<Skill_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_TokenArgs = {
@@ -5285,13 +5141,11 @@ export type Mutation_RootInsert_TokenArgs = {
   on_conflict?: InputMaybe<Token_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Token_OneArgs = {
   object: Token_Insert_Input;
   on_conflict?: InputMaybe<Token_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_XpArgs = {
@@ -5299,37 +5153,31 @@ export type Mutation_RootInsert_XpArgs = {
   on_conflict?: InputMaybe<Xp_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Xp_OneArgs = {
   object: Xp_Insert_Input;
   on_conflict?: InputMaybe<Xp_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootSaveGuildInformationArgs = {
   guildInformation: GuildInfoInput;
 };
-
 
 /** mutation root */
 export type Mutation_RootSaveGuildLayoutArgs = {
   guildLayoutInfo: GuildLayoutInfoInput;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateIdxProfileArgs = {
   playerId?: InputMaybe<Scalars['uuid']>;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateQuestCompletionArgs = {
   updateData: UpdateQuestCompletionInput;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_AccountTypeArgs = {
@@ -5337,13 +5185,11 @@ export type Mutation_RootUpdate_AccountTypeArgs = {
   where: AccountType_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_AccountType_By_PkArgs = {
   _set?: InputMaybe<AccountType_Set_Input>;
   pk_columns: AccountType_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_ColorAspectArgs = {
@@ -5352,14 +5198,12 @@ export type Mutation_RootUpdate_ColorAspectArgs = {
   where: ColorAspect_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_ColorAspect_By_PkArgs = {
   _inc?: InputMaybe<ColorAspect_Inc_Input>;
   _set?: InputMaybe<ColorAspect_Set_Input>;
   pk_columns: ColorAspect_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_ExplorerTypeArgs = {
@@ -5368,7 +5212,6 @@ export type Mutation_RootUpdate_ExplorerTypeArgs = {
   where: ExplorerType_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_ExplorerType_By_PkArgs = {
   _inc?: InputMaybe<ExplorerType_Inc_Input>;
@@ -5376,13 +5219,11 @@ export type Mutation_RootUpdate_ExplorerType_By_PkArgs = {
   pk_columns: ExplorerType_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_GuildStatusArgs = {
   _set?: InputMaybe<GuildStatus_Set_Input>;
   where: GuildStatus_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_GuildStatus_By_PkArgs = {
@@ -5390,13 +5231,11 @@ export type Mutation_RootUpdate_GuildStatus_By_PkArgs = {
   pk_columns: GuildStatus_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_GuildTypeArgs = {
   _set?: InputMaybe<GuildType_Set_Input>;
   where: GuildType_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_GuildType_By_PkArgs = {
@@ -5404,13 +5243,11 @@ export type Mutation_RootUpdate_GuildType_By_PkArgs = {
   pk_columns: GuildType_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_PlayerRankArgs = {
   _set?: InputMaybe<PlayerRank_Set_Input>;
   where: PlayerRank_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_PlayerRank_By_PkArgs = {
@@ -5418,13 +5255,11 @@ export type Mutation_RootUpdate_PlayerRank_By_PkArgs = {
   pk_columns: PlayerRank_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_PlayerRoleArgs = {
   _set?: InputMaybe<PlayerRole_Set_Input>;
   where: PlayerRole_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_PlayerRole_By_PkArgs = {
@@ -5432,13 +5267,11 @@ export type Mutation_RootUpdate_PlayerRole_By_PkArgs = {
   pk_columns: PlayerRole_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_QuestCompletionStatusArgs = {
   _set?: InputMaybe<QuestCompletionStatus_Set_Input>;
   where: QuestCompletionStatus_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_QuestCompletionStatus_By_PkArgs = {
@@ -5446,13 +5279,11 @@ export type Mutation_RootUpdate_QuestCompletionStatus_By_PkArgs = {
   pk_columns: QuestCompletionStatus_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_QuestRepetitionArgs = {
   _set?: InputMaybe<QuestRepetition_Set_Input>;
   where: QuestRepetition_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_QuestRepetition_By_PkArgs = {
@@ -5460,13 +5291,11 @@ export type Mutation_RootUpdate_QuestRepetition_By_PkArgs = {
   pk_columns: QuestRepetition_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_QuestStatusArgs = {
   _set?: InputMaybe<QuestStatus_Set_Input>;
   where: QuestStatus_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_QuestStatus_By_PkArgs = {
@@ -5474,20 +5303,17 @@ export type Mutation_RootUpdate_QuestStatus_By_PkArgs = {
   pk_columns: QuestStatus_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_SkillCategoryArgs = {
   _set?: InputMaybe<SkillCategory_Set_Input>;
   where: SkillCategory_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_SkillCategory_By_PkArgs = {
   _set?: InputMaybe<SkillCategory_Set_Input>;
   pk_columns: SkillCategory_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_BalanceArgs = {
@@ -5496,7 +5322,6 @@ export type Mutation_RootUpdate_BalanceArgs = {
   where: Balance_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Balance_By_PkArgs = {
   _inc?: InputMaybe<Balance_Inc_Input>;
@@ -5504,13 +5329,11 @@ export type Mutation_RootUpdate_Balance_By_PkArgs = {
   pk_columns: Balance_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_DaoArgs = {
   _set?: InputMaybe<Dao_Set_Input>;
   where: Dao_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Dao_By_PkArgs = {
@@ -5518,20 +5341,17 @@ export type Mutation_RootUpdate_Dao_By_PkArgs = {
   pk_columns: Dao_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Dao_PlayerArgs = {
   _set?: InputMaybe<Dao_Player_Set_Input>;
   where: Dao_Player_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Dao_Player_By_PkArgs = {
   _set?: InputMaybe<Dao_Player_Set_Input>;
   pk_columns: Dao_Player_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_GuildArgs = {
@@ -5540,14 +5360,12 @@ export type Mutation_RootUpdate_GuildArgs = {
   where: Guild_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Guild_By_PkArgs = {
   _inc?: InputMaybe<Guild_Inc_Input>;
   _set?: InputMaybe<Guild_Set_Input>;
   pk_columns: Guild_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Guild_MetadataArgs = {
@@ -5560,7 +5378,6 @@ export type Mutation_RootUpdate_Guild_MetadataArgs = {
   where: Guild_Metadata_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Guild_Metadata_By_PkArgs = {
   _append?: InputMaybe<Guild_Metadata_Append_Input>;
@@ -5572,20 +5389,17 @@ export type Mutation_RootUpdate_Guild_Metadata_By_PkArgs = {
   pk_columns: Guild_Metadata_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Guild_PlayerArgs = {
   _set?: InputMaybe<Guild_Player_Set_Input>;
   where: Guild_Player_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Guild_Player_By_PkArgs = {
   _set?: InputMaybe<Guild_Player_Set_Input>;
   pk_columns: Guild_Player_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_PlayerArgs = {
@@ -5594,13 +5408,11 @@ export type Mutation_RootUpdate_PlayerArgs = {
   where: Player_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Player_AccountArgs = {
   _set?: InputMaybe<Player_Account_Set_Input>;
   where: Player_Account_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_By_PkArgs = {
@@ -5609,14 +5421,12 @@ export type Mutation_RootUpdate_Player_By_PkArgs = {
   pk_columns: Player_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Player_RoleArgs = {
   _inc?: InputMaybe<Player_Role_Inc_Input>;
   _set?: InputMaybe<Player_Role_Set_Input>;
   where: Player_Role_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_Role_By_PkArgs = {
@@ -5625,14 +5435,12 @@ export type Mutation_RootUpdate_Player_Role_By_PkArgs = {
   pk_columns: Player_Role_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Player_SkillArgs = {
   _inc?: InputMaybe<Player_Skill_Inc_Input>;
   _set?: InputMaybe<Player_Skill_Set_Input>;
   where: Player_Skill_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_Skill_By_PkArgs = {
@@ -5641,14 +5449,12 @@ export type Mutation_RootUpdate_Player_Skill_By_PkArgs = {
   pk_columns: Player_Skill_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_ProfileArgs = {
   _inc?: InputMaybe<Profile_Inc_Input>;
   _set?: InputMaybe<Profile_Set_Input>;
   where: Profile_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Profile_By_PkArgs = {
@@ -5657,14 +5463,12 @@ export type Mutation_RootUpdate_Profile_By_PkArgs = {
   pk_columns: Profile_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_QuestArgs = {
   _inc?: InputMaybe<Quest_Inc_Input>;
   _set?: InputMaybe<Quest_Set_Input>;
   where: Quest_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Quest_By_PkArgs = {
@@ -5673,20 +5477,17 @@ export type Mutation_RootUpdate_Quest_By_PkArgs = {
   pk_columns: Quest_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Quest_CompletionArgs = {
   _set?: InputMaybe<Quest_Completion_Set_Input>;
   where: Quest_Completion_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Quest_Completion_By_PkArgs = {
   _set?: InputMaybe<Quest_Completion_Set_Input>;
   pk_columns: Quest_Completion_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Quest_RoleArgs = {
@@ -5695,7 +5496,6 @@ export type Mutation_RootUpdate_Quest_RoleArgs = {
   where: Quest_Role_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Quest_Role_By_PkArgs = {
   _inc?: InputMaybe<Quest_Role_Inc_Input>;
@@ -5703,13 +5503,11 @@ export type Mutation_RootUpdate_Quest_Role_By_PkArgs = {
   pk_columns: Quest_Role_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Quest_SkillArgs = {
   _set?: InputMaybe<Quest_Skill_Set_Input>;
   where: Quest_Skill_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Quest_Skill_By_PkArgs = {
@@ -5717,20 +5515,17 @@ export type Mutation_RootUpdate_Quest_Skill_By_PkArgs = {
   pk_columns: Quest_Skill_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_SkillArgs = {
   _set?: InputMaybe<Skill_Set_Input>;
   where: Skill_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Skill_By_PkArgs = {
   _set?: InputMaybe<Skill_Set_Input>;
   pk_columns: Skill_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_TokenArgs = {
@@ -5739,7 +5534,6 @@ export type Mutation_RootUpdate_TokenArgs = {
   where: Token_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Token_By_PkArgs = {
   _inc?: InputMaybe<Token_Inc_Input>;
@@ -5747,14 +5541,12 @@ export type Mutation_RootUpdate_Token_By_PkArgs = {
   pk_columns: Token_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_XpArgs = {
   _inc?: InputMaybe<Xp_Inc_Input>;
   _set?: InputMaybe<Xp_Set_Input>;
   where: Xp_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Xp_By_PkArgs = {
@@ -5789,7 +5581,7 @@ export enum Order_By {
   /** in the descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in the descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
+  DescNullsLast = 'desc_nulls_last',
 }
 
 /** columns and relationships of "player" */
@@ -5799,10 +5591,6 @@ export type Player = {
   readonly accounts: ReadonlyArray<Player_Account>;
   /** An aggregated array relationship */
   readonly accounts_aggregate: Player_Account_Aggregate;
-  /** An array relationship */
-  readonly balances: ReadonlyArray<Balance>;
-  /** An aggregated array relationship */
-  readonly balances_aggregate: Balance_Aggregate;
   /** Remote relationship field */
   readonly brightid_status?: Maybe<BrightIdStatus>;
   readonly createdAt?: Maybe<Scalars['timestamptz']>;
@@ -5852,7 +5640,6 @@ export type Player = {
   readonly xps_aggregate: Xp_Aggregate;
 };
 
-
 /** columns and relationships of "player" */
 export type PlayerAccountsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Account_Select_Column>>;
@@ -5861,7 +5648,6 @@ export type PlayerAccountsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Player_Account_Order_By>>;
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
-
 
 /** columns and relationships of "player" */
 export type PlayerAccounts_AggregateArgs = {
@@ -5872,27 +5658,6 @@ export type PlayerAccounts_AggregateArgs = {
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
 
-
-/** columns and relationships of "player" */
-export type PlayerBalancesArgs = {
-  distinct_on?: InputMaybe<ReadonlyArray<Balance_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<ReadonlyArray<Balance_Order_By>>;
-  where?: InputMaybe<Balance_Bool_Exp>;
-};
-
-
-/** columns and relationships of "player" */
-export type PlayerBalances_AggregateArgs = {
-  distinct_on?: InputMaybe<ReadonlyArray<Balance_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<ReadonlyArray<Balance_Order_By>>;
-  where?: InputMaybe<Balance_Bool_Exp>;
-};
-
-
 /** columns and relationships of "player" */
 export type PlayerDaosArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Dao_Player_Select_Column>>;
@@ -5901,7 +5666,6 @@ export type PlayerDaosArgs = {
   order_by?: InputMaybe<ReadonlyArray<Dao_Player_Order_By>>;
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
-
 
 /** columns and relationships of "player" */
 export type PlayerDaos_AggregateArgs = {
@@ -5912,7 +5676,6 @@ export type PlayerDaos_AggregateArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
-
 /** columns and relationships of "player" */
 export type PlayerGuildsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Player_Select_Column>>;
@@ -5921,7 +5684,6 @@ export type PlayerGuildsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Guild_Player_Order_By>>;
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
-
 
 /** columns and relationships of "player" */
 export type PlayerGuilds_AggregateArgs = {
@@ -5932,7 +5694,6 @@ export type PlayerGuilds_AggregateArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
-
 /** columns and relationships of "player" */
 export type PlayerQuest_CompletionsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Completion_Select_Column>>;
@@ -5941,7 +5702,6 @@ export type PlayerQuest_CompletionsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Completion_Order_By>>;
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
-
 
 /** columns and relationships of "player" */
 export type PlayerQuest_Completions_AggregateArgs = {
@@ -5952,7 +5712,6 @@ export type PlayerQuest_Completions_AggregateArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
-
 /** columns and relationships of "player" */
 export type PlayerQuestsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Select_Column>>;
@@ -5961,7 +5720,6 @@ export type PlayerQuestsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
-
 
 /** columns and relationships of "player" */
 export type PlayerQuests_AggregateArgs = {
@@ -5972,7 +5730,6 @@ export type PlayerQuests_AggregateArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
-
 /** columns and relationships of "player" */
 export type PlayerRolesArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Role_Select_Column>>;
@@ -5981,7 +5738,6 @@ export type PlayerRolesArgs = {
   order_by?: InputMaybe<ReadonlyArray<Player_Role_Order_By>>;
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
-
 
 /** columns and relationships of "player" */
 export type PlayerRoles_AggregateArgs = {
@@ -5992,7 +5748,6 @@ export type PlayerRoles_AggregateArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
-
 /** columns and relationships of "player" */
 export type PlayerSkillsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Skill_Select_Column>>;
@@ -6001,7 +5756,6 @@ export type PlayerSkillsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Player_Skill_Order_By>>;
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
-
 
 /** columns and relationships of "player" */
 export type PlayerSkills_AggregateArgs = {
@@ -6012,7 +5766,6 @@ export type PlayerSkills_AggregateArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
-
 /** columns and relationships of "player" */
 export type PlayerXpsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Xp_Select_Column>>;
@@ -6021,7 +5774,6 @@ export type PlayerXpsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Xp_Order_By>>;
   where?: InputMaybe<Xp_Bool_Exp>;
 };
-
 
 /** columns and relationships of "player" */
 export type PlayerXps_AggregateArgs = {
@@ -6057,7 +5809,6 @@ export type Player_Account_Aggregate_Fields = {
   readonly min?: Maybe<Player_Account_Min_Fields>;
 };
 
-
 /** aggregate fields of "player_account" */
 export type Player_Account_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Player_Account_Select_Column>>;
@@ -6080,7 +5831,9 @@ export type Player_Account_Arr_Rel_Insert_Input = {
 /** Boolean expression to filter rows from the table "player_account". All fields are combined with a logical 'AND'. */
 export type Player_Account_Bool_Exp = {
   readonly Player?: InputMaybe<Player_Bool_Exp>;
-  readonly _and?: InputMaybe<ReadonlyArray<InputMaybe<Player_Account_Bool_Exp>>>;
+  readonly _and?: InputMaybe<
+    ReadonlyArray<InputMaybe<Player_Account_Bool_Exp>>
+  >;
   readonly _not?: InputMaybe<Player_Account_Bool_Exp>;
   readonly _or?: InputMaybe<ReadonlyArray<InputMaybe<Player_Account_Bool_Exp>>>;
   readonly identifier?: InputMaybe<String_Comparison_Exp>;
@@ -6091,7 +5844,7 @@ export type Player_Account_Bool_Exp = {
 /** unique or primary key constraints on table "player_account" */
 export enum Player_Account_Constraint {
   /** unique or primary key constraint */
-  AccountIdentifierTypeKey = 'Account_identifier_type_key'
+  AccountIdentifierTypeKey = 'Account_identifier_type_key',
 }
 
 /** input type for inserting data into table "player_account" */
@@ -6165,7 +5918,7 @@ export enum Player_Account_Select_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  Type = 'type'
+  Type = 'type',
 }
 
 /** input type for updating data in table "player_account" */
@@ -6182,7 +5935,7 @@ export enum Player_Account_Update_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  Type = 'type'
+  Type = 'type',
 }
 
 /** aggregated selection of "player" */
@@ -6207,7 +5960,6 @@ export type Player_Aggregate_Fields = {
   readonly var_samp?: Maybe<Player_Var_Samp_Fields>;
   readonly variance?: Maybe<Player_Variance_Fields>;
 };
-
 
 /** aggregate fields of "player" */
 export type Player_Aggregate_FieldsCountArgs = {
@@ -6255,7 +6007,6 @@ export type Player_Bool_Exp = {
   readonly _not?: InputMaybe<Player_Bool_Exp>;
   readonly _or?: InputMaybe<ReadonlyArray<InputMaybe<Player_Bool_Exp>>>;
   readonly accounts?: InputMaybe<Player_Account_Bool_Exp>;
-  readonly balances?: InputMaybe<Balance_Bool_Exp>;
   readonly createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   readonly daos?: InputMaybe<Dao_Player_Bool_Exp>;
   readonly dashboardLayout?: InputMaybe<String_Comparison_Exp>;
@@ -6284,7 +6035,7 @@ export enum Player_Constraint {
   /** unique or primary key constraint */
   PlayerPkey = 'Player_pkey',
   /** unique or primary key constraint */
-  PlayerDiscordIdKey = 'player_discord_id_key'
+  PlayerDiscordIdKey = 'player_discord_id_key',
 }
 
 /** input type for incrementing integer column in table "player" */
@@ -6296,7 +6047,6 @@ export type Player_Inc_Input = {
 /** input type for inserting data into table "player" */
 export type Player_Insert_Input = {
   readonly accounts?: InputMaybe<Player_Account_Arr_Rel_Insert_Input>;
-  readonly balances?: InputMaybe<Balance_Arr_Rel_Insert_Input>;
   readonly createdAt?: InputMaybe<Scalars['timestamptz']>;
   readonly daos?: InputMaybe<Dao_Player_Arr_Rel_Insert_Input>;
   readonly dashboardLayout?: InputMaybe<Scalars['String']>;
@@ -6401,7 +6151,6 @@ export type Player_On_Conflict = {
 /** ordering options when selecting data from "player" */
 export type Player_Order_By = {
   readonly accounts_aggregate?: InputMaybe<Player_Account_Aggregate_Order_By>;
-  readonly balances_aggregate?: InputMaybe<Balance_Aggregate_Order_By>;
   readonly createdAt?: InputMaybe<Order_By>;
   readonly daos_aggregate?: InputMaybe<Dao_Player_Aggregate_Order_By>;
   readonly dashboardLayout?: InputMaybe<Order_By>;
@@ -6461,7 +6210,6 @@ export type Player_Role_Aggregate_Fields = {
   readonly variance?: Maybe<Player_Role_Variance_Fields>;
 };
 
-
 /** aggregate fields of "player_role" */
 export type Player_Role_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Player_Role_Select_Column>>;
@@ -6514,7 +6262,7 @@ export type Player_Role_Bool_Exp = {
 /** unique or primary key constraints on table "player_role" */
 export enum Player_Role_Constraint {
   /** unique or primary key constraint */
-  PlayerRolePkey = 'player_role_pkey'
+  PlayerRolePkey = 'player_role_pkey',
 }
 
 /** input type for incrementing integer column in table "player_role" */
@@ -6603,7 +6351,7 @@ export enum Player_Role_Select_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  Role = 'role'
+  Role = 'role',
 }
 
 /** input type for updating data in table "player_role" */
@@ -6664,7 +6412,7 @@ export enum Player_Role_Update_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  Role = 'role'
+  Role = 'role',
 }
 
 /** aggregate var_pop on columns */
@@ -6723,7 +6471,7 @@ export enum Player_Select_Column {
   /** column name */
   TotalXp = 'totalXP',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "player" */
@@ -6774,7 +6522,6 @@ export type Player_Skill_Aggregate_Fields = {
   readonly var_samp?: Maybe<Player_Skill_Var_Samp_Fields>;
   readonly variance?: Maybe<Player_Skill_Variance_Fields>;
 };
-
 
 /** aggregate fields of "player_skill" */
 export type Player_Skill_Aggregate_FieldsCountArgs = {
@@ -6831,7 +6578,7 @@ export enum Player_Skill_Constraint {
   /** unique or primary key constraint */
   PlayerSkillPkey = 'player_skill_pkey',
   /** unique or primary key constraint */
-  PlayerSkillPlayerIdSkillIdKey = 'player_skill_player_id_skill_id_key'
+  PlayerSkillPlayerIdSkillIdKey = 'player_skill_player_id_skill_id_key',
 }
 
 /** input type for incrementing integer column in table "player_skill" */
@@ -6927,7 +6674,7 @@ export enum Player_Skill_Select_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  SkillId = 'skill_id'
+  SkillId = 'skill_id',
 }
 
 /** input type for updating data in table "player_skill" */
@@ -6991,7 +6738,7 @@ export enum Player_Skill_Update_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  SkillId = 'skill_id'
+  SkillId = 'skill_id',
 }
 
 /** aggregate var_pop on columns */
@@ -7102,7 +6849,7 @@ export enum Player_Update_Column {
   /** column name */
   TotalXp = 'totalXP',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** aggregate var_pop on columns */
@@ -7197,7 +6944,6 @@ export type Profile_Aggregate_Fields = {
   readonly variance?: Maybe<Profile_Variance_Fields>;
 };
 
-
 /** aggregate fields of "profile" */
 export type Profile_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Profile_Select_Column>>;
@@ -7278,7 +7024,7 @@ export enum Profile_Constraint {
   /** unique or primary key constraint */
   ProfileUsernameKey = 'profile_username_key',
   /** unique or primary key constraint */
-  UsernameInsensitiveUniqueIdx = 'username_insensitive_unique_idx'
+  UsernameInsensitiveUniqueIdx = 'username_insensitive_unique_idx',
 }
 
 /** input type for incrementing integer column in table "profile" */
@@ -7499,7 +7245,7 @@ export enum Profile_Select_Column {
   /** column name */
   Username = 'username',
   /** column name */
-  Website = 'website'
+  Website = 'website',
 }
 
 /** input type for updating data in table "profile" */
@@ -7616,7 +7362,7 @@ export enum Profile_Update_Column {
   /** column name */
   Username = 'username',
   /** column name */
-  Website = 'website'
+  Website = 'website',
 }
 
 /** aggregate var_pop on columns */
@@ -7748,7 +7494,9 @@ export type Query_Root = {
   readonly getBrightIdStatus?: Maybe<BrightIdStatus>;
   readonly getDaoHausMemberships: ReadonlyArray<Member>;
   readonly getDiscordServerMemberRoles: ReadonlyArray<DiscordRole>;
-  readonly getGuildDiscordAnnouncements?: Maybe<ReadonlyArray<Scalars['String']>>;
+  readonly getGuildDiscordAnnouncements?: Maybe<
+    ReadonlyArray<Scalars['String']>
+  >;
   readonly getGuildDiscordRoles: ReadonlyArray<DiscordRole>;
   readonly getPSeedInfo?: Maybe<PSeedInfo>;
   readonly getTokenBalances?: Maybe<TokenBalances>;
@@ -7849,7 +7597,6 @@ export type Query_Root = {
   readonly xp_by_pk?: Maybe<Xp>;
 };
 
-
 /** query root */
 export type Query_RootAccountTypeArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<AccountType_Select_Column>>;
@@ -7858,7 +7605,6 @@ export type Query_RootAccountTypeArgs = {
   order_by?: InputMaybe<ReadonlyArray<AccountType_Order_By>>;
   where?: InputMaybe<AccountType_Bool_Exp>;
 };
-
 
 /** query root */
 export type Query_RootAccountType_AggregateArgs = {
@@ -7869,12 +7615,10 @@ export type Query_RootAccountType_AggregateArgs = {
   where?: InputMaybe<AccountType_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootAccountType_By_PkArgs = {
   type: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootColorAspectArgs = {
@@ -7885,7 +7629,6 @@ export type Query_RootColorAspectArgs = {
   where?: InputMaybe<ColorAspect_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootColorAspect_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<ColorAspect_Select_Column>>;
@@ -7895,12 +7638,10 @@ export type Query_RootColorAspect_AggregateArgs = {
   where?: InputMaybe<ColorAspect_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootColorAspect_By_PkArgs = {
   mask: Scalars['Int'];
 };
-
 
 /** query root */
 export type Query_RootExplorerTypeArgs = {
@@ -7911,7 +7652,6 @@ export type Query_RootExplorerTypeArgs = {
   where?: InputMaybe<ExplorerType_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootExplorerType_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<ExplorerType_Select_Column>>;
@@ -7921,12 +7661,10 @@ export type Query_RootExplorerType_AggregateArgs = {
   where?: InputMaybe<ExplorerType_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootExplorerType_By_PkArgs = {
   id: Scalars['Int'];
 };
-
 
 /** query root */
 export type Query_RootGuildStatusArgs = {
@@ -7937,7 +7675,6 @@ export type Query_RootGuildStatusArgs = {
   where?: InputMaybe<GuildStatus_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuildStatus_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<GuildStatus_Select_Column>>;
@@ -7947,12 +7684,10 @@ export type Query_RootGuildStatus_AggregateArgs = {
   where?: InputMaybe<GuildStatus_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuildStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootGuildTypeArgs = {
@@ -7963,7 +7698,6 @@ export type Query_RootGuildTypeArgs = {
   where?: InputMaybe<GuildType_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuildType_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<GuildType_Select_Column>>;
@@ -7973,12 +7707,10 @@ export type Query_RootGuildType_AggregateArgs = {
   where?: InputMaybe<GuildType_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuildType_By_PkArgs = {
   name: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootPlayerRankArgs = {
@@ -7989,7 +7721,6 @@ export type Query_RootPlayerRankArgs = {
   where?: InputMaybe<PlayerRank_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayerRank_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<PlayerRank_Select_Column>>;
@@ -7999,12 +7730,10 @@ export type Query_RootPlayerRank_AggregateArgs = {
   where?: InputMaybe<PlayerRank_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayerRank_By_PkArgs = {
   rank: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootPlayerRoleArgs = {
@@ -8015,7 +7744,6 @@ export type Query_RootPlayerRoleArgs = {
   where?: InputMaybe<PlayerRole_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayerRole_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<PlayerRole_Select_Column>>;
@@ -8025,12 +7753,10 @@ export type Query_RootPlayerRole_AggregateArgs = {
   where?: InputMaybe<PlayerRole_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayerRole_By_PkArgs = {
   role: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootQuestCompletionStatusArgs = {
@@ -8041,7 +7767,6 @@ export type Query_RootQuestCompletionStatusArgs = {
   where?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuestCompletionStatus_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<QuestCompletionStatus_Select_Column>>;
@@ -8051,12 +7776,10 @@ export type Query_RootQuestCompletionStatus_AggregateArgs = {
   where?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuestCompletionStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootQuestRepetitionArgs = {
@@ -8067,7 +7790,6 @@ export type Query_RootQuestRepetitionArgs = {
   where?: InputMaybe<QuestRepetition_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuestRepetition_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<QuestRepetition_Select_Column>>;
@@ -8077,12 +7799,10 @@ export type Query_RootQuestRepetition_AggregateArgs = {
   where?: InputMaybe<QuestRepetition_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuestRepetition_By_PkArgs = {
   repetition: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootQuestStatusArgs = {
@@ -8093,7 +7813,6 @@ export type Query_RootQuestStatusArgs = {
   where?: InputMaybe<QuestStatus_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuestStatus_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<QuestStatus_Select_Column>>;
@@ -8103,12 +7822,10 @@ export type Query_RootQuestStatus_AggregateArgs = {
   where?: InputMaybe<QuestStatus_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuestStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootSkillCategoryArgs = {
@@ -8119,7 +7836,6 @@ export type Query_RootSkillCategoryArgs = {
   where?: InputMaybe<SkillCategory_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootSkillCategory_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<SkillCategory_Select_Column>>;
@@ -8129,12 +7845,10 @@ export type Query_RootSkillCategory_AggregateArgs = {
   where?: InputMaybe<SkillCategory_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootSkillCategory_By_PkArgs = {
   name: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootBalanceArgs = {
@@ -8145,7 +7859,6 @@ export type Query_RootBalanceArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootBalance_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Balance_Select_Column>>;
@@ -8155,12 +7868,10 @@ export type Query_RootBalance_AggregateArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootBalance_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootDaoArgs = {
@@ -8171,7 +7882,6 @@ export type Query_RootDaoArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootDao_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Dao_Select_Column>>;
@@ -8181,12 +7891,10 @@ export type Query_RootDao_AggregateArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootDao_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootDao_PlayerArgs = {
@@ -8197,7 +7905,6 @@ export type Query_RootDao_PlayerArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootDao_Player_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Dao_Player_Select_Column>>;
@@ -8207,25 +7914,21 @@ export type Query_RootDao_Player_AggregateArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootDao_Player_By_PkArgs = {
   daoId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
 
-
 /** query root */
 export type Query_RootGetBrightIdStatusArgs = {
   contextId?: InputMaybe<Scalars['uuid']>;
 };
 
-
 /** query root */
 export type Query_RootGetDaoHausMembershipsArgs = {
   memberAddress?: InputMaybe<Scalars['String']>;
 };
-
 
 /** query root */
 export type Query_RootGetDiscordServerMemberRolesArgs = {
@@ -8233,30 +7936,25 @@ export type Query_RootGetDiscordServerMemberRolesArgs = {
   playerId: Scalars['uuid'];
 };
 
-
 /** query root */
 export type Query_RootGetGuildDiscordAnnouncementsArgs = {
   guildDiscordId?: InputMaybe<Scalars['String']>;
 };
-
 
 /** query root */
 export type Query_RootGetGuildDiscordRolesArgs = {
   guildDiscordId?: InputMaybe<Scalars['String']>;
 };
 
-
 /** query root */
 export type Query_RootGetTokenBalancesArgs = {
   address?: InputMaybe<Scalars['String']>;
 };
 
-
 /** query root */
 export type Query_RootGetTopPSeedHoldersArgs = {
   limit?: InputMaybe<Scalars['Int']>;
 };
-
 
 /** query root */
 export type Query_RootGuildArgs = {
@@ -8267,7 +7965,6 @@ export type Query_RootGuildArgs = {
   where?: InputMaybe<Guild_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuild_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Select_Column>>;
@@ -8277,12 +7974,10 @@ export type Query_RootGuild_AggregateArgs = {
   where?: InputMaybe<Guild_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuild_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootGuild_MetadataArgs = {
@@ -8293,7 +7988,6 @@ export type Query_RootGuild_MetadataArgs = {
   where?: InputMaybe<Guild_Metadata_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuild_Metadata_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Metadata_Select_Column>>;
@@ -8303,12 +7997,10 @@ export type Query_RootGuild_Metadata_AggregateArgs = {
   where?: InputMaybe<Guild_Metadata_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuild_Metadata_By_PkArgs = {
   guildId: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootGuild_PlayerArgs = {
@@ -8319,7 +8011,6 @@ export type Query_RootGuild_PlayerArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuild_Player_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Player_Select_Column>>;
@@ -8329,13 +8020,11 @@ export type Query_RootGuild_Player_AggregateArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootGuild_Player_By_PkArgs = {
   guildId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootMeArgs = {
@@ -8346,7 +8035,6 @@ export type Query_RootMeArgs = {
   where?: InputMaybe<Me_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootMe_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Me_Select_Column>>;
@@ -8355,7 +8043,6 @@ export type Query_RootMe_AggregateArgs = {
   order_by?: InputMaybe<ReadonlyArray<Me_Order_By>>;
   where?: InputMaybe<Me_Bool_Exp>;
 };
-
 
 /** query root */
 export type Query_RootPlayerArgs = {
@@ -8366,7 +8053,6 @@ export type Query_RootPlayerArgs = {
   where?: InputMaybe<Player_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayer_AccountArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Account_Select_Column>>;
@@ -8375,7 +8061,6 @@ export type Query_RootPlayer_AccountArgs = {
   order_by?: InputMaybe<ReadonlyArray<Player_Account_Order_By>>;
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
-
 
 /** query root */
 export type Query_RootPlayer_Account_AggregateArgs = {
@@ -8386,7 +8071,6 @@ export type Query_RootPlayer_Account_AggregateArgs = {
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayer_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Select_Column>>;
@@ -8396,12 +8080,10 @@ export type Query_RootPlayer_AggregateArgs = {
   where?: InputMaybe<Player_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayer_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootPlayer_RoleArgs = {
@@ -8412,7 +8094,6 @@ export type Query_RootPlayer_RoleArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayer_Role_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Role_Select_Column>>;
@@ -8422,13 +8103,11 @@ export type Query_RootPlayer_Role_AggregateArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayer_Role_By_PkArgs = {
   player_id: Scalars['uuid'];
   role: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootPlayer_SkillArgs = {
@@ -8439,7 +8118,6 @@ export type Query_RootPlayer_SkillArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayer_Skill_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Skill_Select_Column>>;
@@ -8449,12 +8127,10 @@ export type Query_RootPlayer_Skill_AggregateArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootPlayer_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootProfileArgs = {
@@ -8465,7 +8141,6 @@ export type Query_RootProfileArgs = {
   where?: InputMaybe<Profile_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootProfile_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Profile_Select_Column>>;
@@ -8475,12 +8150,10 @@ export type Query_RootProfile_AggregateArgs = {
   where?: InputMaybe<Profile_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootProfile_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootQuestArgs = {
@@ -8491,7 +8164,6 @@ export type Query_RootQuestArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuest_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Select_Column>>;
@@ -8501,12 +8173,10 @@ export type Query_RootQuest_AggregateArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuest_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootQuest_CompletionArgs = {
@@ -8517,7 +8187,6 @@ export type Query_RootQuest_CompletionArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuest_Completion_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Completion_Select_Column>>;
@@ -8527,12 +8196,10 @@ export type Query_RootQuest_Completion_AggregateArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuest_Completion_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootQuest_RoleArgs = {
@@ -8543,7 +8210,6 @@ export type Query_RootQuest_RoleArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuest_Role_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Role_Select_Column>>;
@@ -8553,13 +8219,11 @@ export type Query_RootQuest_Role_AggregateArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuest_Role_By_PkArgs = {
   questId: Scalars['uuid'];
   role: Scalars['String'];
 };
-
 
 /** query root */
 export type Query_RootQuest_SkillArgs = {
@@ -8570,7 +8234,6 @@ export type Query_RootQuest_SkillArgs = {
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuest_Skill_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Skill_Select_Column>>;
@@ -8580,13 +8243,11 @@ export type Query_RootQuest_Skill_AggregateArgs = {
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootQuest_Skill_By_PkArgs = {
   questId: Scalars['uuid'];
   skillId: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootSkillArgs = {
@@ -8597,7 +8258,6 @@ export type Query_RootSkillArgs = {
   where?: InputMaybe<Skill_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootSkill_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Skill_Select_Column>>;
@@ -8607,12 +8267,10 @@ export type Query_RootSkill_AggregateArgs = {
   where?: InputMaybe<Skill_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootSkill_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootTokenArgs = {
@@ -8623,7 +8281,6 @@ export type Query_RootTokenArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootToken_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Token_Select_Column>>;
@@ -8633,18 +8290,15 @@ export type Query_RootToken_AggregateArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootToken_By_PkArgs = {
   address: Scalars['String'];
 };
 
-
 /** query root */
 export type Query_RootUpdateIdxProfileArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** query root */
 export type Query_RootXpArgs = {
@@ -8655,7 +8309,6 @@ export type Query_RootXpArgs = {
   where?: InputMaybe<Xp_Bool_Exp>;
 };
 
-
 /** query root */
 export type Query_RootXp_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Xp_Select_Column>>;
@@ -8664,7 +8317,6 @@ export type Query_RootXp_AggregateArgs = {
   order_by?: InputMaybe<ReadonlyArray<Xp_Order_By>>;
   where?: InputMaybe<Xp_Bool_Exp>;
 };
-
 
 /** query root */
 export type Query_RootXp_By_PkArgs = {
@@ -8707,7 +8359,6 @@ export type Quest = {
   readonly title: Scalars['String'];
 };
 
-
 /** columns and relationships of "quest" */
 export type QuestQuest_CompletionsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Completion_Select_Column>>;
@@ -8716,7 +8367,6 @@ export type QuestQuest_CompletionsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Completion_Order_By>>;
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
-
 
 /** columns and relationships of "quest" */
 export type QuestQuest_Completions_AggregateArgs = {
@@ -8727,7 +8377,6 @@ export type QuestQuest_Completions_AggregateArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
-
 /** columns and relationships of "quest" */
 export type QuestQuest_RolesArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Role_Select_Column>>;
@@ -8736,7 +8385,6 @@ export type QuestQuest_RolesArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Role_Order_By>>;
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
-
 
 /** columns and relationships of "quest" */
 export type QuestQuest_Roles_AggregateArgs = {
@@ -8747,7 +8395,6 @@ export type QuestQuest_Roles_AggregateArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
-
 /** columns and relationships of "quest" */
 export type QuestQuest_SkillsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Skill_Select_Column>>;
@@ -8756,7 +8403,6 @@ export type QuestQuest_SkillsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Skill_Order_By>>;
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
-
 
 /** columns and relationships of "quest" */
 export type QuestQuest_Skills_AggregateArgs = {
@@ -8789,7 +8435,6 @@ export type Quest_Aggregate_Fields = {
   readonly var_samp?: Maybe<Quest_Var_Samp_Fields>;
   readonly variance?: Maybe<Quest_Variance_Fields>;
 };
-
 
 /** aggregate fields of "quest" */
 export type Quest_Aggregate_FieldsCountArgs = {
@@ -8889,7 +8534,6 @@ export type Quest_Completion_Aggregate_Fields = {
   readonly min?: Maybe<Quest_Completion_Min_Fields>;
 };
 
-
 /** aggregate fields of "quest_completion" */
 export type Quest_Completion_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Quest_Completion_Select_Column>>;
@@ -8912,9 +8556,13 @@ export type Quest_Completion_Arr_Rel_Insert_Input = {
 /** Boolean expression to filter rows from the table "quest_completion". All fields are combined with a logical 'AND'. */
 export type Quest_Completion_Bool_Exp = {
   readonly QuestCompletionStatus?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
-  readonly _and?: InputMaybe<ReadonlyArray<InputMaybe<Quest_Completion_Bool_Exp>>>;
+  readonly _and?: InputMaybe<
+    ReadonlyArray<InputMaybe<Quest_Completion_Bool_Exp>>
+  >;
   readonly _not?: InputMaybe<Quest_Completion_Bool_Exp>;
-  readonly _or?: InputMaybe<ReadonlyArray<InputMaybe<Quest_Completion_Bool_Exp>>>;
+  readonly _or?: InputMaybe<
+    ReadonlyArray<InputMaybe<Quest_Completion_Bool_Exp>>
+  >;
   readonly completed?: InputMaybe<Quest_Bool_Exp>;
   readonly completedByPlayerId?: InputMaybe<Uuid_Comparison_Exp>;
   readonly id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -8930,7 +8578,7 @@ export type Quest_Completion_Bool_Exp = {
 /** unique or primary key constraints on table "quest_completion" */
 export enum Quest_Completion_Constraint {
   /** unique or primary key constraint */
-  QuestCompletionPkey = 'quest_completion_pkey'
+  QuestCompletionPkey = 'quest_completion_pkey',
 }
 
 /** input type for inserting data into table "quest_completion" */
@@ -9047,7 +8695,7 @@ export enum Quest_Completion_Select_Column {
   /** column name */
   SubmissionText = 'submissionText',
   /** column name */
-  SubmittedAt = 'submittedAt'
+  SubmittedAt = 'submittedAt',
 }
 
 /** input type for updating data in table "quest_completion" */
@@ -9076,13 +8724,13 @@ export enum Quest_Completion_Update_Column {
   /** column name */
   SubmissionText = 'submissionText',
   /** column name */
-  SubmittedAt = 'submittedAt'
+  SubmittedAt = 'submittedAt',
 }
 
 /** unique or primary key constraints on table "quest" */
 export enum Quest_Constraint {
   /** unique or primary key constraint */
-  QuestPkey = 'quest_pkey'
+  QuestPkey = 'quest_pkey',
 }
 
 /** input type for incrementing integer column in table "quest" */
@@ -9250,7 +8898,6 @@ export type Quest_Role_Aggregate_Fields = {
   readonly variance?: Maybe<Quest_Role_Variance_Fields>;
 };
 
-
 /** aggregate fields of "quest_role" */
 export type Quest_Role_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Quest_Role_Select_Column>>;
@@ -9304,7 +8951,7 @@ export type Quest_Role_Bool_Exp = {
 /** unique or primary key constraints on table "quest_role" */
 export enum Quest_Role_Constraint {
   /** unique or primary key constraint */
-  QuestRolePkey = 'quest_role_pkey'
+  QuestRolePkey = 'quest_role_pkey',
 }
 
 /** input type for incrementing integer column in table "quest_role" */
@@ -9395,7 +9042,7 @@ export enum Quest_Role_Select_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  Role = 'role'
+  Role = 'role',
 }
 
 /** input type for updating data in table "quest_role" */
@@ -9456,7 +9103,7 @@ export enum Quest_Role_Update_Column {
   /** column name */
   Rank = 'rank',
   /** column name */
-  Role = 'role'
+  Role = 'role',
 }
 
 /** aggregate var_pop on columns */
@@ -9515,7 +9162,7 @@ export enum Quest_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  Title = 'title'
+  Title = 'title',
 }
 
 /** input type for updating data in table "quest" */
@@ -9559,7 +9206,6 @@ export type Quest_Skill_Aggregate_Fields = {
   readonly min?: Maybe<Quest_Skill_Min_Fields>;
 };
 
-
 /** aggregate fields of "quest_skill" */
 export type Quest_Skill_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Quest_Skill_Select_Column>>;
@@ -9593,7 +9239,7 @@ export type Quest_Skill_Bool_Exp = {
 /** unique or primary key constraints on table "quest_skill" */
 export enum Quest_Skill_Constraint {
   /** unique or primary key constraint */
-  QuestSkillPkey = 'quest_skill_pkey'
+  QuestSkillPkey = 'quest_skill_pkey',
 }
 
 /** input type for inserting data into table "quest_skill" */
@@ -9671,7 +9317,7 @@ export enum Quest_Skill_Select_Column {
   /** column name */
   QuestId = 'questId',
   /** column name */
-  SkillId = 'skillId'
+  SkillId = 'skillId',
 }
 
 /** input type for updating data in table "quest_skill" */
@@ -9685,7 +9331,7 @@ export enum Quest_Skill_Update_Column {
   /** column name */
   QuestId = 'questId',
   /** column name */
-  SkillId = 'skillId'
+  SkillId = 'skillId',
 }
 
 /** aggregate stddev on columns */
@@ -9755,7 +9401,7 @@ export enum Quest_Update_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  Title = 'title'
+  Title = 'title',
 }
 
 /** aggregate var_pop on columns */
@@ -9807,7 +9453,6 @@ export type Skill = {
   readonly quest_skills_aggregate: Quest_Skill_Aggregate;
 };
 
-
 /** columns and relationships of "skill" */
 export type SkillPlayer_SkillsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Skill_Select_Column>>;
@@ -9816,7 +9461,6 @@ export type SkillPlayer_SkillsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Player_Skill_Order_By>>;
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
-
 
 /** columns and relationships of "skill" */
 export type SkillPlayer_Skills_AggregateArgs = {
@@ -9827,7 +9471,6 @@ export type SkillPlayer_Skills_AggregateArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
-
 /** columns and relationships of "skill" */
 export type SkillQuest_SkillsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Skill_Select_Column>>;
@@ -9836,7 +9479,6 @@ export type SkillQuest_SkillsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Quest_Skill_Order_By>>;
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
-
 
 /** columns and relationships of "skill" */
 export type SkillQuest_Skills_AggregateArgs = {
@@ -9861,7 +9503,6 @@ export type Skill_Aggregate_Fields = {
   readonly max?: Maybe<Skill_Max_Fields>;
   readonly min?: Maybe<Skill_Min_Fields>;
 };
-
 
 /** aggregate fields of "skill" */
 export type Skill_Aggregate_FieldsCountArgs = {
@@ -9897,7 +9538,7 @@ export type Skill_Bool_Exp = {
 /** unique or primary key constraints on table "skill" */
 export enum Skill_Constraint {
   /** unique or primary key constraint */
-  SkillPkey = 'Skill_pkey'
+  SkillPkey = 'Skill_pkey',
 }
 
 /** input type for inserting data into table "skill" */
@@ -9978,7 +9619,7 @@ export enum Skill_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** input type for updating data in table "skill" */
@@ -9995,7 +9636,7 @@ export enum Skill_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** subscription root */
@@ -10181,7 +9822,6 @@ export type Subscription_Root = {
   readonly xp_by_pk?: Maybe<Xp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootAccountTypeArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<AccountType_Select_Column>>;
@@ -10190,7 +9830,6 @@ export type Subscription_RootAccountTypeArgs = {
   order_by?: InputMaybe<ReadonlyArray<AccountType_Order_By>>;
   where?: InputMaybe<AccountType_Bool_Exp>;
 };
-
 
 /** subscription root */
 export type Subscription_RootAccountType_AggregateArgs = {
@@ -10201,12 +9840,10 @@ export type Subscription_RootAccountType_AggregateArgs = {
   where?: InputMaybe<AccountType_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootAccountType_By_PkArgs = {
   type: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootColorAspectArgs = {
@@ -10217,7 +9854,6 @@ export type Subscription_RootColorAspectArgs = {
   where?: InputMaybe<ColorAspect_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootColorAspect_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<ColorAspect_Select_Column>>;
@@ -10227,12 +9863,10 @@ export type Subscription_RootColorAspect_AggregateArgs = {
   where?: InputMaybe<ColorAspect_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootColorAspect_By_PkArgs = {
   mask: Scalars['Int'];
 };
-
 
 /** subscription root */
 export type Subscription_RootExplorerTypeArgs = {
@@ -10243,7 +9877,6 @@ export type Subscription_RootExplorerTypeArgs = {
   where?: InputMaybe<ExplorerType_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootExplorerType_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<ExplorerType_Select_Column>>;
@@ -10253,12 +9886,10 @@ export type Subscription_RootExplorerType_AggregateArgs = {
   where?: InputMaybe<ExplorerType_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootExplorerType_By_PkArgs = {
   id: Scalars['Int'];
 };
-
 
 /** subscription root */
 export type Subscription_RootGuildStatusArgs = {
@@ -10269,7 +9900,6 @@ export type Subscription_RootGuildStatusArgs = {
   where?: InputMaybe<GuildStatus_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuildStatus_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<GuildStatus_Select_Column>>;
@@ -10279,12 +9909,10 @@ export type Subscription_RootGuildStatus_AggregateArgs = {
   where?: InputMaybe<GuildStatus_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuildStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootGuildTypeArgs = {
@@ -10295,7 +9923,6 @@ export type Subscription_RootGuildTypeArgs = {
   where?: InputMaybe<GuildType_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuildType_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<GuildType_Select_Column>>;
@@ -10305,12 +9932,10 @@ export type Subscription_RootGuildType_AggregateArgs = {
   where?: InputMaybe<GuildType_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuildType_By_PkArgs = {
   name: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootPlayerRankArgs = {
@@ -10321,7 +9946,6 @@ export type Subscription_RootPlayerRankArgs = {
   where?: InputMaybe<PlayerRank_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayerRank_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<PlayerRank_Select_Column>>;
@@ -10331,12 +9955,10 @@ export type Subscription_RootPlayerRank_AggregateArgs = {
   where?: InputMaybe<PlayerRank_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayerRank_By_PkArgs = {
   rank: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootPlayerRoleArgs = {
@@ -10347,7 +9969,6 @@ export type Subscription_RootPlayerRoleArgs = {
   where?: InputMaybe<PlayerRole_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayerRole_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<PlayerRole_Select_Column>>;
@@ -10357,12 +9978,10 @@ export type Subscription_RootPlayerRole_AggregateArgs = {
   where?: InputMaybe<PlayerRole_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayerRole_By_PkArgs = {
   role: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootQuestCompletionStatusArgs = {
@@ -10373,7 +9992,6 @@ export type Subscription_RootQuestCompletionStatusArgs = {
   where?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuestCompletionStatus_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<QuestCompletionStatus_Select_Column>>;
@@ -10383,12 +10001,10 @@ export type Subscription_RootQuestCompletionStatus_AggregateArgs = {
   where?: InputMaybe<QuestCompletionStatus_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuestCompletionStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootQuestRepetitionArgs = {
@@ -10399,7 +10015,6 @@ export type Subscription_RootQuestRepetitionArgs = {
   where?: InputMaybe<QuestRepetition_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuestRepetition_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<QuestRepetition_Select_Column>>;
@@ -10409,12 +10024,10 @@ export type Subscription_RootQuestRepetition_AggregateArgs = {
   where?: InputMaybe<QuestRepetition_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuestRepetition_By_PkArgs = {
   repetition: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootQuestStatusArgs = {
@@ -10425,7 +10038,6 @@ export type Subscription_RootQuestStatusArgs = {
   where?: InputMaybe<QuestStatus_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuestStatus_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<QuestStatus_Select_Column>>;
@@ -10435,12 +10047,10 @@ export type Subscription_RootQuestStatus_AggregateArgs = {
   where?: InputMaybe<QuestStatus_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuestStatus_By_PkArgs = {
   status: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootSkillCategoryArgs = {
@@ -10451,7 +10061,6 @@ export type Subscription_RootSkillCategoryArgs = {
   where?: InputMaybe<SkillCategory_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootSkillCategory_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<SkillCategory_Select_Column>>;
@@ -10461,12 +10070,10 @@ export type Subscription_RootSkillCategory_AggregateArgs = {
   where?: InputMaybe<SkillCategory_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootSkillCategory_By_PkArgs = {
   name: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootBalanceArgs = {
@@ -10477,7 +10084,6 @@ export type Subscription_RootBalanceArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootBalance_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Balance_Select_Column>>;
@@ -10487,12 +10093,10 @@ export type Subscription_RootBalance_AggregateArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootBalance_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootDaoArgs = {
@@ -10503,7 +10107,6 @@ export type Subscription_RootDaoArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootDao_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Dao_Select_Column>>;
@@ -10513,12 +10116,10 @@ export type Subscription_RootDao_AggregateArgs = {
   where?: InputMaybe<Dao_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootDao_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootDao_PlayerArgs = {
@@ -10529,7 +10130,6 @@ export type Subscription_RootDao_PlayerArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootDao_Player_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Dao_Player_Select_Column>>;
@@ -10539,13 +10139,11 @@ export type Subscription_RootDao_Player_AggregateArgs = {
   where?: InputMaybe<Dao_Player_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootDao_Player_By_PkArgs = {
   daoId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootGuildArgs = {
@@ -10556,7 +10154,6 @@ export type Subscription_RootGuildArgs = {
   where?: InputMaybe<Guild_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuild_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Select_Column>>;
@@ -10566,12 +10163,10 @@ export type Subscription_RootGuild_AggregateArgs = {
   where?: InputMaybe<Guild_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuild_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootGuild_MetadataArgs = {
@@ -10582,7 +10177,6 @@ export type Subscription_RootGuild_MetadataArgs = {
   where?: InputMaybe<Guild_Metadata_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuild_Metadata_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Metadata_Select_Column>>;
@@ -10592,12 +10186,10 @@ export type Subscription_RootGuild_Metadata_AggregateArgs = {
   where?: InputMaybe<Guild_Metadata_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuild_Metadata_By_PkArgs = {
   guildId: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootGuild_PlayerArgs = {
@@ -10608,7 +10200,6 @@ export type Subscription_RootGuild_PlayerArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuild_Player_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Guild_Player_Select_Column>>;
@@ -10618,13 +10209,11 @@ export type Subscription_RootGuild_Player_AggregateArgs = {
   where?: InputMaybe<Guild_Player_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootGuild_Player_By_PkArgs = {
   guildId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootMeArgs = {
@@ -10635,7 +10224,6 @@ export type Subscription_RootMeArgs = {
   where?: InputMaybe<Me_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootMe_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Me_Select_Column>>;
@@ -10644,7 +10232,6 @@ export type Subscription_RootMe_AggregateArgs = {
   order_by?: InputMaybe<ReadonlyArray<Me_Order_By>>;
   where?: InputMaybe<Me_Bool_Exp>;
 };
-
 
 /** subscription root */
 export type Subscription_RootPlayerArgs = {
@@ -10655,7 +10242,6 @@ export type Subscription_RootPlayerArgs = {
   where?: InputMaybe<Player_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayer_AccountArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Account_Select_Column>>;
@@ -10664,7 +10250,6 @@ export type Subscription_RootPlayer_AccountArgs = {
   order_by?: InputMaybe<ReadonlyArray<Player_Account_Order_By>>;
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
-
 
 /** subscription root */
 export type Subscription_RootPlayer_Account_AggregateArgs = {
@@ -10675,7 +10260,6 @@ export type Subscription_RootPlayer_Account_AggregateArgs = {
   where?: InputMaybe<Player_Account_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayer_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Select_Column>>;
@@ -10685,12 +10269,10 @@ export type Subscription_RootPlayer_AggregateArgs = {
   where?: InputMaybe<Player_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayer_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootPlayer_RoleArgs = {
@@ -10701,7 +10283,6 @@ export type Subscription_RootPlayer_RoleArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayer_Role_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Role_Select_Column>>;
@@ -10711,13 +10292,11 @@ export type Subscription_RootPlayer_Role_AggregateArgs = {
   where?: InputMaybe<Player_Role_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayer_Role_By_PkArgs = {
   player_id: Scalars['uuid'];
   role: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootPlayer_SkillArgs = {
@@ -10728,7 +10307,6 @@ export type Subscription_RootPlayer_SkillArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayer_Skill_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Player_Skill_Select_Column>>;
@@ -10738,12 +10316,10 @@ export type Subscription_RootPlayer_Skill_AggregateArgs = {
   where?: InputMaybe<Player_Skill_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootPlayer_Skill_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootProfileArgs = {
@@ -10754,7 +10330,6 @@ export type Subscription_RootProfileArgs = {
   where?: InputMaybe<Profile_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootProfile_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Profile_Select_Column>>;
@@ -10764,12 +10339,10 @@ export type Subscription_RootProfile_AggregateArgs = {
   where?: InputMaybe<Profile_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootProfile_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootQuestArgs = {
@@ -10780,7 +10353,6 @@ export type Subscription_RootQuestArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuest_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Select_Column>>;
@@ -10790,12 +10362,10 @@ export type Subscription_RootQuest_AggregateArgs = {
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuest_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootQuest_CompletionArgs = {
@@ -10806,7 +10376,6 @@ export type Subscription_RootQuest_CompletionArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuest_Completion_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Completion_Select_Column>>;
@@ -10816,12 +10385,10 @@ export type Subscription_RootQuest_Completion_AggregateArgs = {
   where?: InputMaybe<Quest_Completion_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuest_Completion_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootQuest_RoleArgs = {
@@ -10832,7 +10399,6 @@ export type Subscription_RootQuest_RoleArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuest_Role_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Role_Select_Column>>;
@@ -10842,13 +10408,11 @@ export type Subscription_RootQuest_Role_AggregateArgs = {
   where?: InputMaybe<Quest_Role_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuest_Role_By_PkArgs = {
   questId: Scalars['uuid'];
   role: Scalars['String'];
 };
-
 
 /** subscription root */
 export type Subscription_RootQuest_SkillArgs = {
@@ -10859,7 +10423,6 @@ export type Subscription_RootQuest_SkillArgs = {
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuest_Skill_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Quest_Skill_Select_Column>>;
@@ -10869,13 +10432,11 @@ export type Subscription_RootQuest_Skill_AggregateArgs = {
   where?: InputMaybe<Quest_Skill_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootQuest_Skill_By_PkArgs = {
   questId: Scalars['uuid'];
   skillId: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootSkillArgs = {
@@ -10886,7 +10447,6 @@ export type Subscription_RootSkillArgs = {
   where?: InputMaybe<Skill_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootSkill_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Skill_Select_Column>>;
@@ -10896,12 +10456,10 @@ export type Subscription_RootSkill_AggregateArgs = {
   where?: InputMaybe<Skill_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootSkill_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootTokenArgs = {
@@ -10912,7 +10470,6 @@ export type Subscription_RootTokenArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootToken_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Token_Select_Column>>;
@@ -10922,18 +10479,15 @@ export type Subscription_RootToken_AggregateArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootToken_By_PkArgs = {
   address: Scalars['String'];
 };
 
-
 /** subscription root */
 export type Subscription_RootUpdateIdxProfileArgs = {
   id: Scalars['uuid'];
 };
-
 
 /** subscription root */
 export type Subscription_RootXpArgs = {
@@ -10944,7 +10498,6 @@ export type Subscription_RootXpArgs = {
   where?: InputMaybe<Xp_Bool_Exp>;
 };
 
-
 /** subscription root */
 export type Subscription_RootXp_AggregateArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Xp_Select_Column>>;
@@ -10953,7 +10506,6 @@ export type Subscription_RootXp_AggregateArgs = {
   order_by?: InputMaybe<ReadonlyArray<Xp_Order_By>>;
   where?: InputMaybe<Xp_Bool_Exp>;
 };
-
 
 /** subscription root */
 export type Subscription_RootXp_By_PkArgs = {
@@ -10993,7 +10545,6 @@ export type Token = {
   readonly xps_aggregate: Xp_Aggregate;
 };
 
-
 /** columns and relationships of "token" */
 export type TokenBalancesArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Balance_Select_Column>>;
@@ -11002,7 +10553,6 @@ export type TokenBalancesArgs = {
   order_by?: InputMaybe<ReadonlyArray<Balance_Order_By>>;
   where?: InputMaybe<Balance_Bool_Exp>;
 };
-
 
 /** columns and relationships of "token" */
 export type TokenBalances_AggregateArgs = {
@@ -11013,7 +10563,6 @@ export type TokenBalances_AggregateArgs = {
   where?: InputMaybe<Balance_Bool_Exp>;
 };
 
-
 /** columns and relationships of "token" */
 export type TokenXpsArgs = {
   distinct_on?: InputMaybe<ReadonlyArray<Xp_Select_Column>>;
@@ -11022,7 +10571,6 @@ export type TokenXpsArgs = {
   order_by?: InputMaybe<ReadonlyArray<Xp_Order_By>>;
   where?: InputMaybe<Xp_Bool_Exp>;
 };
-
 
 /** columns and relationships of "token" */
 export type TokenXps_AggregateArgs = {
@@ -11055,7 +10603,6 @@ export type Token_Aggregate_Fields = {
   readonly var_samp?: Maybe<Token_Var_Samp_Fields>;
   readonly variance?: Maybe<Token_Variance_Fields>;
 };
-
 
 /** aggregate fields of "token" */
 export type Token_Aggregate_FieldsCountArgs = {
@@ -11121,7 +10668,7 @@ export enum Token_Constraint {
   /** unique or primary key constraint */
   TokenPkey = 'token_pkey',
   /** unique or primary key constraint */
-  TokenSafeAddressKey = 'token_safe_address_key'
+  TokenSafeAddressKey = 'token_safe_address_key',
 }
 
 /** input type for incrementing integer column in table "token" */
@@ -11230,7 +10777,7 @@ export enum Token_Select_Column {
   /** column name */
   LastOffset = 'lastOffset',
   /** column name */
-  SafeAddress = 'safeAddress'
+  SafeAddress = 'safeAddress',
 }
 
 /** input type for updating data in table "token" */
@@ -11305,7 +10852,7 @@ export enum Token_Update_Column {
   /** column name */
   LastOffset = 'lastOffset',
   /** column name */
-  SafeAddress = 'safeAddress'
+  SafeAddress = 'safeAddress',
 }
 
 /** aggregate var_pop on columns */
@@ -11409,7 +10956,6 @@ export type Xp_Aggregate_Fields = {
   readonly variance?: Maybe<Xp_Variance_Fields>;
 };
 
-
 /** aggregate fields of "xp" */
 export type Xp_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<ReadonlyArray<Xp_Select_Column>>;
@@ -11466,7 +11012,7 @@ export enum Xp_Constraint {
   /** unique or primary key constraint */
   XpPkey = 'xp_pkey',
   /** unique or primary key constraint */
-  XpPlayerIdTokenAddressKey = 'xp_player_id_token_address_key'
+  XpPlayerIdTokenAddressKey = 'xp_player_id_token_address_key',
 }
 
 /** input type for incrementing integer column in table "xp" */
@@ -11564,7 +11110,7 @@ export enum Xp_Select_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  TokenAddress = 'tokenAddress'
+  TokenAddress = 'tokenAddress',
 }
 
 /** input type for updating data in table "xp" */
@@ -11628,7 +11174,7 @@ export enum Xp_Update_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
-  TokenAddress = 'tokenAddress'
+  TokenAddress = 'tokenAddress',
 }
 
 /** aggregate var_pop on columns */
@@ -11669,125 +11215,244 @@ export type UpdateDaoMutationVariables = Exact<{
   object: Dao_Set_Input;
 }>;
 
-
-export type UpdateDaoMutation = { readonly __typename?: 'mutation_root', readonly update_dao_by_pk?: { readonly __typename?: 'dao', readonly id: any } | null };
+export type UpdateDaoMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_dao_by_pk?: {
+    readonly __typename?: 'dao';
+    readonly id: any;
+  } | null;
+};
 
 export type DetachDaosFromGuildMutationVariables = Exact<{
   ids: ReadonlyArray<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
-
-export type DetachDaosFromGuildMutation = { readonly __typename?: 'mutation_root', readonly update_dao?: { readonly __typename?: 'dao_mutation_response', readonly affected_rows: number } | null };
+export type DetachDaosFromGuildMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_dao?: {
+    readonly __typename?: 'dao_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type DeleteDaosMutationVariables = Exact<{
   ids: ReadonlyArray<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
-
-export type DeleteDaosMutation = { readonly __typename?: 'mutation_root', readonly delete_dao?: { readonly __typename?: 'dao_mutation_response', readonly affected_rows: number } | null };
+export type DeleteDaosMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly delete_dao?: {
+    readonly __typename?: 'dao_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type InsertDaosMutationVariables = Exact<{
   objects: ReadonlyArray<Dao_Insert_Input> | Dao_Insert_Input;
 }>;
 
-
-export type InsertDaosMutation = { readonly __typename?: 'mutation_root', readonly insert_dao?: { readonly __typename?: 'dao_mutation_response', readonly returning: ReadonlyArray<{ readonly __typename?: 'dao', readonly id: any }> } | null };
+export type InsertDaosMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_dao?: {
+    readonly __typename?: 'dao_mutation_response';
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'dao';
+      readonly id: any;
+    }>;
+  } | null;
+};
 
 export type SyncDaoMembersMutationVariables = Exact<{
   memberEthIdsToRemove: ReadonlyArray<Scalars['String']> | Scalars['String'];
-  membersToAdd: ReadonlyArray<Dao_Player_Insert_Input> | Dao_Player_Insert_Input;
+  membersToAdd:
+    | ReadonlyArray<Dao_Player_Insert_Input>
+    | Dao_Player_Insert_Input;
 }>;
 
-
-export type SyncDaoMembersMutation = { readonly __typename?: 'mutation_root', readonly delete_dao_player?: { readonly __typename?: 'dao_player_mutation_response', readonly affected_rows: number } | null, readonly insert_dao_player?: { readonly __typename?: 'dao_player_mutation_response', readonly affected_rows: number } | null };
+export type SyncDaoMembersMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly delete_dao_player?: {
+    readonly __typename?: 'dao_player_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+  readonly insert_dao_player?: {
+    readonly __typename?: 'dao_player_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type RemovePlayerFromDaosMutationVariables = Exact<{
   playerEthAdress: Scalars['String'];
   daoIds: ReadonlyArray<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
-
-export type RemovePlayerFromDaosMutation = { readonly __typename?: 'mutation_root', readonly delete_dao_player?: { readonly __typename?: 'dao_player_mutation_response', readonly affected_rows: number } | null };
+export type RemovePlayerFromDaosMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly delete_dao_player?: {
+    readonly __typename?: 'dao_player_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type UpsertDaoMembersMutationVariables = Exact<{
   objects: ReadonlyArray<Dao_Player_Insert_Input> | Dao_Player_Insert_Input;
 }>;
 
-
-export type UpsertDaoMembersMutation = { readonly __typename?: 'mutation_root', readonly insert_dao_player?: { readonly __typename?: 'dao_player_mutation_response', readonly affected_rows: number } | null };
+export type UpsertDaoMembersMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_dao_player?: {
+    readonly __typename?: 'dao_player_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type CreateGuildMutationVariables = Exact<{
   object: Guild_Insert_Input;
 }>;
 
-
-export type CreateGuildMutation = { readonly __typename?: 'mutation_root', readonly insert_guild_one?: { readonly __typename?: 'guild', readonly guildname: string, readonly id: any } | null };
+export type CreateGuildMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_guild_one?: {
+    readonly __typename?: 'guild';
+    readonly guildname: string;
+    readonly id: any;
+  } | null;
+};
 
 export type UpdateGuildMutationVariables = Exact<{
   guildId: Scalars['uuid'];
   object: Guild_Set_Input;
 }>;
 
-
-export type UpdateGuildMutation = { readonly __typename?: 'mutation_root', readonly update_guild_by_pk?: { readonly __typename?: 'guild', readonly id: any } | null };
+export type UpdateGuildMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_guild_by_pk?: {
+    readonly __typename?: 'guild';
+    readonly id: any;
+  } | null;
+};
 
 export type CreateGuildMetadataMutationVariables = Exact<{
   object: Guild_Metadata_Insert_Input;
 }>;
 
-
-export type CreateGuildMetadataMutation = { readonly __typename?: 'mutation_root', readonly insert_guild_metadata_one?: { readonly __typename?: 'guild_metadata', readonly creatorId?: any | null, readonly discordId: string, readonly guildId: any, readonly discordMetadata?: any | null } | null };
+export type CreateGuildMetadataMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_guild_metadata_one?: {
+    readonly __typename?: 'guild_metadata';
+    readonly creatorId?: any | null;
+    readonly discordId: string;
+    readonly guildId: any;
+    readonly discordMetadata?: any | null;
+  } | null;
+};
 
 export type UpdateGuildDiscordMetadataMutationVariables = Exact<{
   guildId: Scalars['uuid'];
   discordMetadata?: InputMaybe<Scalars['jsonb']>;
 }>;
 
-
-export type UpdateGuildDiscordMetadataMutation = { readonly __typename?: 'mutation_root', readonly update_guild_metadata_by_pk?: { readonly __typename?: 'guild_metadata', readonly guildId: any } | null };
+export type UpdateGuildDiscordMetadataMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_guild_metadata_by_pk?: {
+    readonly __typename?: 'guild_metadata';
+    readonly guildId: any;
+  } | null;
+};
 
 export type SyncGuildMembersMutationVariables = Exact<{
-  memberDiscordIdsToRemove: ReadonlyArray<Scalars['String']> | Scalars['String'];
-  membersToAdd: ReadonlyArray<Guild_Player_Insert_Input> | Guild_Player_Insert_Input;
+  memberDiscordIdsToRemove:
+    | ReadonlyArray<Scalars['String']>
+    | Scalars['String'];
+  membersToAdd:
+    | ReadonlyArray<Guild_Player_Insert_Input>
+    | Guild_Player_Insert_Input;
 }>;
 
-
-export type SyncGuildMembersMutation = { readonly __typename?: 'mutation_root', readonly delete_guild_player?: { readonly __typename?: 'guild_player_mutation_response', readonly affected_rows: number } | null, readonly insert_guild_player?: { readonly __typename?: 'guild_player_mutation_response', readonly affected_rows: number } | null };
+export type SyncGuildMembersMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly delete_guild_player?: {
+    readonly __typename?: 'guild_player_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+  readonly insert_guild_player?: {
+    readonly __typename?: 'guild_player_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type RemoveAllGuildMembersMutationVariables = Exact<{
   guildId: Scalars['uuid'];
 }>;
 
-
-export type RemoveAllGuildMembersMutation = { readonly __typename?: 'mutation_root', readonly delete_guild_player?: { readonly __typename?: 'guild_player_mutation_response', readonly affected_rows: number } | null };
+export type RemoveAllGuildMembersMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly delete_guild_player?: {
+    readonly __typename?: 'guild_player_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type CreatePlayerFromEthMutationVariables = Exact<{
   ethereumAddress: Scalars['String'];
 }>;
 
-
-export type CreatePlayerFromEthMutation = { readonly __typename?: 'mutation_root', readonly insert_profile?: { readonly __typename?: 'profile_mutation_response', readonly affected_rows: number, readonly returning: ReadonlyArray<{ readonly __typename?: 'profile', readonly id: any, readonly player: { readonly __typename?: 'player', readonly id: any, readonly ethereumAddress: string } }> } | null };
+export type CreatePlayerFromEthMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_profile?: {
+    readonly __typename?: 'profile_mutation_response';
+    readonly affected_rows: number;
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'profile';
+      readonly id: any;
+      readonly player: {
+        readonly __typename?: 'player';
+        readonly id: any;
+        readonly ethereumAddress: string;
+      };
+    }>;
+  } | null;
+};
 
 export type UpsertAccountMutationVariables = Exact<{
-  objects: ReadonlyArray<Player_Account_Insert_Input> | Player_Account_Insert_Input;
+  objects:
+    | ReadonlyArray<Player_Account_Insert_Input>
+    | Player_Account_Insert_Input;
   on_conflict?: InputMaybe<Player_Account_On_Conflict>;
 }>;
 
+export type UpsertAccountMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_player_account?: {
+    readonly __typename?: 'player_account_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
-export type UpsertAccountMutation = { readonly __typename?: 'mutation_root', readonly insert_player_account?: { readonly __typename?: 'player_account_mutation_response', readonly affected_rows: number } | null };
+export type ResetAllPlayersXpMutationVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type ResetAllPlayersXpMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ResetAllPlayersXpMutation = { readonly __typename?: 'mutation_root', readonly update_player?: { readonly __typename?: 'player_mutation_response', readonly affected_rows: number } | null };
+export type ResetAllPlayersXpMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_player?: {
+    readonly __typename?: 'player_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type UpsertProfileMutationVariables = Exact<{
   objects: ReadonlyArray<Profile_Insert_Input> | Profile_Insert_Input;
   updateColumns: ReadonlyArray<Profile_Update_Column> | Profile_Update_Column;
 }>;
 
-
-export type UpsertProfileMutation = { readonly __typename?: 'mutation_root', readonly insert_profile?: { readonly __typename?: 'profile_mutation_response', readonly affected_rows: number } | null };
+export type UpsertProfileMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_profile?: {
+    readonly __typename?: 'profile_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type UpdatePlayerMutationVariables = Exact<{
   ethereumAddress: Scalars['String'];
@@ -11797,61 +11462,126 @@ export type UpdatePlayerMutationVariables = Exact<{
   discordId?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type UpdatePlayerMutation = { readonly __typename?: 'mutation_root', readonly update_player?: { readonly __typename?: 'player_mutation_response', readonly affected_rows: number, readonly returning: ReadonlyArray<{ readonly __typename?: 'player', readonly id: any, readonly ethereumAddress: string, readonly profile?: { readonly __typename?: 'profile', readonly username?: string | null } | null }> } | null };
+export type UpdatePlayerMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_player?: {
+    readonly __typename?: 'player_mutation_response';
+    readonly affected_rows: number;
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'player';
+      readonly id: any;
+      readonly ethereumAddress: string;
+      readonly profile?: {
+        readonly __typename?: 'profile';
+        readonly username?: string | null;
+      } | null;
+    }>;
+  } | null;
+};
 
 export type InsertPlayersMutationVariables = Exact<{
   objects: ReadonlyArray<Player_Insert_Input> | Player_Insert_Input;
 }>;
 
-
-export type InsertPlayersMutation = { readonly __typename?: 'mutation_root', readonly insert_player?: { readonly __typename?: 'player_mutation_response', readonly affected_rows: number, readonly returning: ReadonlyArray<{ readonly __typename?: 'player', readonly id: any }> } | null };
+export type InsertPlayersMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_player?: {
+    readonly __typename?: 'player_mutation_response';
+    readonly affected_rows: number;
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'player';
+      readonly id: any;
+    }>;
+  } | null;
+};
 
 export type RemovePlayerAccountMutationVariables = Exact<{
   playerId: Scalars['uuid'];
   accountType?: InputMaybe<AccountType_Enum>;
 }>;
 
-
-export type RemovePlayerAccountMutation = { readonly __typename?: 'mutation_root', readonly delete_player_account?: { readonly __typename?: 'player_account_mutation_response', readonly affected_rows: number } | null };
+export type RemovePlayerAccountMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly delete_player_account?: {
+    readonly __typename?: 'player_account_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type CreateQuestMutationVariables = Exact<{
   objects: ReadonlyArray<Quest_Insert_Input> | Quest_Insert_Input;
 }>;
 
-
-export type CreateQuestMutation = { readonly __typename?: 'mutation_root', readonly insert_quest?: { readonly __typename?: 'quest_mutation_response', readonly affected_rows: number, readonly returning: ReadonlyArray<{ readonly __typename?: 'quest', readonly id: any }> } | null };
+export type CreateQuestMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_quest?: {
+    readonly __typename?: 'quest_mutation_response';
+    readonly affected_rows: number;
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'quest';
+      readonly id: any;
+    }>;
+  } | null;
+};
 
 export type CreateQuestCompletionMutationVariables = Exact<{
-  objects: ReadonlyArray<Quest_Completion_Insert_Input> | Quest_Completion_Insert_Input;
+  objects:
+    | ReadonlyArray<Quest_Completion_Insert_Input>
+    | Quest_Completion_Insert_Input;
 }>;
 
-
-export type CreateQuestCompletionMutation = { readonly __typename?: 'mutation_root', readonly insert_quest_completion?: { readonly __typename?: 'quest_completion_mutation_response', readonly affected_rows: number, readonly returning: ReadonlyArray<{ readonly __typename?: 'quest_completion', readonly id: any, readonly questId: any, readonly completedByPlayerId: any }> } | null };
+export type CreateQuestCompletionMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_quest_completion?: {
+    readonly __typename?: 'quest_completion_mutation_response';
+    readonly affected_rows: number;
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'quest_completion';
+      readonly id: any;
+      readonly questId: any;
+      readonly completedByPlayerId: any;
+    }>;
+  } | null;
+};
 
 export type UpdateQuestStatusMutationVariables = Exact<{
   quest_id: Scalars['uuid'];
   status: QuestStatus_Enum;
 }>;
 
-
-export type UpdateQuestStatusMutation = { readonly __typename?: 'mutation_root', readonly update_quest_by_pk?: { readonly __typename?: 'quest', readonly id: any } | null };
+export type UpdateQuestStatusMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_quest_by_pk?: {
+    readonly __typename?: 'quest';
+    readonly id: any;
+  } | null;
+};
 
 export type UpdateQuestCompletionStatusMutationVariables = Exact<{
   quest_completion_id: Scalars['uuid'];
   status: QuestCompletionStatus_Enum;
 }>;
 
-
-export type UpdateQuestCompletionStatusMutation = { readonly __typename?: 'mutation_root', readonly update_quest_completion_by_pk?: { readonly __typename?: 'quest_completion', readonly id: any } | null };
+export type UpdateQuestCompletionStatusMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_quest_completion_by_pk?: {
+    readonly __typename?: 'quest_completion';
+    readonly id: any;
+  } | null;
+};
 
 export type RejectOtherQuestCompletionsMutationVariables = Exact<{
   accepted_quest_completion_id: Scalars['uuid'];
   questId: Scalars['uuid'];
 }>;
 
-
-export type RejectOtherQuestCompletionsMutation = { readonly __typename?: 'mutation_root', readonly update_quest_completion?: { readonly __typename?: 'quest_completion_mutation_response', readonly affected_rows: number } | null };
+export type RejectOtherQuestCompletionsMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_quest_completion?: {
+    readonly __typename?: 'quest_completion_mutation_response';
+    readonly affected_rows: number;
+  } | null;
+};
 
 export type AddBalanceMutationVariables = Exact<{
   amount: Scalars['float8'];
@@ -11860,16 +11590,29 @@ export type AddBalanceMutationVariables = Exact<{
   tokenAddress: Scalars['String'];
 }>;
 
-
-export type AddBalanceMutation = { readonly __typename?: 'mutation_root', readonly insert_balance_one?: { readonly __typename?: 'balance', readonly id: any } | null };
+export type AddBalanceMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_balance_one?: {
+    readonly __typename?: 'balance';
+    readonly id: any;
+  } | null;
+};
 
 export type UpdateLastOffsetMutationVariables = Exact<{
   tokenAddress: Scalars['String'];
   offset: Scalars['Int'];
 }>;
 
-
-export type UpdateLastOffsetMutation = { readonly __typename?: 'mutation_root', readonly update_token?: { readonly __typename?: 'token_mutation_response', readonly returning: ReadonlyArray<{ readonly __typename?: 'token', readonly lastOffset: number }> } | null };
+export type UpdateLastOffsetMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_token?: {
+    readonly __typename?: 'token_mutation_response';
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'token';
+      readonly lastOffset: number;
+    }>;
+  } | null;
+};
 
 export type UpsertXpMutationVariables = Exact<{
   balance: Scalars['float8'];
@@ -11877,803 +11620,1632 @@ export type UpsertXpMutationVariables = Exact<{
   tokenAddress: Scalars['String'];
 }>;
 
-
-export type UpsertXpMutation = { readonly __typename?: 'mutation_root', readonly insert_xp?: { readonly __typename?: 'xp_mutation_response', readonly returning: ReadonlyArray<{ readonly __typename?: 'xp', readonly balance: any, readonly tokenAddress: string, readonly playerId: any, readonly id: any }> } | null };
+export type UpsertXpMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly insert_xp?: {
+    readonly __typename?: 'xp_mutation_response';
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'xp';
+      readonly balance: any;
+      readonly tokenAddress: string;
+      readonly playerId: any;
+      readonly id: any;
+    }>;
+  } | null;
+};
 
 export type GetPlayerDaosQueryVariables = Exact<{
   ethereumAddress?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type GetPlayerDaosQuery = { readonly __typename?: 'query_root', readonly dao_player: ReadonlyArray<{ readonly __typename?: 'dao_player', readonly daoId: any, readonly playerId: any, readonly Dao: { readonly __typename?: 'dao', readonly contractAddress: string, readonly network: string } }> };
+export type GetPlayerDaosQuery = {
+  readonly __typename?: 'query_root';
+  readonly dao_player: ReadonlyArray<{
+    readonly __typename?: 'dao_player';
+    readonly daoId: any;
+    readonly playerId: any;
+    readonly Dao: {
+      readonly __typename?: 'dao';
+      readonly contractAddress: string;
+      readonly network: string;
+    };
+  }>;
+};
 
 export type GetDaosByAddressQueryVariables = Exact<{
-  contractAddress?: InputMaybe<ReadonlyArray<Scalars['String']> | Scalars['String']>;
+  contractAddress?: InputMaybe<
+    ReadonlyArray<Scalars['String']> | Scalars['String']
+  >;
 }>;
 
+export type GetDaosByAddressQuery = {
+  readonly __typename?: 'query_root';
+  readonly dao: ReadonlyArray<{
+    readonly __typename?: 'dao';
+    readonly id: any;
+    readonly contractAddress: string;
+    readonly network: string;
+  }>;
+};
 
-export type GetDaosByAddressQuery = { readonly __typename?: 'query_root', readonly dao: ReadonlyArray<{ readonly __typename?: 'dao', readonly id: any, readonly contractAddress: string, readonly network: string }> };
-
-export type GuildFragment = { readonly __typename?: 'guild', readonly id: any, readonly guildname: string, readonly description?: string | null, readonly joinButtonUrl?: string | null, readonly logo?: string | null, readonly name: string, readonly type: GuildType_Enum, readonly websiteUrl?: string | null, readonly discordId?: string | null, readonly status: GuildStatus_Enum, readonly membershipThroughDiscord: boolean };
+export type GuildFragment = {
+  readonly __typename?: 'guild';
+  readonly id: any;
+  readonly guildname: string;
+  readonly description?: string | null;
+  readonly joinButtonUrl?: string | null;
+  readonly logo?: string | null;
+  readonly name: string;
+  readonly type: GuildType_Enum;
+  readonly websiteUrl?: string | null;
+  readonly discordId?: string | null;
+  readonly status: GuildStatus_Enum;
+  readonly membershipThroughDiscord: boolean;
+};
 
 export type GetGuildQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-
-export type GetGuildQuery = { readonly __typename?: 'query_root', readonly guild: ReadonlyArray<{ readonly __typename?: 'guild', readonly id: any, readonly guildname: string, readonly description?: string | null, readonly joinButtonUrl?: string | null, readonly logo?: string | null, readonly name: string, readonly type: GuildType_Enum, readonly websiteUrl?: string | null, readonly discordId?: string | null, readonly status: GuildStatus_Enum, readonly membershipThroughDiscord: boolean, readonly daos: ReadonlyArray<{ readonly __typename?: 'dao', readonly id: any, readonly guildId?: any | null, readonly contractAddress: string, readonly network: string, readonly label?: string | null, readonly url?: string | null, readonly players: ReadonlyArray<{ readonly __typename?: 'dao_player', readonly playerId: any, readonly visible?: boolean | null }> }> }> };
+export type GetGuildQuery = {
+  readonly __typename?: 'query_root';
+  readonly guild: ReadonlyArray<{
+    readonly __typename?: 'guild';
+    readonly id: any;
+    readonly guildname: string;
+    readonly description?: string | null;
+    readonly joinButtonUrl?: string | null;
+    readonly logo?: string | null;
+    readonly name: string;
+    readonly type: GuildType_Enum;
+    readonly websiteUrl?: string | null;
+    readonly discordId?: string | null;
+    readonly status: GuildStatus_Enum;
+    readonly membershipThroughDiscord: boolean;
+    readonly daos: ReadonlyArray<{
+      readonly __typename?: 'dao';
+      readonly id: any;
+      readonly guildId?: any | null;
+      readonly contractAddress: string;
+      readonly network: string;
+      readonly label?: string | null;
+      readonly url?: string | null;
+      readonly players: ReadonlyArray<{
+        readonly __typename?: 'dao_player';
+        readonly playerId: any;
+        readonly visible?: boolean | null;
+      }>;
+    }>;
+  }>;
+};
 
 export type GetGuildMetadataByDiscordIdQueryVariables = Exact<{
   discordId: Scalars['String'];
 }>;
 
-
-export type GetGuildMetadataByDiscordIdQuery = { readonly __typename?: 'query_root', readonly guild: ReadonlyArray<{ readonly __typename?: 'guild', readonly id: any, readonly discordId?: string | null, readonly guildname: string, readonly metadata?: { readonly __typename?: 'guild_metadata', readonly guildId: any, readonly creatorId?: any | null, readonly discordMetadata?: any | null } | null }> };
+export type GetGuildMetadataByDiscordIdQuery = {
+  readonly __typename?: 'query_root';
+  readonly guild: ReadonlyArray<{
+    readonly __typename?: 'guild';
+    readonly id: any;
+    readonly discordId?: string | null;
+    readonly guildname: string;
+    readonly metadata?: {
+      readonly __typename?: 'guild_metadata';
+      readonly guildId: any;
+      readonly creatorId?: any | null;
+      readonly discordMetadata?: any | null;
+    } | null;
+  }>;
+};
 
 export type GetGuildsQueryVariables = Exact<{
   status?: InputMaybe<GuildStatus_Enum>;
 }>;
 
-
-export type GetGuildsQuery = { readonly __typename?: 'query_root', readonly guild: ReadonlyArray<{ readonly __typename?: 'guild', readonly id: any, readonly guildname: string, readonly description?: string | null, readonly joinButtonUrl?: string | null, readonly logo?: string | null, readonly name: string, readonly type: GuildType_Enum, readonly websiteUrl?: string | null, readonly discordId?: string | null, readonly status: GuildStatus_Enum, readonly membershipThroughDiscord: boolean }> };
+export type GetGuildsQuery = {
+  readonly __typename?: 'query_root';
+  readonly guild: ReadonlyArray<{
+    readonly __typename?: 'guild';
+    readonly id: any;
+    readonly guildname: string;
+    readonly description?: string | null;
+    readonly joinButtonUrl?: string | null;
+    readonly logo?: string | null;
+    readonly name: string;
+    readonly type: GuildType_Enum;
+    readonly websiteUrl?: string | null;
+    readonly discordId?: string | null;
+    readonly status: GuildStatus_Enum;
+    readonly membershipThroughDiscord: boolean;
+  }>;
+};
 
 export type GetGuildMetadataByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-
-export type GetGuildMetadataByIdQuery = { readonly __typename?: 'query_root', readonly guild_metadata: ReadonlyArray<{ readonly __typename?: 'guild_metadata', readonly guildId: any, readonly creatorId?: any | null, readonly discordId: string, readonly discordMetadata?: any | null }> };
+export type GetGuildMetadataByIdQuery = {
+  readonly __typename?: 'query_root';
+  readonly guild_metadata: ReadonlyArray<{
+    readonly __typename?: 'guild_metadata';
+    readonly guildId: any;
+    readonly creatorId?: any | null;
+    readonly discordId: string;
+    readonly discordMetadata?: any | null;
+  }>;
+};
 
 export type GetGuildMembersQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-
-export type GetGuildMembersQuery = { readonly __typename?: 'query_root', readonly guild: ReadonlyArray<{ readonly __typename?: 'guild', readonly id: any, readonly guild_players: ReadonlyArray<{ readonly __typename?: 'guild_player', readonly Player: { readonly __typename?: 'player', readonly id: any, readonly discordId?: string | null, readonly ethereumAddress: string } }> }> };
+export type GetGuildMembersQuery = {
+  readonly __typename?: 'query_root';
+  readonly guild: ReadonlyArray<{
+    readonly __typename?: 'guild';
+    readonly id: any;
+    readonly guild_players: ReadonlyArray<{
+      readonly __typename?: 'guild_player';
+      readonly Player: {
+        readonly __typename?: 'player';
+        readonly id: any;
+        readonly discordId?: string | null;
+        readonly ethereumAddress: string;
+      };
+    }>;
+  }>;
+};
 
 export type GetGuildPlayerDiscordIdsQueryVariables = Exact<{
   guildId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 }>;
 
-
-export type GetGuildPlayerDiscordIdsQuery = { readonly __typename?: 'query_root', readonly guild_player: ReadonlyArray<{ readonly __typename?: 'guild_player', readonly Player: { readonly __typename?: 'player', readonly id: any, readonly discordId?: string | null }, readonly Guild: { readonly __typename?: 'guild', readonly id: any, readonly discordId?: string | null } }> };
+export type GetGuildPlayerDiscordIdsQuery = {
+  readonly __typename?: 'query_root';
+  readonly guild_player: ReadonlyArray<{
+    readonly __typename?: 'guild_player';
+    readonly Player: {
+      readonly __typename?: 'player';
+      readonly id: any;
+      readonly discordId?: string | null;
+    };
+    readonly Guild: {
+      readonly __typename?: 'guild';
+      readonly id: any;
+      readonly discordId?: string | null;
+    };
+  }>;
+};
 
 export type GetPlayerQueryVariables = Exact<{
   playerId: Scalars['uuid'];
 }>;
 
-
-export type GetPlayerQuery = { readonly __typename?: 'query_root', readonly player_by_pk?: { readonly __typename?: 'player', readonly id: any, readonly ethereumAddress: string, readonly discordId?: string | null, readonly profile?: { readonly __typename?: 'profile', readonly username?: string | null } | null, readonly accounts: ReadonlyArray<{ readonly __typename?: 'player_account', readonly identifier: string, readonly type: AccountType_Enum }> } | null };
+export type GetPlayerQuery = {
+  readonly __typename?: 'query_root';
+  readonly player_by_pk?: {
+    readonly __typename?: 'player';
+    readonly id: any;
+    readonly ethereumAddress: string;
+    readonly discordId?: string | null;
+    readonly profile?: {
+      readonly __typename?: 'profile';
+      readonly username?: string | null;
+    } | null;
+    readonly accounts: ReadonlyArray<{
+      readonly __typename?: 'player_account';
+      readonly identifier: string;
+      readonly type: AccountType_Enum;
+    }>;
+  } | null;
+};
 
 export type GetPlayerFromEthQueryVariables = Exact<{
   ethereumAddress?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type GetPlayerFromEthQuery = { readonly __typename?: 'query_root', readonly player: ReadonlyArray<{ readonly __typename?: 'player', readonly id: any }> };
+export type GetPlayerFromEthQuery = {
+  readonly __typename?: 'query_root';
+  readonly player: ReadonlyArray<{
+    readonly __typename?: 'player';
+    readonly id: any;
+  }>;
+};
 
 export type GetPlayersByDiscordIdQueryVariables = Exact<{
   discordIds: ReadonlyArray<Scalars['String']> | Scalars['String'];
 }>;
 
-
-export type GetPlayersByDiscordIdQuery = { readonly __typename?: 'query_root', readonly player: ReadonlyArray<{ readonly __typename?: 'player', readonly id: any }> };
+export type GetPlayersByDiscordIdQuery = {
+  readonly __typename?: 'query_root';
+  readonly player: ReadonlyArray<{
+    readonly __typename?: 'player';
+    readonly id: any;
+  }>;
+};
 
 export type GetCacheEntriesQueryVariables = Exact<{
   updatedBefore: Scalars['timestamptz'];
 }>;
 
-
-export type GetCacheEntriesQuery = { readonly __typename?: 'query_root', readonly profile: ReadonlyArray<{ readonly __typename?: 'profile', readonly playerId: any }> };
+export type GetCacheEntriesQuery = {
+  readonly __typename?: 'query_root';
+  readonly profile: ReadonlyArray<{
+    readonly __typename?: 'profile';
+    readonly playerId: any;
+  }>;
+};
 
 export type GetQuestByIdQueryVariables = Exact<{
   questId: Scalars['uuid'];
 }>;
 
-
-export type GetQuestByIdQuery = { readonly __typename?: 'query_root', readonly quest_by_pk?: { readonly __typename?: 'quest', readonly id: any, readonly cooldown?: number | null, readonly status: QuestStatus_Enum, readonly repetition: QuestRepetition_Enum, readonly createdByPlayerId: any, readonly title: string } | null };
+export type GetQuestByIdQuery = {
+  readonly __typename?: 'query_root';
+  readonly quest_by_pk?: {
+    readonly __typename?: 'quest';
+    readonly id: any;
+    readonly cooldown?: number | null;
+    readonly status: QuestStatus_Enum;
+    readonly repetition: QuestRepetition_Enum;
+    readonly createdByPlayerId: any;
+    readonly title: string;
+  } | null;
+};
 
 export type GetQuestCompletionsQueryVariables = Exact<{
   questId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 }>;
 
-
-export type GetQuestCompletionsQuery = { readonly __typename?: 'query_root', readonly quest_completion: ReadonlyArray<{ readonly __typename?: 'quest_completion', readonly id: any, readonly questId: any, readonly completedByPlayerId: any }> };
+export type GetQuestCompletionsQuery = {
+  readonly __typename?: 'query_root';
+  readonly quest_completion: ReadonlyArray<{
+    readonly __typename?: 'quest_completion';
+    readonly id: any;
+    readonly questId: any;
+    readonly completedByPlayerId: any;
+  }>;
+};
 
 export type GetQuestCompletionByIdQueryVariables = Exact<{
   quest_completion_id: Scalars['uuid'];
 }>;
 
-
-export type GetQuestCompletionByIdQuery = { readonly __typename?: 'query_root', readonly quest_completion_by_pk?: { readonly __typename?: 'quest_completion', readonly id: any, readonly questId: any, readonly completedByPlayerId: any, readonly status: QuestCompletionStatus_Enum } | null };
+export type GetQuestCompletionByIdQuery = {
+  readonly __typename?: 'query_root';
+  readonly quest_completion_by_pk?: {
+    readonly __typename?: 'quest_completion';
+    readonly id: any;
+    readonly questId: any;
+    readonly completedByPlayerId: any;
+    readonly status: QuestCompletionStatus_Enum;
+  } | null;
+};
 
 export type GetLastQuestCompletionForPlayerQueryVariables = Exact<{
   questId: Scalars['uuid'];
   playerId: Scalars['uuid'];
 }>;
 
-
-export type GetLastQuestCompletionForPlayerQuery = { readonly __typename?: 'query_root', readonly quest_completion: ReadonlyArray<{ readonly __typename?: 'quest_completion', readonly id: any, readonly questId: any, readonly completedByPlayerId: any, readonly submittedAt: any }> };
+export type GetLastQuestCompletionForPlayerQuery = {
+  readonly __typename?: 'query_root';
+  readonly quest_completion: ReadonlyArray<{
+    readonly __typename?: 'quest_completion';
+    readonly id: any;
+    readonly questId: any;
+    readonly completedByPlayerId: any;
+    readonly submittedAt: any;
+  }>;
+};
 
 export type GetGuildTokenQueryVariables = Exact<{
   guildId: Scalars['uuid'];
 }>;
 
+export type GetGuildTokenQuery = {
+  readonly __typename?: 'query_root';
+  readonly token: ReadonlyArray<{
+    readonly __typename?: 'token';
+    readonly address: string;
+    readonly chainId: number;
+  }>;
+};
 
-export type GetGuildTokenQuery = { readonly __typename?: 'query_root', readonly token: ReadonlyArray<{ readonly __typename?: 'token', readonly address: string, readonly chainId: number }> };
+export type GetTokensQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetTokensQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetTokensQuery = { readonly __typename?: 'query_root', readonly token: ReadonlyArray<{ readonly __typename?: 'token', readonly address: string, readonly chainId: number, readonly safeAddress: string, readonly lastOffset: number, readonly guildId: any }> };
+export type GetTokensQuery = {
+  readonly __typename?: 'query_root';
+  readonly token: ReadonlyArray<{
+    readonly __typename?: 'token';
+    readonly address: string;
+    readonly chainId: number;
+    readonly safeAddress: string;
+    readonly lastOffset: number;
+    readonly guildId: any;
+  }>;
+};
 
 export type GetTotalForPlayerQueryVariables = Exact<{
   playerAddress: Scalars['String'];
   tokenAddress: Scalars['String'];
 }>;
 
-
-export type GetTotalForPlayerQuery = { readonly __typename?: 'query_root', readonly balance_aggregate: { readonly __typename?: 'balance_aggregate', readonly aggregate?: { readonly __typename?: 'balance_aggregate_fields', readonly sum?: { readonly __typename?: 'balance_sum_fields', readonly amount?: any | null } | null } | null } };
+export type GetTotalForPlayerQuery = {
+  readonly __typename?: 'query_root';
+  readonly balance_aggregate: {
+    readonly __typename?: 'balance_aggregate';
+    readonly aggregate?: {
+      readonly __typename?: 'balance_aggregate_fields';
+      readonly sum?: {
+        readonly __typename?: 'balance_sum_fields';
+        readonly amount?: any | null;
+      } | null;
+    } | null;
+  };
+};
 
 export const GuildFragmentDoc = gql`
-    fragment GuildFragment on guild {
-  id
-  guildname
-  description
-  joinButtonUrl
-  logo
-  name
-  type
-  websiteUrl
-  discordId
-  status
-  membershipThroughDiscord
-}
-    `;
-export const UpdateDaoDocument = gql`
-    mutation UpdateDao($daoId: uuid!, $object: dao_set_input!) {
-  update_dao_by_pk(pk_columns: {id: $daoId}, _set: $object) {
+  fragment GuildFragment on guild {
     id
+    guildname
+    description
+    joinButtonUrl
+    logo
+    name
+    type
+    websiteUrl
+    discordId
+    status
+    membershipThroughDiscord
   }
-}
-    `;
-export const DetachDaosFromGuildDocument = gql`
-    mutation DetachDaosFromGuild($ids: [uuid!]!) {
-  update_dao(where: {id: {_in: $ids}}, _set: {guildId: null}) {
-    affected_rows
-  }
-}
-    `;
-export const DeleteDaosDocument = gql`
-    mutation DeleteDaos($ids: [uuid!]!) {
-  delete_dao(where: {id: {_in: $ids}}) {
-    affected_rows
-  }
-}
-    `;
-export const InsertDaosDocument = gql`
-    mutation InsertDaos($objects: [dao_insert_input!]!) {
-  insert_dao(objects: $objects) {
-    returning {
+`;
+export const UpdateDaoDocument = gql`
+  mutation UpdateDao($daoId: uuid!, $object: dao_set_input!) {
+    update_dao_by_pk(pk_columns: { id: $daoId }, _set: $object) {
       id
     }
   }
-}
-    `;
-export const SyncDaoMembersDocument = gql`
-    mutation SyncDaoMembers($memberEthIdsToRemove: [String!]!, $membersToAdd: [dao_player_insert_input!]!) {
-  delete_dao_player(
-    where: {Player: {ethereumAddress: {_in: $memberEthIdsToRemove}}}
-  ) {
-    affected_rows
+`;
+export const DetachDaosFromGuildDocument = gql`
+  mutation DetachDaosFromGuild($ids: [uuid!]!) {
+    update_dao(where: { id: { _in: $ids } }, _set: { guildId: null }) {
+      affected_rows
+    }
   }
-  insert_dao_player(objects: $membersToAdd) {
-    affected_rows
+`;
+export const DeleteDaosDocument = gql`
+  mutation DeleteDaos($ids: [uuid!]!) {
+    delete_dao(where: { id: { _in: $ids } }) {
+      affected_rows
+    }
   }
-}
-    `;
-export const RemovePlayerFromDaosDocument = gql`
-    mutation RemovePlayerFromDaos($playerEthAdress: String!, $daoIds: [uuid!]!) {
-  delete_dao_player(
-    where: {Player: {ethereumAddress: {_eq: $playerEthAdress}}, _and: {daoId: {_in: $daoIds}}}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export const UpsertDaoMembersDocument = gql`
-    mutation UpsertDaoMembers($objects: [dao_player_insert_input!]!) {
-  insert_dao_player(
-    objects: $objects
-    on_conflict: {constraint: dao_player_pkey, update_columns: []}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export const CreateGuildDocument = gql`
-    mutation CreateGuild($object: guild_insert_input!) {
-  insert_guild_one(object: $object) {
-    guildname
-    id
-  }
-}
-    `;
-export const UpdateGuildDocument = gql`
-    mutation UpdateGuild($guildId: uuid!, $object: guild_set_input!) {
-  update_guild_by_pk(pk_columns: {id: $guildId}, _set: $object) {
-    id
-  }
-}
-    `;
-export const CreateGuildMetadataDocument = gql`
-    mutation CreateGuildMetadata($object: guild_metadata_insert_input!) {
-  insert_guild_metadata_one(object: $object) {
-    creatorId
-    discordId
-    guildId
-    discordMetadata
-  }
-}
-    `;
-export const UpdateGuildDiscordMetadataDocument = gql`
-    mutation UpdateGuildDiscordMetadata($guildId: uuid!, $discordMetadata: jsonb) {
-  update_guild_metadata_by_pk(
-    pk_columns: {guildId: $guildId}
-    _set: {discordMetadata: $discordMetadata}
-  ) {
-    guildId
-  }
-}
-    `;
-export const SyncGuildMembersDocument = gql`
-    mutation SyncGuildMembers($memberDiscordIdsToRemove: [String!]!, $membersToAdd: [guild_player_insert_input!]!) {
-  delete_guild_player(
-    where: {Player: {discordId: {_in: $memberDiscordIdsToRemove}}}
-  ) {
-    affected_rows
-  }
-  insert_guild_player(objects: $membersToAdd) {
-    affected_rows
-  }
-}
-    `;
-export const RemoveAllGuildMembersDocument = gql`
-    mutation RemoveAllGuildMembers($guildId: uuid!) {
-  delete_guild_player(where: {guildId: {_eq: $guildId}}) {
-    affected_rows
-  }
-}
-    `;
-export const CreatePlayerFromEthDocument = gql`
-    mutation CreatePlayerFromETH($ethereumAddress: String!) {
-  insert_profile(objects: [{player: {data: {ethereumAddress: $ethereumAddress}}}]) {
-    affected_rows
-    returning {
-      id
-      player {
+`;
+export const InsertDaosDocument = gql`
+  mutation InsertDaos($objects: [dao_insert_input!]!) {
+    insert_dao(objects: $objects) {
+      returning {
         id
-        ethereumAddress
       }
     }
   }
-}
-    `;
+`;
+export const SyncDaoMembersDocument = gql`
+  mutation SyncDaoMembers(
+    $memberEthIdsToRemove: [String!]!
+    $membersToAdd: [dao_player_insert_input!]!
+  ) {
+    delete_dao_player(
+      where: { Player: { ethereumAddress: { _in: $memberEthIdsToRemove } } }
+    ) {
+      affected_rows
+    }
+    insert_dao_player(objects: $membersToAdd) {
+      affected_rows
+    }
+  }
+`;
+export const RemovePlayerFromDaosDocument = gql`
+  mutation RemovePlayerFromDaos($playerEthAdress: String!, $daoIds: [uuid!]!) {
+    delete_dao_player(
+      where: {
+        Player: { ethereumAddress: { _eq: $playerEthAdress } }
+        _and: { daoId: { _in: $daoIds } }
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const UpsertDaoMembersDocument = gql`
+  mutation UpsertDaoMembers($objects: [dao_player_insert_input!]!) {
+    insert_dao_player(
+      objects: $objects
+      on_conflict: { constraint: dao_player_pkey, update_columns: [] }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const CreateGuildDocument = gql`
+  mutation CreateGuild($object: guild_insert_input!) {
+    insert_guild_one(object: $object) {
+      guildname
+      id
+    }
+  }
+`;
+export const UpdateGuildDocument = gql`
+  mutation UpdateGuild($guildId: uuid!, $object: guild_set_input!) {
+    update_guild_by_pk(pk_columns: { id: $guildId }, _set: $object) {
+      id
+    }
+  }
+`;
+export const CreateGuildMetadataDocument = gql`
+  mutation CreateGuildMetadata($object: guild_metadata_insert_input!) {
+    insert_guild_metadata_one(object: $object) {
+      creatorId
+      discordId
+      guildId
+      discordMetadata
+    }
+  }
+`;
+export const UpdateGuildDiscordMetadataDocument = gql`
+  mutation UpdateGuildDiscordMetadata(
+    $guildId: uuid!
+    $discordMetadata: jsonb
+  ) {
+    update_guild_metadata_by_pk(
+      pk_columns: { guildId: $guildId }
+      _set: { discordMetadata: $discordMetadata }
+    ) {
+      guildId
+    }
+  }
+`;
+export const SyncGuildMembersDocument = gql`
+  mutation SyncGuildMembers(
+    $memberDiscordIdsToRemove: [String!]!
+    $membersToAdd: [guild_player_insert_input!]!
+  ) {
+    delete_guild_player(
+      where: { Player: { discordId: { _in: $memberDiscordIdsToRemove } } }
+    ) {
+      affected_rows
+    }
+    insert_guild_player(objects: $membersToAdd) {
+      affected_rows
+    }
+  }
+`;
+export const RemoveAllGuildMembersDocument = gql`
+  mutation RemoveAllGuildMembers($guildId: uuid!) {
+    delete_guild_player(where: { guildId: { _eq: $guildId } }) {
+      affected_rows
+    }
+  }
+`;
+export const CreatePlayerFromEthDocument = gql`
+  mutation CreatePlayerFromETH($ethereumAddress: String!) {
+    insert_profile(
+      objects: [{ player: { data: { ethereumAddress: $ethereumAddress } } }]
+    ) {
+      affected_rows
+      returning {
+        id
+        player {
+          id
+          ethereumAddress
+        }
+      }
+    }
+  }
+`;
 export const UpsertAccountDocument = gql`
-    mutation UpsertAccount($objects: [player_account_insert_input!]!, $on_conflict: player_account_on_conflict = {constraint: Account_identifier_type_key, update_columns: [playerId]}) {
-  insert_player_account(objects: $objects, on_conflict: $on_conflict) {
-    affected_rows
+  mutation UpsertAccount(
+    $objects: [player_account_insert_input!]!
+    $on_conflict: player_account_on_conflict = {
+      constraint: Account_identifier_type_key
+      update_columns: [playerId]
+    }
+  ) {
+    insert_player_account(objects: $objects, on_conflict: $on_conflict) {
+      affected_rows
+    }
   }
-}
-    `;
+`;
 export const ResetAllPlayersXpDocument = gql`
-    mutation ResetAllPlayersXP {
-  update_player(where: {}, _set: {seasonXP: 0, totalXP: 0, rank: null}) {
-    affected_rows
+  mutation ResetAllPlayersXP {
+    update_player(where: {}, _set: { seasonXP: 0, totalXP: 0, rank: null }) {
+      affected_rows
+    }
   }
-}
-    `;
+`;
 export const UpsertProfileDocument = gql`
-    mutation UpsertProfile($objects: [profile_insert_input!]!, $updateColumns: [profile_update_column!]!) {
-  insert_profile(
-    objects: $objects
-    on_conflict: {constraint: profile_player_id_key, update_columns: $updateColumns}
+  mutation UpsertProfile(
+    $objects: [profile_insert_input!]!
+    $updateColumns: [profile_update_column!]!
   ) {
-    affected_rows
+    insert_profile(
+      objects: $objects
+      on_conflict: {
+        constraint: profile_player_id_key
+        update_columns: $updateColumns
+      }
+    ) {
+      affected_rows
+    }
   }
-}
-    `;
+`;
 export const UpdatePlayerDocument = gql`
-    mutation UpdatePlayer($ethereumAddress: String!, $rank: PlayerRank_enum, $totalXP: numeric, $seasonXP: numeric, $discordId: String) {
-  update_player(
-    where: {ethereumAddress: {_ilike: $ethereumAddress}}
-    _set: {rank: $rank, totalXP: $totalXP, seasonXP: $seasonXP, discordId: $discordId}
+  mutation UpdatePlayer(
+    $ethereumAddress: String!
+    $rank: PlayerRank_enum
+    $totalXP: numeric
+    $seasonXP: numeric
+    $discordId: String
   ) {
-    affected_rows
-    returning {
+    update_player(
+      where: { ethereumAddress: { _ilike: $ethereumAddress } }
+      _set: {
+        rank: $rank
+        totalXP: $totalXP
+        seasonXP: $seasonXP
+        discordId: $discordId
+      }
+    ) {
+      affected_rows
+      returning {
+        id
+        ethereumAddress
+        profile {
+          username
+        }
+      }
+    }
+  }
+`;
+export const InsertPlayersDocument = gql`
+  mutation InsertPlayers($objects: [player_insert_input!]!) {
+    insert_player(objects: $objects) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`;
+export const RemovePlayerAccountDocument = gql`
+  mutation RemovePlayerAccount(
+    $playerId: uuid!
+    $accountType: AccountType_enum
+  ) {
+    delete_player_account(
+      where: { playerId: { _eq: $playerId }, type: { _eq: $accountType } }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const CreateQuestDocument = gql`
+  mutation CreateQuest($objects: [quest_insert_input!]!) {
+    insert_quest(objects: $objects) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`;
+export const CreateQuestCompletionDocument = gql`
+  mutation CreateQuestCompletion($objects: [quest_completion_insert_input!]!) {
+    insert_quest_completion(objects: $objects) {
+      affected_rows
+      returning {
+        id
+        questId
+        completedByPlayerId
+      }
+    }
+  }
+`;
+export const UpdateQuestStatusDocument = gql`
+  mutation UpdateQuestStatus($quest_id: uuid!, $status: QuestStatus_enum!) {
+    update_quest_by_pk(
+      pk_columns: { id: $quest_id }
+      _set: { status: $status }
+    ) {
+      id
+    }
+  }
+`;
+export const UpdateQuestCompletionStatusDocument = gql`
+  mutation UpdateQuestCompletionStatus(
+    $quest_completion_id: uuid!
+    $status: QuestCompletionStatus_enum!
+  ) {
+    update_quest_completion_by_pk(
+      pk_columns: { id: $quest_completion_id }
+      _set: { status: $status }
+    ) {
+      id
+    }
+  }
+`;
+export const RejectOtherQuestCompletionsDocument = gql`
+  mutation RejectOtherQuestCompletions(
+    $accepted_quest_completion_id: uuid!
+    $questId: uuid!
+  ) {
+    update_quest_completion(
+      where: {
+        _and: [
+          { id: { _neq: $accepted_quest_completion_id } }
+          { questId: { _eq: $questId } }
+        ]
+      }
+      _set: { status: REJECTED }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const AddBalanceDocument = gql`
+  mutation AddBalance(
+    $amount: float8!
+    $blockHeight: Int!
+    $playerAddress: String!
+    $tokenAddress: String!
+  ) {
+    insert_balance_one(
+      object: {
+        amount: $amount
+        blockHeight: $blockHeight
+        playerAddress: $playerAddress
+        tokenAddress: $tokenAddress
+      }
+    ) {
+      id
+    }
+  }
+`;
+export const UpdateLastOffsetDocument = gql`
+  mutation UpdateLastOffset($tokenAddress: String!, $offset: Int!) {
+    update_token(
+      where: { address: { _eq: $tokenAddress } }
+      _set: { lastOffset: $offset }
+    ) {
+      returning {
+        lastOffset
+      }
+    }
+  }
+`;
+export const UpsertXpDocument = gql`
+  mutation UpsertXP(
+    $balance: float8!
+    $playerId: uuid!
+    $tokenAddress: String!
+  ) {
+    insert_xp(
+      objects: {
+        balance: $balance
+        playerId: $playerId
+        tokenAddress: $tokenAddress
+      }
+      on_conflict: {
+        update_columns: balance
+        constraint: xp_player_id_token_address_key
+      }
+    ) {
+      returning {
+        balance
+        tokenAddress
+        playerId
+        id
+      }
+    }
+  }
+`;
+export const GetPlayerDaosDocument = gql`
+  query GetPlayerDaos($ethereumAddress: String) {
+    dao_player(
+      where: { Player: { ethereumAddress: { _eq: $ethereumAddress } } }
+    ) {
+      daoId
+      playerId
+      Dao {
+        contractAddress
+        network
+      }
+    }
+  }
+`;
+export const GetDaosByAddressDocument = gql`
+  query GetDaosByAddress($contractAddress: [String!]) {
+    dao(where: { contractAddress: { _in: $contractAddress } }) {
+      id
+      contractAddress
+      network
+    }
+  }
+`;
+export const GetGuildDocument = gql`
+  query GetGuild($id: uuid!) {
+    guild(where: { id: { _eq: $id } }) {
+      ...GuildFragment
+      daos {
+        id
+        guildId
+        contractAddress
+        network
+        label
+        url
+        players {
+          playerId
+          visible
+        }
+      }
+    }
+  }
+  ${GuildFragmentDoc}
+`;
+export const GetGuildMetadataByDiscordIdDocument = gql`
+  query GetGuildMetadataByDiscordId($discordId: String!) {
+    guild(where: { discordId: { _eq: $discordId } }) {
+      id
+      discordId
+      guildname
+      metadata {
+        guildId
+        creatorId
+        discordMetadata
+      }
+    }
+  }
+`;
+export const GetGuildsDocument = gql`
+  query GetGuilds($status: GuildStatus_enum) {
+    guild(where: { status: { _eq: $status } }) {
+      ...GuildFragment
+    }
+  }
+  ${GuildFragmentDoc}
+`;
+export const GetGuildMetadataByIdDocument = gql`
+  query GetGuildMetadataById($id: uuid!) {
+    guild_metadata(where: { guildId: { _eq: $id } }) {
+      guildId
+      creatorId
+      discordId
+      discordMetadata
+    }
+  }
+`;
+export const GetGuildMembersDocument = gql`
+  query GetGuildMembers($id: uuid!) {
+    guild(where: { id: { _eq: $id } }) {
+      id
+      guild_players {
+        Player {
+          id
+          discordId
+          ethereumAddress
+        }
+      }
+    }
+  }
+`;
+export const GetGuildPlayerDiscordIdsDocument = gql`
+  query GetGuildPlayerDiscordIds($guildId: uuid!, $playerId: uuid!) {
+    guild_player(
+      where: {
+        _and: { guildId: { _eq: $guildId }, playerId: { _eq: $playerId } }
+      }
+    ) {
+      Player {
+        id
+        discordId
+      }
+      Guild {
+        id
+        discordId
+      }
+    }
+  }
+`;
+export const GetPlayerDocument = gql`
+  query GetPlayer($playerId: uuid!) {
+    player_by_pk(id: $playerId) {
       id
       ethereumAddress
+      discordId
       profile {
         username
       }
+      accounts {
+        identifier
+        type
+      }
     }
   }
-}
-    `;
-export const InsertPlayersDocument = gql`
-    mutation InsertPlayers($objects: [player_insert_input!]!) {
-  insert_player(objects: $objects) {
-    affected_rows
-    returning {
+`;
+export const GetPlayerFromEthDocument = gql`
+  query GetPlayerFromETH($ethereumAddress: String) {
+    player(where: { ethereumAddress: { _eq: $ethereumAddress } }) {
       id
     }
   }
-}
-    `;
-export const RemovePlayerAccountDocument = gql`
-    mutation RemovePlayerAccount($playerId: uuid!, $accountType: AccountType_enum) {
-  delete_player_account(
-    where: {playerId: {_eq: $playerId}, type: {_eq: $accountType}}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export const CreateQuestDocument = gql`
-    mutation CreateQuest($objects: [quest_insert_input!]!) {
-  insert_quest(objects: $objects) {
-    affected_rows
-    returning {
+`;
+export const GetPlayersByDiscordIdDocument = gql`
+  query GetPlayersByDiscordId($discordIds: [String!]!) {
+    player(where: { discordId: { _in: $discordIds } }) {
       id
     }
   }
-}
-    `;
-export const CreateQuestCompletionDocument = gql`
-    mutation CreateQuestCompletion($objects: [quest_completion_insert_input!]!) {
-  insert_quest_completion(objects: $objects) {
-    affected_rows
-    returning {
+`;
+export const GetCacheEntriesDocument = gql`
+  query GetCacheEntries($updatedBefore: timestamptz!) {
+    profile(
+      where: {
+        _or: [
+          { lastCheckedAt: { _lt: $updatedBefore } }
+          { lastCheckedAt: { _is_null: true } }
+        ]
+      }
+    ) {
+      playerId
+    }
+  }
+`;
+export const GetQuestByIdDocument = gql`
+  query GetQuestById($questId: uuid!) {
+    quest_by_pk(id: $questId) {
+      id
+      cooldown
+      status
+      repetition
+      createdByPlayerId
+      title
+    }
+  }
+`;
+export const GetQuestCompletionsDocument = gql`
+  query GetQuestCompletions($questId: uuid!, $playerId: uuid!) {
+    quest_completion(
+      where: {
+        questId: { _eq: $questId }
+        completedByPlayerId: { _eq: $playerId }
+      }
+    ) {
       id
       questId
       completedByPlayerId
     }
   }
-}
-    `;
-export const UpdateQuestStatusDocument = gql`
-    mutation UpdateQuestStatus($quest_id: uuid!, $status: QuestStatus_enum!) {
-  update_quest_by_pk(pk_columns: {id: $quest_id}, _set: {status: $status}) {
-    id
-  }
-}
-    `;
-export const UpdateQuestCompletionStatusDocument = gql`
-    mutation UpdateQuestCompletionStatus($quest_completion_id: uuid!, $status: QuestCompletionStatus_enum!) {
-  update_quest_completion_by_pk(
-    pk_columns: {id: $quest_completion_id}
-    _set: {status: $status}
-  ) {
-    id
-  }
-}
-    `;
-export const RejectOtherQuestCompletionsDocument = gql`
-    mutation RejectOtherQuestCompletions($accepted_quest_completion_id: uuid!, $questId: uuid!) {
-  update_quest_completion(
-    where: {_and: [{id: {_neq: $accepted_quest_completion_id}}, {questId: {_eq: $questId}}]}
-    _set: {status: REJECTED}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export const AddBalanceDocument = gql`
-    mutation AddBalance($amount: float8!, $blockHeight: Int!, $playerAddress: String!, $tokenAddress: String!) {
-  insert_balance_one(
-    object: {amount: $amount, blockHeight: $blockHeight, playerAddress: $playerAddress, tokenAddress: $tokenAddress}
-  ) {
-    id
-  }
-}
-    `;
-export const UpdateLastOffsetDocument = gql`
-    mutation UpdateLastOffset($tokenAddress: String!, $offset: Int!) {
-  update_token(
-    where: {address: {_eq: $tokenAddress}}
-    _set: {lastOffset: $offset}
-  ) {
-    returning {
-      lastOffset
-    }
-  }
-}
-    `;
-export const UpsertXpDocument = gql`
-    mutation UpsertXP($balance: float8!, $playerId: uuid!, $tokenAddress: String!) {
-  insert_xp(
-    objects: {balance: $balance, playerId: $playerId, tokenAddress: $tokenAddress}
-    on_conflict: {update_columns: balance, constraint: xp_player_id_token_address_key}
-  ) {
-    returning {
-      balance
-      tokenAddress
-      playerId
-      id
-    }
-  }
-}
-    `;
-export const GetPlayerDaosDocument = gql`
-    query GetPlayerDaos($ethereumAddress: String) {
-  dao_player(where: {Player: {ethereumAddress: {_eq: $ethereumAddress}}}) {
-    daoId
-    playerId
-    Dao {
-      contractAddress
-      network
-    }
-  }
-}
-    `;
-export const GetDaosByAddressDocument = gql`
-    query GetDaosByAddress($contractAddress: [String!]) {
-  dao(where: {contractAddress: {_in: $contractAddress}}) {
-    id
-    contractAddress
-    network
-  }
-}
-    `;
-export const GetGuildDocument = gql`
-    query GetGuild($id: uuid!) {
-  guild(where: {id: {_eq: $id}}) {
-    ...GuildFragment
-    daos {
-      id
-      guildId
-      contractAddress
-      network
-      label
-      url
-      players {
-        playerId
-        visible
-      }
-    }
-  }
-}
-    ${GuildFragmentDoc}`;
-export const GetGuildMetadataByDiscordIdDocument = gql`
-    query GetGuildMetadataByDiscordId($discordId: String!) {
-  guild(where: {discordId: {_eq: $discordId}}) {
-    id
-    discordId
-    guildname
-    metadata {
-      guildId
-      creatorId
-      discordMetadata
-    }
-  }
-}
-    `;
-export const GetGuildsDocument = gql`
-    query GetGuilds($status: GuildStatus_enum) {
-  guild(where: {status: {_eq: $status}}) {
-    ...GuildFragment
-  }
-}
-    ${GuildFragmentDoc}`;
-export const GetGuildMetadataByIdDocument = gql`
-    query GetGuildMetadataById($id: uuid!) {
-  guild_metadata(where: {guildId: {_eq: $id}}) {
-    guildId
-    creatorId
-    discordId
-    discordMetadata
-  }
-}
-    `;
-export const GetGuildMembersDocument = gql`
-    query GetGuildMembers($id: uuid!) {
-  guild(where: {id: {_eq: $id}}) {
-    id
-    guild_players {
-      Player {
-        id
-        discordId
-        ethereumAddress
-      }
-    }
-  }
-}
-    `;
-export const GetGuildPlayerDiscordIdsDocument = gql`
-    query GetGuildPlayerDiscordIds($guildId: uuid!, $playerId: uuid!) {
-  guild_player(
-    where: {_and: {guildId: {_eq: $guildId}, playerId: {_eq: $playerId}}}
-  ) {
-    Player {
-      id
-      discordId
-    }
-    Guild {
-      id
-      discordId
-    }
-  }
-}
-    `;
-export const GetPlayerDocument = gql`
-    query GetPlayer($playerId: uuid!) {
-  player_by_pk(id: $playerId) {
-    id
-    ethereumAddress
-    discordId
-    profile {
-      username
-    }
-    accounts {
-      identifier
-      type
-    }
-  }
-}
-    `;
-export const GetPlayerFromEthDocument = gql`
-    query GetPlayerFromETH($ethereumAddress: String) {
-  player(where: {ethereumAddress: {_eq: $ethereumAddress}}) {
-    id
-  }
-}
-    `;
-export const GetPlayersByDiscordIdDocument = gql`
-    query GetPlayersByDiscordId($discordIds: [String!]!) {
-  player(where: {discordId: {_in: $discordIds}}) {
-    id
-  }
-}
-    `;
-export const GetCacheEntriesDocument = gql`
-    query GetCacheEntries($updatedBefore: timestamptz!) {
-  profile(
-    where: {_or: [{lastCheckedAt: {_lt: $updatedBefore}}, {lastCheckedAt: {_is_null: true}}]}
-  ) {
-    playerId
-  }
-}
-    `;
-export const GetQuestByIdDocument = gql`
-    query GetQuestById($questId: uuid!) {
-  quest_by_pk(id: $questId) {
-    id
-    cooldown
-    status
-    repetition
-    createdByPlayerId
-    title
-  }
-}
-    `;
-export const GetQuestCompletionsDocument = gql`
-    query GetQuestCompletions($questId: uuid!, $playerId: uuid!) {
-  quest_completion(
-    where: {questId: {_eq: $questId}, completedByPlayerId: {_eq: $playerId}}
-  ) {
-    id
-    questId
-    completedByPlayerId
-  }
-}
-    `;
+`;
 export const GetQuestCompletionByIdDocument = gql`
-    query GetQuestCompletionById($quest_completion_id: uuid!) {
-  quest_completion_by_pk(id: $quest_completion_id) {
-    id
-    questId
-    completedByPlayerId
-    status
+  query GetQuestCompletionById($quest_completion_id: uuid!) {
+    quest_completion_by_pk(id: $quest_completion_id) {
+      id
+      questId
+      completedByPlayerId
+      status
+    }
   }
-}
-    `;
+`;
 export const GetLastQuestCompletionForPlayerDocument = gql`
-    query GetLastQuestCompletionForPlayer($questId: uuid!, $playerId: uuid!) {
-  quest_completion(
-    limit: 1
-    order_by: {submittedAt: desc}
-    where: {questId: {_eq: $questId}, completedByPlayerId: {_eq: $playerId}}
-  ) {
-    id
-    questId
-    completedByPlayerId
-    submittedAt
+  query GetLastQuestCompletionForPlayer($questId: uuid!, $playerId: uuid!) {
+    quest_completion(
+      limit: 1
+      order_by: { submittedAt: desc }
+      where: {
+        questId: { _eq: $questId }
+        completedByPlayerId: { _eq: $playerId }
+      }
+    ) {
+      id
+      questId
+      completedByPlayerId
+      submittedAt
+    }
   }
-}
-    `;
+`;
 export const GetGuildTokenDocument = gql`
-    query GetGuildToken($guildId: uuid!) {
-  token(where: {guildId: {_eq: $guildId}}) {
-    address
-    chainId
+  query GetGuildToken($guildId: uuid!) {
+    token(where: { guildId: { _eq: $guildId } }) {
+      address
+      chainId
+    }
   }
-}
-    `;
+`;
 export const GetTokensDocument = gql`
-    query GetTokens {
-  token {
-    address
-    chainId
-    safeAddress
-    lastOffset
-    guildId
+  query GetTokens {
+    token {
+      address
+      chainId
+      safeAddress
+      lastOffset
+      guildId
+    }
   }
-}
-    `;
+`;
 export const GetTotalForPlayerDocument = gql`
-    query GetTotalForPlayer($playerAddress: String!, $tokenAddress: String!) {
-  balance_aggregate(
-    where: {tokenAddress: {_ilike: $tokenAddress}, playerAddress: {_ilike: $playerAddress}}
-  ) {
-    aggregate {
-      sum {
-        amount
+  query GetTotalForPlayer($playerAddress: String!, $tokenAddress: String!) {
+    balance_aggregate(
+      where: {
+        tokenAddress: { _ilike: $tokenAddress }
+        playerAddress: { _ilike: $playerAddress }
+      }
+    ) {
+      aggregate {
+        sum {
+          amount
+        }
       }
     }
   }
-}
-    `;
+`;
 
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
-
+export type SdkFunctionWrapper = <T>(
+  action: (requestHeaders?: Record<string, string>) => Promise<T>,
+  operationName: string,
+) => Promise<T>;
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+export function getSdk(
+  client: GraphQLClient,
+  withWrapper: SdkFunctionWrapper = defaultWrapper,
+) {
   return {
-    UpdateDao(variables: UpdateDaoMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateDaoMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateDaoMutation>(UpdateDaoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateDao');
+    UpdateDao(
+      variables: UpdateDaoMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdateDaoMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateDaoMutation>(UpdateDaoDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'UpdateDao',
+      );
     },
-    DetachDaosFromGuild(variables: DetachDaosFromGuildMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DetachDaosFromGuildMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DetachDaosFromGuildMutation>(DetachDaosFromGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DetachDaosFromGuild');
+    DetachDaosFromGuild(
+      variables: DetachDaosFromGuildMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<DetachDaosFromGuildMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<DetachDaosFromGuildMutation>(
+            DetachDaosFromGuildDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'DetachDaosFromGuild',
+      );
     },
-    DeleteDaos(variables: DeleteDaosMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteDaosMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DeleteDaosMutation>(DeleteDaosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteDaos');
+    DeleteDaos(
+      variables: DeleteDaosMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<DeleteDaosMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<DeleteDaosMutation>(DeleteDaosDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'DeleteDaos',
+      );
     },
-    InsertDaos(variables: InsertDaosMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<InsertDaosMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<InsertDaosMutation>(InsertDaosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'InsertDaos');
+    InsertDaos(
+      variables: InsertDaosMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<InsertDaosMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<InsertDaosMutation>(InsertDaosDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'InsertDaos',
+      );
     },
-    SyncDaoMembers(variables: SyncDaoMembersMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SyncDaoMembersMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<SyncDaoMembersMutation>(SyncDaoMembersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SyncDaoMembers');
+    SyncDaoMembers(
+      variables: SyncDaoMembersMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<SyncDaoMembersMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<SyncDaoMembersMutation>(
+            SyncDaoMembersDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'SyncDaoMembers',
+      );
     },
-    RemovePlayerFromDaos(variables: RemovePlayerFromDaosMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<RemovePlayerFromDaosMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<RemovePlayerFromDaosMutation>(RemovePlayerFromDaosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'RemovePlayerFromDaos');
+    RemovePlayerFromDaos(
+      variables: RemovePlayerFromDaosMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<RemovePlayerFromDaosMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<RemovePlayerFromDaosMutation>(
+            RemovePlayerFromDaosDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'RemovePlayerFromDaos',
+      );
     },
-    UpsertDaoMembers(variables: UpsertDaoMembersMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertDaoMembersMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertDaoMembersMutation>(UpsertDaoMembersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpsertDaoMembers');
+    UpsertDaoMembers(
+      variables: UpsertDaoMembersMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpsertDaoMembersMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertDaoMembersMutation>(
+            UpsertDaoMembersDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpsertDaoMembers',
+      );
     },
-    CreateGuild(variables: CreateGuildMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildMutation>(CreateGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateGuild');
+    CreateGuild(
+      variables: CreateGuildMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<CreateGuildMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateGuildMutation>(CreateGuildDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'CreateGuild',
+      );
     },
-    UpdateGuild(variables: UpdateGuildMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildMutation>(UpdateGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateGuild');
+    UpdateGuild(
+      variables: UpdateGuildMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdateGuildMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateGuildMutation>(UpdateGuildDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'UpdateGuild',
+      );
     },
-    CreateGuildMetadata(variables: CreateGuildMetadataMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateGuildMetadataMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateGuildMetadataMutation>(CreateGuildMetadataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateGuildMetadata');
+    CreateGuildMetadata(
+      variables: CreateGuildMetadataMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<CreateGuildMetadataMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateGuildMetadataMutation>(
+            CreateGuildMetadataDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'CreateGuildMetadata',
+      );
     },
-    UpdateGuildDiscordMetadata(variables: UpdateGuildDiscordMetadataMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateGuildDiscordMetadataMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateGuildDiscordMetadataMutation>(UpdateGuildDiscordMetadataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateGuildDiscordMetadata');
+    UpdateGuildDiscordMetadata(
+      variables: UpdateGuildDiscordMetadataMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdateGuildDiscordMetadataMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateGuildDiscordMetadataMutation>(
+            UpdateGuildDiscordMetadataDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpdateGuildDiscordMetadata',
+      );
     },
-    SyncGuildMembers(variables: SyncGuildMembersMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SyncGuildMembersMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<SyncGuildMembersMutation>(SyncGuildMembersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SyncGuildMembers');
+    SyncGuildMembers(
+      variables: SyncGuildMembersMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<SyncGuildMembersMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<SyncGuildMembersMutation>(
+            SyncGuildMembersDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'SyncGuildMembers',
+      );
     },
-    RemoveAllGuildMembers(variables: RemoveAllGuildMembersMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<RemoveAllGuildMembersMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<RemoveAllGuildMembersMutation>(RemoveAllGuildMembersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'RemoveAllGuildMembers');
+    RemoveAllGuildMembers(
+      variables: RemoveAllGuildMembersMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<RemoveAllGuildMembersMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<RemoveAllGuildMembersMutation>(
+            RemoveAllGuildMembersDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'RemoveAllGuildMembers',
+      );
     },
-    CreatePlayerFromETH(variables: CreatePlayerFromEthMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePlayerFromEthMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreatePlayerFromEthMutation>(CreatePlayerFromEthDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreatePlayerFromETH');
+    CreatePlayerFromETH(
+      variables: CreatePlayerFromEthMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<CreatePlayerFromEthMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreatePlayerFromEthMutation>(
+            CreatePlayerFromEthDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'CreatePlayerFromETH',
+      );
     },
-    UpsertAccount(variables: UpsertAccountMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertAccountMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertAccountMutation>(UpsertAccountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpsertAccount');
+    UpsertAccount(
+      variables: UpsertAccountMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpsertAccountMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertAccountMutation>(
+            UpsertAccountDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpsertAccount',
+      );
     },
-    ResetAllPlayersXP(variables?: ResetAllPlayersXpMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ResetAllPlayersXpMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ResetAllPlayersXpMutation>(ResetAllPlayersXpDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ResetAllPlayersXP');
+    ResetAllPlayersXP(
+      variables?: ResetAllPlayersXpMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<ResetAllPlayersXpMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ResetAllPlayersXpMutation>(
+            ResetAllPlayersXpDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'ResetAllPlayersXP',
+      );
     },
-    UpsertProfile(variables: UpsertProfileMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertProfileMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertProfileMutation>(UpsertProfileDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpsertProfile');
+    UpsertProfile(
+      variables: UpsertProfileMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpsertProfileMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertProfileMutation>(
+            UpsertProfileDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpsertProfile',
+      );
     },
-    UpdatePlayer(variables: UpdatePlayerMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdatePlayerMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdatePlayerMutation>(UpdatePlayerDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdatePlayer');
+    UpdatePlayer(
+      variables: UpdatePlayerMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdatePlayerMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdatePlayerMutation>(
+            UpdatePlayerDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpdatePlayer',
+      );
     },
-    InsertPlayers(variables: InsertPlayersMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<InsertPlayersMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<InsertPlayersMutation>(InsertPlayersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'InsertPlayers');
+    InsertPlayers(
+      variables: InsertPlayersMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<InsertPlayersMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<InsertPlayersMutation>(
+            InsertPlayersDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'InsertPlayers',
+      );
     },
-    RemovePlayerAccount(variables: RemovePlayerAccountMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<RemovePlayerAccountMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<RemovePlayerAccountMutation>(RemovePlayerAccountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'RemovePlayerAccount');
+    RemovePlayerAccount(
+      variables: RemovePlayerAccountMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<RemovePlayerAccountMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<RemovePlayerAccountMutation>(
+            RemovePlayerAccountDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'RemovePlayerAccount',
+      );
     },
-    CreateQuest(variables: CreateQuestMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateQuestMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateQuestMutation>(CreateQuestDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateQuest');
+    CreateQuest(
+      variables: CreateQuestMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<CreateQuestMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateQuestMutation>(CreateQuestDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'CreateQuest',
+      );
     },
-    CreateQuestCompletion(variables: CreateQuestCompletionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateQuestCompletionMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateQuestCompletionMutation>(CreateQuestCompletionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateQuestCompletion');
+    CreateQuestCompletion(
+      variables: CreateQuestCompletionMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<CreateQuestCompletionMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateQuestCompletionMutation>(
+            CreateQuestCompletionDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'CreateQuestCompletion',
+      );
     },
-    UpdateQuestStatus(variables: UpdateQuestStatusMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateQuestStatusMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateQuestStatusMutation>(UpdateQuestStatusDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateQuestStatus');
+    UpdateQuestStatus(
+      variables: UpdateQuestStatusMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdateQuestStatusMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateQuestStatusMutation>(
+            UpdateQuestStatusDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpdateQuestStatus',
+      );
     },
-    UpdateQuestCompletionStatus(variables: UpdateQuestCompletionStatusMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateQuestCompletionStatusMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateQuestCompletionStatusMutation>(UpdateQuestCompletionStatusDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateQuestCompletionStatus');
+    UpdateQuestCompletionStatus(
+      variables: UpdateQuestCompletionStatusMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdateQuestCompletionStatusMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateQuestCompletionStatusMutation>(
+            UpdateQuestCompletionStatusDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpdateQuestCompletionStatus',
+      );
     },
-    RejectOtherQuestCompletions(variables: RejectOtherQuestCompletionsMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<RejectOtherQuestCompletionsMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<RejectOtherQuestCompletionsMutation>(RejectOtherQuestCompletionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'RejectOtherQuestCompletions');
+    RejectOtherQuestCompletions(
+      variables: RejectOtherQuestCompletionsMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<RejectOtherQuestCompletionsMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<RejectOtherQuestCompletionsMutation>(
+            RejectOtherQuestCompletionsDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'RejectOtherQuestCompletions',
+      );
     },
-    AddBalance(variables: AddBalanceMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AddBalanceMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AddBalanceMutation>(AddBalanceDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddBalance');
+    AddBalance(
+      variables: AddBalanceMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<AddBalanceMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<AddBalanceMutation>(AddBalanceDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'AddBalance',
+      );
     },
-    UpdateLastOffset(variables: UpdateLastOffsetMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateLastOffsetMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateLastOffsetMutation>(UpdateLastOffsetDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateLastOffset');
+    UpdateLastOffset(
+      variables: UpdateLastOffsetMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdateLastOffsetMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateLastOffsetMutation>(
+            UpdateLastOffsetDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpdateLastOffset',
+      );
     },
-    UpsertXP(variables: UpsertXpMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertXpMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertXpMutation>(UpsertXpDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpsertXP');
+    UpsertXP(
+      variables: UpsertXpMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpsertXpMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertXpMutation>(UpsertXpDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'UpsertXP',
+      );
     },
-    GetPlayerDaos(variables?: GetPlayerDaosQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPlayerDaosQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetPlayerDaosQuery>(GetPlayerDaosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPlayerDaos');
+    GetPlayerDaos(
+      variables?: GetPlayerDaosQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetPlayerDaosQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetPlayerDaosQuery>(GetPlayerDaosDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'GetPlayerDaos',
+      );
     },
-    GetDaosByAddress(variables?: GetDaosByAddressQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDaosByAddressQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetDaosByAddressQuery>(GetDaosByAddressDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetDaosByAddress');
+    GetDaosByAddress(
+      variables?: GetDaosByAddressQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetDaosByAddressQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetDaosByAddressQuery>(
+            GetDaosByAddressDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetDaosByAddress',
+      );
     },
-    GetGuild(variables: GetGuildQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildQuery>(GetGuildDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetGuild');
+    GetGuild(
+      variables: GetGuildQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetGuildQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetGuildQuery>(GetGuildDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'GetGuild',
+      );
     },
-    GetGuildMetadataByDiscordId(variables: GetGuildMetadataByDiscordIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildMetadataByDiscordIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildMetadataByDiscordIdQuery>(GetGuildMetadataByDiscordIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetGuildMetadataByDiscordId');
+    GetGuildMetadataByDiscordId(
+      variables: GetGuildMetadataByDiscordIdQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetGuildMetadataByDiscordIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetGuildMetadataByDiscordIdQuery>(
+            GetGuildMetadataByDiscordIdDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetGuildMetadataByDiscordId',
+      );
     },
-    GetGuilds(variables?: GetGuildsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildsQuery>(GetGuildsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetGuilds');
+    GetGuilds(
+      variables?: GetGuildsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetGuildsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetGuildsQuery>(GetGuildsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'GetGuilds',
+      );
     },
-    GetGuildMetadataById(variables: GetGuildMetadataByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildMetadataByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildMetadataByIdQuery>(GetGuildMetadataByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetGuildMetadataById');
+    GetGuildMetadataById(
+      variables: GetGuildMetadataByIdQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetGuildMetadataByIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetGuildMetadataByIdQuery>(
+            GetGuildMetadataByIdDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetGuildMetadataById',
+      );
     },
-    GetGuildMembers(variables: GetGuildMembersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildMembersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildMembersQuery>(GetGuildMembersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetGuildMembers');
+    GetGuildMembers(
+      variables: GetGuildMembersQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetGuildMembersQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetGuildMembersQuery>(
+            GetGuildMembersDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetGuildMembers',
+      );
     },
-    GetGuildPlayerDiscordIds(variables: GetGuildPlayerDiscordIdsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildPlayerDiscordIdsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildPlayerDiscordIdsQuery>(GetGuildPlayerDiscordIdsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetGuildPlayerDiscordIds');
+    GetGuildPlayerDiscordIds(
+      variables: GetGuildPlayerDiscordIdsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetGuildPlayerDiscordIdsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetGuildPlayerDiscordIdsQuery>(
+            GetGuildPlayerDiscordIdsDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetGuildPlayerDiscordIds',
+      );
     },
-    GetPlayer(variables: GetPlayerQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPlayerQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetPlayerQuery>(GetPlayerDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPlayer');
+    GetPlayer(
+      variables: GetPlayerQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetPlayerQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetPlayerQuery>(GetPlayerDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'GetPlayer',
+      );
     },
-    GetPlayerFromETH(variables?: GetPlayerFromEthQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPlayerFromEthQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetPlayerFromEthQuery>(GetPlayerFromEthDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPlayerFromETH');
+    GetPlayerFromETH(
+      variables?: GetPlayerFromEthQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetPlayerFromEthQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetPlayerFromEthQuery>(
+            GetPlayerFromEthDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetPlayerFromETH',
+      );
     },
-    GetPlayersByDiscordId(variables: GetPlayersByDiscordIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPlayersByDiscordIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetPlayersByDiscordIdQuery>(GetPlayersByDiscordIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPlayersByDiscordId');
+    GetPlayersByDiscordId(
+      variables: GetPlayersByDiscordIdQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetPlayersByDiscordIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetPlayersByDiscordIdQuery>(
+            GetPlayersByDiscordIdDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetPlayersByDiscordId',
+      );
     },
-    GetCacheEntries(variables: GetCacheEntriesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCacheEntriesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCacheEntriesQuery>(GetCacheEntriesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCacheEntries');
+    GetCacheEntries(
+      variables: GetCacheEntriesQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetCacheEntriesQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCacheEntriesQuery>(
+            GetCacheEntriesDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetCacheEntries',
+      );
     },
-    GetQuestById(variables: GetQuestByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetQuestByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetQuestByIdQuery>(GetQuestByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetQuestById');
+    GetQuestById(
+      variables: GetQuestByIdQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetQuestByIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetQuestByIdQuery>(GetQuestByIdDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'GetQuestById',
+      );
     },
-    GetQuestCompletions(variables: GetQuestCompletionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetQuestCompletionsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetQuestCompletionsQuery>(GetQuestCompletionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetQuestCompletions');
+    GetQuestCompletions(
+      variables: GetQuestCompletionsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetQuestCompletionsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetQuestCompletionsQuery>(
+            GetQuestCompletionsDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetQuestCompletions',
+      );
     },
-    GetQuestCompletionById(variables: GetQuestCompletionByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetQuestCompletionByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetQuestCompletionByIdQuery>(GetQuestCompletionByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetQuestCompletionById');
+    GetQuestCompletionById(
+      variables: GetQuestCompletionByIdQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetQuestCompletionByIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetQuestCompletionByIdQuery>(
+            GetQuestCompletionByIdDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetQuestCompletionById',
+      );
     },
-    GetLastQuestCompletionForPlayer(variables: GetLastQuestCompletionForPlayerQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetLastQuestCompletionForPlayerQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetLastQuestCompletionForPlayerQuery>(GetLastQuestCompletionForPlayerDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetLastQuestCompletionForPlayer');
+    GetLastQuestCompletionForPlayer(
+      variables: GetLastQuestCompletionForPlayerQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetLastQuestCompletionForPlayerQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetLastQuestCompletionForPlayerQuery>(
+            GetLastQuestCompletionForPlayerDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetLastQuestCompletionForPlayer',
+      );
     },
-    GetGuildToken(variables: GetGuildTokenQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetGuildTokenQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetGuildTokenQuery>(GetGuildTokenDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetGuildToken');
+    GetGuildToken(
+      variables: GetGuildTokenQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetGuildTokenQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetGuildTokenQuery>(GetGuildTokenDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'GetGuildToken',
+      );
     },
-    GetTokens(variables?: GetTokensQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTokensQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetTokensQuery>(GetTokensDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetTokens');
+    GetTokens(
+      variables?: GetTokensQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetTokensQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetTokensQuery>(GetTokensDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'GetTokens',
+      );
     },
-    GetTotalForPlayer(variables: GetTotalForPlayerQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTotalForPlayerQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetTotalForPlayerQuery>(GetTotalForPlayerDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetTotalForPlayer');
-    }
+    GetTotalForPlayer(
+      variables: GetTotalForPlayerQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetTotalForPlayerQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetTotalForPlayerQuery>(
+            GetTotalForPlayerDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetTotalForPlayer',
+      );
+    },
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;

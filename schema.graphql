@@ -186,9 +186,6 @@ type balance {
   amount: float8!
   blockHeight: Int!
   id: uuid!
-
-  """An object relationship"""
-  player: player!
   playerAddress: String!
 
   """An object relationship"""
@@ -270,7 +267,6 @@ input balance_bool_exp {
   amount: float8_comparison_exp
   blockHeight: Int_comparison_exp
   id: uuid_comparison_exp
-  player: player_bool_exp
   playerAddress: String_comparison_exp
   token: token_bool_exp
   tokenAddress: String_comparison_exp
@@ -302,7 +298,6 @@ input balance_insert_input {
   amount: float8
   blockHeight: Int
   id: uuid
-  player: player_obj_rel_insert_input
   playerAddress: String
   token: token_obj_rel_insert_input
   tokenAddress: String
@@ -383,7 +378,6 @@ input balance_order_by {
   amount: order_by
   blockHeight: order_by
   id: order_by
-  player: player_order_by
   playerAddress: order_by
   token: token_order_by
   tokenAddress: order_by
@@ -5359,42 +5353,6 @@ type player {
     where: player_account_bool_exp
   ): player_account_aggregate!
 
-  """An array relationship"""
-  balances(
-    """distinct select on columns"""
-    distinct_on: [balance_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [balance_order_by!]
-
-    """filter the rows returned"""
-    where: balance_bool_exp
-  ): [balance!]!
-
-  """An aggregated array relationship"""
-  balances_aggregate(
-    """distinct select on columns"""
-    distinct_on: [balance_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [balance_order_by!]
-
-    """filter the rows returned"""
-    where: balance_bool_exp
-  ): balance_aggregate!
-
   """Remote relationship field"""
   brightid_status: BrightIdStatus
   createdAt: timestamptz
@@ -5922,7 +5880,6 @@ input player_bool_exp {
   _not: player_bool_exp
   _or: [player_bool_exp]
   accounts: player_account_bool_exp
-  balances: balance_bool_exp
   createdAt: timestamptz_comparison_exp
   daos: dao_player_bool_exp
   dashboardLayout: String_comparison_exp
@@ -5971,7 +5928,6 @@ input type for inserting data into table "player"
 """
 input player_insert_input {
   accounts: player_account_arr_rel_insert_input
-  balances: balance_arr_rel_insert_input
   createdAt: timestamptz
   daos: dao_player_arr_rel_insert_input
   dashboardLayout: String
@@ -6086,7 +6042,6 @@ ordering options when selecting data from "player"
 """
 input player_order_by {
   accounts_aggregate: player_account_aggregate_order_by
-  balances_aggregate: balance_aggregate_order_by
   createdAt: order_by
   daos_aggregate: dao_player_aggregate_order_by
   dashboardLayout: order_by
