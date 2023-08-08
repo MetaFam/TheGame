@@ -2,7 +2,8 @@ import {
   Box,
   Button,
   ExternalLinkIcon,
-  Heading,
+  FormControl,
+  FormLabel,
   Image,
   Input,
   Spinner,
@@ -70,8 +71,7 @@ export const PlayerDework: React.FC<Props> = ({
   isOwnProfile,
   editing,
 }) => {
-
-  const [role, setRole] = useState<string>('AddURL')
+  const [role, setRole] = useState<string>('AddURL');
   const [playerDeworkURL, setPlayerDeworkURL] = useState<string>('');
 
   useMemo(
@@ -81,7 +81,11 @@ export const PlayerDework: React.FC<Props> = ({
 
   return (
     <ProfileSection title="Dework Profile" {...{ isOwnProfile, editing }}>
-      <PlayerDeworkView role={role} player={player} setPlayerDeworkURL={setPlayerDeworkURL} />
+      <PlayerDeworkView
+        role={role}
+        player={player}
+        setPlayerDeworkURL={setPlayerDeworkURL}
+      />
     </ProfileSection>
   );
 };
@@ -89,7 +93,6 @@ export const PlayerDework: React.FC<Props> = ({
 const DeworkProfile: React.FC<{ player: Player }> = ({ player }) => {
   const [deworkData, setDeworkData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
-
 
   useEffect(() => {
     const getData = async () => {
@@ -125,7 +128,8 @@ const DeworkProfile: React.FC<{ player: Player }> = ({ player }) => {
             <DeworkSectionWrapper>
               <DeworkSectionHeading text="Earnings" />
               <Text fontSize="2xl">
-                ${(processedData.totalEarnedInUSDC / (10 * 10 ** 18)).toFixed(2)}
+                $
+                {(processedData.totalEarnedInUSDC / (10 * 10 ** 18)).toFixed(2)}
               </Text>
             </DeworkSectionWrapper>
             <DeworkSectionWrapper>
@@ -178,9 +182,7 @@ const DeworkProfile: React.FC<{ player: Player }> = ({ player }) => {
                           >
                             {org.name}
                           </Text>
-                          {i === 2 && (
-                            <Box as="i">{`+${total - 3} other`}</Box>
-                          )}
+                          {i === 2 && <Box as="i">{`+${total - 3} other`}</Box>}
                         </>
                       );
                     }
@@ -215,7 +217,7 @@ const DeworkProfile: React.FC<{ player: Player }> = ({ player }) => {
         />
         {deworkData && (
           <MetaLink
-            href={`https://app.dework.xyz/profile/${deworkData.address}`}
+            href={`https://app.dework.xyz/profile/${deworkData.username}`}
             fontWeight={500}
             display="inline-flex"
             alignItems="center"
@@ -226,42 +228,50 @@ const DeworkProfile: React.FC<{ player: Player }> = ({ player }) => {
         )}
       </WrapItem>
     </Wrap>
-  )
-}
+  );
+};
 
 const PlayerDeworkView: React.FC<{
-  role: string,
-  player: Player,
-  setPlayerDeworkURL: any
+  role: string;
+  player: Player;
+  setPlayerDeworkURL: any;
 }> = ({ role, player, setPlayerDeworkURL }) => {
   const currentView = {
     AddURL: <DeworkLink setPlayerDeworkURL={setPlayerDeworkURL} />,
-    DeworkProfile: <DeworkProfile player={player} />
-  }[role]
+    DeworkProfile: <DeworkProfile player={player} />,
+  }[role];
 
-  return <>{currentView}</>
-}
+  return <>{currentView}</>;
+};
 
-const DeworkLink: React.FC<{ setPlayerDeworkURL: any }> = ({ setPlayerDeworkURL }) => {
-  const [deworkURL, setDeworkURL] = useState('')
+const DeworkLink: React.FC<{ setPlayerDeworkURL: any }> = ({
+  setPlayerDeworkURL,
+}) => {
+  const [deworkURL, setDeworkURL] = useState('');
 
   return (
     <>
-      <Heading>Input Dework Username</Heading>
-      <Input
-        value={deworkURL}
-        pl={2}
-        type="text"
-        inputMode="text"
-        placeholder='Example: Sero | Hunters Workshop'
-        step="any"
-        onChange={({ target: { value } }) =>
-          setDeworkURL(value)
-        }
-      />
-      <Button onClick={() => setPlayerDeworkURL('Sero | Hunters Workshop')}>
+      <FormControl id="deworkURL" mb={4}>
+        <FormLabel>Input Dework Username</FormLabel>
+        <Input
+          value={deworkURL}
+          pl={2}
+          type="text"
+          inputMode="text"
+          placeholder="Example: Sero | Hunters Workshop"
+          step="any"
+          onChange={({ target: { value } }) => setDeworkURL(value)}
+        />
+      </FormControl>
+      <Button
+        onClick={() => setPlayerDeworkURL('Sero | Hunters Workshop')}
+        isDisabled={!deworkURL}
+        _disabled={{
+          cursor: 'not-allowed',
+        }}
+      >
         {deworkURL ? 'Proceed To Block' : 'Please Enter Dework username'}
       </Button>
     </>
-  )
-}
+  );
+};
