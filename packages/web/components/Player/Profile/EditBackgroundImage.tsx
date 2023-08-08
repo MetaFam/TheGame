@@ -39,7 +39,6 @@ export const EditBackgroundImage = forwardRef<
   const toast = useToast();
   const readFile = useImageReader();
 
-  const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [url, setURL] = useState<Optional<string>>(
     optimizedImage('backgroundImageURL', initialURL),
@@ -102,107 +101,108 @@ export const EditBackgroundImage = forwardRef<
       <FormHelperText pb={3} color="white">
         {helperLabel}
       </FormHelperText>
-      <Center
-        position="relative"
-        w="full"
-        h="full"
-        border="2px solid"
-        borderColor={active ? 'blue.400' : 'transparent'}
-      >
-        <Image
-          ref={ref}
-          onLoad={() => {
-            setLoading(false);
-          }}
-          onError={() => {
-            setLoading(false);
-          }}
-          display={loading ? 'none' : 'inherit'}
-          src={url}
-          h="full"
+      {metagamer ? (
+        <Center
+          position="relative"
           w="full"
-        />
-        {/* {loading &&
+          h="full"
+          border="2px solid"
+          borderColor={'transparent'}
+        >
+          <Image
+            ref={ref}
+            onLoad={() => {
+              setLoading(false);
+            }}
+            onError={() => {
+              setLoading(false);
+            }}
+            display={loading ? 'none' : 'inherit'}
+            src={url}
+            h="full"
+            w="full"
+          />
+          {/* {loading &&
           (url == null ? (
             <Image w="5em" mx="2.5em" src={FileOpenIcon.src} opacity={0.5} />
           ) : (
             <Spinner size="xl" color="purple.500" thickness="4px" />
           ))} */}
-        <Controller
-          control={control}
-          name="backgroundImageURL"
-          defaultValue={[]}
-          render={({ field: { onChange, value, ...props } }) => (
-            <>
-              <Box
-                as="label"
-                h="full"
-                w="full"
-                ml={[0, 3]}
-                htmlFor="upload-bg-image"
-                border="1px"
-                color="white"
-                borderColor="blue.600"
-                borderRadius="4px"
-                display="flex"
-                flexDirection={['column', 'row']}
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Input
-                  id="upload-bg-image"
+          <Controller
+            control={control}
+            name="backgroundImageURL"
+            defaultValue={[]}
+            render={({ field: { onChange, value, ...props } }) => (
+              <>
+                <Box
+                  as="label"
                   h="full"
                   w="full"
-                  position="absolute"
-                  type="file"
-                  opacity={0}
-                  {...props}
-                  value={value?.filename}
-                  onChange={async (evt: ChangeEvent<HTMLInputElement>) => {
-                    evt.preventDefault();
-                    const file = evt.target.files?.[0];
-                    if (file) {
-                      onChange(file);
-                      onFileChange(file);
-                    }
-                  }}
-                  onDragOver={async (evt: DragEvent<HTMLInputElement>) => {
-                    evt.preventDefault();
-                  }}
-                  onDrop={async (evt: DragEvent<HTMLInputElement>) => {
-                    evt.preventDefault();
-                    const file = evt.dataTransfer.files?.[0];
-                    if (file) {
-                      onChange(file);
-                      onFileChange(file);
-                    }
-                  }}
-                  accept="image/*"
-                />
-                Drag and drop an image or
-                <Button
-                  as="label"
+                  ml={[0, 3]}
                   htmlFor="upload-bg-image"
-                  colorScheme="blue"
-                  variant="outline"
-                  borderColor="blue.600"
-                  py={4}
-                  px={8}
-                  letterSpacing="0.1em"
-                  size="md"
-                  fontSize="sm"
-                  ml={3}
-                  mt={[3, 0]}
+                  border="1px"
                   color="white"
-                  rounded="md"
-                  _hover={{ borderColor: 'blue.700' }}
-                  _active={{ borderColor: 'blue.800' }}
-                  cursor="pointer"
+                  borderColor="blue.600"
+                  borderRadius="4px"
+                  display="flex"
+                  flexDirection={['column', 'row']}
+                  alignItems="center"
+                  justifyContent="center"
                 >
-                  Upload Image
-                </Button>
-              </Box>
-              {/* 
+                  <Input
+                    id="upload-bg-image"
+                    h="full"
+                    w="full"
+                    position="absolute"
+                    type="file"
+                    opacity={0}
+                    {...props}
+                    value={value?.filename}
+                    onChange={async (evt: ChangeEvent<HTMLInputElement>) => {
+                      evt.preventDefault();
+                      const file = evt.target.files?.[0];
+                      if (file) {
+                        onChange(file);
+                        onFileChange(file);
+                      }
+                    }}
+                    onDragOver={async (evt: DragEvent<HTMLInputElement>) => {
+                      evt.preventDefault();
+                    }}
+                    onDrop={async (evt: DragEvent<HTMLInputElement>) => {
+                      evt.preventDefault();
+                      const file = evt.dataTransfer.files?.[0];
+                      if (file) {
+                        onChange(file);
+                        onFileChange(file);
+                      }
+                    }}
+                    accept="image/*"
+                  />
+                  Drag and drop an image or
+                  <Button
+                    as="label"
+                    htmlFor="upload-bg-image"
+                    colorScheme="blue"
+                    variant="outline"
+                    borderColor="blue.600"
+                    py={4}
+                    px={8}
+                    letterSpacing="0.1em"
+                    size="md"
+                    fontSize="sm"
+                    ml={3}
+                    mt={[3, 0]}
+                    color="white"
+                    rounded="md"
+                    _hover={{ borderColor: 'blue.700' }}
+                    _active={{ borderColor: 'blue.800' }}
+                    cursor="pointer"
+                  >
+                    Upload Image
+                  </Button>
+                </Box>
+                {/* 
               Disabled until we figure out a good way to clear
               {url && !loading && (
                 <IconButton
@@ -224,10 +224,11 @@ export const EditBackgroundImage = forwardRef<
                   onBlur={() => setActive(false)}
                 />
               )} */}
-            </>
-          )}
-        />
-      </Center>
+              </>
+            )}
+          />
+        </Center>
+      ) : null}
       <FormErrorMessage>
         {errors.backgroundImageURL?.message?.toString()}
       </FormErrorMessage>

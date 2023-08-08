@@ -1,11 +1,13 @@
 import {
   Box,
   EditIcon,
+  ExternalLinkIcon,
   Flex,
   getTimeZoneFor,
   Grid,
   HStack,
   IconButton,
+  Link,
   MeetWithWalletIcon,
   MetaButton,
   MetaTag,
@@ -118,6 +120,8 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
             Meet With Me
           </MetaButton>
         )}
+
+        <Website {...{ player }} />
       </VStack>
 
       {isOwnProfile && (
@@ -299,6 +303,34 @@ const TimeZone: React.FC<DisplayComponentProps> = ({
             </Tooltip>
           )}
         </Flex>
+      </PlayerHeroTile>
+    </Wrapper>
+  );
+};
+
+const Website: React.FC<DisplayComponentProps> = ({
+  player,
+  Wrapper = React.Fragment,
+}) => {
+  const website = player?.profile?.website;
+
+  if (!website) {
+    return null;
+  }
+
+  return (
+    <Wrapper>
+      <PlayerHeroTile title="Website">
+        <Link
+          href={website}
+          target={'_blank'}
+          display={'flex'}
+          flexDir={'row'}
+          alignItems={'center'}
+        >
+          <Text>{website}</Text>
+          <ExternalLinkIcon ml="10px" />
+        </Link>
       </PlayerHeroTile>
     </Wrapper>
   );
