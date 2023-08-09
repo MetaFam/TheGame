@@ -25,4 +25,10 @@ export const TokenQueries = /* GraphQL */ `
       }
     }
   }
+
+  query GetInitialXP($playerId: uuid!) {
+    xp(where: {playerId: {_eq: $playerId}}) {
+      initial
+    }
+  }
 `;

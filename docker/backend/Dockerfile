@@ -16,7 +16,7 @@ COPY packages/backend/*.json ./packages/backend/
 COPY packages/utils/*.json ./packages/utils/
 COPY packages/discord-bot/*.json ./packages/discord-bot/
 
-RUN yarn install --pure-lockfile
+RUN yarn install --pure-lockfile --network-timeout 1000000000
 
 # Dev environment doesn't run this stage or beyond
 FROM base as build

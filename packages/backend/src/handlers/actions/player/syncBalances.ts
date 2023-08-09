@@ -76,9 +76,9 @@ export default async (req: Request, res: Response): Promise<void> => {
       await Promise.all(players.map( async (player) => {
         const total = await client.GetTotalForPlayer({ tokenAddress: address, playerAddress: player.Player.ethereumAddress })
         const balance = total.balance_aggregate.aggregate?.sum?.amount
-        if (balance != null) {
-          await client.UpsertXP({ balance: total.balance_aggregate.aggregate?.sum?.amount, playerId: player.Player.id, tokenAddress: address })
-        }
+        const { xp: [{ initial } = { initial: 0 }] } = await client.GetInitialXP({ playerId: player.Player.id })
+        console.log({initial})
+        await client.UpsertXP({ balance: (balance ?? 0) + initial, playerId: player.Player.id, tokenAddress: address })
       }))
     }),
   );
