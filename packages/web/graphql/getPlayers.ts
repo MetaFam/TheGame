@@ -188,6 +188,7 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
   const { data, error } = await client
     .query<GetPlayerFiltersQuery, GetPlayerFiltersQueryVariables>(
       GetPlayerFiltersDocument,
+      {},
     )
     .toPromise();
 

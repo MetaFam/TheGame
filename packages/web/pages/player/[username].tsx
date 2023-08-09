@@ -1,20 +1,30 @@
-import { Box, Flex, LoadingState } from '@metafam/ds';
+import { ComposeClient } from '@composedb/client';
+import { Box, Flex, LoadingState, useDisclosure } from '@metafam/ds';
+import { composeDBDefinition, Maybe } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { PlayerSection } from 'components/Player/PlayerSection';
+import { ComposeDBPromptModal } from 'components/Player/Profile/ComposeDBPromptModal';
 import {
   ALL_BOXES,
   DEFAULT_PLAYER_LAYOUT_DATA,
 } from 'components/Player/Section/config';
 import { HeadComponent } from 'components/Seo';
+import { CONFIG } from 'config';
+import {
+  PlayerHydrationContextProvider,
+  usePlayerHydrationContext,
+} from 'contexts/PlayerHydrationContext';
 import {
   Player,
-  useInsertCacheInvalidationMutation as useInvalidateCache,
   useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
+import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
-import { useProfileField, useUser } from 'lib/hooks';
+import { ComposeDBProfileQueryResult } from 'graphql/types';
+import { useUser } from 'lib/hooks';
+import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
@@ -37,17 +47,55 @@ import {
   getPlayerImage,
 } from 'utils/playerHelpers';
 
-type Props = {
-  player: Player;
-  ens?: string;
+export type PlayerPageProps = {
+  player: Maybe<Player>;
+  isHydratedFromComposeDB?: boolean;
 };
 
-export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
+export const PlayerPage: React.FC<PlayerPageProps> = ({
+  player: playerFromProps,
+  isHydratedFromComposeDB = false,
+}): ReactElement => {
   const router = useRouter();
-  const username = router.query.username as string;
-  const [player, setPlayer] = useState(propPlayer);
 
-  const { user } = useUser();
+  const username = router.query.username as string;
+
+  // if the given player is not known and the username contains a dot,
+  // try looking up an ENS address
+  const { data: playerData, isValidating } = useSWR(
+    username && username.includes('.') && !playerFromProps ? username : null,
+    getENSAndPlayer,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  if (router.isFallback || (isValidating && !playerData)) {
+    return <LoadingState />;
+  }
+
+  const player = playerFromProps || playerData?.player;
+
+  if (!player) return <Page404 />;
+
+  return (
+    <PlayerHydrationContextProvider
+      player={player}
+      isHydratedAlready={isHydratedFromComposeDB}
+    >
+      <PlayerPageContent ens={playerData?.ens || undefined} />
+    </PlayerHydrationContextProvider>
+  );
+};
+
+const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
+  const router = useRouter();
+
+  const { hydratedPlayer, hydrateFromComposeDB } = usePlayerHydrationContext();
+  const { user, fetching } = useUser();
+
+  const username = router.query.username as string;
+  const [player, setPlayer] = useState(hydratedPlayer);
 
   const linkURL = usePlayerURL(player);
   const header = usePlayerName(player);
@@ -64,7 +112,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
     if (
       !isCurrentPlayerPage &&
       !username?.includes('.') &&
-      propPlayer == null
+      hydratedPlayer == null
     ) {
       getPlayer(username).then((fetchedPlayer) => {
         if (fetchedPlayer != null) {
@@ -72,7 +120,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
         }
       });
     }
-  }, [isCurrentPlayerPage, propPlayer, username]);
+  }, [isCurrentPlayerPage, hydratedPlayer, router.pathname, username]);
 
   // if the username contains a dot, look up the player's ETH address and player with ENS
   const { data: ensAndPlayer, isValidating } = useSWR(
@@ -80,26 +128,36 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
     getENSAndPlayer,
     { revalidateOnFocus: false },
   );
-  const ens = ensAndPlayer?.ens ?? undefined;
+
   useEffect(() => {
     if (ensAndPlayer?.player) {
       setPlayer(ensAndPlayer.player);
     }
   }, [ensAndPlayer?.player]);
 
-  const { value: bannerURL } = useProfileField({
-    field: 'bannerImageURL',
-    player,
-    getter: getPlayerBannerFull,
-  });
+  useEffect(() => {
+    if (hydratedPlayer != null && hydratedPlayer !== player) {
+      setPlayer(hydratedPlayer);
+    }
+  }, [hydratedPlayer, player]);
 
-  const { value: background } = useProfileField({
-    field: 'backgroundImageURL',
-    player,
-    getter: getPlayerBackgroundFull,
-  });
+  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
-  const [, invalidateCache] = useInvalidateCache();
+  const isOwnProfile = useMemo(
+    () => !fetching && !!user && user.id === player.id,
+    [user, fetching, player.id],
+  );
+
+  const handleMigrationCompleted = useCallback(
+    (streamID: string) => {
+      hydrateFromComposeDB(streamID);
+    },
+    [hydrateFromComposeDB],
+  );
+
+  const bannerURL = getPlayerBannerFull(player);
+  const background = getPlayerBackgroundFull(player);
+
   const metagamer = useMemo(
     () =>
       player?.guilds.some(
@@ -108,11 +166,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
     [player],
   );
 
-  useEffect(() => {
-    if (player?.id) {
-      invalidateCache({ playerId: player.id });
-    }
-  }, [player?.id, invalidateCache]);
+  const avatarImg = useMemo(() => getPlayerImage(player), [player]);
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -147,9 +201,9 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
         title={`MetaGame Profile: ${header}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
-        img={getPlayerImage(player)}
+        img={avatarImg}
       />
-      {banner && (
+      {banner != null ? (
         <Box
           bg={`url('${banner}') no-repeat`}
           bgSize="cover"
@@ -159,8 +213,7 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
           w="full"
           top={0}
         />
-      )}
-
+      ) : null}
       <Flex
         w="full"
         h="min-content"
@@ -177,22 +230,34 @@ export const PlayerPage: React.FC<Props> = ({ player: propPlayer }) => {
             }
           : {})}
       >
-        {player && <Grid {...{ player, ens }} />}
+        {player && <Grid {...{ player, ens, isOwnProfile, user }} />}
       </Flex>
+      {isOwnProfile && user?.profile && !user.ceramicProfileId ? (
+        <ComposeDBPromptModal
+          player={user}
+          {...{ isOpen, handleMigrationCompleted, onClose }}
+        />
+      ) : null}
     </PageContainer>
   );
 };
 
 export default PlayerPage;
 
-export const Grid: React.FC<Props> = ({ player, ens }): ReactElement => {
-  const { user, fetching } = useUser();
-  const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
+type GridProps = {
+  player: Player;
+  ens?: string;
+  user: Maybe<Player>;
+  isOwnProfile: boolean;
+};
 
-  const isOwnProfile = useMemo(
-    () => !fetching && !!user && user.id === player.id,
-    [user, fetching, player.id],
-  );
+export const Grid: React.FC<GridProps> = ({
+  player,
+  ens,
+  user,
+  isOwnProfile,
+}): ReactElement => {
+  const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
   const savedLayoutData = useMemo<LayoutData>(
     () =>
@@ -268,10 +333,31 @@ export const getStaticProps = async (
   }
 
   const player = await getPlayer(username);
+  let hydratedPlayer;
+
+  if (player?.ceramicProfileId) {
+    const composeDBClient = new ComposeClient({
+      ceramic: CONFIG.ceramicURL,
+      definition: composeDBDefinition,
+    });
+    const query = buildPlayerProfileQuery(player.ceramicProfileId);
+    const response = await composeDBClient.executeQuery(query);
+
+    if (response.errors) {
+      console.error(`Could not hydrate player ${username} from composeDB`);
+      console.error(response.errors);
+    } else if (response.data != null) {
+      const composeDBProfileData = (
+        response.data as ComposeDBProfileQueryResult
+      ).node;
+      hydratedPlayer = hydratePlayerProfile(player, composeDBProfileData);
+    }
+  }
 
   return {
     props: {
-      player: player ?? null, // must be serializable.
+      player: hydratedPlayer ?? player ?? null, // must be serializable
+      isHydratedFromComposeDB: hydratedPlayer != null,
       key: username.toLowerCase(),
       hideTopMenu: false,
     },

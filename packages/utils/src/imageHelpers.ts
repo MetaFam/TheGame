@@ -39,3 +39,9 @@ export const imageLink = (
 
   return client.buildURL(http, opts);
 };
+
+export const getMimeType = (dataURI: string) => {
+  let [, mime] = dataURI?.match(/^data:([^;]+);/) ?? [];
+  mime ??= 'image/*';
+  return mime;
+};

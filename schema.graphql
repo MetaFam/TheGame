@@ -1076,6 +1076,14 @@ type DiscordGuildAuthResponse {
   success: Boolean!
 }
 
+type DiscordGuildsSyncOutput {
+  name: String!
+  numDeleted: Int
+  numInserted: Int
+  numSkipped: Int
+  username: String!
+}
+
 type DiscordRole {
   id: String!
   name: String!
@@ -3009,6 +3017,11 @@ input jsonb_comparison_exp {
   _nin: [jsonb!]
 }
 
+type LinkCeramicProfileNodeResponse {
+  error: String
+  verified: Boolean!
+}
+
 """
 columns and relationships of "me"
 """
@@ -4063,6 +4076,11 @@ type mutation_root {
   ): skill
 
   """
+  perform the action: "linkCeramicProfileNode"
+  """
+  linkCeramicProfileNode(nodeId: String!): LinkCeramicProfileNodeResponse
+
+  """
   perform the action: "saveGuildInformation"
   """
   saveGuildInformation(guildInformation: GuildInfoInput!): SaveGuildResponse
@@ -4073,14 +4091,19 @@ type mutation_root {
   saveGuildLayout(guildLayoutInfo: GuildLayoutInfoInput!): SaveGuildLayoutResponse
 
   """
-  perform the action: "updateExpiredIDXProfiles"
+  perform the action: "syncAllGuildDiscordMembers"
   """
-  updateExpiredIDXProfiles: ExpiredPlayerProfiles
+  syncAllGuildDiscordMembers: [DiscordGuildsSyncOutput]
 
   """
-  perform the action: "updateIDXProfile"
+  perform the action: "syncSourceCredAccounts"
   """
-  updateIDXProfile(playerId: uuid): uuid!
+  syncSourceCredAccounts: SourceCredSyncOutput
+
+  """
+  perform the action: "updateCachedProfile"
+  """
+  updateCachedProfile(playerId: uuid): uuid!
 
   """
   perform the action: "updateQuestCompletion"
@@ -4777,6 +4800,7 @@ type player {
 
   """Remote relationship field"""
   brightid_status: BrightIdStatus
+  ceramicProfileId: String
   createdAt: timestamptz
 
   """Remote relationship field"""
@@ -5266,6 +5290,7 @@ input player_bool_exp {
   _not: player_bool_exp
   _or: [player_bool_exp]
   accounts: player_account_bool_exp
+  ceramicProfileId: String_comparison_exp
   createdAt: timestamptz_comparison_exp
   daos: dao_player_bool_exp
   dashboardLayout: String_comparison_exp
@@ -5313,6 +5338,7 @@ input type for inserting data into table "player"
 """
 input player_insert_input {
   accounts: player_account_arr_rel_insert_input
+  ceramicProfileId: String
   createdAt: timestamptz
   daos: dao_player_arr_rel_insert_input
   dashboardLayout: String
@@ -5335,6 +5361,7 @@ input player_insert_input {
 
 """aggregate max on columns"""
 type player_max_fields {
+  ceramicProfileId: String
   createdAt: timestamptz
   dashboardLayout: String
   discordId: String
@@ -5351,6 +5378,7 @@ type player_max_fields {
 order by max() on columns of table "player"
 """
 input player_max_order_by {
+  ceramicProfileId: order_by
   createdAt: order_by
   dashboardLayout: order_by
   discordId: order_by
@@ -5365,6 +5393,7 @@ input player_max_order_by {
 
 """aggregate min on columns"""
 type player_min_fields {
+  ceramicProfileId: String
   createdAt: timestamptz
   dashboardLayout: String
   discordId: String
@@ -5381,6 +5410,7 @@ type player_min_fields {
 order by min() on columns of table "player"
 """
 input player_min_order_by {
+  ceramicProfileId: order_by
   createdAt: order_by
   dashboardLayout: order_by
   discordId: order_by
@@ -5426,6 +5456,7 @@ ordering options when selecting data from "player"
 """
 input player_order_by {
   accounts_aggregate: player_account_aggregate_order_by
+  ceramicProfileId: order_by
   createdAt: order_by
   daos_aggregate: dao_player_aggregate_order_by
   dashboardLayout: order_by
@@ -5768,6 +5799,9 @@ select columns of table "player"
 """
 enum player_select_column {
   """column name"""
+  ceramicProfileId
+
+  """column name"""
   createdAt
 
   """column name"""
@@ -5805,6 +5839,7 @@ enum player_select_column {
 input type for updating data in table "player"
 """
 input player_set_input {
+  ceramicProfileId: String
   createdAt: timestamptz
   dashboardLayout: String
   discordId: String
@@ -6205,6 +6240,9 @@ input player_sum_order_by {
 update columns of table "player"
 """
 enum player_update_column {
+  """column name"""
+  ceramicProfileId
+
   """column name"""
   createdAt
 
@@ -8427,14 +8465,14 @@ type query_root {
   skill_by_pk(id: uuid!): skill
 
   """
-  retrieve the result of action: "updateIDXProfile"
+  retrieve the result of action: "updateCachedProfile"
   """
-  updateIDXProfile(
+  updateCachedProfile(
     """
-    id of the action: "updateIDXProfile"
+    id of the action: "updateCachedProfile"
     """
     id: uuid!
-  ): updateIDXProfile
+  ): updateCachedProfile
 }
 
 """
@@ -10838,6 +10876,13 @@ enum SkillCategory_update_column {
   name
 }
 
+type SourceCredSyncOutput {
+  numInserted: Int!
+  numSkipped: Int!
+  numUnclaimed: Int!
+  numUpdated: Int!
+}
+
 """
 expression to compare columns of type String. All fields are combined with logical 'AND'.
 """
@@ -12021,14 +12066,14 @@ type subscription_root {
   skill_by_pk(id: uuid!): skill
 
   """
-  retrieve the result of action: "updateIDXProfile"
+  retrieve the result of action: "updateCachedProfile"
   """
-  updateIDXProfile(
+  updateCachedProfile(
     """
-    id of the action: "updateIDXProfile"
+    id of the action: "updateCachedProfile"
     """
     id: uuid!
-  ): updateIDXProfile
+  ): updateCachedProfile
 }
 
 scalar timestamptz
@@ -12055,9 +12100,9 @@ type TokenBalances {
 }
 
 """
-fields of action: "updateIDXProfile"
+fields of action: "updateCachedProfile"
 """
-type updateIDXProfile {
+type updateCachedProfile {
   """the time at which this action was created"""
   created_at: timestamptz
 

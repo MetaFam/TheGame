@@ -2,6 +2,7 @@ export const PlayerQueries = /* GraphQL */ `
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
       id
+      ceramicProfileId
       ethereumAddress
       discordId
       profile {

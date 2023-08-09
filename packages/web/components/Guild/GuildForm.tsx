@@ -13,7 +13,6 @@ import {
   Spinner,
   Text,
   Textarea,
-  useToast,
   VStack,
 } from '@metafam/ds';
 import { SelectOption } from '@metafam/ds/src/MultiSelect';
@@ -28,6 +27,7 @@ import {
   Maybe,
   useGetGuildMetadataQuery,
 } from 'graphql/autogen/types';
+import { useImageReader } from 'lib/hooks/useImageReader';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -156,6 +156,7 @@ export const GuildForm: React.FC<Props> = ({
   submitting,
 }) => {
   const router = useRouter();
+  const readFile = useImageReader();
 
   const [getGuildMetadataResponse, getGuildMetadata] = useGetGuildMetadataQuery(
     {
@@ -214,32 +215,22 @@ export const GuildForm: React.FC<Props> = ({
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errored, setErrored] = useState(false);
-  const toast = useToast();
 
   const onFileChange = useCallback(
-    (file: File | undefined) => {
+    async (file: File | undefined) => {
       if (!file) return;
       setLoading(true);
-      setErrored(false);
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        setLogoURI(reader.result as string);
-      });
-      reader.addEventListener('error', ({ target }) => {
-        const { error } = target ?? {};
-        toast({
-          title: 'Image Loading Error',
-          description: `Loading Images Error: “${error?.message}”`,
-          status: 'error',
-          isClosable: true,
-          duration: 10000,
-        });
-        setLoading(false);
+
+      try {
+        const dataURL = await readFile(file);
+        setLogoURI(dataURL);
+      } catch (e) {
         setErrored(true);
-      });
-      reader.readAsDataURL(file);
+      } finally {
+        setLoading(false);
+      }
     },
-    [toast],
+    [readFile],
   );
 
   return (

@@ -19,7 +19,7 @@ export const {
 } = process.env;
 export const IPFS_LINK_PATTERN =
   process.env.NEXT_PUBLIC_IPFS_LINK_PATTERN ||
-  'https://w3s.link/ipfs/{cid}/{path}' || // returns svg as application/xml
+  'https://{v1cid}.ipfs.w3s.link/{path}' ||
   'https://ipfs.io/ipfs/{cid}/{path}' ||
   'https://{v1cid}.ipfs.dweb.link/{path}';
 

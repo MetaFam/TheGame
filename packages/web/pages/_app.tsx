@@ -7,6 +7,7 @@ import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
+import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
 import Head from 'next/head';
@@ -53,9 +54,11 @@ const App: React.FC<WithUrqlProps> = ({
       {CONFIG.appEnv === 'production' && <Analytics />}
     </Head>
     <Web3ContextProvider {...{ resetUrqlClient }}>
-      <MegaMenu hide={pageProps.hideTopMenu}>
-        <Component {...pageProps} />
-      </MegaMenu>
+      <ComposeDBContextProvider>
+        <MegaMenu hide={pageProps.hideTopMenu}>
+          <Component {...pageProps} />
+        </MegaMenu>
+      </ComposeDBContextProvider>
     </Web3ContextProvider>
   </ChakraProvider>
 );

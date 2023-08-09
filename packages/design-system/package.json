@@ -30,6 +30,7 @@
     "react": ">=18"
   },
   "dependencies": {
+    "@chakra-ui/anatomy": "^2.1.1",
     "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/media-query": "^3.2.7",
     "@chakra-ui/react": "^2.3.6",

@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  MetaButton,
-  Stack,
-  Text,
-  VStack,
-} from '@metafam/ds';
+import { Box, Button, Flex, Heading, Stack, Text } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Quest, QuestFragment, QuestStatus_Enum } from 'graphql/autogen/types';

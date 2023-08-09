@@ -18,9 +18,10 @@ import {
 import { Maybe } from '@metafam/utils';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
-import { SetupRoles } from 'components/Setup/SetupRoles';
-import { SetupSkills } from 'components/Setup/SetupSkills';
-import React from 'react';
+import { EditRoles } from 'components/Setup/SetupRoles';
+import { EditSkills } from 'components/Setup/SetupSkills';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
+import React, { useCallback } from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
 
 export type ProfileSectionProps = {
@@ -182,19 +183,61 @@ const EditSection = ({
   onClose: () => void;
 }) => {
   const buttonLabel = 'Save';
+  const {
+    hydrateFromComposeDB: performComposeDBHydration,
+    hydrateFromHasura: performHasuraHydration,
+    hydratedPlayer,
+  } = usePlayerHydrationContext();
+
+  const hydrateFromComposeDB = useCallback(
+    async (nodeId?: string) => {
+      if (nodeId) {
+        await performComposeDBHydration(nodeId);
+      }
+      onClose();
+    },
+    [onClose, performComposeDBHydration],
+  );
+
+  const hydrateFromHasura = useCallback(async () => {
+    await performHasuraHydration();
+    onClose();
+  }, [onClose, performHasuraHydration]);
 
   switch (boxType) {
     case BoxTypes.PLAYER_TYPE: {
-      return <SetupPlayerType {...{ onClose, buttonLabel, title: '' }} />;
+      return (
+        <SetupPlayerType
+          onComplete={hydrateFromComposeDB}
+          {...{ buttonLabel, title: '' }}
+        />
+      );
     }
     case BoxTypes.PLAYER_COLOR_DISPOSITION: {
-      return <SetupPersonalityType {...{ onClose, buttonLabel, title: '' }} />;
+      return (
+        <SetupPersonalityType
+          onComplete={hydrateFromComposeDB}
+          {...{ buttonLabel, title: '' }}
+        />
+      );
     }
     case BoxTypes.PLAYER_SKILLS: {
-      return <SetupSkills {...{ onClose, buttonLabel, title: '' }} />;
+      return (
+        <EditSkills
+          onComplete={hydrateFromHasura}
+          player={hydratedPlayer}
+          {...{ buttonLabel, title: '' }}
+        />
+      );
     }
     case BoxTypes.PLAYER_ROLES: {
-      return <SetupRoles {...{ onClose, buttonLabel, title: '' }} />;
+      return (
+        <EditRoles
+          onComplete={hydrateFromHasura}
+          player={hydratedPlayer}
+          {...{ buttonLabel, title: '' }}
+        />
+      );
     }
     default:
   }
