@@ -47,7 +47,12 @@ export const sections = [
   },
   {
     label: '08',
+    internalLinkId: 'what-say',
+    title: '8. What people are saying.',
+  },
+  {
+    label: '09',
     internalLinkId: 'join-us',
-    title: '8. Join us!',
+    title: '9. Join us!',
   },
 ];
