@@ -12,7 +12,6 @@ import {
   Spinner,
   Text,
   Tooltip,
-  useToast,
   VStack,
   Wrap,
   WrapItem,
@@ -99,7 +98,7 @@ export const PlayerDework: React.FC<Props> = ({
       } else {
         setAddressMatch(false);
       }
-      setLoading(false);
+      // setLoading(false);
 
     });
   }, []);
@@ -395,7 +394,7 @@ const Loading: React.FC = () => (
     height="100%"
     width="full"
   >
-    <Spinner size="lg" color="white" thickness="3px" />
+    <Spinner size="lg" color="white" thickness="3px" flexShrink={0} />
     <Text ml={4} pr={16} flexGrow={1}>Looking for a Dework profile with the same ETH address</Text>
   </Box>
 );
