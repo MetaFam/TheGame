@@ -18,6 +18,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
+import { AddPlayerLink } from 'components/Player/Section/PlayerLinks';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
@@ -145,7 +146,9 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                     )}
                   </Select>
                   {type && (
-                    <EditMetadata {...{ type, metadata, setMetadata }} />
+                    <EditMetadata
+                      {...{ type, player, metadata, setMetadata }}
+                    />
                   )}
                   {type && (
                     <Flex
@@ -208,12 +211,15 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
 
 export const EditMetadata: React.FC<{
   type: BoxType;
+  player?: Player;
   metadata: BoxMetadata;
   setMetadata: React.Dispatch<React.SetStateAction<BoxMetadata>>;
 }> = ({ type, ...props }) => {
   switch (type) {
     case BoxTypes.EMBEDDED_URL:
       return <EmbeddedUrlMetadata {...props} />;
+    case BoxTypes.PLAYER_LINKS:
+      return <AddPlayerLink {...props} />;
     case BoxTypes.CUSTOM_TEXT:
       return <CustomTextSectionMetadata {...props} />;
     default:

@@ -474,6 +474,14 @@
       - url
       backend_only: false
   select_permissions:
+  - role: player
+    permission:
+      columns:
+      - name
+      - player_id
+      - type
+      - url
+      filter: {}
   - role: public
     permission:
       columns:

@@ -12,6 +12,7 @@ export const BoxTypes = {
   PLAYER_TYPE: 'player-type',
   PLAYER_COLOR_DISPOSITION: 'color-disposition',
   PLAYER_ROLES: 'player-roles',
+  PLAYER_LINKS: 'player-links',
   PLAYER_COMPLETED_QUESTS: 'completed-quests',
   PLAYER_METOKENS: 'meToken',
   // Guild Profile Boxes
