@@ -98,7 +98,7 @@ export const PlayerDework: React.FC<Props> = ({
       } else {
         setAddressMatch(false);
       }
-      // setLoading(false);
+      setLoading(false);
 
     });
   }, []);
