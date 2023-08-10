@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CheckIcon,
   EditIcon,
   Flex,
   FlexProps,
@@ -34,6 +35,7 @@ export type ProfileSectionProps = {
   modalTitle?: string | false;
   modal?: React.ReactNode;
   subheader?: string;
+  connected?: boolean;
 };
 
 export const ProfileSection: React.FC<
@@ -48,6 +50,7 @@ export const ProfileSection: React.FC<
   modal,
   modalTitle,
   subheader,
+  connected,
   ...props
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,6 +64,19 @@ export const ProfileSection: React.FC<
       direction="column"
       {...props}
     >
+      {connected && (
+        <Box
+          // position={'absolute'}
+          // top={0}
+          // right={0}
+          py={3}
+          textAlign="center"
+          w="full"
+          bgColor="green.700"
+          textTransform="uppercase"
+          borderTopRadius={'lg'}
+        ><CheckIcon mr={2} /> Wallet connected</Box>
+      )}
       <Box
         borderBottomRadius="lg"
         borderRadius="lg"
