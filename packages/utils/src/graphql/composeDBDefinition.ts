@@ -4,7 +4,7 @@ import type { RuntimeCompositeDefinition } from '@composedb/types';
 export const definition: RuntimeCompositeDefinition = {
   models: {
     Profile: {
-      id: 'kjzl6hvfrbw6c9a47m2s7hoklin60281u08im4lhs8hnpo40xvfdon1j0wi5ysr',
+      id: 'kjzl6hvfrbw6cb224km6q3r4bmau6e7qxey56xfxsnh2aanwcj7xsemgikx7zt6',
       accountRelation: { type: 'single' },
     },
   },
@@ -18,6 +18,7 @@ export const definition: RuntimeCompositeDefinition = {
       aspectRatio: { type: 'float', required: false },
     },
     Profile: {
+      mbti: { type: 'string', required: false },
       name: { type: 'string', required: false },
       emoji: { type: 'string', required: false },
       avatar: {
@@ -29,6 +30,7 @@ export const definition: RuntimeCompositeDefinition = {
       pronouns: { type: 'string', required: false },
       timeZone: { type: 'string', required: false },
       username: { type: 'string', required: false },
+      enneagram: { type: 'string', required: false },
       websiteURL: { type: 'string', required: false },
       description: { type: 'string', required: false },
       explorerType: { type: 'string', required: false },
