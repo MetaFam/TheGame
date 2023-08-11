@@ -64,6 +64,7 @@ enum AccountType_constraint {
 }
 
 enum AccountType_enum {
+  DEWORK
   DISCORD
   DISCOURSE
   ETHEREUM

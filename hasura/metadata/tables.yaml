@@ -718,6 +718,162 @@
         custom_name: playerId
     custom_column_names:
       player_id: playerId
+  object_relationships:
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        player_id:
+          _eq: X-Hasura-User-Id
+      columns: []
+      backend_only: false
+  - role: public
+    permission:
+      check: {}
+      columns: []
+      backend_only: false
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - player_id
+      - identifier
+      - type
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - player_id
+      - identifier
+      - type
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - identifier
+      - type
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  - role: public
+    permission:
+      columns: []
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: public
+    permission:
+      filter: {}
+- table:
+    schema: public
+    name: player_role
+  object_relationships:
+  - name: PlayerRole
+    using:
+      foreign_key_constraint_on: role
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        player_id:
+          _eq: X-Hasura-User-Id
+      set:
+        player_id: x-hasura-User-Id
+      columns:
+      - rank
+      - role
+      backend_only: false
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - player_id
+      - role
+      - rank
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - rank
+      - role
+      - player_id
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - rank
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+  event_triggers:
+  - name: playerRoleChanged
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+      delete:
+        columns: '*'
+    retry_conf:
+      num_retries: 0
+      interval_sec: 10
+      timeout_sec: 60
+    webhook_from_env: TRIGGERS_ENDPOINT
+- table:
+    schema: public
+    name: player_skill
+  object_relationships:
+  - name: Skill
+    using:
+      foreign_key_constraint_on: skill_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        player_id:
+          _eq: X-Hasura-User-Id
+      set:
+        player_id: x-hasura-User-Id
+      columns:
+      - skill_id
+      backend_only: false
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - player_id
+      - skill_id
+      filter: {}
+      allow_aggregations: true
+  - role: public
+    permission:
+      columns:
+      - player_id
+      - skill_id
+      filter: {}
+      allow_aggregations: true
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: profile
+  configuration:
     custom_root_fields: {}
   object_relationships:
     - name: Player

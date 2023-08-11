@@ -10,6 +10,7 @@ import {
   InfoIcon,
   Input,
   Spinner,
+  Link,
   Text,
   Tooltip,
   VStack,
@@ -17,7 +18,6 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import { generateUUID } from '@metafam/utils';
-import { to } from '@react-spring/web';
 import DeworkLogo from 'assets/integrationLogos/deworkLogo.png';
 import { MetaLink } from 'components/Link';
 import { ProfileSection } from 'components/Section/ProfileSection';
@@ -30,6 +30,8 @@ import {
   processDeworkData,
 } from 'utils/dework';
 import { formatAddress } from 'utils/playerHelpers';
+import { getPlayerDeworkUsername } from 'graphql/getDeworkUsername';
+import { useUpsertDeworkProfileMutation } from 'graphql/autogen/types';
 
 type Props = {
   player: Player;
@@ -85,6 +87,16 @@ export const PlayerDework: React.FC<Props> = ({
   const connected = addressMatch && !playerDeworkURL;
   const [loading, setLoading] = useState<boolean>(true);
   const noticeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const getDeworkUsername = async () => {
+      getPlayerDeworkUsername(player.id).then((res) => res && setPlayerDeworkURL(res as string))
+    }
+    if (player?.id) {
+      getDeworkUsername()
+    }
+  }, [player?.id])
+
   const getData = useCallback(async (address: string) => {
     setLoading(true);
     await getDeworkData(address).then((res: any) => {
@@ -146,6 +158,7 @@ export const PlayerDework: React.FC<Props> = ({
       <PlayerDeworkView
         role={role}
         player={player}
+        playerDeworkURL={playerDeworkURL}
         setPlayerDeworkURL={setPlayerDeworkURL}
         profileData={deworkData}
         retry={() => retryCall()}
@@ -167,12 +180,14 @@ export const PlayerDework: React.FC<Props> = ({
   );
 };
 
-const DeworkProfile: React.FC<{data: any }> = ({ data }) => {
+const DeworkProfile: React.FC<{data: any, playerDeworkURL: string }> = ({ data, playerDeworkURL }) => {
 
   const processedData = useMemo(
     () => processDeworkData(data),
     [data],
   );
+
+  const deworkURL = `https://app.dework.xyz/` + (playerDeworkURL ? `profile/${playerDeworkURL}` : '')
 
   return (
     <Wrap>
@@ -260,15 +275,16 @@ const DeworkProfile: React.FC<{data: any }> = ({ data }) => {
           </>
         )}
         {data && (
-          <MetaLink
-            href={`https://app.dework.xyz/profile/${data.username}`}
+          <Link
+            sx={{ textDecoration: 'underline', color: '#b1fcfe' }}
+            href={deworkURL}
             fontWeight={500}
             display="inline-flex"
             alignItems="center"
             isExternal
           >
             See <Text as="span" display={{ base: 'none', xl: 'inline' }}>&nbsp;complete&nbsp;</Text> profile on Dework <ExternalLinkIcon mx="2px" />
-          </MetaLink>
+          </Link>
         )}
       </WrapItem>
     </Wrap>
@@ -278,26 +294,48 @@ const DeworkProfile: React.FC<{data: any }> = ({ data }) => {
 const PlayerDeworkView: React.FC<{
   role: string;
   player: Player;
+  playerDeworkURL: string;
   setPlayerDeworkURL: any;
   profileData: any;
   retry: () => void;
-}> = ({ role, player, setPlayerDeworkURL, retry, profileData }) => {
+}> = ({ role, player, setPlayerDeworkURL, retry, profileData, playerDeworkURL }) => {
 
   const currentView = {
-    AddURL: <DeworkLink setPlayerDeworkURL={setPlayerDeworkURL} />,
+    AddURL: <DeworkLink setPlayerDeworkURL={setPlayerDeworkURL} playerDeworkURL={playerDeworkURL} />,
     Loading: <Loading />,
     NoMatch: <NoMatch playerAddress={player.ethereumAddress} retry={retry} />,
-    DeworkProfile: <DeworkProfile data={profileData} />,
+    DeworkProfile: <DeworkProfile data={profileData} playerDeworkURL={playerDeworkURL} />,
   }[role];
 
   return <>{currentView}</>;
 };
 
-const DeworkLink: React.FC<{ setPlayerDeworkURL: any }> = ({
+const DeworkLink: React.FC<{ setPlayerDeworkURL: any, playerDeworkURL: string }> = ({
   setPlayerDeworkURL,
+  playerDeworkURL,
 }) => {
   const [deworkURL, setDeworkURL] = useState<string>('');
+  const [upsertPlayerDeworkState, upsertPlayerDework] = useUpsertDeworkProfileMutation();
 
+  const handleSetUserDeworkURL = async (playerId: string, identifier: string) => {
+    try {
+      //console.log('in 2')
+      const response = await upsertPlayerDework({
+        playerId: 'f0db18b2-4294-4373-a468-f08f53ab4fbc',
+        identifier: 'Sero',
+        type: 'DEWORK'
+      });
+      //console.log(response)
+      // Handle the response if necessary.
+      // For example, you might want to update the UI based on the mutation's result:
+      if (response && response.data) {
+        //console.log("Successfully upserted:", response.data);
+      }
+    } catch (error) {
+      //console.error("Error upserting the Dework profile:", error);
+    }
+  };
+  
   return (
     <>
       <FormControl id="deworkURL" mb={4}>
@@ -325,13 +363,13 @@ const DeworkLink: React.FC<{ setPlayerDeworkURL: any }> = ({
         <FormHelperText color="white">Enter exactly as written on Dework</FormHelperText>
       </FormControl>
       <Button
-        onClick={() => setPlayerDeworkURL(deworkURL)}
-        isDisabled={!deworkURL}
+        //onClick={() => setPlayerDeworkURL(deworkURL)}
+        onClick={() => handleSetUserDeworkURL('', '')}
         _disabled={{
           cursor: 'not-allowed',
         }}
       >
-        {deworkURL ? 'Proceed To Block' : 'Please Enter Dework username'}
+        {playerDeworkURL ? 'Proceed To Block' : 'Please Enter Dework username'}
       </Button>
     </>
   );
