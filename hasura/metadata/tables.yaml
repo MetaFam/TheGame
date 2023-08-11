@@ -91,6 +91,18 @@
           - name
         filter: {}
 - table:
+    name: LinkType
+    schema: public
+  is_enum: true
+  array_relationships:
+    - name: LinkType_links
+      using:
+        foreign_key_constraint_on:
+          column: type
+          table:
+            name: link
+            schema: public
+- table:
     name: PlayerRank
     schema: public
   is_enum: true
@@ -316,6 +328,13 @@
           table:
             name: dao
             schema: public
+    - name: guild_links
+      using:
+        foreign_key_constraint_on:
+          column: guild_id
+          table:
+            name: link
+            schema: public
     - name: guild_players
       using:
         foreign_key_constraint_on:
@@ -490,6 +509,43 @@
           - player_id
         filter: {}
 - table:
+    name: link
+    schema: public
+  object_relationships:
+    - name: link_guild
+      using:
+        foreign_key_constraint_on: guild_id
+    - name: link_player
+      using:
+        foreign_key_constraint_on: player_id
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - name
+          - player_id
+          - type
+          - url
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - name
+          - type
+          - url
+        filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - name
+          - type
+          - url
+        filter:
+          id:
+            _eq: X-Hasura-User-Id
+        check: {}
+- table:
     name: me
     schema: public
   configuration:
@@ -584,6 +640,13 @@
           column: player_id
           table:
             name: guild_player
+            schema: public
+    - name: player_links
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            name: link
             schema: public
     - name: quest_completions
       using:

@@ -1,0 +1,2 @@
+CREATE TABLE "public"."link" ("name" text, "url" text, "type" text, "id" uuid NOT NULL DEFAULT gen_random_uuid(), "player_id" uuid NOT NULL, "guild_id" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("player_id") REFERENCES "public"."player"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("guild_id") REFERENCES "public"."guild"("id") ON UPDATE cascade ON DELETE cascade, UNIQUE ("id"));
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

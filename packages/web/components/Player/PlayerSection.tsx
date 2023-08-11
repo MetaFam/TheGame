@@ -16,6 +16,7 @@ import React, { forwardRef, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
+import { PlayerLinks } from './Section/PlayerLinks';
 import { PlayerMeTokens } from './Section/PlayerMeToken';
 
 type Props = {
@@ -49,6 +50,8 @@ const PlayerSectionInner: React.FC<
       return <PlayerType {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_ROLES:
       return <PlayerRoles {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.PLAYER_LINKS:
+      return <PlayerLinks {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_ACHIEVEMENTS:
       return <PlayerAchievements {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_COMPLETED_QUESTS:
