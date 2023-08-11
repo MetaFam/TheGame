@@ -643,6 +643,19 @@
   - name: Player
     using:
       foreign_key_constraint_on: player_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        player_id:
+          _eq: X-Hasura-User-Id
+      columns: []
+      backend_only: false
+  - role: public
+    permission:
+      check: {}
+      columns: []
+      backend_only: false
   select_permissions:
   - role: player
     permission:
@@ -657,6 +670,25 @@
       - player_id
       - identifier
       - type
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - identifier
+      - type
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  - role: public
+    permission:
+      columns: []
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: public
+    permission:
       filter: {}
 - table:
     schema: public

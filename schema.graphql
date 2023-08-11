@@ -64,6 +64,7 @@ enum AccountType_constraint {
 }
 
 enum AccountType_enum {
+  DEWORK
   DISCORD
   DISCOURSE
   ETHEREUM
@@ -1074,6 +1075,14 @@ type DiscordGuildAuthResponse {
   exists: Boolean
   guildname: String
   success: Boolean!
+}
+
+type DiscordGuildsSyncOutput {
+  name: String!
+  numDeleted: Int
+  numInserted: Int
+  numSkipped: Int
+  username: String!
 }
 
 type DiscordRole {
@@ -4071,6 +4080,16 @@ type mutation_root {
   perform the action: "saveGuildLayout"
   """
   saveGuildLayout(guildLayoutInfo: GuildLayoutInfoInput!): SaveGuildLayoutResponse
+
+  """
+  perform the action: "syncAllGuildDiscordMembers"
+  """
+  syncAllGuildDiscordMembers: [DiscordGuildsSyncOutput]
+
+  """
+  perform the action: "syncSourceCredAccounts"
+  """
+  syncSourceCredAccounts: SourceCredSyncOutput
 
   """
   perform the action: "updateExpiredIDXProfiles"
@@ -10836,6 +10855,13 @@ update columns of table "SkillCategory"
 enum SkillCategory_update_column {
   """column name"""
   name
+}
+
+type SourceCredSyncOutput {
+  numInserted: Int!
+  numSkipped: Int!
+  numUnclaimed: Int!
+  numUpdated: Int!
 }
 
 """

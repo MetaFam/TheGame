@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node --trace-warnings dist/index.js",
     "build": "yarn generate && tsc -b",
-    "dev": "tsc --build && concurrently 'tsc --watch --preserveWatchOutput' nodemon 'yarn generate # --watch'",
+    "dev": "tsc --build && concurrently 'tsc --watch --preserveWatchOutput' nodemon",
     "typecheck": "yarn generate && tsc --noEmit --pretty",
     "precommit": "yarn typecheck && yarn lint-staged",
     "generate": "graphql-codegen && export OUT=src/lib/autogen/daohaus-sdk.ts && awk '!/MolochVersion = .molochVersion/' $OUT > $OUT.filtered && mv $OUT.filtered $OUT",
