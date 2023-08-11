@@ -7,7 +7,7 @@ type Profile
   avatar: ImageMetadata
   backgroundImage: ImageMetadata
   description: String @string(maxLength: 42000)
-  emoji: String @string(maxLength: 2)
+  emoji: String @string(maxLength: 3)
   # pattern: "^(Pioneer|Settler|Town Planner)$"
   explorerType: String @string(maxLength: 12)
   # pattern: "^([wW]?|[uU]?|[bB]?|[rR]?|[gG]?){0,5}$"
@@ -20,6 +20,9 @@ type Profile
   # e.g. America/Denver
   timeZone: String @string(maxLength: 127)
   websiteURL: String @string(maxLength: 240)
+  # Myers-Briggs Type Indicator
+  mbti: String @string(maxLength: 4)
+  enneagram: String @string(maxLength: 12)
 }
 
 type ImageMetadata {
@@ -31,6 +34,7 @@ type ImageMetadata {
   # Dimensions for raster images
   width: Int @int(min: 0)
   height: Int @int(min: 0)
+
   # For vector images
-  aspectRatio: Float @float(min: 0, max: 1)
+  aspectRatio: Float @float(min: 0, max: 2)
 }
