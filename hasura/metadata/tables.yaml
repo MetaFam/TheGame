@@ -753,10 +753,20 @@
     permission:
       columns:
       - identifier
+      - type
       filter:
         player_id:
           _eq: X-Hasura-User-Id
       check: null
+  - role: public
+    permission:
+      columns: []
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: public
+    permission:
+      filter: {}
 - table:
     schema: public
     name: player_role
