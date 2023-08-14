@@ -728,12 +728,10 @@
       check:
         player_id:
           _eq: X-Hasura-User-Id
-      columns: []
-      backend_only: false
-  - role: public
-    permission:
-      check: {}
-      columns: []
+      columns:
+      - identifier
+      - player_id
+      - type
       backend_only: false
   select_permissions:
   - role: player
@@ -755,20 +753,10 @@
     permission:
       columns:
       - identifier
-      - type
       filter:
         player_id:
           _eq: X-Hasura-User-Id
       check: null
-  - role: public
-    permission:
-      columns: []
-      filter: {}
-      check: null
-  delete_permissions:
-  - role: public
-    permission:
-      filter: {}
 - table:
     schema: public
     name: player_role
