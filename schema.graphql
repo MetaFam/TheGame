@@ -3450,6 +3450,11 @@ type mutation_root {
   ): player_account_mutation_response
 
   """
+  delete single row from the table: "player_account"
+  """
+  delete_player_account_by_pk(identifier: String!, playerId: uuid!, type: AccountType_enum!): player_account
+
+  """
   delete single row from the table: "player"
   """
   delete_player_by_pk(id: uuid!): player
@@ -5414,6 +5419,15 @@ input player_account_order_by {
   identifier: order_by
   playerId: order_by
   type: order_by
+}
+
+"""
+primary key columns input for table: "player_account"
+"""
+input player_account_pk_columns_input {
+  identifier: String!
+  playerId: uuid!
+  type: AccountType_enum!
 }
 
 """
@@ -8375,6 +8389,9 @@ type query_root {
     """filter the rows returned"""
     where: player_account_bool_exp
   ): player_account_aggregate!
+
+  """fetch data from the table: "player_account" using primary key columns"""
+  player_account_by_pk(identifier: String!, playerId: uuid!, type: AccountType_enum!): player_account
 
   """
   fetch aggregated fields from the table: "player"
@@ -12349,6 +12366,9 @@ type subscription_root {
     """filter the rows returned"""
     where: player_account_bool_exp
   ): player_account_aggregate!
+
+  """fetch data from the table: "player_account" using primary key columns"""
+  player_account_by_pk(identifier: String!, playerId: uuid!, type: AccountType_enum!): player_account
 
   """
   fetch data from the table in a streaming manner: "player_account"
