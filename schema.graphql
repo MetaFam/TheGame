@@ -3396,6 +3396,11 @@ type mutation_root {
   ): player_account_mutation_response
 
   """
+  delete single row from the table: "player_account"
+  """
+  delete_player_account_by_pk(identifier: String!, playerId: uuid!, type: AccountType_enum!): player_account
+
+  """
   delete single row from the table: "player"
   """
   delete_player_by_pk(id: uuid!): player
@@ -4519,6 +4524,15 @@ type mutation_root {
   ): player_account_mutation_response
 
   """
+  update single row of the table: "player_account"
+  """
+  update_player_account_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: player_account_set_input
+    pk_columns: player_account_pk_columns_input!
+  ): player_account
+
+  """
   update single row of the table: "player"
   """
   update_player_by_pk(
@@ -5103,7 +5117,10 @@ unique or primary key constraints on table "player_account"
 """
 enum player_account_constraint {
   """unique or primary key constraint"""
-  Account_identifier_type_key
+  player_account_pkey
+
+  """unique or primary key constraint"""
+  player_account_type_player_id_key
 }
 
 """
@@ -5180,6 +5197,15 @@ input player_account_order_by {
   identifier: order_by
   playerId: order_by
   type: order_by
+}
+
+"""
+primary key columns input for table: "player_account"
+"""
+input player_account_pk_columns_input {
+  identifier: String!
+  playerId: uuid!
+  type: AccountType_enum!
 }
 
 """
@@ -8095,6 +8121,9 @@ type query_root {
     """filter the rows returned"""
     where: player_account_bool_exp
   ): player_account_aggregate!
+
+  """fetch data from the table: "player_account" using primary key columns"""
+  player_account_by_pk(identifier: String!, playerId: uuid!, type: AccountType_enum!): player_account
 
   """
   fetch aggregated fields from the table: "player"
@@ -11696,6 +11725,9 @@ type subscription_root {
     """filter the rows returned"""
     where: player_account_bool_exp
   ): player_account_aggregate!
+
+  """fetch data from the table: "player_account" using primary key columns"""
+  player_account_by_pk(identifier: String!, playerId: uuid!, type: AccountType_enum!): player_account
 
   """
   fetch aggregated fields from the table: "player"

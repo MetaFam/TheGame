@@ -62,7 +62,7 @@ export const syncSourceCredAccounts = async (
   const accountsResult = await fetch(Constants.SC_ACCOUNTS_FILE);
   const accountsData = (await accountsResult.json()) as SCAccountsData;
   const accountOnConflict = {
-    constraint: Player_Account_Constraint.AccountIdentifierTypeKey,
+    constraint: Player_Account_Constraint.PlayerAccountTypePlayerIdKey,
     update_columns: [],
   };
 

@@ -9,8 +9,8 @@ import {
   Image,
   InfoIcon,
   Input,
-  Spinner,
   Link,
+  Spinner,
   Text,
   Tooltip,
   VStack,
@@ -21,8 +21,15 @@ import { generateUUID } from '@metafam/utils';
 import DeworkLogo from 'assets/integrationLogos/deworkLogo.png';
 import { MetaLink } from 'components/Link';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { Player } from 'graphql/autogen/types';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Player, useUpsertDeworkProfileMutation } from 'graphql/autogen/types';
+import { getPlayerDeworkUsername } from 'graphql/getDeworkUsername';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { MdRefresh } from 'react-icons/md';
 import {
   getDeworkData,
@@ -30,8 +37,6 @@ import {
   processDeworkData,
 } from 'utils/dework';
 import { formatAddress } from 'utils/playerHelpers';
-import { getPlayerDeworkUsername } from 'graphql/getDeworkUsername';
-import { useUpsertDeworkProfileMutation } from 'graphql/autogen/types';
 
 type Props = {
   player: Player;
@@ -90,12 +95,14 @@ export const PlayerDework: React.FC<Props> = ({
 
   useEffect(() => {
     const getDeworkUsername = async () => {
-      getPlayerDeworkUsername(player.id).then((res) => res && setPlayerDeworkURL(res as string))
-    }
+      getPlayerDeworkUsername(player.id).then(
+        (res) => res && setPlayerDeworkURL(res as string),
+      );
+    };
     if (player?.id) {
-      getDeworkUsername()
+      getDeworkUsername();
     }
-  }, [player?.id])
+  }, [player?.id]);
 
   const getData = useCallback(async (address: string) => {
     setLoading(true);
@@ -111,57 +118,54 @@ export const PlayerDework: React.FC<Props> = ({
         setAddressMatch(false);
       }
       setLoading(false);
-
     });
   }, []);
 
   useEffect(() => {
     getData(player?.ethereumAddress);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player?.ethereumAddress]);
 
   const retryCall = async () => {
     await getData(player?.ethereumAddress);
   };
 
-  useEffect(
-    () => {
-      if (typeof window !== 'undefined') {
-        // find the parent div of the noticeRef and position noticeRef at the top
-        const parentDiv = noticeRef.current?.parentElement;
-        if (parentDiv) {
-          parentDiv.style.position = 'relative';
-          parentDiv.style.top = '0';
-        }
-
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // find the parent div of the noticeRef and position noticeRef at the top
+      const parentDiv = noticeRef.current?.parentElement;
+      if (parentDiv) {
+        parentDiv.style.position = 'relative';
+        parentDiv.style.top = '0';
       }
-    },[]);
+    }
+  }, []);
 
-  useMemo(
-    () => {
-      if (loading) {
-        setRole('Loading');
-      } else if (playerDeworkURL) {
-          setRole('DeworkProfile');
-        } else if (addressMatch && !playerDeworkURL) {
-          setRole('AddURL')
-        } else {
-          setRole('NoMatch');
-        }
-    },
-    [loading, playerDeworkURL, addressMatch],
-  );
+  useMemo(() => {
+    if (loading) {
+      setRole('Loading');
+    } else if (playerDeworkURL) {
+      setRole('DeworkProfile');
+    } else if (addressMatch && !playerDeworkURL) {
+      setRole('AddURL');
+    } else {
+      setRole('NoMatch');
+    }
+  }, [loading, playerDeworkURL, addressMatch]);
 
   return (
-    <ProfileSection title="Dework Profile" {...{ isOwnProfile, editing, connected }}>
+    <ProfileSection
+      title="Dework Profile"
+      {...{ isOwnProfile, editing, connected }}
+    >
       <Box position={'relative'} m={0}>
-      <PlayerDeworkView
-        role={role}
-        player={player}
-        playerDeworkURL={playerDeworkURL}
-        setPlayerDeworkURL={setPlayerDeworkURL}
-        profileData={deworkData}
-        retry={() => retryCall()}
+        <PlayerDeworkView
+          role={role}
+          player={player}
+          playerDeworkURL={playerDeworkURL}
+          setPlayerDeworkURL={setPlayerDeworkURL}
+          profileData={deworkData}
+          retry={() => retryCall()}
         />
         {role !== 'NoMatch' && (
           <Image
@@ -175,19 +179,20 @@ export const PlayerDework: React.FC<Props> = ({
             alt="Dework logo"
           />
         )}
-        </Box>
+      </Box>
     </ProfileSection>
   );
 };
 
-const DeworkProfile: React.FC<{data: any, playerDeworkURL: string }> = ({ data, playerDeworkURL }) => {
+const DeworkProfile: React.FC<{ data: any; playerDeworkURL: string }> = ({
+  data,
+  playerDeworkURL,
+}) => {
+  const processedData = useMemo(() => processDeworkData(data), [data]);
 
-  const processedData = useMemo(
-    () => processDeworkData(data),
-    [data],
-  );
-
-  const deworkURL = `https://app.dework.xyz/` + (playerDeworkURL ? `profile/${playerDeworkURL}` : '')
+  const deworkURL = `https://app.dework.xyz/${
+    playerDeworkURL ? `profile/${playerDeworkURL}` : ''
+  }`;
 
   return (
     <Wrap>
@@ -283,7 +288,11 @@ const DeworkProfile: React.FC<{data: any, playerDeworkURL: string }> = ({ data, 
             alignItems="center"
             isExternal
           >
-            See <Text as="span" display={{ base: 'none', xl: 'inline' }}>&nbsp;complete&nbsp;</Text> profile on Dework <ExternalLinkIcon mx="2px" />
+            See{' '}
+            <Text as="span" display={{ base: 'none', xl: 'inline' }}>
+              &nbsp;complete&nbsp;
+            </Text>{' '}
+            profile on Dework <ExternalLinkIcon mx="2px" />
           </Link>
         )}
       </WrapItem>
@@ -298,48 +307,64 @@ const PlayerDeworkView: React.FC<{
   setPlayerDeworkURL: any;
   profileData: any;
   retry: () => void;
-}> = ({ role, player, setPlayerDeworkURL, retry, profileData, playerDeworkURL }) => {
-
+}> = ({
+  role,
+  player,
+  setPlayerDeworkURL,
+  retry,
+  profileData,
+  playerDeworkURL,
+}) => {
   const currentView = {
-    AddURL: <DeworkLink setPlayerDeworkURL={setPlayerDeworkURL} playerDeworkURL={playerDeworkURL} />,
+    AddURL: (
+      <DeworkLink
+        setPlayerDeworkURL={setPlayerDeworkURL}
+        playerDeworkURL={playerDeworkURL}
+        player={player}
+      />
+    ),
     Loading: <Loading />,
     NoMatch: <NoMatch playerAddress={player.ethereumAddress} retry={retry} />,
-    DeworkProfile: <DeworkProfile data={profileData} playerDeworkURL={playerDeworkURL} />,
+    DeworkProfile: (
+      <DeworkProfile data={profileData} playerDeworkURL={playerDeworkURL} />
+    ),
   }[role];
 
   return <>{currentView}</>;
 };
 
-const DeworkLink: React.FC<{ setPlayerDeworkURL: any, playerDeworkURL: string }> = ({
-  setPlayerDeworkURL,
-  playerDeworkURL,
-}) => {
+const DeworkLink: React.FC<{
+  setPlayerDeworkURL: any;
+  playerDeworkURL: string;
+  player: Player;
+}> = ({ player, setPlayerDeworkURL, playerDeworkURL }) => {
   const [deworkURL, setDeworkURL] = useState<string>('');
-  const [upsertPlayerDeworkState, upsertPlayerDework] = useUpsertDeworkProfileMutation();
+  const [, upsertPlayerDework] = useUpsertDeworkProfileMutation();
 
-  const handleSetUserDeworkURL = async (playerId: string, identifier: string) => {
+  const handleSetUserDeworkURL = async () => {
     try {
-      //console.log('in 2')
       const response = await upsertPlayerDework({
-        playerId: 'f0db18b2-4294-4373-a468-f08f53ab4fbc',
-        identifier: 'Sero',
-        type: 'DEWORK'
+        playerId: player?.id,
+        identifier: deworkURL,
+        type: 'DEWORK',
       });
-      //console.log(response)
       // Handle the response if necessary.
       // For example, you might want to update the UI based on the mutation's result:
       if (response && response.data) {
-        //console.log("Successfully upserted:", response.data);
+        setPlayerDeworkURL(deworkURL);
       }
     } catch (error) {
-      //console.error("Error upserting the Dework profile:", error);
+      throw Error(
+        `Error upserting the Dework profile: ${(error as Error).message}`,
+      );
     }
   };
-  
+
   return (
     <>
       <FormControl id="deworkURL" mb={4}>
-        <FormLabel>Input Dework Username
+        <FormLabel>
+          Input Dework Username
           <Tooltip
             label="It is not currently possible to obtain the username from the Dework API. Please enter your Dework username exactly as it appears on Dework."
             aria-label="It is not currently possible to obtain the username from the Dework API. Please enter your Dework username exactly as it appears on Dework."
@@ -349,7 +374,6 @@ const DeworkLink: React.FC<{ setPlayerDeworkURL: any, playerDeworkURL: string }>
           >
             <InfoIcon ml={2} />
           </Tooltip>
-
         </FormLabel>
         <Input
           value={deworkURL}
@@ -360,11 +384,13 @@ const DeworkLink: React.FC<{ setPlayerDeworkURL: any, playerDeworkURL: string }>
           step="any"
           onChange={({ target: { value } }) => setDeworkURL(value)}
         />
-        <FormHelperText color="white">Enter exactly as written on Dework</FormHelperText>
+        <FormHelperText color="white">
+          Enter exactly as written on Dework
+        </FormHelperText>
       </FormControl>
       <Button
-        //onClick={() => setPlayerDeworkURL(deworkURL)}
-        onClick={() => handleSetUserDeworkURL('', '')}
+        // onClick={() => setPlayerDeworkURL(deworkURL)}
+        onClick={() => handleSetUserDeworkURL()}
         _disabled={{
           cursor: 'not-allowed',
         }}
@@ -375,54 +401,89 @@ const DeworkLink: React.FC<{ setPlayerDeworkURL: any, playerDeworkURL: string }>
   );
 };
 
-const NoMatch: React.FC<{ playerAddress: string, retry: () => void }> = ({ playerAddress, retry }) => (
-    <Box
-      position="relative"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      textAlign="left"
-      p={6}
-      pb={14}
-      gap={4}
-      height="100%"
-      width="full"
-      _after={{
-        content: '""',
-        position: 'absolute',
-        inset: 0,
-        bottom: 10,
-        height: 'calc(100% - 2rem)',
-        zIndex: -1,
-        bgColor: 'red.500',
-        opacity: 0.25,
-      }}
-    >
-      <Heading as="h4" fontFamily="body" fontSize="md" textAlign="left" w="full"><InfoIcon mr={2} /> Wallets do not match </Heading>
-      <Text>We couldn’t find a Dework profile with the ETH address you used to connect with MetaGame.</Text>
-      <Text>Go to your <MetaLink href={"https://app.dework.xyz/"} color="white" textDecoration="underline" isExternal>Dework</MetaLink> profile and make sure you have connected with wallet <strong>{formatAddress(playerAddress)}</strong>.</Text>
-      <Text>Connecting to a different wallet on Dework won’t result in any data loss or other issues.</Text>
-      <Button
-        mt={4}
-        colorScheme="whiteAlpha"
+const NoMatch: React.FC<{ playerAddress: string; retry: () => void }> = ({
+  playerAddress,
+  retry,
+}) => (
+  <Box
+    position="relative"
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    flexDirection="column"
+    textAlign="left"
+    p={6}
+    pb={14}
+    gap={4}
+    height="100%"
+    width="full"
+    _after={{
+      content: '""',
+      position: 'absolute',
+      inset: 0,
+      bottom: 10,
+      height: 'calc(100% - 2rem)',
+      zIndex: -1,
+      bgColor: 'red.500',
+      opacity: 0.25,
+    }}
+  >
+    <Heading as="h4" fontFamily="body" fontSize="md" textAlign="left" w="full">
+      <InfoIcon mr={2} /> Wallets do not match{' '}
+    </Heading>
+    <Text>
+      We couldn’t find a Dework profile with the ETH address you used to connect
+      with MetaGame.
+    </Text>
+    <Text>
+      Go to your{' '}
+      <MetaLink
+        href={'https://app.dework.xyz/'}
         color="white"
-        borderColor="white"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        variant="outline"
-        borderRadius={0}
-        w="full"
-        onClick={() => retry()}
-        leftIcon={<MdRefresh />}
+        textDecoration="underline"
+        isExternal
       >
-        Try Again
+        Dework
+      </MetaLink>{' '}
+      profile and make sure you have connected with wallet{' '}
+      <strong>{formatAddress(playerAddress)}</strong>.
+    </Text>
+    <Text>
+      Connecting to a different wallet on Dework won’t result in any data loss
+      or other issues.
+    </Text>
+    <Button
+      mt={4}
+      colorScheme="whiteAlpha"
+      color="white"
+      borderColor="white"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      variant="outline"
+      borderRadius={0}
+      w="full"
+      onClick={() => retry()}
+      leftIcon={<MdRefresh />}
+    >
+      Try Again
     </Button>
 
-    <MetaLink href={"https://app.dework.xyz/"} color="white" textDecoration="underline" display="block" position="absolute" bottom={0} transform="auto" translateY={2} isExternal>Go to Dework <ExternalLinkIcon ml={1} /></MetaLink>
-    </Box>
-  );
+    <MetaLink
+      href={'https://app.dework.xyz/'}
+      color="white"
+      textDecoration="underline"
+      display="block"
+      position="absolute"
+      bottom={0}
+      transform="auto"
+      translateY={2}
+      isExternal
+    >
+      Go to Dework <ExternalLinkIcon ml={1} />
+    </MetaLink>
+  </Box>
+);
 
 const Loading: React.FC = () => (
   <Box
@@ -433,6 +494,8 @@ const Loading: React.FC = () => (
     width="full"
   >
     <Spinner size="lg" color="white" thickness="3px" flexShrink={0} />
-    <Text ml={4} pr={16} flexGrow={1}>Looking for a Dework profile with the same ETH address</Text>
+    <Text ml={4} pr={16} flexGrow={1}>
+      Looking for a Dework profile with the same ETH address
+    </Text>
   </Box>
 );
