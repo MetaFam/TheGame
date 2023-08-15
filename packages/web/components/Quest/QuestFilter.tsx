@@ -291,7 +291,12 @@ export const QuestFilter: React.FC<Props> = ({
                 borderWidth="2px"
                 bg="dark"
               >
-                <FormControl display="flex" alignItems="center" mx={3}>
+                <FormControl
+                  display="flex"
+                  alignItems="center"
+                  mx={3}
+                  minH="38px" // Match the height of the MetaFilterSelectSearch components
+                >
                   <FormLabel
                     htmlFor="createdByMe"
                     mb={0}
