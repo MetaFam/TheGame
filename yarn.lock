@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@0no-co/graphql.web@^1.0.1":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.4.tgz#9606eb651955499525d068ce0ad8bea596286ce2"
-  integrity sha512-W3ezhHGfO0MS1PtGloaTpg0PbaT8aZSmmaerL7idtU5F7oCI+uu25k+MsMS31BVFlp4aMkHSrNRxiD72IlK8TA==
-
 "@0x/assert@3.0.31":
   version "3.0.31"
   resolved "https://registry.yarnpkg.com/@0x/assert/-/assert-3.0.31.tgz#2c9e7e0ff9cc7bae8cd0380022e1723ee505a82e"
@@ -7011,35 +7006,20 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
-"@urql/core@>=3.0.0":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@urql/core/-/core-3.1.1.tgz#a49cd572360d01f2469a786b294fba2269a65e53"
-  integrity sha512-Mnxtq4I4QeFJsgs7Iytw+HyhiGxISR6qtyk66c9tipozLZ6QVxrCiUPF2HY4BxNIabaxcp+rivadvm8NAnXj4Q==
-  dependencies:
-    wonka "^6.1.2"
-
-"@urql/core@^3.2.0":
+"@urql/core@3.2.2", "@urql/core@>=2.4.4", "@urql/core@^3.2.0":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-3.2.2.tgz#2a44015b536d72981822f715c96393d8e0ddc576"
   integrity sha512-i046Cz8cZ4xIzGMTyHZrbdgzcFMcKD7+yhCAH5FwWBRjcKrc+RjEOuR9X5AMuBvr8c6IAaE92xAqa4wmlGfWTQ==
   dependencies:
     wonka "^6.1.2"
 
-"@urql/core@^4.0.0":
-  version "4.0.11"
-  resolved "https://registry.yarnpkg.com/@urql/core/-/core-4.0.11.tgz#b4e8bf3a3ff1a2519bb3aec38c7be99d2523308d"
-  integrity sha512-FFdY97vF5xnUrElcGw9erOLvtu+KGMLfwrLNDfv4IPgdp2IBsiGe+Kb7Aypfd3kH//BETewVSLm3+y2sSzjX6A==
+"@urql/exchange-retry@^0.3.2":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@urql/exchange-retry/-/exchange-retry-0.3.3.tgz#78ac3f2afbb197aaa6710aaf6a16e0dfd3c8536e"
+  integrity sha512-CgGy/rs3VlcWglSEi5SitbMjueDlG4Oq8fveHFdvcCVGf2Vj5Oeq0Blbjfd8vfyXBQS0cPgdZD8kalOPeV0URA==
   dependencies:
-    "@0no-co/graphql.web" "^1.0.1"
-    wonka "^6.3.2"
-
-"@urql/exchange-retry@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@urql/exchange-retry/-/exchange-retry-1.0.0.tgz#25a48ef0c2f6854f5617e2ca4ea25ae240f1fcbc"
-  integrity sha512-UGyyGAMXzop9C/fIoe7Ij63DkPSy1uMw2jipB5dnB8R3kl80za7LYzVnA1HvBEt2ZPWfMuwez/VGLOQ7XX4bTA==
-  dependencies:
-    "@urql/core" ">=3.0.0"
-    wonka "^6.0.0"
+    "@urql/core" ">=2.4.4"
+    wonka "^4.0.14"
 
 "@userback/react@^0.1.4":
   version "0.1.4"
@@ -22067,21 +22047,13 @@ urlpattern-polyfill@^8.0.0:
   resolved "https://registry.yarnpkg.com/urlpattern-polyfill/-/urlpattern-polyfill-8.0.2.tgz#99f096e35eff8bf4b5a2aa7d58a1523d6ebc7ce5"
   integrity sha512-Qp95D4TPJl1kC9SKigDcqgyM2VDVO4RiJc2d4qe5GrYm+zbIQCWWKAFaJNQ4BhdFeDGwBmAxqJBwWSJDb9T3BQ==
 
-urql@^3.0.3:
+urql@^3.0.3, urql@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/urql/-/urql-3.0.4.tgz#f73dbd2e5b134b7328c14d5b8ab1f93f93db8990"
   integrity sha512-okmQKQ9pF4t8O8iCC5gH9acqfFji5lkhW3nLBjx8WKDd2zZG7PXoUpUK19VQEMK87L6VFBOO/XZ52MMKFEI0AA==
   dependencies:
     "@urql/core" "^3.2.0"
     wonka "^6.0.0"
-
-urql@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/urql/-/urql-4.0.4.tgz#a9a06eb659585c48ceab012321b0e6254b699188"
-  integrity sha512-C5P4BMnAsk+rbytCWglit5ijXbIKXsa9wofSGPbuMyJKsDdL+9GfipS362Nff/Caag+eYOK5W+sox8fwEILT6Q==
-  dependencies:
-    "@urql/core" "^4.0.0"
-    wonka "^6.3.2"
 
 use-callback-ref@^1.3.0:
   version "1.3.0"
@@ -22870,10 +22842,20 @@ widest-line@^3.1.0:
   dependencies:
     string-width "^4.0.0"
 
-wonka@^6.0.0, wonka@^6.1.2, wonka@^6.3.2:
+wonka@^4.0.14:
+  version "4.0.15"
+  resolved "https://registry.yarnpkg.com/wonka/-/wonka-4.0.15.tgz#9aa42046efa424565ab8f8f451fcca955bf80b89"
+  integrity sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==
+
+wonka@^6.0.0:
   version "6.3.2"
   resolved "https://registry.yarnpkg.com/wonka/-/wonka-6.3.2.tgz#6f32992b332251d7b696b038990f4dc284b3b33d"
   integrity sha512-2xXbQ1LnwNS7egVm1HPhW2FyKrekolzhpM3mCwXdQr55gO+tAiY76rhb32OL9kKsW8taj++iP7C6hxlVzbnvrw==
+
+wonka@^6.1.2:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/wonka/-/wonka-6.3.4.tgz#76eb9316e3d67d7febf4945202b5bdb2db534594"
+  integrity sha512-CjpbqNtBGNAeyNS/9W6q3kSkKE52+FjIj7AkFlLr11s/VWGUu6a2CdYSdGxocIhIVjaW/zchesBQUKPVU69Cqg==
 
 wordwrap@^1.0.0:
   version "1.0.0"
