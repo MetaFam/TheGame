@@ -185,6 +185,7 @@ columns and relationships of "balance"
 type balance {
   amount: float8!
   blockHeight: Int!
+  executedAt: timestamptz!
   id: uuid!
   playerAddress: String!
 
@@ -266,6 +267,7 @@ input balance_bool_exp {
   _or: [balance_bool_exp]
   amount: float8_comparison_exp
   blockHeight: Int_comparison_exp
+  executedAt: timestamptz_comparison_exp
   id: uuid_comparison_exp
   playerAddress: String_comparison_exp
   token: token_bool_exp
@@ -280,7 +282,7 @@ enum balance_constraint {
   balance_pkey
 
   """unique or primary key constraint"""
-  balance_token_address_player_address_block_height_key
+  balance_token_address_player_address_executed_at_key
 }
 
 """
@@ -297,6 +299,7 @@ input type for inserting data into table "balance"
 input balance_insert_input {
   amount: float8
   blockHeight: Int
+  executedAt: timestamptz
   id: uuid
   playerAddress: String
   token: token_obj_rel_insert_input
@@ -307,6 +310,7 @@ input balance_insert_input {
 type balance_max_fields {
   amount: float8
   blockHeight: Int
+  executedAt: timestamptz
   id: uuid
   playerAddress: String
   tokenAddress: String
@@ -318,6 +322,7 @@ order by max() on columns of table "balance"
 input balance_max_order_by {
   amount: order_by
   blockHeight: order_by
+  executedAt: order_by
   id: order_by
   playerAddress: order_by
   tokenAddress: order_by
@@ -327,6 +332,7 @@ input balance_max_order_by {
 type balance_min_fields {
   amount: float8
   blockHeight: Int
+  executedAt: timestamptz
   id: uuid
   playerAddress: String
   tokenAddress: String
@@ -338,6 +344,7 @@ order by min() on columns of table "balance"
 input balance_min_order_by {
   amount: order_by
   blockHeight: order_by
+  executedAt: order_by
   id: order_by
   playerAddress: order_by
   tokenAddress: order_by
@@ -377,6 +384,7 @@ ordering options when selecting data from "balance"
 input balance_order_by {
   amount: order_by
   blockHeight: order_by
+  executedAt: order_by
   id: order_by
   playerAddress: order_by
   token: token_order_by
@@ -401,6 +409,9 @@ enum balance_select_column {
   blockHeight
 
   """column name"""
+  executedAt
+
+  """column name"""
   id
 
   """column name"""
@@ -416,6 +427,7 @@ input type for updating data in table "balance"
 input balance_set_input {
   amount: float8
   blockHeight: Int
+  executedAt: timestamptz
   id: uuid
   playerAddress: String
   tokenAddress: String
@@ -486,6 +498,9 @@ enum balance_update_column {
 
   """column name"""
   blockHeight
+
+  """column name"""
+  executedAt
 
   """column name"""
   id

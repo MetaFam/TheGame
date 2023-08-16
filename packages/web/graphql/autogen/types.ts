@@ -2270,6 +2270,7 @@ export type UpdateQuestCompletionOutput = {
 export type Balance = {
   amount: Scalars['float8'];
   blockHeight: Scalars['Int'];
+  executedAt: Scalars['timestamptz'];
   id: Scalars['uuid'];
   playerAddress: Scalars['String'];
   /** An object relationship */
@@ -2344,6 +2345,7 @@ export type Balance_Bool_Exp = {
   _or?: InputMaybe<Array<InputMaybe<Balance_Bool_Exp>>>;
   amount?: InputMaybe<Float8_Comparison_Exp>;
   blockHeight?: InputMaybe<Int_Comparison_Exp>;
+  executedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   playerAddress?: InputMaybe<String_Comparison_Exp>;
   token?: InputMaybe<Token_Bool_Exp>;
@@ -2355,7 +2357,7 @@ export enum Balance_Constraint {
   /** unique or primary key constraint */
   BalancePkey = 'balance_pkey',
   /** unique or primary key constraint */
-  BalanceTokenAddressPlayerAddressBlockHeightKey = 'balance_token_address_player_address_block_height_key',
+  BalanceTokenAddressPlayerAddressExecutedAtKey = 'balance_token_address_player_address_executed_at_key',
 }
 
 /** input type for incrementing integer column in table "balance" */
@@ -2368,6 +2370,7 @@ export type Balance_Inc_Input = {
 export type Balance_Insert_Input = {
   amount?: InputMaybe<Scalars['float8']>;
   blockHeight?: InputMaybe<Scalars['Int']>;
+  executedAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   playerAddress?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Token_Obj_Rel_Insert_Input>;
@@ -2378,6 +2381,7 @@ export type Balance_Insert_Input = {
 export type Balance_Max_Fields = {
   amount?: Maybe<Scalars['float8']>;
   blockHeight?: Maybe<Scalars['Int']>;
+  executedAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   playerAddress?: Maybe<Scalars['String']>;
   tokenAddress?: Maybe<Scalars['String']>;
@@ -2387,6 +2391,7 @@ export type Balance_Max_Fields = {
 export type Balance_Max_Order_By = {
   amount?: InputMaybe<Order_By>;
   blockHeight?: InputMaybe<Order_By>;
+  executedAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   playerAddress?: InputMaybe<Order_By>;
   tokenAddress?: InputMaybe<Order_By>;
@@ -2396,6 +2401,7 @@ export type Balance_Max_Order_By = {
 export type Balance_Min_Fields = {
   amount?: Maybe<Scalars['float8']>;
   blockHeight?: Maybe<Scalars['Int']>;
+  executedAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   playerAddress?: Maybe<Scalars['String']>;
   tokenAddress?: Maybe<Scalars['String']>;
@@ -2405,6 +2411,7 @@ export type Balance_Min_Fields = {
 export type Balance_Min_Order_By = {
   amount?: InputMaybe<Order_By>;
   blockHeight?: InputMaybe<Order_By>;
+  executedAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   playerAddress?: InputMaybe<Order_By>;
   tokenAddress?: InputMaybe<Order_By>;
@@ -2435,6 +2442,7 @@ export type Balance_On_Conflict = {
 export type Balance_Order_By = {
   amount?: InputMaybe<Order_By>;
   blockHeight?: InputMaybe<Order_By>;
+  executedAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   playerAddress?: InputMaybe<Order_By>;
   token?: InputMaybe<Token_Order_By>;
@@ -2453,6 +2461,8 @@ export enum Balance_Select_Column {
   /** column name */
   BlockHeight = 'blockHeight',
   /** column name */
+  ExecutedAt = 'executedAt',
+  /** column name */
   Id = 'id',
   /** column name */
   PlayerAddress = 'playerAddress',
@@ -2464,6 +2474,7 @@ export enum Balance_Select_Column {
 export type Balance_Set_Input = {
   amount?: InputMaybe<Scalars['float8']>;
   blockHeight?: InputMaybe<Scalars['Int']>;
+  executedAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   playerAddress?: InputMaybe<Scalars['String']>;
   tokenAddress?: InputMaybe<Scalars['String']>;
@@ -2523,6 +2534,8 @@ export enum Balance_Update_Column {
   Amount = 'amount',
   /** column name */
   BlockHeight = 'blockHeight',
+  /** column name */
+  ExecutedAt = 'executedAt',
   /** column name */
   Id = 'id',
   /** column name */

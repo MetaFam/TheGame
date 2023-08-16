@@ -159,6 +159,7 @@
     custom_column_names:
       player_address: playerAddress
       block_height: blockHeight
+      executed_at: executedAt
       token_address: tokenAddress
   object_relationships:
   - name: token

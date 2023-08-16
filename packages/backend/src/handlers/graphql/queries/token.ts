@@ -16,8 +16,18 @@ export const TokenQueries = /* GraphQL */ `
     }
   }
 
-  query GetTotalForPlayer($playerAddress: String!, $tokenAddress: String!) {
-    balance_aggregate(where: {tokenAddress: {_ilike: $tokenAddress}, playerAddress: {_ilike: $playerAddress}}) {
+  query GetTotalForPlayer(
+    $playerAddress: String!
+    $tokenAddress: String!
+    $executedAfter: timestamptz
+  ) {
+    balance_aggregate(
+      where: {
+        tokenAddress: { _ilike: $tokenAddress }
+        playerAddress: { _ilike: $playerAddress }
+        executedAt: { _gte: $executedAfter }
+      }
+    ) {
       aggregate {
         sum {
           amount
@@ -27,7 +37,7 @@ export const TokenQueries = /* GraphQL */ `
   }
 
   query GetInitialXP($playerId: uuid!) {
-    xp(where: {playerId: {_eq: $playerId}}) {
+    xp(where: { playerId: { _eq: $playerId } }) {
       initial
     }
   }
