@@ -16,12 +16,7 @@
   "dependencies": {
     "@3id/connect": "^0.4.1",
     "@3id/did-provider": "^0.4.1",
-    "@ceramicnetwork/3id-did-resolver": "^2.11.0",
-    "@ceramicnetwork/common": "^2.18.0",
-    "@ceramicnetwork/http-client": "^2.15.0",
-    "@ceramicnetwork/stream-caip10-link": "^2.13.0",
     "@composedb/client": "^0.4.4",
-    "@datamodels/identity-profile-basic": "^0.2.0",
     "@didtools/pkh-ethereum": "^0.0.3",
     "@ethersproject/address": "5.6.0",
     "@ethersproject/providers": "^5.7.2",
