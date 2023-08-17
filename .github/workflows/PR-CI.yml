@@ -39,6 +39,7 @@ jobs:
         run: yarn typecheck
         env:
           CI: true
+          THE_GRAPH_API_TOKEN: ${{secrets.THE_GRAPH_API_TOKEN}}
 
       - name: Linting
         run: yarn lint
@@ -48,16 +49,16 @@ jobs:
       # Disabling rather than fighting with ts-jest
       # at this particular moment. dys:2022/11/01
 
-      - name: Testing
+      # - name: Testing
       #   run: yarn test --ci --coverage
       #   env:
       #     CI: true
-      - uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '🚧🚧 Tests Disabled 🚧🚧'
-            })
+      # - uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       github.rest.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: '🚧🚧 Tests Disabled 🚧🚧'
+      #       })

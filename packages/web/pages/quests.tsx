@@ -33,7 +33,14 @@ import { isAllowedToCreateQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export const getStaticProps = async () => {
+export const getStaticProps = async (): 
+Promise<{
+  props: {
+    urqlState: any
+    roleChoices: any
+  };
+  revalidate: 1;
+}> => {
   const roleChoices = await getPlayerRoles();
   const [ssrClient, ssrCache] = getSsrClient();
   // This populates the cache server-side

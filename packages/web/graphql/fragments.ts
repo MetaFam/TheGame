@@ -1,3 +1,23 @@
+export const PlayerProfileFragment = /* GraphQL */ `
+  fragment PlayerProfileFragment on profile {
+    availableHours
+    backgroundImageURL
+    bannerImageURL
+    colorMask
+    countryCode
+    description
+    emoji
+    explorerTypeTitle
+    location
+    name
+    profileImageURL
+    pronouns
+    timeZone
+    username
+    website
+  }
+`;
+
 export const PlayerFragment = /* GraphQL */ `
   fragment PlayerFragment on player {
     id
@@ -6,23 +26,10 @@ export const PlayerFragment = /* GraphQL */ `
     rank
     ethereumAddress
     profileLayout
+    ceramicProfileId
 
     profile {
-      name
-      username
-      description
-      emoji
-      profileImageURL
-      bannerImageURL
-      backgroundImageURL
-      location
-      countryCode
-      website
-      pronouns
-      availableHours
-      timeZone
-      colorMask
-      explorerTypeTitle
+      ...PlayerProfileFragment
     }
 
     skills {
@@ -57,6 +64,7 @@ export const PlayerFragment = /* GraphQL */ `
     #   contextIds
     # }
   }
+  ${PlayerProfileFragment}
 `;
 
 export const GuildFragment = /* GraphQL */ `

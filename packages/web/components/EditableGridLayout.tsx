@@ -51,7 +51,7 @@ import {
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-type Props = {
+type Props = React.PropsWithChildren<{
   player?: Player;
   guild?: GuildFragment;
   savedLayoutData: LayoutData;
@@ -62,9 +62,11 @@ type Props = {
   allBoxOptions: BoxType[];
   ens?: string;
   displayComponent: DisplayOutput;
-} & BoxProps;
+}> &
+  BoxProps;
 
 export const EditableGridLayout: React.FC<Props> = ({
+  children,
   player,
   guild,
   persisting,
@@ -215,12 +217,13 @@ export const EditableGridLayout: React.FC<Props> = ({
         <ButtonGroup
           w="full"
           mb={4}
-          justifyContent="end"
+          justifyContent={children ? 'space-between' : 'end'}
           variant="ghost"
           zIndex={10}
           isAttached
           size={mobile ? 'xs' : 'md'}
         >
+          {children}
           {editing && !isDefaultLayout && (
             <MetaButton
               aria-label="Reset Layout"

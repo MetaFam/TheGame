@@ -1,642 +1,721 @@
 - table:
-    schema: public
     name: AccountType
+    schema: public
   is_enum: true
 - table:
-    schema: public
     name: ColorAspect
-  array_relationships:
-  - name: profiles
-    using:
-      foreign_key_constraint_on:
-        column: color_mask
-        table:
-          schema: public
-          name: profile
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - mask
-      - name
-      - description
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - mask
-      - description
-      - name
-      filter: {}
-- table:
     schema: public
+  array_relationships:
+    - name: profiles
+      using:
+        foreign_key_constraint_on:
+          column: color_mask
+          table:
+            name: profile
+            schema: public
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - mask
+          - name
+          - description
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - mask
+          - description
+          - name
+        filter: {}
+- table:
     name: ExplorerType
+    schema: public
   configuration:
-    custom_root_fields: {}
+    column_config:
+      image_url:
+        custom_name: imageURL
     custom_column_names:
       image_url: imageURL
-  array_relationships:
-  - name: profiles
-    using:
-      foreign_key_constraint_on:
-        column: explorer_type_title
-        table:
-          schema: public
-          name: profile
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - description
-      - id
-      - image_url
-      - title
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - id
-      - description
-      - image_url
-      - title
-      filter: {}
-- table:
-    schema: public
-    name: GuildStatus
-  is_enum: true
-- table:
-    schema: public
-    name: GuildType
-  is_enum: true
-  array_relationships:
-  - name: Guilds
-    using:
-      foreign_key_constraint_on:
-        column: type
-        table:
-          schema: public
-          name: guild
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - name
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - name
-      filter: {}
-- table:
-    schema: public
-    name: PlayerRank
-  is_enum: true
-- table:
-    schema: public
-    name: PlayerRole
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - description
-      - basic
-      - label
-      - role
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - description
-      - basic
-      - label
-      - role
-      filter: {}
-- table:
-    schema: public
-    name: QuestCompletionStatus
-  is_enum: true
-  array_relationships:
-  - name: quest_completions
-    using:
-      foreign_key_constraint_on:
-        column: status
-        table:
-          schema: public
-          name: quest_completion
-- table:
-    schema: public
-    name: QuestRepetition
-  is_enum: true
-  array_relationships:
-  - name: quests
-    using:
-      foreign_key_constraint_on:
-        column: repetition
-        table:
-          schema: public
-          name: quest
-- table:
-    schema: public
-    name: QuestStatus
-  is_enum: true
-  array_relationships:
-  - name: quests
-    using:
-      foreign_key_constraint_on:
-        column: status
-        table:
-          schema: public
-          name: quest
-- table:
-    schema: public
-    name: SkillCategory
-  is_enum: true
-- table:
-    schema: public
-    name: dao
-  configuration:
     custom_root_fields: {}
+  array_relationships:
+    - name: profiles
+      using:
+        foreign_key_constraint_on:
+          column: explorer_type_title
+          table:
+            name: profile
+            schema: public
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - description
+          - id
+          - image_url
+          - title
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - id
+          - description
+          - image_url
+          - title
+        filter: {}
+- table:
+    name: GuildStatus
+    schema: public
+  is_enum: true
+- table:
+    name: GuildType
+    schema: public
+  is_enum: true
+  array_relationships:
+    - name: Guilds
+      using:
+        foreign_key_constraint_on:
+          column: type
+          table:
+            name: guild
+            schema: public
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - name
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - name
+        filter: {}
+- table:
+    name: PlayerRank
+    schema: public
+  is_enum: true
+- table:
+    name: PlayerRole
+    schema: public
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - description
+          - basic
+          - label
+          - role
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - description
+          - basic
+          - label
+          - role
+        filter: {}
+- table:
+    name: QuestCompletionStatus
+    schema: public
+  is_enum: true
+  array_relationships:
+    - name: quest_completions
+      using:
+        foreign_key_constraint_on:
+          column: status
+          table:
+            name: quest_completion
+            schema: public
+- table:
+    name: QuestRepetition
+    schema: public
+  is_enum: true
+  array_relationships:
+    - name: quests
+      using:
+        foreign_key_constraint_on:
+          column: repetition
+          table:
+            name: quest
+            schema: public
+- table:
+    name: QuestStatus
+    schema: public
+  is_enum: true
+  array_relationships:
+    - name: quests
+      using:
+        foreign_key_constraint_on:
+          column: status
+          table:
+            name: quest
+            schema: public
+- table:
+    name: SkillCategory
+    schema: public
+  is_enum: true
+- table:
+    name: dao
+    schema: public
+  configuration:
+    column_config:
+      contract_address:
+        custom_name: contractAddress
+      guild_id:
+        custom_name: guildId
     custom_column_names:
       contract_address: contractAddress
       guild_id: guildId
+    custom_root_fields: {}
   object_relationships:
-  - name: guild
-    using:
-      foreign_key_constraint_on: guild_id
+    - name: guild
+      using:
+        foreign_key_constraint_on: guild_id
   array_relationships:
-  - name: players
-    using:
-      foreign_key_constraint_on:
-        column: dao_id
-        table:
-          schema: public
-          name: dao_player
+    - name: players
+      using:
+        foreign_key_constraint_on:
+          column: dao_id
+          table:
+            name: dao_player
+            schema: public
   select_permissions:
-  - role: player
-    permission:
-      columns:
-      - contract_address
-      - label
-      - network
-      - url
-      - guild_id
-      - id
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - contract_address
-      - label
-      - network
-      - url
-      - guild_id
-      - id
-      filter: {}
+    - role: player
+      permission:
+        columns:
+          - contract_address
+          - label
+          - network
+          - url
+          - guild_id
+          - id
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - contract_address
+          - label
+          - network
+          - url
+          - guild_id
+          - id
+        filter: {}
   update_permissions:
-  - role: player
-    permission:
-      columns:
-      - contract_address
-      - label
-      - network
-      - url
-      filter:
-        guild:
-          metadata:
-            creator_id:
-              _eq: X-Hasura-User-Id
-      check: null
+    - role: player
+      permission:
+        columns:
+          - contract_address
+          - label
+          - network
+          - url
+        filter:
+          guild:
+            metadata:
+              creator_id:
+                _eq: X-Hasura-User-Id
+        check: null
 - table:
-    schema: public
     name: dao_player
-  configuration:
-    custom_root_fields: {}
-    custom_column_names:
-      player_id: playerId
-      dao_id: daoId
-  object_relationships:
-  - name: Dao
-    using:
-      foreign_key_constraint_on: dao_id
-  - name: Player
-    using:
-      foreign_key_constraint_on: player_id
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - dao_id
-      - player_id
-      - visible
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - visible
-      - dao_id
-      - player_id
-      filter: {}
-  update_permissions:
-  - role: player
-    permission:
-      columns:
-      - visible
-      filter:
-        player_id:
-          _eq: X-Hasura-User-Id
-      check: null
-- table:
     schema: public
-    name: guild
   configuration:
-    custom_root_fields: {}
+    column_config:
+      dao_id:
+        custom_name: daoId
+      player_id:
+        custom_name: playerId
     custom_column_names:
-      website_url: websiteUrl
-      join_button_url: joinButtonUrl
-      show_discord_announcements: showDiscordAnnouncements
+      dao_id: daoId
+      player_id: playerId
+    custom_root_fields: {}
+  object_relationships:
+    - name: Dao
+      using:
+        foreign_key_constraint_on: dao_id
+    - name: Player
+      using:
+        foreign_key_constraint_on: player_id
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - dao_id
+          - player_id
+          - visible
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - visible
+          - dao_id
+          - player_id
+        filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - visible
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
+        check: null
+- table:
+    name: guild
+    schema: public
+  configuration:
+    column_config:
+      discord_id:
+        custom_name: discordId
+      discord_invite_url:
+        custom_name: discordInviteUrl
+      github_url:
+        custom_name: githubUrl
+      join_button_url:
+        custom_name: joinButtonUrl
+      membership_through_discord:
+        custom_name: membershipThroughDiscord
+      profile_layout:
+        custom_name: profileLayout
+      show_discord_announcements:
+        custom_name: showDiscordAnnouncements
+      sort_position:
+        custom_name: sortPosition
+      twitter_url:
+        custom_name: twitterUrl
+      website_url:
+        custom_name: websiteUrl
+    custom_column_names:
       discord_id: discordId
-      twitter_url: twitterUrl
-      sort_position: sortPosition
-      membership_through_discord: membershipThroughDiscord
-      profile_layout: profileLayout
       discord_invite_url: discordInviteUrl
       github_url: githubUrl
-  object_relationships:
-  - name: GuildType
-    using:
-      foreign_key_constraint_on: type
-  - name: metadata
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: guild_metadata
-        column_mapping:
-          id: guild_id
-  array_relationships:
-  - name: daos
-    using:
-      foreign_key_constraint_on:
-        column: guild_id
-        table:
-          schema: public
-          name: dao
-  - name: guild_players
-    using:
-      foreign_key_constraint_on:
-        column: guild_id
-        table:
-          schema: public
-          name: guild_player
-  - name: quests
-    using:
-      foreign_key_constraint_on:
-        column: guild_id
-        table:
-          schema: public
-          name: quest
-  remote_relationships:
-  - definition:
-      remote_field:
-        getGuildDiscordAnnouncements:
-          arguments:
-            guildDiscordId: $discord_id
-      hasura_fields:
-      - discord_id
-      remote_schema: backend
-    name: discordAnnouncements
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - description
-      - discord_id
-      - discord_invite_url
-      - github_url
-      - guildname
-      - id
-      - join_button_url
-      - logo
-      - membership_through_discord
-      - name
-      - profile_layout
-      - show_discord_announcements
-      - sort_position
-      - status
-      - twitter_url
-      - type
-      - website_url
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - description
-      - discord_id
-      - discord_invite_url
-      - github_url
-      - guildname
-      - id
-      - join_button_url
-      - logo
-      - membership_through_discord
-      - name
-      - profile_layout
-      - show_discord_announcements
-      - sort_position
-      - status
-      - twitter_url
-      - type
-      - website_url
-      filter: {}
-  event_triggers:
-  - name: syncDiscordGuildMembers
-    definition:
-      enable_manual: false
-      update:
-        columns:
-        - membership_through_discord
-        - discord_id
-        - status
-    retry_conf:
-      num_retries: 0
-      interval_sec: 10
-      timeout_sec: 60
-    webhook_from_env: TRIGGERS_ENDPOINT
-- table:
-    schema: public
-    name: guild_metadata
-  configuration:
-    custom_root_fields: {}
-    custom_column_names:
-      discord_metadata: discordMetadata
-      discord_id: discordId
-      creator_id: creatorId
-      guild_id: guildId
-  object_relationships:
-  - name: guild
-    using:
-      foreign_key_constraint_on: guild_id
-  - name: player
-    using:
-      foreign_key_constraint_on: creator_id
-  remote_relationships:
-  - definition:
-      remote_field:
-        getGuildDiscordRoles:
-          arguments:
-            guildDiscordId: $discord_id
-      hasura_fields:
-      - discord_id
-      remote_schema: backend
-    name: discordRoles
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - guild_id
-      - discord_metadata
-      - creator_id
-      - discord_id
-      filter:
-        creator_id:
-          _eq: X-Hasura-User-Id
-- table:
-    schema: public
-    name: guild_player
-  configuration:
-    custom_root_fields: {}
-    custom_column_names:
-      player_id: playerId
-      guild_id: guildId
-  object_relationships:
-  - name: Guild
-    using:
-      foreign_key_constraint_on: guild_id
-  - name: Player
-    using:
-      foreign_key_constraint_on: player_id
-  remote_relationships:
-  - definition:
-      remote_field:
-        getDiscordServerMemberRoles:
-          arguments:
-            guildId: $guild_id
-            playerId: $player_id
-      hasura_fields:
-      - guild_id
-      - player_id
-      remote_schema: backend
-    name: discordRoles
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - guild_id
-      - player_id
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - guild_id
-      - player_id
-      filter: {}
-- table:
-    schema: public
-    name: me
-  configuration:
-    custom_root_fields: {}
-    custom_column_names:
-      ethereum_address: ethereumAddress
-  object_relationships:
-  - name: player
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: player
-        column_mapping:
-          id: id
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - id
-      - username
-      - ethereum_address
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-- table:
-    schema: public
-    name: player
-  configuration:
-    custom_root_fields: {}
-    custom_column_names:
-      ethereum_address: ethereumAddress
-      discord_id: discordId
-      dashboard_layout: dashboardLayout
-      updated_at: updatedAt
-      season_xp: seasonXP
-      created_at: createdAt
-      total_xp: totalXP
+      join_button_url: joinButtonUrl
+      membership_through_discord: membershipThroughDiscord
       profile_layout: profileLayout
-  object_relationships:
-  - name: profile
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: profile
-        column_mapping:
-          id: player_id
-  array_relationships:
-  - name: accounts
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: player_account
-  - name: daos
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: dao_player
-  - name: guilds
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: guild_player
-  - name: quest_completions
-    using:
-      foreign_key_constraint_on:
-        column: completed_by_player_id
-        table:
-          schema: public
-          name: quest_completion
-  - name: quests
-    using:
-      foreign_key_constraint_on:
-        column: created_by_player_id
-        table:
-          schema: public
-          name: quest
-  - name: roles
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: player_role
-  - name: skills
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: player_skill
-  remote_relationships:
-  - definition:
-      remote_field:
-        getDaoHausMemberships:
-          arguments:
-            memberAddress: $ethereum_address
-      hasura_fields:
-      - ethereum_address
-      remote_schema: backend
-    name: daohausMemberships
-  - definition:
-      remote_field:
-        getBrightIdStatus:
-          arguments:
-            contextId: $id
-      hasura_fields:
-      - id
-      remote_schema: backend
-    name: brightid_status
-  - definition:
-      remote_field:
-        getTokenBalances:
-          arguments:
-            address: $ethereum_address
-      hasura_fields:
-      - ethereum_address
-      remote_schema: backend
-    name: token_balances
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - created_at
-      - dashboard_layout
-      - ethereum_address
-      - id
-      - profile_layout
-      - rank
-      - role
-      - season_xp
-      - total_xp
-      filter: {}
-      allow_aggregations: true
-  - role: public
-    permission:
-      columns:
-      - ethereum_address
-      - id
-      - profile_layout
-      - rank
-      - role
-      - season_xp
-      - total_xp
-      filter: {}
-      allow_aggregations: true
-  update_permissions:
-  - role: player
-    permission:
-      columns:
-      - dashboard_layout
-      - profile_layout
-      - role
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-      check: {}
-      set:
-        id: x-hasura-User-Id
-  event_triggers:
-  - name: cacheIDXProfile
-    definition:
-      enable_manual: true
-      insert:
-        columns: '*'
-      update:
-        columns:
-        - ethereum_address
-    retry_conf:
-      num_retries: 0
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: '{{TRIGGERS_ENDPOINT}}'
-  - name: playerRankUpdated
-    definition:
-      enable_manual: false
-      update:
-        columns:
-        - rank
-    retry_conf:
-      num_retries: 0
-      interval_sec: 10
-      timeout_sec: 60
-    webhook_from_env: TRIGGERS_ENDPOINT
-- table:
-    schema: public
-    name: player_account
-  configuration:
+      show_discord_announcements: showDiscordAnnouncements
+      sort_position: sortPosition
+      twitter_url: twitterUrl
+      website_url: websiteUrl
     custom_root_fields: {}
+  object_relationships:
+    - name: GuildType
+      using:
+        foreign_key_constraint_on: type
+    - name: metadata
+      using:
+        manual_configuration:
+          column_mapping:
+            id: guild_id
+          insertion_order: null
+          remote_table:
+            name: guild_metadata
+            schema: public
+  array_relationships:
+    - name: daos
+      using:
+        foreign_key_constraint_on:
+          column: guild_id
+          table:
+            name: dao
+            schema: public
+    - name: guild_players
+      using:
+        foreign_key_constraint_on:
+          column: guild_id
+          table:
+            name: guild_player
+            schema: public
+    - name: quests
+      using:
+        foreign_key_constraint_on:
+          column: guild_id
+          table:
+            name: quest
+            schema: public
+  remote_relationships:
+    - definition:
+        hasura_fields:
+          - discord_id
+        remote_field:
+          getGuildDiscordAnnouncements:
+            arguments:
+              guildDiscordId: $discord_id
+        remote_schema: backend
+      name: discordAnnouncements
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - description
+          - discord_id
+          - discord_invite_url
+          - github_url
+          - guildname
+          - id
+          - join_button_url
+          - logo
+          - membership_through_discord
+          - name
+          - profile_layout
+          - show_discord_announcements
+          - sort_position
+          - status
+          - twitter_url
+          - type
+          - website_url
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - description
+          - discord_id
+          - discord_invite_url
+          - github_url
+          - guildname
+          - id
+          - join_button_url
+          - logo
+          - membership_through_discord
+          - name
+          - profile_layout
+          - show_discord_announcements
+          - sort_position
+          - status
+          - twitter_url
+          - type
+          - website_url
+        filter: {}
+  event_triggers:
+    - name: syncDiscordGuildMembers
+      definition:
+        enable_manual: false
+        update:
+          columns:
+            - membership_through_discord
+            - discord_id
+            - status
+      retry_conf:
+        interval_sec: 10
+        num_retries: 0
+        timeout_sec: 60
+      webhook_from_env: TRIGGERS_ENDPOINT
+- table:
+    name: guild_metadata
+    schema: public
+  configuration:
+    column_config:
+      creator_id:
+        custom_name: creatorId
+      discord_id:
+        custom_name: discordId
+      discord_metadata:
+        custom_name: discordMetadata
+      guild_id:
+        custom_name: guildId
+    custom_column_names:
+      creator_id: creatorId
+      discord_id: discordId
+      discord_metadata: discordMetadata
+      guild_id: guildId
+    custom_root_fields: {}
+  object_relationships:
+    - name: guild
+      using:
+        foreign_key_constraint_on: guild_id
+    - name: player
+      using:
+        foreign_key_constraint_on: creator_id
+  remote_relationships:
+    - definition:
+        hasura_fields:
+          - discord_id
+        remote_field:
+          getGuildDiscordRoles:
+            arguments:
+              guildDiscordId: $discord_id
+        remote_schema: backend
+      name: discordRoles
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - guild_id
+          - discord_metadata
+          - creator_id
+          - discord_id
+        filter:
+          creator_id:
+            _eq: X-Hasura-User-Id
+- table:
+    name: guild_player
+    schema: public
+  configuration:
+    column_config:
+      guild_id:
+        custom_name: guildId
+      player_id:
+        custom_name: playerId
+    custom_column_names:
+      guild_id: guildId
+      player_id: playerId
+    custom_root_fields: {}
+  object_relationships:
+    - name: Guild
+      using:
+        foreign_key_constraint_on: guild_id
+    - name: Player
+      using:
+        foreign_key_constraint_on: player_id
+  remote_relationships:
+    - definition:
+        hasura_fields:
+          - guild_id
+          - player_id
+        remote_field:
+          getDiscordServerMemberRoles:
+            arguments:
+              guildId: $guild_id
+              playerId: $player_id
+        remote_schema: backend
+      name: discordRoles
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - guild_id
+          - player_id
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - guild_id
+          - player_id
+        filter: {}
+- table:
+    name: me
+    schema: public
+  configuration:
+    column_config:
+      ethereum_address:
+        custom_name: ethereumAddress
+    custom_column_names:
+      ethereum_address: ethereumAddress
+    custom_root_fields: {}
+  object_relationships:
+    - name: player
+      using:
+        manual_configuration:
+          column_mapping:
+            id: id
+          insertion_order: null
+          remote_table:
+            name: player
+            schema: public
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - id
+          - username
+          - ethereum_address
+        filter:
+          id:
+            _eq: X-Hasura-User-Id
+- table:
+    name: player
+    schema: public
+  configuration:
+    column_config:
+      ceramic_profile_id:
+        custom_name: ceramicProfileId
+      created_at:
+        custom_name: createdAt
+      dashboard_layout:
+        custom_name: dashboardLayout
+      discord_id:
+        custom_name: discordId
+      ethereum_address:
+        custom_name: ethereumAddress
+      profile_layout:
+        custom_name: profileLayout
+      season_xp:
+        custom_name: seasonXP
+      total_xp:
+        custom_name: totalXP
+      updated_at:
+        custom_name: updatedAt
+    custom_column_names:
+      ceramic_profile_id: ceramicProfileId
+      created_at: createdAt
+      dashboard_layout: dashboardLayout
+      discord_id: discordId
+      ethereum_address: ethereumAddress
+      profile_layout: profileLayout
+      season_xp: seasonXP
+      total_xp: totalXP
+      updated_at: updatedAt
+    custom_root_fields: {}
+  object_relationships:
+    - name: profile
+      using:
+        manual_configuration:
+          column_mapping:
+            id: player_id
+          insertion_order: null
+          remote_table:
+            name: profile
+            schema: public
+  array_relationships:
+    - name: accounts
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            name: player_account
+            schema: public
+    - name: daos
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            name: dao_player
+            schema: public
+    - name: guilds
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            name: guild_player
+            schema: public
+    - name: quest_completions
+      using:
+        foreign_key_constraint_on:
+          column: completed_by_player_id
+          table:
+            name: quest_completion
+            schema: public
+    - name: quests
+      using:
+        foreign_key_constraint_on:
+          column: created_by_player_id
+          table:
+            name: quest
+            schema: public
+    - name: roles
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            name: player_role
+            schema: public
+    - name: skills
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            name: player_skill
+            schema: public
+  remote_relationships:
+    - definition:
+        hasura_fields:
+          - id
+        remote_field:
+          getBrightIdStatus:
+            arguments:
+              contextId: $id
+        remote_schema: backend
+      name: brightid_status
+    - definition:
+        hasura_fields:
+          - ethereum_address
+        remote_field:
+          getDaoHausMemberships:
+            arguments:
+              memberAddress: $ethereum_address
+        remote_schema: backend
+      name: daohausMemberships
+    - definition:
+        hasura_fields:
+          - ethereum_address
+        remote_field:
+          getTokenBalances:
+            arguments:
+              address: $ethereum_address
+        remote_schema: backend
+      name: token_balances
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - ceramic_profile_id
+          - created_at
+          - dashboard_layout
+          - ethereum_address
+          - id
+          - profile_layout
+          - rank
+          - role
+          - season_xp
+          - total_xp
+        filter: {}
+        allow_aggregations: true
+    - role: public
+      permission:
+        columns:
+          - ceramic_profile_id
+          - ethereum_address
+          - id
+          - profile_layout
+          - rank
+          - role
+          - season_xp
+          - total_xp
+        filter: {}
+        allow_aggregations: true
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - dashboard_layout
+          - profile_layout
+          - role
+        filter:
+          id:
+            _eq: X-Hasura-User-Id
+        check: {}
+        set:
+          id: x-hasura-User-Id
+  event_triggers:
+    - name: cacheComposeDBProfile
+      definition:
+        enable_manual: true
+        insert:
+          columns: '*'
+        update:
+          columns:
+            - ceramic_profile_id
+            - ethereum_address
+      retry_conf:
+        interval_sec: 10
+        num_retries: 0
+        timeout_sec: 60
+      webhook: '{{TRIGGERS_ENDPOINT}}'
+    - name: playerRankUpdated
+      definition:
+        enable_manual: false
+        update:
+          columns:
+            - rank
+      retry_conf:
+        interval_sec: 10
+        num_retries: 0
+        timeout_sec: 60
+      webhook_from_env: TRIGGERS_ENDPOINT
+- table:
+    name: player_account
+    schema: public
+  configuration:
+    column_config:
+      player_id:
+        custom_name: playerId
     custom_column_names:
       player_id: playerId
   object_relationships:
@@ -784,405 +863,592 @@
     name: profile
   configuration:
     custom_root_fields: {}
+  object_relationships:
+    - name: Player
+      using:
+        foreign_key_constraint_on: player_id
+  insert_permissions:
+    - role: player
+      permission:
+        check:
+          player_id:
+            _eq: X-Hasura-User-Id
+        columns:
+          - identifier
+          - type
+          - player_id
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - player_id
+          - identifier
+          - type
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - player_id
+          - identifier
+          - type
+        filter: {}
+  delete_permissions:
+    - role: player
+      permission:
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
+- table:
+    name: player_role
+    schema: public
+  object_relationships:
+    - name: PlayerRole
+      using:
+        foreign_key_constraint_on: role
+  insert_permissions:
+    - role: player
+      permission:
+        check:
+          player_id:
+            _eq: X-Hasura-User-Id
+        set:
+          player_id: x-hasura-User-Id
+        columns:
+          - rank
+          - role
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - player_id
+          - role
+          - rank
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - rank
+          - role
+          - player_id
+        filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - rank
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
+        check: null
+  delete_permissions:
+    - role: player
+      permission:
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
+  event_triggers:
+    - name: playerRoleChanged
+      definition:
+        delete:
+          columns: '*'
+        enable_manual: false
+        insert:
+          columns: '*'
+      retry_conf:
+        interval_sec: 10
+        num_retries: 0
+        timeout_sec: 60
+      webhook_from_env: TRIGGERS_ENDPOINT
+- table:
+    name: player_skill
+    schema: public
+  object_relationships:
+    - name: Skill
+      using:
+        foreign_key_constraint_on: skill_id
+  insert_permissions:
+    - role: player
+      permission:
+        check:
+          player_id:
+            _eq: X-Hasura-User-Id
+        set:
+          player_id: x-hasura-User-Id
+        columns:
+          - skill_id
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - player_id
+          - skill_id
+        filter: {}
+        allow_aggregations: true
+    - role: public
+      permission:
+        columns:
+          - player_id
+          - skill_id
+        filter: {}
+        allow_aggregations: true
+  delete_permissions:
+    - role: player
+      permission:
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
+- table:
+    name: profile
+    schema: public
+  configuration:
+    column_config:
+      available_hours:
+        custom_name: availableHours
+      background_image_url:
+        custom_name: backgroundImageURL
+      banner_image_url:
+        custom_name: bannerImageURL
+      color_mask:
+        custom_name: colorMask
+      country_code:
+        custom_name: countryCode
+      explorer_type_title:
+        custom_name: explorerTypeTitle
+      last_checked_at:
+        custom_name: lastCheckedAt
+      player_id:
+        custom_name: playerId
+      profile_image_url:
+        custom_name: profileImageURL
+      time_zone:
+        custom_name: timeZone
     custom_column_names:
-      profile_image_url: profileImageURL
-      country_code: countryCode
+      available_hours: availableHours
       background_image_url: backgroundImageURL
-      last_checked_at: lastCheckedAt
       banner_image_url: bannerImageURL
       color_mask: colorMask
-      player_id: playerId
-      time_zone: timeZone
-      available_hours: availableHours
+      country_code: countryCode
       explorer_type_title: explorerTypeTitle
-  object_relationships:
-  - name: colorAspect
-    using:
-      foreign_key_constraint_on: color_mask
-  - name: explorerType
-    using:
-      foreign_key_constraint_on: explorer_type_title
-  - name: player
-    using:
-      foreign_key_constraint_on: player_id
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - available_hours
-      - background_image_url
-      - banner_image_url
-      - color_mask
-      - country_code
-      - description
-      - emoji
-      - explorer_type_title
-      - gender
-      - id
-      - location
-      - name
-      - player_id
-      - profile_image_url
-      - pronouns
-      - time_zone
-      - username
-      - website
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - available_hours
-      - background_image_url
-      - banner_image_url
-      - color_mask
-      - country_code
-      - description
-      - emoji
-      - explorer_type_title
-      - gender
-      - id
-      - location
-      - name
-      - player_id
-      - profile_image_url
-      - pronouns
-      - time_zone
-      - username
-      - website
-      filter: {}
-  update_permissions:
-  - role: player
-    permission:
-      columns:
-      - available_hours
-      - background_image_url
-      - banner_image_url
-      - color_mask
-      - country_code
-      - description
-      - emoji
-      - gender
-      - location
-      - name
-      - profile_image_url
-      - pronouns
-      - time_zone
-      - username
-      - website
-      filter:
-        player_id:
-          _eq: X-Hasura-User-Id
-      check: null
-- table:
-    schema: public
-    name: quest
-  configuration:
+      last_checked_at: lastCheckedAt
+      player_id: playerId
+      profile_image_url: profileImageURL
+      time_zone: timeZone
     custom_root_fields: {}
-    custom_column_names:
-      external_link: externalLink
-      created_by_player_id: createdByPlayerId
-      created_at: createdAt
-      guild_id: guildId
   object_relationships:
-  - name: guild
-    using:
-      foreign_key_constraint_on: guild_id
-  - name: player
-    using:
-      foreign_key_constraint_on: created_by_player_id
-  - name: QuestRepetition
-    using:
-      foreign_key_constraint_on: repetition
-  - name: QuestStatus
-    using:
-      foreign_key_constraint_on: status
-  array_relationships:
-  - name: quest_completions
-    using:
-      foreign_key_constraint_on:
-        column: quest_id
-        table:
-          schema: public
-          name: quest_completion
-  - name: quest_roles
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: quest_role
-        column_mapping:
-          id: quest_id
-  - name: quest_skills
-    using:
-      foreign_key_constraint_on:
-        column: quest_id
-        table:
-          schema: public
-          name: quest_skill
-  insert_permissions:
-  - role: player
-    permission:
-      check: {}
-      columns: []
-      backend_only: true
+    - name: colorAspect
+      using:
+        foreign_key_constraint_on: color_mask
+    - name: explorerType
+      using:
+        foreign_key_constraint_on: explorer_type_title
+    - name: player
+      using:
+        foreign_key_constraint_on: player_id
   select_permissions:
-  - role: player
-    permission:
-      columns:
-      - cooldown
-      - created_at
-      - created_by_player_id
-      - description
-      - external_link
-      - guild_id
-      - id
-      - image
-      - repetition
-      - status
-      - title
-      filter: {}
-      allow_aggregations: true
-  - role: public
-    permission:
-      columns:
-      - cooldown
-      - created_at
-      - created_by_player_id
-      - description
-      - external_link
-      - guild_id
-      - id
-      - image
-      - repetition
-      - status
-      - title
-      filter: {}
-      allow_aggregations: true
+    - role: player
+      permission:
+        columns:
+          - available_hours
+          - background_image_url
+          - banner_image_url
+          - color_mask
+          - country_code
+          - description
+          - emoji
+          - explorer_type_title
+          - gender
+          - id
+          - location
+          - name
+          - player_id
+          - profile_image_url
+          - pronouns
+          - time_zone
+          - username
+          - website
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - available_hours
+          - background_image_url
+          - banner_image_url
+          - color_mask
+          - country_code
+          - description
+          - emoji
+          - explorer_type_title
+          - gender
+          - id
+          - location
+          - name
+          - player_id
+          - profile_image_url
+          - pronouns
+          - time_zone
+          - username
+          - website
+        filter: {}
   update_permissions:
-  - role: player
-    permission:
-      columns:
-      - cooldown
-      - description
-      - external_link
-      - guild_id
-      - image
-      - repetition
-      - status
-      - title
-      filter:
-        _and:
-        - created_by_player_id:
+    - role: player
+      permission:
+        columns:
+          - available_hours
+          - background_image_url
+          - banner_image_url
+          - color_mask
+          - country_code
+          - description
+          - emoji
+          - gender
+          - location
+          - name
+          - profile_image_url
+          - pronouns
+          - time_zone
+          - username
+          - website
+        filter:
+          player_id:
             _eq: X-Hasura-User-Id
-        - status:
-            _eq: OPEN
-      check:
-        _or:
-        - repetition:
-            _ne: RECURRING
-        - _and:
-          - repetition:
-              _eq: RECURRING
-          - cooldown:
-              _is_null: false
+        check: null
 - table:
+    name: quest
     schema: public
-    name: quest_completion
   configuration:
-    custom_root_fields: {}
+    column_config:
+      created_at:
+        custom_name: createdAt
+      created_by_player_id:
+        custom_name: createdByPlayerId
+      external_link:
+        custom_name: externalLink
+      guild_id:
+        custom_name: guildId
     custom_column_names:
+      created_at: createdAt
+      created_by_player_id: createdByPlayerId
+      external_link: externalLink
+      guild_id: guildId
+    custom_root_fields: {}
+  object_relationships:
+    - name: QuestRepetition
+      using:
+        foreign_key_constraint_on: repetition
+    - name: QuestStatus
+      using:
+        foreign_key_constraint_on: status
+    - name: guild
+      using:
+        foreign_key_constraint_on: guild_id
+    - name: player
+      using:
+        foreign_key_constraint_on: created_by_player_id
+  array_relationships:
+    - name: quest_completions
+      using:
+        foreign_key_constraint_on:
+          column: quest_id
+          table:
+            name: quest_completion
+            schema: public
+    - name: quest_roles
+      using:
+        manual_configuration:
+          column_mapping:
+            id: quest_id
+          insertion_order: null
+          remote_table:
+            name: quest_role
+            schema: public
+    - name: quest_skills
+      using:
+        foreign_key_constraint_on:
+          column: quest_id
+          table:
+            name: quest_skill
+            schema: public
+  insert_permissions:
+    - role: player
+      permission:
+        check: {}
+        columns: []
+        backend_only: true
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - cooldown
+          - created_at
+          - created_by_player_id
+          - description
+          - external_link
+          - guild_id
+          - id
+          - image
+          - repetition
+          - status
+          - title
+        filter: {}
+        allow_aggregations: true
+    - role: public
+      permission:
+        columns:
+          - cooldown
+          - created_at
+          - created_by_player_id
+          - description
+          - external_link
+          - guild_id
+          - id
+          - image
+          - repetition
+          - status
+          - title
+        filter: {}
+        allow_aggregations: true
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - cooldown
+          - description
+          - external_link
+          - guild_id
+          - image
+          - repetition
+          - status
+          - title
+        filter:
+          _and:
+            - created_by_player_id:
+                _eq: X-Hasura-User-Id
+            - status:
+                _eq: OPEN
+        check:
+          _or:
+            - repetition:
+                _ne: RECURRING
+            - _and:
+                - repetition:
+                    _eq: RECURRING
+                - cooldown:
+                    _is_null: false
+- table:
+    name: quest_completion
+    schema: public
+  configuration:
+    column_config:
+      completed_by_player_id:
+        custom_name: completedByPlayerId
+      quest_id:
+        custom_name: questId
+      submission_link:
+        custom_name: submissionLink
+      submission_text:
+        custom_name: submissionText
+      submitted_at:
+        custom_name: submittedAt
+    custom_column_names:
+      completed_by_player_id: completedByPlayerId
       quest_id: questId
       submission_link: submissionLink
       submission_text: submissionText
-      completed_by_player_id: completedByPlayerId
       submitted_at: submittedAt
-  object_relationships:
-  - name: completed
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: quest
-        column_mapping:
-          quest_id: id
-  - name: player
-    using:
-      foreign_key_constraint_on: completed_by_player_id
-  - name: quest
-    using:
-      foreign_key_constraint_on: quest_id
-  - name: QuestCompletionStatus
-    using:
-      foreign_key_constraint_on: status
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - completed_by_player_id
-      - id
-      - quest_id
-      - status
-      - submission_link
-      - submission_text
-      - submitted_at
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - completed_by_player_id
-      - id
-      - quest_id
-      - status
-      - submission_link
-      - submission_text
-      - submitted_at
-      filter: {}
-  update_permissions:
-  - role: player
-    permission:
-      columns:
-      - submission_link
-      - submission_text
-      filter:
-        _and:
-        - status:
-            _eq: PENDING
-        - completed_by_player_id:
-            _eq: X-Hasura-User-Id
-      check: null
-- table:
-    schema: public
-    name: quest_role
-  configuration:
     custom_root_fields: {}
+  object_relationships:
+    - name: QuestCompletionStatus
+      using:
+        foreign_key_constraint_on: status
+    - name: completed
+      using:
+        manual_configuration:
+          column_mapping:
+            quest_id: id
+          insertion_order: null
+          remote_table:
+            name: quest
+            schema: public
+    - name: player
+      using:
+        foreign_key_constraint_on: completed_by_player_id
+    - name: quest
+      using:
+        foreign_key_constraint_on: quest_id
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - completed_by_player_id
+          - id
+          - quest_id
+          - status
+          - submission_link
+          - submission_text
+          - submitted_at
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - completed_by_player_id
+          - id
+          - quest_id
+          - status
+          - submission_link
+          - submission_text
+          - submitted_at
+        filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - submission_link
+          - submission_text
+        filter:
+          _and:
+            - status:
+                _eq: PENDING
+            - completed_by_player_id:
+                _eq: X-Hasura-User-Id
+        check: null
+- table:
+    name: quest_role
+    schema: public
+  configuration:
+    column_config:
+      quest_id:
+        custom_name: questId
     custom_column_names:
       quest_id: questId
-  object_relationships:
-  - name: PlayerRole
-    using:
-      foreign_key_constraint_on: role
-  - name: quest
-    using:
-      foreign_key_constraint_on: quest_id
-  insert_permissions:
-  - role: player
-    permission:
-      check:
-        quest:
-          created_by_player_id:
-            _eq: X-Hasura-User-Id
-      columns:
-      - rank
-      - role
-      - quest_id
-      backend_only: false
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - quest_id
-      - rank
-      - role
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - rank
-      - role
-      - quest_id
-      filter: {}
-  delete_permissions:
-  - role: player
-    permission:
-      filter:
-        quest:
-          created_by_player_id:
-            _eq: X-Hasura-User-Id
-- table:
-    schema: public
-    name: quest_skill
-  configuration:
     custom_root_fields: {}
+  object_relationships:
+    - name: PlayerRole
+      using:
+        foreign_key_constraint_on: role
+    - name: quest
+      using:
+        foreign_key_constraint_on: quest_id
+  insert_permissions:
+    - role: player
+      permission:
+        check:
+          quest:
+            created_by_player_id:
+              _eq: X-Hasura-User-Id
+        columns:
+          - rank
+          - role
+          - quest_id
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - quest_id
+          - rank
+          - role
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - rank
+          - role
+          - quest_id
+        filter: {}
+  delete_permissions:
+    - role: player
+      permission:
+        filter:
+          quest:
+            created_by_player_id:
+              _eq: X-Hasura-User-Id
+- table:
+    name: quest_skill
+    schema: public
+  configuration:
+    column_config:
+      quest_id:
+        custom_name: questId
+      skill_id:
+        custom_name: skillId
     custom_column_names:
       quest_id: questId
       skill_id: skillId
+    custom_root_fields: {}
   object_relationships:
-  - name: quest
-    using:
-      foreign_key_constraint_on: quest_id
-  - name: skill
-    using:
-      foreign_key_constraint_on: skill_id
+    - name: quest
+      using:
+        foreign_key_constraint_on: quest_id
+    - name: skill
+      using:
+        foreign_key_constraint_on: skill_id
   insert_permissions:
-  - role: player
-    permission:
-      check:
-        quest:
-          created_by_player_id:
-            _eq: X-Hasura-User-Id
-      columns:
-      - quest_id
-      - skill_id
-      backend_only: false
+    - role: player
+      permission:
+        check:
+          quest:
+            created_by_player_id:
+              _eq: X-Hasura-User-Id
+        columns:
+          - quest_id
+          - skill_id
   select_permissions:
-  - role: player
-    permission:
-      columns:
-      - quest_id
-      - skill_id
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - quest_id
-      - skill_id
-      filter: {}
+    - role: player
+      permission:
+        columns:
+          - quest_id
+          - skill_id
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - quest_id
+          - skill_id
+        filter: {}
   delete_permissions:
-  - role: player
-    permission:
-      filter:
-        quest:
-          created_by_player_id:
-            _eq: X-Hasura-User-Id
+    - role: player
+      permission:
+        filter:
+          quest:
+            created_by_player_id:
+              _eq: X-Hasura-User-Id
 - table:
-    schema: public
     name: skill
+    schema: public
   array_relationships:
-  - name: Player_Skills
-    using:
-      foreign_key_constraint_on:
-        column: skill_id
-        table:
-          schema: public
-          name: player_skill
-  - name: quest_skills
-    using:
-      foreign_key_constraint_on:
-        column: skill_id
-        table:
-          schema: public
-          name: quest_skill
+    - name: Player_Skills
+      using:
+        foreign_key_constraint_on:
+          column: skill_id
+          table:
+            name: player_skill
+            schema: public
+    - name: quest_skills
+      using:
+        foreign_key_constraint_on:
+          column: skill_id
+          table:
+            name: quest_skill
+            schema: public
   insert_permissions:
-  - role: player
-    permission:
-      check: {}
-      columns:
-      - name
-      backend_only: false
+    - role: player
+      permission:
+        check: {}
+        columns:
+          - name
   select_permissions:
-  - role: player
-    permission:
-      columns:
-      - category
-      - id
-      - name
-      filter: {}
-      allow_aggregations: true
-  - role: public
-    permission:
-      columns:
-      - category
-      - name
-      - id
-      filter: {}
-      allow_aggregations: true
+    - role: player
+      permission:
+        columns:
+          - category
+          - id
+          - name
+        filter: {}
+        allow_aggregations: true
+    - role: public
+      permission:
+        columns:
+          - category
+          - name
+          - id
+        filter: {}
+        allow_aggregations: true

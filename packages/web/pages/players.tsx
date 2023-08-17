@@ -19,9 +19,11 @@ import React, { useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export const getStaticProps = async () => {
+export const getStaticProps = async (): Promise<{
+  props: { urqlState: any };
+  revalidate: 1;
+}> => {
   const [ssrClient, ssrCache] = getSsrClient();
-
   // This populates the cache server-side
   const { error } = await getPlayersWithCount(undefined, ssrClient);
   if (error) {

@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   generates: {
     './graphql/autogen/types.ts': {
       schema: '../../schema.graphql',
-      documents: ['./graphql/**/(!(*.d)).ts'],
+      documents: ['./graphql/**/(!(*.d)).ts', '!./graphql/composeDB/**'],
       plugins: [
         'typescript',
         'typescript-operations',

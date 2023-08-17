@@ -12,46 +12,50 @@ import {
   Text,
   useBreakpointValue,
 } from '@metafam/ds';
-import { Maybe, Optional } from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
+import { useSetupFlow } from 'contexts/SetupContext';
 import {
+  Player,
   PlayerRole,
   useUpdatePlayerRolesMutation as useUpdateRoles,
 } from 'graphql/autogen/types';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
-import { useOverridableField, useUser } from 'lib/hooks';
-import React, { ReactElement, useEffect, useState } from 'react';
+import { useUser } from 'lib/hooks';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { isEmpty } from 'utils/objectHelpers';
 
-import { WizardPane, WizardPaneCallbackProps } from './WizardPane';
+import { MaybeModalProps, WizardPane } from './WizardPane';
 
 export type RoleValue = string;
 
 export type SetupRolesProps = {
-  choices?: Maybe<Array<PlayerRole>>;
-  isEdit?: boolean;
-  onClose?: () => void;
-  buttonLabel?: Optional<string | ReactElement>;
-  title?: string;
+  choices: Array<PlayerRole>;
 };
 
-export const SetupRoles: React.FC<SetupRolesProps> = ({
+export const SetupRoles: React.FC<SetupRolesProps> = ({ choices }) => {
+  const { user } = useUser();
+  return <EditRoles player={user} {...{ choices }} />;
+};
+
+export type EditRolesProps = {
+  player: Maybe<Player>;
+  choices?: Maybe<Array<PlayerRole>>;
+} & MaybeModalProps;
+
+const field = 'roles';
+
+export const EditRoles: React.FC<EditRolesProps> = ({
+  player: user,
   choices: inputChoices = null,
-  onClose,
+  onComplete,
   buttonLabel,
   title = 'Roles',
 }) => {
-  const field = 'roles';
-  const { user } = useUser();
-  const [choices, setChoices] =
-    useState<Maybe<Array<PlayerRole>>>(inputChoices);
+  const { onNextPress } = useSetupFlow();
+  const [choices, setChoices] = useState<Maybe<PlayerRole[]>>(inputChoices);
   const [, updateRoles] = useUpdateRoles();
-  const { value: roles, setter: setRoles } = useOverridableField<Array<string>>(
-    {
-      field,
-      loaded: !!user,
-    },
-  );
-  const mobile = useBreakpointValue({ base: true, sm: false }) ?? false;
+  const [status, setStatus] = useState<string | undefined>();
 
   useEffect(() => {
     const fetchRoles = async () => {
@@ -64,113 +68,125 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
     }
   }, [choices]);
 
+  const roles = useMemo(() => user?.roles.map(({ role }) => role), [user]);
+
+  const onSubmit = useCallback(
+    async (values: Record<string, string[]>) => {
+      if (values.roles) {
+        setStatus('Writing to Hasura…');
+
+        const { error } = await updateRoles({
+          [field]: values.roles.map((role, rank) => ({ rank, role })),
+        });
+
+        if (error) {
+          throw new Error(`Unable to update roles. Error: ${error}`);
+        }
+      } else {
+        setStatus('No Change. Skipping Save…');
+        await new Promise((resolve) => {
+          setTimeout(resolve, 10);
+        });
+      }
+      (onComplete ?? onNextPress)();
+    },
+    [onComplete, onNextPress, updateRoles],
+  );
+
+  const formMethods = useForm<{ [field]: string[] }>();
+
+  return (
+    <FormProvider {...formMethods}>
+      <WizardPane
+        {...{ field, onComplete, onSubmit, status, buttonLabel }}
+        title={title}
+        prompt={
+          <Text mb={[4, 6]} textAlign="center">
+            Unlike other role-playing games, in MetaGame a player is free to
+            take multiple roles at the same time.
+          </Text>
+        }
+        fetching={!user}
+      >
+        <SetupRolesInput {...{ choices, roles }} />
+      </WizardPane>
+    </FormProvider>
+  );
+};
+
+type SetupRolesInputProps = {
+  choices: Maybe<PlayerRole[]>;
+  roles?: string[];
+};
+
+const SetupRolesInput: React.FC<SetupRolesInputProps> = ({
+  choices,
+  roles,
+}) => {
+  const { register, setValue, watch } = useFormContext();
+  const mobile = useBreakpointValue({ base: true, sm: false }) ?? false;
+
   useEffect(() => {
-    if (user && setRoles && !roles) {
-      setRoles(user.roles.map(({ role }) => role));
+    setValue(field, roles);
+  }, [roles, setValue]);
+
+  const current = watch(field, roles) as Maybe<string[]>;
+
+  if (!choices) {
+    return <Text>Loading Role Choices…</Text>;
+  }
+
+  const availableRoles =
+    choices
+      ?.filter(({ role, basic }) => !current?.includes(role) && basic)
+      .map(({ role }) => role) ?? [];
+
+  const select = ({ role }: PlayerRole, isPrimary?: boolean) => {
+    let out = null;
+    const otherRoles = current?.filter((r) => r !== role) ?? [];
+    if (isPrimary || isEmpty(otherRoles)) {
+      out = [role, ...otherRoles];
+    } else {
+      out = [...otherRoles, role];
     }
-  }, [user, setRoles, roles]);
+    setValue(field, out);
+  };
 
-  const onSave = async ({
-    values,
-    setStatus,
-  }: {
-    values: Record<string, unknown>;
-    setStatus: (msg: string) => void;
-  }) => {
-    const { roles: toSet } = values as { ['roles']: Array<string> };
-
-    setStatus('Writing to Hasura…');
-
-    const { error } = await updateRoles({
-      [field]: toSet.map((role, rank) => ({ rank, role })),
-    });
-
-    if (error) {
-      throw new Error(`Unable to update roles. Error: ${error}`);
-    }
-
-    if (setRoles) {
-      setStatus('Setting Local State…');
-      setRoles(toSet);
+  const remove = ({ role }: PlayerRole) => {
+    if (current) {
+      const out = current.filter((r) => r !== role);
+      setValue(field, out);
     }
   };
 
   return (
-    <WizardPane<Array<string>>
-      {...{ field, onClose, onSave, buttonLabel }}
-      value={roles}
-      title={title}
-      prompt={
-        <Text mb={[4, 6]} textAlign="center">
-          Unlike other role-playing games, in MetaGame a player is free to take
-          multiple roles at the same time.
-        </Text>
-      }
-      fetching={!user}
-    >
-      {({
-        register,
-        current,
-        setter,
-      }: WizardPaneCallbackProps<Array<string>>) => {
-        if (!choices) {
-          return <Text>Loading Role Choices…</Text>;
-        }
-
-        if (!current) return null;
-
-        const availableRoles =
-          choices
-            ?.filter(({ role, basic }) => !current?.includes(role) && basic)
-            .map(({ role }) => role) ?? [];
-
-        const select = ({ role }: PlayerRole, isPrimary?: boolean) => {
-          if (current) {
-            let out = null;
-            const otherRoles = current.filter((r) => r !== role);
-            if (isPrimary || isEmpty(otherRoles)) {
-              out = [role, ...otherRoles];
-            } else {
-              out = [...otherRoles, role];
-            }
-            setter(out);
-          }
-        };
-
-        const remove = ({ role }: PlayerRole) => {
-          if (current) {
-            const out = current.filter((r) => r !== role);
-            setter(out);
-          }
-        };
-
-        return (
-          <Stack mb={[4, 8]} align="center" w="100%">
-            <Input type="hidden" {...register(field, {})} />
-            <RoleGroup
-              title="Primary Role"
-              active={true}
-              primary={true}
-              roles={current.slice(0, 1)}
-              numSelectedRoles={current.length}
-              {...{ mobile, choices, select, remove }}
-            />
-            <RoleGroup
-              title="Secondary Role"
-              active={true}
-              roles={current.slice(1)}
-              numSelectedRoles={current.length}
-              {...{ mobile, choices, select, remove }}
-            />
-            <RoleGroup
-              title="Available Role"
-              roles={availableRoles}
-              {...{ mobile, choices, select }}
-            />
-          </Stack>
-        );
-      }}
-    </WizardPane>
+    <Stack mb={[4, 8]} align="center" w="100%">
+      <Input type="hidden" {...register(field, {})} />
+      {current ? (
+        <>
+          <RoleGroup
+            title="Primary Role"
+            active={true}
+            primary={true}
+            roles={current.slice(0, 1)}
+            numSelectedRoles={current.length}
+            {...{ mobile, choices, select, remove }}
+          />
+          <RoleGroup
+            title="Secondary Role"
+            active={true}
+            roles={current.slice(1)}
+            numSelectedRoles={current.length}
+            {...{ mobile, choices, select, remove }}
+          />
+        </>
+      ) : null}
+      <RoleGroup
+        title="Available Role"
+        roles={availableRoles}
+        {...{ mobile, choices, select }}
+      />
+    </Stack>
   );
 };
 

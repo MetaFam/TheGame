@@ -1,8 +1,7 @@
 import { BoxedNextImage, MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
-import { useOverridableField } from 'lib/hooks';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
@@ -15,13 +14,13 @@ export const PlayerRoles: React.FC<Props> = ({
   isOwnProfile,
   editing,
 }) => {
-  const field = 'roles';
-  const { value: roles } = useOverridableField({
-    field,
-    defaultValue: (player.roles ?? [])
-      .sort((a, b) => a.rank - b.rank)
-      .map(({ role }) => role),
-  });
+  const roles = useMemo(
+    () =>
+      (player.roles ?? [])
+        .sort((a, b) => a.rank - b.rank)
+        .map(({ role }) => role),
+    [player.roles],
+  );
 
   return (
     <ProfileSection

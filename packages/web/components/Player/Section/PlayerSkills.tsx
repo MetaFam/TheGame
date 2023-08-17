@@ -2,8 +2,7 @@ import { MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { useOverridableField } from 'lib/hooks';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
@@ -14,14 +13,13 @@ type Props = {
 
 export const PlayerSkills: React.FC<Props> = ({
   player,
-  isOwnProfile = false,
+  isOwnProfile,
   editing = false,
 }) => {
-  const field = 'skills';
-  const { value: skills } = useOverridableField({
-    field,
-    defaultValue: player.skills.map(({ Skill: skill }) => skill),
-  });
+  const skills = useMemo(
+    () => player.skills.map(({ Skill: skill }) => skill),
+    [player.skills],
+  );
 
   return (
     <ProfileSection

@@ -3,13 +3,11 @@
 // get organisations worked for
 // get number of tasks for each organisation you've worked for
 
-
 export interface Organisation {
   name: string;
   permalink: string;
 }
 
-// usdc on all chains, needed to calculate earnings
 // ['ETH', 'POLYGON', 'OPTIMISM', 'SUPERFLUID-USDCX-polygon', 'IbAlluoUSDC-polygon']
 const usdcTokens = [
   '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',

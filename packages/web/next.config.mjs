@@ -1,10 +1,5 @@
 // import HoneybadgerSourceMapPlugin from '@honeybadger-io/webpack';
 
-const {
-  HONEYBADGER_API_KEY,
-  // HONEYBADGER_ASSETS_URL,
-} = process.env;
-
 /**
  * TODO: needs to get revision from the build but is currently breaking the build.
  * I don't wanna delay the release of #1414 so perhaps an improvement idea?
@@ -66,7 +61,9 @@ export default {
   },
   productionBrowserSourceMaps: true,
   env: {
-    HONEYBADGER_API_KEY,
+    HONEYBADGER_API_KEY: process.env.HONEYBADGER_API_KEY,
+    OPENSEA_API_KEY: process.env.OPENSEA_API_KEY,
+    WEB3_STORAGE_TOKEN: process.env.WEB3_STORAGE_TOKEN,
   },
   reactStrictMode: true,
   webpack: (config, { isServer, webpack }) => {
@@ -79,7 +76,7 @@ export default {
       config.module.rules = [
         ...config.module.rules,
         // { sideEffects: false }, // causes global CSS not to load
-      ]
+      ];
       // config.externals = {
       //   '@emotion/react': '"@emotion/react"',
       // }

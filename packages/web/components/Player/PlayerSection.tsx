@@ -35,9 +35,9 @@ const PlayerSectionInner: React.FC<
     case BoxTypes.PLAYER_DAO_MEMBERSHIPS:
       return <PlayerMemberships {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_COLOR_DISPOSITION:
-      return <PlayerPersonalityType {...{ player, editing }} />;
+      return <PlayerPersonalityType {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_TYPE:
-      return <PlayerType {...{ player, editing }} />;
+      return <PlayerType {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_ROLES:
       return <PlayerRoles {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_ACHIEVEMENTS:
@@ -65,7 +65,6 @@ const PlayerSectionInner: React.FC<
 
 export const PlayerSection = forwardRef<ReactElement, DisplayComponent>(
   ({ metadata, type, player, editing = false, onRemoveBox, ens }, ref) => {
-    console.log(metadata, type)
     const key = createBoxKey(type, metadata);
     const { user } = useUser();
 

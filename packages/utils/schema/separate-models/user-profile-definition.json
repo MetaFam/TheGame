@@ -1,0 +1,204 @@
+{
+  "models": {
+    "ProfileName": {
+      "id": "kjzl6hvfrbw6c611df6yls00vce2g3x76t7kua44k6jsofr7xub9qy7iza9718v",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileEmoji": {
+      "id": "kjzl6hvfrbw6c7eno5ue31qq2ywfvobhaiiu9rxwfafjqvuxtatt91pesp7mu40",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileDescription": {
+      "id": "kjzl6hvfrbw6caknwhk16km7n2x8kpsg784t08smqcymm4i5f4lh4q9uc611eur",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileAvatar": {
+      "id": "kjzl6hvfrbw6c7mt50pz7r3iy2fh8c0vpzvu6u73lz39b2bf1ngph7yw6fr4czn",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileHeaderBackground": {
+      "id": "kjzl6hvfrbw6cb3m0lb0zdu51mexuyke7p7s2v68rpprv4eexyeas8m42r0rdsr",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileBackground": {
+      "id": "kjzl6hvfrbw6c6j2vcs0cdywm9ym6rwpnlhbus61xyon9ee4fnka5lsdrjkdpra",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileAvailability": {
+      "id": "kjzl6hvfrbw6c8668grrroyuev3zcui7x6o00nnjzqno703uhji8v1qh4388ls6",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileGenderIdentity": {
+      "id": "kjzl6hvfrbw6c5933da2w5hqu70fpusx9nca8lq462csiye8mbcx28o6mg19lqe",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileHomepage": {
+      "id": "kjzl6hvfrbw6c94lqkgky7ycv0o519lus20cqzocovoa9a5797es8cv6ikwn09t",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileDisposition": {
+      "id": "kjzl6hvfrbw6c7uiycxw4z0g5f1i5j4us3ga84uzjbe7ahj1b9wospwjsgib7nt",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileHomeLocation": {
+      "id": "kjzl6hvfrbw6c7ck11p31yejfjrw88qtnmxhhikyw186ihrrktluvype2y5h09s",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileUsername": {
+      "id": "kjzl6hvfrbw6calqjyhxfpw2pnytry4ib32jq1wg0ry27jvh1hituge276tswfs",
+      "accountRelation": { "type": "single" }
+    },
+    "ProfileTimeZone": {
+      "id": "kjzl6hvfrbw6cabeo6h9yu74i7vt119qqelt58o1pskqx3v12wcejl7y6gyn0j5",
+      "accountRelation": { "type": "single" }
+    },
+    "Profile": {
+      "id": "kjzl6hvfrbw6ca02685v7y66484q7wpmudn4au1xhz8zzkpy7l9veqfy46q824u",
+      "accountRelation": { "type": "single" }
+    }
+  },
+  "objects": {
+    "ProfileName": { "name": { "type": "string", "required": true } },
+    "ProfileEmoji": { "emoji": { "type": "string", "required": true } },
+    "ProfileDescription": {
+      "description": { "type": "string", "required": true }
+    },
+    "ProfileAvatarImageMetadata": {
+      "url": { "type": "string", "required": true },
+      "size": { "type": "integer", "required": false },
+      "width": { "type": "integer", "required": false },
+      "height": { "type": "integer", "required": false },
+      "mimeType": { "type": "string", "required": true },
+      "aspectRatio": { "type": "float", "required": false }
+    },
+    "ProfileAvatar": {
+      "original": {
+        "type": "reference",
+        "refType": "object",
+        "refName": "ProfileAvatarImageMetadata",
+        "required": true
+      },
+      "alternatives": {
+        "type": "list",
+        "required": false,
+        "item": {
+          "type": "reference",
+          "refType": "object",
+          "refName": "ProfileAvatarImageMetadata",
+          "required": false
+        }
+      }
+    },
+    "ProfileHeaderBackgroundImageMetadata": {
+      "url": { "type": "string", "required": true },
+      "size": { "type": "integer", "required": false },
+      "width": { "type": "integer", "required": false },
+      "height": { "type": "integer", "required": false },
+      "mimeType": { "type": "string", "required": true },
+      "aspectRatio": { "type": "float", "required": false }
+    },
+    "ProfileHeaderBackground": {
+      "original": {
+        "type": "reference",
+        "refType": "object",
+        "refName": "ProfileHeaderBackgroundImageMetadata",
+        "required": true
+      },
+      "alternatives": {
+        "type": "list",
+        "required": false,
+        "item": {
+          "type": "reference",
+          "refType": "object",
+          "refName": "ProfileHeaderBackgroundImageMetadata",
+          "required": false
+        }
+      }
+    },
+    "ProfileBackgroundImageMetadata": {
+      "url": { "type": "string", "required": true },
+      "size": { "type": "integer", "required": false },
+      "width": { "type": "integer", "required": false },
+      "height": { "type": "integer", "required": false },
+      "mimeType": { "type": "string", "required": true },
+      "aspectRatio": { "type": "float", "required": false }
+    },
+    "ProfileBackground": {
+      "original": {
+        "type": "reference",
+        "refType": "object",
+        "refName": "ProfileBackgroundImageMetadata",
+        "required": true
+      },
+      "alternatives": {
+        "type": "list",
+        "required": false,
+        "item": {
+          "type": "reference",
+          "refType": "object",
+          "refName": "ProfileBackgroundImageMetadata",
+          "required": false
+        }
+      }
+    },
+    "ProfileAvailability": {
+      "weeklyHours": { "type": "integer", "required": true }
+    },
+    "ProfileGenderIdentity": {
+      "gender": { "type": "string", "required": false },
+      "pronouns": { "type": "string", "required": false }
+    },
+    "ProfileHomepage": { "url": { "type": "string", "required": true } },
+    "ProfileDisposition": {
+      "mbti": { "type": "string", "required": false },
+      "enneagram": { "type": "string", "required": false },
+      "explorerType": { "type": "string", "required": false },
+      "fiveColorDisposition": { "type": "string", "required": false }
+    },
+    "ProfileHomeLocation": {
+      "homeLocation": { "type": "string", "required": true }
+    },
+    "ProfileUsername": { "username": { "type": "string", "required": true } },
+    "ProfileTimeZone": {
+      "iana": { "type": "string", "required": true },
+      "utcOffset": { "type": "float", "required": false },
+      "abbreviation": { "type": "string", "required": false }
+    },
+    "Profile": {
+      "nameID": { "type": "streamid", "required": true },
+      "name": {
+        "type": "view",
+        "viewType": "relation",
+        "relation": {
+          "source": "document",
+          "model": "kjzl6hvfrbw6c611df6yls00vce2g3x76t7kua44k6jsofr7xub9qy7iza9718v",
+          "property": "nameID"
+        }
+      },
+      "owner": { "type": "view", "viewType": "documentAccount" }
+    }
+  },
+  "enums": {},
+  "accountData": {
+    "profileName": { "type": "node", "name": "ProfileName" },
+    "profileEmoji": { "type": "node", "name": "ProfileEmoji" },
+    "profileDescription": { "type": "node", "name": "ProfileDescription" },
+    "profileAvatar": { "type": "node", "name": "ProfileAvatar" },
+    "profileHeaderBackground": {
+      "type": "node",
+      "name": "ProfileHeaderBackground"
+    },
+    "profileBackground": { "type": "node", "name": "ProfileBackground" },
+    "profileAvailability": { "type": "node", "name": "ProfileAvailability" },
+    "profileGenderIdentity": {
+      "type": "node",
+      "name": "ProfileGenderIdentity"
+    },
+    "profileHomepage": { "type": "node", "name": "ProfileHomepage" },
+    "profileDisposition": { "type": "node", "name": "ProfileDisposition" },
+    "profileHomeLocation": { "type": "node", "name": "ProfileHomeLocation" },
+    "profileUsername": { "type": "node", "name": "ProfileUsername" },
+    "profileTimeZone": { "type": "node", "name": "ProfileTimeZone" },
+    "profile": { "type": "node", "name": "Profile" }
+  }
+}

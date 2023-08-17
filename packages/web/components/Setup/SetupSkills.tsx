@@ -8,25 +8,29 @@ import {
   Spinner,
   Text,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
+import { useSetupFlow } from 'contexts/SetupContext';
 import {
+  Player,
   SkillCategory_Enum,
   useUpdatePlayerSkillsMutation,
 } from 'graphql/autogen/types';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
-import { useMounted, useOverridableField, useUser } from 'lib/hooks';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useMounted, useUser } from 'lib/hooks';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  FormProvider,
+  useForm,
+  useFormContext,
+  UseFormSetValue,
+} from 'react-hook-form';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
-import {
-  MaybeModalProps,
-  WizardPane,
-  WizardPaneCallbackProps,
-} from './WizardPane';
+import { MaybeModalProps, WizardPane } from './WizardPane';
 
-export type SetupSkillsProps = {
-  isEdit?: boolean;
-  onClose?: () => void;
+export type EditSkillsProps = MaybeModalProps & {
+  player: Maybe<Player>;
 };
 
 const styles: typeof multiSelectStyles = {
@@ -71,29 +75,31 @@ const styles: typeof multiSelectStyles = {
   }),
 };
 
-export const SetupSkills: React.FC<MaybeModalProps> = ({
-  onClose,
+const field = 'skills';
+
+export const SetupSkills: React.FC = () => {
+  const { user } = useUser();
+
+  return <EditSkills player={user} />;
+};
+
+export const EditSkills: React.FC<EditSkillsProps> = ({
+  player: user,
+  onComplete,
   buttonLabel,
   title = 'Skills',
 }) => {
-  const field = 'skills';
-  const mounted = useMounted();
-  const [choices, setChoices] = useState<Array<CategoryOption>>();
-  const { user } = useUser();
-  const { value: strippedSkills, setter: setValue } = useOverridableField<
-    Array<SkillOption>
-  >({
-    field: 'skills',
-    loaded: !!user,
-  });
-  const modal = !!onClose;
+  const { onNextPress } = useSetupFlow();
+  const modal = !!onComplete;
   const [, updateSkills] = useUpdatePlayerSkillsMutation();
+  const [status, setStatus] = useState<string | undefined>();
+  const [choices, setChoices] = useState<CategoryOption[]>();
   const skills = useMemo(
     () =>
-      strippedSkills?.map(
+      user?.skills?.map(
         (skill) =>
           ({
-            ...skill,
+            ...skill.Skill,
             get label() {
               return this.name;
             },
@@ -102,21 +108,8 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
             },
           } as SkillOption),
       ),
-    [strippedSkills],
+    [user],
   );
-
-  useEffect(() => {
-    if (user && setValue && choices && !skills) {
-      if (user.skills.length > 0) {
-        const options = choices.map(({ options: opts }) => opts).flat();
-        setValue(
-          user.skills.map(({ Skill: { id: sid } }) =>
-            options.find(({ id: cid }) => sid === cid),
-          ),
-        );
-      }
-    }
-  }, [choices, setValue, user, skills]);
 
   useEffect(() => {
     const fetchSkills = async () => {
@@ -127,76 +120,107 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
     fetchSkills();
   }, []);
 
-  const onSave = async ({
-    values: { skills: skillList },
-    setStatus,
-  }: {
-    values: Record<string, unknown>;
-    setStatus?: (msg: string) => void;
-  }) => {
-    setStatus?.('Writing to Hasura…');
+  const onSubmit = useCallback(
+    async (values: Record<string, SkillOption[]>) => {
+      if (values.skills) {
+        setStatus?.('Writing to Hasura…');
 
-    const { error } = await updateSkills({
-      skills: (skillList as Array<SkillOption>).map(({ id }) => ({
-        skill_id: id,
-      })),
-    });
+        const { error } = await updateSkills({
+          skills: values.skills.map(({ id }) => ({
+            skill_id: id,
+          })),
+        });
 
-    if (error) {
-      throw new Error(`Unable to update skills. Error: ${error}`);
-    }
+        if (error) {
+          throw new Error(`Unable to update skills. Error: ${error}`);
+        }
+      } else {
+        setStatus('No Change. Skipping Save…');
+        await new Promise((resolve) => {
+          setTimeout(resolve, 10);
+        });
+      }
+      (onComplete ?? onNextPress)();
+    },
+    [onComplete, onNextPress, updateSkills],
+  );
 
-    if (setValue) {
-      setStatus?.('Setting Local State…');
-      setValue(skillList);
-    }
-  };
+  const formMethods = useForm<{ [field]: SkillOption[] }>();
+  const { setValue } = formMethods;
 
   return (
-    <WizardPane<Array<SkillOption>>
-      {...{ field, onClose, onSave, buttonLabel }}
-      title={title}
-      prompt="What are your super&#xAD;powers?"
-      fetching={!user}
-      value={skills}
-    >
-      {({
-        register,
-        setter,
-        current,
-      }: WizardPaneCallbackProps<Array<SkillOption>>) => {
-        const { ref: registerRef, onChange, ...props } = register(field, {});
+    <FormProvider {...formMethods}>
+      <WizardPane<SkillOption[]>
+        {...{ field, onSubmit, status, title, buttonLabel }}
+        prompt="What are your super&#xAD;powers?"
+      >
+        <SetupSkillsInput {...{ user, skills, setValue, modal, choices }} />
+      </WizardPane>
+    </FormProvider>
+  );
+};
 
-        if (choices == null || !mounted) {
-          return (
-            <Flex w="full" align="center" justify="center">
-              <Spinner />
-              <Text>Loading Options…</Text>
-            </Flex>
-          );
-        }
+type SetupSkillInputProps = {
+  user: Maybe<Player>;
+  setValue: UseFormSetValue<{ skills: SkillOption[] }>;
+  modal: boolean;
+  choices?: CategoryOption[];
+  skills?: SkillOption[];
+};
 
-        return (
-          <Center w="full" alignItems="stretch">
-            <SelectSearch
-              isMulti
-              {...{ styles }}
-              onChange={(newValue) => {
-                const values = newValue as unknown as Array<SkillOption>;
-                setter(values);
-              }}
-              options={choices as LabeledOptions<string>[]}
-              value={current}
-              autoFocus
-              closeMenuOnSelect={false}
-              placeholder="Add your skills…"
-              menuShouldScrollIntoView={true}
-              menuPlacement={modal ? 'auto' : 'top'}
-              {...props}
-            />
-          </Center>
-        );
-      }}
-    </WizardPane>
+const SetupSkillsInput: React.FC<SetupSkillInputProps> = ({
+  user,
+  skills,
+  setValue,
+  modal,
+  choices,
+}) => {
+  const mounted = useMounted();
+  const { watch } = useFormContext();
+
+  const current = watch(field, skills);
+
+  useEffect(() => {
+    if (user && setValue && choices && !skills) {
+      if (user.skills.length > 0) {
+        const options = choices.map(({ options: opts }) => opts).flat();
+        const selections = user.skills.map(({ Skill: { id: sid } }) =>
+          options.find(({ id: cid }) => sid === cid),
+        ) as SkillOption[];
+        setValue(field, selections);
+      }
+    }
+  }, [choices, setValue, user, skills]);
+
+  if (user == null || choices == null || !mounted) {
+    return (
+      <Flex w="full" align="center" justify="center">
+        <Spinner />
+        <Text>Loading Skills…</Text>
+      </Flex>
+    );
+  }
+
+  return (
+    <Center w="full" alignItems="stretch">
+      <SelectSearch
+        isMulti
+        {...{ styles }}
+        onChange={(newValue) => {
+          if (setValue) {
+            const values = newValue as unknown as Array<SkillOption>;
+            setValue(field, values);
+          }
+        }}
+        options={choices as LabeledOptions<string>[]}
+        value={current}
+        autoFocus
+        closeMenuOnSelect={false}
+        placeholder="Add your skills…"
+        menuShouldScrollIntoView={true}
+        menuPlacement={modal ? 'auto' : 'top'}
+        // {...props}
+      />
+    </Center>
   );
 };

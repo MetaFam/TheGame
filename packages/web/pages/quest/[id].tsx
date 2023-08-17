@@ -166,7 +166,13 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
-) => {
+): Promise<{
+  props: {
+    quest_id: any
+    urqlState: any
+  };
+  revalidate: 1;
+} | { notFound: boolean }> => {
   const [ssrClient, ssrCache] = getSsrClient();
 
   const id = context.params?.id;
