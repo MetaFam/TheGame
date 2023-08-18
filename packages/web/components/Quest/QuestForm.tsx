@@ -65,7 +65,6 @@ export interface CreateQuestFormInputs {
   repetition: QuestRepetition_Enum;
   status: QuestStatus_Enum;
   guildId: Maybe<string>;
-  externalLink?: Maybe<string>;
   cooldown?: Maybe<number>;
   skills: Array<SkillOption>;
   roles: Array<RoleOption>;
@@ -80,7 +79,6 @@ const getDefaultFormValues = (
   title: base?.title || '',
   repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
   description: base?.description ?? '',
-  externalLink: base?.externalLink ?? '',
   guildId:
     base?.guildId ??
     guilds.find((g) => g.id === MetaFamGuildId)?.id ??
@@ -212,20 +210,6 @@ export const QuestForm: React.FC<Props> = ({
             render={({ field: { onChange, value } }) => (
               <Textarea bg="dark" {...{ value, onChange }} />
             )}
-          />
-        </Field>
-
-        <Field label="Link" error={errors.externalLink}>
-          <Input
-            placeholder="External link"
-            {...register('externalLink', {
-              pattern: {
-                value: URIRegexp,
-                message: 'Supply a valid URL.',
-              },
-            })}
-            isInvalid={!!errors.externalLink}
-            bg="dark"
           />
         </Field>
 
