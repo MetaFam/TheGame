@@ -87,7 +87,11 @@ const getDefaultFormValues = (
     guilds[0].id ??
     null,
   status: base?.status || QuestStatus_Enum.Open,
-  cooldown: base?.cooldown ?? null,
+  // cooldown is stored as seconds, but form input/edit is expected to be in hours
+  cooldown:
+    base?.cooldown !== undefined && base?.cooldown !== null
+      ? Math.floor(base.cooldown / 3600)
+      : null,
   skills: (base?.quest_skills ?? [])
     .map(({ skill }) => skill)
     .map((s) => ({
