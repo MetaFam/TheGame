@@ -4,6 +4,15 @@ schema {
   subscription: subscription_root
 }
 
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """measured in seconds"""
+  ttl: Int! = 60
+
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+) on QUERY
+
 """
 columns and relationships of "AccountType"
 """
@@ -23,35 +32,18 @@ type AccountType_aggregate {
 aggregate fields of "AccountType"
 """
 type AccountType_aggregate_fields {
-  count(columns: [AccountType_select_column!], distinct: Boolean): Int
+  count(columns: [AccountType_select_column!], distinct: Boolean): Int!
   max: AccountType_max_fields
   min: AccountType_min_fields
-}
-
-"""
-order by aggregate values of table "AccountType"
-"""
-input AccountType_aggregate_order_by {
-  count: order_by
-  max: AccountType_max_order_by
-  min: AccountType_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "AccountType"
-"""
-input AccountType_arr_rel_insert_input {
-  data: [AccountType_insert_input!]!
-  on_conflict: AccountType_on_conflict
 }
 
 """
 Boolean expression to filter rows from the table "AccountType". All fields are combined with a logical 'AND'.
 """
 input AccountType_bool_exp {
-  _and: [AccountType_bool_exp]
+  _and: [AccountType_bool_exp!]
   _not: AccountType_bool_exp
-  _or: [AccountType_bool_exp]
+  _or: [AccountType_bool_exp!]
   type: String_comparison_exp
 }
 
@@ -59,7 +51,9 @@ input AccountType_bool_exp {
 unique or primary key constraints on table "AccountType"
 """
 enum AccountType_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "type"
+  """
   AccountType_pkey
 }
 
@@ -73,7 +67,7 @@ enum AccountType_enum {
 }
 
 """
-expression to compare columns of type AccountType_enum. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "AccountType_enum". All fields are combined with logical 'AND'.
 """
 input AccountType_enum_comparison_exp {
   _eq: AccountType_enum
@@ -95,63 +89,37 @@ type AccountType_max_fields {
   type: String
 }
 
-"""
-order by max() on columns of table "AccountType"
-"""
-input AccountType_max_order_by {
-  type: order_by
-}
-
 """aggregate min on columns"""
 type AccountType_min_fields {
   type: String
 }
 
 """
-order by min() on columns of table "AccountType"
-"""
-input AccountType_min_order_by {
-  type: order_by
-}
-
-"""
 response of any mutation on the table "AccountType"
 """
 type AccountType_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [AccountType!]!
 }
 
 """
-input type for inserting object relation for remote table "AccountType"
-"""
-input AccountType_obj_rel_insert_input {
-  data: AccountType_insert_input!
-  on_conflict: AccountType_on_conflict
-}
-
-"""
-on conflict condition type for table "AccountType"
+on_conflict condition type for table "AccountType"
 """
 input AccountType_on_conflict {
   constraint: AccountType_constraint!
-  update_columns: [AccountType_update_column!]!
+  update_columns: [AccountType_update_column!]! = []
   where: AccountType_bool_exp
 }
 
-"""
-ordering options when selecting data from "AccountType"
-"""
+"""Ordering options when selecting data from "AccountType"."""
 input AccountType_order_by {
   type: order_by
 }
 
-"""
-primary key columns input for table: "AccountType"
-"""
+"""primary key columns input for table: AccountType"""
 input AccountType_pk_columns_input {
   type: String!
 }
@@ -172,6 +140,22 @@ input AccountType_set_input {
 }
 
 """
+Streaming cursor of the table "AccountType"
+"""
+input AccountType_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: AccountType_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input AccountType_stream_cursor_value_input {
+  type: String
+}
+
+"""
 update columns of table "AccountType"
 """
 enum AccountType_update_column {
@@ -179,8 +163,16 @@ enum AccountType_update_column {
   type
 }
 
+input AccountType_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: AccountType_set_input
+
+  """filter the rows which have to be updated"""
+  where: AccountType_bool_exp!
+}
+
 """
-expression to compare columns of type Boolean. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
 """
 input Boolean_comparison_exp {
   _eq: Boolean
@@ -205,11 +197,6 @@ type CacheProcessOutput {
   error: String
   queued: Boolean!
   success: Boolean!
-}
-
-type CollectiblesFavorites {
-  address: String
-  tokenId: String
 }
 
 """
@@ -238,7 +225,7 @@ type ColorAspect {
     where: profile_bool_exp
   ): [profile!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   profiles_aggregate(
     """distinct select on columns"""
     distinct_on: [profile_select_column!]
@@ -270,7 +257,7 @@ aggregate fields of "ColorAspect"
 """
 type ColorAspect_aggregate_fields {
   avg: ColorAspect_avg_fields
-  count(columns: [ColorAspect_select_column!], distinct: Boolean): Int
+  count(columns: [ColorAspect_select_column!], distinct: Boolean): Int!
   max: ColorAspect_max_fields
   min: ColorAspect_min_fields
   stddev: ColorAspect_stddev_fields
@@ -282,69 +269,42 @@ type ColorAspect_aggregate_fields {
   variance: ColorAspect_variance_fields
 }
 
-"""
-order by aggregate values of table "ColorAspect"
-"""
-input ColorAspect_aggregate_order_by {
-  avg: ColorAspect_avg_order_by
-  count: order_by
-  max: ColorAspect_max_order_by
-  min: ColorAspect_min_order_by
-  stddev: ColorAspect_stddev_order_by
-  stddev_pop: ColorAspect_stddev_pop_order_by
-  stddev_samp: ColorAspect_stddev_samp_order_by
-  sum: ColorAspect_sum_order_by
-  var_pop: ColorAspect_var_pop_order_by
-  var_samp: ColorAspect_var_samp_order_by
-  variance: ColorAspect_variance_order_by
-}
-
-"""
-input type for inserting array relation for remote table "ColorAspect"
-"""
-input ColorAspect_arr_rel_insert_input {
-  data: [ColorAspect_insert_input!]!
-  on_conflict: ColorAspect_on_conflict
-}
-
 """aggregate avg on columns"""
 type ColorAspect_avg_fields {
   mask: Float
 }
 
 """
-order by avg() on columns of table "ColorAspect"
-"""
-input ColorAspect_avg_order_by {
-  mask: order_by
-}
-
-"""
 Boolean expression to filter rows from the table "ColorAspect". All fields are combined with a logical 'AND'.
 """
 input ColorAspect_bool_exp {
-  _and: [ColorAspect_bool_exp]
+  _and: [ColorAspect_bool_exp!]
   _not: ColorAspect_bool_exp
-  _or: [ColorAspect_bool_exp]
+  _or: [ColorAspect_bool_exp!]
   description: String_comparison_exp
   mask: Int_comparison_exp
   name: String_comparison_exp
   profiles: profile_bool_exp
+  profiles_aggregate: profile_aggregate_bool_exp
 }
 
 """
 unique or primary key constraints on table "ColorAspect"
 """
 enum ColorAspect_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "name"
+  """
   ColorAspect_name_key
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "mask"
+  """
   ColorAspect_pkey
 }
 
 """
-input type for incrementing integer column in table "ColorAspect"
+input type for incrementing numeric columns in table "ColorAspect"
 """
 input ColorAspect_inc_input {
   mask: Int
@@ -367,15 +327,6 @@ type ColorAspect_max_fields {
   name: String
 }
 
-"""
-order by max() on columns of table "ColorAspect"
-"""
-input ColorAspect_max_order_by {
-  description: order_by
-  mask: order_by
-  name: order_by
-}
-
 """aggregate min on columns"""
 type ColorAspect_min_fields {
   description: String
@@ -384,22 +335,13 @@ type ColorAspect_min_fields {
 }
 
 """
-order by min() on columns of table "ColorAspect"
-"""
-input ColorAspect_min_order_by {
-  description: order_by
-  mask: order_by
-  name: order_by
-}
-
-"""
 response of any mutation on the table "ColorAspect"
 """
 type ColorAspect_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [ColorAspect!]!
 }
 
@@ -408,21 +350,21 @@ input type for inserting object relation for remote table "ColorAspect"
 """
 input ColorAspect_obj_rel_insert_input {
   data: ColorAspect_insert_input!
+
+  """upsert condition"""
   on_conflict: ColorAspect_on_conflict
 }
 
 """
-on conflict condition type for table "ColorAspect"
+on_conflict condition type for table "ColorAspect"
 """
 input ColorAspect_on_conflict {
   constraint: ColorAspect_constraint!
-  update_columns: [ColorAspect_update_column!]!
+  update_columns: [ColorAspect_update_column!]! = []
   where: ColorAspect_bool_exp
 }
 
-"""
-ordering options when selecting data from "ColorAspect"
-"""
+"""Ordering options when selecting data from "ColorAspect"."""
 input ColorAspect_order_by {
   description: order_by
   mask: order_by
@@ -430,9 +372,7 @@ input ColorAspect_order_by {
   profiles_aggregate: profile_aggregate_order_by
 }
 
-"""
-primary key columns input for table: "ColorAspect"
-"""
+"""primary key columns input for table: ColorAspect"""
 input ColorAspect_pk_columns_input {
   mask: Int!
 }
@@ -465,23 +405,9 @@ type ColorAspect_stddev_fields {
   mask: Float
 }
 
-"""
-order by stddev() on columns of table "ColorAspect"
-"""
-input ColorAspect_stddev_order_by {
-  mask: order_by
-}
-
 """aggregate stddev_pop on columns"""
 type ColorAspect_stddev_pop_fields {
   mask: Float
-}
-
-"""
-order by stddev_pop() on columns of table "ColorAspect"
-"""
-input ColorAspect_stddev_pop_order_by {
-  mask: order_by
 }
 
 """aggregate stddev_samp on columns"""
@@ -490,22 +416,26 @@ type ColorAspect_stddev_samp_fields {
 }
 
 """
-order by stddev_samp() on columns of table "ColorAspect"
+Streaming cursor of the table "ColorAspect"
 """
-input ColorAspect_stddev_samp_order_by {
-  mask: order_by
+input ColorAspect_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: ColorAspect_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input ColorAspect_stream_cursor_value_input {
+  description: String
+  mask: Int
+  name: String
 }
 
 """aggregate sum on columns"""
 type ColorAspect_sum_fields {
   mask: Int
-}
-
-"""
-order by sum() on columns of table "ColorAspect"
-"""
-input ColorAspect_sum_order_by {
-  mask: order_by
 }
 
 """
@@ -522,16 +452,20 @@ enum ColorAspect_update_column {
   name
 }
 
+input ColorAspect_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: ColorAspect_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: ColorAspect_set_input
+
+  """filter the rows which have to be updated"""
+  where: ColorAspect_bool_exp!
+}
+
 """aggregate var_pop on columns"""
 type ColorAspect_var_pop_fields {
   mask: Float
-}
-
-"""
-order by var_pop() on columns of table "ColorAspect"
-"""
-input ColorAspect_var_pop_order_by {
-  mask: order_by
 }
 
 """aggregate var_samp on columns"""
@@ -539,23 +473,9 @@ type ColorAspect_var_samp_fields {
   mask: Float
 }
 
-"""
-order by var_samp() on columns of table "ColorAspect"
-"""
-input ColorAspect_var_samp_order_by {
-  mask: order_by
-}
-
 """aggregate variance on columns"""
 type ColorAspect_variance_fields {
   mask: Float
-}
-
-"""
-order by variance() on columns of table "ColorAspect"
-"""
-input ColorAspect_variance_order_by {
-  mask: order_by
 }
 
 input CreateQuestCompletionInput {
@@ -590,6 +510,15 @@ type CreateQuestOutput {
   success: Boolean!
 }
 
+"""ordering argument of a cursor"""
+enum cursor_ordering {
+  """ascending ordering of the cursor"""
+  ASC
+
+  """descending ordering of the cursor"""
+  DESC
+}
+
 """
 columns and relationships of "dao"
 """
@@ -621,7 +550,7 @@ type dao {
     where: dao_player_bool_exp
   ): [dao_player!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   players_aggregate(
     """distinct select on columns"""
     distinct_on: [dao_player_select_column!]
@@ -649,11 +578,22 @@ type dao_aggregate {
   nodes: [dao!]!
 }
 
+input dao_aggregate_bool_exp {
+  count: dao_aggregate_bool_exp_count
+}
+
+input dao_aggregate_bool_exp_count {
+  arguments: [dao_select_column!]
+  distinct: Boolean
+  filter: dao_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "dao"
 """
 type dao_aggregate_fields {
-  count(columns: [dao_select_column!], distinct: Boolean): Int
+  count(columns: [dao_select_column!], distinct: Boolean): Int!
   max: dao_max_fields
   min: dao_min_fields
 }
@@ -672,6 +612,8 @@ input type for inserting array relation for remote table "dao"
 """
 input dao_arr_rel_insert_input {
   data: [dao_insert_input!]!
+
+  """upsert condition"""
   on_conflict: dao_on_conflict
 }
 
@@ -679,9 +621,9 @@ input dao_arr_rel_insert_input {
 Boolean expression to filter rows from the table "dao". All fields are combined with a logical 'AND'.
 """
 input dao_bool_exp {
-  _and: [dao_bool_exp]
+  _and: [dao_bool_exp!]
   _not: dao_bool_exp
-  _or: [dao_bool_exp]
+  _or: [dao_bool_exp!]
   contractAddress: String_comparison_exp
   guild: guild_bool_exp
   guildId: uuid_comparison_exp
@@ -689,6 +631,7 @@ input dao_bool_exp {
   label: String_comparison_exp
   network: String_comparison_exp
   players: dao_player_bool_exp
+  players_aggregate: dao_player_aggregate_bool_exp
   url: String_comparison_exp
 }
 
@@ -696,10 +639,14 @@ input dao_bool_exp {
 unique or primary key constraints on table "dao"
 """
 enum dao_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "network", "contract_address"
+  """
   dao_contract_address_network_key
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   dao_pkey
 }
 
@@ -765,10 +712,10 @@ input dao_min_order_by {
 response of any mutation on the table "dao"
 """
 type dao_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [dao!]!
 }
 
@@ -777,21 +724,21 @@ input type for inserting object relation for remote table "dao"
 """
 input dao_obj_rel_insert_input {
   data: dao_insert_input!
+
+  """upsert condition"""
   on_conflict: dao_on_conflict
 }
 
 """
-on conflict condition type for table "dao"
+on_conflict condition type for table "dao"
 """
 input dao_on_conflict {
   constraint: dao_constraint!
-  update_columns: [dao_update_column!]!
+  update_columns: [dao_update_column!]! = []
   where: dao_bool_exp
 }
 
-"""
-ordering options when selecting data from "dao"
-"""
+"""Ordering options when selecting data from "dao"."""
 input dao_order_by {
   contractAddress: order_by
   guild: guild_order_by
@@ -803,9 +750,7 @@ input dao_order_by {
   url: order_by
 }
 
-"""
-primary key columns input for table: "dao"
-"""
+"""primary key columns input for table: dao"""
 input dao_pk_columns_input {
   id: uuid!
 }
@@ -832,11 +777,38 @@ type dao_player_aggregate {
   nodes: [dao_player!]!
 }
 
+input dao_player_aggregate_bool_exp {
+  bool_and: dao_player_aggregate_bool_exp_bool_and
+  bool_or: dao_player_aggregate_bool_exp_bool_or
+  count: dao_player_aggregate_bool_exp_count
+}
+
+input dao_player_aggregate_bool_exp_bool_and {
+  arguments: dao_player_select_column_dao_player_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: dao_player_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input dao_player_aggregate_bool_exp_bool_or {
+  arguments: dao_player_select_column_dao_player_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: dao_player_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input dao_player_aggregate_bool_exp_count {
+  arguments: [dao_player_select_column!]
+  distinct: Boolean
+  filter: dao_player_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "dao_player"
 """
 type dao_player_aggregate_fields {
-  count(columns: [dao_player_select_column!], distinct: Boolean): Int
+  count(columns: [dao_player_select_column!], distinct: Boolean): Int!
   max: dao_player_max_fields
   min: dao_player_min_fields
 }
@@ -855,6 +827,8 @@ input type for inserting array relation for remote table "dao_player"
 """
 input dao_player_arr_rel_insert_input {
   data: [dao_player_insert_input!]!
+
+  """upsert condition"""
   on_conflict: dao_player_on_conflict
 }
 
@@ -864,9 +838,9 @@ Boolean expression to filter rows from the table "dao_player". All fields are co
 input dao_player_bool_exp {
   Dao: dao_bool_exp
   Player: player_bool_exp
-  _and: [dao_player_bool_exp]
+  _and: [dao_player_bool_exp!]
   _not: dao_player_bool_exp
-  _or: [dao_player_bool_exp]
+  _or: [dao_player_bool_exp!]
   daoId: uuid_comparison_exp
   playerId: uuid_comparison_exp
   visible: Boolean_comparison_exp
@@ -876,7 +850,9 @@ input dao_player_bool_exp {
 unique or primary key constraints on table "dao_player"
 """
 enum dao_player_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "dao_id", "player_id"
+  """
   dao_player_pkey
 }
 
@@ -923,33 +899,23 @@ input dao_player_min_order_by {
 response of any mutation on the table "dao_player"
 """
 type dao_player_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [dao_player!]!
 }
 
 """
-input type for inserting object relation for remote table "dao_player"
-"""
-input dao_player_obj_rel_insert_input {
-  data: dao_player_insert_input!
-  on_conflict: dao_player_on_conflict
-}
-
-"""
-on conflict condition type for table "dao_player"
+on_conflict condition type for table "dao_player"
 """
 input dao_player_on_conflict {
   constraint: dao_player_constraint!
-  update_columns: [dao_player_update_column!]!
+  update_columns: [dao_player_update_column!]! = []
   where: dao_player_bool_exp
 }
 
-"""
-ordering options when selecting data from "dao_player"
-"""
+"""Ordering options when selecting data from "dao_player"."""
 input dao_player_order_by {
   Dao: dao_order_by
   Player: player_order_by
@@ -958,9 +924,7 @@ input dao_player_order_by {
   visible: order_by
 }
 
-"""
-primary key columns input for table: "dao_player"
-"""
+"""primary key columns input for table: dao_player"""
 input dao_player_pk_columns_input {
   daoId: uuid!
   playerId: uuid!
@@ -981,9 +945,43 @@ enum dao_player_select_column {
 }
 
 """
+select "dao_player_aggregate_bool_exp_bool_and_arguments_columns" columns of table "dao_player"
+"""
+enum dao_player_select_column_dao_player_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  visible
+}
+
+"""
+select "dao_player_aggregate_bool_exp_bool_or_arguments_columns" columns of table "dao_player"
+"""
+enum dao_player_select_column_dao_player_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  visible
+}
+
+"""
 input type for updating data in table "dao_player"
 """
 input dao_player_set_input {
+  daoId: uuid
+  playerId: uuid
+  visible: Boolean
+}
+
+"""
+Streaming cursor of the table "dao_player"
+"""
+input dao_player_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: dao_player_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input dao_player_stream_cursor_value_input {
   daoId: uuid
   playerId: uuid
   visible: Boolean
@@ -1001,6 +999,14 @@ enum dao_player_update_column {
 
   """column name"""
   visible
+}
+
+input dao_player_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: dao_player_set_input
+
+  """filter the rows which have to be updated"""
+  where: dao_player_bool_exp!
 }
 
 """
@@ -1039,6 +1045,27 @@ input dao_set_input {
 }
 
 """
+Streaming cursor of the table "dao"
+"""
+input dao_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: dao_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input dao_stream_cursor_value_input {
+  contractAddress: String
+  guildId: uuid
+  id: uuid
+  label: String
+  network: String
+  url: String
+}
+
+"""
 update columns of table "dao"
 """
 enum dao_update_column {
@@ -1061,12 +1088,12 @@ enum dao_update_column {
   url
 }
 
-type DaoMetadata {
-  avatarImg: String
-  contractAddress: String!
-  description: String!
-  name: String!
-  network: String!
+input dao_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: dao_set_input
+
+  """filter the rows which have to be updated"""
+  where: dao_bool_exp!
 }
 
 type DiscordGuildAuthResponse {
@@ -1088,10 +1115,6 @@ type DiscordRole {
   id: String!
   name: String!
   position: Int!
-}
-
-type ExpiredPlayerProfiles {
-  ids: [String]!
 }
 
 """
@@ -1120,7 +1143,7 @@ type ExplorerType {
     where: profile_bool_exp
   ): [profile!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   profiles_aggregate(
     """distinct select on columns"""
     distinct_on: [profile_select_column!]
@@ -1153,7 +1176,7 @@ aggregate fields of "ExplorerType"
 """
 type ExplorerType_aggregate_fields {
   avg: ExplorerType_avg_fields
-  count(columns: [ExplorerType_select_column!], distinct: Boolean): Int
+  count(columns: [ExplorerType_select_column!], distinct: Boolean): Int!
   max: ExplorerType_max_fields
   min: ExplorerType_min_fields
   stddev: ExplorerType_stddev_fields
@@ -1165,54 +1188,23 @@ type ExplorerType_aggregate_fields {
   variance: ExplorerType_variance_fields
 }
 
-"""
-order by aggregate values of table "ExplorerType"
-"""
-input ExplorerType_aggregate_order_by {
-  avg: ExplorerType_avg_order_by
-  count: order_by
-  max: ExplorerType_max_order_by
-  min: ExplorerType_min_order_by
-  stddev: ExplorerType_stddev_order_by
-  stddev_pop: ExplorerType_stddev_pop_order_by
-  stddev_samp: ExplorerType_stddev_samp_order_by
-  sum: ExplorerType_sum_order_by
-  var_pop: ExplorerType_var_pop_order_by
-  var_samp: ExplorerType_var_samp_order_by
-  variance: ExplorerType_variance_order_by
-}
-
-"""
-input type for inserting array relation for remote table "ExplorerType"
-"""
-input ExplorerType_arr_rel_insert_input {
-  data: [ExplorerType_insert_input!]!
-  on_conflict: ExplorerType_on_conflict
-}
-
 """aggregate avg on columns"""
 type ExplorerType_avg_fields {
   id: Float
 }
 
 """
-order by avg() on columns of table "ExplorerType"
-"""
-input ExplorerType_avg_order_by {
-  id: order_by
-}
-
-"""
 Boolean expression to filter rows from the table "ExplorerType". All fields are combined with a logical 'AND'.
 """
 input ExplorerType_bool_exp {
-  _and: [ExplorerType_bool_exp]
+  _and: [ExplorerType_bool_exp!]
   _not: ExplorerType_bool_exp
-  _or: [ExplorerType_bool_exp]
+  _or: [ExplorerType_bool_exp!]
   description: String_comparison_exp
   id: Int_comparison_exp
   imageURL: String_comparison_exp
   profiles: profile_bool_exp
+  profiles_aggregate: profile_aggregate_bool_exp
   title: String_comparison_exp
 }
 
@@ -1220,15 +1212,19 @@ input ExplorerType_bool_exp {
 unique or primary key constraints on table "ExplorerType"
 """
 enum ExplorerType_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   PlayerType_pkey
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "title"
+  """
   PlayerType_title_key
 }
 
 """
-input type for incrementing integer column in table "ExplorerType"
+input type for incrementing numeric columns in table "ExplorerType"
 """
 input ExplorerType_inc_input {
   id: Int
@@ -1253,16 +1249,6 @@ type ExplorerType_max_fields {
   title: String
 }
 
-"""
-order by max() on columns of table "ExplorerType"
-"""
-input ExplorerType_max_order_by {
-  description: order_by
-  id: order_by
-  imageURL: order_by
-  title: order_by
-}
-
 """aggregate min on columns"""
 type ExplorerType_min_fields {
   description: String
@@ -1272,23 +1258,13 @@ type ExplorerType_min_fields {
 }
 
 """
-order by min() on columns of table "ExplorerType"
-"""
-input ExplorerType_min_order_by {
-  description: order_by
-  id: order_by
-  imageURL: order_by
-  title: order_by
-}
-
-"""
 response of any mutation on the table "ExplorerType"
 """
 type ExplorerType_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [ExplorerType!]!
 }
 
@@ -1297,21 +1273,21 @@ input type for inserting object relation for remote table "ExplorerType"
 """
 input ExplorerType_obj_rel_insert_input {
   data: ExplorerType_insert_input!
+
+  """upsert condition"""
   on_conflict: ExplorerType_on_conflict
 }
 
 """
-on conflict condition type for table "ExplorerType"
+on_conflict condition type for table "ExplorerType"
 """
 input ExplorerType_on_conflict {
   constraint: ExplorerType_constraint!
-  update_columns: [ExplorerType_update_column!]!
+  update_columns: [ExplorerType_update_column!]! = []
   where: ExplorerType_bool_exp
 }
 
-"""
-ordering options when selecting data from "ExplorerType"
-"""
+"""Ordering options when selecting data from "ExplorerType"."""
 input ExplorerType_order_by {
   description: order_by
   id: order_by
@@ -1320,9 +1296,7 @@ input ExplorerType_order_by {
   title: order_by
 }
 
-"""
-primary key columns input for table: "ExplorerType"
-"""
+"""primary key columns input for table: ExplorerType"""
 input ExplorerType_pk_columns_input {
   id: Int!
 }
@@ -1359,23 +1333,9 @@ type ExplorerType_stddev_fields {
   id: Float
 }
 
-"""
-order by stddev() on columns of table "ExplorerType"
-"""
-input ExplorerType_stddev_order_by {
-  id: order_by
-}
-
 """aggregate stddev_pop on columns"""
 type ExplorerType_stddev_pop_fields {
   id: Float
-}
-
-"""
-order by stddev_pop() on columns of table "ExplorerType"
-"""
-input ExplorerType_stddev_pop_order_by {
-  id: order_by
 }
 
 """aggregate stddev_samp on columns"""
@@ -1384,22 +1344,27 @@ type ExplorerType_stddev_samp_fields {
 }
 
 """
-order by stddev_samp() on columns of table "ExplorerType"
+Streaming cursor of the table "ExplorerType"
 """
-input ExplorerType_stddev_samp_order_by {
-  id: order_by
+input ExplorerType_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: ExplorerType_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input ExplorerType_stream_cursor_value_input {
+  description: String
+  id: Int
+  imageURL: String
+  title: String
 }
 
 """aggregate sum on columns"""
 type ExplorerType_sum_fields {
   id: Int
-}
-
-"""
-order by sum() on columns of table "ExplorerType"
-"""
-input ExplorerType_sum_order_by {
-  id: order_by
 }
 
 """
@@ -1419,16 +1384,20 @@ enum ExplorerType_update_column {
   title
 }
 
+input ExplorerType_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: ExplorerType_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: ExplorerType_set_input
+
+  """filter the rows which have to be updated"""
+  where: ExplorerType_bool_exp!
+}
+
 """aggregate var_pop on columns"""
 type ExplorerType_var_pop_fields {
   id: Float
-}
-
-"""
-order by var_pop() on columns of table "ExplorerType"
-"""
-input ExplorerType_var_pop_order_by {
-  id: order_by
 }
 
 """aggregate var_samp on columns"""
@@ -1436,23 +1405,9 @@ type ExplorerType_var_samp_fields {
   id: Float
 }
 
-"""
-order by var_samp() on columns of table "ExplorerType"
-"""
-input ExplorerType_var_samp_order_by {
-  id: order_by
-}
-
 """aggregate variance on columns"""
 type ExplorerType_variance_fields {
   id: Float
-}
-
-"""
-order by variance() on columns of table "ExplorerType"
-"""
-input ExplorerType_variance_order_by {
-  id: order_by
 }
 
 """
@@ -1480,7 +1435,7 @@ type guild {
     where: dao_bool_exp
   ): [dao!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   daos_aggregate(
     """distinct select on columns"""
     distinct_on: [dao_select_column!]
@@ -1498,8 +1453,6 @@ type guild {
     where: dao_bool_exp
   ): dao_aggregate!
   description: String
-
-  """Remote relationship field"""
   discordAnnouncements: [String!]
   discordId: String
   discordInviteUrl: String
@@ -1523,7 +1476,7 @@ type guild {
     where: guild_player_bool_exp
   ): [guild_player!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   guild_players_aggregate(
     """distinct select on columns"""
     distinct_on: [guild_player_select_column!]
@@ -1571,7 +1524,7 @@ type guild {
     where: quest_bool_exp
   ): [quest!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quests_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_select_column!]
@@ -1606,12 +1559,39 @@ type guild_aggregate {
   nodes: [guild!]!
 }
 
+input guild_aggregate_bool_exp {
+  bool_and: guild_aggregate_bool_exp_bool_and
+  bool_or: guild_aggregate_bool_exp_bool_or
+  count: guild_aggregate_bool_exp_count
+}
+
+input guild_aggregate_bool_exp_bool_and {
+  arguments: guild_select_column_guild_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: guild_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input guild_aggregate_bool_exp_bool_or {
+  arguments: guild_select_column_guild_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: guild_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input guild_aggregate_bool_exp_count {
+  arguments: [guild_select_column!]
+  distinct: Boolean
+  filter: guild_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "guild"
 """
 type guild_aggregate_fields {
   avg: guild_avg_fields
-  count(columns: [guild_select_column!], distinct: Boolean): Int
+  count(columns: [guild_select_column!], distinct: Boolean): Int!
   max: guild_max_fields
   min: guild_min_fields
   stddev: guild_stddev_fields
@@ -1645,6 +1625,8 @@ input type for inserting array relation for remote table "guild"
 """
 input guild_arr_rel_insert_input {
   data: [guild_insert_input!]!
+
+  """upsert condition"""
   on_conflict: guild_on_conflict
 }
 
@@ -1665,15 +1647,17 @@ Boolean expression to filter rows from the table "guild". All fields are combine
 """
 input guild_bool_exp {
   GuildType: GuildType_bool_exp
-  _and: [guild_bool_exp]
+  _and: [guild_bool_exp!]
   _not: guild_bool_exp
-  _or: [guild_bool_exp]
+  _or: [guild_bool_exp!]
   daos: dao_bool_exp
+  daos_aggregate: dao_aggregate_bool_exp
   description: String_comparison_exp
   discordId: String_comparison_exp
   discordInviteUrl: String_comparison_exp
   githubUrl: String_comparison_exp
   guild_players: guild_player_bool_exp
+  guild_players_aggregate: guild_player_aggregate_bool_exp
   guildname: String_comparison_exp
   id: uuid_comparison_exp
   joinButtonUrl: String_comparison_exp
@@ -1683,6 +1667,7 @@ input guild_bool_exp {
   name: String_comparison_exp
   profileLayout: String_comparison_exp
   quests: quest_bool_exp
+  quests_aggregate: quest_aggregate_bool_exp
   showDiscordAnnouncements: Boolean_comparison_exp
   sortPosition: Int_comparison_exp
   status: GuildStatus_enum_comparison_exp
@@ -1695,21 +1680,29 @@ input guild_bool_exp {
 unique or primary key constraints on table "guild"
 """
 enum guild_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "guildname"
+  """
   Guild_guildname_key
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   Guild_pkey
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "discord_id"
+  """
   guild_discord_id_key
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "sort_position"
+  """
   guild_sort_position_key
 }
 
 """
-input type for incrementing integer column in table "guild"
+input type for incrementing numeric columns in table "guild"
 """
 input guild_inc_input {
   sortPosition: Int
@@ -1726,6 +1719,8 @@ input guild_insert_input {
   discordInviteUrl: String
   githubUrl: String
   guild_players: guild_player_arr_rel_insert_input
+
+  """Unique friendly identifier for the Guild (used in URL)"""
   guildname: String
   id: uuid
   joinButtonUrl: String
@@ -1739,6 +1734,8 @@ input guild_insert_input {
   sortPosition: Int
   status: GuildStatus_enum
   twitterUrl: String
+
+  """The area of focus for the guild (e.g. funding, project, etc)"""
   type: GuildType_enum
   websiteUrl: String
 }
@@ -1749,6 +1746,8 @@ type guild_max_fields {
   discordId: String
   discordInviteUrl: String
   githubUrl: String
+
+  """Unique friendly identifier for the Guild (used in URL)"""
   guildname: String
   id: uuid
   joinButtonUrl: String
@@ -1768,6 +1767,8 @@ input guild_max_order_by {
   discordId: order_by
   discordInviteUrl: order_by
   githubUrl: order_by
+
+  """Unique friendly identifier for the Guild (used in URL)"""
   guildname: order_by
   id: order_by
   joinButtonUrl: order_by
@@ -1779,13 +1780,7 @@ input guild_max_order_by {
   websiteUrl: order_by
 }
 
-"""
-Used to hold private information for guilds
-
-
-columns and relationships of "guild_metadata"
-
-"""
+"""Used to hold private information for guilds"""
 type guild_metadata {
   creatorId: uuid
   discordId: String!
@@ -1793,8 +1788,6 @@ type guild_metadata {
     """JSON select path"""
     path: String
   ): jsonb
-
-  """Remote relationship field"""
   discordRoles: [DiscordRole!]!
 
   """An object relationship"""
@@ -1817,18 +1810,9 @@ type guild_metadata_aggregate {
 aggregate fields of "guild_metadata"
 """
 type guild_metadata_aggregate_fields {
-  count(columns: [guild_metadata_select_column!], distinct: Boolean): Int
+  count(columns: [guild_metadata_select_column!], distinct: Boolean): Int!
   max: guild_metadata_max_fields
   min: guild_metadata_min_fields
-}
-
-"""
-order by aggregate values of table "guild_metadata"
-"""
-input guild_metadata_aggregate_order_by {
-  count: order_by
-  max: guild_metadata_max_order_by
-  min: guild_metadata_min_order_by
 }
 
 """append existing jsonb value of filtered columns with new jsonb value"""
@@ -1837,20 +1821,12 @@ input guild_metadata_append_input {
 }
 
 """
-input type for inserting array relation for remote table "guild_metadata"
-"""
-input guild_metadata_arr_rel_insert_input {
-  data: [guild_metadata_insert_input!]!
-  on_conflict: guild_metadata_on_conflict
-}
-
-"""
 Boolean expression to filter rows from the table "guild_metadata". All fields are combined with a logical 'AND'.
 """
 input guild_metadata_bool_exp {
-  _and: [guild_metadata_bool_exp]
+  _and: [guild_metadata_bool_exp!]
   _not: guild_metadata_bool_exp
-  _or: [guild_metadata_bool_exp]
+  _or: [guild_metadata_bool_exp!]
   creatorId: uuid_comparison_exp
   discordId: String_comparison_exp
   discordMetadata: jsonb_comparison_exp
@@ -1863,7 +1839,9 @@ input guild_metadata_bool_exp {
 unique or primary key constraints on table "guild_metadata"
 """
 enum guild_metadata_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "guild_id"
+  """
   guild_metadata_pkey
 }
 
@@ -1871,7 +1849,7 @@ enum guild_metadata_constraint {
 delete the field or element with specified path (for JSON arrays, negative integers count from the end)
 """
 input guild_metadata_delete_at_path_input {
-  discordMetadata: [String]
+  discordMetadata: [String!]
 }
 
 """
@@ -1908,15 +1886,6 @@ type guild_metadata_max_fields {
   guildId: uuid
 }
 
-"""
-order by max() on columns of table "guild_metadata"
-"""
-input guild_metadata_max_order_by {
-  creatorId: order_by
-  discordId: order_by
-  guildId: order_by
-}
-
 """aggregate min on columns"""
 type guild_metadata_min_fields {
   creatorId: uuid
@@ -1925,22 +1894,13 @@ type guild_metadata_min_fields {
 }
 
 """
-order by min() on columns of table "guild_metadata"
-"""
-input guild_metadata_min_order_by {
-  creatorId: order_by
-  discordId: order_by
-  guildId: order_by
-}
-
-"""
 response of any mutation on the table "guild_metadata"
 """
 type guild_metadata_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [guild_metadata!]!
 }
 
@@ -1949,21 +1909,21 @@ input type for inserting object relation for remote table "guild_metadata"
 """
 input guild_metadata_obj_rel_insert_input {
   data: guild_metadata_insert_input!
+
+  """upsert condition"""
   on_conflict: guild_metadata_on_conflict
 }
 
 """
-on conflict condition type for table "guild_metadata"
+on_conflict condition type for table "guild_metadata"
 """
 input guild_metadata_on_conflict {
   constraint: guild_metadata_constraint!
-  update_columns: [guild_metadata_update_column!]!
+  update_columns: [guild_metadata_update_column!]! = []
   where: guild_metadata_bool_exp
 }
 
-"""
-ordering options when selecting data from "guild_metadata"
-"""
+"""Ordering options when selecting data from "guild_metadata"."""
 input guild_metadata_order_by {
   creatorId: order_by
   discordId: order_by
@@ -1973,9 +1933,7 @@ input guild_metadata_order_by {
   player: player_order_by
 }
 
-"""
-primary key columns input for table: "guild_metadata"
-"""
+"""primary key columns input for table: guild_metadata"""
 input guild_metadata_pk_columns_input {
   guildId: uuid!
 }
@@ -2013,6 +1971,25 @@ input guild_metadata_set_input {
 }
 
 """
+Streaming cursor of the table "guild_metadata"
+"""
+input guild_metadata_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: guild_metadata_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input guild_metadata_stream_cursor_value_input {
+  creatorId: uuid
+  discordId: String
+  discordMetadata: jsonb
+  guildId: uuid
+}
+
+"""
 update columns of table "guild_metadata"
 """
 enum guild_metadata_update_column {
@@ -2029,12 +2006,44 @@ enum guild_metadata_update_column {
   guildId
 }
 
+input guild_metadata_updates {
+  """append existing jsonb value of filtered columns with new jsonb value"""
+  _append: guild_metadata_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: guild_metadata_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from
+  the end). throws an error if top level container is not an array
+  """
+  _delete_elem: guild_metadata_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: guild_metadata_delete_key_input
+
+  """prepend existing jsonb value of filtered columns with new jsonb value"""
+  _prepend: guild_metadata_prepend_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: guild_metadata_set_input
+
+  """filter the rows which have to be updated"""
+  where: guild_metadata_bool_exp!
+}
+
 """aggregate min on columns"""
 type guild_min_fields {
   description: String
   discordId: String
   discordInviteUrl: String
   githubUrl: String
+
+  """Unique friendly identifier for the Guild (used in URL)"""
   guildname: String
   id: uuid
   joinButtonUrl: String
@@ -2054,6 +2063,8 @@ input guild_min_order_by {
   discordId: order_by
   discordInviteUrl: order_by
   githubUrl: order_by
+
+  """Unique friendly identifier for the Guild (used in URL)"""
   guildname: order_by
   id: order_by
   joinButtonUrl: order_by
@@ -2069,10 +2080,10 @@ input guild_min_order_by {
 response of any mutation on the table "guild"
 """
 type guild_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [guild!]!
 }
 
@@ -2081,21 +2092,21 @@ input type for inserting object relation for remote table "guild"
 """
 input guild_obj_rel_insert_input {
   data: guild_insert_input!
+
+  """upsert condition"""
   on_conflict: guild_on_conflict
 }
 
 """
-on conflict condition type for table "guild"
+on_conflict condition type for table "guild"
 """
 input guild_on_conflict {
   constraint: guild_constraint!
-  update_columns: [guild_update_column!]!
+  update_columns: [guild_update_column!]! = []
   where: guild_bool_exp
 }
 
-"""
-ordering options when selecting data from "guild"
-"""
+"""Ordering options when selecting data from "guild"."""
 input guild_order_by {
   GuildType: GuildType_order_by
   daos_aggregate: dao_aggregate_order_by
@@ -2121,9 +2132,7 @@ input guild_order_by {
   websiteUrl: order_by
 }
 
-"""
-primary key columns input for table: "guild"
-"""
+"""primary key columns input for table: guild"""
 input guild_pk_columns_input {
   id: uuid!
 }
@@ -2137,8 +2146,6 @@ type guild_player {
 
   """An object relationship"""
   Player: player!
-
-  """Remote relationship field"""
   discordRoles: [DiscordRole!]!
   guildId: uuid!
   playerId: uuid!
@@ -2152,11 +2159,22 @@ type guild_player_aggregate {
   nodes: [guild_player!]!
 }
 
+input guild_player_aggregate_bool_exp {
+  count: guild_player_aggregate_bool_exp_count
+}
+
+input guild_player_aggregate_bool_exp_count {
+  arguments: [guild_player_select_column!]
+  distinct: Boolean
+  filter: guild_player_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "guild_player"
 """
 type guild_player_aggregate_fields {
-  count(columns: [guild_player_select_column!], distinct: Boolean): Int
+  count(columns: [guild_player_select_column!], distinct: Boolean): Int!
   max: guild_player_max_fields
   min: guild_player_min_fields
 }
@@ -2175,6 +2193,8 @@ input type for inserting array relation for remote table "guild_player"
 """
 input guild_player_arr_rel_insert_input {
   data: [guild_player_insert_input!]!
+
+  """upsert condition"""
   on_conflict: guild_player_on_conflict
 }
 
@@ -2184,9 +2204,9 @@ Boolean expression to filter rows from the table "guild_player". All fields are 
 input guild_player_bool_exp {
   Guild: guild_bool_exp
   Player: player_bool_exp
-  _and: [guild_player_bool_exp]
+  _and: [guild_player_bool_exp!]
   _not: guild_player_bool_exp
-  _or: [guild_player_bool_exp]
+  _or: [guild_player_bool_exp!]
   guildId: uuid_comparison_exp
   playerId: uuid_comparison_exp
 }
@@ -2195,7 +2215,9 @@ input guild_player_bool_exp {
 unique or primary key constraints on table "guild_player"
 """
 enum guild_player_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "guild_id", "player_id"
+  """
   guild_player_pkey
 }
 
@@ -2241,33 +2263,23 @@ input guild_player_min_order_by {
 response of any mutation on the table "guild_player"
 """
 type guild_player_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [guild_player!]!
 }
 
 """
-input type for inserting object relation for remote table "guild_player"
-"""
-input guild_player_obj_rel_insert_input {
-  data: guild_player_insert_input!
-  on_conflict: guild_player_on_conflict
-}
-
-"""
-on conflict condition type for table "guild_player"
+on_conflict condition type for table "guild_player"
 """
 input guild_player_on_conflict {
   constraint: guild_player_constraint!
-  update_columns: [guild_player_update_column!]!
+  update_columns: [guild_player_update_column!]! = []
   where: guild_player_bool_exp
 }
 
-"""
-ordering options when selecting data from "guild_player"
-"""
+"""Ordering options when selecting data from "guild_player"."""
 input guild_player_order_by {
   Guild: guild_order_by
   Player: player_order_by
@@ -2275,9 +2287,7 @@ input guild_player_order_by {
   playerId: order_by
 }
 
-"""
-primary key columns input for table: "guild_player"
-"""
+"""primary key columns input for table: guild_player"""
 input guild_player_pk_columns_input {
   guildId: uuid!
   playerId: uuid!
@@ -2303,6 +2313,23 @@ input guild_player_set_input {
 }
 
 """
+Streaming cursor of the table "guild_player"
+"""
+input guild_player_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: guild_player_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input guild_player_stream_cursor_value_input {
+  guildId: uuid
+  playerId: uuid
+}
+
+"""
 update columns of table "guild_player"
 """
 enum guild_player_update_column {
@@ -2311,6 +2338,14 @@ enum guild_player_update_column {
 
   """column name"""
   playerId
+}
+
+input guild_player_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: guild_player_set_input
+
+  """filter the rows which have to be updated"""
+  where: guild_player_bool_exp!
 }
 
 """
@@ -2370,6 +2405,28 @@ enum guild_select_column {
 }
 
 """
+select "guild_aggregate_bool_exp_bool_and_arguments_columns" columns of table "guild"
+"""
+enum guild_select_column_guild_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  membershipThroughDiscord
+
+  """column name"""
+  showDiscordAnnouncements
+}
+
+"""
+select "guild_aggregate_bool_exp_bool_or_arguments_columns" columns of table "guild"
+"""
+enum guild_select_column_guild_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  membershipThroughDiscord
+
+  """column name"""
+  showDiscordAnnouncements
+}
+
+"""
 input type for updating data in table "guild"
 """
 input guild_set_input {
@@ -2377,6 +2434,8 @@ input guild_set_input {
   discordId: String
   discordInviteUrl: String
   githubUrl: String
+
+  """Unique friendly identifier for the Guild (used in URL)"""
   guildname: String
   id: uuid
   joinButtonUrl: String
@@ -2388,6 +2447,8 @@ input guild_set_input {
   sortPosition: Int
   status: GuildStatus_enum
   twitterUrl: String
+
+  """The area of focus for the guild (e.g. funding, project, etc)"""
   type: GuildType_enum
   websiteUrl: String
 }
@@ -2426,6 +2487,42 @@ order by stddev_samp() on columns of table "guild"
 """
 input guild_stddev_samp_order_by {
   sortPosition: order_by
+}
+
+"""
+Streaming cursor of the table "guild"
+"""
+input guild_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: guild_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input guild_stream_cursor_value_input {
+  description: String
+  discordId: String
+  discordInviteUrl: String
+  githubUrl: String
+
+  """Unique friendly identifier for the Guild (used in URL)"""
+  guildname: String
+  id: uuid
+  joinButtonUrl: String
+  logo: String
+  membershipThroughDiscord: Boolean
+  name: String
+  profileLayout: String
+  showDiscordAnnouncements: Boolean
+  sortPosition: Int
+  status: GuildStatus_enum
+  twitterUrl: String
+
+  """The area of focus for the guild (e.g. funding, project, etc)"""
+  type: GuildType_enum
+  websiteUrl: String
 }
 
 """aggregate sum on columns"""
@@ -2494,6 +2591,17 @@ enum guild_update_column {
 
   """column name"""
   websiteUrl
+}
+
+input guild_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: guild_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: guild_set_input
+
+  """filter the rows which have to be updated"""
+  where: guild_bool_exp!
 }
 
 """aggregate var_pop on columns"""
@@ -2581,35 +2689,18 @@ type GuildStatus_aggregate {
 aggregate fields of "GuildStatus"
 """
 type GuildStatus_aggregate_fields {
-  count(columns: [GuildStatus_select_column!], distinct: Boolean): Int
+  count(columns: [GuildStatus_select_column!], distinct: Boolean): Int!
   max: GuildStatus_max_fields
   min: GuildStatus_min_fields
-}
-
-"""
-order by aggregate values of table "GuildStatus"
-"""
-input GuildStatus_aggregate_order_by {
-  count: order_by
-  max: GuildStatus_max_order_by
-  min: GuildStatus_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "GuildStatus"
-"""
-input GuildStatus_arr_rel_insert_input {
-  data: [GuildStatus_insert_input!]!
-  on_conflict: GuildStatus_on_conflict
 }
 
 """
 Boolean expression to filter rows from the table "GuildStatus". All fields are combined with a logical 'AND'.
 """
 input GuildStatus_bool_exp {
-  _and: [GuildStatus_bool_exp]
+  _and: [GuildStatus_bool_exp!]
   _not: GuildStatus_bool_exp
-  _or: [GuildStatus_bool_exp]
+  _or: [GuildStatus_bool_exp!]
   status: String_comparison_exp
 }
 
@@ -2617,7 +2708,9 @@ input GuildStatus_bool_exp {
 unique or primary key constraints on table "GuildStatus"
 """
 enum GuildStatus_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "status"
+  """
   GuildStatus_pkey
 }
 
@@ -2628,7 +2721,7 @@ enum GuildStatus_enum {
 }
 
 """
-expression to compare columns of type GuildStatus_enum. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "GuildStatus_enum". All fields are combined with logical 'AND'.
 """
 input GuildStatus_enum_comparison_exp {
   _eq: GuildStatus_enum
@@ -2650,63 +2743,37 @@ type GuildStatus_max_fields {
   status: String
 }
 
-"""
-order by max() on columns of table "GuildStatus"
-"""
-input GuildStatus_max_order_by {
-  status: order_by
-}
-
 """aggregate min on columns"""
 type GuildStatus_min_fields {
   status: String
 }
 
 """
-order by min() on columns of table "GuildStatus"
-"""
-input GuildStatus_min_order_by {
-  status: order_by
-}
-
-"""
 response of any mutation on the table "GuildStatus"
 """
 type GuildStatus_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [GuildStatus!]!
 }
 
 """
-input type for inserting object relation for remote table "GuildStatus"
-"""
-input GuildStatus_obj_rel_insert_input {
-  data: GuildStatus_insert_input!
-  on_conflict: GuildStatus_on_conflict
-}
-
-"""
-on conflict condition type for table "GuildStatus"
+on_conflict condition type for table "GuildStatus"
 """
 input GuildStatus_on_conflict {
   constraint: GuildStatus_constraint!
-  update_columns: [GuildStatus_update_column!]!
+  update_columns: [GuildStatus_update_column!]! = []
   where: GuildStatus_bool_exp
 }
 
-"""
-ordering options when selecting data from "GuildStatus"
-"""
+"""Ordering options when selecting data from "GuildStatus"."""
 input GuildStatus_order_by {
   status: order_by
 }
 
-"""
-primary key columns input for table: "GuildStatus"
-"""
+"""primary key columns input for table: GuildStatus"""
 input GuildStatus_pk_columns_input {
   status: String!
 }
@@ -2727,11 +2794,35 @@ input GuildStatus_set_input {
 }
 
 """
+Streaming cursor of the table "GuildStatus"
+"""
+input GuildStatus_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: GuildStatus_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input GuildStatus_stream_cursor_value_input {
+  status: String
+}
+
+"""
 update columns of table "GuildStatus"
 """
 enum GuildStatus_update_column {
   """column name"""
   status
+}
+
+input GuildStatus_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: GuildStatus_set_input
+
+  """filter the rows which have to be updated"""
+  where: GuildStatus_bool_exp!
 }
 
 """
@@ -2756,7 +2847,7 @@ type GuildType {
     where: guild_bool_exp
   ): [guild!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   Guilds_aggregate(
     """distinct select on columns"""
     distinct_on: [guild_select_column!]
@@ -2796,26 +2887,9 @@ type GuildType_aggregate {
 aggregate fields of "GuildType"
 """
 type GuildType_aggregate_fields {
-  count(columns: [GuildType_select_column!], distinct: Boolean): Int
+  count(columns: [GuildType_select_column!], distinct: Boolean): Int!
   max: GuildType_max_fields
   min: GuildType_min_fields
-}
-
-"""
-order by aggregate values of table "GuildType"
-"""
-input GuildType_aggregate_order_by {
-  count: order_by
-  max: GuildType_max_order_by
-  min: GuildType_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "GuildType"
-"""
-input GuildType_arr_rel_insert_input {
-  data: [GuildType_insert_input!]!
-  on_conflict: GuildType_on_conflict
 }
 
 """
@@ -2823,9 +2897,10 @@ Boolean expression to filter rows from the table "GuildType". All fields are com
 """
 input GuildType_bool_exp {
   Guilds: guild_bool_exp
-  _and: [GuildType_bool_exp]
+  Guilds_aggregate: guild_aggregate_bool_exp
+  _and: [GuildType_bool_exp!]
   _not: GuildType_bool_exp
-  _or: [GuildType_bool_exp]
+  _or: [GuildType_bool_exp!]
   name: String_comparison_exp
 }
 
@@ -2833,7 +2908,9 @@ input GuildType_bool_exp {
 unique or primary key constraints on table "GuildType"
 """
 enum GuildType_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "name"
+  """
   GuildType_pkey
 }
 
@@ -2846,7 +2923,7 @@ enum GuildType_enum {
 }
 
 """
-expression to compare columns of type GuildType_enum. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "GuildType_enum". All fields are combined with logical 'AND'.
 """
 input GuildType_enum_comparison_exp {
   _eq: GuildType_enum
@@ -2869,33 +2946,19 @@ type GuildType_max_fields {
   name: String
 }
 
-"""
-order by max() on columns of table "GuildType"
-"""
-input GuildType_max_order_by {
-  name: order_by
-}
-
 """aggregate min on columns"""
 type GuildType_min_fields {
   name: String
 }
 
 """
-order by min() on columns of table "GuildType"
-"""
-input GuildType_min_order_by {
-  name: order_by
-}
-
-"""
 response of any mutation on the table "GuildType"
 """
 type GuildType_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [GuildType!]!
 }
 
@@ -2904,29 +2967,27 @@ input type for inserting object relation for remote table "GuildType"
 """
 input GuildType_obj_rel_insert_input {
   data: GuildType_insert_input!
+
+  """upsert condition"""
   on_conflict: GuildType_on_conflict
 }
 
 """
-on conflict condition type for table "GuildType"
+on_conflict condition type for table "GuildType"
 """
 input GuildType_on_conflict {
   constraint: GuildType_constraint!
-  update_columns: [GuildType_update_column!]!
+  update_columns: [GuildType_update_column!]! = []
   where: GuildType_bool_exp
 }
 
-"""
-ordering options when selecting data from "GuildType"
-"""
+"""Ordering options when selecting data from "GuildType"."""
 input GuildType_order_by {
   Guilds_aggregate: guild_aggregate_order_by
   name: order_by
 }
 
-"""
-primary key columns input for table: "GuildType"
-"""
+"""primary key columns input for table: GuildType"""
 input GuildType_pk_columns_input {
   name: String!
 }
@@ -2947,6 +3008,22 @@ input GuildType_set_input {
 }
 
 """
+Streaming cursor of the table "GuildType"
+"""
+input GuildType_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: GuildType_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input GuildType_stream_cursor_value_input {
+  name: String
+}
+
+"""
 update columns of table "GuildType"
 """
 enum GuildType_update_column {
@@ -2954,8 +3031,16 @@ enum GuildType_update_column {
   name
 }
 
+input GuildType_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: GuildType_set_input
+
+  """filter the rows which have to be updated"""
+  where: GuildType_bool_exp!
+}
+
 """
-expression to compare columns of type Int. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
 """
 input Int_comparison_exp {
   _eq: Int
@@ -2971,27 +3056,18 @@ input Int_comparison_exp {
 
 scalar json
 
-"""
-expression to compare columns of type json. All fields are combined with logical 'AND'.
-"""
-input json_comparison_exp {
-  _eq: json
-  _gt: json
-  _gte: json
-  _in: [json!]
-  _is_null: Boolean
-  _lt: json
-  _lte: json
-  _neq: json
-  _nin: [json!]
-}
-
 scalar jsonb
 
+input jsonb_cast_exp {
+  String: String_comparison_exp
+}
+
 """
-expression to compare columns of type jsonb. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
 """
 input jsonb_comparison_exp {
+  _cast: jsonb_cast_exp
+
   """is the column contained in the given json value"""
   _contained_in: jsonb
 
@@ -3046,27 +3122,18 @@ type me_aggregate {
 aggregate fields of "me"
 """
 type me_aggregate_fields {
-  count(columns: [me_select_column!], distinct: Boolean): Int
+  count(columns: [me_select_column!], distinct: Boolean): Int!
   max: me_max_fields
   min: me_min_fields
-}
-
-"""
-order by aggregate values of table "me"
-"""
-input me_aggregate_order_by {
-  count: order_by
-  max: me_max_order_by
-  min: me_min_order_by
 }
 
 """
 Boolean expression to filter rows from the table "me". All fields are combined with a logical 'AND'.
 """
 input me_bool_exp {
-  _and: [me_bool_exp]
+  _and: [me_bool_exp!]
   _not: me_bool_exp
-  _or: [me_bool_exp]
+  _or: [me_bool_exp!]
   ethereumAddress: String_comparison_exp
   id: uuid_comparison_exp
   player: player_bool_exp
@@ -3080,15 +3147,6 @@ type me_max_fields {
   username: String
 }
 
-"""
-order by max() on columns of table "me"
-"""
-input me_max_order_by {
-  ethereumAddress: order_by
-  id: order_by
-  username: order_by
-}
-
 """aggregate min on columns"""
 type me_min_fields {
   ethereumAddress: String
@@ -3096,18 +3154,7 @@ type me_min_fields {
   username: String
 }
 
-"""
-order by min() on columns of table "me"
-"""
-input me_min_order_by {
-  ethereumAddress: order_by
-  id: order_by
-  username: order_by
-}
-
-"""
-ordering options when selecting data from "me"
-"""
+"""Ordering options when selecting data from "me"."""
 input me_order_by {
   ethereumAddress: order_by
   id: order_by
@@ -3127,6 +3174,24 @@ enum me_select_column {
 
   """column name"""
   username
+}
+
+"""
+Streaming cursor of the table "me"
+"""
+input me_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: me_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input me_stream_cursor_value_input {
+  ethereumAddress: String
+  id: uuid
+  username: String
 }
 
 type Member {
@@ -3155,19 +3220,8 @@ type Moloch {
 
 """mutation root"""
 type mutation_root {
-  """
-  perform the action: "authenticateDiscordGuild"
-  """
   authenticateDiscordGuild(code: String!): DiscordGuildAuthResponse
-
-  """
-  perform the action: "createQuest"
-  """
   createQuest(quest: CreateQuestInput!): CreateQuestOutput
-
-  """
-  perform the action: "createQuestCompletion"
-  """
   createQuestCompletion(questCompletion: CreateQuestCompletionInput!): CreateQuestCompletionOutput
 
   """
@@ -3510,7 +3564,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [AccountType_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: AccountType_on_conflict
   ): AccountType_mutation_response
 
@@ -3521,7 +3575,7 @@ type mutation_root {
     """the row to be inserted"""
     object: AccountType_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: AccountType_on_conflict
   ): AccountType
 
@@ -3532,7 +3586,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [ColorAspect_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: ColorAspect_on_conflict
   ): ColorAspect_mutation_response
 
@@ -3543,7 +3597,7 @@ type mutation_root {
     """the row to be inserted"""
     object: ColorAspect_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: ColorAspect_on_conflict
   ): ColorAspect
 
@@ -3554,7 +3608,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [ExplorerType_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: ExplorerType_on_conflict
   ): ExplorerType_mutation_response
 
@@ -3565,7 +3619,7 @@ type mutation_root {
     """the row to be inserted"""
     object: ExplorerType_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: ExplorerType_on_conflict
   ): ExplorerType
 
@@ -3576,7 +3630,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [GuildStatus_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: GuildStatus_on_conflict
   ): GuildStatus_mutation_response
 
@@ -3587,7 +3641,7 @@ type mutation_root {
     """the row to be inserted"""
     object: GuildStatus_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: GuildStatus_on_conflict
   ): GuildStatus
 
@@ -3598,7 +3652,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [GuildType_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: GuildType_on_conflict
   ): GuildType_mutation_response
 
@@ -3609,7 +3663,7 @@ type mutation_root {
     """the row to be inserted"""
     object: GuildType_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: GuildType_on_conflict
   ): GuildType
 
@@ -3620,7 +3674,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [PlayerRank_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: PlayerRank_on_conflict
   ): PlayerRank_mutation_response
 
@@ -3631,7 +3685,7 @@ type mutation_root {
     """the row to be inserted"""
     object: PlayerRank_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: PlayerRank_on_conflict
   ): PlayerRank
 
@@ -3642,7 +3696,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [PlayerRole_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: PlayerRole_on_conflict
   ): PlayerRole_mutation_response
 
@@ -3653,7 +3707,7 @@ type mutation_root {
     """the row to be inserted"""
     object: PlayerRole_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: PlayerRole_on_conflict
   ): PlayerRole
 
@@ -3664,7 +3718,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [QuestCompletionStatus_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: QuestCompletionStatus_on_conflict
   ): QuestCompletionStatus_mutation_response
 
@@ -3675,7 +3729,7 @@ type mutation_root {
     """the row to be inserted"""
     object: QuestCompletionStatus_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: QuestCompletionStatus_on_conflict
   ): QuestCompletionStatus
 
@@ -3686,7 +3740,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [QuestRepetition_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: QuestRepetition_on_conflict
   ): QuestRepetition_mutation_response
 
@@ -3697,7 +3751,7 @@ type mutation_root {
     """the row to be inserted"""
     object: QuestRepetition_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: QuestRepetition_on_conflict
   ): QuestRepetition
 
@@ -3708,7 +3762,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [QuestStatus_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: QuestStatus_on_conflict
   ): QuestStatus_mutation_response
 
@@ -3719,7 +3773,7 @@ type mutation_root {
     """the row to be inserted"""
     object: QuestStatus_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: QuestStatus_on_conflict
   ): QuestStatus
 
@@ -3730,7 +3784,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [SkillCategory_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: SkillCategory_on_conflict
   ): SkillCategory_mutation_response
 
@@ -3741,7 +3795,7 @@ type mutation_root {
     """the row to be inserted"""
     object: SkillCategory_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: SkillCategory_on_conflict
   ): SkillCategory
 
@@ -3752,7 +3806,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [dao_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: dao_on_conflict
   ): dao_mutation_response
 
@@ -3763,7 +3817,7 @@ type mutation_root {
     """the row to be inserted"""
     object: dao_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: dao_on_conflict
   ): dao
 
@@ -3774,7 +3828,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [dao_player_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: dao_player_on_conflict
   ): dao_player_mutation_response
 
@@ -3785,7 +3839,7 @@ type mutation_root {
     """the row to be inserted"""
     object: dao_player_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: dao_player_on_conflict
   ): dao_player
 
@@ -3796,7 +3850,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [guild_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: guild_on_conflict
   ): guild_mutation_response
 
@@ -3807,7 +3861,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [guild_metadata_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: guild_metadata_on_conflict
   ): guild_metadata_mutation_response
 
@@ -3818,7 +3872,7 @@ type mutation_root {
     """the row to be inserted"""
     object: guild_metadata_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: guild_metadata_on_conflict
   ): guild_metadata
 
@@ -3829,7 +3883,7 @@ type mutation_root {
     """the row to be inserted"""
     object: guild_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: guild_on_conflict
   ): guild
 
@@ -3840,7 +3894,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [guild_player_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: guild_player_on_conflict
   ): guild_player_mutation_response
 
@@ -3851,7 +3905,7 @@ type mutation_root {
     """the row to be inserted"""
     object: guild_player_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: guild_player_on_conflict
   ): guild_player
 
@@ -3862,7 +3916,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [player_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: player_on_conflict
   ): player_mutation_response
 
@@ -3873,7 +3927,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [player_account_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: player_account_on_conflict
   ): player_account_mutation_response
 
@@ -3884,7 +3938,7 @@ type mutation_root {
     """the row to be inserted"""
     object: player_account_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: player_account_on_conflict
   ): player_account
 
@@ -3895,7 +3949,7 @@ type mutation_root {
     """the row to be inserted"""
     object: player_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: player_on_conflict
   ): player
 
@@ -3906,7 +3960,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [player_role_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: player_role_on_conflict
   ): player_role_mutation_response
 
@@ -3917,7 +3971,7 @@ type mutation_root {
     """the row to be inserted"""
     object: player_role_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: player_role_on_conflict
   ): player_role
 
@@ -3928,7 +3982,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [player_skill_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: player_skill_on_conflict
   ): player_skill_mutation_response
 
@@ -3939,7 +3993,7 @@ type mutation_root {
     """the row to be inserted"""
     object: player_skill_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: player_skill_on_conflict
   ): player_skill
 
@@ -3950,7 +4004,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [profile_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: profile_on_conflict
   ): profile_mutation_response
 
@@ -3961,7 +4015,7 @@ type mutation_root {
     """the row to be inserted"""
     object: profile_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: profile_on_conflict
   ): profile
 
@@ -3972,7 +4026,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [quest_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: quest_on_conflict
   ): quest_mutation_response
 
@@ -3983,7 +4037,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [quest_completion_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: quest_completion_on_conflict
   ): quest_completion_mutation_response
 
@@ -3994,7 +4048,7 @@ type mutation_root {
     """the row to be inserted"""
     object: quest_completion_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: quest_completion_on_conflict
   ): quest_completion
 
@@ -4005,7 +4059,7 @@ type mutation_root {
     """the row to be inserted"""
     object: quest_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: quest_on_conflict
   ): quest
 
@@ -4016,7 +4070,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [quest_role_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: quest_role_on_conflict
   ): quest_role_mutation_response
 
@@ -4027,7 +4081,7 @@ type mutation_root {
     """the row to be inserted"""
     object: quest_role_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: quest_role_on_conflict
   ): quest_role
 
@@ -4038,7 +4092,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [quest_skill_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: quest_skill_on_conflict
   ): quest_skill_mutation_response
 
@@ -4049,7 +4103,7 @@ type mutation_root {
     """the row to be inserted"""
     object: quest_skill_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: quest_skill_on_conflict
   ): quest_skill
 
@@ -4060,7 +4114,7 @@ type mutation_root {
     """the rows to be inserted"""
     objects: [skill_insert_input!]!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: skill_on_conflict
   ): skill_mutation_response
 
@@ -4071,43 +4125,16 @@ type mutation_root {
     """the row to be inserted"""
     object: skill_insert_input!
 
-    """on conflict condition"""
+    """upsert condition"""
     on_conflict: skill_on_conflict
   ): skill
-
-  """
-  perform the action: "linkCeramicProfileNode"
-  """
   linkCeramicProfileNode(nodeId: String!): LinkCeramicProfileNodeResponse
-
-  """
-  perform the action: "saveGuildInformation"
-  """
   saveGuildInformation(guildInformation: GuildInfoInput!): SaveGuildResponse
-
-  """
-  perform the action: "saveGuildLayout"
-  """
   saveGuildLayout(guildLayoutInfo: GuildLayoutInfoInput!): SaveGuildLayoutResponse
-
-  """
-  perform the action: "syncAllGuildDiscordMembers"
-  """
   syncAllGuildDiscordMembers: [DiscordGuildsSyncOutput]
-
-  """
-  perform the action: "syncSourceCredAccounts"
-  """
   syncSourceCredAccounts: SourceCredSyncOutput
-
-  """
-  perform the action: "updateCachedProfile"
-  """
   updateCachedProfile(playerId: uuid): uuid!
-
-  """
-  perform the action: "updateQuestCompletion"
-  """
+  updatePlayerFromComposeDB(playerId: uuid!): uuid!
   updateQuestCompletion(updateData: UpdateQuestCompletionInput!): UpdateQuestCompletionOutput
 
   """
@@ -4131,10 +4158,18 @@ type mutation_root {
   ): AccountType
 
   """
+  update multiples rows of table: "AccountType"
+  """
+  update_AccountType_many(
+    """updates to execute, in order"""
+    updates: [AccountType_updates!]!
+  ): [AccountType_mutation_response]
+
+  """
   update data of the table: "ColorAspect"
   """
   update_ColorAspect(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: ColorAspect_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4148,7 +4183,7 @@ type mutation_root {
   update single row of the table: "ColorAspect"
   """
   update_ColorAspect_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: ColorAspect_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4157,10 +4192,18 @@ type mutation_root {
   ): ColorAspect
 
   """
+  update multiples rows of table: "ColorAspect"
+  """
+  update_ColorAspect_many(
+    """updates to execute, in order"""
+    updates: [ColorAspect_updates!]!
+  ): [ColorAspect_mutation_response]
+
+  """
   update data of the table: "ExplorerType"
   """
   update_ExplorerType(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: ExplorerType_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4174,13 +4217,21 @@ type mutation_root {
   update single row of the table: "ExplorerType"
   """
   update_ExplorerType_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: ExplorerType_inc_input
 
     """sets the columns of the filtered rows to the given values"""
     _set: ExplorerType_set_input
     pk_columns: ExplorerType_pk_columns_input!
   ): ExplorerType
+
+  """
+  update multiples rows of table: "ExplorerType"
+  """
+  update_ExplorerType_many(
+    """updates to execute, in order"""
+    updates: [ExplorerType_updates!]!
+  ): [ExplorerType_mutation_response]
 
   """
   update data of the table: "GuildStatus"
@@ -4203,6 +4254,14 @@ type mutation_root {
   ): GuildStatus
 
   """
+  update multiples rows of table: "GuildStatus"
+  """
+  update_GuildStatus_many(
+    """updates to execute, in order"""
+    updates: [GuildStatus_updates!]!
+  ): [GuildStatus_mutation_response]
+
+  """
   update data of the table: "GuildType"
   """
   update_GuildType(
@@ -4221,6 +4280,14 @@ type mutation_root {
     _set: GuildType_set_input
     pk_columns: GuildType_pk_columns_input!
   ): GuildType
+
+  """
+  update multiples rows of table: "GuildType"
+  """
+  update_GuildType_many(
+    """updates to execute, in order"""
+    updates: [GuildType_updates!]!
+  ): [GuildType_mutation_response]
 
   """
   update data of the table: "PlayerRank"
@@ -4243,6 +4310,14 @@ type mutation_root {
   ): PlayerRank
 
   """
+  update multiples rows of table: "PlayerRank"
+  """
+  update_PlayerRank_many(
+    """updates to execute, in order"""
+    updates: [PlayerRank_updates!]!
+  ): [PlayerRank_mutation_response]
+
+  """
   update data of the table: "PlayerRole"
   """
   update_PlayerRole(
@@ -4261,6 +4336,14 @@ type mutation_root {
     _set: PlayerRole_set_input
     pk_columns: PlayerRole_pk_columns_input!
   ): PlayerRole
+
+  """
+  update multiples rows of table: "PlayerRole"
+  """
+  update_PlayerRole_many(
+    """updates to execute, in order"""
+    updates: [PlayerRole_updates!]!
+  ): [PlayerRole_mutation_response]
 
   """
   update data of the table: "QuestCompletionStatus"
@@ -4283,6 +4366,14 @@ type mutation_root {
   ): QuestCompletionStatus
 
   """
+  update multiples rows of table: "QuestCompletionStatus"
+  """
+  update_QuestCompletionStatus_many(
+    """updates to execute, in order"""
+    updates: [QuestCompletionStatus_updates!]!
+  ): [QuestCompletionStatus_mutation_response]
+
+  """
   update data of the table: "QuestRepetition"
   """
   update_QuestRepetition(
@@ -4301,6 +4392,14 @@ type mutation_root {
     _set: QuestRepetition_set_input
     pk_columns: QuestRepetition_pk_columns_input!
   ): QuestRepetition
+
+  """
+  update multiples rows of table: "QuestRepetition"
+  """
+  update_QuestRepetition_many(
+    """updates to execute, in order"""
+    updates: [QuestRepetition_updates!]!
+  ): [QuestRepetition_mutation_response]
 
   """
   update data of the table: "QuestStatus"
@@ -4323,6 +4422,14 @@ type mutation_root {
   ): QuestStatus
 
   """
+  update multiples rows of table: "QuestStatus"
+  """
+  update_QuestStatus_many(
+    """updates to execute, in order"""
+    updates: [QuestStatus_updates!]!
+  ): [QuestStatus_mutation_response]
+
+  """
   update data of the table: "SkillCategory"
   """
   update_SkillCategory(
@@ -4341,6 +4448,14 @@ type mutation_root {
     _set: SkillCategory_set_input
     pk_columns: SkillCategory_pk_columns_input!
   ): SkillCategory
+
+  """
+  update multiples rows of table: "SkillCategory"
+  """
+  update_SkillCategory_many(
+    """updates to execute, in order"""
+    updates: [SkillCategory_updates!]!
+  ): [SkillCategory_mutation_response]
 
   """
   update data of the table: "dao"
@@ -4363,6 +4478,14 @@ type mutation_root {
   ): dao
 
   """
+  update multiples rows of table: "dao"
+  """
+  update_dao_many(
+    """updates to execute, in order"""
+    updates: [dao_updates!]!
+  ): [dao_mutation_response]
+
+  """
   update data of the table: "dao_player"
   """
   update_dao_player(
@@ -4383,10 +4506,18 @@ type mutation_root {
   ): dao_player
 
   """
+  update multiples rows of table: "dao_player"
+  """
+  update_dao_player_many(
+    """updates to execute, in order"""
+    updates: [dao_player_updates!]!
+  ): [dao_player_mutation_response]
+
+  """
   update data of the table: "guild"
   """
   update_guild(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: guild_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4400,13 +4531,21 @@ type mutation_root {
   update single row of the table: "guild"
   """
   update_guild_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: guild_inc_input
 
     """sets the columns of the filtered rows to the given values"""
     _set: guild_set_input
     pk_columns: guild_pk_columns_input!
   ): guild
+
+  """
+  update multiples rows of table: "guild"
+  """
+  update_guild_many(
+    """updates to execute, in order"""
+    updates: [guild_updates!]!
+  ): [guild_mutation_response]
 
   """
   update data of the table: "guild_metadata"
@@ -4473,6 +4612,14 @@ type mutation_root {
   ): guild_metadata
 
   """
+  update multiples rows of table: "guild_metadata"
+  """
+  update_guild_metadata_many(
+    """updates to execute, in order"""
+    updates: [guild_metadata_updates!]!
+  ): [guild_metadata_mutation_response]
+
+  """
   update data of the table: "guild_player"
   """
   update_guild_player(
@@ -4493,10 +4640,18 @@ type mutation_root {
   ): guild_player
 
   """
+  update multiples rows of table: "guild_player"
+  """
+  update_guild_player_many(
+    """updates to execute, in order"""
+    updates: [guild_player_updates!]!
+  ): [guild_player_mutation_response]
+
+  """
   update data of the table: "player"
   """
   update_player(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: player_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4518,10 +4673,18 @@ type mutation_root {
   ): player_account_mutation_response
 
   """
+  update multiples rows of table: "player_account"
+  """
+  update_player_account_many(
+    """updates to execute, in order"""
+    updates: [player_account_updates!]!
+  ): [player_account_mutation_response]
+
+  """
   update single row of the table: "player"
   """
   update_player_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: player_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4530,10 +4693,18 @@ type mutation_root {
   ): player
 
   """
+  update multiples rows of table: "player"
+  """
+  update_player_many(
+    """updates to execute, in order"""
+    updates: [player_updates!]!
+  ): [player_mutation_response]
+
+  """
   update data of the table: "player_role"
   """
   update_player_role(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: player_role_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4547,7 +4718,7 @@ type mutation_root {
   update single row of the table: "player_role"
   """
   update_player_role_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: player_role_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4556,10 +4727,18 @@ type mutation_root {
   ): player_role
 
   """
+  update multiples rows of table: "player_role"
+  """
+  update_player_role_many(
+    """updates to execute, in order"""
+    updates: [player_role_updates!]!
+  ): [player_role_mutation_response]
+
+  """
   update data of the table: "player_skill"
   """
   update_player_skill(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: player_skill_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4573,7 +4752,7 @@ type mutation_root {
   update single row of the table: "player_skill"
   """
   update_player_skill_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: player_skill_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4582,10 +4761,18 @@ type mutation_root {
   ): player_skill
 
   """
+  update multiples rows of table: "player_skill"
+  """
+  update_player_skill_many(
+    """updates to execute, in order"""
+    updates: [player_skill_updates!]!
+  ): [player_skill_mutation_response]
+
+  """
   update data of the table: "profile"
   """
   update_profile(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: profile_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4599,7 +4786,7 @@ type mutation_root {
   update single row of the table: "profile"
   """
   update_profile_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: profile_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4608,10 +4795,18 @@ type mutation_root {
   ): profile
 
   """
+  update multiples rows of table: "profile"
+  """
+  update_profile_many(
+    """updates to execute, in order"""
+    updates: [profile_updates!]!
+  ): [profile_mutation_response]
+
+  """
   update data of the table: "quest"
   """
   update_quest(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: quest_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4625,7 +4820,7 @@ type mutation_root {
   update single row of the table: "quest"
   """
   update_quest_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: quest_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4654,10 +4849,26 @@ type mutation_root {
   ): quest_completion
 
   """
+  update multiples rows of table: "quest_completion"
+  """
+  update_quest_completion_many(
+    """updates to execute, in order"""
+    updates: [quest_completion_updates!]!
+  ): [quest_completion_mutation_response]
+
+  """
+  update multiples rows of table: "quest"
+  """
+  update_quest_many(
+    """updates to execute, in order"""
+    updates: [quest_updates!]!
+  ): [quest_mutation_response]
+
+  """
   update data of the table: "quest_role"
   """
   update_quest_role(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: quest_role_inc_input
 
     """sets the columns of the filtered rows to the given values"""
@@ -4671,13 +4882,21 @@ type mutation_root {
   update single row of the table: "quest_role"
   """
   update_quest_role_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """increments the numeric columns with given value of the filtered values"""
     _inc: quest_role_inc_input
 
     """sets the columns of the filtered rows to the given values"""
     _set: quest_role_set_input
     pk_columns: quest_role_pk_columns_input!
   ): quest_role
+
+  """
+  update multiples rows of table: "quest_role"
+  """
+  update_quest_role_many(
+    """updates to execute, in order"""
+    updates: [quest_role_updates!]!
+  ): [quest_role_mutation_response]
 
   """
   update data of the table: "quest_skill"
@@ -4700,6 +4919,14 @@ type mutation_root {
   ): quest_skill
 
   """
+  update multiples rows of table: "quest_skill"
+  """
+  update_quest_skill_many(
+    """updates to execute, in order"""
+    updates: [quest_skill_updates!]!
+  ): [quest_skill_mutation_response]
+
+  """
   update data of the table: "skill"
   """
   update_skill(
@@ -4718,12 +4945,20 @@ type mutation_root {
     _set: skill_set_input
     pk_columns: skill_pk_columns_input!
   ): skill
+
+  """
+  update multiples rows of table: "skill"
+  """
+  update_skill_many(
+    """updates to execute, in order"""
+    updates: [skill_updates!]!
+  ): [skill_mutation_response]
 }
 
 scalar numeric
 
 """
-expression to compare columns of type numeric. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'.
 """
 input numeric_comparison_exp {
   _eq: numeric
@@ -4739,22 +4974,22 @@ input numeric_comparison_exp {
 
 """column ordering options"""
 enum order_by {
-  """in the ascending order, nulls last"""
+  """in ascending order, nulls last"""
   asc
 
-  """in the ascending order, nulls first"""
+  """in ascending order, nulls first"""
   asc_nulls_first
 
-  """in the ascending order, nulls last"""
+  """in ascending order, nulls last"""
   asc_nulls_last
 
-  """in the descending order, nulls first"""
+  """in descending order, nulls first"""
   desc
 
-  """in the descending order, nulls first"""
+  """in descending order, nulls first"""
   desc_nulls_first
 
-  """in the descending order, nulls last"""
+  """in descending order, nulls last"""
   desc_nulls_last
 }
 
@@ -4780,7 +5015,7 @@ type player {
     where: player_account_bool_exp
   ): [player_account!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   accounts_aggregate(
     """distinct select on columns"""
     distinct_on: [player_account_select_column!]
@@ -4797,13 +5032,9 @@ type player {
     """filter the rows returned"""
     where: player_account_bool_exp
   ): player_account_aggregate!
-
-  """Remote relationship field"""
   brightid_status: BrightIdStatus
   ceramicProfileId: String
   createdAt: timestamptz
-
-  """Remote relationship field"""
   daohausMemberships: [Member!]!
 
   """An array relationship"""
@@ -4824,7 +5055,7 @@ type player {
     where: dao_player_bool_exp
   ): [dao_player!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   daos_aggregate(
     """distinct select on columns"""
     distinct_on: [dao_player_select_column!]
@@ -4863,7 +5094,7 @@ type player {
     where: guild_player_bool_exp
   ): [guild_player!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   guilds_aggregate(
     """distinct select on columns"""
     distinct_on: [guild_player_select_column!]
@@ -4904,7 +5135,7 @@ type player {
     where: quest_completion_bool_exp
   ): [quest_completion!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quest_completions_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_completion_select_column!]
@@ -4940,7 +5171,7 @@ type player {
     where: quest_bool_exp
   ): [quest!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quests_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_select_column!]
@@ -4978,7 +5209,7 @@ type player {
     where: player_role_bool_exp
   ): [player_role!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   roles_aggregate(
     """distinct select on columns"""
     distinct_on: [player_role_select_column!]
@@ -5015,7 +5246,7 @@ type player {
     where: player_skill_bool_exp
   ): [player_skill!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   skills_aggregate(
     """distinct select on columns"""
     distinct_on: [player_skill_select_column!]
@@ -5032,8 +5263,6 @@ type player {
     """filter the rows returned"""
     where: player_skill_bool_exp
   ): player_skill_aggregate!
-
-  """Remote relationship field"""
   token_balances: TokenBalances
   totalXP: numeric
   updatedAt: timestamptz
@@ -5058,11 +5287,22 @@ type player_account_aggregate {
   nodes: [player_account!]!
 }
 
+input player_account_aggregate_bool_exp {
+  count: player_account_aggregate_bool_exp_count
+}
+
+input player_account_aggregate_bool_exp_count {
+  arguments: [player_account_select_column!]
+  distinct: Boolean
+  filter: player_account_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "player_account"
 """
 type player_account_aggregate_fields {
-  count(columns: [player_account_select_column!], distinct: Boolean): Int
+  count(columns: [player_account_select_column!], distinct: Boolean): Int!
   max: player_account_max_fields
   min: player_account_min_fields
 }
@@ -5081,6 +5321,8 @@ input type for inserting array relation for remote table "player_account"
 """
 input player_account_arr_rel_insert_input {
   data: [player_account_insert_input!]!
+
+  """upsert condition"""
   on_conflict: player_account_on_conflict
 }
 
@@ -5089,9 +5331,9 @@ Boolean expression to filter rows from the table "player_account". All fields ar
 """
 input player_account_bool_exp {
   Player: player_bool_exp
-  _and: [player_account_bool_exp]
+  _and: [player_account_bool_exp!]
   _not: player_account_bool_exp
-  _or: [player_account_bool_exp]
+  _or: [player_account_bool_exp!]
   identifier: String_comparison_exp
   playerId: uuid_comparison_exp
   type: AccountType_enum_comparison_exp
@@ -5101,7 +5343,9 @@ input player_account_bool_exp {
 unique or primary key constraints on table "player_account"
 """
 enum player_account_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "type", "identifier"
+  """
   Account_identifier_type_key
 }
 
@@ -5147,33 +5391,23 @@ input player_account_min_order_by {
 response of any mutation on the table "player_account"
 """
 type player_account_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [player_account!]!
 }
 
 """
-input type for inserting object relation for remote table "player_account"
-"""
-input player_account_obj_rel_insert_input {
-  data: player_account_insert_input!
-  on_conflict: player_account_on_conflict
-}
-
-"""
-on conflict condition type for table "player_account"
+on_conflict condition type for table "player_account"
 """
 input player_account_on_conflict {
   constraint: player_account_constraint!
-  update_columns: [player_account_update_column!]!
+  update_columns: [player_account_update_column!]! = []
   where: player_account_bool_exp
 }
 
-"""
-ordering options when selecting data from "player_account"
-"""
+"""Ordering options when selecting data from "player_account"."""
 input player_account_order_by {
   Player: player_order_by
   identifier: order_by
@@ -5205,6 +5439,24 @@ input player_account_set_input {
 }
 
 """
+Streaming cursor of the table "player_account"
+"""
+input player_account_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: player_account_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input player_account_stream_cursor_value_input {
+  identifier: String
+  playerId: uuid
+  type: AccountType_enum
+}
+
+"""
 update columns of table "player_account"
 """
 enum player_account_update_column {
@@ -5216,6 +5468,14 @@ enum player_account_update_column {
 
   """column name"""
   type
+}
+
+input player_account_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: player_account_set_input
+
+  """filter the rows which have to be updated"""
+  where: player_account_bool_exp!
 }
 
 """
@@ -5231,7 +5491,7 @@ aggregate fields of "player"
 """
 type player_aggregate_fields {
   avg: player_avg_fields
-  count(columns: [player_select_column!], distinct: Boolean): Int
+  count(columns: [player_select_column!], distinct: Boolean): Int!
   max: player_max_fields
   min: player_min_fields
   stddev: player_stddev_fields
@@ -5243,31 +5503,6 @@ type player_aggregate_fields {
   variance: player_variance_fields
 }
 
-"""
-order by aggregate values of table "player"
-"""
-input player_aggregate_order_by {
-  avg: player_avg_order_by
-  count: order_by
-  max: player_max_order_by
-  min: player_min_order_by
-  stddev: player_stddev_order_by
-  stddev_pop: player_stddev_pop_order_by
-  stddev_samp: player_stddev_samp_order_by
-  sum: player_sum_order_by
-  var_pop: player_var_pop_order_by
-  var_samp: player_var_samp_order_by
-  variance: player_variance_order_by
-}
-
-"""
-input type for inserting array relation for remote table "player"
-"""
-input player_arr_rel_insert_input {
-  data: [player_insert_input!]!
-  on_conflict: player_on_conflict
-}
-
 """aggregate avg on columns"""
 type player_avg_fields {
   seasonXP: Float
@@ -5275,38 +5510,37 @@ type player_avg_fields {
 }
 
 """
-order by avg() on columns of table "player"
-"""
-input player_avg_order_by {
-  seasonXP: order_by
-  totalXP: order_by
-}
-
-"""
 Boolean expression to filter rows from the table "player". All fields are combined with a logical 'AND'.
 """
 input player_bool_exp {
-  _and: [player_bool_exp]
+  _and: [player_bool_exp!]
   _not: player_bool_exp
-  _or: [player_bool_exp]
+  _or: [player_bool_exp!]
   accounts: player_account_bool_exp
+  accounts_aggregate: player_account_aggregate_bool_exp
   ceramicProfileId: String_comparison_exp
   createdAt: timestamptz_comparison_exp
   daos: dao_player_bool_exp
+  daos_aggregate: dao_player_aggregate_bool_exp
   dashboardLayout: String_comparison_exp
   discordId: String_comparison_exp
   ethereumAddress: String_comparison_exp
   guilds: guild_player_bool_exp
+  guilds_aggregate: guild_player_aggregate_bool_exp
   id: uuid_comparison_exp
   profile: profile_bool_exp
   profileLayout: String_comparison_exp
   quest_completions: quest_completion_bool_exp
+  quest_completions_aggregate: quest_completion_aggregate_bool_exp
   quests: quest_bool_exp
+  quests_aggregate: quest_aggregate_bool_exp
   rank: PlayerRank_enum_comparison_exp
   role: String_comparison_exp
   roles: player_role_bool_exp
+  roles_aggregate: player_role_aggregate_bool_exp
   seasonXP: numeric_comparison_exp
   skills: player_skill_bool_exp
+  skills_aggregate: player_skill_aggregate_bool_exp
   totalXP: numeric_comparison_exp
   updatedAt: timestamptz_comparison_exp
 }
@@ -5315,18 +5549,24 @@ input player_bool_exp {
 unique or primary key constraints on table "player"
 """
 enum player_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "ethereum_address"
+  """
   Player_ethereum_address_unique_key
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   Player_pkey
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "discord_id"
+  """
   player_discord_id_key
 }
 
 """
-input type for incrementing integer column in table "player"
+input type for incrementing numeric columns in table "player"
 """
 input player_inc_input {
   seasonXP: numeric
@@ -5374,23 +5614,6 @@ type player_max_fields {
   updatedAt: timestamptz
 }
 
-"""
-order by max() on columns of table "player"
-"""
-input player_max_order_by {
-  ceramicProfileId: order_by
-  createdAt: order_by
-  dashboardLayout: order_by
-  discordId: order_by
-  ethereumAddress: order_by
-  id: order_by
-  profileLayout: order_by
-  role: order_by
-  seasonXP: order_by
-  totalXP: order_by
-  updatedAt: order_by
-}
-
 """aggregate min on columns"""
 type player_min_fields {
   ceramicProfileId: String
@@ -5407,30 +5630,13 @@ type player_min_fields {
 }
 
 """
-order by min() on columns of table "player"
-"""
-input player_min_order_by {
-  ceramicProfileId: order_by
-  createdAt: order_by
-  dashboardLayout: order_by
-  discordId: order_by
-  ethereumAddress: order_by
-  id: order_by
-  profileLayout: order_by
-  role: order_by
-  seasonXP: order_by
-  totalXP: order_by
-  updatedAt: order_by
-}
-
-"""
 response of any mutation on the table "player"
 """
 type player_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [player!]!
 }
 
@@ -5439,21 +5645,21 @@ input type for inserting object relation for remote table "player"
 """
 input player_obj_rel_insert_input {
   data: player_insert_input!
+
+  """upsert condition"""
   on_conflict: player_on_conflict
 }
 
 """
-on conflict condition type for table "player"
+on_conflict condition type for table "player"
 """
 input player_on_conflict {
   constraint: player_constraint!
-  update_columns: [player_update_column!]!
+  update_columns: [player_update_column!]! = []
   where: player_bool_exp
 }
 
-"""
-ordering options when selecting data from "player"
-"""
+"""Ordering options when selecting data from "player"."""
 input player_order_by {
   accounts_aggregate: player_account_aggregate_order_by
   ceramicProfileId: order_by
@@ -5477,9 +5683,7 @@ input player_order_by {
   updatedAt: order_by
 }
 
-"""
-primary key columns input for table: "player"
-"""
+"""primary key columns input for table: player"""
 input player_pk_columns_input {
   id: uuid!
 }
@@ -5503,12 +5707,23 @@ type player_role_aggregate {
   nodes: [player_role!]!
 }
 
+input player_role_aggregate_bool_exp {
+  count: player_role_aggregate_bool_exp_count
+}
+
+input player_role_aggregate_bool_exp_count {
+  arguments: [player_role_select_column!]
+  distinct: Boolean
+  filter: player_role_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "player_role"
 """
 type player_role_aggregate_fields {
   avg: player_role_avg_fields
-  count(columns: [player_role_select_column!], distinct: Boolean): Int
+  count(columns: [player_role_select_column!], distinct: Boolean): Int!
   max: player_role_max_fields
   min: player_role_min_fields
   stddev: player_role_stddev_fields
@@ -5542,6 +5757,8 @@ input type for inserting array relation for remote table "player_role"
 """
 input player_role_arr_rel_insert_input {
   data: [player_role_insert_input!]!
+
+  """upsert condition"""
   on_conflict: player_role_on_conflict
 }
 
@@ -5562,9 +5779,9 @@ Boolean expression to filter rows from the table "player_role". All fields are c
 """
 input player_role_bool_exp {
   PlayerRole: PlayerRole_bool_exp
-  _and: [player_role_bool_exp]
+  _and: [player_role_bool_exp!]
   _not: player_role_bool_exp
-  _or: [player_role_bool_exp]
+  _or: [player_role_bool_exp!]
   player_id: uuid_comparison_exp
   rank: Int_comparison_exp
   role: String_comparison_exp
@@ -5574,12 +5791,14 @@ input player_role_bool_exp {
 unique or primary key constraints on table "player_role"
 """
 enum player_role_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "role", "player_id"
+  """
   player_role_pkey
 }
 
 """
-input type for incrementing integer column in table "player_role"
+input type for incrementing numeric columns in table "player_role"
 """
 input player_role_inc_input {
   rank: Int
@@ -5631,33 +5850,23 @@ input player_role_min_order_by {
 response of any mutation on the table "player_role"
 """
 type player_role_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [player_role!]!
 }
 
 """
-input type for inserting object relation for remote table "player_role"
-"""
-input player_role_obj_rel_insert_input {
-  data: player_role_insert_input!
-  on_conflict: player_role_on_conflict
-}
-
-"""
-on conflict condition type for table "player_role"
+on_conflict condition type for table "player_role"
 """
 input player_role_on_conflict {
   constraint: player_role_constraint!
-  update_columns: [player_role_update_column!]!
+  update_columns: [player_role_update_column!]! = []
   where: player_role_bool_exp
 }
 
-"""
-ordering options when selecting data from "player_role"
-"""
+"""Ordering options when selecting data from "player_role"."""
 input player_role_order_by {
   PlayerRole: PlayerRole_order_by
   player_id: order_by
@@ -5665,9 +5874,7 @@ input player_role_order_by {
   role: order_by
 }
 
-"""
-primary key columns input for table: "player_role"
-"""
+"""primary key columns input for table: player_role"""
 input player_role_pk_columns_input {
   player_id: uuid!
   role: String!
@@ -5732,6 +5939,24 @@ input player_role_stddev_samp_order_by {
   rank: order_by
 }
 
+"""
+Streaming cursor of the table "player_role"
+"""
+input player_role_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: player_role_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input player_role_stream_cursor_value_input {
+  player_id: uuid
+  rank: Int
+  role: String
+}
+
 """aggregate sum on columns"""
 type player_role_sum_fields {
   rank: Int
@@ -5756,6 +5981,17 @@ enum player_role_update_column {
 
   """column name"""
   role
+}
+
+input player_role_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: player_role_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: player_role_set_input
+
+  """filter the rows which have to be updated"""
+  where: player_role_bool_exp!
 }
 
 """aggregate var_pop on columns"""
@@ -5873,12 +6109,23 @@ type player_skill_aggregate {
   nodes: [player_skill!]!
 }
 
+input player_skill_aggregate_bool_exp {
+  count: player_skill_aggregate_bool_exp_count
+}
+
+input player_skill_aggregate_bool_exp_count {
+  arguments: [player_skill_select_column!]
+  distinct: Boolean
+  filter: player_skill_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "player_skill"
 """
 type player_skill_aggregate_fields {
   avg: player_skill_avg_fields
-  count(columns: [player_skill_select_column!], distinct: Boolean): Int
+  count(columns: [player_skill_select_column!], distinct: Boolean): Int!
   max: player_skill_max_fields
   min: player_skill_min_fields
   stddev: player_skill_stddev_fields
@@ -5912,6 +6159,8 @@ input type for inserting array relation for remote table "player_skill"
 """
 input player_skill_arr_rel_insert_input {
   data: [player_skill_insert_input!]!
+
+  """upsert condition"""
   on_conflict: player_skill_on_conflict
 }
 
@@ -5932,9 +6181,9 @@ Boolean expression to filter rows from the table "player_skill". All fields are 
 """
 input player_skill_bool_exp {
   Skill: skill_bool_exp
-  _and: [player_skill_bool_exp]
+  _and: [player_skill_bool_exp!]
   _not: player_skill_bool_exp
-  _or: [player_skill_bool_exp]
+  _or: [player_skill_bool_exp!]
   id: uuid_comparison_exp
   player_id: uuid_comparison_exp
   rank: Int_comparison_exp
@@ -5945,15 +6194,19 @@ input player_skill_bool_exp {
 unique or primary key constraints on table "player_skill"
 """
 enum player_skill_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   player_skill_pkey
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "skill_id", "player_id"
+  """
   player_skill_player_id_skill_id_key
 }
 
 """
-input type for incrementing integer column in table "player_skill"
+input type for incrementing numeric columns in table "player_skill"
 """
 input player_skill_inc_input {
   rank: Int
@@ -6010,33 +6263,23 @@ input player_skill_min_order_by {
 response of any mutation on the table "player_skill"
 """
 type player_skill_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [player_skill!]!
 }
 
 """
-input type for inserting object relation for remote table "player_skill"
-"""
-input player_skill_obj_rel_insert_input {
-  data: player_skill_insert_input!
-  on_conflict: player_skill_on_conflict
-}
-
-"""
-on conflict condition type for table "player_skill"
+on_conflict condition type for table "player_skill"
 """
 input player_skill_on_conflict {
   constraint: player_skill_constraint!
-  update_columns: [player_skill_update_column!]!
+  update_columns: [player_skill_update_column!]! = []
   where: player_skill_bool_exp
 }
 
-"""
-ordering options when selecting data from "player_skill"
-"""
+"""Ordering options when selecting data from "player_skill"."""
 input player_skill_order_by {
   Skill: skill_order_by
   id: order_by
@@ -6045,9 +6288,7 @@ input player_skill_order_by {
   skill_id: order_by
 }
 
-"""
-primary key columns input for table: "player_skill"
-"""
+"""primary key columns input for table: player_skill"""
 input player_skill_pk_columns_input {
   id: uuid!
 }
@@ -6115,6 +6356,25 @@ input player_skill_stddev_samp_order_by {
   rank: order_by
 }
 
+"""
+Streaming cursor of the table "player_skill"
+"""
+input player_skill_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: player_skill_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input player_skill_stream_cursor_value_input {
+  id: uuid
+  player_id: uuid
+  rank: Int
+  skill_id: uuid
+}
+
 """aggregate sum on columns"""
 type player_skill_sum_fields {
   rank: Int
@@ -6142,6 +6402,17 @@ enum player_skill_update_column {
 
   """column name"""
   skill_id
+}
+
+input player_skill_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: player_skill_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: player_skill_set_input
+
+  """filter the rows which have to be updated"""
+  where: player_skill_bool_exp!
 }
 
 """aggregate var_pop on columns"""
@@ -6186,26 +6457,10 @@ type player_stddev_fields {
   totalXP: Float
 }
 
-"""
-order by stddev() on columns of table "player"
-"""
-input player_stddev_order_by {
-  seasonXP: order_by
-  totalXP: order_by
-}
-
 """aggregate stddev_pop on columns"""
 type player_stddev_pop_fields {
   seasonXP: Float
   totalXP: Float
-}
-
-"""
-order by stddev_pop() on columns of table "player"
-"""
-input player_stddev_pop_order_by {
-  seasonXP: order_by
-  totalXP: order_by
 }
 
 """aggregate stddev_samp on columns"""
@@ -6215,25 +6470,36 @@ type player_stddev_samp_fields {
 }
 
 """
-order by stddev_samp() on columns of table "player"
+Streaming cursor of the table "player"
 """
-input player_stddev_samp_order_by {
-  seasonXP: order_by
-  totalXP: order_by
+input player_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: player_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input player_stream_cursor_value_input {
+  ceramicProfileId: String
+  createdAt: timestamptz
+  dashboardLayout: String
+  discordId: String
+  ethereumAddress: String
+  id: uuid
+  profileLayout: String
+  rank: PlayerRank_enum
+  role: String
+  seasonXP: numeric
+  totalXP: numeric
+  updatedAt: timestamptz
 }
 
 """aggregate sum on columns"""
 type player_sum_fields {
   seasonXP: numeric
   totalXP: numeric
-}
-
-"""
-order by sum() on columns of table "player"
-"""
-input player_sum_order_by {
-  seasonXP: order_by
-  totalXP: order_by
 }
 
 """
@@ -6277,18 +6543,21 @@ enum player_update_column {
   updatedAt
 }
 
+input player_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: player_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: player_set_input
+
+  """filter the rows which have to be updated"""
+  where: player_bool_exp!
+}
+
 """aggregate var_pop on columns"""
 type player_var_pop_fields {
   seasonXP: Float
   totalXP: Float
-}
-
-"""
-order by var_pop() on columns of table "player"
-"""
-input player_var_pop_order_by {
-  seasonXP: order_by
-  totalXP: order_by
 }
 
 """aggregate var_samp on columns"""
@@ -6297,26 +6566,10 @@ type player_var_samp_fields {
   totalXP: Float
 }
 
-"""
-order by var_samp() on columns of table "player"
-"""
-input player_var_samp_order_by {
-  seasonXP: order_by
-  totalXP: order_by
-}
-
 """aggregate variance on columns"""
 type player_variance_fields {
   seasonXP: Float
   totalXP: Float
-}
-
-"""
-order by variance() on columns of table "player"
-"""
-input player_variance_order_by {
-  seasonXP: order_by
-  totalXP: order_by
 }
 
 """
@@ -6338,35 +6591,18 @@ type PlayerRank_aggregate {
 aggregate fields of "PlayerRank"
 """
 type PlayerRank_aggregate_fields {
-  count(columns: [PlayerRank_select_column!], distinct: Boolean): Int
+  count(columns: [PlayerRank_select_column!], distinct: Boolean): Int!
   max: PlayerRank_max_fields
   min: PlayerRank_min_fields
-}
-
-"""
-order by aggregate values of table "PlayerRank"
-"""
-input PlayerRank_aggregate_order_by {
-  count: order_by
-  max: PlayerRank_max_order_by
-  min: PlayerRank_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "PlayerRank"
-"""
-input PlayerRank_arr_rel_insert_input {
-  data: [PlayerRank_insert_input!]!
-  on_conflict: PlayerRank_on_conflict
 }
 
 """
 Boolean expression to filter rows from the table "PlayerRank". All fields are combined with a logical 'AND'.
 """
 input PlayerRank_bool_exp {
-  _and: [PlayerRank_bool_exp]
+  _and: [PlayerRank_bool_exp!]
   _not: PlayerRank_bool_exp
-  _or: [PlayerRank_bool_exp]
+  _or: [PlayerRank_bool_exp!]
   rank: String_comparison_exp
 }
 
@@ -6374,7 +6610,9 @@ input PlayerRank_bool_exp {
 unique or primary key constraints on table "PlayerRank"
 """
 enum PlayerRank_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "rank"
+  """
   Player_Rank_pkey
 }
 
@@ -6387,7 +6625,7 @@ enum PlayerRank_enum {
 }
 
 """
-expression to compare columns of type PlayerRank_enum. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "PlayerRank_enum". All fields are combined with logical 'AND'.
 """
 input PlayerRank_enum_comparison_exp {
   _eq: PlayerRank_enum
@@ -6409,63 +6647,37 @@ type PlayerRank_max_fields {
   rank: String
 }
 
-"""
-order by max() on columns of table "PlayerRank"
-"""
-input PlayerRank_max_order_by {
-  rank: order_by
-}
-
 """aggregate min on columns"""
 type PlayerRank_min_fields {
   rank: String
 }
 
 """
-order by min() on columns of table "PlayerRank"
-"""
-input PlayerRank_min_order_by {
-  rank: order_by
-}
-
-"""
 response of any mutation on the table "PlayerRank"
 """
 type PlayerRank_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [PlayerRank!]!
 }
 
 """
-input type for inserting object relation for remote table "PlayerRank"
-"""
-input PlayerRank_obj_rel_insert_input {
-  data: PlayerRank_insert_input!
-  on_conflict: PlayerRank_on_conflict
-}
-
-"""
-on conflict condition type for table "PlayerRank"
+on_conflict condition type for table "PlayerRank"
 """
 input PlayerRank_on_conflict {
   constraint: PlayerRank_constraint!
-  update_columns: [PlayerRank_update_column!]!
+  update_columns: [PlayerRank_update_column!]! = []
   where: PlayerRank_bool_exp
 }
 
-"""
-ordering options when selecting data from "PlayerRank"
-"""
+"""Ordering options when selecting data from "PlayerRank"."""
 input PlayerRank_order_by {
   rank: order_by
 }
 
-"""
-primary key columns input for table: "PlayerRank"
-"""
+"""primary key columns input for table: PlayerRank"""
 input PlayerRank_pk_columns_input {
   rank: String!
 }
@@ -6486,11 +6698,35 @@ input PlayerRank_set_input {
 }
 
 """
+Streaming cursor of the table "PlayerRank"
+"""
+input PlayerRank_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: PlayerRank_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input PlayerRank_stream_cursor_value_input {
+  rank: String
+}
+
+"""
 update columns of table "PlayerRank"
 """
 enum PlayerRank_update_column {
   """column name"""
   rank
+}
+
+input PlayerRank_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: PlayerRank_set_input
+
+  """filter the rows which have to be updated"""
+  where: PlayerRank_bool_exp!
 }
 
 """
@@ -6515,35 +6751,18 @@ type PlayerRole_aggregate {
 aggregate fields of "PlayerRole"
 """
 type PlayerRole_aggregate_fields {
-  count(columns: [PlayerRole_select_column!], distinct: Boolean): Int
+  count(columns: [PlayerRole_select_column!], distinct: Boolean): Int!
   max: PlayerRole_max_fields
   min: PlayerRole_min_fields
-}
-
-"""
-order by aggregate values of table "PlayerRole"
-"""
-input PlayerRole_aggregate_order_by {
-  count: order_by
-  max: PlayerRole_max_order_by
-  min: PlayerRole_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "PlayerRole"
-"""
-input PlayerRole_arr_rel_insert_input {
-  data: [PlayerRole_insert_input!]!
-  on_conflict: PlayerRole_on_conflict
 }
 
 """
 Boolean expression to filter rows from the table "PlayerRole". All fields are combined with a logical 'AND'.
 """
 input PlayerRole_bool_exp {
-  _and: [PlayerRole_bool_exp]
+  _and: [PlayerRole_bool_exp!]
   _not: PlayerRole_bool_exp
-  _or: [PlayerRole_bool_exp]
+  _or: [PlayerRole_bool_exp!]
   basic: Boolean_comparison_exp
   description: String_comparison_exp
   label: String_comparison_exp
@@ -6554,7 +6773,9 @@ input PlayerRole_bool_exp {
 unique or primary key constraints on table "PlayerRole"
 """
 enum PlayerRole_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "role"
+  """
   PlayerRole_pkey
 }
 
@@ -6575,15 +6796,6 @@ type PlayerRole_max_fields {
   role: String
 }
 
-"""
-order by max() on columns of table "PlayerRole"
-"""
-input PlayerRole_max_order_by {
-  description: order_by
-  label: order_by
-  role: order_by
-}
-
 """aggregate min on columns"""
 type PlayerRole_min_fields {
   description: String
@@ -6592,22 +6804,13 @@ type PlayerRole_min_fields {
 }
 
 """
-order by min() on columns of table "PlayerRole"
-"""
-input PlayerRole_min_order_by {
-  description: order_by
-  label: order_by
-  role: order_by
-}
-
-"""
 response of any mutation on the table "PlayerRole"
 """
 type PlayerRole_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [PlayerRole!]!
 }
 
@@ -6616,21 +6819,21 @@ input type for inserting object relation for remote table "PlayerRole"
 """
 input PlayerRole_obj_rel_insert_input {
   data: PlayerRole_insert_input!
+
+  """upsert condition"""
   on_conflict: PlayerRole_on_conflict
 }
 
 """
-on conflict condition type for table "PlayerRole"
+on_conflict condition type for table "PlayerRole"
 """
 input PlayerRole_on_conflict {
   constraint: PlayerRole_constraint!
-  update_columns: [PlayerRole_update_column!]!
+  update_columns: [PlayerRole_update_column!]! = []
   where: PlayerRole_bool_exp
 }
 
-"""
-ordering options when selecting data from "PlayerRole"
-"""
+"""Ordering options when selecting data from "PlayerRole"."""
 input PlayerRole_order_by {
   basic: order_by
   description: order_by
@@ -6638,9 +6841,7 @@ input PlayerRole_order_by {
   role: order_by
 }
 
-"""
-primary key columns input for table: "PlayerRole"
-"""
+"""primary key columns input for table: PlayerRole"""
 input PlayerRole_pk_columns_input {
   role: String!
 }
@@ -6673,6 +6874,25 @@ input PlayerRole_set_input {
 }
 
 """
+Streaming cursor of the table "PlayerRole"
+"""
+input PlayerRole_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: PlayerRole_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input PlayerRole_stream_cursor_value_input {
+  basic: Boolean
+  description: String
+  label: String
+  role: String
+}
+
+"""
 update columns of table "PlayerRole"
 """
 enum PlayerRole_update_column {
@@ -6687,6 +6907,14 @@ enum PlayerRole_update_column {
 
   """column name"""
   role
+}
+
+input PlayerRole_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: PlayerRole_set_input
+
+  """filter the rows which have to be updated"""
+  where: PlayerRole_bool_exp!
 }
 
 """
@@ -6731,12 +6959,23 @@ type profile_aggregate {
   nodes: [profile!]!
 }
 
+input profile_aggregate_bool_exp {
+  count: profile_aggregate_bool_exp_count
+}
+
+input profile_aggregate_bool_exp_count {
+  arguments: [profile_select_column!]
+  distinct: Boolean
+  filter: profile_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "profile"
 """
 type profile_aggregate_fields {
   avg: profile_avg_fields
-  count(columns: [profile_select_column!], distinct: Boolean): Int
+  count(columns: [profile_select_column!], distinct: Boolean): Int!
   max: profile_max_fields
   min: profile_min_fields
   stddev: profile_stddev_fields
@@ -6770,6 +7009,8 @@ input type for inserting array relation for remote table "profile"
 """
 input profile_arr_rel_insert_input {
   data: [profile_insert_input!]!
+
+  """upsert condition"""
   on_conflict: profile_on_conflict
 }
 
@@ -6791,9 +7032,9 @@ input profile_avg_order_by {
 Boolean expression to filter rows from the table "profile". All fields are combined with a logical 'AND'.
 """
 input profile_bool_exp {
-  _and: [profile_bool_exp]
+  _and: [profile_bool_exp!]
   _not: profile_bool_exp
-  _or: [profile_bool_exp]
+  _or: [profile_bool_exp!]
   availableHours: Int_comparison_exp
   backgroundImageURL: String_comparison_exp
   bannerImageURL: String_comparison_exp
@@ -6822,24 +7063,32 @@ input profile_bool_exp {
 unique or primary key constraints on table "profile"
 """
 enum profile_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   profile_cache_pkey
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   profile_id_key
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "player_id"
+  """
   profile_player_id_key
 
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "username"
+  """
   profile_username_key
 
-  """unique or primary key constraint"""
+  """unique or primary key constraint on columns """
   username_insensitive_unique_idx
 }
 
 """
-input type for incrementing integer column in table "profile"
+input type for incrementing numeric columns in table "profile"
 """
 input profile_inc_input {
   availableHours: Int
@@ -6974,10 +7223,10 @@ input profile_min_order_by {
 response of any mutation on the table "profile"
 """
 type profile_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [profile!]!
 }
 
@@ -6986,21 +7235,21 @@ input type for inserting object relation for remote table "profile"
 """
 input profile_obj_rel_insert_input {
   data: profile_insert_input!
+
+  """upsert condition"""
   on_conflict: profile_on_conflict
 }
 
 """
-on conflict condition type for table "profile"
+on_conflict condition type for table "profile"
 """
 input profile_on_conflict {
   constraint: profile_constraint!
-  update_columns: [profile_update_column!]!
+  update_columns: [profile_update_column!]! = []
   where: profile_bool_exp
 }
 
-"""
-ordering options when selecting data from "profile"
-"""
+"""Ordering options when selecting data from "profile"."""
 input profile_order_by {
   availableHours: order_by
   backgroundImageURL: order_by
@@ -7026,9 +7275,7 @@ input profile_order_by {
   website: order_by
 }
 
-"""
-primary key columns input for table: "profile"
-"""
+"""primary key columns input for table: profile"""
 input profile_pk_columns_input {
   id: uuid!
 }
@@ -7162,6 +7409,40 @@ input profile_stddev_samp_order_by {
   colorMask: order_by
 }
 
+"""
+Streaming cursor of the table "profile"
+"""
+input profile_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: profile_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input profile_stream_cursor_value_input {
+  availableHours: Int
+  backgroundImageURL: String
+  bannerImageURL: String
+  colorMask: Int
+  countryCode: String
+  description: String
+  emoji: String
+  explorerTypeTitle: String
+  gender: String
+  id: uuid
+  lastCheckedAt: timestamptz
+  location: String
+  name: String
+  playerId: uuid
+  profileImageURL: String
+  pronouns: String
+  timeZone: String
+  username: String
+  website: String
+}
+
 """aggregate sum on columns"""
 type profile_sum_fields {
   availableHours: Int
@@ -7238,6 +7519,17 @@ enum profile_update_column {
   website
 }
 
+input profile_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: profile_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: profile_set_input
+
+  """filter the rows which have to be updated"""
+  where: profile_bool_exp!
+}
+
 """aggregate var_pop on columns"""
 type profile_var_pop_fields {
   availableHours: Float
@@ -7284,18 +7576,6 @@ type PSeedInfo {
   priceUsd: String
 }
 
-type Query {
-  getBrightIdStatus(contextId: uuid): BrightIdStatus
-  getDaoHausMemberships(memberAddress: String): [Member!]!
-  getDiscordServerMemberRoles(guildId: uuid!, playerId: uuid!): [DiscordRole!]!
-  getGuildDiscordAnnouncements(guildDiscordId: String): [String!]
-  getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
-  getPSeedInfo: PSeedInfo
-  getTokenBalances(address: String): TokenBalances
-  getTopPSeedHolders(limit: Int): [TokenBalances!]
-}
-
-"""query root"""
 type query_root {
   """
   fetch data from the table: "AccountType"
@@ -8463,16 +8743,14 @@ type query_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
-
-  """
-  retrieve the result of action: "updateCachedProfile"
-  """
   updateCachedProfile(
-    """
-    id of the action: "updateCachedProfile"
-    """
+    """the unique id of an action"""
     id: uuid!
   ): updateCachedProfile
+  updatePlayerFromComposeDB(
+    """the unique id of an action"""
+    id: uuid!
+  ): updatePlayerFromComposeDB
 }
 
 """
@@ -8517,7 +8795,7 @@ type quest {
     where: quest_completion_bool_exp
   ): [quest_completion!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quest_completions_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_completion_select_column!]
@@ -8553,7 +8831,7 @@ type quest {
     where: quest_role_bool_exp
   ): [quest_role!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quest_roles_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_role_select_column!]
@@ -8589,7 +8867,7 @@ type quest {
     where: quest_skill_bool_exp
   ): [quest_skill!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quest_skills_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_skill_select_column!]
@@ -8619,12 +8897,23 @@ type quest_aggregate {
   nodes: [quest!]!
 }
 
+input quest_aggregate_bool_exp {
+  count: quest_aggregate_bool_exp_count
+}
+
+input quest_aggregate_bool_exp_count {
+  arguments: [quest_select_column!]
+  distinct: Boolean
+  filter: quest_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "quest"
 """
 type quest_aggregate_fields {
   avg: quest_avg_fields
-  count(columns: [quest_select_column!], distinct: Boolean): Int
+  count(columns: [quest_select_column!], distinct: Boolean): Int!
   max: quest_max_fields
   min: quest_min_fields
   stddev: quest_stddev_fields
@@ -8658,6 +8947,8 @@ input type for inserting array relation for remote table "quest"
 """
 input quest_arr_rel_insert_input {
   data: [quest_insert_input!]!
+
+  """upsert condition"""
   on_conflict: quest_on_conflict
 }
 
@@ -8679,9 +8970,9 @@ Boolean expression to filter rows from the table "quest". All fields are combine
 input quest_bool_exp {
   QuestRepetition: QuestRepetition_bool_exp
   QuestStatus: QuestStatus_bool_exp
-  _and: [quest_bool_exp]
+  _and: [quest_bool_exp!]
   _not: quest_bool_exp
-  _or: [quest_bool_exp]
+  _or: [quest_bool_exp!]
   cooldown: Int_comparison_exp
   createdAt: timestamptz_comparison_exp
   createdByPlayerId: uuid_comparison_exp
@@ -8693,8 +8984,11 @@ input quest_bool_exp {
   image: String_comparison_exp
   player: player_bool_exp
   quest_completions: quest_completion_bool_exp
+  quest_completions_aggregate: quest_completion_aggregate_bool_exp
   quest_roles: quest_role_bool_exp
+  quest_roles_aggregate: quest_role_aggregate_bool_exp
   quest_skills: quest_skill_bool_exp
+  quest_skills_aggregate: quest_skill_aggregate_bool_exp
   repetition: QuestRepetition_enum_comparison_exp
   status: QuestStatus_enum_comparison_exp
   title: String_comparison_exp
@@ -8732,11 +9026,22 @@ type quest_completion_aggregate {
   nodes: [quest_completion!]!
 }
 
+input quest_completion_aggregate_bool_exp {
+  count: quest_completion_aggregate_bool_exp_count
+}
+
+input quest_completion_aggregate_bool_exp_count {
+  arguments: [quest_completion_select_column!]
+  distinct: Boolean
+  filter: quest_completion_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "quest_completion"
 """
 type quest_completion_aggregate_fields {
-  count(columns: [quest_completion_select_column!], distinct: Boolean): Int
+  count(columns: [quest_completion_select_column!], distinct: Boolean): Int!
   max: quest_completion_max_fields
   min: quest_completion_min_fields
 }
@@ -8755,6 +9060,8 @@ input type for inserting array relation for remote table "quest_completion"
 """
 input quest_completion_arr_rel_insert_input {
   data: [quest_completion_insert_input!]!
+
+  """upsert condition"""
   on_conflict: quest_completion_on_conflict
 }
 
@@ -8763,9 +9070,9 @@ Boolean expression to filter rows from the table "quest_completion". All fields 
 """
 input quest_completion_bool_exp {
   QuestCompletionStatus: QuestCompletionStatus_bool_exp
-  _and: [quest_completion_bool_exp]
+  _and: [quest_completion_bool_exp!]
   _not: quest_completion_bool_exp
-  _or: [quest_completion_bool_exp]
+  _or: [quest_completion_bool_exp!]
   completed: quest_bool_exp
   completedByPlayerId: uuid_comparison_exp
   id: uuid_comparison_exp
@@ -8782,7 +9089,9 @@ input quest_completion_bool_exp {
 unique or primary key constraints on table "quest_completion"
 """
 enum quest_completion_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   quest_completion_pkey
 }
 
@@ -8851,33 +9160,23 @@ input quest_completion_min_order_by {
 response of any mutation on the table "quest_completion"
 """
 type quest_completion_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [quest_completion!]!
 }
 
 """
-input type for inserting object relation for remote table "quest_completion"
-"""
-input quest_completion_obj_rel_insert_input {
-  data: quest_completion_insert_input!
-  on_conflict: quest_completion_on_conflict
-}
-
-"""
-on conflict condition type for table "quest_completion"
+on_conflict condition type for table "quest_completion"
 """
 input quest_completion_on_conflict {
   constraint: quest_completion_constraint!
-  update_columns: [quest_completion_update_column!]!
+  update_columns: [quest_completion_update_column!]! = []
   where: quest_completion_bool_exp
 }
 
-"""
-ordering options when selecting data from "quest_completion"
-"""
+"""Ordering options when selecting data from "quest_completion"."""
 input quest_completion_order_by {
   QuestCompletionStatus: QuestCompletionStatus_order_by
   completed: quest_order_by
@@ -8892,9 +9191,7 @@ input quest_completion_order_by {
   submittedAt: order_by
 }
 
-"""
-primary key columns input for table: "quest_completion"
-"""
+"""primary key columns input for table: quest_completion"""
 input quest_completion_pk_columns_input {
   id: uuid!
 }
@@ -8939,6 +9236,28 @@ input quest_completion_set_input {
 }
 
 """
+Streaming cursor of the table "quest_completion"
+"""
+input quest_completion_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: quest_completion_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input quest_completion_stream_cursor_value_input {
+  completedByPlayerId: uuid
+  id: uuid
+  questId: uuid
+  status: QuestCompletionStatus_enum
+  submissionLink: String
+  submissionText: String
+  submittedAt: timestamptz
+}
+
+"""
 update columns of table "quest_completion"
 """
 enum quest_completion_update_column {
@@ -8964,16 +9283,26 @@ enum quest_completion_update_column {
   submittedAt
 }
 
+input quest_completion_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: quest_completion_set_input
+
+  """filter the rows which have to be updated"""
+  where: quest_completion_bool_exp!
+}
+
 """
 unique or primary key constraints on table "quest"
 """
 enum quest_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   quest_pkey
 }
 
 """
-input type for incrementing integer column in table "quest"
+input type for incrementing numeric columns in table "quest"
 """
 input quest_inc_input {
   cooldown: Int
@@ -9063,10 +9392,10 @@ input quest_min_order_by {
 response of any mutation on the table "quest"
 """
 type quest_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [quest!]!
 }
 
@@ -9075,21 +9404,21 @@ input type for inserting object relation for remote table "quest"
 """
 input quest_obj_rel_insert_input {
   data: quest_insert_input!
+
+  """upsert condition"""
   on_conflict: quest_on_conflict
 }
 
 """
-on conflict condition type for table "quest"
+on_conflict condition type for table "quest"
 """
 input quest_on_conflict {
   constraint: quest_constraint!
-  update_columns: [quest_update_column!]!
+  update_columns: [quest_update_column!]! = []
   where: quest_bool_exp
 }
 
-"""
-ordering options when selecting data from "quest"
-"""
+"""Ordering options when selecting data from "quest"."""
 input quest_order_by {
   QuestRepetition: QuestRepetition_order_by
   QuestStatus: QuestStatus_order_by
@@ -9111,9 +9440,7 @@ input quest_order_by {
   title: order_by
 }
 
-"""
-primary key columns input for table: "quest"
-"""
+"""primary key columns input for table: quest"""
 input quest_pk_columns_input {
   id: uuid!
 }
@@ -9140,12 +9467,23 @@ type quest_role_aggregate {
   nodes: [quest_role!]!
 }
 
+input quest_role_aggregate_bool_exp {
+  count: quest_role_aggregate_bool_exp_count
+}
+
+input quest_role_aggregate_bool_exp_count {
+  arguments: [quest_role_select_column!]
+  distinct: Boolean
+  filter: quest_role_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "quest_role"
 """
 type quest_role_aggregate_fields {
   avg: quest_role_avg_fields
-  count(columns: [quest_role_select_column!], distinct: Boolean): Int
+  count(columns: [quest_role_select_column!], distinct: Boolean): Int!
   max: quest_role_max_fields
   min: quest_role_min_fields
   stddev: quest_role_stddev_fields
@@ -9179,6 +9517,8 @@ input type for inserting array relation for remote table "quest_role"
 """
 input quest_role_arr_rel_insert_input {
   data: [quest_role_insert_input!]!
+
+  """upsert condition"""
   on_conflict: quest_role_on_conflict
 }
 
@@ -9199,9 +9539,9 @@ Boolean expression to filter rows from the table "quest_role". All fields are co
 """
 input quest_role_bool_exp {
   PlayerRole: PlayerRole_bool_exp
-  _and: [quest_role_bool_exp]
+  _and: [quest_role_bool_exp!]
   _not: quest_role_bool_exp
-  _or: [quest_role_bool_exp]
+  _or: [quest_role_bool_exp!]
   quest: quest_bool_exp
   questId: uuid_comparison_exp
   rank: Int_comparison_exp
@@ -9212,12 +9552,14 @@ input quest_role_bool_exp {
 unique or primary key constraints on table "quest_role"
 """
 enum quest_role_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "quest_id", "role"
+  """
   quest_role_pkey
 }
 
 """
-input type for incrementing integer column in table "quest_role"
+input type for incrementing numeric columns in table "quest_role"
 """
 input quest_role_inc_input {
   rank: Int
@@ -9270,33 +9612,23 @@ input quest_role_min_order_by {
 response of any mutation on the table "quest_role"
 """
 type quest_role_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [quest_role!]!
 }
 
 """
-input type for inserting object relation for remote table "quest_role"
-"""
-input quest_role_obj_rel_insert_input {
-  data: quest_role_insert_input!
-  on_conflict: quest_role_on_conflict
-}
-
-"""
-on conflict condition type for table "quest_role"
+on_conflict condition type for table "quest_role"
 """
 input quest_role_on_conflict {
   constraint: quest_role_constraint!
-  update_columns: [quest_role_update_column!]!
+  update_columns: [quest_role_update_column!]! = []
   where: quest_role_bool_exp
 }
 
-"""
-ordering options when selecting data from "quest_role"
-"""
+"""Ordering options when selecting data from "quest_role"."""
 input quest_role_order_by {
   PlayerRole: PlayerRole_order_by
   quest: quest_order_by
@@ -9305,9 +9637,7 @@ input quest_role_order_by {
   role: order_by
 }
 
-"""
-primary key columns input for table: "quest_role"
-"""
+"""primary key columns input for table: quest_role"""
 input quest_role_pk_columns_input {
   questId: uuid!
   role: String!
@@ -9372,6 +9702,24 @@ input quest_role_stddev_samp_order_by {
   rank: order_by
 }
 
+"""
+Streaming cursor of the table "quest_role"
+"""
+input quest_role_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: quest_role_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input quest_role_stream_cursor_value_input {
+  questId: uuid
+  rank: Int
+  role: String
+}
+
 """aggregate sum on columns"""
 type quest_role_sum_fields {
   rank: Int
@@ -9396,6 +9744,17 @@ enum quest_role_update_column {
 
   """column name"""
   role
+}
+
+input quest_role_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: quest_role_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: quest_role_set_input
+
+  """filter the rows which have to be updated"""
+  where: quest_role_bool_exp!
 }
 
 """aggregate var_pop on columns"""
@@ -9510,11 +9869,22 @@ type quest_skill_aggregate {
   nodes: [quest_skill!]!
 }
 
+input quest_skill_aggregate_bool_exp {
+  count: quest_skill_aggregate_bool_exp_count
+}
+
+input quest_skill_aggregate_bool_exp_count {
+  arguments: [quest_skill_select_column!]
+  distinct: Boolean
+  filter: quest_skill_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "quest_skill"
 """
 type quest_skill_aggregate_fields {
-  count(columns: [quest_skill_select_column!], distinct: Boolean): Int
+  count(columns: [quest_skill_select_column!], distinct: Boolean): Int!
   max: quest_skill_max_fields
   min: quest_skill_min_fields
 }
@@ -9533,6 +9903,8 @@ input type for inserting array relation for remote table "quest_skill"
 """
 input quest_skill_arr_rel_insert_input {
   data: [quest_skill_insert_input!]!
+
+  """upsert condition"""
   on_conflict: quest_skill_on_conflict
 }
 
@@ -9540,9 +9912,9 @@ input quest_skill_arr_rel_insert_input {
 Boolean expression to filter rows from the table "quest_skill". All fields are combined with a logical 'AND'.
 """
 input quest_skill_bool_exp {
-  _and: [quest_skill_bool_exp]
+  _and: [quest_skill_bool_exp!]
   _not: quest_skill_bool_exp
-  _or: [quest_skill_bool_exp]
+  _or: [quest_skill_bool_exp!]
   quest: quest_bool_exp
   questId: uuid_comparison_exp
   skill: skill_bool_exp
@@ -9553,7 +9925,9 @@ input quest_skill_bool_exp {
 unique or primary key constraints on table "quest_skill"
 """
 enum quest_skill_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "skill_id", "quest_id"
+  """
   quest_skill_pkey
 }
 
@@ -9599,33 +9973,23 @@ input quest_skill_min_order_by {
 response of any mutation on the table "quest_skill"
 """
 type quest_skill_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [quest_skill!]!
 }
 
 """
-input type for inserting object relation for remote table "quest_skill"
-"""
-input quest_skill_obj_rel_insert_input {
-  data: quest_skill_insert_input!
-  on_conflict: quest_skill_on_conflict
-}
-
-"""
-on conflict condition type for table "quest_skill"
+on_conflict condition type for table "quest_skill"
 """
 input quest_skill_on_conflict {
   constraint: quest_skill_constraint!
-  update_columns: [quest_skill_update_column!]!
+  update_columns: [quest_skill_update_column!]! = []
   where: quest_skill_bool_exp
 }
 
-"""
-ordering options when selecting data from "quest_skill"
-"""
+"""Ordering options when selecting data from "quest_skill"."""
 input quest_skill_order_by {
   quest: quest_order_by
   questId: order_by
@@ -9633,9 +9997,7 @@ input quest_skill_order_by {
   skillId: order_by
 }
 
-"""
-primary key columns input for table: "quest_skill"
-"""
+"""primary key columns input for table: quest_skill"""
 input quest_skill_pk_columns_input {
   questId: uuid!
   skillId: uuid!
@@ -9661,6 +10023,23 @@ input quest_skill_set_input {
 }
 
 """
+Streaming cursor of the table "quest_skill"
+"""
+input quest_skill_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: quest_skill_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input quest_skill_stream_cursor_value_input {
+  questId: uuid
+  skillId: uuid
+}
+
+"""
 update columns of table "quest_skill"
 """
 enum quest_skill_update_column {
@@ -9669,6 +10048,14 @@ enum quest_skill_update_column {
 
   """column name"""
   skillId
+}
+
+input quest_skill_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: quest_skill_set_input
+
+  """filter the rows which have to be updated"""
+  where: quest_skill_bool_exp!
 }
 
 """aggregate stddev on columns"""
@@ -9705,6 +10092,32 @@ order by stddev_samp() on columns of table "quest"
 """
 input quest_stddev_samp_order_by {
   cooldown: order_by
+}
+
+"""
+Streaming cursor of the table "quest"
+"""
+input quest_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: quest_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input quest_stream_cursor_value_input {
+  cooldown: Int
+  createdAt: timestamptz
+  createdByPlayerId: uuid
+  description: String
+  externalLink: String
+  guildId: uuid
+  id: uuid
+  image: String
+  repetition: QuestRepetition_enum
+  status: QuestStatus_enum
+  title: String
 }
 
 """aggregate sum on columns"""
@@ -9755,6 +10168,17 @@ enum quest_update_column {
 
   """column name"""
   title
+}
+
+input quest_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: quest_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: quest_set_input
+
+  """filter the rows which have to be updated"""
+  where: quest_bool_exp!
 }
 
 """aggregate var_pop on columns"""
@@ -9815,7 +10239,7 @@ type QuestCompletionStatus {
     where: quest_completion_bool_exp
   ): [quest_completion!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quest_completions_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_completion_select_column!]
@@ -9852,36 +10276,20 @@ type QuestCompletionStatus_aggregate {
 aggregate fields of "QuestCompletionStatus"
 """
 type QuestCompletionStatus_aggregate_fields {
-  count(columns: [QuestCompletionStatus_select_column!], distinct: Boolean): Int
+  count(columns: [QuestCompletionStatus_select_column!], distinct: Boolean): Int!
   max: QuestCompletionStatus_max_fields
   min: QuestCompletionStatus_min_fields
-}
-
-"""
-order by aggregate values of table "QuestCompletionStatus"
-"""
-input QuestCompletionStatus_aggregate_order_by {
-  count: order_by
-  max: QuestCompletionStatus_max_order_by
-  min: QuestCompletionStatus_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "QuestCompletionStatus"
-"""
-input QuestCompletionStatus_arr_rel_insert_input {
-  data: [QuestCompletionStatus_insert_input!]!
-  on_conflict: QuestCompletionStatus_on_conflict
 }
 
 """
 Boolean expression to filter rows from the table "QuestCompletionStatus". All fields are combined with a logical 'AND'.
 """
 input QuestCompletionStatus_bool_exp {
-  _and: [QuestCompletionStatus_bool_exp]
+  _and: [QuestCompletionStatus_bool_exp!]
   _not: QuestCompletionStatus_bool_exp
-  _or: [QuestCompletionStatus_bool_exp]
+  _or: [QuestCompletionStatus_bool_exp!]
   quest_completions: quest_completion_bool_exp
+  quest_completions_aggregate: quest_completion_aggregate_bool_exp
   status: String_comparison_exp
 }
 
@@ -9889,7 +10297,9 @@ input QuestCompletionStatus_bool_exp {
 unique or primary key constraints on table "QuestCompletionStatus"
 """
 enum QuestCompletionStatus_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "status"
+  """
   QuestCompletionStatus_pkey
 }
 
@@ -9900,7 +10310,7 @@ enum QuestCompletionStatus_enum {
 }
 
 """
-expression to compare columns of type QuestCompletionStatus_enum. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "QuestCompletionStatus_enum". All fields are combined with logical 'AND'.
 """
 input QuestCompletionStatus_enum_comparison_exp {
   _eq: QuestCompletionStatus_enum
@@ -9923,33 +10333,19 @@ type QuestCompletionStatus_max_fields {
   status: String
 }
 
-"""
-order by max() on columns of table "QuestCompletionStatus"
-"""
-input QuestCompletionStatus_max_order_by {
-  status: order_by
-}
-
 """aggregate min on columns"""
 type QuestCompletionStatus_min_fields {
   status: String
 }
 
 """
-order by min() on columns of table "QuestCompletionStatus"
-"""
-input QuestCompletionStatus_min_order_by {
-  status: order_by
-}
-
-"""
 response of any mutation on the table "QuestCompletionStatus"
 """
 type QuestCompletionStatus_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [QuestCompletionStatus!]!
 }
 
@@ -9958,29 +10354,27 @@ input type for inserting object relation for remote table "QuestCompletionStatus
 """
 input QuestCompletionStatus_obj_rel_insert_input {
   data: QuestCompletionStatus_insert_input!
+
+  """upsert condition"""
   on_conflict: QuestCompletionStatus_on_conflict
 }
 
 """
-on conflict condition type for table "QuestCompletionStatus"
+on_conflict condition type for table "QuestCompletionStatus"
 """
 input QuestCompletionStatus_on_conflict {
   constraint: QuestCompletionStatus_constraint!
-  update_columns: [QuestCompletionStatus_update_column!]!
+  update_columns: [QuestCompletionStatus_update_column!]! = []
   where: QuestCompletionStatus_bool_exp
 }
 
-"""
-ordering options when selecting data from "QuestCompletionStatus"
-"""
+"""Ordering options when selecting data from "QuestCompletionStatus"."""
 input QuestCompletionStatus_order_by {
   quest_completions_aggregate: quest_completion_aggregate_order_by
   status: order_by
 }
 
-"""
-primary key columns input for table: "QuestCompletionStatus"
-"""
+"""primary key columns input for table: QuestCompletionStatus"""
 input QuestCompletionStatus_pk_columns_input {
   status: String!
 }
@@ -10001,11 +10395,35 @@ input QuestCompletionStatus_set_input {
 }
 
 """
+Streaming cursor of the table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: QuestCompletionStatus_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input QuestCompletionStatus_stream_cursor_value_input {
+  status: String
+}
+
+"""
 update columns of table "QuestCompletionStatus"
 """
 enum QuestCompletionStatus_update_column {
   """column name"""
   status
+}
+
+input QuestCompletionStatus_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: QuestCompletionStatus_set_input
+
+  """filter the rows which have to be updated"""
+  where: QuestCompletionStatus_bool_exp!
 }
 
 """
@@ -10030,7 +10448,7 @@ type QuestRepetition {
     where: quest_bool_exp
   ): [quest!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quests_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_select_column!]
@@ -10068,36 +10486,20 @@ type QuestRepetition_aggregate {
 aggregate fields of "QuestRepetition"
 """
 type QuestRepetition_aggregate_fields {
-  count(columns: [QuestRepetition_select_column!], distinct: Boolean): Int
+  count(columns: [QuestRepetition_select_column!], distinct: Boolean): Int!
   max: QuestRepetition_max_fields
   min: QuestRepetition_min_fields
-}
-
-"""
-order by aggregate values of table "QuestRepetition"
-"""
-input QuestRepetition_aggregate_order_by {
-  count: order_by
-  max: QuestRepetition_max_order_by
-  min: QuestRepetition_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "QuestRepetition"
-"""
-input QuestRepetition_arr_rel_insert_input {
-  data: [QuestRepetition_insert_input!]!
-  on_conflict: QuestRepetition_on_conflict
 }
 
 """
 Boolean expression to filter rows from the table "QuestRepetition". All fields are combined with a logical 'AND'.
 """
 input QuestRepetition_bool_exp {
-  _and: [QuestRepetition_bool_exp]
+  _and: [QuestRepetition_bool_exp!]
   _not: QuestRepetition_bool_exp
-  _or: [QuestRepetition_bool_exp]
+  _or: [QuestRepetition_bool_exp!]
   quests: quest_bool_exp
+  quests_aggregate: quest_aggregate_bool_exp
   repetition: String_comparison_exp
 }
 
@@ -10105,7 +10507,9 @@ input QuestRepetition_bool_exp {
 unique or primary key constraints on table "QuestRepetition"
 """
 enum QuestRepetition_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "repetition"
+  """
   QuestRepetition_pkey
 }
 
@@ -10116,7 +10520,7 @@ enum QuestRepetition_enum {
 }
 
 """
-expression to compare columns of type QuestRepetition_enum. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "QuestRepetition_enum". All fields are combined with logical 'AND'.
 """
 input QuestRepetition_enum_comparison_exp {
   _eq: QuestRepetition_enum
@@ -10139,33 +10543,19 @@ type QuestRepetition_max_fields {
   repetition: String
 }
 
-"""
-order by max() on columns of table "QuestRepetition"
-"""
-input QuestRepetition_max_order_by {
-  repetition: order_by
-}
-
 """aggregate min on columns"""
 type QuestRepetition_min_fields {
   repetition: String
 }
 
 """
-order by min() on columns of table "QuestRepetition"
-"""
-input QuestRepetition_min_order_by {
-  repetition: order_by
-}
-
-"""
 response of any mutation on the table "QuestRepetition"
 """
 type QuestRepetition_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [QuestRepetition!]!
 }
 
@@ -10174,29 +10564,27 @@ input type for inserting object relation for remote table "QuestRepetition"
 """
 input QuestRepetition_obj_rel_insert_input {
   data: QuestRepetition_insert_input!
+
+  """upsert condition"""
   on_conflict: QuestRepetition_on_conflict
 }
 
 """
-on conflict condition type for table "QuestRepetition"
+on_conflict condition type for table "QuestRepetition"
 """
 input QuestRepetition_on_conflict {
   constraint: QuestRepetition_constraint!
-  update_columns: [QuestRepetition_update_column!]!
+  update_columns: [QuestRepetition_update_column!]! = []
   where: QuestRepetition_bool_exp
 }
 
-"""
-ordering options when selecting data from "QuestRepetition"
-"""
+"""Ordering options when selecting data from "QuestRepetition"."""
 input QuestRepetition_order_by {
   quests_aggregate: quest_aggregate_order_by
   repetition: order_by
 }
 
-"""
-primary key columns input for table: "QuestRepetition"
-"""
+"""primary key columns input for table: QuestRepetition"""
 input QuestRepetition_pk_columns_input {
   repetition: String!
 }
@@ -10217,11 +10605,35 @@ input QuestRepetition_set_input {
 }
 
 """
+Streaming cursor of the table "QuestRepetition"
+"""
+input QuestRepetition_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: QuestRepetition_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input QuestRepetition_stream_cursor_value_input {
+  repetition: String
+}
+
+"""
 update columns of table "QuestRepetition"
 """
 enum QuestRepetition_update_column {
   """column name"""
   repetition
+}
+
+input QuestRepetition_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: QuestRepetition_set_input
+
+  """filter the rows which have to be updated"""
+  where: QuestRepetition_bool_exp!
 }
 
 """
@@ -10246,7 +10658,7 @@ type QuestStatus {
     where: quest_bool_exp
   ): [quest!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quests_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_select_column!]
@@ -10278,36 +10690,20 @@ type QuestStatus_aggregate {
 aggregate fields of "QuestStatus"
 """
 type QuestStatus_aggregate_fields {
-  count(columns: [QuestStatus_select_column!], distinct: Boolean): Int
+  count(columns: [QuestStatus_select_column!], distinct: Boolean): Int!
   max: QuestStatus_max_fields
   min: QuestStatus_min_fields
-}
-
-"""
-order by aggregate values of table "QuestStatus"
-"""
-input QuestStatus_aggregate_order_by {
-  count: order_by
-  max: QuestStatus_max_order_by
-  min: QuestStatus_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "QuestStatus"
-"""
-input QuestStatus_arr_rel_insert_input {
-  data: [QuestStatus_insert_input!]!
-  on_conflict: QuestStatus_on_conflict
 }
 
 """
 Boolean expression to filter rows from the table "QuestStatus". All fields are combined with a logical 'AND'.
 """
 input QuestStatus_bool_exp {
-  _and: [QuestStatus_bool_exp]
+  _and: [QuestStatus_bool_exp!]
   _not: QuestStatus_bool_exp
-  _or: [QuestStatus_bool_exp]
+  _or: [QuestStatus_bool_exp!]
   quests: quest_bool_exp
+  quests_aggregate: quest_aggregate_bool_exp
   status: String_comparison_exp
 }
 
@@ -10315,7 +10711,9 @@ input QuestStatus_bool_exp {
 unique or primary key constraints on table "QuestStatus"
 """
 enum QuestStatus_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "status"
+  """
   QuestStatus_pkey
 }
 
@@ -10325,7 +10723,7 @@ enum QuestStatus_enum {
 }
 
 """
-expression to compare columns of type QuestStatus_enum. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "QuestStatus_enum". All fields are combined with logical 'AND'.
 """
 input QuestStatus_enum_comparison_exp {
   _eq: QuestStatus_enum
@@ -10348,33 +10746,19 @@ type QuestStatus_max_fields {
   status: String
 }
 
-"""
-order by max() on columns of table "QuestStatus"
-"""
-input QuestStatus_max_order_by {
-  status: order_by
-}
-
 """aggregate min on columns"""
 type QuestStatus_min_fields {
   status: String
 }
 
 """
-order by min() on columns of table "QuestStatus"
-"""
-input QuestStatus_min_order_by {
-  status: order_by
-}
-
-"""
 response of any mutation on the table "QuestStatus"
 """
 type QuestStatus_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [QuestStatus!]!
 }
 
@@ -10383,29 +10767,27 @@ input type for inserting object relation for remote table "QuestStatus"
 """
 input QuestStatus_obj_rel_insert_input {
   data: QuestStatus_insert_input!
+
+  """upsert condition"""
   on_conflict: QuestStatus_on_conflict
 }
 
 """
-on conflict condition type for table "QuestStatus"
+on_conflict condition type for table "QuestStatus"
 """
 input QuestStatus_on_conflict {
   constraint: QuestStatus_constraint!
-  update_columns: [QuestStatus_update_column!]!
+  update_columns: [QuestStatus_update_column!]! = []
   where: QuestStatus_bool_exp
 }
 
-"""
-ordering options when selecting data from "QuestStatus"
-"""
+"""Ordering options when selecting data from "QuestStatus"."""
 input QuestStatus_order_by {
   quests_aggregate: quest_aggregate_order_by
   status: order_by
 }
 
-"""
-primary key columns input for table: "QuestStatus"
-"""
+"""primary key columns input for table: QuestStatus"""
 input QuestStatus_pk_columns_input {
   status: String!
 }
@@ -10426,11 +10808,35 @@ input QuestStatus_set_input {
 }
 
 """
+Streaming cursor of the table "QuestStatus"
+"""
+input QuestStatus_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: QuestStatus_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input QuestStatus_stream_cursor_value_input {
+  status: String
+}
+
+"""
 update columns of table "QuestStatus"
 """
 enum QuestStatus_update_column {
   """column name"""
   status
+}
+
+input QuestStatus_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: QuestStatus_set_input
+
+  """filter the rows which have to be updated"""
+  where: QuestStatus_bool_exp!
 }
 
 type SaveGuildLayoutResponse {
@@ -10465,7 +10871,7 @@ type skill {
     where: player_skill_bool_exp
   ): [player_skill!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   Player_Skills_aggregate(
     """distinct select on columns"""
     distinct_on: [player_skill_select_column!]
@@ -10504,7 +10910,7 @@ type skill {
     where: quest_skill_bool_exp
   ): [quest_skill!]!
 
-  """An aggregated array relationship"""
+  """An aggregate relationship"""
   quest_skills_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_skill_select_column!]
@@ -10535,26 +10941,9 @@ type skill_aggregate {
 aggregate fields of "skill"
 """
 type skill_aggregate_fields {
-  count(columns: [skill_select_column!], distinct: Boolean): Int
+  count(columns: [skill_select_column!], distinct: Boolean): Int!
   max: skill_max_fields
   min: skill_min_fields
-}
-
-"""
-order by aggregate values of table "skill"
-"""
-input skill_aggregate_order_by {
-  count: order_by
-  max: skill_max_order_by
-  min: skill_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "skill"
-"""
-input skill_arr_rel_insert_input {
-  data: [skill_insert_input!]!
-  on_conflict: skill_on_conflict
 }
 
 """
@@ -10562,20 +10951,24 @@ Boolean expression to filter rows from the table "skill". All fields are combine
 """
 input skill_bool_exp {
   Player_Skills: player_skill_bool_exp
-  _and: [skill_bool_exp]
+  Player_Skills_aggregate: player_skill_aggregate_bool_exp
+  _and: [skill_bool_exp!]
   _not: skill_bool_exp
-  _or: [skill_bool_exp]
+  _or: [skill_bool_exp!]
   category: SkillCategory_enum_comparison_exp
   id: uuid_comparison_exp
   name: String_comparison_exp
   quest_skills: quest_skill_bool_exp
+  quest_skills_aggregate: quest_skill_aggregate_bool_exp
 }
 
 """
 unique or primary key constraints on table "skill"
 """
 enum skill_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "id"
+  """
   Skill_pkey
 }
 
@@ -10596,14 +10989,6 @@ type skill_max_fields {
   name: String
 }
 
-"""
-order by max() on columns of table "skill"
-"""
-input skill_max_order_by {
-  id: order_by
-  name: order_by
-}
-
 """aggregate min on columns"""
 type skill_min_fields {
   id: uuid
@@ -10611,21 +10996,13 @@ type skill_min_fields {
 }
 
 """
-order by min() on columns of table "skill"
-"""
-input skill_min_order_by {
-  id: order_by
-  name: order_by
-}
-
-"""
 response of any mutation on the table "skill"
 """
 type skill_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [skill!]!
 }
 
@@ -10634,21 +11011,21 @@ input type for inserting object relation for remote table "skill"
 """
 input skill_obj_rel_insert_input {
   data: skill_insert_input!
+
+  """upsert condition"""
   on_conflict: skill_on_conflict
 }
 
 """
-on conflict condition type for table "skill"
+on_conflict condition type for table "skill"
 """
 input skill_on_conflict {
   constraint: skill_constraint!
-  update_columns: [skill_update_column!]!
+  update_columns: [skill_update_column!]! = []
   where: skill_bool_exp
 }
 
-"""
-ordering options when selecting data from "skill"
-"""
+"""Ordering options when selecting data from "skill"."""
 input skill_order_by {
   Player_Skills_aggregate: player_skill_aggregate_order_by
   category: order_by
@@ -10657,9 +11034,7 @@ input skill_order_by {
   quest_skills_aggregate: quest_skill_aggregate_order_by
 }
 
-"""
-primary key columns input for table: "skill"
-"""
+"""primary key columns input for table: skill"""
 input skill_pk_columns_input {
   id: uuid!
 }
@@ -10688,6 +11063,24 @@ input skill_set_input {
 }
 
 """
+Streaming cursor of the table "skill"
+"""
+input skill_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: skill_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input skill_stream_cursor_value_input {
+  category: SkillCategory_enum
+  id: uuid
+  name: String
+}
+
+"""
 update columns of table "skill"
 """
 enum skill_update_column {
@@ -10699,6 +11092,14 @@ enum skill_update_column {
 
   """column name"""
   name
+}
+
+input skill_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: skill_set_input
+
+  """filter the rows which have to be updated"""
+  where: skill_bool_exp!
 }
 
 """
@@ -10720,35 +11121,18 @@ type SkillCategory_aggregate {
 aggregate fields of "SkillCategory"
 """
 type SkillCategory_aggregate_fields {
-  count(columns: [SkillCategory_select_column!], distinct: Boolean): Int
+  count(columns: [SkillCategory_select_column!], distinct: Boolean): Int!
   max: SkillCategory_max_fields
   min: SkillCategory_min_fields
-}
-
-"""
-order by aggregate values of table "SkillCategory"
-"""
-input SkillCategory_aggregate_order_by {
-  count: order_by
-  max: SkillCategory_max_order_by
-  min: SkillCategory_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "SkillCategory"
-"""
-input SkillCategory_arr_rel_insert_input {
-  data: [SkillCategory_insert_input!]!
-  on_conflict: SkillCategory_on_conflict
 }
 
 """
 Boolean expression to filter rows from the table "SkillCategory". All fields are combined with a logical 'AND'.
 """
 input SkillCategory_bool_exp {
-  _and: [SkillCategory_bool_exp]
+  _and: [SkillCategory_bool_exp!]
   _not: SkillCategory_bool_exp
-  _or: [SkillCategory_bool_exp]
+  _or: [SkillCategory_bool_exp!]
   name: String_comparison_exp
 }
 
@@ -10756,7 +11140,9 @@ input SkillCategory_bool_exp {
 unique or primary key constraints on table "SkillCategory"
 """
 enum SkillCategory_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint on columns "name"
+  """
   SkillCategory_pkey
 }
 
@@ -10770,7 +11156,7 @@ enum SkillCategory_enum {
 }
 
 """
-expression to compare columns of type SkillCategory_enum. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "SkillCategory_enum". All fields are combined with logical 'AND'.
 """
 input SkillCategory_enum_comparison_exp {
   _eq: SkillCategory_enum
@@ -10792,63 +11178,37 @@ type SkillCategory_max_fields {
   name: String
 }
 
-"""
-order by max() on columns of table "SkillCategory"
-"""
-input SkillCategory_max_order_by {
-  name: order_by
-}
-
 """aggregate min on columns"""
 type SkillCategory_min_fields {
   name: String
 }
 
 """
-order by min() on columns of table "SkillCategory"
-"""
-input SkillCategory_min_order_by {
-  name: order_by
-}
-
-"""
 response of any mutation on the table "SkillCategory"
 """
 type SkillCategory_mutation_response {
-  """number of affected rows by the mutation"""
+  """number of rows affected by the mutation"""
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """data from the rows affected by the mutation"""
   returning: [SkillCategory!]!
 }
 
 """
-input type for inserting object relation for remote table "SkillCategory"
-"""
-input SkillCategory_obj_rel_insert_input {
-  data: SkillCategory_insert_input!
-  on_conflict: SkillCategory_on_conflict
-}
-
-"""
-on conflict condition type for table "SkillCategory"
+on_conflict condition type for table "SkillCategory"
 """
 input SkillCategory_on_conflict {
   constraint: SkillCategory_constraint!
-  update_columns: [SkillCategory_update_column!]!
+  update_columns: [SkillCategory_update_column!]! = []
   where: SkillCategory_bool_exp
 }
 
-"""
-ordering options when selecting data from "SkillCategory"
-"""
+"""Ordering options when selecting data from "SkillCategory"."""
 input SkillCategory_order_by {
   name: order_by
 }
 
-"""
-primary key columns input for table: "SkillCategory"
-"""
+"""primary key columns input for table: SkillCategory"""
 input SkillCategory_pk_columns_input {
   name: String!
 }
@@ -10869,11 +11229,35 @@ input SkillCategory_set_input {
 }
 
 """
+Streaming cursor of the table "SkillCategory"
+"""
+input SkillCategory_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: SkillCategory_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input SkillCategory_stream_cursor_value_input {
+  name: String
+}
+
+"""
 update columns of table "SkillCategory"
 """
 enum SkillCategory_update_column {
   """column name"""
   name
+}
+
+input SkillCategory_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: SkillCategory_set_input
+
+  """filter the rows which have to be updated"""
+  where: SkillCategory_bool_exp!
 }
 
 type SourceCredSyncOutput {
@@ -10884,27 +11268,58 @@ type SourceCredSyncOutput {
 }
 
 """
-expression to compare columns of type String. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
 input String_comparison_exp {
   _eq: String
   _gt: String
   _gte: String
+
+  """does the column match the given case-insensitive pattern"""
   _ilike: String
   _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
   _is_null: Boolean
+
+  """does the column match the given pattern"""
   _like: String
   _lt: String
   _lte: String
   _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
   _nilike: String
   _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
   _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
   _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
   _similar: String
 }
 
-"""subscription root"""
 type subscription_root {
   """
   fetch data from the table: "AccountType"
@@ -10950,6 +11365,20 @@ type subscription_root {
   AccountType_by_pk(type: String!): AccountType
 
   """
+  fetch data from the table in a streaming manner: "AccountType"
+  """
+  AccountType_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [AccountType_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: AccountType_bool_exp
+  ): [AccountType!]!
+
+  """
   fetch data from the table: "ColorAspect"
   """
   ColorAspect(
@@ -10991,6 +11420,20 @@ type subscription_root {
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
   ColorAspect_by_pk(mask: Int!): ColorAspect
+
+  """
+  fetch data from the table in a streaming manner: "ColorAspect"
+  """
+  ColorAspect_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [ColorAspect_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: ColorAspect_bool_exp
+  ): [ColorAspect!]!
 
   """
   fetch data from the table: "ExplorerType"
@@ -11036,6 +11479,20 @@ type subscription_root {
   ExplorerType_by_pk(id: Int!): ExplorerType
 
   """
+  fetch data from the table in a streaming manner: "ExplorerType"
+  """
+  ExplorerType_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [ExplorerType_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: ExplorerType_bool_exp
+  ): [ExplorerType!]!
+
+  """
   fetch data from the table: "GuildStatus"
   """
   GuildStatus(
@@ -11077,6 +11534,20 @@ type subscription_root {
 
   """fetch data from the table: "GuildStatus" using primary key columns"""
   GuildStatus_by_pk(status: String!): GuildStatus
+
+  """
+  fetch data from the table in a streaming manner: "GuildStatus"
+  """
+  GuildStatus_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [GuildStatus_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): [GuildStatus!]!
 
   """
   fetch data from the table: "GuildType"
@@ -11122,6 +11593,20 @@ type subscription_root {
   GuildType_by_pk(name: String!): GuildType
 
   """
+  fetch data from the table in a streaming manner: "GuildType"
+  """
+  GuildType_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [GuildType_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: GuildType_bool_exp
+  ): [GuildType!]!
+
+  """
   fetch data from the table: "PlayerRank"
   """
   PlayerRank(
@@ -11165,6 +11650,20 @@ type subscription_root {
   PlayerRank_by_pk(rank: String!): PlayerRank
 
   """
+  fetch data from the table in a streaming manner: "PlayerRank"
+  """
+  PlayerRank_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [PlayerRank_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: PlayerRank_bool_exp
+  ): [PlayerRank!]!
+
+  """
   fetch data from the table: "PlayerRole"
   """
   PlayerRole(
@@ -11206,6 +11705,20 @@ type subscription_root {
 
   """fetch data from the table: "PlayerRole" using primary key columns"""
   PlayerRole_by_pk(role: String!): PlayerRole
+
+  """
+  fetch data from the table in a streaming manner: "PlayerRole"
+  """
+  PlayerRole_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [PlayerRole_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: PlayerRole_bool_exp
+  ): [PlayerRole!]!
 
   """
   fetch data from the table: "QuestCompletionStatus"
@@ -11253,6 +11766,20 @@ type subscription_root {
   QuestCompletionStatus_by_pk(status: String!): QuestCompletionStatus
 
   """
+  fetch data from the table in a streaming manner: "QuestCompletionStatus"
+  """
+  QuestCompletionStatus_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [QuestCompletionStatus_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: QuestCompletionStatus_bool_exp
+  ): [QuestCompletionStatus!]!
+
+  """
   fetch data from the table: "QuestRepetition"
   """
   QuestRepetition(
@@ -11294,6 +11821,20 @@ type subscription_root {
 
   """fetch data from the table: "QuestRepetition" using primary key columns"""
   QuestRepetition_by_pk(repetition: String!): QuestRepetition
+
+  """
+  fetch data from the table in a streaming manner: "QuestRepetition"
+  """
+  QuestRepetition_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [QuestRepetition_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: QuestRepetition_bool_exp
+  ): [QuestRepetition!]!
 
   """
   fetch data from the table: "QuestStatus"
@@ -11339,6 +11880,20 @@ type subscription_root {
   QuestStatus_by_pk(status: String!): QuestStatus
 
   """
+  fetch data from the table in a streaming manner: "QuestStatus"
+  """
+  QuestStatus_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [QuestStatus_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: QuestStatus_bool_exp
+  ): [QuestStatus!]!
+
+  """
   fetch data from the table: "SkillCategory"
   """
   SkillCategory(
@@ -11380,6 +11935,20 @@ type subscription_root {
 
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
+
+  """
+  fetch data from the table in a streaming manner: "SkillCategory"
+  """
+  SkillCategory_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [SkillCategory_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: SkillCategory_bool_exp
+  ): [SkillCategory!]!
 
   """
   fetch data from the table: "dao"
@@ -11468,6 +12037,34 @@ type subscription_root {
   dao_player_by_pk(daoId: uuid!, playerId: uuid!): dao_player
 
   """
+  fetch data from the table in a streaming manner: "dao_player"
+  """
+  dao_player_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [dao_player_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): [dao_player!]!
+
+  """
+  fetch data from the table in a streaming manner: "dao"
+  """
+  dao_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [dao_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: dao_bool_exp
+  ): [dao!]!
+
+  """
   fetch data from the table: "guild"
   """
   guild(
@@ -11554,6 +12151,20 @@ type subscription_root {
   guild_metadata_by_pk(guildId: uuid!): guild_metadata
 
   """
+  fetch data from the table in a streaming manner: "guild_metadata"
+  """
+  guild_metadata_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [guild_metadata_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: guild_metadata_bool_exp
+  ): [guild_metadata!]!
+
+  """
   fetch data from the table: "guild_player"
   """
   guild_player(
@@ -11597,6 +12208,34 @@ type subscription_root {
   guild_player_by_pk(guildId: uuid!, playerId: uuid!): guild_player
 
   """
+  fetch data from the table in a streaming manner: "guild_player"
+  """
+  guild_player_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [guild_player_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): [guild_player!]!
+
+  """
+  fetch data from the table in a streaming manner: "guild"
+  """
+  guild_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [guild_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): [guild!]!
+
+  """
   fetch data from the table: "me"
   """
   me(
@@ -11635,6 +12274,20 @@ type subscription_root {
     """filter the rows returned"""
     where: me_bool_exp
   ): me_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "me"
+  """
+  me_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [me_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: me_bool_exp
+  ): [me!]!
 
   """
   fetch data from the table: "player"
@@ -11695,6 +12348,20 @@ type subscription_root {
     """filter the rows returned"""
     where: player_account_bool_exp
   ): player_account_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "player_account"
+  """
+  player_account_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [player_account_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: player_account_bool_exp
+  ): [player_account!]!
 
   """
   fetch aggregated fields from the table: "player"
@@ -11763,6 +12430,20 @@ type subscription_root {
   player_role_by_pk(player_id: uuid!, role: String!): player_role
 
   """
+  fetch data from the table in a streaming manner: "player_role"
+  """
+  player_role_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [player_role_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: player_role_bool_exp
+  ): [player_role!]!
+
+  """
   fetch data from the table: "player_skill"
   """
   player_skill(
@@ -11806,6 +12487,34 @@ type subscription_root {
   player_skill_by_pk(id: uuid!): player_skill
 
   """
+  fetch data from the table in a streaming manner: "player_skill"
+  """
+  player_skill_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [player_skill_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: player_skill_bool_exp
+  ): [player_skill!]!
+
+  """
+  fetch data from the table in a streaming manner: "player"
+  """
+  player_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [player_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: player_bool_exp
+  ): [player!]!
+
+  """
   fetch data from the table: "profile"
   """
   profile(
@@ -11847,6 +12556,20 @@ type subscription_root {
 
   """fetch data from the table: "profile" using primary key columns"""
   profile_by_pk(id: uuid!): profile
+
+  """
+  fetch data from the table in a streaming manner: "profile"
+  """
+  profile_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [profile_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: profile_bool_exp
+  ): [profile!]!
 
   """
   fetch data from the table: "quest"
@@ -11937,6 +12660,20 @@ type subscription_root {
   quest_completion_by_pk(id: uuid!): quest_completion
 
   """
+  fetch data from the table in a streaming manner: "quest_completion"
+  """
+  quest_completion_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [quest_completion_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): [quest_completion!]!
+
+  """
   fetch data from the table: "quest_role"
   """
   quest_role(
@@ -11978,6 +12715,20 @@ type subscription_root {
 
   """fetch data from the table: "quest_role" using primary key columns"""
   quest_role_by_pk(questId: uuid!, role: String!): quest_role
+
+  """
+  fetch data from the table in a streaming manner: "quest_role"
+  """
+  quest_role_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [quest_role_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: quest_role_bool_exp
+  ): [quest_role!]!
 
   """
   fetch data from the table: "quest_skill"
@@ -12023,6 +12774,34 @@ type subscription_root {
   quest_skill_by_pk(questId: uuid!, skillId: uuid!): quest_skill
 
   """
+  fetch data from the table in a streaming manner: "quest_skill"
+  """
+  quest_skill_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [quest_skill_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): [quest_skill!]!
+
+  """
+  fetch data from the table in a streaming manner: "quest"
+  """
+  quest_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [quest_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): [quest!]!
+
+  """
   fetch data from the table: "skill"
   """
   skill(
@@ -12066,20 +12845,32 @@ type subscription_root {
   skill_by_pk(id: uuid!): skill
 
   """
-  retrieve the result of action: "updateCachedProfile"
+  fetch data from the table in a streaming manner: "skill"
   """
+  skill_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [skill_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: skill_bool_exp
+  ): [skill!]!
   updateCachedProfile(
-    """
-    id of the action: "updateCachedProfile"
-    """
+    """the unique id of an action"""
     id: uuid!
   ): updateCachedProfile
+  updatePlayerFromComposeDB(
+    """the unique id of an action"""
+    id: uuid!
+  ): updatePlayerFromComposeDB
 }
 
 scalar timestamptz
 
 """
-expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
 """
 input timestamptz_comparison_exp {
   _eq: timestamptz
@@ -12104,25 +12895,42 @@ fields of action: "updateCachedProfile"
 """
 type updateCachedProfile {
   """the time at which this action was created"""
-  created_at: timestamptz
+  created_at: timestamptz!
 
   """errors related to the invocation"""
   errors: json
 
   """the unique id of an action"""
-  id: uuid
+  id: uuid!
 
   """the output fields of this action"""
   output: CacheProcessOutput
 }
 
-type UpdateIDXProfileResponse {
+type UpdateComposeDBProfileResponse {
   accountLinks: [String]
   ceramic: String!
   did: String
   ethereumAddress: String
   fields: [String]
   success: Boolean!
+}
+
+"""
+fields of action: "updatePlayerFromComposeDB"
+"""
+type updatePlayerFromComposeDB {
+  """the time at which this action was created"""
+  created_at: timestamptz!
+
+  """errors related to the invocation"""
+  errors: json
+
+  """the unique id of an action"""
+  id: uuid!
+
+  """the output fields of this action"""
+  output: UpdateComposeDBProfileResponse
 }
 
 input UpdateQuestCompletionInput {
@@ -12140,7 +12948,7 @@ type UpdateQuestCompletionOutput {
 scalar uuid
 
 """
-expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
 """
 input uuid_comparison_exp {
   _eq: uuid

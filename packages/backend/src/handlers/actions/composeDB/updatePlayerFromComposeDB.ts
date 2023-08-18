@@ -9,7 +9,7 @@ import {
 import { CONFIG } from '../../../config.js';
 import {
   Profile_Update_Column,
-  UpdateIdxProfileResponse,
+  UpdateComposeDbProfileResponse,
 } from '../../../lib/autogen/hasura-sdk.js';
 import { client } from '../../../lib/hasuraClient.js';
 
@@ -20,7 +20,7 @@ const composeDBClient = new ComposeClient({
 
 export const updatePlayerFromComposeDB = async (
   playerId: string,
-): Promise<UpdateIdxProfileResponse> => {
+): Promise<UpdateComposeDbProfileResponse> => {
   const accountLinks: string[] = [];
   const fields: string[] = [];
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
