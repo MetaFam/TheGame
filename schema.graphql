@@ -4687,6 +4687,14 @@ type mutation_root {
   ): [player_account_mutation_response]
 
   """
+  update multiples rows of table: "player_account"
+  """
+  update_player_account_many(
+    """updates to execute, in order"""
+    updates: [player_account_updates!]!
+  ): [player_account_mutation_response]
+
+  """
   update single row of the table: "player"
   """
   update_player_by_pk(
@@ -5421,9 +5429,7 @@ input player_account_order_by {
   type: order_by
 }
 
-"""
-primary key columns input for table: "player_account"
-"""
+"""primary key columns input for table: player_account"""
 input player_account_pk_columns_input {
   identifier: String!
   playerId: uuid!
