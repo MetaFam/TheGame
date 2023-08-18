@@ -104,7 +104,15 @@ const EditQuestPage: React.FC<Props> = ({
 
   return (
     <PageContainer>
-      <Heading mb={4}>Edit Quest</Heading>
+      <Heading
+        as="h1"
+        fontFamily="body"
+        fontWeight="600"
+        fontSize={{ base: '4xl', md: '6xl' }}
+        mb={5}
+      >
+        Edit Quest
+      </Heading>
 
       <QuestForm
         {...{ roleChoices, onSubmit, guilds, skillChoices }}
