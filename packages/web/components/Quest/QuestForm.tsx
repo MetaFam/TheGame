@@ -16,10 +16,10 @@ import {
 } from '@metafam/ds';
 import { httpLink, Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
+import { QuestDetailsImage } from 'components/Quest/QuestDetailsImage';
 import { RepetitionColors } from 'components/Quest/QuestTags';
 import { RolesSelect } from 'components/Quest/Roles';
 import { SkillsSelect } from 'components/Quest/Skills';
-import { SquareImage } from 'components/SquareImage';
 import {
   GuildFragment,
   PlayerRole,
@@ -352,10 +352,8 @@ export const QuestForm: React.FC<Props> = ({
           />
           <Center
             as="div"
-            boxSize="sm"
-            rounded="md"
-            border="dashed"
-            borderWidth={6}
+            borderRadius={10}
+            borderWidth={2}
             borderColor="whiteAlpha.500"
             marginTop={2}
             width={'full'}
@@ -365,12 +363,12 @@ export const QuestForm: React.FC<Props> = ({
             backdropBlur="sm"
           >
             {previewImg ? (
-              <Box width={350} padding={2}>
-                <SquareImage src={previewImg} overflow="hidden" />
+              <Box width="full" maxW={480}>
+                <QuestDetailsImage src={previewImg} />
               </Box>
             ) : (
-              <Text color="whiteAlpha.800">
-                See how your image will look on a quest
+              <Text color="whiteAlpha.800" p={4}>
+                Upload an image to see a preview
               </Text>
             )}
           </Center>
