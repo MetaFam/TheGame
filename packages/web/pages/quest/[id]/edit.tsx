@@ -51,7 +51,6 @@ const EditQuestPage: React.FC<Props> = ({
     const updateQuestInput = {
       title: data.title,
       description: data.description,
-      externalLink: data.externalLink,
       repetition: data.repetition,
       cooldown: transformCooldownForBackend(data.cooldown, data.repetition),
       status: data.status,

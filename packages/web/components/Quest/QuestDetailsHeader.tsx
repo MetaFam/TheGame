@@ -18,14 +18,7 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
   const playerProfileLinkURL = usePlayerURL(quest.player);
   const { user } = useUser();
   const isMyQuest = user?.id === (quest as Quest).player.id;
-  const {
-    repetition,
-    cooldown,
-    // createdAt,
-    // externalLink: link,
-    title,
-    status,
-  } = quest;
+  const { repetition, cooldown, title, status } = quest;
 
   return (
     <Flex
