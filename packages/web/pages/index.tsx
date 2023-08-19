@@ -153,13 +153,15 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
           nextSection={sections[6]}
           activeSectionIndex={section}
         />
-        <WhoAreWe
-          guilds={guilds}
-          patrons={patrons}
-          section={sections[6]}
-          nextSection={sections[7]}
-          activeSectionIndex={section}
-        />
+        {guilds && patrons && (
+          <WhoAreWe
+            guilds={guilds}
+            patrons={patrons}
+            section={sections[6]}
+            nextSection={sections[7]}
+            activeSectionIndex={section}
+          />
+        )}
         <WhatSay
           section={sections[7]}
           nextSection={sections[8]}
@@ -279,7 +281,7 @@ const SectionWayPoints: React.FC<SectionWayPointsProps> = ({
           </Box>
           {sections.map((section, index) => (
             <Button
-              key={index}
+              key={`key-${index}`}
               className={currentWaypoint === index ? 'active' : ''}
               colorScheme="ghost"
               onClick={() => handleSectionNav(section.internalLinkId)}

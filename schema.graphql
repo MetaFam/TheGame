@@ -10734,4 +10734,3 @@ directive @cached(
     "refresh the cache entry"
     refresh: Boolean! = false
   ) on QUERY
-
