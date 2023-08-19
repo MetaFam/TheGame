@@ -45,6 +45,19 @@ export const updatePlayerMutations = /* GraphQL */ `
     }
   }
 
+  mutation AddPlayerLink(
+    $playerId: uuid!
+    $name: String
+    $url: String!
+    $type: LinkType_enum
+  ) {
+    insert_link_one(
+      object: { name: $name, type: $type, url: $url, player_id: $playerId }
+    ) {
+      id
+    }
+  }
+
   mutation UpdatePlayerRoles($roles: [player_role_insert_input!]!) {
     delete_player_role(where: {}) {
       affected_rows

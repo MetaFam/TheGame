@@ -10,8 +10,13 @@ import {
   VStack,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { Link, LinkType_Enum, Maybe, Player } from 'graphql/autogen/types';
-import React, { useCallback } from 'react';
+import {
+  LinkType_Enum,
+  Player,
+  useAddPlayerLinkMutation,
+} from 'graphql/autogen/types';
+import { getPlayerLinks } from 'graphql/queries/player';
+import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { BoxMetadata, BoxTypes } from 'utils/boxTypes';
@@ -26,7 +31,7 @@ type Props = {
 
 export interface PlayerLinkFormInputs {
   name: string;
-  url?: Maybe<string>;
+  url: string;
   type: LinkType_Enum;
 }
 
@@ -43,11 +48,18 @@ export const AddPlayerLink: React.FC<{
     mode: 'onTouched',
   });
 
+  const [, addLink] = useAddPlayerLinkMutation();
+
   const onSubmit = useCallback(
-    (link: PlayerLinkFormInputs) => {
-      const playerLink = { player_id: player?.id, ...link } as Link;
+    async (link: PlayerLinkFormInputs) => {
+      const playerLink = { playerId: player?.id, ...link };
+      const { error } = await addLink(playerLink);
+
+      if (error) {
+        throw new Error(`Unable to add link. Error: ${error}`);
+      }
     },
-    [player?.id],
+    [addLink, player?.id],
   );
 
   return (
@@ -55,12 +67,7 @@ export const AddPlayerLink: React.FC<{
       <VStack spacing={2}>
         <Field label="Name" error={errors.name}>
           <Input
-            {...register('name', {
-              required: {
-                value: true,
-                message: 'This is a required field.',
-              },
-            })}
+            {...register('name')}
             isInvalid={!!errors.name}
             background="dark"
           />
@@ -121,56 +128,67 @@ export const PlayerLinks: React.FC<Props> = ({
   player,
   isOwnProfile,
   editing,
-}) => (
-  <ProfileSection
-    title="Links"
-    type={BoxTypes.PLAYER_LINKS}
-    {...{ isOwnProfile, editing }}
-  >
-    <VStack mt={4} w="full">
-      {player.player_links.map((link) => (
-        <a
-          href={link.url || ''}
-          target="_blank"
-          rel="noreferrer"
-          style={{ width: '100%' }}
-          role="group"
-          key={link.id}
-        >
-          <Flex
-            justifyContent="start"
-            alignContent="center"
-            color={'violet'}
-            width={'full'}
-            px={4}
-            py={3}
-            background={'blackAlpha.300'}
-            transition={'ease-in-out'}
-            transitionDuration={'300'}
-            _hover={{
-              background: 'blackAlpha.500',
-            }}
-            _active={{
-              background: 'blackAlpha.700',
-            }}
-            rounded={'md'}
+}) => {
+  // const links = useMemo(
+  //   () => getPlayerLinks(player.id),
+  //   [player.id],
+  // );
+
+  useEffect(() => {
+    const links = getPlayerLinks(player.id);
+  }, [player.id]);
+
+  return (
+    <ProfileSection
+      title="Links"
+      type={BoxTypes.PLAYER_LINKS}
+      {...{ isOwnProfile, editing }}
+    >
+      <VStack mt={4} w="full">
+        {player.player_links.map((link) => (
+          <a
+            href={link?.url || ''}
+            target="_blank"
+            rel="noreferrer"
+            style={{ width: '100%' }}
+            role="group"
+            key={link?.id}
           >
-            <LinkIcon type={link.type} />
-            <Text mx="auto" fontWeight={600}>
-              {link.name}
-            </Text>
-            <Box
-              my="auto"
-              mr={1}
-              opacity={0}
-              _groupHover={{ opacity: 0.8 }}
-              _groupActive={{ opacity: 1 }}
+            <Flex
+              justifyContent="start"
+              alignContent="center"
+              color={'violet'}
+              width={'full'}
+              px={4}
+              py={3}
+              background={'blackAlpha.300'}
+              transition={'ease-in-out'}
+              transitionDuration={'300'}
+              _hover={{
+                background: 'blackAlpha.500',
+              }}
+              _active={{
+                background: 'blackAlpha.700',
+              }}
+              rounded={'md'}
             >
-              <FaExternalLinkAlt fill="currentColor" />
-            </Box>
-          </Flex>
-        </a>
-      ))}
-    </VStack>
-  </ProfileSection>
-);
+              <LinkIcon type={link?.type} />
+              <Text mx="auto" fontWeight={600}>
+                {link?.name}
+              </Text>
+              <Box
+                my="auto"
+                mr={1}
+                opacity={0}
+                _groupHover={{ opacity: 0.8 }}
+                _groupActive={{ opacity: 1 }}
+              >
+                <FaExternalLinkAlt fill="currentColor" />
+              </Box>
+            </Flex>
+          </a>
+        ))}
+      </VStack>
+    </ProfileSection>
+  );
+};
