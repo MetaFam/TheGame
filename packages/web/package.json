@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit --pretty",
     "precommit": "yarn lint-staged",
     "generate": "yarn generate:graphql",
-    "generate:graphql": "graphql-codegen",
+    "generate:graphql": "graphql-code-generator",
     "prepare": "yarn generate"
   },
   "dependencies": {

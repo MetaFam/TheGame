@@ -7,7 +7,7 @@
   },
   "private": true,
   "scripts": {
-    "update-schema": "env-cmd -x get-graphql-schema -h x-hasura-admin-secret=\\$HASURA_GRAPHQL_ADMIN_SECRET http://localhost:8080/v1/graphql > schema.graphql",
+    "update-schema": "env-cmd -x rover graph introspect http://localhost:8080/v1/graphql --header \"x-hasura-admin-secret:\\$HASURA_GRAPHQL_ADMIN_SECRET\" --output schema.graphql",
     "docker:start": "docker-compose up -d",
     "docker:build": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
@@ -51,6 +51,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@apollo/rover": "^0.18.0",
     "@composedb/cli": "^0.4.4",
     "@graphql-codegen/add": "^5.0.0",
     "@graphql-codegen/cli": "^5.0.0",
@@ -82,7 +83,6 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "get-graphql-schema": "^2.1.2",
     "hasura-cli": "2.23.0",
     "husky": "7.0.4",
     "jest": "^29.2.2",
