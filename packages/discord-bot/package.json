@@ -16,9 +16,9 @@
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
     "dev-ts": "nodemon",
-    "typecheck": "yarn generate && tsc --noEmit --pretty",
+    "typecheck": "tsc --noEmit --pretty",
     "precommit": "yarn typecheck && yarn lint-staged",
-    "generate": "graphql-codegen",
+    "generate": "graphql-code-generator",
     "lintfix": "eslint --fix",
     "test": "jest --passWithNoTests"
   },
