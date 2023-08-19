@@ -13,7 +13,6 @@ on:
       - reopened
       - synchronize
     branches-ignore:
-      - feature/composedb
       - master
       - develop
 
@@ -25,7 +24,7 @@ env:
   REGISTRY_REGION: us-east4
   REGISTRY_REPO: thegame
   DEPLOYMENT_DOMAIN: a.run.app
-  CLOUDRUN_SUFFIX: mjhnbmqqna-uk
+  CLOU`DR`UN_SUFFIX: mjhnbmqqna-uk
   DEPLOYMENT_NAME: Test-PR-${{github.event.number}}
   DB_NAME: hasura-pr-${{github.event.number}}
   BACKEND_SERVICE: backend-pr-${{github.event.number}}
