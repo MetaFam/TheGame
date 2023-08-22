@@ -103,15 +103,12 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
                 player="Yalor"
                 testimony={
                   <>
-                    <Text>
-                      MetaGame inspired me join the Web3 ecosystem after a
-                      season of disillusionment and ICO scams 😛
-                    </Text>
-                    <Text>
-                      Through MetaGame I found the most amazing community of
-                      values aligned ecosystem innovators that I still work with
-                      today 🤩
-                    </Text>
+                    MetaGame inspired me join the Web3 ecosystem after a season
+                    of disillusionment and ICO scams 😛
+                    <br />
+                    Through MetaGame I found the most amazing community of
+                    values aligned ecosystem innovators that I still work with
+                    today 🤩
                   </>
                 }
                 username="yalormewn"
