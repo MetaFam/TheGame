@@ -1,9 +1,5 @@
 export const UpsertDeworkUsername = /* GraphQL */ `
-  mutation UpsertDeworkProfile(
-    $playerId: uuid!
-    $identifier: String!
-    $type: String!
-  ) {
+  mutation UpsertDeworkProfile($playerId: uuid!, $identifier: String!) {
     insert_player_account_one(
       object: { identifier: $identifier, playerId: $playerId, type: DEWORK }
       on_conflict: {

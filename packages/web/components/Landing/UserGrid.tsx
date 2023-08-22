@@ -67,6 +67,7 @@ export const UserGrid: React.FC<{
       ?.filter((guild) => whoWeAreGuilds.includes(guild.guildname))
       ?.map((guild, i) => (
         <Link
+          key={`guild-${i}`}
           role="group"
           _hover={{
             textDecoration: 'none',
@@ -91,6 +92,7 @@ export const UserGrid: React.FC<{
 
     {elders?.map((elder, i) => (
       <Link
+        key={`elders-${i}`}
         role="group"
         _hover={{
           textDecoration: 'none',

@@ -346,7 +346,6 @@ const DeworkLink: React.FC<{
       const response = await upsertPlayerDework({
         playerId: player?.id,
         identifier: deworkURL,
-        type: 'DEWORK',
       });
       // Handle the response if necessary.
       // For example, you might want to update the UI based on the mutation's result:
