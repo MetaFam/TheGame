@@ -10,8 +10,8 @@
     "start": "yarn dev",
     "build": "tsc -b",
     "dev": "yarn build --watch",
-    "typecheck": "tsc --noEmit --pretty",
-    "prepare": "yarn typecheck && yarn lint-staged",
+    "typecheck": "tsc --pretty",
+    "precommit": "yarn typecheck",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

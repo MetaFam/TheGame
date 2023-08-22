@@ -16,10 +16,10 @@
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
     "dev-ts": "nodemon",
-    "typecheck": "tsc --noEmit --pretty",
-    "prepare": "yarn typecheck && yarn lint-staged",
+    "typecheck": "tsc --pretty",
+    "precommit": "yarn typecheck",
     "generate": "graphql-code-generator",
-    "lint:fix": "eslint --fix",
+    "fix:lint": "eslint --fix",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

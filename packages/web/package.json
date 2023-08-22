@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit --pretty",
     "generate": "yarn generate:graphql",
     "generate:graphql": "graphql-code-generator",
-    "prepare": "yarn typecheck && yarn lint-staged"
+    "precommit": "yarn typecheck"
   },
   "dependencies": {
     "@3id/connect": "^0.4.1",
