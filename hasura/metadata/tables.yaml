@@ -518,10 +518,22 @@
     - name: link_player
       using:
         foreign_key_constraint_on: player_id
+  insert_permissions:
+    - role: player
+      permission:
+        check:
+          player_id:
+            _eq: X-Hasura-User-Id
+        columns:
+          - name
+          - player_id
+          - type
+          - url
   select_permissions:
     - role: player
       permission:
         columns:
+          - id
           - name
           - player_id
           - type
@@ -530,6 +542,7 @@
     - role: public
       permission:
         columns:
+          - id
           - name
           - type
           - url
@@ -542,7 +555,7 @@
           - type
           - url
         filter:
-          id:
+          player_id:
             _eq: X-Hasura-User-Id
         check: {}
 - table:

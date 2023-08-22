@@ -3137,16 +3137,16 @@ input jsonb_comparison_exp {
 columns and relationships of "link"
 """
 type link {
-  guild_id: uuid!
+  guild_id: uuid
   id: uuid!
 
   """An object relationship"""
-  link_guild: guild!
+  link_guild: guild
 
   """An object relationship"""
-  link_player: player!
+  link_player: player
   name: String
-  player_id: uuid!
+  player_id: uuid
   type: LinkType_enum
   url: String
 }

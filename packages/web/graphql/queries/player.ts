@@ -1,4 +1,9 @@
-import { client } from 'graphql/client';
+import {
+  GetPlayerLinksQuery,
+  GetPlayerLinksQueryVariables,
+} from 'graphql/autogen/types';
+
+import { client } from '../client';
 
 const getPlayerlinksQuery = /* GraphQL */ `
   query GetPlayerLinks($playerId: uuid!) {
@@ -10,8 +15,13 @@ const getPlayerlinksQuery = /* GraphQL */ `
   }
 `;
 
-export const getPlayerLinks = async (id: string) => {
-  if (!id) throw new Error('Missing Player Id');
-  const { data } = await client.query(getPlayerlinksQuery, { id }).toPromise();
+export const getPlayerLinks = async (playerId: string): Promise<any> => {
+  if (!playerId) throw new Error('Missing Player Id');
+  const { data } = await client
+    .query<GetPlayerLinksQuery, GetPlayerLinksQueryVariables>(
+      getPlayerlinksQuery,
+      { playerId },
+    )
+    .toPromise();
   return data;
 };

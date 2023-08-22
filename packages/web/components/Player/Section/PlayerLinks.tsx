@@ -11,12 +11,13 @@ import {
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import {
+  Link,
   LinkType_Enum,
   Player,
   useAddPlayerLinkMutation,
 } from 'graphql/autogen/types';
 import { getPlayerLinks } from 'graphql/queries/player';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { BoxMetadata, BoxTypes } from 'utils/boxTypes';
@@ -129,13 +130,12 @@ export const PlayerLinks: React.FC<Props> = ({
   isOwnProfile,
   editing,
 }) => {
-  // const links = useMemo(
-  //   () => getPlayerLinks(player.id),
-  //   [player.id],
-  // );
+  const [links, setLinks] = useState<Link[]>();
 
   useEffect(() => {
-    const links = getPlayerLinks(player.id);
+    (async () => {
+      getPlayerLinks(player.id).then((data) => setLinks(data));
+    })();
   }, [player.id]);
 
   return (
@@ -145,7 +145,7 @@ export const PlayerLinks: React.FC<Props> = ({
       {...{ isOwnProfile, editing }}
     >
       <VStack mt={4} w="full">
-        {player.player_links.map((link) => (
+        {links?.map((link) => (
           <a
             href={link?.url || ''}
             target="_blank"
