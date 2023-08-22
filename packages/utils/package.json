@@ -11,7 +11,7 @@
     "build": "tsc -b",
     "dev": "yarn build --watch",
     "typecheck": "tsc --noEmit --pretty",
-    "precommit": "yarn typecheck && yarn lint-staged",
+    "prepare": "yarn typecheck && yarn lint-staged",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

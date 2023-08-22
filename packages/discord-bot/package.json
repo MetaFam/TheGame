@@ -17,9 +17,9 @@
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
     "dev-ts": "nodemon",
     "typecheck": "tsc --noEmit --pretty",
-    "precommit": "yarn typecheck && yarn lint-staged",
+    "prepare": "yarn typecheck && yarn lint-staged",
     "generate": "graphql-code-generator",
-    "lintfix": "eslint --fix",
+    "lint:fix": "eslint --fix",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
