@@ -1,8 +1,10 @@
+import { getCurrentSeasonStart } from '@metafam/utils';
 import ethers from 'ethers';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 
 import { client } from '../../../lib/hasuraClient.js';
+import { computeRank } from '../../../lib/rankHelpers.js';
 
 const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
 
@@ -82,19 +84,42 @@ export default async (req: Request, res: Response): Promise<void> => {
               playerAddress: player.Player.ethereumAddress,
             });
             const balance = total.balance_aggregate.aggregate?.sum?.amount;
+
+            const seasonalTotal = await client.GetTotalForPlayer({
+              tokenAddress: address,
+              playerAddress: player.Player.ethereumAddress,
+              executedAfter: getCurrentSeasonStart(),
+            });
+            const seasonalBalance =
+              seasonalTotal.balance_aggregate.aggregate?.sum?.amount;
+
             const {
               xp: [{ initial } = { initial: 0 }],
             } = await client.GetInitialXP({ playerId: player.Player.id });
-            console.log({ initial });
+
             await client.UpsertXP({
               balance: (balance ?? 0) + initial,
               playerId: player.Player.id,
               tokenAddress: address,
+              seasonalBalance,
             });
           }),
         );
       },
     ),
+  );
+  const ranks = await client.GetPlayersByTotalXP();
+  console.log(ranks);
+  Promise.allSettled(
+    ranks.xp.map(async ({ playerId, seasonalBalance, balance }, index) => {
+      const rank = computeRank(index);
+      await client.UpdateProfileXP({
+        playerId,
+        seasonXP: seasonalBalance,
+        totalXP: balance,
+        rank,
+      });
+    }),
   );
   res.json('complete! XP saved');
 };

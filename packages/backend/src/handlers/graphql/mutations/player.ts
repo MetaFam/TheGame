@@ -47,6 +47,24 @@ export const PlayerMutations = /* GraphQL */ `
     }
   }
 
+  mutation UpdateProfileXP(
+    $playerId: uuid!
+    $seasonXP: numeric
+    $totalXP: numeric
+    $rank: PlayerRank_enum
+  ) {
+    update_player(
+      where: { id: { _eq: $playerId } }
+      _set: { seasonXP: $seasonXP, totalXP: $totalXP, rank: $rank }
+    ) {
+      returning {
+        seasonXP
+        totalXP
+        rank
+      }
+    }
+  }
+
   mutation UpdatePlayer(
     $ethereumAddress: String!
     $rank: PlayerRank_enum

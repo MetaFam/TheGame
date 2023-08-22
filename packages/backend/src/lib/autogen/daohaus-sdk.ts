@@ -76,6 +76,7 @@ export type DaoHausContent = {
 export type DaoHausContent_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausContent_Filter>>>;
   content: InputMaybe<Scalars['String']>;
   contentType: InputMaybe<Scalars['String']>;
   contentType_contains: InputMaybe<Scalars['String']>;
@@ -186,7 +187,11 @@ export type DaoHausContent_Filter = {
   location_starts_with_nocase: InputMaybe<Scalars['String']>;
   memberAddress: InputMaybe<Scalars['Bytes']>;
   memberAddress_contains: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gte: InputMaybe<Scalars['Bytes']>;
   memberAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  memberAddress_lt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_lte: InputMaybe<Scalars['Bytes']>;
   memberAddress_not: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -231,6 +236,7 @@ export type DaoHausContent_Filter = {
   moloch_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   moloch_starts_with: InputMaybe<Scalars['String']>;
   moloch_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausContent_Filter>>>;
   ratified: InputMaybe<Scalars['Boolean']>;
   ratified_in: InputMaybe<Array<Scalars['Boolean']>>;
   ratified_not: InputMaybe<Scalars['Boolean']>;
@@ -277,7 +283,11 @@ export type DaoHausContent_Filter = {
   title_starts_with_nocase: InputMaybe<Scalars['String']>;
   transactionHash: InputMaybe<Scalars['Bytes']>;
   transactionHash_contains: InputMaybe<Scalars['Bytes']>;
+  transactionHash_gt: InputMaybe<Scalars['Bytes']>;
+  transactionHash_gte: InputMaybe<Scalars['Bytes']>;
   transactionHash_in: InputMaybe<Array<Scalars['Bytes']>>;
+  transactionHash_lt: InputMaybe<Scalars['Bytes']>;
+  transactionHash_lte: InputMaybe<Scalars['Bytes']>;
   transactionHash_not: InputMaybe<Scalars['Bytes']>;
   transactionHash_not_contains: InputMaybe<Scalars['Bytes']>;
   transactionHash_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -293,6 +303,26 @@ export enum DaoHausContent_OrderBy {
   MemberAddress = 'memberAddress',
   Moloch = 'moloch',
   MolochAddress = 'molochAddress',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   Ratified = 'ratified',
   RawData = 'rawData',
   Title = 'title',
@@ -316,6 +346,7 @@ export type DaoHausDaoMeta = {
 export type DaoHausDaoMeta_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausDaoMeta_Filter>>>;
   http: InputMaybe<Scalars['String']>;
   http_contains: InputMaybe<Scalars['String']>;
   http_contains_nocase: InputMaybe<Scalars['String']>;
@@ -364,6 +395,7 @@ export type DaoHausDaoMeta_Filter = {
   newContract_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   newContract_starts_with: InputMaybe<Scalars['String']>;
   newContract_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausDaoMeta_Filter>>>;
   title: InputMaybe<Scalars['String']>;
   title_contains: InputMaybe<Scalars['String']>;
   title_contains_nocase: InputMaybe<Scalars['String']>;
@@ -495,6 +527,7 @@ export type DaoHausMemberVotesArgs = {
 export type DaoHausMember_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausMember_Filter>>>;
   createdAt: InputMaybe<Scalars['String']>;
   createdAt_contains: InputMaybe<Scalars['String']>;
   createdAt_contains_nocase: InputMaybe<Scalars['String']>;
@@ -517,7 +550,11 @@ export type DaoHausMember_Filter = {
   createdAt_starts_with_nocase: InputMaybe<Scalars['String']>;
   delegateKey: InputMaybe<Scalars['Bytes']>;
   delegateKey_contains: InputMaybe<Scalars['Bytes']>;
+  delegateKey_gt: InputMaybe<Scalars['Bytes']>;
+  delegateKey_gte: InputMaybe<Scalars['Bytes']>;
   delegateKey_in: InputMaybe<Array<Scalars['Bytes']>>;
+  delegateKey_lt: InputMaybe<Scalars['Bytes']>;
+  delegateKey_lte: InputMaybe<Scalars['Bytes']>;
   delegateKey_not: InputMaybe<Scalars['Bytes']>;
   delegateKey_not_contains: InputMaybe<Scalars['Bytes']>;
   delegateKey_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -622,14 +659,22 @@ export type DaoHausMember_Filter = {
   loot_not_in: InputMaybe<Array<Scalars['BigInt']>>;
   memberAddress: InputMaybe<Scalars['Bytes']>;
   memberAddress_contains: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gte: InputMaybe<Scalars['Bytes']>;
   memberAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  memberAddress_lt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_lte: InputMaybe<Scalars['Bytes']>;
   memberAddress_not: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
   moloch: InputMaybe<Scalars['String']>;
   molochAddress: InputMaybe<Scalars['Bytes']>;
   molochAddress_contains: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gte: InputMaybe<Scalars['Bytes']>;
   molochAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  molochAddress_lt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_lte: InputMaybe<Scalars['Bytes']>;
   molochAddress_not: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -653,6 +698,7 @@ export type DaoHausMember_Filter = {
   moloch_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   moloch_starts_with: InputMaybe<Scalars['String']>;
   moloch_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausMember_Filter>>>;
   proposedToKick: InputMaybe<Scalars['Boolean']>;
   proposedToKick_in: InputMaybe<Array<Scalars['Boolean']>>;
   proposedToKick_not: InputMaybe<Scalars['Boolean']>;
@@ -685,15 +731,106 @@ export enum DaoHausMember_OrderBy {
   DidRagequit = 'didRagequit',
   Exists = 'exists',
   HighestIndexYesVote = 'highestIndexYesVote',
+  HighestIndexYesVoteAborted = 'highestIndexYesVote__aborted',
+  HighestIndexYesVoteApplicant = 'highestIndexYesVote__applicant',
+  HighestIndexYesVoteCancelled = 'highestIndexYesVote__cancelled',
+  HighestIndexYesVoteCancelledAt = 'highestIndexYesVote__cancelledAt',
+  HighestIndexYesVoteCreatedAt = 'highestIndexYesVote__createdAt',
+  HighestIndexYesVoteCreatedBy = 'highestIndexYesVote__createdBy',
+  HighestIndexYesVoteDelegateKey = 'highestIndexYesVote__delegateKey',
+  HighestIndexYesVoteDetails = 'highestIndexYesVote__details',
+  HighestIndexYesVoteDidPass = 'highestIndexYesVote__didPass',
+  HighestIndexYesVoteExecuted = 'highestIndexYesVote__executed',
+  HighestIndexYesVoteGracePeriodEnds = 'highestIndexYesVote__gracePeriodEnds',
+  HighestIndexYesVoteGuildkick = 'highestIndexYesVote__guildkick',
+  HighestIndexYesVoteGuildkickOrWhitelistOrMinion = 'highestIndexYesVote__guildkickOrWhitelistOrMinion',
+  HighestIndexYesVoteId = 'highestIndexYesVote__id',
+  HighestIndexYesVoteIsMinion = 'highestIndexYesVote__isMinion',
+  HighestIndexYesVoteLootRequested = 'highestIndexYesVote__lootRequested',
+  HighestIndexYesVoteMaxTotalSharesAndLootAtYesVote = 'highestIndexYesVote__maxTotalSharesAndLootAtYesVote',
+  HighestIndexYesVoteMemberAddress = 'highestIndexYesVote__memberAddress',
+  HighestIndexYesVoteMinionAddress = 'highestIndexYesVote__minionAddress',
+  HighestIndexYesVoteMolochAddress = 'highestIndexYesVote__molochAddress',
+  HighestIndexYesVoteMolochVersion = 'highestIndexYesVote__molochVersion',
+  HighestIndexYesVoteNewMember = 'highestIndexYesVote__newMember',
+  HighestIndexYesVoteNoShares = 'highestIndexYesVote__noShares',
+  HighestIndexYesVoteNoVotes = 'highestIndexYesVote__noVotes',
+  HighestIndexYesVotePaymentRequested = 'highestIndexYesVote__paymentRequested',
+  HighestIndexYesVotePaymentToken = 'highestIndexYesVote__paymentToken',
+  HighestIndexYesVotePaymentTokenDecimals = 'highestIndexYesVote__paymentTokenDecimals',
+  HighestIndexYesVotePaymentTokenSymbol = 'highestIndexYesVote__paymentTokenSymbol',
+  HighestIndexYesVoteProcessed = 'highestIndexYesVote__processed',
+  HighestIndexYesVoteProcessedAt = 'highestIndexYesVote__processedAt',
+  HighestIndexYesVoteProcessor = 'highestIndexYesVote__processor',
+  HighestIndexYesVoteProposalId = 'highestIndexYesVote__proposalId',
+  HighestIndexYesVoteProposalIndex = 'highestIndexYesVote__proposalIndex',
+  HighestIndexYesVoteProposer = 'highestIndexYesVote__proposer',
+  HighestIndexYesVoteSharesRequested = 'highestIndexYesVote__sharesRequested',
+  HighestIndexYesVoteSponsor = 'highestIndexYesVote__sponsor',
+  HighestIndexYesVoteSponsored = 'highestIndexYesVote__sponsored',
+  HighestIndexYesVoteSponsoredAt = 'highestIndexYesVote__sponsoredAt',
+  HighestIndexYesVoteStartingPeriod = 'highestIndexYesVote__startingPeriod',
+  HighestIndexYesVoteTrade = 'highestIndexYesVote__trade',
+  HighestIndexYesVoteTributeOffered = 'highestIndexYesVote__tributeOffered',
+  HighestIndexYesVoteTributeToken = 'highestIndexYesVote__tributeToken',
+  HighestIndexYesVoteTributeTokenDecimals = 'highestIndexYesVote__tributeTokenDecimals',
+  HighestIndexYesVoteTributeTokenSymbol = 'highestIndexYesVote__tributeTokenSymbol',
+  HighestIndexYesVoteUberHausMinionExecuted = 'highestIndexYesVote__uberHausMinionExecuted',
+  HighestIndexYesVoteVotingPeriodEnds = 'highestIndexYesVote__votingPeriodEnds',
+  HighestIndexYesVoteVotingPeriodStarts = 'highestIndexYesVote__votingPeriodStarts',
+  HighestIndexYesVoteWhitelist = 'highestIndexYesVote__whitelist',
+  HighestIndexYesVoteYesShares = 'highestIndexYesVote__yesShares',
+  HighestIndexYesVoteYesVotes = 'highestIndexYesVote__yesVotes',
   Id = 'id',
   IsDao = 'isDao',
+  IsDaoCreatedAt = 'isDao__createdAt',
+  IsDaoDeleted = 'isDao__deleted',
+  IsDaoDilutionBound = 'isDao__dilutionBound',
+  IsDaoGracePeriodLength = 'isDao__gracePeriodLength',
+  IsDaoGuildBankAddress = 'isDao__guildBankAddress',
+  IsDaoGuildBankBalanceV1 = 'isDao__guildBankBalanceV1',
+  IsDaoId = 'isDao__id',
+  IsDaoNewContract = 'isDao__newContract',
+  IsDaoPeriodDuration = 'isDao__periodDuration',
+  IsDaoProcessingReward = 'isDao__processingReward',
+  IsDaoProposalDeposit = 'isDao__proposalDeposit',
+  IsDaoSpamPreventionAddress = 'isDao__spamPreventionAddress',
+  IsDaoSpamPreventionAmount = 'isDao__spamPreventionAmount',
+  IsDaoSummoner = 'isDao__summoner',
+  IsDaoSummoningTime = 'isDao__summoningTime',
+  IsDaoTotalLoot = 'isDao__totalLoot',
+  IsDaoTotalShares = 'isDao__totalShares',
+  IsDaoV22Setup = 'isDao__v22Setup',
+  IsDaoVersion = 'isDao__version',
+  IsDaoVotingPeriodLength = 'isDao__votingPeriodLength',
   IsSafeMinion = 'isSafeMinion',
+  IsSafeMinionId = 'isSafeMinion__id',
   Jailed = 'jailed',
   Kicked = 'kicked',
   Loot = 'loot',
   MemberAddress = 'memberAddress',
   Moloch = 'moloch',
   MolochAddress = 'molochAddress',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   ProposedToKick = 'proposedToKick',
   RageQuits = 'rageQuits',
   Shares = 'shares',
@@ -792,6 +929,7 @@ export type DaoHausMinionAction = {
 export type DaoHausMinionAction_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausMinionAction_Filter>>>;
   data: InputMaybe<Scalars['String']>;
   data_contains: InputMaybe<Scalars['String']>;
   data_contains_nocase: InputMaybe<Scalars['String']>;
@@ -834,16 +972,25 @@ export type DaoHausMinionAction_Filter = {
   memberOnly_not_in: InputMaybe<Array<Scalars['Boolean']>>;
   minionAddress: InputMaybe<Scalars['Bytes']>;
   minionAddress_contains: InputMaybe<Scalars['Bytes']>;
+  minionAddress_gt: InputMaybe<Scalars['Bytes']>;
+  minionAddress_gte: InputMaybe<Scalars['Bytes']>;
   minionAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  minionAddress_lt: InputMaybe<Scalars['Bytes']>;
+  minionAddress_lte: InputMaybe<Scalars['Bytes']>;
   minionAddress_not: InputMaybe<Scalars['Bytes']>;
   minionAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   minionAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
   molochAddress: InputMaybe<Scalars['Bytes']>;
   molochAddress_contains: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gte: InputMaybe<Scalars['Bytes']>;
   molochAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  molochAddress_lt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_lte: InputMaybe<Scalars['Bytes']>;
   molochAddress_not: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
+  or: InputMaybe<Array<InputMaybe<DaoHausMinionAction_Filter>>>;
   proposal: InputMaybe<Scalars['String']>;
   proposal_: InputMaybe<DaoHausProposal_Filter>;
   proposal_contains: InputMaybe<Scalars['String']>;
@@ -867,13 +1014,21 @@ export type DaoHausMinionAction_Filter = {
   proposal_starts_with_nocase: InputMaybe<Scalars['String']>;
   target: InputMaybe<Scalars['Bytes']>;
   target_contains: InputMaybe<Scalars['Bytes']>;
+  target_gt: InputMaybe<Scalars['Bytes']>;
+  target_gte: InputMaybe<Scalars['Bytes']>;
   target_in: InputMaybe<Array<Scalars['Bytes']>>;
+  target_lt: InputMaybe<Scalars['Bytes']>;
+  target_lte: InputMaybe<Scalars['Bytes']>;
   target_not: InputMaybe<Scalars['Bytes']>;
   target_not_contains: InputMaybe<Scalars['Bytes']>;
   target_not_in: InputMaybe<Array<Scalars['Bytes']>>;
   withdrawToken: InputMaybe<Scalars['Bytes']>;
   withdrawToken_contains: InputMaybe<Scalars['Bytes']>;
+  withdrawToken_gt: InputMaybe<Scalars['Bytes']>;
+  withdrawToken_gte: InputMaybe<Scalars['Bytes']>;
   withdrawToken_in: InputMaybe<Array<Scalars['Bytes']>>;
+  withdrawToken_lt: InputMaybe<Scalars['Bytes']>;
+  withdrawToken_lte: InputMaybe<Scalars['Bytes']>;
   withdrawToken_not: InputMaybe<Scalars['Bytes']>;
   withdrawToken_not_contains: InputMaybe<Scalars['Bytes']>;
   withdrawToken_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -895,6 +1050,56 @@ export enum DaoHausMinionAction_OrderBy {
   MinionAddress = 'minionAddress',
   MolochAddress = 'molochAddress',
   Proposal = 'proposal',
+  ProposalAborted = 'proposal__aborted',
+  ProposalApplicant = 'proposal__applicant',
+  ProposalCancelled = 'proposal__cancelled',
+  ProposalCancelledAt = 'proposal__cancelledAt',
+  ProposalCreatedAt = 'proposal__createdAt',
+  ProposalCreatedBy = 'proposal__createdBy',
+  ProposalDelegateKey = 'proposal__delegateKey',
+  ProposalDetails = 'proposal__details',
+  ProposalDidPass = 'proposal__didPass',
+  ProposalExecuted = 'proposal__executed',
+  ProposalGracePeriodEnds = 'proposal__gracePeriodEnds',
+  ProposalGuildkick = 'proposal__guildkick',
+  ProposalGuildkickOrWhitelistOrMinion = 'proposal__guildkickOrWhitelistOrMinion',
+  ProposalId = 'proposal__id',
+  ProposalIsMinion = 'proposal__isMinion',
+  ProposalLootRequested = 'proposal__lootRequested',
+  ProposalMaxTotalSharesAndLootAtYesVote = 'proposal__maxTotalSharesAndLootAtYesVote',
+  ProposalMemberAddress = 'proposal__memberAddress',
+  ProposalMinionAddress = 'proposal__minionAddress',
+  ProposalMolochAddress = 'proposal__molochAddress',
+  ProposalMolochVersion = 'proposal__molochVersion',
+  ProposalNewMember = 'proposal__newMember',
+  ProposalNoShares = 'proposal__noShares',
+  ProposalNoVotes = 'proposal__noVotes',
+  ProposalPaymentRequested = 'proposal__paymentRequested',
+  ProposalPaymentToken = 'proposal__paymentToken',
+  ProposalPaymentTokenDecimals = 'proposal__paymentTokenDecimals',
+  ProposalPaymentTokenSymbol = 'proposal__paymentTokenSymbol',
+  ProposalProcessed = 'proposal__processed',
+  ProposalProcessedAt = 'proposal__processedAt',
+  ProposalProcessor = 'proposal__processor',
+  ProposalProposalId = 'proposal__proposalId',
+  ProposalProposalIndex = 'proposal__proposalIndex',
+  ProposalProposer = 'proposal__proposer',
+  ProposalSharesRequested = 'proposal__sharesRequested',
+  ProposalSponsor = 'proposal__sponsor',
+  ProposalSponsored = 'proposal__sponsored',
+  ProposalSponsoredAt = 'proposal__sponsoredAt',
+  ProposalStartingPeriod = 'proposal__startingPeriod',
+  ProposalTrade = 'proposal__trade',
+  ProposalTributeOffered = 'proposal__tributeOffered',
+  ProposalTributeToken = 'proposal__tributeToken',
+  ProposalTributeTokenDecimals = 'proposal__tributeTokenDecimals',
+  ProposalTributeTokenSymbol = 'proposal__tributeTokenSymbol',
+  ProposalUberHausMinionExecuted = 'proposal__uberHausMinionExecuted',
+  ProposalVotingPeriodEnds = 'proposal__votingPeriodEnds',
+  ProposalVotingPeriodStarts = 'proposal__votingPeriodStarts',
+  ProposalWhitelist = 'proposal__whitelist',
+  ProposalYesShares = 'proposal__yesShares',
+  ProposalYesVotes = 'proposal__yesVotes',
   Target = 'target',
   WithdrawToken = 'withdrawToken',
   WithdrawValue = 'withdrawValue',
@@ -947,6 +1152,7 @@ export type DaoHausMinionStream_Filter = {
   active_in: InputMaybe<Array<Scalars['Boolean']>>;
   active_not: InputMaybe<Scalars['Boolean']>;
   active_not_in: InputMaybe<Array<Scalars['Boolean']>>;
+  and: InputMaybe<Array<InputMaybe<DaoHausMinionStream_Filter>>>;
   canceledAt: InputMaybe<Scalars['String']>;
   canceledAt_contains: InputMaybe<Scalars['String']>;
   canceledAt_contains_nocase: InputMaybe<Scalars['String']>;
@@ -969,7 +1175,11 @@ export type DaoHausMinionStream_Filter = {
   canceledAt_starts_with_nocase: InputMaybe<Scalars['String']>;
   canceledBy: InputMaybe<Scalars['Bytes']>;
   canceledBy_contains: InputMaybe<Scalars['Bytes']>;
+  canceledBy_gt: InputMaybe<Scalars['Bytes']>;
+  canceledBy_gte: InputMaybe<Scalars['Bytes']>;
   canceledBy_in: InputMaybe<Array<Scalars['Bytes']>>;
+  canceledBy_lt: InputMaybe<Scalars['Bytes']>;
+  canceledBy_lte: InputMaybe<Scalars['Bytes']>;
   canceledBy_not: InputMaybe<Scalars['Bytes']>;
   canceledBy_not_contains: InputMaybe<Scalars['Bytes']>;
   canceledBy_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -995,13 +1205,21 @@ export type DaoHausMinionStream_Filter = {
   createdAt_starts_with_nocase: InputMaybe<Scalars['String']>;
   ctx: InputMaybe<Scalars['Bytes']>;
   ctx_contains: InputMaybe<Scalars['Bytes']>;
+  ctx_gt: InputMaybe<Scalars['Bytes']>;
+  ctx_gte: InputMaybe<Scalars['Bytes']>;
   ctx_in: InputMaybe<Array<Scalars['Bytes']>>;
+  ctx_lt: InputMaybe<Scalars['Bytes']>;
+  ctx_lte: InputMaybe<Scalars['Bytes']>;
   ctx_not: InputMaybe<Scalars['Bytes']>;
   ctx_not_contains: InputMaybe<Scalars['Bytes']>;
   ctx_not_in: InputMaybe<Array<Scalars['Bytes']>>;
   execTxHash: InputMaybe<Scalars['Bytes']>;
   execTxHash_contains: InputMaybe<Scalars['Bytes']>;
+  execTxHash_gt: InputMaybe<Scalars['Bytes']>;
+  execTxHash_gte: InputMaybe<Scalars['Bytes']>;
   execTxHash_in: InputMaybe<Array<Scalars['Bytes']>>;
+  execTxHash_lt: InputMaybe<Scalars['Bytes']>;
+  execTxHash_lte: InputMaybe<Scalars['Bytes']>;
   execTxHash_not: InputMaybe<Scalars['Bytes']>;
   execTxHash_not_contains: InputMaybe<Scalars['Bytes']>;
   execTxHash_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1074,6 +1292,7 @@ export type DaoHausMinionStream_Filter = {
   minion_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   minion_starts_with: InputMaybe<Scalars['String']>;
   minion_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausMinionStream_Filter>>>;
   proposalId: InputMaybe<Scalars['String']>;
   proposalId_contains: InputMaybe<Scalars['String']>;
   proposalId_contains_nocase: InputMaybe<Scalars['String']>;
@@ -1096,7 +1315,11 @@ export type DaoHausMinionStream_Filter = {
   proposalId_starts_with_nocase: InputMaybe<Scalars['String']>;
   proposer: InputMaybe<Scalars['Bytes']>;
   proposer_contains: InputMaybe<Scalars['Bytes']>;
+  proposer_gt: InputMaybe<Scalars['Bytes']>;
+  proposer_gte: InputMaybe<Scalars['Bytes']>;
   proposer_in: InputMaybe<Array<Scalars['Bytes']>>;
+  proposer_lt: InputMaybe<Scalars['Bytes']>;
+  proposer_lte: InputMaybe<Scalars['Bytes']>;
   proposer_not: InputMaybe<Scalars['Bytes']>;
   proposer_not_contains: InputMaybe<Scalars['Bytes']>;
   proposer_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1110,19 +1333,31 @@ export type DaoHausMinionStream_Filter = {
   rate_not_in: InputMaybe<Array<Scalars['BigInt']>>;
   superTokenAddress: InputMaybe<Scalars['Bytes']>;
   superTokenAddress_contains: InputMaybe<Scalars['Bytes']>;
+  superTokenAddress_gt: InputMaybe<Scalars['Bytes']>;
+  superTokenAddress_gte: InputMaybe<Scalars['Bytes']>;
   superTokenAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  superTokenAddress_lt: InputMaybe<Scalars['Bytes']>;
+  superTokenAddress_lte: InputMaybe<Scalars['Bytes']>;
   superTokenAddress_not: InputMaybe<Scalars['Bytes']>;
   superTokenAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   superTokenAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
   to: InputMaybe<Scalars['Bytes']>;
   to_contains: InputMaybe<Scalars['Bytes']>;
+  to_gt: InputMaybe<Scalars['Bytes']>;
+  to_gte: InputMaybe<Scalars['Bytes']>;
   to_in: InputMaybe<Array<Scalars['Bytes']>>;
+  to_lt: InputMaybe<Scalars['Bytes']>;
+  to_lte: InputMaybe<Scalars['Bytes']>;
   to_not: InputMaybe<Scalars['Bytes']>;
   to_not_contains: InputMaybe<Scalars['Bytes']>;
   to_not_in: InputMaybe<Array<Scalars['Bytes']>>;
   tokenAddress: InputMaybe<Scalars['Bytes']>;
   tokenAddress_contains: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_gt: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_gte: InputMaybe<Scalars['Bytes']>;
   tokenAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  tokenAddress_lt: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_lte: InputMaybe<Scalars['Bytes']>;
   tokenAddress_not: InputMaybe<Scalars['Bytes']>;
   tokenAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   tokenAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1141,6 +1376,23 @@ export enum DaoHausMinionStream_OrderBy {
   Id = 'id',
   MinDeposit = 'minDeposit',
   Minion = 'minion',
+  MinionBridgeModule = 'minion__bridgeModule',
+  MinionCreatedAt = 'minion__createdAt',
+  MinionCrossChainMinion = 'minion__crossChainMinion',
+  MinionDetails = 'minion__details',
+  MinionForeignChainId = 'minion__foreignChainId',
+  MinionForeignSafeAddress = 'minion__foreignSafeAddress',
+  MinionId = 'minion__id',
+  MinionMinQuorum = 'minion__minQuorum',
+  MinionMinionAddress = 'minion__minionAddress',
+  MinionMinionType = 'minion__minionType',
+  MinionMolochAddress = 'minion__molochAddress',
+  MinionSafeAddress = 'minion__safeAddress',
+  MinionSafeMinionVersion = 'minion__safeMinionVersion',
+  MinionUberHausAddress = 'minion__uberHausAddress',
+  MinionUberHausDelegate = 'minion__uberHausDelegate',
+  MinionUberHausDelegateRewardFactor = 'minion__uberHausDelegateRewardFactor',
+  MinionVersion = 'minion__version',
   ProposalId = 'proposalId',
   Proposer = 'proposer',
   Rate = 'rate',
@@ -1152,6 +1404,7 @@ export enum DaoHausMinionStream_OrderBy {
 export type DaoHausMinion_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausMinion_Filter>>>;
   bridgeModule: InputMaybe<Scalars['String']>;
   bridgeModule_contains: InputMaybe<Scalars['String']>;
   bridgeModule_contains_nocase: InputMaybe<Scalars['String']>;
@@ -1238,7 +1491,11 @@ export type DaoHausMinion_Filter = {
   foreignChainId_starts_with_nocase: InputMaybe<Scalars['String']>;
   foreignSafeAddress: InputMaybe<Scalars['Bytes']>;
   foreignSafeAddress_contains: InputMaybe<Scalars['Bytes']>;
+  foreignSafeAddress_gt: InputMaybe<Scalars['Bytes']>;
+  foreignSafeAddress_gte: InputMaybe<Scalars['Bytes']>;
   foreignSafeAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  foreignSafeAddress_lt: InputMaybe<Scalars['Bytes']>;
+  foreignSafeAddress_lte: InputMaybe<Scalars['Bytes']>;
   foreignSafeAddress_not: InputMaybe<Scalars['Bytes']>;
   foreignSafeAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   foreignSafeAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1260,7 +1517,11 @@ export type DaoHausMinion_Filter = {
   minQuorum_not_in: InputMaybe<Array<Scalars['BigInt']>>;
   minionAddress: InputMaybe<Scalars['Bytes']>;
   minionAddress_contains: InputMaybe<Scalars['Bytes']>;
+  minionAddress_gt: InputMaybe<Scalars['Bytes']>;
+  minionAddress_gte: InputMaybe<Scalars['Bytes']>;
   minionAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  minionAddress_lt: InputMaybe<Scalars['Bytes']>;
+  minionAddress_lte: InputMaybe<Scalars['Bytes']>;
   minionAddress_not: InputMaybe<Scalars['Bytes']>;
   minionAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   minionAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1287,7 +1548,11 @@ export type DaoHausMinion_Filter = {
   moloch: InputMaybe<Scalars['String']>;
   molochAddress: InputMaybe<Scalars['Bytes']>;
   molochAddress_contains: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gte: InputMaybe<Scalars['Bytes']>;
   molochAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  molochAddress_lt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_lte: InputMaybe<Scalars['Bytes']>;
   molochAddress_not: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1311,10 +1576,15 @@ export type DaoHausMinion_Filter = {
   moloch_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   moloch_starts_with: InputMaybe<Scalars['String']>;
   moloch_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausMinion_Filter>>>;
   proposals_: InputMaybe<DaoHausProposal_Filter>;
   safeAddress: InputMaybe<Scalars['Bytes']>;
   safeAddress_contains: InputMaybe<Scalars['Bytes']>;
+  safeAddress_gt: InputMaybe<Scalars['Bytes']>;
+  safeAddress_gte: InputMaybe<Scalars['Bytes']>;
   safeAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  safeAddress_lt: InputMaybe<Scalars['Bytes']>;
+  safeAddress_lte: InputMaybe<Scalars['Bytes']>;
   safeAddress_not: InputMaybe<Scalars['Bytes']>;
   safeAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   safeAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1342,7 +1612,11 @@ export type DaoHausMinion_Filter = {
   uberHaus: InputMaybe<Scalars['String']>;
   uberHausAddress: InputMaybe<Scalars['Bytes']>;
   uberHausAddress_contains: InputMaybe<Scalars['Bytes']>;
+  uberHausAddress_gt: InputMaybe<Scalars['Bytes']>;
+  uberHausAddress_gte: InputMaybe<Scalars['Bytes']>;
   uberHausAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  uberHausAddress_lt: InputMaybe<Scalars['Bytes']>;
+  uberHausAddress_lte: InputMaybe<Scalars['Bytes']>;
   uberHausAddress_not: InputMaybe<Scalars['Bytes']>;
   uberHausAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   uberHausAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1356,7 +1630,11 @@ export type DaoHausMinion_Filter = {
   uberHausDelegateRewardFactor_not: InputMaybe<Scalars['BigInt']>;
   uberHausDelegateRewardFactor_not_in: InputMaybe<Array<Scalars['BigInt']>>;
   uberHausDelegate_contains: InputMaybe<Scalars['Bytes']>;
+  uberHausDelegate_gt: InputMaybe<Scalars['Bytes']>;
+  uberHausDelegate_gte: InputMaybe<Scalars['Bytes']>;
   uberHausDelegate_in: InputMaybe<Array<Scalars['Bytes']>>;
+  uberHausDelegate_lt: InputMaybe<Scalars['Bytes']>;
+  uberHausDelegate_lte: InputMaybe<Scalars['Bytes']>;
   uberHausDelegate_not: InputMaybe<Scalars['Bytes']>;
   uberHausDelegate_not_contains: InputMaybe<Scalars['Bytes']>;
   uberHausDelegate_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1415,6 +1693,26 @@ export enum DaoHausMinion_OrderBy {
   MinionType = 'minionType',
   Moloch = 'moloch',
   MolochAddress = 'molochAddress',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   Proposals = 'proposals',
   SafeAddress = 'safeAddress',
   SafeMinionVersion = 'safeMinionVersion',
@@ -1423,6 +1721,26 @@ export enum DaoHausMinion_OrderBy {
   UberHausAddress = 'uberHausAddress',
   UberHausDelegate = 'uberHausDelegate',
   UberHausDelegateRewardFactor = 'uberHausDelegateRewardFactor',
+  UberHausCreatedAt = 'uberHaus__createdAt',
+  UberHausDeleted = 'uberHaus__deleted',
+  UberHausDilutionBound = 'uberHaus__dilutionBound',
+  UberHausGracePeriodLength = 'uberHaus__gracePeriodLength',
+  UberHausGuildBankAddress = 'uberHaus__guildBankAddress',
+  UberHausGuildBankBalanceV1 = 'uberHaus__guildBankBalanceV1',
+  UberHausId = 'uberHaus__id',
+  UberHausNewContract = 'uberHaus__newContract',
+  UberHausPeriodDuration = 'uberHaus__periodDuration',
+  UberHausProcessingReward = 'uberHaus__processingReward',
+  UberHausProposalDeposit = 'uberHaus__proposalDeposit',
+  UberHausSpamPreventionAddress = 'uberHaus__spamPreventionAddress',
+  UberHausSpamPreventionAmount = 'uberHaus__spamPreventionAmount',
+  UberHausSummoner = 'uberHaus__summoner',
+  UberHausSummoningTime = 'uberHaus__summoningTime',
+  UberHausTotalLoot = 'uberHaus__totalLoot',
+  UberHausTotalShares = 'uberHaus__totalShares',
+  UberHausV22Setup = 'uberHaus__v22Setup',
+  UberHausVersion = 'uberHaus__version',
+  UberHausVotingPeriodLength = 'uberHaus__votingPeriodLength',
   Version = 'version',
 }
 
@@ -1583,6 +1901,7 @@ export type DaoHausMolochTransaction = {
 export type DaoHausMolochTransaction_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausMolochTransaction_Filter>>>;
   createdAt: InputMaybe<Scalars['String']>;
   createdAt_contains: InputMaybe<Scalars['String']>;
   createdAt_contains_nocase: InputMaybe<Scalars['String']>;
@@ -1611,6 +1930,7 @@ export type DaoHausMolochTransaction_Filter = {
   id_lte: InputMaybe<Scalars['ID']>;
   id_not: InputMaybe<Scalars['ID']>;
   id_not_in: InputMaybe<Array<Scalars['ID']>>;
+  or: InputMaybe<Array<InputMaybe<DaoHausMolochTransaction_Filter>>>;
 };
 
 export enum DaoHausMolochTransaction_OrderBy {
@@ -1621,6 +1941,7 @@ export enum DaoHausMolochTransaction_OrderBy {
 export type DaoHausMoloch_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausMoloch_Filter>>>;
   approvedTokens: InputMaybe<Array<Scalars['String']>>;
   approvedTokens_: InputMaybe<DaoHausToken_Filter>;
   approvedTokens_contains: InputMaybe<Array<Scalars['String']>>;
@@ -1692,7 +2013,11 @@ export type DaoHausMoloch_Filter = {
   gracePeriodLength_not_in: InputMaybe<Array<Scalars['BigInt']>>;
   guildBankAddress: InputMaybe<Scalars['Bytes']>;
   guildBankAddress_contains: InputMaybe<Scalars['Bytes']>;
+  guildBankAddress_gt: InputMaybe<Scalars['Bytes']>;
+  guildBankAddress_gte: InputMaybe<Scalars['Bytes']>;
   guildBankAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  guildBankAddress_lt: InputMaybe<Scalars['Bytes']>;
+  guildBankAddress_lte: InputMaybe<Scalars['Bytes']>;
   guildBankAddress_not: InputMaybe<Scalars['Bytes']>;
   guildBankAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   guildBankAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1734,6 +2059,7 @@ export type DaoHausMoloch_Filter = {
   newContract_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   newContract_starts_with: InputMaybe<Scalars['String']>;
   newContract_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausMoloch_Filter>>>;
   periodDuration: InputMaybe<Scalars['BigInt']>;
   periodDuration_gt: InputMaybe<Scalars['BigInt']>;
   periodDuration_gte: InputMaybe<Scalars['BigInt']>;
@@ -1764,7 +2090,11 @@ export type DaoHausMoloch_Filter = {
   shamans_: InputMaybe<DaoHausShaman_Filter>;
   spamPreventionAddress: InputMaybe<Scalars['Bytes']>;
   spamPreventionAddress_contains: InputMaybe<Scalars['Bytes']>;
+  spamPreventionAddress_gt: InputMaybe<Scalars['Bytes']>;
+  spamPreventionAddress_gte: InputMaybe<Scalars['Bytes']>;
   spamPreventionAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  spamPreventionAddress_lt: InputMaybe<Scalars['Bytes']>;
+  spamPreventionAddress_lte: InputMaybe<Scalars['Bytes']>;
   spamPreventionAddress_not: InputMaybe<Scalars['Bytes']>;
   spamPreventionAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   spamPreventionAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1778,7 +2108,11 @@ export type DaoHausMoloch_Filter = {
   spamPreventionAmount_not_in: InputMaybe<Array<Scalars['BigInt']>>;
   summoner: InputMaybe<Scalars['Bytes']>;
   summoner_contains: InputMaybe<Scalars['Bytes']>;
+  summoner_gt: InputMaybe<Scalars['Bytes']>;
+  summoner_gte: InputMaybe<Scalars['Bytes']>;
   summoner_in: InputMaybe<Array<Scalars['Bytes']>>;
+  summoner_lt: InputMaybe<Scalars['Bytes']>;
+  summoner_lte: InputMaybe<Scalars['Bytes']>;
   summoner_not: InputMaybe<Scalars['Bytes']>;
   summoner_not_contains: InputMaybe<Scalars['Bytes']>;
   summoner_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -1847,6 +2181,11 @@ export enum DaoHausMoloch_OrderBy {
   CreatedAt = 'createdAt',
   Deleted = 'deleted',
   DepositToken = 'depositToken',
+  DepositTokenDecimals = 'depositToken__decimals',
+  DepositTokenId = 'depositToken__id',
+  DepositTokenSymbol = 'depositToken__symbol',
+  DepositTokenTokenAddress = 'depositToken__tokenAddress',
+  DepositTokenWhitelisted = 'depositToken__whitelisted',
   DilutionBound = 'dilutionBound',
   Documents = 'documents',
   GracePeriodLength = 'gracePeriodLength',
@@ -2047,6 +2386,7 @@ export type DaoHausProposalEscrow_Filter = {
   amounts_not: InputMaybe<Array<Scalars['BigInt']>>;
   amounts_not_contains: InputMaybe<Array<Scalars['BigInt']>>;
   amounts_not_contains_nocase: InputMaybe<Array<Scalars['BigInt']>>;
+  and: InputMaybe<Array<InputMaybe<DaoHausProposalEscrow_Filter>>>;
   id: InputMaybe<Scalars['ID']>;
   id_gt: InputMaybe<Scalars['ID']>;
   id_gte: InputMaybe<Scalars['ID']>;
@@ -2057,16 +2397,25 @@ export type DaoHausProposalEscrow_Filter = {
   id_not_in: InputMaybe<Array<Scalars['ID']>>;
   minionAddress: InputMaybe<Scalars['Bytes']>;
   minionAddress_contains: InputMaybe<Scalars['Bytes']>;
+  minionAddress_gt: InputMaybe<Scalars['Bytes']>;
+  minionAddress_gte: InputMaybe<Scalars['Bytes']>;
   minionAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  minionAddress_lt: InputMaybe<Scalars['Bytes']>;
+  minionAddress_lte: InputMaybe<Scalars['Bytes']>;
   minionAddress_not: InputMaybe<Scalars['Bytes']>;
   minionAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   minionAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
   molochAddress: InputMaybe<Scalars['Bytes']>;
   molochAddress_contains: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gte: InputMaybe<Scalars['Bytes']>;
   molochAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  molochAddress_lt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_lte: InputMaybe<Scalars['Bytes']>;
   molochAddress_not: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
+  or: InputMaybe<Array<InputMaybe<DaoHausProposalEscrow_Filter>>>;
   proposal: InputMaybe<Scalars['String']>;
   proposal_: InputMaybe<DaoHausProposal_Filter>;
   proposal_contains: InputMaybe<Scalars['String']>;
@@ -2090,7 +2439,11 @@ export type DaoHausProposalEscrow_Filter = {
   proposal_starts_with_nocase: InputMaybe<Scalars['String']>;
   proposer: InputMaybe<Scalars['Bytes']>;
   proposer_contains: InputMaybe<Scalars['Bytes']>;
+  proposer_gt: InputMaybe<Scalars['Bytes']>;
+  proposer_gte: InputMaybe<Scalars['Bytes']>;
   proposer_in: InputMaybe<Array<Scalars['Bytes']>>;
+  proposer_lt: InputMaybe<Scalars['Bytes']>;
+  proposer_lte: InputMaybe<Scalars['Bytes']>;
   proposer_not: InputMaybe<Scalars['Bytes']>;
   proposer_not_contains: InputMaybe<Scalars['Bytes']>;
   proposer_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2120,6 +2473,56 @@ export enum DaoHausProposalEscrow_OrderBy {
   MinionAddress = 'minionAddress',
   MolochAddress = 'molochAddress',
   Proposal = 'proposal',
+  ProposalAborted = 'proposal__aborted',
+  ProposalApplicant = 'proposal__applicant',
+  ProposalCancelled = 'proposal__cancelled',
+  ProposalCancelledAt = 'proposal__cancelledAt',
+  ProposalCreatedAt = 'proposal__createdAt',
+  ProposalCreatedBy = 'proposal__createdBy',
+  ProposalDelegateKey = 'proposal__delegateKey',
+  ProposalDetails = 'proposal__details',
+  ProposalDidPass = 'proposal__didPass',
+  ProposalExecuted = 'proposal__executed',
+  ProposalGracePeriodEnds = 'proposal__gracePeriodEnds',
+  ProposalGuildkick = 'proposal__guildkick',
+  ProposalGuildkickOrWhitelistOrMinion = 'proposal__guildkickOrWhitelistOrMinion',
+  ProposalId = 'proposal__id',
+  ProposalIsMinion = 'proposal__isMinion',
+  ProposalLootRequested = 'proposal__lootRequested',
+  ProposalMaxTotalSharesAndLootAtYesVote = 'proposal__maxTotalSharesAndLootAtYesVote',
+  ProposalMemberAddress = 'proposal__memberAddress',
+  ProposalMinionAddress = 'proposal__minionAddress',
+  ProposalMolochAddress = 'proposal__molochAddress',
+  ProposalMolochVersion = 'proposal__molochVersion',
+  ProposalNewMember = 'proposal__newMember',
+  ProposalNoShares = 'proposal__noShares',
+  ProposalNoVotes = 'proposal__noVotes',
+  ProposalPaymentRequested = 'proposal__paymentRequested',
+  ProposalPaymentToken = 'proposal__paymentToken',
+  ProposalPaymentTokenDecimals = 'proposal__paymentTokenDecimals',
+  ProposalPaymentTokenSymbol = 'proposal__paymentTokenSymbol',
+  ProposalProcessed = 'proposal__processed',
+  ProposalProcessedAt = 'proposal__processedAt',
+  ProposalProcessor = 'proposal__processor',
+  ProposalProposalId = 'proposal__proposalId',
+  ProposalProposalIndex = 'proposal__proposalIndex',
+  ProposalProposer = 'proposal__proposer',
+  ProposalSharesRequested = 'proposal__sharesRequested',
+  ProposalSponsor = 'proposal__sponsor',
+  ProposalSponsored = 'proposal__sponsored',
+  ProposalSponsoredAt = 'proposal__sponsoredAt',
+  ProposalStartingPeriod = 'proposal__startingPeriod',
+  ProposalTrade = 'proposal__trade',
+  ProposalTributeOffered = 'proposal__tributeOffered',
+  ProposalTributeToken = 'proposal__tributeToken',
+  ProposalTributeTokenDecimals = 'proposal__tributeTokenDecimals',
+  ProposalTributeTokenSymbol = 'proposal__tributeTokenSymbol',
+  ProposalUberHausMinionExecuted = 'proposal__uberHausMinionExecuted',
+  ProposalVotingPeriodEnds = 'proposal__votingPeriodEnds',
+  ProposalVotingPeriodStarts = 'proposal__votingPeriodStarts',
+  ProposalWhitelist = 'proposal__whitelist',
+  ProposalYesShares = 'proposal__yesShares',
+  ProposalYesVotes = 'proposal__yesVotes',
   Proposer = 'proposer',
   TokenAddresses = 'tokenAddresses',
   TokenIds = 'tokenIds',
@@ -2134,9 +2537,14 @@ export type DaoHausProposal_Filter = {
   aborted_not: InputMaybe<Scalars['Boolean']>;
   aborted_not_in: InputMaybe<Array<Scalars['Boolean']>>;
   actions_: InputMaybe<DaoHausMinionAction_Filter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausProposal_Filter>>>;
   applicant: InputMaybe<Scalars['Bytes']>;
   applicant_contains: InputMaybe<Scalars['Bytes']>;
+  applicant_gt: InputMaybe<Scalars['Bytes']>;
+  applicant_gte: InputMaybe<Scalars['Bytes']>;
   applicant_in: InputMaybe<Array<Scalars['Bytes']>>;
+  applicant_lt: InputMaybe<Scalars['Bytes']>;
+  applicant_lte: InputMaybe<Scalars['Bytes']>;
   applicant_not: InputMaybe<Scalars['Bytes']>;
   applicant_not_contains: InputMaybe<Scalars['Bytes']>;
   applicant_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2186,13 +2594,21 @@ export type DaoHausProposal_Filter = {
   createdAt_starts_with_nocase: InputMaybe<Scalars['String']>;
   createdBy: InputMaybe<Scalars['Bytes']>;
   createdBy_contains: InputMaybe<Scalars['Bytes']>;
+  createdBy_gt: InputMaybe<Scalars['Bytes']>;
+  createdBy_gte: InputMaybe<Scalars['Bytes']>;
   createdBy_in: InputMaybe<Array<Scalars['Bytes']>>;
+  createdBy_lt: InputMaybe<Scalars['Bytes']>;
+  createdBy_lte: InputMaybe<Scalars['Bytes']>;
   createdBy_not: InputMaybe<Scalars['Bytes']>;
   createdBy_not_contains: InputMaybe<Scalars['Bytes']>;
   createdBy_not_in: InputMaybe<Array<Scalars['Bytes']>>;
   delegateKey: InputMaybe<Scalars['Bytes']>;
   delegateKey_contains: InputMaybe<Scalars['Bytes']>;
+  delegateKey_gt: InputMaybe<Scalars['Bytes']>;
+  delegateKey_gte: InputMaybe<Scalars['Bytes']>;
   delegateKey_in: InputMaybe<Array<Scalars['Bytes']>>;
+  delegateKey_lt: InputMaybe<Scalars['Bytes']>;
+  delegateKey_lte: InputMaybe<Scalars['Bytes']>;
   delegateKey_not: InputMaybe<Scalars['Bytes']>;
   delegateKey_not_contains: InputMaybe<Scalars['Bytes']>;
   delegateKey_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2272,7 +2688,11 @@ export type DaoHausProposal_Filter = {
   member: InputMaybe<Scalars['String']>;
   memberAddress: InputMaybe<Scalars['Bytes']>;
   memberAddress_contains: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gte: InputMaybe<Scalars['Bytes']>;
   memberAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  memberAddress_lt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_lte: InputMaybe<Scalars['Bytes']>;
   memberAddress_not: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2299,7 +2719,11 @@ export type DaoHausProposal_Filter = {
   minion: InputMaybe<Scalars['String']>;
   minionAddress: InputMaybe<Scalars['Bytes']>;
   minionAddress_contains: InputMaybe<Scalars['Bytes']>;
+  minionAddress_gt: InputMaybe<Scalars['Bytes']>;
+  minionAddress_gte: InputMaybe<Scalars['Bytes']>;
   minionAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  minionAddress_lt: InputMaybe<Scalars['Bytes']>;
+  minionAddress_lte: InputMaybe<Scalars['Bytes']>;
   minionAddress_not: InputMaybe<Scalars['Bytes']>;
   minionAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   minionAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2347,7 +2771,11 @@ export type DaoHausProposal_Filter = {
   moloch: InputMaybe<Scalars['String']>;
   molochAddress: InputMaybe<Scalars['Bytes']>;
   molochAddress_contains: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gte: InputMaybe<Scalars['Bytes']>;
   molochAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  molochAddress_lt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_lte: InputMaybe<Scalars['Bytes']>;
   molochAddress_not: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2411,6 +2839,7 @@ export type DaoHausProposal_Filter = {
   noVotes_lte: InputMaybe<Scalars['BigInt']>;
   noVotes_not: InputMaybe<Scalars['BigInt']>;
   noVotes_not_in: InputMaybe<Array<Scalars['BigInt']>>;
+  or: InputMaybe<Array<InputMaybe<DaoHausProposal_Filter>>>;
   paymentRequested: InputMaybe<Scalars['BigInt']>;
   paymentRequested_gt: InputMaybe<Scalars['BigInt']>;
   paymentRequested_gte: InputMaybe<Scalars['BigInt']>;
@@ -2449,7 +2878,11 @@ export type DaoHausProposal_Filter = {
   paymentTokenSymbol_starts_with: InputMaybe<Scalars['String']>;
   paymentTokenSymbol_starts_with_nocase: InputMaybe<Scalars['String']>;
   paymentToken_contains: InputMaybe<Scalars['Bytes']>;
+  paymentToken_gt: InputMaybe<Scalars['Bytes']>;
+  paymentToken_gte: InputMaybe<Scalars['Bytes']>;
   paymentToken_in: InputMaybe<Array<Scalars['Bytes']>>;
+  paymentToken_lt: InputMaybe<Scalars['Bytes']>;
+  paymentToken_lte: InputMaybe<Scalars['Bytes']>;
   paymentToken_not: InputMaybe<Scalars['Bytes']>;
   paymentToken_not_contains: InputMaybe<Scalars['Bytes']>;
   paymentToken_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2479,7 +2912,11 @@ export type DaoHausProposal_Filter = {
   processed_not_in: InputMaybe<Array<Scalars['Boolean']>>;
   processor: InputMaybe<Scalars['Bytes']>;
   processor_contains: InputMaybe<Scalars['Bytes']>;
+  processor_gt: InputMaybe<Scalars['Bytes']>;
+  processor_gte: InputMaybe<Scalars['Bytes']>;
   processor_in: InputMaybe<Array<Scalars['Bytes']>>;
+  processor_lt: InputMaybe<Scalars['Bytes']>;
+  processor_lte: InputMaybe<Scalars['Bytes']>;
   processor_not: InputMaybe<Scalars['Bytes']>;
   processor_not_contains: InputMaybe<Scalars['Bytes']>;
   processor_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2501,7 +2938,11 @@ export type DaoHausProposal_Filter = {
   proposalIndex_not_in: InputMaybe<Array<Scalars['BigInt']>>;
   proposer: InputMaybe<Scalars['Bytes']>;
   proposer_contains: InputMaybe<Scalars['Bytes']>;
+  proposer_gt: InputMaybe<Scalars['Bytes']>;
+  proposer_gte: InputMaybe<Scalars['Bytes']>;
   proposer_in: InputMaybe<Array<Scalars['Bytes']>>;
+  proposer_lt: InputMaybe<Scalars['Bytes']>;
+  proposer_lte: InputMaybe<Scalars['Bytes']>;
   proposer_not: InputMaybe<Scalars['Bytes']>;
   proposer_not_contains: InputMaybe<Scalars['Bytes']>;
   proposer_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2515,7 +2956,11 @@ export type DaoHausProposal_Filter = {
   sharesRequested_not_in: InputMaybe<Array<Scalars['BigInt']>>;
   sponsor: InputMaybe<Scalars['Bytes']>;
   sponsor_contains: InputMaybe<Scalars['Bytes']>;
+  sponsor_gt: InputMaybe<Scalars['Bytes']>;
+  sponsor_gte: InputMaybe<Scalars['Bytes']>;
   sponsor_in: InputMaybe<Array<Scalars['Bytes']>>;
+  sponsor_lt: InputMaybe<Scalars['Bytes']>;
+  sponsor_lte: InputMaybe<Scalars['Bytes']>;
   sponsor_not: InputMaybe<Scalars['Bytes']>;
   sponsor_not_contains: InputMaybe<Scalars['Bytes']>;
   sponsor_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2593,7 +3038,11 @@ export type DaoHausProposal_Filter = {
   tributeTokenSymbol_starts_with: InputMaybe<Scalars['String']>;
   tributeTokenSymbol_starts_with_nocase: InputMaybe<Scalars['String']>;
   tributeToken_contains: InputMaybe<Scalars['Bytes']>;
+  tributeToken_gt: InputMaybe<Scalars['Bytes']>;
+  tributeToken_gte: InputMaybe<Scalars['Bytes']>;
   tributeToken_in: InputMaybe<Array<Scalars['Bytes']>>;
+  tributeToken_lt: InputMaybe<Scalars['Bytes']>;
+  tributeToken_lte: InputMaybe<Scalars['Bytes']>;
   tributeToken_not: InputMaybe<Scalars['Bytes']>;
   tributeToken_not_contains: InputMaybe<Scalars['Bytes']>;
   tributeToken_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -2652,6 +3101,10 @@ export enum DaoHausProposal_OrderBy {
   Details = 'details',
   DidPass = 'didPass',
   Escrow = 'escrow',
+  EscrowId = 'escrow__id',
+  EscrowMinionAddress = 'escrow__minionAddress',
+  EscrowMolochAddress = 'escrow__molochAddress',
+  EscrowProposer = 'escrow__proposer',
   Executed = 'executed',
   GracePeriodEnds = 'gracePeriodEnds',
   Guildkick = 'guildkick',
@@ -2662,11 +3115,63 @@ export enum DaoHausProposal_OrderBy {
   MaxTotalSharesAndLootAtYesVote = 'maxTotalSharesAndLootAtYesVote',
   Member = 'member',
   MemberAddress = 'memberAddress',
+  MemberCreatedAt = 'member__createdAt',
+  MemberDelegateKey = 'member__delegateKey',
+  MemberDidRagequit = 'member__didRagequit',
+  MemberExists = 'member__exists',
+  MemberId = 'member__id',
+  MemberJailed = 'member__jailed',
+  MemberKicked = 'member__kicked',
+  MemberLoot = 'member__loot',
+  MemberMemberAddress = 'member__memberAddress',
+  MemberMolochAddress = 'member__molochAddress',
+  MemberProposedToKick = 'member__proposedToKick',
+  MemberShares = 'member__shares',
+  MemberTokenTribute = 'member__tokenTribute',
   Minion = 'minion',
   MinionAddress = 'minionAddress',
   MinionExecuteActionTx = 'minionExecuteActionTx',
+  MinionExecuteActionTxCreatedAt = 'minionExecuteActionTx__createdAt',
+  MinionExecuteActionTxId = 'minionExecuteActionTx__id',
+  MinionBridgeModule = 'minion__bridgeModule',
+  MinionCreatedAt = 'minion__createdAt',
+  MinionCrossChainMinion = 'minion__crossChainMinion',
+  MinionDetails = 'minion__details',
+  MinionForeignChainId = 'minion__foreignChainId',
+  MinionForeignSafeAddress = 'minion__foreignSafeAddress',
+  MinionId = 'minion__id',
+  MinionMinQuorum = 'minion__minQuorum',
+  MinionMinionAddress = 'minion__minionAddress',
+  MinionMinionType = 'minion__minionType',
+  MinionMolochAddress = 'minion__molochAddress',
+  MinionSafeAddress = 'minion__safeAddress',
+  MinionSafeMinionVersion = 'minion__safeMinionVersion',
+  MinionUberHausAddress = 'minion__uberHausAddress',
+  MinionUberHausDelegate = 'minion__uberHausDelegate',
+  MinionUberHausDelegateRewardFactor = 'minion__uberHausDelegateRewardFactor',
+  MinionVersion = 'minion__version',
   Moloch = 'moloch',
   MolochAddress = 'molochAddress',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   NewMember = 'newMember',
   NoShares = 'noShares',
   NoVotes = 'noVotes',
@@ -3038,6 +3543,7 @@ export type DaoHausRageQuit = {
 export type DaoHausRageQuit_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausRageQuit_Filter>>>;
   createdAt: InputMaybe<Scalars['String']>;
   createdAt_contains: InputMaybe<Scalars['String']>;
   createdAt_contains_nocase: InputMaybe<Scalars['String']>;
@@ -3077,7 +3583,11 @@ export type DaoHausRageQuit_Filter = {
   member: InputMaybe<Scalars['String']>;
   memberAddress: InputMaybe<Scalars['Bytes']>;
   memberAddress_contains: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gte: InputMaybe<Scalars['Bytes']>;
   memberAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  memberAddress_lt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_lte: InputMaybe<Scalars['Bytes']>;
   memberAddress_not: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -3104,7 +3614,11 @@ export type DaoHausRageQuit_Filter = {
   moloch: InputMaybe<Scalars['String']>;
   molochAddress: InputMaybe<Scalars['Bytes']>;
   molochAddress_contains: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gte: InputMaybe<Scalars['Bytes']>;
   molochAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  molochAddress_lt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_lte: InputMaybe<Scalars['Bytes']>;
   molochAddress_not: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -3128,6 +3642,7 @@ export type DaoHausRageQuit_Filter = {
   moloch_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   moloch_starts_with: InputMaybe<Scalars['String']>;
   moloch_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausRageQuit_Filter>>>;
   shares: InputMaybe<Scalars['BigInt']>;
   shares_gt: InputMaybe<Scalars['BigInt']>;
   shares_gte: InputMaybe<Scalars['BigInt']>;
@@ -3144,8 +3659,41 @@ export enum DaoHausRageQuit_OrderBy {
   Loot = 'loot',
   Member = 'member',
   MemberAddress = 'memberAddress',
+  MemberCreatedAt = 'member__createdAt',
+  MemberDelegateKey = 'member__delegateKey',
+  MemberDidRagequit = 'member__didRagequit',
+  MemberExists = 'member__exists',
+  MemberId = 'member__id',
+  MemberJailed = 'member__jailed',
+  MemberKicked = 'member__kicked',
+  MemberLoot = 'member__loot',
+  MemberMemberAddress = 'member__memberAddress',
+  MemberMolochAddress = 'member__molochAddress',
+  MemberProposedToKick = 'member__proposedToKick',
+  MemberShares = 'member__shares',
+  MemberTokenTribute = 'member__tokenTribute',
   Moloch = 'moloch',
   MolochAddress = 'molochAddress',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   Shares = 'shares',
 }
 
@@ -3164,6 +3712,7 @@ export type DaoHausRecord = {
 export type DaoHausRecord_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausRecord_Filter>>>;
   content: InputMaybe<Scalars['String']>;
   contentType: InputMaybe<Scalars['String']>;
   contentType_contains: InputMaybe<Scalars['String']>;
@@ -3226,7 +3775,11 @@ export type DaoHausRecord_Filter = {
   createdAt_starts_with_nocase: InputMaybe<Scalars['String']>;
   createdBy: InputMaybe<Scalars['Bytes']>;
   createdBy_contains: InputMaybe<Scalars['Bytes']>;
+  createdBy_gt: InputMaybe<Scalars['Bytes']>;
+  createdBy_gte: InputMaybe<Scalars['Bytes']>;
   createdBy_in: InputMaybe<Array<Scalars['Bytes']>>;
+  createdBy_lt: InputMaybe<Scalars['Bytes']>;
+  createdBy_lte: InputMaybe<Scalars['Bytes']>;
   createdBy_not: InputMaybe<Scalars['Bytes']>;
   createdBy_not_contains: InputMaybe<Scalars['Bytes']>;
   createdBy_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -3259,6 +3812,7 @@ export type DaoHausRecord_Filter = {
   moloch_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   moloch_starts_with: InputMaybe<Scalars['String']>;
   moloch_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausRecord_Filter>>>;
   table: InputMaybe<Scalars['String']>;
   table_contains: InputMaybe<Scalars['String']>;
   table_contains_nocase: InputMaybe<Scalars['String']>;
@@ -3281,7 +3835,11 @@ export type DaoHausRecord_Filter = {
   table_starts_with_nocase: InputMaybe<Scalars['String']>;
   tag: InputMaybe<Scalars['Bytes']>;
   tag_contains: InputMaybe<Scalars['Bytes']>;
+  tag_gt: InputMaybe<Scalars['Bytes']>;
+  tag_gte: InputMaybe<Scalars['Bytes']>;
   tag_in: InputMaybe<Array<Scalars['Bytes']>>;
+  tag_lt: InputMaybe<Scalars['Bytes']>;
+  tag_lte: InputMaybe<Scalars['Bytes']>;
   tag_not: InputMaybe<Scalars['Bytes']>;
   tag_not_contains: InputMaybe<Scalars['Bytes']>;
   tag_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -3294,6 +3852,26 @@ export enum DaoHausRecord_OrderBy {
   CreatedBy = 'createdBy',
   Id = 'id',
   Moloch = 'moloch',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   Table = 'table',
   Tag = 'tag',
 }
@@ -3317,6 +3895,7 @@ export type DaoHausSafeMinionMinionsArgs = {
 export type DaoHausSafeMinion_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausSafeMinion_Filter>>>;
   id: InputMaybe<Scalars['ID']>;
   id_gt: InputMaybe<Scalars['ID']>;
   id_gte: InputMaybe<Scalars['ID']>;
@@ -3332,6 +3911,7 @@ export type DaoHausSafeMinion_Filter = {
   minions_not: InputMaybe<Array<Scalars['String']>>;
   minions_not_contains: InputMaybe<Array<Scalars['String']>>;
   minions_not_contains_nocase: InputMaybe<Array<Scalars['String']>>;
+  or: InputMaybe<Array<InputMaybe<DaoHausSafeMinion_Filter>>>;
 };
 
 export enum DaoHausSafeMinion_OrderBy {
@@ -3358,6 +3938,7 @@ export type DaoHausShaman = {
 export type DaoHausShaman_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausShaman_Filter>>>;
   createdAt: InputMaybe<Scalars['String']>;
   createdAt_contains: InputMaybe<Scalars['String']>;
   createdAt_contains_nocase: InputMaybe<Scalars['String']>;
@@ -3393,7 +3974,11 @@ export type DaoHausShaman_Filter = {
   moloch: InputMaybe<Scalars['String']>;
   molochAddress: InputMaybe<Scalars['Bytes']>;
   molochAddress_contains: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gte: InputMaybe<Scalars['Bytes']>;
   molochAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  molochAddress_lt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_lte: InputMaybe<Scalars['Bytes']>;
   molochAddress_not: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -3417,9 +4002,14 @@ export type DaoHausShaman_Filter = {
   moloch_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   moloch_starts_with: InputMaybe<Scalars['String']>;
   moloch_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausShaman_Filter>>>;
   shamanAddress: InputMaybe<Scalars['Bytes']>;
   shamanAddress_contains: InputMaybe<Scalars['Bytes']>;
+  shamanAddress_gt: InputMaybe<Scalars['Bytes']>;
+  shamanAddress_gte: InputMaybe<Scalars['Bytes']>;
   shamanAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  shamanAddress_lt: InputMaybe<Scalars['Bytes']>;
+  shamanAddress_lte: InputMaybe<Scalars['Bytes']>;
   shamanAddress_not: InputMaybe<Scalars['Bytes']>;
   shamanAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   shamanAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -3431,6 +4021,26 @@ export enum DaoHausShaman_OrderBy {
   Id = 'id',
   Moloch = 'moloch',
   MolochAddress = 'molochAddress',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   ShamanAddress = 'shamanAddress',
 }
 
@@ -3789,6 +4399,7 @@ export type DaoHausTokenBalance = {
 export type DaoHausTokenBalance_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausTokenBalance_Filter>>>;
   ecrowBank: InputMaybe<Scalars['Boolean']>;
   ecrowBank_in: InputMaybe<Array<Scalars['Boolean']>>;
   ecrowBank_not: InputMaybe<Scalars['Boolean']>;
@@ -3851,6 +4462,7 @@ export type DaoHausTokenBalance_Filter = {
   moloch_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   moloch_starts_with: InputMaybe<Scalars['String']>;
   moloch_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausTokenBalance_Filter>>>;
   token: InputMaybe<Scalars['String']>;
   tokenBalance: InputMaybe<Scalars['BigInt']>;
   tokenBalance_gt: InputMaybe<Scalars['BigInt']>;
@@ -3888,14 +4500,53 @@ export enum DaoHausTokenBalance_OrderBy {
   Id = 'id',
   Member = 'member',
   MemberBank = 'memberBank',
+  MemberCreatedAt = 'member__createdAt',
+  MemberDelegateKey = 'member__delegateKey',
+  MemberDidRagequit = 'member__didRagequit',
+  MemberExists = 'member__exists',
+  MemberId = 'member__id',
+  MemberJailed = 'member__jailed',
+  MemberKicked = 'member__kicked',
+  MemberLoot = 'member__loot',
+  MemberMemberAddress = 'member__memberAddress',
+  MemberMolochAddress = 'member__molochAddress',
+  MemberProposedToKick = 'member__proposedToKick',
+  MemberShares = 'member__shares',
+  MemberTokenTribute = 'member__tokenTribute',
   Moloch = 'moloch',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   Token = 'token',
   TokenBalance = 'tokenBalance',
+  TokenDecimals = 'token__decimals',
+  TokenId = 'token__id',
+  TokenSymbol = 'token__symbol',
+  TokenTokenAddress = 'token__tokenAddress',
+  TokenWhitelisted = 'token__whitelisted',
 }
 
 export type DaoHausToken_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausToken_Filter>>>;
   decimals: InputMaybe<Scalars['BigInt']>;
   decimals_gt: InputMaybe<Scalars['BigInt']>;
   decimals_gte: InputMaybe<Scalars['BigInt']>;
@@ -3933,6 +4584,7 @@ export type DaoHausToken_Filter = {
   moloch_not_starts_with_nocase: InputMaybe<Scalars['String']>;
   moloch_starts_with: InputMaybe<Scalars['String']>;
   moloch_starts_with_nocase: InputMaybe<Scalars['String']>;
+  or: InputMaybe<Array<InputMaybe<DaoHausToken_Filter>>>;
   symbol: InputMaybe<Scalars['String']>;
   symbol_contains: InputMaybe<Scalars['String']>;
   symbol_contains_nocase: InputMaybe<Scalars['String']>;
@@ -3955,7 +4607,11 @@ export type DaoHausToken_Filter = {
   symbol_starts_with_nocase: InputMaybe<Scalars['String']>;
   tokenAddress: InputMaybe<Scalars['Bytes']>;
   tokenAddress_contains: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_gt: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_gte: InputMaybe<Scalars['Bytes']>;
   tokenAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  tokenAddress_lt: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_lte: InputMaybe<Scalars['Bytes']>;
   tokenAddress_not: InputMaybe<Scalars['Bytes']>;
   tokenAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   tokenAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -3969,6 +4625,26 @@ export enum DaoHausToken_OrderBy {
   Decimals = 'decimals',
   Id = 'id',
   Moloch = 'moloch',
+  MolochCreatedAt = 'moloch__createdAt',
+  MolochDeleted = 'moloch__deleted',
+  MolochDilutionBound = 'moloch__dilutionBound',
+  MolochGracePeriodLength = 'moloch__gracePeriodLength',
+  MolochGuildBankAddress = 'moloch__guildBankAddress',
+  MolochGuildBankBalanceV1 = 'moloch__guildBankBalanceV1',
+  MolochId = 'moloch__id',
+  MolochNewContract = 'moloch__newContract',
+  MolochPeriodDuration = 'moloch__periodDuration',
+  MolochProcessingReward = 'moloch__processingReward',
+  MolochProposalDeposit = 'moloch__proposalDeposit',
+  MolochSpamPreventionAddress = 'moloch__spamPreventionAddress',
+  MolochSpamPreventionAmount = 'moloch__spamPreventionAmount',
+  MolochSummoner = 'moloch__summoner',
+  MolochSummoningTime = 'moloch__summoningTime',
+  MolochTotalLoot = 'moloch__totalLoot',
+  MolochTotalShares = 'moloch__totalShares',
+  MolochV22Setup = 'moloch__v22Setup',
+  MolochVersion = 'moloch__version',
+  MolochVotingPeriodLength = 'moloch__votingPeriodLength',
   Symbol = 'symbol',
   TokenAddress = 'tokenAddress',
   Whitelisted = 'whitelisted',
@@ -4001,6 +4677,7 @@ export type DaoHausVote = {
 export type DaoHausVote_Filter = {
   /** Filter for the block changed event. */
   _change_block: InputMaybe<DaoHausBlockChangedFilter>;
+  and: InputMaybe<Array<InputMaybe<DaoHausVote_Filter>>>;
   createdAt: InputMaybe<Scalars['String']>;
   createdAt_contains: InputMaybe<Scalars['String']>;
   createdAt_contains_nocase: InputMaybe<Scalars['String']>;
@@ -4023,7 +4700,11 @@ export type DaoHausVote_Filter = {
   createdAt_starts_with_nocase: InputMaybe<Scalars['String']>;
   delegateKey: InputMaybe<Scalars['Bytes']>;
   delegateKey_contains: InputMaybe<Scalars['Bytes']>;
+  delegateKey_gt: InputMaybe<Scalars['Bytes']>;
+  delegateKey_gte: InputMaybe<Scalars['Bytes']>;
   delegateKey_in: InputMaybe<Array<Scalars['Bytes']>>;
+  delegateKey_lt: InputMaybe<Scalars['Bytes']>;
+  delegateKey_lte: InputMaybe<Scalars['Bytes']>;
   delegateKey_not: InputMaybe<Scalars['Bytes']>;
   delegateKey_not_contains: InputMaybe<Scalars['Bytes']>;
   delegateKey_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -4038,7 +4719,11 @@ export type DaoHausVote_Filter = {
   member: InputMaybe<Scalars['String']>;
   memberAddress: InputMaybe<Scalars['Bytes']>;
   memberAddress_contains: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_gte: InputMaybe<Scalars['Bytes']>;
   memberAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  memberAddress_lt: InputMaybe<Scalars['Bytes']>;
+  memberAddress_lte: InputMaybe<Scalars['Bytes']>;
   memberAddress_not: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   memberAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
@@ -4072,10 +4757,15 @@ export type DaoHausVote_Filter = {
   member_starts_with_nocase: InputMaybe<Scalars['String']>;
   molochAddress: InputMaybe<Scalars['Bytes']>;
   molochAddress_contains: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_gte: InputMaybe<Scalars['Bytes']>;
   molochAddress_in: InputMaybe<Array<Scalars['Bytes']>>;
+  molochAddress_lt: InputMaybe<Scalars['Bytes']>;
+  molochAddress_lte: InputMaybe<Scalars['Bytes']>;
   molochAddress_not: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_contains: InputMaybe<Scalars['Bytes']>;
   molochAddress_not_in: InputMaybe<Array<Scalars['Bytes']>>;
+  or: InputMaybe<Array<InputMaybe<DaoHausVote_Filter>>>;
   proposal: InputMaybe<Scalars['String']>;
   proposalIndex: InputMaybe<Scalars['BigInt']>;
   proposalIndex_gt: InputMaybe<Scalars['BigInt']>;
@@ -4122,9 +4812,72 @@ export enum DaoHausVote_OrderBy {
   Member = 'member',
   MemberAddress = 'memberAddress',
   MemberPower = 'memberPower',
+  MemberCreatedAt = 'member__createdAt',
+  MemberDelegateKey = 'member__delegateKey',
+  MemberDidRagequit = 'member__didRagequit',
+  MemberExists = 'member__exists',
+  MemberId = 'member__id',
+  MemberJailed = 'member__jailed',
+  MemberKicked = 'member__kicked',
+  MemberLoot = 'member__loot',
+  MemberMemberAddress = 'member__memberAddress',
+  MemberMolochAddress = 'member__molochAddress',
+  MemberProposedToKick = 'member__proposedToKick',
+  MemberShares = 'member__shares',
+  MemberTokenTribute = 'member__tokenTribute',
   MolochAddress = 'molochAddress',
   Proposal = 'proposal',
   ProposalIndex = 'proposalIndex',
+  ProposalAborted = 'proposal__aborted',
+  ProposalApplicant = 'proposal__applicant',
+  ProposalCancelled = 'proposal__cancelled',
+  ProposalCancelledAt = 'proposal__cancelledAt',
+  ProposalCreatedAt = 'proposal__createdAt',
+  ProposalCreatedBy = 'proposal__createdBy',
+  ProposalDelegateKey = 'proposal__delegateKey',
+  ProposalDetails = 'proposal__details',
+  ProposalDidPass = 'proposal__didPass',
+  ProposalExecuted = 'proposal__executed',
+  ProposalGracePeriodEnds = 'proposal__gracePeriodEnds',
+  ProposalGuildkick = 'proposal__guildkick',
+  ProposalGuildkickOrWhitelistOrMinion = 'proposal__guildkickOrWhitelistOrMinion',
+  ProposalId = 'proposal__id',
+  ProposalIsMinion = 'proposal__isMinion',
+  ProposalLootRequested = 'proposal__lootRequested',
+  ProposalMaxTotalSharesAndLootAtYesVote = 'proposal__maxTotalSharesAndLootAtYesVote',
+  ProposalMemberAddress = 'proposal__memberAddress',
+  ProposalMinionAddress = 'proposal__minionAddress',
+  ProposalMolochAddress = 'proposal__molochAddress',
+  ProposalMolochVersion = 'proposal__molochVersion',
+  ProposalNewMember = 'proposal__newMember',
+  ProposalNoShares = 'proposal__noShares',
+  ProposalNoVotes = 'proposal__noVotes',
+  ProposalPaymentRequested = 'proposal__paymentRequested',
+  ProposalPaymentToken = 'proposal__paymentToken',
+  ProposalPaymentTokenDecimals = 'proposal__paymentTokenDecimals',
+  ProposalPaymentTokenSymbol = 'proposal__paymentTokenSymbol',
+  ProposalProcessed = 'proposal__processed',
+  ProposalProcessedAt = 'proposal__processedAt',
+  ProposalProcessor = 'proposal__processor',
+  ProposalProposalId = 'proposal__proposalId',
+  ProposalProposalIndex = 'proposal__proposalIndex',
+  ProposalProposer = 'proposal__proposer',
+  ProposalSharesRequested = 'proposal__sharesRequested',
+  ProposalSponsor = 'proposal__sponsor',
+  ProposalSponsored = 'proposal__sponsored',
+  ProposalSponsoredAt = 'proposal__sponsoredAt',
+  ProposalStartingPeriod = 'proposal__startingPeriod',
+  ProposalTrade = 'proposal__trade',
+  ProposalTributeOffered = 'proposal__tributeOffered',
+  ProposalTributeToken = 'proposal__tributeToken',
+  ProposalTributeTokenDecimals = 'proposal__tributeTokenDecimals',
+  ProposalTributeTokenSymbol = 'proposal__tributeTokenSymbol',
+  ProposalUberHausMinionExecuted = 'proposal__uberHausMinionExecuted',
+  ProposalVotingPeriodEnds = 'proposal__votingPeriodEnds',
+  ProposalVotingPeriodStarts = 'proposal__votingPeriodStarts',
+  ProposalWhitelist = 'proposal__whitelist',
+  ProposalYesShares = 'proposal__yesShares',
+  ProposalYesVotes = 'proposal__yesVotes',
   UintVote = 'uintVote',
 }
 

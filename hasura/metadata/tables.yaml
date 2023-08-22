@@ -158,13 +158,8 @@
     custom_root_fields: {}
     custom_column_names:
       player_address: playerAddress
-      block_height: blockHeight
       executed_at: executedAt
       token_address: tokenAddress
-  object_relationships:
-  - name: token
-    using:
-      foreign_key_constraint_on: token_address
 - table:
     schema: public
     name: dao
@@ -1197,37 +1192,12 @@
       safe_address: safeAddress
       last_offset: lastOffset
       guild_id: guildId
-  object_relationships:
-  - name: guild
-    using:
-      foreign_key_constraint_on: guild_id
-  array_relationships:
-  - name: balances
-    using:
-      foreign_key_constraint_on:
-        column: token_address
-        table:
-          schema: public
-          name: balance
-  - name: xps
-    using:
-      foreign_key_constraint_on:
-        column: token_address
-        table:
-          schema: public
-          name: xp
 - table:
     schema: public
     name: xp
   configuration:
     custom_root_fields: {}
     custom_column_names:
+      seasonal_balance: seasonalBalance
       player_id: playerId
       token_address: tokenAddress
-  object_relationships:
-  - name: player
-    using:
-      foreign_key_constraint_on: player_id
-  - name: token
-    using:
-      foreign_key_constraint_on: token_address

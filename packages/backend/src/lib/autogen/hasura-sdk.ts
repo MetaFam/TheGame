@@ -2382,12 +2382,9 @@ export type UpdateQuestCompletionOutput = {
 export type Balance = {
   readonly __typename?: 'balance';
   readonly amount: Scalars['float8'];
-  readonly blockHeight: Scalars['Int'];
   readonly executedAt: Scalars['timestamptz'];
   readonly id: Scalars['uuid'];
   readonly playerAddress: Scalars['String'];
-  /** An object relationship */
-  readonly token: Token;
   readonly tokenAddress: Scalars['String'];
 };
 
@@ -2445,13 +2442,11 @@ export type Balance_Arr_Rel_Insert_Input = {
 export type Balance_Avg_Fields = {
   readonly __typename?: 'balance_avg_fields';
   readonly amount?: Maybe<Scalars['Float']>;
-  readonly blockHeight?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "balance" */
 export type Balance_Avg_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "balance". All fields are combined with a logical 'AND'. */
@@ -2460,11 +2455,9 @@ export type Balance_Bool_Exp = {
   readonly _not?: InputMaybe<Balance_Bool_Exp>;
   readonly _or?: InputMaybe<ReadonlyArray<InputMaybe<Balance_Bool_Exp>>>;
   readonly amount?: InputMaybe<Float8_Comparison_Exp>;
-  readonly blockHeight?: InputMaybe<Int_Comparison_Exp>;
   readonly executedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   readonly id?: InputMaybe<Uuid_Comparison_Exp>;
   readonly playerAddress?: InputMaybe<String_Comparison_Exp>;
-  readonly token?: InputMaybe<Token_Bool_Exp>;
   readonly tokenAddress?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -2479,17 +2472,14 @@ export enum Balance_Constraint {
 /** input type for incrementing integer column in table "balance" */
 export type Balance_Inc_Input = {
   readonly amount?: InputMaybe<Scalars['float8']>;
-  readonly blockHeight?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "balance" */
 export type Balance_Insert_Input = {
   readonly amount?: InputMaybe<Scalars['float8']>;
-  readonly blockHeight?: InputMaybe<Scalars['Int']>;
   readonly executedAt?: InputMaybe<Scalars['timestamptz']>;
   readonly id?: InputMaybe<Scalars['uuid']>;
   readonly playerAddress?: InputMaybe<Scalars['String']>;
-  readonly token?: InputMaybe<Token_Obj_Rel_Insert_Input>;
   readonly tokenAddress?: InputMaybe<Scalars['String']>;
 };
 
@@ -2497,7 +2487,6 @@ export type Balance_Insert_Input = {
 export type Balance_Max_Fields = {
   readonly __typename?: 'balance_max_fields';
   readonly amount?: Maybe<Scalars['float8']>;
-  readonly blockHeight?: Maybe<Scalars['Int']>;
   readonly executedAt?: Maybe<Scalars['timestamptz']>;
   readonly id?: Maybe<Scalars['uuid']>;
   readonly playerAddress?: Maybe<Scalars['String']>;
@@ -2507,7 +2496,6 @@ export type Balance_Max_Fields = {
 /** order by max() on columns of table "balance" */
 export type Balance_Max_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
   readonly executedAt?: InputMaybe<Order_By>;
   readonly id?: InputMaybe<Order_By>;
   readonly playerAddress?: InputMaybe<Order_By>;
@@ -2518,7 +2506,6 @@ export type Balance_Max_Order_By = {
 export type Balance_Min_Fields = {
   readonly __typename?: 'balance_min_fields';
   readonly amount?: Maybe<Scalars['float8']>;
-  readonly blockHeight?: Maybe<Scalars['Int']>;
   readonly executedAt?: Maybe<Scalars['timestamptz']>;
   readonly id?: Maybe<Scalars['uuid']>;
   readonly playerAddress?: Maybe<Scalars['String']>;
@@ -2528,7 +2515,6 @@ export type Balance_Min_Fields = {
 /** order by min() on columns of table "balance" */
 export type Balance_Min_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
   readonly executedAt?: InputMaybe<Order_By>;
   readonly id?: InputMaybe<Order_By>;
   readonly playerAddress?: InputMaybe<Order_By>;
@@ -2560,11 +2546,9 @@ export type Balance_On_Conflict = {
 /** ordering options when selecting data from "balance" */
 export type Balance_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
   readonly executedAt?: InputMaybe<Order_By>;
   readonly id?: InputMaybe<Order_By>;
   readonly playerAddress?: InputMaybe<Order_By>;
-  readonly token?: InputMaybe<Token_Order_By>;
   readonly tokenAddress?: InputMaybe<Order_By>;
 };
 
@@ -2578,8 +2562,6 @@ export enum Balance_Select_Column {
   /** column name */
   Amount = 'amount',
   /** column name */
-  BlockHeight = 'blockHeight',
-  /** column name */
   ExecutedAt = 'executedAt',
   /** column name */
   Id = 'id',
@@ -2592,7 +2574,6 @@ export enum Balance_Select_Column {
 /** input type for updating data in table "balance" */
 export type Balance_Set_Input = {
   readonly amount?: InputMaybe<Scalars['float8']>;
-  readonly blockHeight?: InputMaybe<Scalars['Int']>;
   readonly executedAt?: InputMaybe<Scalars['timestamptz']>;
   readonly id?: InputMaybe<Scalars['uuid']>;
   readonly playerAddress?: InputMaybe<Scalars['String']>;
@@ -2603,60 +2584,50 @@ export type Balance_Set_Input = {
 export type Balance_Stddev_Fields = {
   readonly __typename?: 'balance_stddev_fields';
   readonly amount?: Maybe<Scalars['Float']>;
-  readonly blockHeight?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "balance" */
 export type Balance_Stddev_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Balance_Stddev_Pop_Fields = {
   readonly __typename?: 'balance_stddev_pop_fields';
   readonly amount?: Maybe<Scalars['Float']>;
-  readonly blockHeight?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "balance" */
 export type Balance_Stddev_Pop_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Balance_Stddev_Samp_Fields = {
   readonly __typename?: 'balance_stddev_samp_fields';
   readonly amount?: Maybe<Scalars['Float']>;
-  readonly blockHeight?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "balance" */
 export type Balance_Stddev_Samp_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
 export type Balance_Sum_Fields = {
   readonly __typename?: 'balance_sum_fields';
   readonly amount?: Maybe<Scalars['float8']>;
-  readonly blockHeight?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "balance" */
 export type Balance_Sum_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "balance" */
 export enum Balance_Update_Column {
   /** column name */
   Amount = 'amount',
-  /** column name */
-  BlockHeight = 'blockHeight',
   /** column name */
   ExecutedAt = 'executedAt',
   /** column name */
@@ -2671,39 +2642,33 @@ export enum Balance_Update_Column {
 export type Balance_Var_Pop_Fields = {
   readonly __typename?: 'balance_var_pop_fields';
   readonly amount?: Maybe<Scalars['Float']>;
-  readonly blockHeight?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "balance" */
 export type Balance_Var_Pop_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Balance_Var_Samp_Fields = {
   readonly __typename?: 'balance_var_samp_fields';
   readonly amount?: Maybe<Scalars['Float']>;
-  readonly blockHeight?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "balance" */
 export type Balance_Var_Samp_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Balance_Variance_Fields = {
   readonly __typename?: 'balance_variance_fields';
   readonly amount?: Maybe<Scalars['Float']>;
-  readonly blockHeight?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "balance" */
 export type Balance_Variance_Order_By = {
   readonly amount?: InputMaybe<Order_By>;
-  readonly blockHeight?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "dao" */
@@ -10542,56 +10507,10 @@ export type Timestamptz_Comparison_Exp = {
 export type Token = {
   readonly __typename?: 'token';
   readonly address: Scalars['String'];
-  /** An array relationship */
-  readonly balances: ReadonlyArray<Balance>;
-  /** An aggregated array relationship */
-  readonly balances_aggregate: Balance_Aggregate;
   readonly chainId: Scalars['Int'];
-  /** An object relationship */
-  readonly guild: Guild;
   readonly guildId: Scalars['uuid'];
   readonly lastOffset: Scalars['Int'];
   readonly safeAddress: Scalars['String'];
-  /** An array relationship */
-  readonly xps: ReadonlyArray<Xp>;
-  /** An aggregated array relationship */
-  readonly xps_aggregate: Xp_Aggregate;
-};
-
-/** columns and relationships of "token" */
-export type TokenBalancesArgs = {
-  distinct_on?: InputMaybe<ReadonlyArray<Balance_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<ReadonlyArray<Balance_Order_By>>;
-  where?: InputMaybe<Balance_Bool_Exp>;
-};
-
-/** columns and relationships of "token" */
-export type TokenBalances_AggregateArgs = {
-  distinct_on?: InputMaybe<ReadonlyArray<Balance_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<ReadonlyArray<Balance_Order_By>>;
-  where?: InputMaybe<Balance_Bool_Exp>;
-};
-
-/** columns and relationships of "token" */
-export type TokenXpsArgs = {
-  distinct_on?: InputMaybe<ReadonlyArray<Xp_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<ReadonlyArray<Xp_Order_By>>;
-  where?: InputMaybe<Xp_Bool_Exp>;
-};
-
-/** columns and relationships of "token" */
-export type TokenXps_AggregateArgs = {
-  distinct_on?: InputMaybe<ReadonlyArray<Xp_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<ReadonlyArray<Xp_Order_By>>;
-  where?: InputMaybe<Xp_Bool_Exp>;
 };
 
 /** aggregated selection of "token" */
@@ -10663,13 +10582,10 @@ export type Token_Bool_Exp = {
   readonly _not?: InputMaybe<Token_Bool_Exp>;
   readonly _or?: InputMaybe<ReadonlyArray<InputMaybe<Token_Bool_Exp>>>;
   readonly address?: InputMaybe<String_Comparison_Exp>;
-  readonly balances?: InputMaybe<Balance_Bool_Exp>;
   readonly chainId?: InputMaybe<Int_Comparison_Exp>;
-  readonly guild?: InputMaybe<Guild_Bool_Exp>;
   readonly guildId?: InputMaybe<Uuid_Comparison_Exp>;
   readonly lastOffset?: InputMaybe<Int_Comparison_Exp>;
   readonly safeAddress?: InputMaybe<String_Comparison_Exp>;
-  readonly xps?: InputMaybe<Xp_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "token" */
@@ -10693,13 +10609,10 @@ export type Token_Inc_Input = {
 /** input type for inserting data into table "token" */
 export type Token_Insert_Input = {
   readonly address?: InputMaybe<Scalars['String']>;
-  readonly balances?: InputMaybe<Balance_Arr_Rel_Insert_Input>;
   readonly chainId?: InputMaybe<Scalars['Int']>;
-  readonly guild?: InputMaybe<Guild_Obj_Rel_Insert_Input>;
   readonly guildId?: InputMaybe<Scalars['uuid']>;
   readonly lastOffset?: InputMaybe<Scalars['Int']>;
   readonly safeAddress?: InputMaybe<Scalars['String']>;
-  readonly xps?: InputMaybe<Xp_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -10765,13 +10678,10 @@ export type Token_On_Conflict = {
 /** ordering options when selecting data from "token" */
 export type Token_Order_By = {
   readonly address?: InputMaybe<Order_By>;
-  readonly balances_aggregate?: InputMaybe<Balance_Aggregate_Order_By>;
   readonly chainId?: InputMaybe<Order_By>;
-  readonly guild?: InputMaybe<Guild_Order_By>;
   readonly guildId?: InputMaybe<Order_By>;
   readonly lastOffset?: InputMaybe<Order_By>;
   readonly safeAddress?: InputMaybe<Order_By>;
-  readonly xps_aggregate?: InputMaybe<Xp_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: "token" */
@@ -10939,11 +10849,8 @@ export type Xp = {
   readonly balance: Scalars['float8'];
   readonly id: Scalars['uuid'];
   readonly initial?: Maybe<Scalars['float8']>;
-  /** An object relationship */
-  readonly player: Player;
   readonly playerId: Scalars['uuid'];
-  /** An object relationship */
-  readonly token: Token;
+  readonly seasonalBalance?: Maybe<Scalars['float8']>;
   readonly tokenAddress: Scalars['String'];
 };
 
@@ -11002,12 +10909,14 @@ export type Xp_Avg_Fields = {
   readonly __typename?: 'xp_avg_fields';
   readonly balance?: Maybe<Scalars['Float']>;
   readonly initial?: Maybe<Scalars['Float']>;
+  readonly seasonalBalance?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "xp" */
 export type Xp_Avg_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "xp". All fields are combined with a logical 'AND'. */
@@ -11018,9 +10927,8 @@ export type Xp_Bool_Exp = {
   readonly balance?: InputMaybe<Float8_Comparison_Exp>;
   readonly id?: InputMaybe<Uuid_Comparison_Exp>;
   readonly initial?: InputMaybe<Float8_Comparison_Exp>;
-  readonly player?: InputMaybe<Player_Bool_Exp>;
   readonly playerId?: InputMaybe<Uuid_Comparison_Exp>;
-  readonly token?: InputMaybe<Token_Bool_Exp>;
+  readonly seasonalBalance?: InputMaybe<Float8_Comparison_Exp>;
   readonly tokenAddress?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -11036,6 +10944,7 @@ export enum Xp_Constraint {
 export type Xp_Inc_Input = {
   readonly balance?: InputMaybe<Scalars['float8']>;
   readonly initial?: InputMaybe<Scalars['float8']>;
+  readonly seasonalBalance?: InputMaybe<Scalars['float8']>;
 };
 
 /** input type for inserting data into table "xp" */
@@ -11043,9 +10952,8 @@ export type Xp_Insert_Input = {
   readonly balance?: InputMaybe<Scalars['float8']>;
   readonly id?: InputMaybe<Scalars['uuid']>;
   readonly initial?: InputMaybe<Scalars['float8']>;
-  readonly player?: InputMaybe<Player_Obj_Rel_Insert_Input>;
   readonly playerId?: InputMaybe<Scalars['uuid']>;
-  readonly token?: InputMaybe<Token_Obj_Rel_Insert_Input>;
+  readonly seasonalBalance?: InputMaybe<Scalars['float8']>;
   readonly tokenAddress?: InputMaybe<Scalars['String']>;
 };
 
@@ -11056,6 +10964,7 @@ export type Xp_Max_Fields = {
   readonly id?: Maybe<Scalars['uuid']>;
   readonly initial?: Maybe<Scalars['float8']>;
   readonly playerId?: Maybe<Scalars['uuid']>;
+  readonly seasonalBalance?: Maybe<Scalars['float8']>;
   readonly tokenAddress?: Maybe<Scalars['String']>;
 };
 
@@ -11065,6 +10974,7 @@ export type Xp_Max_Order_By = {
   readonly id?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
   readonly playerId?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
   readonly tokenAddress?: InputMaybe<Order_By>;
 };
 
@@ -11075,6 +10985,7 @@ export type Xp_Min_Fields = {
   readonly id?: Maybe<Scalars['uuid']>;
   readonly initial?: Maybe<Scalars['float8']>;
   readonly playerId?: Maybe<Scalars['uuid']>;
+  readonly seasonalBalance?: Maybe<Scalars['float8']>;
   readonly tokenAddress?: Maybe<Scalars['String']>;
 };
 
@@ -11084,6 +10995,7 @@ export type Xp_Min_Order_By = {
   readonly id?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
   readonly playerId?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
   readonly tokenAddress?: InputMaybe<Order_By>;
 };
 
@@ -11114,9 +11026,8 @@ export type Xp_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly id?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
-  readonly player?: InputMaybe<Player_Order_By>;
   readonly playerId?: InputMaybe<Order_By>;
-  readonly token?: InputMaybe<Token_Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
   readonly tokenAddress?: InputMaybe<Order_By>;
 };
 
@@ -11136,6 +11047,8 @@ export enum Xp_Select_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
+  SeasonalBalance = 'seasonalBalance',
+  /** column name */
   TokenAddress = 'tokenAddress',
 }
 
@@ -11145,6 +11058,7 @@ export type Xp_Set_Input = {
   readonly id?: InputMaybe<Scalars['uuid']>;
   readonly initial?: InputMaybe<Scalars['float8']>;
   readonly playerId?: InputMaybe<Scalars['uuid']>;
+  readonly seasonalBalance?: InputMaybe<Scalars['float8']>;
   readonly tokenAddress?: InputMaybe<Scalars['String']>;
 };
 
@@ -11153,12 +11067,14 @@ export type Xp_Stddev_Fields = {
   readonly __typename?: 'xp_stddev_fields';
   readonly balance?: Maybe<Scalars['Float']>;
   readonly initial?: Maybe<Scalars['Float']>;
+  readonly seasonalBalance?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "xp" */
 export type Xp_Stddev_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -11166,12 +11082,14 @@ export type Xp_Stddev_Pop_Fields = {
   readonly __typename?: 'xp_stddev_pop_fields';
   readonly balance?: Maybe<Scalars['Float']>;
   readonly initial?: Maybe<Scalars['Float']>;
+  readonly seasonalBalance?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "xp" */
 export type Xp_Stddev_Pop_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -11179,12 +11097,14 @@ export type Xp_Stddev_Samp_Fields = {
   readonly __typename?: 'xp_stddev_samp_fields';
   readonly balance?: Maybe<Scalars['Float']>;
   readonly initial?: Maybe<Scalars['Float']>;
+  readonly seasonalBalance?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "xp" */
 export type Xp_Stddev_Samp_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -11192,12 +11112,14 @@ export type Xp_Sum_Fields = {
   readonly __typename?: 'xp_sum_fields';
   readonly balance?: Maybe<Scalars['float8']>;
   readonly initial?: Maybe<Scalars['float8']>;
+  readonly seasonalBalance?: Maybe<Scalars['float8']>;
 };
 
 /** order by sum() on columns of table "xp" */
 export type Xp_Sum_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "xp" */
@@ -11211,6 +11133,8 @@ export enum Xp_Update_Column {
   /** column name */
   PlayerId = 'playerId',
   /** column name */
+  SeasonalBalance = 'seasonalBalance',
+  /** column name */
   TokenAddress = 'tokenAddress',
 }
 
@@ -11219,12 +11143,14 @@ export type Xp_Var_Pop_Fields = {
   readonly __typename?: 'xp_var_pop_fields';
   readonly balance?: Maybe<Scalars['Float']>;
   readonly initial?: Maybe<Scalars['Float']>;
+  readonly seasonalBalance?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "xp" */
 export type Xp_Var_Pop_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -11232,12 +11158,14 @@ export type Xp_Var_Samp_Fields = {
   readonly __typename?: 'xp_var_samp_fields';
   readonly balance?: Maybe<Scalars['Float']>;
   readonly initial?: Maybe<Scalars['Float']>;
+  readonly seasonalBalance?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "xp" */
 export type Xp_Var_Samp_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -11245,12 +11173,14 @@ export type Xp_Variance_Fields = {
   readonly __typename?: 'xp_variance_fields';
   readonly balance?: Maybe<Scalars['Float']>;
   readonly initial?: Maybe<Scalars['Float']>;
+  readonly seasonalBalance?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "xp" */
 export type Xp_Variance_Order_By = {
   readonly balance?: InputMaybe<Order_By>;
   readonly initial?: InputMaybe<Order_By>;
+  readonly seasonalBalance?: InputMaybe<Order_By>;
 };
 
 export type UpdateDaoMutationVariables = Exact<{
@@ -11497,6 +11427,26 @@ export type UpsertProfileMutation = {
   } | null;
 };
 
+export type UpdateProfileXpMutationVariables = Exact<{
+  playerId: Scalars['uuid'];
+  seasonXP?: InputMaybe<Scalars['numeric']>;
+  totalXP?: InputMaybe<Scalars['numeric']>;
+  rank?: InputMaybe<PlayerRank_Enum>;
+}>;
+
+export type UpdateProfileXpMutation = {
+  readonly __typename?: 'mutation_root';
+  readonly update_player?: {
+    readonly __typename?: 'player_mutation_response';
+    readonly returning: ReadonlyArray<{
+      readonly __typename?: 'player';
+      readonly seasonXP: any;
+      readonly totalXP?: any | null;
+      readonly rank?: PlayerRank_Enum | null;
+    }>;
+  } | null;
+};
+
 export type UpdatePlayerMutationVariables = Exact<{
   ethereumAddress: Scalars['String'];
   rank?: InputMaybe<PlayerRank_Enum>;
@@ -11661,6 +11611,7 @@ export type UpsertXpMutationVariables = Exact<{
   balance: Scalars['float8'];
   playerId: Scalars['uuid'];
   tokenAddress: Scalars['String'];
+  seasonalBalance: Scalars['float8'];
 }>;
 
 export type UpsertXpMutation = {
@@ -11859,6 +11810,18 @@ export type GetGuildPlayerDiscordIdsQuery = {
       readonly id: any;
       readonly discordId?: string | null;
     };
+  }>;
+};
+
+export type GetPlayersByTotalXpQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetPlayersByTotalXpQuery = {
+  readonly __typename?: 'query_root';
+  readonly xp: ReadonlyArray<{
+    readonly __typename?: 'xp';
+    readonly playerId: any;
+    readonly seasonalBalance?: any | null;
+    readonly balance: any;
   }>;
 };
 
@@ -12237,6 +12200,25 @@ export const UpsertProfileDocument = gql`
     }
   }
 `;
+export const UpdateProfileXpDocument = gql`
+  mutation UpdateProfileXP(
+    $playerId: uuid!
+    $seasonXP: numeric
+    $totalXP: numeric
+    $rank: PlayerRank_enum
+  ) {
+    update_player(
+      where: { id: { _eq: $playerId } }
+      _set: { seasonXP: $seasonXP, totalXP: $totalXP, rank: $rank }
+    ) {
+      returning {
+        seasonXP
+        totalXP
+        rank
+      }
+    }
+  }
+`;
 export const UpdatePlayerDocument = gql`
   mutation UpdatePlayer(
     $ethereumAddress: String!
@@ -12386,15 +12368,17 @@ export const UpsertXpDocument = gql`
     $balance: float8!
     $playerId: uuid!
     $tokenAddress: String!
+    $seasonalBalance: float8!
   ) {
     insert_xp(
       objects: {
         balance: $balance
         playerId: $playerId
         tokenAddress: $tokenAddress
+        seasonalBalance: $seasonalBalance
       }
       on_conflict: {
-        update_columns: balance
+        update_columns: [balance, seasonalBalance]
         constraint: xp_player_id_token_address_key
       }
     ) {
@@ -12511,6 +12495,21 @@ export const GetGuildPlayerDiscordIdsDocument = gql`
         id
         discordId
       }
+    }
+  }
+`;
+export const GetPlayersByTotalXpDocument = gql`
+  query GetPlayersByTotalXP {
+    xp(
+      where: {
+        tokenAddress: { _ilike: "0xEAeCC18198a475c921B24b8A6c1C1f0f5F3F7EA0" }
+        balance: { _gt: "0" }
+      }
+      order_by: { balance: desc }
+    ) {
+      playerId
+      seasonalBalance
+      balance
     }
   }
 `;
@@ -12904,6 +12903,20 @@ export function getSdk(
         'UpsertProfile',
       );
     },
+    UpdateProfileXP(
+      variables: UpdateProfileXpMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdateProfileXpMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateProfileXpMutation>(
+            UpdateProfileXpDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'UpdateProfileXP',
+      );
+    },
     UpdatePlayer(
       variables: UpdatePlayerMutationVariables,
       requestHeaders?: Dom.RequestInit['headers'],
@@ -13162,6 +13175,20 @@ export function getSdk(
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
         'GetGuildPlayerDiscordIds',
+      );
+    },
+    GetPlayersByTotalXP(
+      variables?: GetPlayersByTotalXpQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetPlayersByTotalXpQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetPlayersByTotalXpQuery>(
+            GetPlayersByTotalXpDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetPlayersByTotalXP',
       );
     },
     GetPlayer(

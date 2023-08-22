@@ -32,15 +32,17 @@ export const TokenMutations = /* GraphQL */ `
     $balance: float8!
     $playerId: uuid!
     $tokenAddress: String!
+    $seasonalBalance: float8!
   ) {
     insert_xp(
       objects: {
         balance: $balance
         playerId: $playerId
         tokenAddress: $tokenAddress
+        seasonalBalance: $seasonalBalance
       }
       on_conflict: {
-        update_columns: balance
+        update_columns: [balance, seasonalBalance]
         constraint: xp_player_id_token_address_key
       }
     ) {
