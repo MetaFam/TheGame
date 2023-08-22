@@ -8,10 +8,9 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit --pretty",
-    "precommit": "yarn lint-staged",
     "generate": "yarn generate:graphql",
     "generate:graphql": "graphql-code-generator",
-    "prepare": "yarn generate"
+    "prepare": "yarn typecheck && yarn lint-staged"
   },
   "dependencies": {
     "@3id/connect": "^0.4.1",

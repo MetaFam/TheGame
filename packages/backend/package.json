@@ -12,10 +12,10 @@
     "build": "yarn generate && tsc -b",
     "dev": "tsc --build && concurrently 'tsc --watch --preserveWatchOutput' nodemon",
     "typecheck": "tsc --noEmit --pretty",
-    "precommit": "yarn typecheck && yarn lint-staged",
+    "prepare": "yarn typecheck && yarn lint-staged",
     "generate": "graphql-code-generator && yarn fix:daohaus-types",
     "fix:daohaus-types": "export OUT=src/lib/autogen/daohaus-sdk.ts && awk '!/MolochVersion = .molochVersion/' $OUT > $OUT.filtered && mv $OUT.filtered $OUT",
-    "lintfix": "eslint --fix",
+    "lint:fix": "eslint --fix",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

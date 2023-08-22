@@ -23,7 +23,7 @@
     "prod:serve": "vite preview",
     "test": "jest --passWithNoTests",
     "prepublish": "yarn build",
-    "precommit": "yarn lint-staged"
+    "prepare": "yarn typecheck && yarn lint-staged"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.5",
