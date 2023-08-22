@@ -12,9 +12,6 @@ on:
       - opened
       - reopened
       - synchronize
-    branches-ignore:
-      - master
-      - develop
 
 env:
   # This controls whether the Next.js runs in development or
