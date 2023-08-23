@@ -97,7 +97,7 @@
   "resolutions": {
     "@ceramicnetwork/common": "2.31.1",
     "did-resolver": "4.1.0",
-    "dids": "4.0.0",
+    "dids": "4.0.4",
     "ethers": "5.7.0",
     "graphql": "16.8.0",
     "multihashes": "4.0.3",
@@ -108,6 +108,7 @@
     "not IE 11"
   ],
   "dependencies": {
+    "dag-jose": "^4.0.0",
     "tslib": "^2.4.0",
     "uuid": "8.3.2"
   },
