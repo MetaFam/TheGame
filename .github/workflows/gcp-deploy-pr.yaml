@@ -88,6 +88,7 @@ jobs:
       HASURA_SERVICE: ${{env.HASURA_SERVICE}}
       DOCKER_REGISTRY: ${{env.DOCKER_REGISTRY}}
       BACKEND_HOST: ${{env.BACKEND_HOST}}
+      BACKEND_URL: ${{env.BACKEND_URL}}
       FRONTEND_URL: ${{env.FRONTEND_URL}}
       DB_PASSWORD: ${{env.DB_PASSWORD}}
       HASURA_HOST: ${{env.HASURA_HOST}}
