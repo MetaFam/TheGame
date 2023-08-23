@@ -21,6 +21,7 @@ import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
 import { questListDescriptionCss } from 'components/Quest/QuestListDescriptionCss';
 import { HeadComponent } from 'components/Seo';
+import { PlayerRole } from 'graphql/autogen/types';
 import { getSsrClient } from 'graphql/client';
 import { getQuests } from 'graphql/getQuests';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
@@ -28,12 +29,19 @@ import { usePSeedBalance } from 'lib/hooks/balances';
 import { useQuestFilter } from 'lib/hooks/quests';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
+import { SSRData } from 'next-urql';
 import React, { useMemo } from 'react';
 import { isAllowedToCreateQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export const getStaticProps = async () => {
+export const getStaticProps = async (): Promise<{
+  props: {
+    urqlState: SSRData;
+    roleChoices: Array<PlayerRole>;
+  };
+  revalidate: 1;
+}> => {
   const roleChoices = await getPlayerRoles();
   const [ssrClient, ssrCache] = getSsrClient();
   // This populates the cache server-side

@@ -19,7 +19,6 @@ import {
   Text,
   useToast,
   VStack,
-  Wrap,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { ProfileSection } from 'components/Section/ProfileSection';
@@ -435,7 +434,13 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     {weiToEth(srcTkn.balance).toFixed(4)}
                   </Text>
                 </Box>
-                <HStack align="center" justifyContent="flex-end" gap={1} flexGrow={0} flexShrink={0}>
+                <HStack
+                  align="center"
+                  justifyContent="flex-end"
+                  gap={1}
+                  flexGrow={0}
+                  flexShrink={0}
+                >
                   <Button
                     borderColor="black"
                     color="black"
@@ -557,16 +562,17 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                       handleSetSpendAmount(value)
                     }
                   />
-                  <Text
-                    color="gray"
-                    fontSize={'12'}
-                    textAlign={'left'}
-                    ml={0}
-                  >
+                  <Text color="gray" fontSize={'12'} textAlign={'left'} ml={0}>
                     {weiToEth(meTokenData.balance).toFixed(2)}
                   </Text>
                 </Box>
-                <HStack align="center" justifyContent="flex-end" gap={1} flexGrow={0} flexShrink={0}>
+                <HStack
+                  align="center"
+                  justifyContent="flex-end"
+                  gap={1}
+                  flexGrow={0}
+                  flexShrink={0}
+                >
                   <Button
                     borderColor="black"
                     color="black"
@@ -588,14 +594,14 @@ const MeTokenSwap: React.FC<SwapProps> = ({
                     gap={1}
                     m={0}
                   >
-                  <Image
-                    src={profilePicture}
-                    height="36px"
-                    width="36px"
-                    borderRadius={50}
-                    mx={0}
-                    alt="profile picture"
-                  />
+                    <Image
+                      src={profilePicture}
+                      height="36px"
+                      width="36px"
+                      borderRadius={50}
+                      mx={0}
+                      alt="profile picture"
+                    />
                     <Text color="black">{symbol}</Text>
                   </FormLabel>
                 </HStack>
