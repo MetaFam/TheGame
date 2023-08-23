@@ -14,12 +14,10 @@ import {
 } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { InferGetStaticPropsType } from 'next';
+import { SSRData } from 'next-urql';
 import React, { useEffect, useMemo, useRef } from 'react';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
-export const getStaticProps = async () => {
+export const getStaticProps: SSRData = async () => {
   const [ssrClient, ssrCache] = getSsrClient();
 
   // This populates the cache server-side
@@ -37,7 +35,7 @@ export const getStaticProps = async () => {
   };
 };
 
-const Players: React.FC<Props> = () => {
+const Players: React.FC<SSRData> = () => {
   const {
     players,
     aggregates,
