@@ -8,10 +8,11 @@
   "private": true,
   "scripts": {
     "start": "yarn dev",
-    "build": "tsc -b",
+    "build": "yarn typecheck",
     "dev": "yarn build --watch",
     "typecheck": "tsc --pretty",
     "precommit": "yarn typecheck",
+    "prepare": "yarn typecheck",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

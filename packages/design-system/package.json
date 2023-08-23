@@ -23,6 +23,7 @@
     "prod:serve": "vite preview",
     "test": "jest --passWithNoTests",
     "prepublish": "yarn build",
+    "prepare": "yarn build",
     "precommit": "yarn typecheck"
   },
   "peerDependencies": {

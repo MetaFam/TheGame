@@ -17,6 +17,7 @@
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
     "dev-ts": "nodemon",
     "typecheck": "tsc --pretty",
+    "prepare": "yarn build",
     "precommit": "yarn typecheck",
     "generate": "graphql-code-generator",
     "fix:lint": "eslint --fix",
