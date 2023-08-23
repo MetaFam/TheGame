@@ -49,6 +49,12 @@ type Mutation {
 }
 
 type Mutation {
+  updatePlayerFromComposeDB(
+    playerId: uuid!
+  ): UpdateComposeDBProfileResponse
+}
+
+type Mutation {
   updateQuestCompletion(
     updateData: UpdateQuestCompletionInput!
   ): UpdateQuestCompletionOutput
@@ -198,5 +204,14 @@ type DiscordGuildsSyncOutput {
 type LinkCeramicProfileNodeResponse {
   verified: Boolean!
   error: String
+}
+
+type UpdateComposeDBProfileResponse {
+  success: Boolean!
+  ceramic: String!
+  did: String
+  ethereumAddress: String
+  accountLinks: [String]
+  fields: [String]
 }
 
