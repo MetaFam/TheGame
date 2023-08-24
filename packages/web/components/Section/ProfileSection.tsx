@@ -25,6 +25,8 @@ import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import React, { useCallback } from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
 
+import { SetupDeworkLink } from '../Setup/SetupDeworkURL';
+
 export type ProfileSectionProps = {
   children?: React.ReactNode;
   isOwnProfile?: Maybe<boolean>;
@@ -75,7 +77,9 @@ export const ProfileSection: React.FC<
           bgColor="green.700"
           textTransform="uppercase"
           borderTopRadius={'lg'}
-        ><CheckIcon mr={2} /> Wallet connected</Box>
+        >
+          <CheckIcon mr={2} /> Wallet connected
+        </Box>
       )}
       <Box
         borderBottomRadius="lg"
@@ -184,6 +188,7 @@ const isEditable = (type?: Maybe<BoxType>) =>
   !!type &&
   (
     [
+      BoxTypes.DEWORK,
       BoxTypes.PLAYER_TYPE,
       BoxTypes.PLAYER_COLOR_DISPOSITION,
       BoxTypes.PLAYER_SKILLS,
@@ -252,6 +257,14 @@ const EditSection = ({
           onComplete={hydrateFromHasura}
           player={hydratedPlayer}
           {...{ buttonLabel, title: '' }}
+        />
+      );
+    }
+    case BoxTypes.DEWORK: {
+      return (
+        <SetupDeworkLink
+          onComplete={hydrateFromHasura}
+          player={hydratedPlayer}
         />
       );
     }

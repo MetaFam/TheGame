@@ -31,7 +31,9 @@ import React, {
   useState,
 } from 'react';
 import { MdRefresh } from 'react-icons/md';
+import { BoxTypes } from 'utils/boxTypes';
 import {
+  DeworkData,
   getDeworkData,
   type Organisation,
   processDeworkData,
@@ -88,7 +90,7 @@ export const PlayerDework: React.FC<Props> = ({
   const [role, setRole] = useState<string>('AddURL');
   const [playerDeworkURL, setPlayerDeworkURL] = useState<string>('');
   const [addressMatch, setAddressMatch] = useState<boolean>(false);
-  const [deworkData, setDeworkData] = useState<any>();
+  const [deworkData, setDeworkData] = useState<DeworkData>();
   const connected = addressMatch && !playerDeworkURL;
   const [loading, setLoading] = useState<boolean>(true);
   const noticeRef = useRef<HTMLDivElement>(null);
@@ -102,15 +104,15 @@ export const PlayerDework: React.FC<Props> = ({
     if (player?.id) {
       getDeworkUsername();
     }
-  }, [player?.id]);
+  }, [player?.id, player.accounts]);
 
   const getData = useCallback(async (address: string) => {
     setLoading(true);
-    await getDeworkData(address).then((res: any) => {
+    await getDeworkData(address).then((res: DeworkData) => {
       setDeworkData(res);
       const lowerCaseAddress = address.toLowerCase();
-      const lowerCaseResAddress = res.address.toLowerCase();
-      const hasTasks = res.tasks.length > 0;
+      const lowerCaseResAddress = res?.address?.toLowerCase();
+      const hasTasks = res?.tasks?.length;
       // test if address matches dework data
       if (lowerCaseResAddress === lowerCaseAddress && hasTasks) {
         setAddressMatch(true);
@@ -156,7 +158,8 @@ export const PlayerDework: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Dework Profile"
-      {...{ isOwnProfile, editing, connected }}
+      {...{ isOwnProfile, editing, connected, player }}
+      type={BoxTypes.DEWORK}
     >
       <Box position={'relative'} m={0}>
         <PlayerDeworkView
@@ -184,11 +187,11 @@ export const PlayerDework: React.FC<Props> = ({
   );
 };
 
-const DeworkProfile: React.FC<{ data: any; playerDeworkURL: string }> = ({
-  data,
-  playerDeworkURL,
-}) => {
-  const processedData = useMemo(() => processDeworkData(data), [data]);
+const DeworkProfile: React.FC<{
+  data?: DeworkData;
+  playerDeworkURL: string;
+}> = ({ data, playerDeworkURL }) => {
+  const processedData = useMemo(() => data && processDeworkData(data), [data]);
 
   const deworkURL = `https://app.dework.xyz/${
     playerDeworkURL ? `profile/${playerDeworkURL}` : ''
@@ -207,7 +210,7 @@ const DeworkProfile: React.FC<{ data: any; playerDeworkURL: string }> = ({
           <>
             <DeworkSectionWrapper>
               <DeworkSectionHeading text="Contributions" />
-              <Text fontSize="2xl">{data?.tasks.length}</Text>
+              <Text fontSize="2xl">{data?.tasks?.length}</Text>
             </DeworkSectionWrapper>
             <DeworkSectionWrapper>
               <DeworkSectionHeading text="Earnings" />
@@ -304,8 +307,8 @@ const PlayerDeworkView: React.FC<{
   role: string;
   player: Player;
   playerDeworkURL: string;
-  setPlayerDeworkURL: any;
-  profileData: any;
+  setPlayerDeworkURL: (url: string) => void;
+  profileData?: DeworkData;
   retry: () => void;
 }> = ({
   role,
@@ -334,7 +337,7 @@ const PlayerDeworkView: React.FC<{
 };
 
 const DeworkLink: React.FC<{
-  setPlayerDeworkURL: any;
+  setPlayerDeworkURL: (url: string) => void;
   playerDeworkURL: string;
   player: Player;
 }> = ({ player, setPlayerDeworkURL, playerDeworkURL }) => {
