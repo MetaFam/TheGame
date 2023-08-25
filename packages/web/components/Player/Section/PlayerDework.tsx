@@ -215,8 +215,9 @@ const DeworkProfile: React.FC<{
             <DeworkSectionWrapper>
               <DeworkSectionHeading text="Earnings" />
               <Text fontSize="2xl">
-                $
-                {(processedData.totalEarnedInUSDC / (10 * 10 ** 18)).toFixed(2)}
+                {processedData.totalEarnedInUSDC.toFixed(2)} USD
+                <br />
+                {processedData.totalSEEDsEarned.toFixed(2)} SEED
               </Text>
             </DeworkSectionWrapper>
             <DeworkSectionWrapper>

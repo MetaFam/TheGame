@@ -37,10 +37,24 @@ export interface Organisation {
 
 // usdc on all chains, needed to calculate earnings
 // ['ETH', 'POLYGON', 'OPTIMISM']
-const usdcTokens = [
+const usdcTokens6Decimals = [
   '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
   '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-  '0x7f5c764cbc14f9669b88837ca1490cca17c31607,',
+  '0x7f5c764cbc14f9669b88837ca1490cca17c31607',
+];
+
+// ['SUPERFLUID-USDCX-polygon', 'IbAlluoUSDC-polygon', 'DAI Polygon', 'DAI mainnet']
+const usdTokens18Decimals = [
+  '0xcaa7349cea390f89641fe306d93591f87595dc1f',
+  '0xc2dbaaea2efa47ebda3e572aa0e55b742e408bf6',
+  '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
+  '0x6b175474e89094c44da98b954eedeac495271d0f',
+];
+
+// ['SEED on polygon', 'SEED on Mainnet']
+const seedTokens = [
+  '0xeaecc18198a475c921b24b8a6c1c1f0f5f3f7ea0',
+  '0x30cf203b48edaa42c3b4918e955fed26cd012a3f',
 ];
 
 export const processDeworkData = (data: DeworkData) => {
@@ -48,6 +62,8 @@ export const processDeworkData = (data: DeworkData) => {
   const tags: string[] = [];
   // gotta do USDC to avoid having to use apis like coingecko n stuff
   let totalEarnedInUSDC = 0;
+  let totalSEEDsEarned = 0;
+
   // get relevant data
   data?.tasks?.forEach((element: DeworkTask) => {
     element?.tags?.forEach((tag: DeworkTag) => {
@@ -61,9 +77,23 @@ export const processDeworkData = (data: DeworkData) => {
     });
     // get usdc rewards
     element?.rewards?.forEach(({ token, amount }) => {
-      if (usdcTokens.includes(token.address || 'empty')) return;
-      if (amount) {
-        totalEarnedInUSDC += +amount;
+      if (
+        usdcTokens6Decimals.includes(token.address?.toLowerCase() || 'empty') &&
+        amount
+      ) {
+        totalEarnedInUSDC += +amount / 10 ** 6;
+      }
+      if (
+        usdTokens18Decimals.includes(token.address?.toLowerCase() || 'empty') &&
+        amount
+      ) {
+        totalEarnedInUSDC += +amount / 10 ** 18;
+      }
+      if (
+        seedTokens.includes(token?.address?.toLowerCase() || 'empty') &&
+        amount
+      ) {
+        totalSEEDsEarned += +amount / 10 ** 18;
       }
     });
   });
@@ -92,6 +122,7 @@ export const processDeworkData = (data: DeworkData) => {
     uniqueTags,
     uniqueOrganisations,
     totalEarnedInUSDC,
+    totalSEEDsEarned,
     tagGrouping,
   };
 };
