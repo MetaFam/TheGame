@@ -15,6 +15,7 @@ import {
   Text,
   UnorderedList,
   useDisclosure,
+  useToast,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
@@ -41,7 +42,66 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const deleteButtonRef = useRef<HTMLButtonElement>(null); // focus returns here when modal is closed
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+  const setDeleted = () => {
+    // Delete
+    // Can I just use the updateQuestResult from edit.tsx, and just update the status?
+    // e.g.
+    // updateQuestInput = { status: DELETED }
+    // then
+    // updateQuest({id: quest.id, input: updateQuestInput})
+    // console.log("DELETE "+quest.id);
 
+    // Based on edit.tsx
+    // const updateQuestInput = {
+    //  status: QuestStatus_Enum.Open, // would be status: QuestStatus_Enum.Deleted once that's set up
+    // };
+    /**
+    updateQuest({
+      id: quest.id,
+      input: updateQuestInput,
+      skills: [], // Placeholder b/c not updating
+      roles: [], // Placeholder b/c no updating
+    }).then((res) => {
+      if (res.data?.update_quest_by_pk && !res.error) {
+        router.push("/quests");
+        toast({
+          title: 'Quest deleted',
+          description: `The quest was deleted successfully`,
+          status: 'success',
+          isClosable: true,
+          duration: 4000,        
+        });
+      } else {
+        toast({
+          title: 'Error while deleting quest',
+          description: res.error?.message || 'unknown error',
+          status: 'error',
+          isClosable: true,
+          duration: 10000,
+        });
+      }
+
+
+    });
+    */
+
+    // Close the modal
+    onClose();
+
+    // Show the toast
+    // Pretend success
+    // Or put the router push here
+    // router.push("/quests");
+    toast({
+      title: 'Quest deleted',
+      description: `The quest was deleted successfully`,
+      status: 'success',
+      isClosable: true,
+      duration: 4000,
+      // onCloseComplete: () => { history.push("/somewhere")}, // Redirect somwhere, could also use router.push if importing next/router
+    });
+  };
   return (
     <Flex
       as="header"
@@ -200,7 +260,7 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
                       size="lg"
                       width={{ base: '100%', sm: 'auto' }}
                       borderWidth={2}
-                      onClick={onClose}
+                      onClick={setDeleted}
                     >
                       Yes, delete quest
                     </Button>
