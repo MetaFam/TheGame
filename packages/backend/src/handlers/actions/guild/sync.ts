@@ -47,18 +47,23 @@ export const syncAllGuildDiscordMembers = async (
     );
 
     const errors = responses.filter((r) => r.status === 'rejected');
-    if (errors.length > 0) {
-      throw new Error(
-        // eslint-disable-next-line prefer-template
-        `Failed to sync ${errors.length} guilds:\n` +
-          errors.map((e) => (e as PromiseRejectedResult).reason).join('\n'),
-      );
-    }
 
-    const output = responses.map(
-      (r) => (r as PromiseFulfilledResult<unknown>).value,
-    );
-    res.status(200).json(output);
+    const successfulResults = responses
+      .filter((r) => r.status === 'fulfilled')
+      .map((r) => (r as PromiseFulfilledResult<unknown>).value);
+
+    if (errors.length > 0) {
+      const errorsPerGuild = errors
+        .map((e) => (e as PromiseRejectedResult).reason)
+        .join('\n');
+      const successes = successfulResults
+        .map((o) => (o as { name: string }).name)
+        .join('\n');
+      const msg = `Failed to sync ${errors.length} guilds:\n${errorsPerGuild}\n\n but successfully synced ${successfulResults.length} guilds:\n${successes}`;
+      throw new Error(msg);
+    } else {
+      res.status(200).json(successfulResults);
+    }
   } catch (e) {
     const msg = (e as Error).message ?? e;
     const out = `Error syncing Discord guild memberships: ${msg}`;

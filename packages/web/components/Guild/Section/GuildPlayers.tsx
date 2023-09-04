@@ -25,7 +25,7 @@ type Props = {
 };
 
 export const GuildPlayers: React.FC<Props> = ({
-  guild: { id: guildId, name: guildname },
+  guild: { id: guildId, guildname },
   editing,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
