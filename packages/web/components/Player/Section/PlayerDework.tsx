@@ -217,7 +217,9 @@ const DeworkProfile: React.FC<{
               <Text fontSize="2xl">
                 {processedData.totalEarnedInUSDC.toFixed(2)} USD
                 <br />
-                {processedData.totalSEEDsEarned.toFixed(2)} SEED
+                {Number(processedData.totalSEEDsEarned) > 0 && (
+                  <>{processedData.totalSEEDsEarned.toFixed(2)} SEED </>
+                )}
               </Text>
             </DeworkSectionWrapper>
             <DeworkSectionWrapper>

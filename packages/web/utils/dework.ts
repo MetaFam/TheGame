@@ -77,23 +77,21 @@ export const processDeworkData = (data: DeworkData) => {
     });
     // get usdc rewards
     element?.rewards?.forEach(({ token, amount }) => {
+      if (!token.address) return;
       if (
-        usdcTokens6Decimals.includes(token.address?.toLowerCase() || 'empty') &&
+        usdcTokens6Decimals.includes(token.address?.toLowerCase()) &&
         amount
       ) {
-        totalEarnedInUSDC += +amount / 10 ** 6;
+        totalEarnedInUSDC += Number(amount) / 10 ** 6;
       }
       if (
-        usdTokens18Decimals.includes(token.address?.toLowerCase() || 'empty') &&
+        usdTokens18Decimals.includes(token.address?.toLowerCase()) &&
         amount
       ) {
-        totalEarnedInUSDC += +amount / 10 ** 18;
+        totalEarnedInUSDC += Number(amount) / 10 ** 18;
       }
-      if (
-        seedTokens.includes(token?.address?.toLowerCase() || 'empty') &&
-        amount
-      ) {
-        totalSEEDsEarned += +amount / 10 ** 18;
+      if (seedTokens.includes(token?.address?.toLowerCase()) && amount) {
+        totalSEEDsEarned += Number(amount) / 10 ** 18;
       }
     });
   });
