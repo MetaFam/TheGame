@@ -43,6 +43,7 @@ export const RepetitionTag: React.FC<RepetitionProps> = ({
 export const StatusColors: Record<QuestStatus_Enum, string> = {
   [QuestStatus_Enum.Open]: 'green.700',
   [QuestStatus_Enum.Closed]: 'pink.700',
+  [QuestStatus_Enum.Deleted]: 'red.700',
 };
 interface StatusProps {
   status: QuestStatus_Enum;

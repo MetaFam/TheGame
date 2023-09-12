@@ -7578,6 +7578,7 @@ enum QuestStatus_constraint {
 }
 enum QuestStatus_enum {
   CLOSED
+  DELETED
   OPEN
 }
 """
