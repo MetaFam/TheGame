@@ -13,8 +13,8 @@
   },
   "scripts": {
     "start": "node ./dist/start.js",
-    "build": "tsc -b",
-    "dev": "yarn dev-ts",
+    "build": "yarn generate && tsc -b",
+    "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
     "dev-ts": "nodemon",
     "typecheck": "tsc --pretty",
     "prepare": "yarn build",
