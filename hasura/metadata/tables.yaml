@@ -155,6 +155,22 @@
     schema: public
   is_enum: true
 - table:
+    name: balance
+    schema: public
+  configuration:
+    column_config:
+      executed_at:
+        custom_name: executedAt
+      player_address:
+        custom_name: playerAddress
+      token_address:
+        custom_name: tokenAddress
+    custom_column_names:
+      executed_at: executedAt
+      player_address: playerAddress
+      token_address: tokenAddress
+    custom_root_fields: {}
+- table:
     name: dao
     schema: public
   configuration:
@@ -612,6 +628,13 @@
           column: player_id
           table:
             name: player_skill
+            schema: public
+    - name: xps
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            name: xp
             schema: public
   remote_relationships:
     - definition:
@@ -1311,3 +1334,57 @@
           - id
         filter: {}
         allow_aggregations: true
+- table:
+    name: token
+    schema: public
+  configuration:
+    column_config:
+      chain_id:
+        custom_name: chainId
+      guild_id:
+        custom_name: guildId
+      last_offset:
+        custom_name: lastOffset
+      safe_address:
+        custom_name: safeAddress
+    custom_column_names:
+      chain_id: chainId
+      guild_id: guildId
+      last_offset: lastOffset
+      safe_address: safeAddress
+    custom_root_fields: {}
+  object_relationships:
+    - name: guild
+      using:
+        foreign_key_constraint_on: guild_id
+  array_relationships:
+    - name: xps
+      using:
+        foreign_key_constraint_on:
+          column: token_address
+          table:
+            name: xp
+            schema: public
+- table:
+    name: xp
+    schema: public
+  configuration:
+    column_config:
+      player_id:
+        custom_name: playerId
+      seasonal_balance:
+        custom_name: seasonalBalance
+      token_address:
+        custom_name: tokenAddress
+    custom_column_names:
+      player_id: playerId
+      seasonal_balance: seasonalBalance
+      token_address: tokenAddress
+    custom_root_fields: {}
+  object_relationships:
+    - name: player
+      using:
+        foreign_key_constraint_on: player_id
+    - name: token
+      using:
+        foreign_key_constraint_on: token_address

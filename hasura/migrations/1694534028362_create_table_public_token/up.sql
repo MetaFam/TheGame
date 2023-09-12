@@ -1,0 +1,1 @@
+CREATE TABLE "public"."token" ("address" text NOT NULL, "safe_address" text NOT NULL, "chain_id" integer NOT NULL, "guild_id" uuid NOT NULL, "last_offset" integer NOT NULL DEFAULT 0, PRIMARY KEY ("address") , FOREIGN KEY ("guild_id") REFERENCES "public"."guild"("id") ON UPDATE no action ON DELETE no action, UNIQUE ("address"), UNIQUE ("safe_address"), UNIQUE ("last_offset"));

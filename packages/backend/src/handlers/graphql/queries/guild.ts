@@ -66,6 +66,7 @@ export const GuildQueries = /* GraphQL */ `
         Player {
           id
           discordId
+          ethereumAddress
         }
       }
     }
