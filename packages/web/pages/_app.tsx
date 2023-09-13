@@ -2,7 +2,7 @@ import 'assets/custom-markdown-editor.scss';
 import 'react-markdown-editor-lite/lib/index.css';
 
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
-import { ChakraProvider, CSSReset, Image, MetaTheme } from '@metafam/ds';
+import { ChakraProvider, CSSReset, Flex, Image, MetaTheme } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import Animocto from 'assets/animocto.svg';
@@ -49,7 +49,14 @@ const App: React.FC<WithUrqlProps> = ({
   Component,
 }) => {
   const isMounted = useIsMounted();
-  if (!isMounted) return <Image src={Animocto.src} alt="Loading..." />;
+  if (!isMounted) {
+    return (
+      <Flex align="center" justify="center" minH="100vh" bgColor="#130032">
+        <CSSReset />
+        <Image src={Animocto.src} alt="Loading..." h="20%" w="20%" />;
+      </Flex>
+    );
+  }
   return (
     <ChakraProvider theme={MetaTheme} resetCSS={true}>
       <CSSReset />
