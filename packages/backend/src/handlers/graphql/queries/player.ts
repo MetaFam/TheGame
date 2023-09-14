@@ -1,3 +1,5 @@
+// @to-do change the hardcoded address on line #8 to take a dynamic address once we standardize retrieiving token addresses from ANY guild.
+
 export const PlayerQueries = /* GraphQL */ `
   query GetPlayersByTotalXP {
     xp(

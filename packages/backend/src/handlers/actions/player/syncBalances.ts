@@ -109,7 +109,7 @@ export default async (req: Request, res: Response): Promise<void> => {
     ),
   );
   const ranks = await client.GetPlayersByTotalXP();
-  console.log(ranks);
+
   Promise.allSettled(
     ranks.xp.map(async ({ playerId, seasonalBalance, balance }, index) => {
       const rank = computeRank(index);
