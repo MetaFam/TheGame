@@ -12,7 +12,7 @@ import {
   useUpdatePlayerDashboardLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
 import React, { useCallback, useMemo } from 'react';
-import { LayoutData } from 'utils/boxTypes';
+import { DisplayOutput, LayoutData } from 'utils/boxTypes';
 
 const ConnectedDashboardPage: React.FC<Props> = () => (
   <ConnectedPage page={DashboardPage} pageLabel="Your Dashboard" />
@@ -59,7 +59,7 @@ export const DashboardPage: React.FC<Props> = ({ player }) => {
           persistLayoutData,
           persisting,
           allBoxOptions: ALL_BOXES,
-          displayComponent: DashboardSection,
+          displayComponent: DashboardSection as DisplayOutput,
         }}
       />
     </PageContainer>

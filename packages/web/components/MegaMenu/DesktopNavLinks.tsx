@@ -128,11 +128,7 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
                     mx={{ lg: 3, xl: 6 }}
                     _expanded={{ color: 'cyan.300' }}
                     _focus={{ outline: 'none', border: 'none' }}
-                    rightIcon={
-                      section.type === 'external-link' && (
-                        <ExternalLinkIcon color="#79F8FB" />
-                      )
-                    }
+                    rightIcon={section.type === 'external-link' ?  <ExternalLinkIcon color="#79F8FB" /> : undefined}
                   >
                     {section.label}
                     {section.type === 'menu' && (

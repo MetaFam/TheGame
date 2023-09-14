@@ -1,3 +1,5 @@
+
+
 name: Deploy Preview to Cloud Run
 
 on:
@@ -12,10 +14,6 @@ on:
       - opened
       - reopened
       - synchronize
-    branches-ignore:
-      - feature/composedb
-      - master
-      - develop
 
 env:
   # This controls whether the Next.js runs in development or
@@ -92,6 +90,7 @@ jobs:
       HASURA_SERVICE: ${{env.HASURA_SERVICE}}
       DOCKER_REGISTRY: ${{env.DOCKER_REGISTRY}}
       BACKEND_HOST: ${{env.BACKEND_HOST}}
+      REMOTE_SCHEMA_ENDPOINT: "${{env.BACKEND_URL}}/remote-schemas/graphql"
       FRONTEND_URL: ${{env.FRONTEND_URL}}
       DB_PASSWORD: ${{env.DB_PASSWORD}}
       HASURA_HOST: ${{env.HASURA_HOST}}
@@ -128,6 +127,7 @@ jobs:
           ${{env.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
           echo "DOCKER_PATH=\
           ${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
+          echo "BACKEND_URL=https://${{env.BACKEND_HOST}}" >> $GITHUB_ENV
           echo "SC_SYNC_URL=\
           https://${{env.BACKEND_HOST}}/actions/syncSourceCredAccounts?force=true" >> $GITHUB_ENV
           echo "DB_HOST=\
@@ -413,6 +413,7 @@ jobs:
             --allow-unauthenticated \
             --add-cloudsql-instances ${{needs.env.outputs.CLOUDSQL_CONNECTION_NAME}} \
             --max-instances 1 \
+            --set-env-vars REMOTE_SCHEMA_ENDPOINT=${{needs.env.outputs.REMOTE_SCHEMA_ENDPOINT}} \
             --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${{env.db}}:${{env.pass}}@${{env.host}} \
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=${{needs.env.outputs.HASURA_SECRET}} \
             --set-env-vars HASURA_GRAPHQL_SERVER_PORT=${{needs.env.outputs.HASURA_PORT}} \

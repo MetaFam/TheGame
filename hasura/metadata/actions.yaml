@@ -57,6 +57,10 @@ actions:
       forward_client_headers: true
     permissions:
       - role: player
+  - name: updatePlayerFromComposeDB
+    definition:
+      kind: asynchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/updatePlayerFromComposeDB'
   - name: updateQuestCompletion
     definition:
       kind: synchronous
@@ -149,4 +153,5 @@ custom_types:
     - name: SourceCredSyncOutput
     - name: DiscordGuildsSyncOutput
     - name: LinkCeramicProfileNodeResponse
+    - name: UpdateComposeDBProfileResponse
   scalars: []

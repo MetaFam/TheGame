@@ -12,25 +12,16 @@ import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef, LegacyRef, ReactElement, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
+import { BoxTypes, createBoxKey, DisplayComponent } from 'utils/boxTypes';
 
+import { PlayerDework } from './Section/PlayerDework';
 import { PlayerMeTokens } from './Section/PlayerMeToken';
 
-type Props = {
-  type: BoxType;
-  player?: Player;
-  metadata?: BoxMetadata;
-  ens?: string;
-  editing?: boolean;
-  onRemoveBox?: (boxKey: string) => void;
-};
-
 const PlayerSectionInner: React.FC<
-  Props & {
+  DisplayComponent & {
     player: Player;
-    ens?: string;
     isOwnProfile?: boolean;
   }
 > = ({ metadata, type, player, isOwnProfile, editing, ens }) => {
@@ -55,6 +46,8 @@ const PlayerSectionInner: React.FC<
       return <PlayerCompletedQuests {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_METOKENS:
       return <PlayerMeTokens {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.DEWORK:
+      return <PlayerDework {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
@@ -70,7 +63,7 @@ const PlayerSectionInner: React.FC<
   }
 };
 
-export const PlayerSection = forwardRef<HTMLDivElement, Props>(
+export const PlayerSection = forwardRef<ReactElement, DisplayComponent>(
   ({ metadata, type, player, editing = false, onRemoveBox, ens }, ref) => {
     const key = createBoxKey(type, metadata);
     const { user } = useUser();
@@ -84,8 +77,8 @@ export const PlayerSection = forwardRef<HTMLDivElement, Props>(
 
     return (
       <Flex
+        ref={ref as LegacyRef<HTMLDivElement>}
         w="100%"
-        {...{ ref }}
         direction="column"
         h="auto"
         minH="100%"

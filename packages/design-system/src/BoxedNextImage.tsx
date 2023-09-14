@@ -1,10 +1,13 @@
 import { Box } from '@chakra-ui/react';
+import { StaticImageData } from 'next/image';
 import NextImage from 'next/legacy/image';
 import React from 'react';
 
 export const BoxedNextImage: React.FC<
-  | React.ComponentProps<typeof Box>
-  | { src: string | number; alt: string | number }
+  React.ComponentProps<typeof Box> & {
+    src: string | StaticImageData;
+    alt?: string;
+  }
 > = ({ src, alt, ...props }) => (
   <Box
     pos="relative"

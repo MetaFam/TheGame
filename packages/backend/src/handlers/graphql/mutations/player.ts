@@ -17,7 +17,7 @@ export const PlayerMutations = /* GraphQL */ `
   mutation UpsertAccount(
     $objects: [player_account_insert_input!]!
     $on_conflict: player_account_on_conflict = {
-      constraint: Account_identifier_type_key
+      constraint: player_account_type_player_id_key
       update_columns: [playerId]
     }
   ) {

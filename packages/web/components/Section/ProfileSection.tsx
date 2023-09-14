@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CheckIcon,
   EditIcon,
   Flex,
   FlexProps,
@@ -24,6 +25,8 @@ import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import React, { useCallback } from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
 
+import { SetupDeworkLink } from '../Setup/SetupDeworkURL';
+
 export type ProfileSectionProps = {
   children?: React.ReactNode;
   isOwnProfile?: Maybe<boolean>;
@@ -34,6 +37,7 @@ export type ProfileSectionProps = {
   modalTitle?: string | false;
   modal?: React.ReactNode;
   subheader?: string;
+  connected?: boolean;
 };
 
 export const ProfileSection: React.FC<
@@ -48,6 +52,7 @@ export const ProfileSection: React.FC<
   modal,
   modalTitle,
   subheader,
+  connected,
   ...props
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,6 +66,21 @@ export const ProfileSection: React.FC<
       direction="column"
       {...props}
     >
+      {connected && (
+        <Box
+          // position={'absolute'}
+          // top={0}
+          // right={0}
+          py={3}
+          textAlign="center"
+          w="full"
+          bgColor="green.700"
+          textTransform="uppercase"
+          borderTopRadius={'lg'}
+        >
+          <CheckIcon mr={2} /> Wallet connected
+        </Box>
+      )}
       <Box
         borderBottomRadius="lg"
         borderRadius="lg"
@@ -168,6 +188,7 @@ const isEditable = (type?: Maybe<BoxType>) =>
   !!type &&
   (
     [
+      BoxTypes.DEWORK,
       BoxTypes.PLAYER_TYPE,
       BoxTypes.PLAYER_COLOR_DISPOSITION,
       BoxTypes.PLAYER_SKILLS,
@@ -236,6 +257,14 @@ const EditSection = ({
           onComplete={hydrateFromHasura}
           player={hydratedPlayer}
           {...{ buttonLabel, title: '' }}
+        />
+      );
+    }
+    case BoxTypes.DEWORK: {
+      return (
+        <SetupDeworkLink
+          onComplete={hydrateFromHasura}
+          player={hydratedPlayer}
         />
       );
     }

@@ -16,14 +16,15 @@
   "module": "dist/ds.js",
   "license": "MIT",
   "scripts": {
-    "typecheck": "tsc -b",
+    "typecheck": "tsc --pretty",
     "build": "vite build && tsc --emitDeclarationOnly",
     "dev": "vite build --watch",
     "dev:serve": "vite dev",
     "prod:serve": "vite preview",
     "test": "jest --passWithNoTests",
     "prepublish": "yarn build",
-    "precommit": "yarn lint-staged"
+    "prepare": "yarn build",
+    "precommit": "yarn typecheck"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.5",

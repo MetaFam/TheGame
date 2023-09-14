@@ -33,6 +33,7 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import { useRouter } from 'next/router';
+import { SSRData } from 'next-urql';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React, { useMemo } from 'react';
 import { canCompleteQuest } from 'utils/questHelpers';
@@ -166,7 +167,16 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
-) => {
+): Promise<
+  | {
+      props: {
+        quest_id?: string;
+        urqlState: SSRData;
+      };
+      revalidate: 1;
+    }
+  | { notFound: boolean }
+> => {
   const [ssrClient, ssrCache] = getSsrClient();
 
   const id = context.params?.id;

@@ -38,7 +38,7 @@ import React, {
   useState,
 } from 'react';
 import useSWR from 'swr';
-import { LayoutData } from 'utils/boxTypes';
+import { DisplayOutput, LayoutData } from 'utils/boxTypes';
 import { getENSAndPlayer } from 'utils/ensHelpers';
 import {
   getPlayerBackgroundFull,
@@ -291,7 +291,7 @@ export const Grid: React.FC<GridProps> = ({
         persistLayoutData,
         persisting,
         allBoxOptions: ALL_BOXES,
-        displayComponent: PlayerSection,
+        displayComponent: PlayerSection as DisplayOutput,
         pt: isOwnProfile ? 0 : '4rem',
         ens,
       }}

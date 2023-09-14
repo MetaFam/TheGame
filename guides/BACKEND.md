@@ -11,7 +11,6 @@
 To run the MetaGame backend you will the following installed.
 
 - Node.js
-
 - Docker
 
 ### Configuration
@@ -45,7 +44,7 @@ yarn docker:start
 
 ### Getting Started
 
-After running `yarn docker:start` make sure to confirm the backend is running.
+After running `yarn docker:start` _(or `yarn docker:dev` if you want the logs printed to the console)_ make sure to confirm the backend is running.
 
 ```bash
 # Confirm the backend works
@@ -61,10 +60,10 @@ You can debug further if there are problems by running `docker ps`.
 $ docker ps
 
 # Check to see if there are any issues with the docker containers.
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
-6355ef5641a0        the-game_backend    "docker-entrypoint.s…"   51 minutes ago      Up 2 minutes        0.0.0.0:4000->4000/tcp   the-game_backend_1
-970f1ffb79c8        the-game_hasura     "/bin/sh -c '/wait &…"   51 minutes ago      Up 2 minutes        0.0.0.0:8080->8080/tcp   the-game_hasura_1
-38e3140ab632        postgres:12         "docker-entrypoint.s…"   51 minutes ago      Up 2 minutes        0.0.0.0:5432->5432/tcp   the-game_database_1
+CONTAINER ID  IMAGE            COMMAND                  CREATED             STATUS              PORTS                    NAMES
+6355ef5641a0  the-game_backend "docker-entrypoint.s…"   51 minutes ago      Up 2 minutes        0.0.0.0:4000->4000/tcp   the-game_backend_1
+970f1ffb79c8  the-game_hasura  "/bin/sh -c '/wait &…"   51 minutes ago      Up 2 minutes        0.0.0.0:8080->8080/tcp   the-game_hasura_1
+38e3140ab632  postgres:12      "docker-entrypoint.s…"   51 minutes ago      Up 2 minutes        0.0.0.0:5432->5432/tcp   the-game_database_1
 ```
 
 You can also read the logs of the services by running `docker-compose logs -f $SERVICE` (replace \$SERVICE by `backend` or `hasura`)
