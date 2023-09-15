@@ -2,7 +2,7 @@ import 'assets/custom-markdown-editor.scss';
 import 'react-markdown-editor-lite/lib/index.css';
 
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
-import { ChakraProvider, CSSReset, Flex, Image, MetaTheme } from '@metafam/ds';
+import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import Animocto from 'assets/animocto.svg';
@@ -13,6 +13,7 @@ import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
 import { useIsMounted } from 'lib/hooks/useIsMounted';
 import Head from 'next/head';
+import Image from 'next/image';
 import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
@@ -51,10 +52,34 @@ const App: React.FC<WithUrqlProps> = ({
   const isMounted = useIsMounted();
   if (!isMounted) {
     return (
-      <Flex align="center" justify="center" minH="100vh" bgColor="#130032">
-        <CSSReset />
-        <Image src={Animocto.src} alt="Loading..." h="20%" w="20%" />;
-      </Flex>
+      <div
+        style={{
+          height: '100vh',
+          backgroundColor: '#130032',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Image src={Animocto.src} alt="Loading..." height={250} width={250} />;
+        <style jsx global>{`
+          body {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.8;
+            color: #333;
+            font-family: sans-serif;
+          }
+          h1 {
+            font-weight: 700;
+          }
+          p {
+            margin-bottom: 10px;
+          }
+        `}</style>
+      </div>
     );
   }
   return (
