@@ -1,0 +1,2 @@
+CREATE TABLE "public"."xp" ("player_id" uuid NOT NULL, "balance" float8 NOT NULL, "token_address" text NOT NULL, "id" uuid NOT NULL DEFAULT gen_random_uuid(), "initial" float8 DEFAULT 0, "seasonal_balance" float8 DEFAULT 0, PRIMARY KEY ("id") , FOREIGN KEY ("player_id") REFERENCES "public"."player"("id") ON UPDATE no action ON DELETE no action, UNIQUE ("player_id", "token_address"));
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

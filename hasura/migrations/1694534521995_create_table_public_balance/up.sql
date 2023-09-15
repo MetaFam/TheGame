@@ -1,0 +1,2 @@
+CREATE TABLE "public"."balance" ("player_address" text NOT NULL, "token_address" text NOT NULL, "amount" float8 NOT NULL, "id" uuid NOT NULL DEFAULT gen_random_uuid(), "executed_at" timestamptz NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("token_address") REFERENCES "public"."token"("address") ON UPDATE no action ON DELETE no action, UNIQUE ("token_address", "player_address", "executed_at"));
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
