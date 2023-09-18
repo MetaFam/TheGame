@@ -61,7 +61,14 @@ const App: React.FC<WithUrqlProps> = ({
           justifyContent: 'center',
         }}
       >
-        <Image src={Animocto.src} alt="Loading..." height={250} width={250} />;
+        <Image
+          src="https://animocto.metagame.wtf/"
+          unoptimized
+          alt="Loading..."
+          height={250}
+          width={250}
+        />
+        ;
         <style jsx global>{`
           body {
             margin: 0;
