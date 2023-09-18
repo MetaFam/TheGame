@@ -96,7 +96,7 @@ export const AddPlayerLink: React.FC<{
           >
             {Object.entries(LinkType_Enum).map(([key, value]) => (
               <option key={value} value={value}>
-                {value}
+                {key}
               </option>
             ))}
           </Select>
