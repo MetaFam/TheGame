@@ -1,9 +1,9 @@
-INSERT INTO "public"."LinkType"("type", "description") VALUES (E'Other', E'OTHER');
+INSERT INTO "public"."LinkType"("type", "description") VALUES (E'OTHER', E'Other');
 INSERT INTO "LinkType" (type, description) VALUES
-  ('DISCORD', 'DISCORD'),
-  ('TWITTER', 'TWITTER'),
-  ('LENSTER', 'LENSTER'),
-  ('FARCASTER', 'FARCASTER'),
-  ('GITHUB', 'GITHUB'),
-  ('TELEGRAM', 'TELEGRAM'),
-  ('YOUTUBE', 'YOUTUBE');
+  ('DISCORD', 'Discord'),
+  ('TWITTER', 'Twitter'),
+  ('LENSTER', 'Lenster'),
+  ('FARCASTER', 'Farcaster'),
+  ('GITHUB', 'GitHub'),
+  ('TELEGRAM', 'Telegram'),
+  ('YOUTUBE', 'YouTube');
