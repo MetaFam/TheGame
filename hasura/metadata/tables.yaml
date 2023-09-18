@@ -554,7 +554,7 @@
     - role: player
       permission:
         check:
-          id:
+          player_id:
             _eq: X-Hasura-User-Id
         columns:
           - name
@@ -588,7 +588,7 @@
           - type
           - url
         filter:
-          id:
+          player_id:
             _eq: X-Hasura-User-Id
         check: null
 - table:

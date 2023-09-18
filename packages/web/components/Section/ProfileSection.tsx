@@ -24,7 +24,7 @@ import { EditSkills } from 'components/Setup/SetupSkills';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import React, { useCallback } from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
-
+import { AddPlayerLink } from 'components/Player/Section/PlayerLinks';
 import { SetupDeworkLink } from '../Setup/SetupDeworkURL';
 
 export type ProfileSectionProps = {
@@ -193,6 +193,7 @@ const isEditable = (type?: Maybe<BoxType>) =>
       BoxTypes.PLAYER_COLOR_DISPOSITION,
       BoxTypes.PLAYER_SKILLS,
       BoxTypes.PLAYER_ROLES,
+      BoxTypes.PLAYER_LINKS,
     ] as Array<BoxType>
   ).includes(type);
 
@@ -263,6 +264,14 @@ const EditSection = ({
     case BoxTypes.DEWORK: {
       return (
         <SetupDeworkLink
+          onComplete={hydrateFromHasura}
+          player={hydratedPlayer}
+        />
+      );
+    }
+    case BoxTypes.PLAYER_LINKS: {
+      return (
+        <AddPlayerLink
           onComplete={hydrateFromHasura}
           player={hydratedPlayer}
         />

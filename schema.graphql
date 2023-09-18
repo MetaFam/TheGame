@@ -7351,21 +7351,21 @@ enum LinkType_constraint {
   LinkType_pkey
 }
 enum LinkType_enum {
-  "DISCORD"
+  "Discord"
   DISCORD
-  "FARCASTER"
+  "Farcaster"
   FARCASTER
-  "GITHUB"
+  "GitHub"
   GITHUB
-  "LENSTER"
+  "Lenster"
   LENSTER
-  "OTHER"
-  Other
-  "TELEGRAM"
+  "Other"
+  OTHER
+  "Telegram"
   TELEGRAM
-  "TWITTER"
+  "Twitter"
   TWITTER
-  "YOUTUBE"
+  "YouTube"
   YOUTUBE
 }
 """

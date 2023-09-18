@@ -38,8 +38,8 @@ export interface PlayerLinkFormInputs {
 
 export const AddPlayerLink: React.FC<{
   player?: Player;
-  metadata: BoxMetadata;
-  setMetadata: (d: BoxMetadata) => void;
+  metadata?: BoxMetadata;
+  setMetadata?: (d: BoxMetadata) => void;
 }> = ({ player }) => {
   const {
     register,
@@ -68,7 +68,11 @@ export const AddPlayerLink: React.FC<{
       <VStack spacing={2}>
         <Field label="Name" error={errors.name}>
           <Input
-            {...register('name')}
+          
+            {...register('name', required: {
+              value: true,
+              message: 'This is a required field.',
+            })}
             isInvalid={!!errors.name}
             background="dark"
           />
@@ -132,11 +136,11 @@ export const PlayerLinks: React.FC<Props> = ({
 }) => {
   const [links, setLinks] = useState<Link[]>([]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     getPlayerLinks(player.id).then((data) => setLinks(data.link));
-  //   })();
-  // }, [player.id]);
+  useEffect(() => {
+    (async () => {
+      getPlayerLinks(player.id).then((data) => setLinks(data.link));
+    })();
+  }, [player.id]);
   console.log({ links })
   return (
     <ProfileSection
