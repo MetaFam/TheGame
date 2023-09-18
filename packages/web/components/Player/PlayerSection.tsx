@@ -12,16 +12,26 @@ import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { forwardRef, LegacyRef, ReactElement, useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BoxTypes, createBoxKey, DisplayComponent } from 'utils/boxTypes';
+import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
-import { PlayerDework } from './Section/PlayerDework';
+import { PlayerLinks } from './Section/PlayerLinks';
 import { PlayerMeTokens } from './Section/PlayerMeToken';
 
+type Props = {
+  type: BoxType;
+  player?: Player;
+  metadata?: BoxMetadata;
+  ens?: string;
+  editing?: boolean;
+  onRemoveBox?: (boxKey: string) => void;
+};
+
 const PlayerSectionInner: React.FC<
-  DisplayComponent & {
+  Props & {
     player: Player;
+    ens?: string;
     isOwnProfile?: boolean;
   }
 > = ({ metadata, type, player, isOwnProfile, editing, ens }) => {
@@ -40,14 +50,14 @@ const PlayerSectionInner: React.FC<
       return <PlayerType {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_ROLES:
       return <PlayerRoles {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.PLAYER_LINKS:
+      return <PlayerLinks {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_ACHIEVEMENTS:
       return <PlayerAchievements {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_COMPLETED_QUESTS:
       return <PlayerCompletedQuests {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_METOKENS:
       return <PlayerMeTokens {...{ player, isOwnProfile, editing }} />;
-    case BoxTypes.DEWORK:
-      return <PlayerDework {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
@@ -63,7 +73,7 @@ const PlayerSectionInner: React.FC<
   }
 };
 
-export const PlayerSection = forwardRef<ReactElement, DisplayComponent>(
+export const PlayerSection = forwardRef<HTMLDivElement, Props>(
   ({ metadata, type, player, editing = false, onRemoveBox, ens }, ref) => {
     const key = createBoxKey(type, metadata);
     const { user } = useUser();
@@ -77,8 +87,8 @@ export const PlayerSection = forwardRef<ReactElement, DisplayComponent>(
 
     return (
       <Flex
-        ref={ref as LegacyRef<HTMLDivElement>}
         w="100%"
+        {...{ ref }}
         direction="column"
         h="auto"
         minH="100%"

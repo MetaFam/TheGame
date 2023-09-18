@@ -22,6 +22,19 @@ export const updatePlayerMutations = /* GraphQL */ `
     }
   }
 
+  mutation AddPlayerLink(
+    $playerId: uuid!
+    $name: String
+    $url: String!
+    $type: LinkType_enum
+  ) {
+    insert_link_one(
+      object: { name: $name, type: $type, url: $url, player_id: $playerId }
+    ) {
+      id
+    }
+  }
+
   mutation UpdateAboutYou($playerId: uuid!, $input: player_set_input!) {
     update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
       id

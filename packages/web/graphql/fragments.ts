@@ -47,7 +47,11 @@ export const PlayerFragment = /* GraphQL */ `
         label
       }
     }
-
+    links {
+      name
+      url
+      type
+    }
     accounts(where: { type: { _in: [TWITTER, GITHUB, MEETWITHWALLET] } }) {
       identifier
       type
@@ -78,6 +82,11 @@ export const GuildFragment = /* GraphQL */ `
     logo
     name
     type
+    links {
+      name
+      url
+      type
+    }
     websiteUrl
     githubUrl
     twitterUrl

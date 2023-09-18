@@ -1,3 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- INSERT INTO "public"."LinkType"("type", "description") VALUES (E'Other', E'OTHER');
+DELETE FROM "LinkType";

@@ -417,6 +417,73 @@ type LinkCeramicProfileNodeResponse {
   error: String
   verified: Boolean!
 }
+"""
+columns and relationships of "LinkType"
+"""
+type LinkType {
+  description: String
+  "An array relationship"
+  links(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): [link!]!
+  "An aggregate relationship"
+  links_aggregate(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): link_aggregate!
+  type: String!
+}
+"""
+aggregated selection of "LinkType"
+"""
+type LinkType_aggregate {
+  aggregate: LinkType_aggregate_fields
+  nodes: [LinkType!]!
+}
+"""
+aggregate fields of "LinkType"
+"""
+type LinkType_aggregate_fields {
+  count(columns: [LinkType_select_column!], distinct: Boolean): Int!
+  max: LinkType_max_fields
+  min: LinkType_min_fields
+}
+"aggregate max on columns"
+type LinkType_max_fields {
+  description: String
+  type: String
+}
+"aggregate min on columns"
+type LinkType_min_fields {
+  description: String
+  type: String
+}
+"""
+response of any mutation on the table "LinkType"
+"""
+type LinkType_mutation_response {
+  "number of rows affected by the mutation"
+  affected_rows: Int!
+  "data from the rows affected by the mutation"
+  returning: [LinkType!]!
+}
 type Member {
   createdAt: String!
   delegateKey: String!
@@ -1072,6 +1139,32 @@ type guild {
   guildname: String!
   id: uuid!
   joinButtonUrl: String
+  "An array relationship"
+  links(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): [link!]!
+  "An aggregate relationship"
+  links_aggregate(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): link_aggregate!
   logo: String
   membershipThroughDiscord: Boolean!
   "An object relationship"
@@ -1308,6 +1401,63 @@ type guild_variance_fields {
   sortPosition: Float
 }
 """
+columns and relationships of "link"
+"""
+type link {
+  "An object relationship"
+  LinkType: LinkType
+  "An object relationship"
+  guild: guild
+  guild_id: uuid
+  id: uuid!
+  name: String
+  "An object relationship"
+  player: player
+  player_id: uuid
+  type: LinkType_enum
+  url: String
+}
+"""
+aggregated selection of "link"
+"""
+type link_aggregate {
+  aggregate: link_aggregate_fields
+  nodes: [link!]!
+}
+"""
+aggregate fields of "link"
+"""
+type link_aggregate_fields {
+  count(columns: [link_select_column!], distinct: Boolean): Int!
+  max: link_max_fields
+  min: link_min_fields
+}
+"aggregate max on columns"
+type link_max_fields {
+  guild_id: uuid
+  id: uuid
+  name: String
+  player_id: uuid
+  url: String
+}
+"aggregate min on columns"
+type link_min_fields {
+  guild_id: uuid
+  id: uuid
+  name: String
+  player_id: uuid
+  url: String
+}
+"""
+response of any mutation on the table "link"
+"""
+type link_mutation_response {
+  "number of rows affected by the mutation"
+  affected_rows: Int!
+  "data from the rows affected by the mutation"
+  returning: [link!]!
+}
+"""
 columns and relationships of "me"
 """
 type me {
@@ -1404,6 +1554,17 @@ type mutation_root {
   delete single row from the table: "GuildType"
   """
   delete_GuildType_by_pk(name: String!): GuildType
+  """
+  delete data from the table: "LinkType"
+  """
+  delete_LinkType(
+    "filter the rows which have to be deleted"
+    where: LinkType_bool_exp!
+  ): LinkType_mutation_response
+  """
+  delete single row from the table: "LinkType"
+  """
+  delete_LinkType_by_pk(type: String!): LinkType
   """
   delete data from the table: "PlayerRank"
   """
@@ -1536,6 +1697,17 @@ type mutation_root {
   delete single row from the table: "guild_player"
   """
   delete_guild_player_by_pk(guildId: uuid!, playerId: uuid!): guild_player
+  """
+  delete data from the table: "link"
+  """
+  delete_link(
+    "filter the rows which have to be deleted"
+    where: link_bool_exp!
+  ): link_mutation_response
+  """
+  delete single row from the table: "link"
+  """
+  delete_link_by_pk(id: uuid!): link
   """
   delete data from the table: "player"
   """
@@ -1759,6 +1931,24 @@ type mutation_root {
     on_conflict: GuildType_on_conflict
   ): GuildType
   """
+  insert data into the table: "LinkType"
+  """
+  insert_LinkType(
+    "the rows to be inserted"
+    objects: [LinkType_insert_input!]!,
+    "upsert condition"
+    on_conflict: LinkType_on_conflict
+  ): LinkType_mutation_response
+  """
+  insert a single row into the table: "LinkType"
+  """
+  insert_LinkType_one(
+    "the row to be inserted"
+    object: LinkType_insert_input!,
+    "upsert condition"
+    on_conflict: LinkType_on_conflict
+  ): LinkType
+  """
   insert data into the table: "PlayerRank"
   """
   insert_PlayerRank(
@@ -1974,6 +2164,24 @@ type mutation_root {
     "upsert condition"
     on_conflict: guild_player_on_conflict
   ): guild_player
+  """
+  insert data into the table: "link"
+  """
+  insert_link(
+    "the rows to be inserted"
+    objects: [link_insert_input!]!,
+    "upsert condition"
+    on_conflict: link_on_conflict
+  ): link_mutation_response
+  """
+  insert a single row into the table: "link"
+  """
+  insert_link_one(
+    "the row to be inserted"
+    object: link_insert_input!,
+    "upsert condition"
+    on_conflict: link_on_conflict
+  ): link
   """
   insert data into the table: "player"
   """
@@ -2317,6 +2525,28 @@ type mutation_root {
     updates: [GuildType_updates!]!
   ): [GuildType_mutation_response]
   """
+  update data of the table: "LinkType"
+  """
+  update_LinkType(
+    "sets the columns of the filtered rows to the given values"
+    _set: LinkType_set_input,
+    "filter the rows which have to be updated"
+    where: LinkType_bool_exp!
+  ): LinkType_mutation_response
+  """
+  update single row of the table: "LinkType"
+  """
+  update_LinkType_by_pk(
+    "sets the columns of the filtered rows to the given values"
+    _set: LinkType_set_input,pk_columns: LinkType_pk_columns_input!  ): LinkType
+  """
+  update multiples rows of table: "LinkType"
+  """
+  update_LinkType_many(
+    "updates to execute, in order"
+    updates: [LinkType_updates!]!
+  ): [LinkType_mutation_response]
+  """
   update data of the table: "PlayerRank"
   """
   update_PlayerRank(
@@ -2608,6 +2838,28 @@ type mutation_root {
     "updates to execute, in order"
     updates: [guild_player_updates!]!
   ): [guild_player_mutation_response]
+  """
+  update data of the table: "link"
+  """
+  update_link(
+    "sets the columns of the filtered rows to the given values"
+    _set: link_set_input,
+    "filter the rows which have to be updated"
+    where: link_bool_exp!
+  ): link_mutation_response
+  """
+  update single row of the table: "link"
+  """
+  update_link_by_pk(
+    "sets the columns of the filtered rows to the given values"
+    _set: link_set_input,pk_columns: link_pk_columns_input!  ): link
+  """
+  update multiples rows of table: "link"
+  """
+  update_link_many(
+    "updates to execute, in order"
+    updates: [link_updates!]!
+  ): [link_mutation_response]
   """
   update data of the table: "player"
   """
@@ -2995,6 +3247,32 @@ type player {
     where: guild_player_bool_exp
   ): guild_player_aggregate!
   id: uuid!
+  "An array relationship"
+  links(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): [link!]!
+  "An aggregate relationship"
+  links_aggregate(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): link_aggregate!
   "An object relationship"
   profile: profile
   profileLayout: String
@@ -3772,6 +4050,40 @@ type query_root {
   """
   GuildType_by_pk(name: String!): GuildType
   """
+  fetch data from the table: "LinkType"
+  """
+  LinkType(
+    "distinct select on columns"
+    distinct_on: [LinkType_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [LinkType_order_by!],
+    "filter the rows returned"
+    where: LinkType_bool_exp
+  ): [LinkType!]!
+  """
+  fetch aggregated fields from the table: "LinkType"
+  """
+  LinkType_aggregate(
+    "distinct select on columns"
+    distinct_on: [LinkType_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [LinkType_order_by!],
+    "filter the rows returned"
+    where: LinkType_bool_exp
+  ): LinkType_aggregate!
+  """
+  fetch data from the table: "LinkType" using primary key columns
+  """
+  LinkType_by_pk(type: String!): LinkType
+  """
   fetch data from the table: "PlayerRank"
   """
   PlayerRank(
@@ -4187,6 +4499,40 @@ type query_root {
   fetch data from the table: "guild_player" using primary key columns
   """
   guild_player_by_pk(guildId: uuid!, playerId: uuid!): guild_player
+  """
+  fetch data from the table: "link"
+  """
+  link(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): [link!]!
+  """
+  fetch aggregated fields from the table: "link"
+  """
+  link_aggregate(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): link_aggregate!
+  """
+  fetch data from the table: "link" using primary key columns
+  """
+  link_by_pk(id: uuid!): link
   """
   fetch data from the table: "me"
   """
@@ -5340,6 +5686,51 @@ type subscription_root {
     where: GuildType_bool_exp
   ): [GuildType!]!
   """
+  fetch data from the table: "LinkType"
+  """
+  LinkType(
+    "distinct select on columns"
+    distinct_on: [LinkType_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [LinkType_order_by!],
+    "filter the rows returned"
+    where: LinkType_bool_exp
+  ): [LinkType!]!
+  """
+  fetch aggregated fields from the table: "LinkType"
+  """
+  LinkType_aggregate(
+    "distinct select on columns"
+    distinct_on: [LinkType_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [LinkType_order_by!],
+    "filter the rows returned"
+    where: LinkType_bool_exp
+  ): LinkType_aggregate!
+  """
+  fetch data from the table: "LinkType" using primary key columns
+  """
+  LinkType_by_pk(type: String!): LinkType
+  """
+  fetch data from the table in a streaming manner: "LinkType"
+  """
+  LinkType_stream(
+    "maximum number of rows returned in a single batch"
+    batch_size: Int!,
+    "cursor to stream the results returned by the query"
+    cursor: [LinkType_stream_cursor_input]!,
+    "filter the rows returned"
+    where: LinkType_bool_exp
+  ): [LinkType!]!
+  """
   fetch data from the table: "PlayerRank"
   """
   PlayerRank(
@@ -5879,6 +6270,51 @@ type subscription_root {
     "filter the rows returned"
     where: guild_bool_exp
   ): [guild!]!
+  """
+  fetch data from the table: "link"
+  """
+  link(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): [link!]!
+  """
+  fetch aggregated fields from the table: "link"
+  """
+  link_aggregate(
+    "distinct select on columns"
+    distinct_on: [link_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [link_order_by!],
+    "filter the rows returned"
+    where: link_bool_exp
+  ): link_aggregate!
+  """
+  fetch data from the table: "link" using primary key columns
+  """
+  link_by_pk(id: uuid!): link
+  """
+  fetch data from the table in a streaming manner: "link"
+  """
+  link_stream(
+    "maximum number of rows returned in a single batch"
+    batch_size: Int!,
+    "cursor to stream the results returned by the query"
+    cursor: [link_stream_cursor_input]!,
+    "filter the rows returned"
+    where: link_bool_exp
+  ): [link!]!
   """
   fetch data from the table: "me"
   """
@@ -6906,6 +7342,37 @@ enum GuildType_update_column {
   name
 }
 """
+unique or primary key constraints on table "LinkType"
+"""
+enum LinkType_constraint {
+  """
+  unique or primary key constraint on columns "type"
+  """
+  LinkType_pkey
+}
+enum LinkType_enum {
+  "OTHER"
+  Other
+}
+"""
+select columns of table "LinkType"
+"""
+enum LinkType_select_column {
+  "column name"
+  description
+  "column name"
+  type
+}
+"""
+update columns of table "LinkType"
+"""
+enum LinkType_update_column {
+  "column name"
+  description
+  "column name"
+  type
+}
+"""
 unique or primary key constraints on table "PlayerRank"
 """
 enum PlayerRank_constraint {
@@ -7413,6 +7880,49 @@ enum guild_update_column {
   type
   "column name"
   websiteUrl
+}
+"""
+unique or primary key constraints on table "link"
+"""
+enum link_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  link_pkey
+}
+"""
+select columns of table "link"
+"""
+enum link_select_column {
+  "column name"
+  guild_id
+  "column name"
+  id
+  "column name"
+  name
+  "column name"
+  player_id
+  "column name"
+  type
+  "column name"
+  url
+}
+"""
+update columns of table "link"
+"""
+enum link_update_column {
+  "column name"
+  guild_id
+  "column name"
+  id
+  "column name"
+  name
+  "column name"
+  player_id
+  "column name"
+  type
+  "column name"
+  url
 }
 """
 select columns of table "me"
@@ -8583,6 +9093,91 @@ input Int_comparison_exp {
   _nin: [Int!]
 }
 """
+Boolean expression to filter rows from the table "LinkType". All fields are combined with a logical 'AND'.
+"""
+input LinkType_bool_exp {
+  _and: [LinkType_bool_exp!]
+  _not: LinkType_bool_exp
+  _or: [LinkType_bool_exp!]
+  description: String_comparison_exp
+  links: link_bool_exp
+  links_aggregate: link_aggregate_bool_exp
+  type: String_comparison_exp
+}
+"""
+Boolean expression to compare columns of type "LinkType_enum". All fields are combined with logical 'AND'.
+"""
+input LinkType_enum_comparison_exp {
+  _eq: LinkType_enum
+  _in: [LinkType_enum!]
+  _is_null: Boolean
+  _neq: LinkType_enum
+  _nin: [LinkType_enum!]
+}
+"""
+input type for inserting data into table "LinkType"
+"""
+input LinkType_insert_input {
+  description: String
+  links: link_arr_rel_insert_input
+  type: String
+}
+"""
+input type for inserting object relation for remote table "LinkType"
+"""
+input LinkType_obj_rel_insert_input {
+  data: LinkType_insert_input!
+  "upsert condition"
+  on_conflict: LinkType_on_conflict
+}
+"""
+on_conflict condition type for table "LinkType"
+"""
+input LinkType_on_conflict {
+  constraint: LinkType_constraint!
+  update_columns: [LinkType_update_column!]! = []
+  where: LinkType_bool_exp
+}
+"""
+Ordering options when selecting data from "LinkType".
+"""
+input LinkType_order_by {
+  description: order_by
+  links_aggregate: link_aggregate_order_by
+  type: order_by
+}
+"primary key columns input for table: LinkType"
+input LinkType_pk_columns_input {
+  type: String!
+}
+"""
+input type for updating data in table "LinkType"
+"""
+input LinkType_set_input {
+  description: String
+  type: String
+}
+"""
+Streaming cursor of the table "LinkType"
+"""
+input LinkType_stream_cursor_input {
+  "Stream column input with initial value"
+  initial_value: LinkType_stream_cursor_value_input!
+  "cursor ordering"
+  ordering: cursor_ordering
+}
+"Initial value of the column from where the streaming should start"
+input LinkType_stream_cursor_value_input {
+  description: String
+  type: String
+}
+input LinkType_updates {
+  "sets the columns of the filtered rows to the given values"
+  _set: LinkType_set_input
+  "filter the rows which have to be updated"
+  where: LinkType_bool_exp!
+}
+"""
 Boolean expression to filter rows from the table "PlayerRank". All fields are combined with a logical 'AND'.
 """
 input PlayerRank_bool_exp {
@@ -9522,6 +10117,8 @@ input guild_bool_exp {
   guildname: String_comparison_exp
   id: uuid_comparison_exp
   joinButtonUrl: String_comparison_exp
+  links: link_bool_exp
+  links_aggregate: link_aggregate_bool_exp
   logo: String_comparison_exp
   membershipThroughDiscord: Boolean_comparison_exp
   metadata: guild_metadata_bool_exp
@@ -9557,6 +10154,7 @@ input guild_insert_input {
   guildname: String
   id: uuid
   joinButtonUrl: String
+  links: link_arr_rel_insert_input
   logo: String
   membershipThroughDiscord: Boolean
   metadata: guild_metadata_obj_rel_insert_input
@@ -9756,6 +10354,7 @@ input guild_order_by {
   guildname: order_by
   id: order_by
   joinButtonUrl: order_by
+  links_aggregate: link_aggregate_order_by
   logo: order_by
   membershipThroughDiscord: order_by
   metadata: guild_metadata_order_by
@@ -10015,6 +10614,143 @@ input jsonb_comparison_exp {
   _neq: jsonb
   _nin: [jsonb!]
 }
+input link_aggregate_bool_exp {
+  count: link_aggregate_bool_exp_count
+}
+input link_aggregate_bool_exp_count {
+  arguments: [link_select_column!]
+  distinct: Boolean
+  filter: link_bool_exp
+  predicate: Int_comparison_exp!
+}
+"""
+order by aggregate values of table "link"
+"""
+input link_aggregate_order_by {
+  count: order_by
+  max: link_max_order_by
+  min: link_min_order_by
+}
+"""
+input type for inserting array relation for remote table "link"
+"""
+input link_arr_rel_insert_input {
+  data: [link_insert_input!]!
+  "upsert condition"
+  on_conflict: link_on_conflict
+}
+"""
+Boolean expression to filter rows from the table "link". All fields are combined with a logical 'AND'.
+"""
+input link_bool_exp {
+  LinkType: LinkType_bool_exp
+  _and: [link_bool_exp!]
+  _not: link_bool_exp
+  _or: [link_bool_exp!]
+  guild: guild_bool_exp
+  guild_id: uuid_comparison_exp
+  id: uuid_comparison_exp
+  name: String_comparison_exp
+  player: player_bool_exp
+  player_id: uuid_comparison_exp
+  type: LinkType_enum_comparison_exp
+  url: String_comparison_exp
+}
+"""
+input type for inserting data into table "link"
+"""
+input link_insert_input {
+  LinkType: LinkType_obj_rel_insert_input
+  guild: guild_obj_rel_insert_input
+  guild_id: uuid
+  id: uuid
+  name: String
+  player: player_obj_rel_insert_input
+  player_id: uuid
+  type: LinkType_enum
+  url: String
+}
+"""
+order by max() on columns of table "link"
+"""
+input link_max_order_by {
+  guild_id: order_by
+  id: order_by
+  name: order_by
+  player_id: order_by
+  url: order_by
+}
+"""
+order by min() on columns of table "link"
+"""
+input link_min_order_by {
+  guild_id: order_by
+  id: order_by
+  name: order_by
+  player_id: order_by
+  url: order_by
+}
+"""
+on_conflict condition type for table "link"
+"""
+input link_on_conflict {
+  constraint: link_constraint!
+  update_columns: [link_update_column!]! = []
+  where: link_bool_exp
+}
+"""
+Ordering options when selecting data from "link".
+"""
+input link_order_by {
+  LinkType: LinkType_order_by
+  guild: guild_order_by
+  guild_id: order_by
+  id: order_by
+  name: order_by
+  player: player_order_by
+  player_id: order_by
+  type: order_by
+  url: order_by
+}
+"primary key columns input for table: link"
+input link_pk_columns_input {
+  id: uuid!
+}
+"""
+input type for updating data in table "link"
+"""
+input link_set_input {
+  guild_id: uuid
+  id: uuid
+  name: String
+  player_id: uuid
+  type: LinkType_enum
+  url: String
+}
+"""
+Streaming cursor of the table "link"
+"""
+input link_stream_cursor_input {
+  "Stream column input with initial value"
+  initial_value: link_stream_cursor_value_input!
+  "cursor ordering"
+  ordering: cursor_ordering
+}
+"Initial value of the column from where the streaming should start"
+input link_stream_cursor_value_input {
+  guild_id: uuid
+  id: uuid
+  name: String
+  player_id: uuid
+  type: LinkType_enum
+  url: String
+}
+input link_updates {
+  "sets the columns of the filtered rows to the given values"
+  _set: link_set_input
+  "filter the rows which have to be updated"
+  where: link_bool_exp!
+}
 """
 Boolean expression to filter rows from the table "me". All fields are combined with a logical 'AND'.
 """
@@ -10196,6 +10932,8 @@ input player_bool_exp {
   guilds: guild_player_bool_exp
   guilds_aggregate: guild_player_aggregate_bool_exp
   id: uuid_comparison_exp
+  links: link_bool_exp
+  links_aggregate: link_aggregate_bool_exp
   profile: profile_bool_exp
   profileLayout: String_comparison_exp
   quest_completions: quest_completion_bool_exp
@@ -10234,6 +10972,7 @@ input player_insert_input {
   ethereumAddress: String
   guilds: guild_player_arr_rel_insert_input
   id: uuid
+  links: link_arr_rel_insert_input
   profile: profile_obj_rel_insert_input
   profileLayout: String
   quest_completions: quest_completion_arr_rel_insert_input
@@ -10276,6 +11015,7 @@ input player_order_by {
   ethereumAddress: order_by
   guilds_aggregate: guild_player_aggregate_order_by
   id: order_by
+  links_aggregate: link_aggregate_order_by
   profile: profile_order_by
   profileLayout: order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
