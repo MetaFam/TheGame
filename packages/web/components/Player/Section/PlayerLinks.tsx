@@ -23,18 +23,6 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 import { BoxMetadata, BoxTypes } from 'utils/boxTypes';
 
 import LinkIcon from './LinkIcon';
-console.log({LinkType_Enum})
-
-const LINKTYPES = {
-  OTHER: 'Other',
-  DEWORK: 'Discord',
-  TWITTER: 'Twitter',
-  LENSTER: 'Lenster',
-  FARCASTER: 'Farcaster',
-  GITHUB: 'GitHub',
-  TELEGRAM: 'Telegram',
-  YOUTUBE: 'YouTube'
-} as const
 
 type Props = {
   player: Player;
@@ -74,7 +62,7 @@ export const AddPlayerLink: React.FC<{
     },
     [addLink, player?.id],
   );
-
+  console.log(LinkType_Enum)
   return (
     <Box w="100%">
       <VStack spacing={2}>
@@ -106,8 +94,8 @@ export const AddPlayerLink: React.FC<{
             isInvalid={!!errors.type}
             background="dark"
           >
-            {Object.entries(LINKTYPES).map(([key, value]) => (
-              <option key={value} value={key}>
+            {Object.entries(LinkType_Enum).map(([key, value]) => (
+              <option key={value} value={value}>
                 {value}
               </option>
             ))}

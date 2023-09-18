@@ -7351,8 +7351,22 @@ enum LinkType_constraint {
   LinkType_pkey
 }
 enum LinkType_enum {
+  "DISCORD"
+  DISCORD
+  "FARCASTER"
+  FARCASTER
+  "GITHUB"
+  GITHUB
+  "LENSTER"
+  LENSTER
   "OTHER"
   Other
+  "TELEGRAM"
+  TELEGRAM
+  "TWITTER"
+  TWITTER
+  "YOUTUBE"
+  YOUTUBE
 }
 """
 select columns of table "LinkType"
