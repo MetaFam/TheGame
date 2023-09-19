@@ -26,6 +26,7 @@ import React, { useCallback } from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
 import { AddPlayerLink } from 'components/Player/Section/PlayerLinks';
 import { SetupDeworkLink } from '../Setup/SetupDeworkURL';
+import { SetupPlayerLinks } from 'components/Setup/SetupPlayerLinks';
 
 export type ProfileSectionProps = {
   children?: React.ReactNode;
@@ -271,10 +272,7 @@ const EditSection = ({
     }
     case BoxTypes.PLAYER_LINKS: {
       return (
-        <AddPlayerLink
-          onComplete={hydrateFromHasura}
-          player={hydratedPlayer}
-        />
+        <SetupPlayerLinks player={hydratedPlayer} onComplete={hydrateFromHasura} />
       );
     }
     default:

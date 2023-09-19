@@ -12,14 +12,14 @@ import {
 const LinkIcon = ({ type }: { type: Maybe<LinkType_Enum> | undefined }) => {
   if (!type) return <></>;
   const currentIcon = {
-    Twitter: <FaTwitter />,
-    Discord: <FaDiscord />,
-    Github: <FaGithub />,
-    Telegram: <FaTelegram />,
-    Farcaster: <FaGlobe />,
-    Lenster: <FaGlobe />,
-    Youtube: <FaYoutube />,
-    Other: <FaGlobe />,
+    TWITTER: <FaTwitter />,
+    DISCORD: <FaDiscord />,
+    GITHUB: <FaGithub />,
+    TELEGRAM: <FaTelegram />,
+    FARCASTER: <FaGlobe />,
+    LENSTER: <FaGlobe />,
+    YOUTUBE: <FaYoutube />,
+    OTHER: <FaGlobe />,
   }[type];
   return (
     <Box my="auto" ml={2}>

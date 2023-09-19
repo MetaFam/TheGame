@@ -1,5 +1,6 @@
 import {
   Box,
+  CloseIcon,
   Field,
   Flex,
   Input,
@@ -7,7 +8,9 @@ import {
   MetaTheme,
   Select,
   Text,
+  Button,
   VStack,
+  EditIcon,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import {
@@ -45,15 +48,15 @@ export const AddPlayerLink: React.FC<{
     register,
     formState: { errors },
     handleSubmit,
+    getValues
   } = useForm<PlayerLinkFormInputs>({
     mode: 'onTouched',
   });
-
   const [, addLink] = useAddPlayerLinkMutation();
 
   const onSubmit = useCallback(
     async (link: PlayerLinkFormInputs) => {
-      const playerLink = { playerId: player?.id, ...link };
+      const playerLink = { playerId: player?.id, name: link.name || link.type, url: link.url, type: link.type};
       const { error } = await addLink(playerLink);
 
       if (error) {
@@ -62,17 +65,13 @@ export const AddPlayerLink: React.FC<{
     },
     [addLink, player?.id],
   );
-  console.log(LinkType_Enum)
+
   return (
     <Box w="100%">
       <VStack spacing={2}>
         <Field label="Name" error={errors.name}>
           <Input
-          
-            {...register('name', required: {
-              value: true,
-              message: 'This is a required field.',
-            })}
+            {...register('name')}
             isInvalid={!!errors.name}
             background="dark"
           />
@@ -189,7 +188,20 @@ export const PlayerLinks: React.FC<Props> = ({
               >
                 <FaExternalLinkAlt fill="currentColor" />
               </Box>
+              {
+                editing && (
+                  <>
+                    <Button sx={{ bg: '#13003280' }}>
+                      <EditIcon />
+                    </Button>
+                    <Button sx={{ ml: '1em', bg: '#13003280' }}>
+                      <CloseIcon />
+                    </Button>
+                  </>
+                  
+              )}
             </Flex>
+           
           </a>
         ))}
       </VStack>

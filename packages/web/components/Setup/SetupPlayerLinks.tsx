@@ -10,6 +10,8 @@ import {
 } from '@metafam/ds';
 import { Player, useUpsertDeworkProfileMutation } from 'graphql/autogen/types';
 import React, { useState } from 'react';
+import { AddPlayerLink } from 'components/Player/Section/PlayerLinks';
+import { PlayerLinks } from 'components/Player/Section/PlayerLinks';
 
 export const SetupPlayerLinks: React.FC<{
   onComplete: () => void;
@@ -18,35 +20,24 @@ export const SetupPlayerLinks: React.FC<{
   const [deworkURL, setDeworkURL] = useState<string>('');
   const [, upsertPlayerDework] = useUpsertDeworkProfileMutation();
   const toast = useToast();
-
-  const handleSetUserDeworkURL = async () => {
-    try {
-      const response = await upsertPlayerDework({
-        playerId: player?.id,
-        identifier: deworkURL,
-      });
-      // Handle the response if necessary.
-      // For example, you might want to update the UI based on the mutation's result:
-      if (response && response.data) {
-        toast({
-          title: 'Dework URL successfully changed',
-          description: `Please refresh the page to see changes.`,
-          status: 'info',
-          isClosable: true,
-          duration: 8000,
-        });
-        await onComplete();
-      }
-    } catch (error) {
-      throw Error(
-        `Error upserting the Dework profile: ${(error as Error).message}`,
-      );
-    }
-  };
+  const [linkToEdit, setLinkToEdit] = useState<string | null>();
+  const [role, setRole] = useState<string>('view');
 
   return (
     <>
-      <AddPlayerLink player={player} />
+      <PlayerLinksView role={role} player={player} />
     </>
   );
 };
+
+const PlayerLinksView: React.FC<{
+  role: string,
+  player: Player
+}> = ({role, player}) => {
+  const currentView = {
+    view: <PlayerLinks player={player} editing={true} isOwnProfile={true} />,
+    add: <AddPlayerLink player={player} />
+  }[role]
+
+  return <> {currentView} </>
+}
