@@ -3,6 +3,7 @@ schema {
   mutation: mutation_root
   subscription: subscription_root
 }
+scalar float8
 scalar json
 scalar jsonb
 scalar numeric
@@ -788,6 +789,96 @@ type UpdateQuestCompletionOutput {
   success: Boolean!
 }
 """
+columns and relationships of "balance"
+"""
+type balance {
+  amount: float8!
+  executedAt: timestamptz!
+  id: uuid!
+  playerAddress: String!
+  tokenAddress: String!
+}
+"""
+aggregated selection of "balance"
+"""
+type balance_aggregate {
+  aggregate: balance_aggregate_fields
+  nodes: [balance!]!
+}
+"""
+aggregate fields of "balance"
+"""
+type balance_aggregate_fields {
+  avg: balance_avg_fields
+  count(columns: [balance_select_column!], distinct: Boolean): Int!
+  max: balance_max_fields
+  min: balance_min_fields
+  stddev: balance_stddev_fields
+  stddev_pop: balance_stddev_pop_fields
+  stddev_samp: balance_stddev_samp_fields
+  sum: balance_sum_fields
+  var_pop: balance_var_pop_fields
+  var_samp: balance_var_samp_fields
+  variance: balance_variance_fields
+}
+"aggregate avg on columns"
+type balance_avg_fields {
+  amount: Float
+}
+"aggregate max on columns"
+type balance_max_fields {
+  amount: float8
+  executedAt: timestamptz
+  id: uuid
+  playerAddress: String
+  tokenAddress: String
+}
+"aggregate min on columns"
+type balance_min_fields {
+  amount: float8
+  executedAt: timestamptz
+  id: uuid
+  playerAddress: String
+  tokenAddress: String
+}
+"""
+response of any mutation on the table "balance"
+"""
+type balance_mutation_response {
+  "number of rows affected by the mutation"
+  affected_rows: Int!
+  "data from the rows affected by the mutation"
+  returning: [balance!]!
+}
+"aggregate stddev on columns"
+type balance_stddev_fields {
+  amount: Float
+}
+"aggregate stddev_pop on columns"
+type balance_stddev_pop_fields {
+  amount: Float
+}
+"aggregate stddev_samp on columns"
+type balance_stddev_samp_fields {
+  amount: Float
+}
+"aggregate sum on columns"
+type balance_sum_fields {
+  amount: float8
+}
+"aggregate var_pop on columns"
+type balance_var_pop_fields {
+  amount: Float
+}
+"aggregate var_samp on columns"
+type balance_var_samp_fields {
+  amount: Float
+}
+"aggregate variance on columns"
+type balance_variance_fields {
+  amount: Float
+}
+"""
 columns and relationships of "dao"
 """
 type dao {
@@ -1380,6 +1471,17 @@ type mutation_root {
   """
   delete_SkillCategory_by_pk(name: String!): SkillCategory
   """
+  delete data from the table: "balance"
+  """
+  delete_balance(
+    "filter the rows which have to be deleted"
+    where: balance_bool_exp!
+  ): balance_mutation_response
+  """
+  delete single row from the table: "balance"
+  """
+  delete_balance_by_pk(id: uuid!): balance
+  """
   delete data from the table: "dao"
   """
   delete_dao(
@@ -1544,6 +1646,28 @@ type mutation_root {
   delete single row from the table: "skill"
   """
   delete_skill_by_pk(id: uuid!): skill
+  """
+  delete data from the table: "token"
+  """
+  delete_token(
+    "filter the rows which have to be deleted"
+    where: token_bool_exp!
+  ): token_mutation_response
+  """
+  delete single row from the table: "token"
+  """
+  delete_token_by_pk(address: String!): token
+  """
+  delete data from the table: "xp"
+  """
+  delete_xp(
+    "filter the rows which have to be deleted"
+    where: xp_bool_exp!
+  ): xp_mutation_response
+  """
+  delete single row from the table: "xp"
+  """
+  delete_xp_by_pk(id: uuid!): xp
   """
   insert data into the table: "AccountType"
   """
@@ -1742,6 +1866,24 @@ type mutation_root {
     "upsert condition"
     on_conflict: SkillCategory_on_conflict
   ): SkillCategory
+  """
+  insert data into the table: "balance"
+  """
+  insert_balance(
+    "the rows to be inserted"
+    objects: [balance_insert_input!]!,
+    "upsert condition"
+    on_conflict: balance_on_conflict
+  ): balance_mutation_response
+  """
+  insert a single row into the table: "balance"
+  """
+  insert_balance_one(
+    "the row to be inserted"
+    object: balance_insert_input!,
+    "upsert condition"
+    on_conflict: balance_on_conflict
+  ): balance
   """
   insert data into the table: "dao"
   """
@@ -2012,6 +2154,42 @@ type mutation_root {
     "upsert condition"
     on_conflict: skill_on_conflict
   ): skill
+  """
+  insert data into the table: "token"
+  """
+  insert_token(
+    "the rows to be inserted"
+    objects: [token_insert_input!]!,
+    "upsert condition"
+    on_conflict: token_on_conflict
+  ): token_mutation_response
+  """
+  insert a single row into the table: "token"
+  """
+  insert_token_one(
+    "the row to be inserted"
+    object: token_insert_input!,
+    "upsert condition"
+    on_conflict: token_on_conflict
+  ): token
+  """
+  insert data into the table: "xp"
+  """
+  insert_xp(
+    "the rows to be inserted"
+    objects: [xp_insert_input!]!,
+    "upsert condition"
+    on_conflict: xp_on_conflict
+  ): xp_mutation_response
+  """
+  insert a single row into the table: "xp"
+  """
+  insert_xp_one(
+    "the row to be inserted"
+    object: xp_insert_input!,
+    "upsert condition"
+    on_conflict: xp_on_conflict
+  ): xp
   linkCeramicProfileNode(nodeId: String!): LinkCeramicProfileNodeResponse
   saveGuildInformation(guildInformation: GuildInfoInput!): SaveGuildResponse
   saveGuildLayout(guildLayoutInfo: GuildLayoutInfoInput!): SaveGuildLayoutResponse
@@ -2270,6 +2448,32 @@ type mutation_root {
     "updates to execute, in order"
     updates: [SkillCategory_updates!]!
   ): [SkillCategory_mutation_response]
+  """
+  update data of the table: "balance"
+  """
+  update_balance(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: balance_inc_input,
+    "sets the columns of the filtered rows to the given values"
+    _set: balance_set_input,
+    "filter the rows which have to be updated"
+    where: balance_bool_exp!
+  ): balance_mutation_response
+  """
+  update single row of the table: "balance"
+  """
+  update_balance_by_pk(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: balance_inc_input,
+    "sets the columns of the filtered rows to the given values"
+    _set: balance_set_input,pk_columns: balance_pk_columns_input!  ): balance
+  """
+  update multiples rows of table: "balance"
+  """
+  update_balance_many(
+    "updates to execute, in order"
+    updates: [balance_updates!]!
+  ): [balance_mutation_response]
   """
   update data of the table: "dao"
   """
@@ -2648,6 +2852,58 @@ type mutation_root {
     "updates to execute, in order"
     updates: [skill_updates!]!
   ): [skill_mutation_response]
+  """
+  update data of the table: "token"
+  """
+  update_token(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: token_inc_input,
+    "sets the columns of the filtered rows to the given values"
+    _set: token_set_input,
+    "filter the rows which have to be updated"
+    where: token_bool_exp!
+  ): token_mutation_response
+  """
+  update single row of the table: "token"
+  """
+  update_token_by_pk(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: token_inc_input,
+    "sets the columns of the filtered rows to the given values"
+    _set: token_set_input,pk_columns: token_pk_columns_input!  ): token
+  """
+  update multiples rows of table: "token"
+  """
+  update_token_many(
+    "updates to execute, in order"
+    updates: [token_updates!]!
+  ): [token_mutation_response]
+  """
+  update data of the table: "xp"
+  """
+  update_xp(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: xp_inc_input,
+    "sets the columns of the filtered rows to the given values"
+    _set: xp_set_input,
+    "filter the rows which have to be updated"
+    where: xp_bool_exp!
+  ): xp_mutation_response
+  """
+  update single row of the table: "xp"
+  """
+  update_xp_by_pk(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: xp_inc_input,
+    "sets the columns of the filtered rows to the given values"
+    _set: xp_set_input,pk_columns: xp_pk_columns_input!  ): xp
+  """
+  update multiples rows of table: "xp"
+  """
+  update_xp_many(
+    "updates to execute, in order"
+    updates: [xp_updates!]!
+  ): [xp_mutation_response]
 }
 """
 columns and relationships of "player"
@@ -2852,6 +3108,32 @@ type player {
   token_balances: TokenBalances
   totalXP: numeric
   updatedAt: timestamptz
+  "An array relationship"
+  xps(
+    "distinct select on columns"
+    distinct_on: [xp_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [xp_order_by!],
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): [xp!]!
+  "An aggregate relationship"
+  xps_aggregate(
+    "distinct select on columns"
+    distinct_on: [xp_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [xp_order_by!],
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): xp_aggregate!
 }
 """
 columns and relationships of "player_account"
@@ -3694,6 +3976,40 @@ type query_root {
   """
   SkillCategory_by_pk(name: String!): SkillCategory
   """
+  fetch data from the table: "balance"
+  """
+  balance(
+    "distinct select on columns"
+    distinct_on: [balance_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [balance_order_by!],
+    "filter the rows returned"
+    where: balance_bool_exp
+  ): [balance!]!
+  """
+  fetch aggregated fields from the table: "balance"
+  """
+  balance_aggregate(
+    "distinct select on columns"
+    distinct_on: [balance_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [balance_order_by!],
+    "filter the rows returned"
+    where: balance_bool_exp
+  ): balance_aggregate!
+  """
+  fetch data from the table: "balance" using primary key columns
+  """
+  balance_by_pk(id: uuid!): balance
+  """
   fetch data from the table: "dao"
   """
   dao(
@@ -4241,6 +4557,40 @@ type query_root {
   fetch data from the table: "skill" using primary key columns
   """
   skill_by_pk(id: uuid!): skill
+  """
+  fetch data from the table: "token"
+  """
+  token(
+    "distinct select on columns"
+    distinct_on: [token_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [token_order_by!],
+    "filter the rows returned"
+    where: token_bool_exp
+  ): [token!]!
+  """
+  fetch aggregated fields from the table: "token"
+  """
+  token_aggregate(
+    "distinct select on columns"
+    distinct_on: [token_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [token_order_by!],
+    "filter the rows returned"
+    where: token_bool_exp
+  ): token_aggregate!
+  """
+  fetch data from the table: "token" using primary key columns
+  """
+  token_by_pk(address: String!): token
   updateCachedProfile(
     "the unique id of an action"
     id: uuid!
@@ -4249,6 +4599,40 @@ type query_root {
     "the unique id of an action"
     id: uuid!
   ): updatePlayerFromComposeDB
+  """
+  fetch data from the table: "xp"
+  """
+  xp(
+    "distinct select on columns"
+    distinct_on: [xp_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [xp_order_by!],
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): [xp!]!
+  """
+  fetch aggregated fields from the table: "xp"
+  """
+  xp_aggregate(
+    "distinct select on columns"
+    distinct_on: [xp_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [xp_order_by!],
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): xp_aggregate!
+  """
+  fetch data from the table: "xp" using primary key columns
+  """
+  xp_by_pk(id: uuid!): xp
 }
 """
 columns and relationships of "quest"
@@ -5226,6 +5610,51 @@ type subscription_root {
     where: SkillCategory_bool_exp
   ): [SkillCategory!]!
   """
+  fetch data from the table: "balance"
+  """
+  balance(
+    "distinct select on columns"
+    distinct_on: [balance_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [balance_order_by!],
+    "filter the rows returned"
+    where: balance_bool_exp
+  ): [balance!]!
+  """
+  fetch aggregated fields from the table: "balance"
+  """
+  balance_aggregate(
+    "distinct select on columns"
+    distinct_on: [balance_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [balance_order_by!],
+    "filter the rows returned"
+    where: balance_bool_exp
+  ): balance_aggregate!
+  """
+  fetch data from the table: "balance" using primary key columns
+  """
+  balance_by_pk(id: uuid!): balance
+  """
+  fetch data from the table in a streaming manner: "balance"
+  """
+  balance_stream(
+    "maximum number of rows returned in a single batch"
+    batch_size: Int!,
+    "cursor to stream the results returned by the query"
+    cursor: [balance_stream_cursor_input]!,
+    "filter the rows returned"
+    where: balance_bool_exp
+  ): [balance!]!
+  """
   fetch data from the table: "dao"
   """
   dao(
@@ -5941,6 +6370,51 @@ type subscription_root {
     "filter the rows returned"
     where: skill_bool_exp
   ): [skill!]!
+  """
+  fetch data from the table: "token"
+  """
+  token(
+    "distinct select on columns"
+    distinct_on: [token_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [token_order_by!],
+    "filter the rows returned"
+    where: token_bool_exp
+  ): [token!]!
+  """
+  fetch aggregated fields from the table: "token"
+  """
+  token_aggregate(
+    "distinct select on columns"
+    distinct_on: [token_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [token_order_by!],
+    "filter the rows returned"
+    where: token_bool_exp
+  ): token_aggregate!
+  """
+  fetch data from the table: "token" using primary key columns
+  """
+  token_by_pk(address: String!): token
+  """
+  fetch data from the table in a streaming manner: "token"
+  """
+  token_stream(
+    "maximum number of rows returned in a single batch"
+    batch_size: Int!,
+    "cursor to stream the results returned by the query"
+    cursor: [token_stream_cursor_input]!,
+    "filter the rows returned"
+    where: token_bool_exp
+  ): [token!]!
   updateCachedProfile(
     "the unique id of an action"
     id: uuid!
@@ -5949,6 +6423,177 @@ type subscription_root {
     "the unique id of an action"
     id: uuid!
   ): updatePlayerFromComposeDB
+  """
+  fetch data from the table: "xp"
+  """
+  xp(
+    "distinct select on columns"
+    distinct_on: [xp_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [xp_order_by!],
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): [xp!]!
+  """
+  fetch aggregated fields from the table: "xp"
+  """
+  xp_aggregate(
+    "distinct select on columns"
+    distinct_on: [xp_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [xp_order_by!],
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): xp_aggregate!
+  """
+  fetch data from the table: "xp" using primary key columns
+  """
+  xp_by_pk(id: uuid!): xp
+  """
+  fetch data from the table in a streaming manner: "xp"
+  """
+  xp_stream(
+    "maximum number of rows returned in a single batch"
+    batch_size: Int!,
+    "cursor to stream the results returned by the query"
+    cursor: [xp_stream_cursor_input]!,
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): [xp!]!
+}
+"""
+columns and relationships of "token"
+"""
+type token {
+  address: String!
+  chainId: Int!
+  "An object relationship"
+  guild: guild!
+  guildId: uuid!
+  lastOffset: Int!
+  safeAddress: String!
+  "An array relationship"
+  xps(
+    "distinct select on columns"
+    distinct_on: [xp_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [xp_order_by!],
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): [xp!]!
+  "An aggregate relationship"
+  xps_aggregate(
+    "distinct select on columns"
+    distinct_on: [xp_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [xp_order_by!],
+    "filter the rows returned"
+    where: xp_bool_exp
+  ): xp_aggregate!
+}
+"""
+aggregated selection of "token"
+"""
+type token_aggregate {
+  aggregate: token_aggregate_fields
+  nodes: [token!]!
+}
+"""
+aggregate fields of "token"
+"""
+type token_aggregate_fields {
+  avg: token_avg_fields
+  count(columns: [token_select_column!], distinct: Boolean): Int!
+  max: token_max_fields
+  min: token_min_fields
+  stddev: token_stddev_fields
+  stddev_pop: token_stddev_pop_fields
+  stddev_samp: token_stddev_samp_fields
+  sum: token_sum_fields
+  var_pop: token_var_pop_fields
+  var_samp: token_var_samp_fields
+  variance: token_variance_fields
+}
+"aggregate avg on columns"
+type token_avg_fields {
+  chainId: Float
+  lastOffset: Float
+}
+"aggregate max on columns"
+type token_max_fields {
+  address: String
+  chainId: Int
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
+}
+"aggregate min on columns"
+type token_min_fields {
+  address: String
+  chainId: Int
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
+}
+"""
+response of any mutation on the table "token"
+"""
+type token_mutation_response {
+  "number of rows affected by the mutation"
+  affected_rows: Int!
+  "data from the rows affected by the mutation"
+  returning: [token!]!
+}
+"aggregate stddev on columns"
+type token_stddev_fields {
+  chainId: Float
+  lastOffset: Float
+}
+"aggregate stddev_pop on columns"
+type token_stddev_pop_fields {
+  chainId: Float
+  lastOffset: Float
+}
+"aggregate stddev_samp on columns"
+type token_stddev_samp_fields {
+  chainId: Float
+  lastOffset: Float
+}
+"aggregate sum on columns"
+type token_sum_fields {
+  chainId: Int
+  lastOffset: Int
+}
+"aggregate var_pop on columns"
+type token_var_pop_fields {
+  chainId: Float
+  lastOffset: Float
+}
+"aggregate var_samp on columns"
+type token_var_samp_fields {
+  chainId: Float
+  lastOffset: Float
+}
+"aggregate variance on columns"
+type token_variance_fields {
+  chainId: Float
+  lastOffset: Float
 }
 """
 fields of action: "updateCachedProfile"
@@ -5975,6 +6620,119 @@ type updatePlayerFromComposeDB {
   id: uuid!
   "the output fields of this action"
   output: UpdateComposeDBProfileResponse
+}
+"""
+columns and relationships of "xp"
+"""
+type xp {
+  balance: float8!
+  id: uuid!
+  initial: float8
+  "An object relationship"
+  player: player!
+  playerId: uuid!
+  seasonalBalance: float8
+  "An object relationship"
+  token: token!
+  tokenAddress: String!
+}
+"""
+aggregated selection of "xp"
+"""
+type xp_aggregate {
+  aggregate: xp_aggregate_fields
+  nodes: [xp!]!
+}
+"""
+aggregate fields of "xp"
+"""
+type xp_aggregate_fields {
+  avg: xp_avg_fields
+  count(columns: [xp_select_column!], distinct: Boolean): Int!
+  max: xp_max_fields
+  min: xp_min_fields
+  stddev: xp_stddev_fields
+  stddev_pop: xp_stddev_pop_fields
+  stddev_samp: xp_stddev_samp_fields
+  sum: xp_sum_fields
+  var_pop: xp_var_pop_fields
+  var_samp: xp_var_samp_fields
+  variance: xp_variance_fields
+}
+"aggregate avg on columns"
+type xp_avg_fields {
+  balance: Float
+  initial: Float
+  seasonalBalance: Float
+}
+"aggregate max on columns"
+type xp_max_fields {
+  balance: float8
+  id: uuid
+  initial: float8
+  playerId: uuid
+  seasonalBalance: float8
+  tokenAddress: String
+}
+"aggregate min on columns"
+type xp_min_fields {
+  balance: float8
+  id: uuid
+  initial: float8
+  playerId: uuid
+  seasonalBalance: float8
+  tokenAddress: String
+}
+"""
+response of any mutation on the table "xp"
+"""
+type xp_mutation_response {
+  "number of rows affected by the mutation"
+  affected_rows: Int!
+  "data from the rows affected by the mutation"
+  returning: [xp!]!
+}
+"aggregate stddev on columns"
+type xp_stddev_fields {
+  balance: Float
+  initial: Float
+  seasonalBalance: Float
+}
+"aggregate stddev_pop on columns"
+type xp_stddev_pop_fields {
+  balance: Float
+  initial: Float
+  seasonalBalance: Float
+}
+"aggregate stddev_samp on columns"
+type xp_stddev_samp_fields {
+  balance: Float
+  initial: Float
+  seasonalBalance: Float
+}
+"aggregate sum on columns"
+type xp_sum_fields {
+  balance: float8
+  initial: float8
+  seasonalBalance: float8
+}
+"aggregate var_pop on columns"
+type xp_var_pop_fields {
+  balance: Float
+  initial: Float
+  seasonalBalance: Float
+}
+"aggregate var_samp on columns"
+type xp_var_samp_fields {
+  balance: Float
+  initial: Float
+  seasonalBalance: Float
+}
+"aggregate variance on columns"
+type xp_variance_fields {
+  balance: Float
+  initial: Float
+  seasonalBalance: Float
 }
 """
 unique or primary key constraints on table "AccountType"
@@ -6334,6 +7092,49 @@ update columns of table "SkillCategory"
 enum SkillCategory_update_column {
   "column name"
   name
+}
+"""
+unique or primary key constraints on table "balance"
+"""
+enum balance_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  balance_pkey
+  """
+  unique or primary key constraint on columns "token_address", "player_address", "executed_at"
+  """
+  balance_token_address_player_address_executed_at_key
+}
+"""
+select columns of table "balance"
+"""
+enum balance_select_column {
+  "column name"
+  amount
+  "column name"
+  executedAt
+  "column name"
+  id
+  "column name"
+  playerAddress
+  "column name"
+  tokenAddress
+}
+"""
+update columns of table "balance"
+"""
+enum balance_update_column {
+  "column name"
+  amount
+  "column name"
+  executedAt
+  "column name"
+  id
+  "column name"
+  playerAddress
+  "column name"
+  tokenAddress
 }
 "ordering argument of a cursor"
 enum cursor_ordering {
@@ -7126,6 +7927,192 @@ enum skill_update_column {
   id
   "column name"
   name
+}
+"""
+unique or primary key constraints on table "token"
+"""
+enum token_constraint {
+  """
+  unique or primary key constraint on columns "address"
+  """
+  token_address_key
+  """
+  unique or primary key constraint on columns "guild_id"
+  """
+  token_guild_id_key
+  """
+  unique or primary key constraint on columns "address"
+  """
+  token_pkey
+  """
+  unique or primary key constraint on columns "safe_address"
+  """
+  token_safe_address_key
+}
+"""
+select columns of table "token"
+"""
+enum token_select_column {
+  "column name"
+  address
+  "column name"
+  chainId
+  "column name"
+  guildId
+  "column name"
+  lastOffset
+  "column name"
+  safeAddress
+}
+"""
+update columns of table "token"
+"""
+enum token_update_column {
+  "column name"
+  address
+  "column name"
+  chainId
+  "column name"
+  guildId
+  "column name"
+  lastOffset
+  "column name"
+  safeAddress
+}
+"""
+unique or primary key constraints on table "xp"
+"""
+enum xp_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  xp_pkey
+  """
+  unique or primary key constraint on columns "token_address", "player_id"
+  """
+  xp_player_id_token_address_key
+}
+"""
+select columns of table "xp"
+"""
+enum xp_select_column {
+  "column name"
+  balance
+  "column name"
+  id
+  "column name"
+  initial
+  "column name"
+  playerId
+  "column name"
+  seasonalBalance
+  "column name"
+  tokenAddress
+}
+"""
+select "xp_aggregate_bool_exp_avg_arguments_columns" columns of table "xp"
+"""
+enum xp_select_column_xp_aggregate_bool_exp_avg_arguments_columns {
+  "column name"
+  balance
+  "column name"
+  initial
+  "column name"
+  seasonalBalance
+}
+"""
+select "xp_aggregate_bool_exp_corr_arguments_columns" columns of table "xp"
+"""
+enum xp_select_column_xp_aggregate_bool_exp_corr_arguments_columns {
+  "column name"
+  balance
+  "column name"
+  initial
+  "column name"
+  seasonalBalance
+}
+"""
+select "xp_aggregate_bool_exp_covar_samp_arguments_columns" columns of table "xp"
+"""
+enum xp_select_column_xp_aggregate_bool_exp_covar_samp_arguments_columns {
+  "column name"
+  balance
+  "column name"
+  initial
+  "column name"
+  seasonalBalance
+}
+"""
+select "xp_aggregate_bool_exp_max_arguments_columns" columns of table "xp"
+"""
+enum xp_select_column_xp_aggregate_bool_exp_max_arguments_columns {
+  "column name"
+  balance
+  "column name"
+  initial
+  "column name"
+  seasonalBalance
+}
+"""
+select "xp_aggregate_bool_exp_min_arguments_columns" columns of table "xp"
+"""
+enum xp_select_column_xp_aggregate_bool_exp_min_arguments_columns {
+  "column name"
+  balance
+  "column name"
+  initial
+  "column name"
+  seasonalBalance
+}
+"""
+select "xp_aggregate_bool_exp_stddev_samp_arguments_columns" columns of table "xp"
+"""
+enum xp_select_column_xp_aggregate_bool_exp_stddev_samp_arguments_columns {
+  "column name"
+  balance
+  "column name"
+  initial
+  "column name"
+  seasonalBalance
+}
+"""
+select "xp_aggregate_bool_exp_sum_arguments_columns" columns of table "xp"
+"""
+enum xp_select_column_xp_aggregate_bool_exp_sum_arguments_columns {
+  "column name"
+  balance
+  "column name"
+  initial
+  "column name"
+  seasonalBalance
+}
+"""
+select "xp_aggregate_bool_exp_var_samp_arguments_columns" columns of table "xp"
+"""
+enum xp_select_column_xp_aggregate_bool_exp_var_samp_arguments_columns {
+  "column name"
+  balance
+  "column name"
+  initial
+  "column name"
+  seasonalBalance
+}
+"""
+update columns of table "xp"
+"""
+enum xp_update_column {
+  "column name"
+  balance
+  "column name"
+  id
+  "column name"
+  initial
+  "column name"
+  playerId
+  "column name"
+  seasonalBalance
+  "column name"
+  tokenAddress
 }
 """
 Boolean expression to filter rows from the table "AccountType". All fields are combined with a logical 'AND'.
@@ -8090,6 +9077,92 @@ input UpdateQuestCompletionInput {
   questCompletionId: String!
   status: QuestCompletionStatus_ActionEnum!
 }
+"""
+Boolean expression to filter rows from the table "balance". All fields are combined with a logical 'AND'.
+"""
+input balance_bool_exp {
+  _and: [balance_bool_exp!]
+  _not: balance_bool_exp
+  _or: [balance_bool_exp!]
+  amount: float8_comparison_exp
+  executedAt: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  playerAddress: String_comparison_exp
+  tokenAddress: String_comparison_exp
+}
+"""
+input type for incrementing numeric columns in table "balance"
+"""
+input balance_inc_input {
+  amount: float8
+}
+"""
+input type for inserting data into table "balance"
+"""
+input balance_insert_input {
+  amount: float8
+  executedAt: timestamptz
+  id: uuid
+  playerAddress: String
+  tokenAddress: String
+}
+"""
+on_conflict condition type for table "balance"
+"""
+input balance_on_conflict {
+  constraint: balance_constraint!
+  update_columns: [balance_update_column!]! = []
+  where: balance_bool_exp
+}
+"""
+Ordering options when selecting data from "balance".
+"""
+input balance_order_by {
+  amount: order_by
+  executedAt: order_by
+  id: order_by
+  playerAddress: order_by
+  tokenAddress: order_by
+}
+"primary key columns input for table: balance"
+input balance_pk_columns_input {
+  id: uuid!
+}
+"""
+input type for updating data in table "balance"
+"""
+input balance_set_input {
+  amount: float8
+  executedAt: timestamptz
+  id: uuid
+  playerAddress: String
+  tokenAddress: String
+}
+"""
+Streaming cursor of the table "balance"
+"""
+input balance_stream_cursor_input {
+  "Stream column input with initial value"
+  initial_value: balance_stream_cursor_value_input!
+  "cursor ordering"
+  ordering: cursor_ordering
+}
+"Initial value of the column from where the streaming should start"
+input balance_stream_cursor_value_input {
+  amount: float8
+  executedAt: timestamptz
+  id: uuid
+  playerAddress: String
+  tokenAddress: String
+}
+input balance_updates {
+  "increments the numeric columns with given value of the filtered values"
+  _inc: balance_inc_input
+  "sets the columns of the filtered rows to the given values"
+  _set: balance_set_input
+  "filter the rows which have to be updated"
+  where: balance_bool_exp!
+}
 input dao_aggregate_bool_exp {
   count: dao_aggregate_bool_exp_count
 }
@@ -8362,6 +9435,20 @@ input dao_updates {
   _set: dao_set_input
   "filter the rows which have to be updated"
   where: dao_bool_exp!
+}
+"""
+Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'.
+"""
+input float8_comparison_exp {
+  _eq: float8
+  _gt: float8
+  _gte: float8
+  _in: [float8!]
+  _is_null: Boolean
+  _lt: float8
+  _lte: float8
+  _neq: float8
+  _nin: [float8!]
 }
 input guild_aggregate_bool_exp {
   bool_and: guild_aggregate_bool_exp_bool_and
@@ -9124,6 +10211,8 @@ input player_bool_exp {
   skills_aggregate: player_skill_aggregate_bool_exp
   totalXP: numeric_comparison_exp
   updatedAt: timestamptz_comparison_exp
+  xps: xp_bool_exp
+  xps_aggregate: xp_aggregate_bool_exp
 }
 """
 input type for incrementing numeric columns in table "player"
@@ -9156,6 +10245,7 @@ input player_insert_input {
   skills: player_skill_arr_rel_insert_input
   totalXP: numeric
   updatedAt: timestamptz
+  xps: xp_arr_rel_insert_input
 }
 """
 input type for inserting object relation for remote table "player"
@@ -9197,6 +10287,7 @@ input player_order_by {
   skills_aggregate: player_skill_aggregate_order_by
   totalXP: order_by
   updatedAt: order_by
+  xps_aggregate: xp_aggregate_order_by
 }
 "primary key columns input for table: player"
 input player_pk_columns_input {
@@ -10714,6 +11805,108 @@ input timestamptz_comparison_exp {
   _nin: [timestamptz!]
 }
 """
+Boolean expression to filter rows from the table "token". All fields are combined with a logical 'AND'.
+"""
+input token_bool_exp {
+  _and: [token_bool_exp!]
+  _not: token_bool_exp
+  _or: [token_bool_exp!]
+  address: String_comparison_exp
+  chainId: Int_comparison_exp
+  guild: guild_bool_exp
+  guildId: uuid_comparison_exp
+  lastOffset: Int_comparison_exp
+  safeAddress: String_comparison_exp
+  xps: xp_bool_exp
+  xps_aggregate: xp_aggregate_bool_exp
+}
+"""
+input type for incrementing numeric columns in table "token"
+"""
+input token_inc_input {
+  chainId: Int
+  lastOffset: Int
+}
+"""
+input type for inserting data into table "token"
+"""
+input token_insert_input {
+  address: String
+  chainId: Int
+  guild: guild_obj_rel_insert_input
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
+  xps: xp_arr_rel_insert_input
+}
+"""
+input type for inserting object relation for remote table "token"
+"""
+input token_obj_rel_insert_input {
+  data: token_insert_input!
+  "upsert condition"
+  on_conflict: token_on_conflict
+}
+"""
+on_conflict condition type for table "token"
+"""
+input token_on_conflict {
+  constraint: token_constraint!
+  update_columns: [token_update_column!]! = []
+  where: token_bool_exp
+}
+"""
+Ordering options when selecting data from "token".
+"""
+input token_order_by {
+  address: order_by
+  chainId: order_by
+  guild: guild_order_by
+  guildId: order_by
+  lastOffset: order_by
+  safeAddress: order_by
+  xps_aggregate: xp_aggregate_order_by
+}
+"primary key columns input for table: token"
+input token_pk_columns_input {
+  address: String!
+}
+"""
+input type for updating data in table "token"
+"""
+input token_set_input {
+  address: String
+  chainId: Int
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
+}
+"""
+Streaming cursor of the table "token"
+"""
+input token_stream_cursor_input {
+  "Stream column input with initial value"
+  initial_value: token_stream_cursor_value_input!
+  "cursor ordering"
+  ordering: cursor_ordering
+}
+"Initial value of the column from where the streaming should start"
+input token_stream_cursor_value_input {
+  address: String
+  chainId: Int
+  guildId: uuid
+  lastOffset: Int
+  safeAddress: String
+}
+input token_updates {
+  "increments the numeric columns with given value of the filtered values"
+  _inc: token_inc_input
+  "sets the columns of the filtered rows to the given values"
+  _set: token_set_input
+  "filter the rows which have to be updated"
+  where: token_bool_exp!
+}
+"""
 Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
 """
 input uuid_comparison_exp {
@@ -10726,6 +11919,288 @@ input uuid_comparison_exp {
   _lte: uuid
   _neq: uuid
   _nin: [uuid!]
+}
+input xp_aggregate_bool_exp {
+  avg: xp_aggregate_bool_exp_avg
+  corr: xp_aggregate_bool_exp_corr
+  count: xp_aggregate_bool_exp_count
+  covar_samp: xp_aggregate_bool_exp_covar_samp
+  max: xp_aggregate_bool_exp_max
+  min: xp_aggregate_bool_exp_min
+  stddev_samp: xp_aggregate_bool_exp_stddev_samp
+  sum: xp_aggregate_bool_exp_sum
+  var_samp: xp_aggregate_bool_exp_var_samp
+}
+input xp_aggregate_bool_exp_avg {
+  arguments: xp_select_column_xp_aggregate_bool_exp_avg_arguments_columns!
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: float8_comparison_exp!
+}
+input xp_aggregate_bool_exp_corr {
+  arguments: xp_aggregate_bool_exp_corr_arguments!
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: float8_comparison_exp!
+}
+input xp_aggregate_bool_exp_corr_arguments {
+  X: xp_select_column_xp_aggregate_bool_exp_corr_arguments_columns!
+  Y: xp_select_column_xp_aggregate_bool_exp_corr_arguments_columns!
+}
+input xp_aggregate_bool_exp_count {
+  arguments: [xp_select_column!]
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: Int_comparison_exp!
+}
+input xp_aggregate_bool_exp_covar_samp {
+  arguments: xp_aggregate_bool_exp_covar_samp_arguments!
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: float8_comparison_exp!
+}
+input xp_aggregate_bool_exp_covar_samp_arguments {
+  X: xp_select_column_xp_aggregate_bool_exp_covar_samp_arguments_columns!
+  Y: xp_select_column_xp_aggregate_bool_exp_covar_samp_arguments_columns!
+}
+input xp_aggregate_bool_exp_max {
+  arguments: xp_select_column_xp_aggregate_bool_exp_max_arguments_columns!
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: float8_comparison_exp!
+}
+input xp_aggregate_bool_exp_min {
+  arguments: xp_select_column_xp_aggregate_bool_exp_min_arguments_columns!
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: float8_comparison_exp!
+}
+input xp_aggregate_bool_exp_stddev_samp {
+  arguments: xp_select_column_xp_aggregate_bool_exp_stddev_samp_arguments_columns!
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: float8_comparison_exp!
+}
+input xp_aggregate_bool_exp_sum {
+  arguments: xp_select_column_xp_aggregate_bool_exp_sum_arguments_columns!
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: float8_comparison_exp!
+}
+input xp_aggregate_bool_exp_var_samp {
+  arguments: xp_select_column_xp_aggregate_bool_exp_var_samp_arguments_columns!
+  distinct: Boolean
+  filter: xp_bool_exp
+  predicate: float8_comparison_exp!
+}
+"""
+order by aggregate values of table "xp"
+"""
+input xp_aggregate_order_by {
+  avg: xp_avg_order_by
+  count: order_by
+  max: xp_max_order_by
+  min: xp_min_order_by
+  stddev: xp_stddev_order_by
+  stddev_pop: xp_stddev_pop_order_by
+  stddev_samp: xp_stddev_samp_order_by
+  sum: xp_sum_order_by
+  var_pop: xp_var_pop_order_by
+  var_samp: xp_var_samp_order_by
+  variance: xp_variance_order_by
+}
+"""
+input type for inserting array relation for remote table "xp"
+"""
+input xp_arr_rel_insert_input {
+  data: [xp_insert_input!]!
+  "upsert condition"
+  on_conflict: xp_on_conflict
+}
+"""
+order by avg() on columns of table "xp"
+"""
+input xp_avg_order_by {
+  balance: order_by
+  initial: order_by
+  seasonalBalance: order_by
+}
+"""
+Boolean expression to filter rows from the table "xp". All fields are combined with a logical 'AND'.
+"""
+input xp_bool_exp {
+  _and: [xp_bool_exp!]
+  _not: xp_bool_exp
+  _or: [xp_bool_exp!]
+  balance: float8_comparison_exp
+  id: uuid_comparison_exp
+  initial: float8_comparison_exp
+  player: player_bool_exp
+  playerId: uuid_comparison_exp
+  seasonalBalance: float8_comparison_exp
+  token: token_bool_exp
+  tokenAddress: String_comparison_exp
+}
+"""
+input type for incrementing numeric columns in table "xp"
+"""
+input xp_inc_input {
+  balance: float8
+  initial: float8
+  seasonalBalance: float8
+}
+"""
+input type for inserting data into table "xp"
+"""
+input xp_insert_input {
+  balance: float8
+  id: uuid
+  initial: float8
+  player: player_obj_rel_insert_input
+  playerId: uuid
+  seasonalBalance: float8
+  token: token_obj_rel_insert_input
+  tokenAddress: String
+}
+"""
+order by max() on columns of table "xp"
+"""
+input xp_max_order_by {
+  balance: order_by
+  id: order_by
+  initial: order_by
+  playerId: order_by
+  seasonalBalance: order_by
+  tokenAddress: order_by
+}
+"""
+order by min() on columns of table "xp"
+"""
+input xp_min_order_by {
+  balance: order_by
+  id: order_by
+  initial: order_by
+  playerId: order_by
+  seasonalBalance: order_by
+  tokenAddress: order_by
+}
+"""
+on_conflict condition type for table "xp"
+"""
+input xp_on_conflict {
+  constraint: xp_constraint!
+  update_columns: [xp_update_column!]! = []
+  where: xp_bool_exp
+}
+"""
+Ordering options when selecting data from "xp".
+"""
+input xp_order_by {
+  balance: order_by
+  id: order_by
+  initial: order_by
+  player: player_order_by
+  playerId: order_by
+  seasonalBalance: order_by
+  token: token_order_by
+  tokenAddress: order_by
+}
+"primary key columns input for table: xp"
+input xp_pk_columns_input {
+  id: uuid!
+}
+"""
+input type for updating data in table "xp"
+"""
+input xp_set_input {
+  balance: float8
+  id: uuid
+  initial: float8
+  playerId: uuid
+  seasonalBalance: float8
+  tokenAddress: String
+}
+"""
+order by stddev() on columns of table "xp"
+"""
+input xp_stddev_order_by {
+  balance: order_by
+  initial: order_by
+  seasonalBalance: order_by
+}
+"""
+order by stddev_pop() on columns of table "xp"
+"""
+input xp_stddev_pop_order_by {
+  balance: order_by
+  initial: order_by
+  seasonalBalance: order_by
+}
+"""
+order by stddev_samp() on columns of table "xp"
+"""
+input xp_stddev_samp_order_by {
+  balance: order_by
+  initial: order_by
+  seasonalBalance: order_by
+}
+"""
+Streaming cursor of the table "xp"
+"""
+input xp_stream_cursor_input {
+  "Stream column input with initial value"
+  initial_value: xp_stream_cursor_value_input!
+  "cursor ordering"
+  ordering: cursor_ordering
+}
+"Initial value of the column from where the streaming should start"
+input xp_stream_cursor_value_input {
+  balance: float8
+  id: uuid
+  initial: float8
+  playerId: uuid
+  seasonalBalance: float8
+  tokenAddress: String
+}
+"""
+order by sum() on columns of table "xp"
+"""
+input xp_sum_order_by {
+  balance: order_by
+  initial: order_by
+  seasonalBalance: order_by
+}
+input xp_updates {
+  "increments the numeric columns with given value of the filtered values"
+  _inc: xp_inc_input
+  "sets the columns of the filtered rows to the given values"
+  _set: xp_set_input
+  "filter the rows which have to be updated"
+  where: xp_bool_exp!
+}
+"""
+order by var_pop() on columns of table "xp"
+"""
+input xp_var_pop_order_by {
+  balance: order_by
+  initial: order_by
+  seasonalBalance: order_by
+}
+"""
+order by var_samp() on columns of table "xp"
+"""
+input xp_var_samp_order_by {
+  balance: order_by
+  initial: order_by
+  seasonalBalance: order_by
+}
+"""
+order by variance() on columns of table "xp"
+"""
+input xp_variance_order_by {
+  balance: order_by
+  initial: order_by
+  seasonalBalance: order_by
 }
 "whether this query should be cached (Hasura Cloud only)"
 directive @cached(

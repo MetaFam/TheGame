@@ -9,6 +9,12 @@
   schedule: 31 5 * * *
   include_in_metadata: true
   payload: {}
+- name: syncBalances
+  webhook: '{{ACTION_BASE_ENDPOINT}}/player/syncBalances'
+  schedule: 0 3 * * *
+  include_in_metadata: true
+  payload: {}
+  comment: Updates user's XP within guild
 - name: syncSourceCredLedger
   webhook: '{{ACTION_BASE_ENDPOINT}}/syncSourceCredAccounts'
   schedule: 0 1 * * *
