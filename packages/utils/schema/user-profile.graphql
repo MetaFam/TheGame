@@ -7,11 +7,12 @@ type Profile
   avatar: ImageMetadata
   backgroundImage: ImageMetadata
   description: String @string(maxLength: 42000)
-  emoji: String @string(maxLength: 3)
+  # an emoji isn't necessarily just one character depending on its complexity
+  emoji: String @string(maxLength: 20)
   # pattern: "^(Pioneer|Settler|Town Planner)$"
   explorerType: String @string(maxLength: 12)
   # pattern: "^([wW]?|[uU]?|[bB]?|[rR]?|[gG]?){0,5}$"
-  fiveColorDisposition: String @string(minLength: 1, maxLength: 5)
+  fiveColorDisposition: String @string(maxLength: 5)
   homeLocation: String @string(maxLength: 140)
   name: String @string(maxLength: 150)
   pronouns: String @string(maxLength: 420)
@@ -36,5 +37,5 @@ type ImageMetadata {
   height: Int @int(min: 0)
 
   # For vector images
-  aspectRatio: Float @float(min: 0, max: 2)
+  aspectRatio: Float @float(min: 0)
 }

@@ -1,10 +1,10 @@
-/* eslint-disable */
 // This is an auto-generated file, do not edit manually
 import type { RuntimeCompositeDefinition } from '@composedb/types';
+
 export const definition: RuntimeCompositeDefinition = {
   models: {
     Profile: {
-      id: 'kjzl6hvfrbw6cb224km6q3r4bmau6e7qxey56xfxsnh2aanwcj7xsemgikx7zt6',
+      id: 'kjzl6hvfrbw6c6974botahehpe8uhwixnhv4ko5bzmfsikixwx8pbzff7i9y36v',
       accountRelation: { type: 'single' },
     },
   },

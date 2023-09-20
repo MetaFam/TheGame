@@ -22,7 +22,7 @@ This is used for the graphql HTTP server (see below).
 
 Generate with `yarn composedb:create-definition`
 
-## packages/utils/src/graphql/autogen/composeDBDefinition.ts
+## packages/utils/src/graphql/composeDBDefinition.ts
 
 These are the graphql models defined in TypeScript, for use in building queries on the client-side.
 
