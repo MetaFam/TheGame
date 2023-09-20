@@ -11,7 +11,7 @@ import { CONFIG } from 'config';
 import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
-import { useIsMounted } from 'lib/hooks/useIsMounted';
+import { useMounted } from 'lib/hooks';
 import Head from 'next/head';
 import Image from 'next/image';
 import PlausibleProvider from 'next-plausible';
@@ -49,7 +49,7 @@ const App: React.FC<WithUrqlProps> = ({
   resetUrqlClient,
   Component,
 }) => {
-  const isMounted = useIsMounted();
+  const isMounted = useMounted();
   if (!isMounted) {
     return (
       <div
