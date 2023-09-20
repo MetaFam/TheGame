@@ -11,6 +11,7 @@ import {
   Button,
   VStack,
   EditIcon,
+  DeleteIcon,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import {
@@ -18,6 +19,7 @@ import {
   LinkType_Enum,
   Player,
   useAddPlayerLinkMutation,
+  useDeletePlayerLinkMutation,
 } from 'graphql/autogen/types';
 import { getPlayerLinks } from 'graphql/queries/player';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -31,6 +33,7 @@ type Props = {
   player: Player;
   isOwnProfile?: boolean;
   editing?: boolean;
+  admin?: boolean;
 };
 
 export interface PlayerLinkFormInputs {
@@ -43,7 +46,10 @@ export const AddPlayerLink: React.FC<{
   player?: Player;
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
-}> = ({ player }) => {
+  editId?: string;
+  editData?: PlayerLinkFormInputs;
+}> = ({ player, editId, editData }) => {
+
   const {
     register,
     formState: { errors },
@@ -52,6 +58,7 @@ export const AddPlayerLink: React.FC<{
   } = useForm<PlayerLinkFormInputs>({
     mode: 'onTouched',
   });
+
   const [, addLink] = useAddPlayerLinkMutation();
 
   const onSubmit = useCallback(
@@ -132,15 +139,29 @@ export const PlayerLinks: React.FC<Props> = ({
   player,
   isOwnProfile,
   editing,
+  admin,
 }) => {
   const [links, setLinks] = useState<Link[]>([]);
+  const [, deleteLink] = useDeletePlayerLinkMutation();
 
   useEffect(() => {
+    if (!player?.id) return;
     (async () => {
+      console.log('made it in', player.id)
       getPlayerLinks(player.id).then((data) => setLinks(data.link));
     })();
+  
   }, [player.id]);
-  console.log({ links })
+  
+  const deleteSingleLink = async (id: string) => {
+    console.log(id,'id')
+    const { error } = await deleteLink({ id });
+
+    if (error) {
+      throw new Error(`Unable to delete link. Error: ${error}`);
+    }
+  }
+
   return (
     <ProfileSection
       title="Links"
@@ -149,60 +170,63 @@ export const PlayerLinks: React.FC<Props> = ({
     >
       <VStack mt={4} w="full">
         {links?.map((link) => (
-          <a
-            href={link?.url || ''}
-            target="_blank"
-            rel="noreferrer"
-            style={{ width: '100%' }}
-            role="group"
-            key={link?.id}
-          >
-            <Flex
-              justifyContent="start"
-              alignContent="center"
-              color={'violet'}
-              width={'full'}
-              px={4}
-              py={3}
-              background={'blackAlpha.300'}
-              transition={'ease-in-out'}
-              transitionDuration={'300'}
-              _hover={{
-                background: 'blackAlpha.500',
-              }}
-              _active={{
-                background: 'blackAlpha.700',
-              }}
-              rounded={'md'}
+          <>
+            <a
+              href={link?.url || ''}
+              target="_blank"
+              rel="noreferrer"
+              style={{ width: '100%' }}
+              role="group"
+              key={link?.id}
             >
-              <LinkIcon type={link?.type} />
-              <Text mx="auto" fontWeight={600}>
-                {link?.name}
-              </Text>
-              <Box
-                my="auto"
-                mr={1}
-                opacity={0}
-                _groupHover={{ opacity: 0.8 }}
-                _groupActive={{ opacity: 1 }}
+              <Flex
+                justifyContent="start"
+                alignContent="center"
+                color={'violet'}
+                width={'full'}
+                px={4}
+                py={3}
+                background={'blackAlpha.300'}
+                transition={'ease-in-out'}
+                transitionDuration={'300'}
+                _hover={{
+                  background: 'blackAlpha.500',
+                }}
+                _active={{
+                  background: 'blackAlpha.700',
+                }}
+                rounded={'md'}
               >
-                <FaExternalLinkAlt fill="currentColor" />
-              </Box>
-              {
-                editing && (
-                  <>
-                    <Button sx={{ bg: '#13003280' }}>
-                      <EditIcon />
-                    </Button>
-                    <Button sx={{ ml: '1em', bg: '#13003280' }}>
-                      <CloseIcon />
-                    </Button>
-                  </>
+                <LinkIcon type={link?.type} />
+                <Text mx="auto" fontWeight={600}>
+                  {link?.name}
+                </Text>
+                <Box
+                  my="auto"
+                  mr={1}
+                  opacity={0}
+                  _groupHover={{ opacity: 0.8 }}
+                  _groupActive={{ opacity: 1 }}
+                >
+                  <FaExternalLinkAlt fill="currentColor" />
+                </Box>
+                
+              </Flex>
+            </a>
+            {
+              admin && (
+                <>
+                  <Button sx={{ bg: '#13003280' }} disabled={false} onClick={() => deleteSingleLink(link?.id)}>
+                    <DeleteIcon />
+                  </Button>
                   
+                  <Button sx={{ ml: '1em', bg: '#13003280' }}>
+                    <CloseIcon />
+                  </Button>
+                </> 
               )}
-            </Flex>
-           
-          </a>
+          </>
+          
         ))}
       </VStack>
     </ProfileSection>

@@ -35,7 +35,7 @@ const PlayerLinksView: React.FC<{
   player: Player
 }> = ({role, player}) => {
   const currentView = {
-    view: <PlayerLinks player={player} editing={true} isOwnProfile={true} />,
+    view: <PlayerLinks player={player} isOwnProfile={true} admin={true} />,
     add: <AddPlayerLink player={player} />
   }[role]
 

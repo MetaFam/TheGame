@@ -8,6 +8,7 @@ import { client } from '../client';
 const getPlayerlinksQuery = /* GraphQL */ `
   query GetPlayerLinks($playerId: uuid!) {
     link(where: { player_id: { _eq: $playerId } }) {
+      id
       name
       type
       url

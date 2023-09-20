@@ -575,6 +575,7 @@
     - role: public
       permission:
         columns:
+          - id
           - name
           - player_id
           - type
@@ -591,6 +592,12 @@
           player_id:
             _eq: X-Hasura-User-Id
         check: null
+  delete_permissions:
+    - role: player
+      permission:
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
 - table:
     name: me
     schema: public

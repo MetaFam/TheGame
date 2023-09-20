@@ -35,6 +35,29 @@ export const updatePlayerMutations = /* GraphQL */ `
     }
   }
 
+  mutation DeletePlayerLink(
+    $id: uuid!
+  ) {
+    delete_link(
+      where: { id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+  }
+
+  mutation UpdatePlayerLink(
+    $id: uuid!
+    $name: String
+    $url: String!
+    $type: LinkType_enum
+  ) {
+    update_link(
+      where: {id: {_eq: $id}}, _set: {name: $name, type: $type, url: $url}
+    ) {
+      affected_rows
+    }
+  }
+
   mutation UpdateAboutYou($playerId: uuid!, $input: player_set_input!) {
     update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
       id
