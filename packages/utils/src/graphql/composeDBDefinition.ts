@@ -4,7 +4,7 @@ import type { RuntimeCompositeDefinition } from '@composedb/types';
 export const definition: RuntimeCompositeDefinition = {
   models: {
     Profile: {
-      id: 'kjzl6hvfrbw6c6974botahehpe8uhwixnhv4ko5bzmfsikixwx8pbzff7i9y36v',
+      id: 'kjzl6hvfrbw6ca1wht224t9yd4383ipvpmownby69gx7bvwhya9ojnewswteyo6',
       accountRelation: { type: 'single' },
     },
   },
