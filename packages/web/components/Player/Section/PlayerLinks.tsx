@@ -37,6 +37,7 @@ type Props = {
   editing?: boolean;
   admin?: boolean;
   switchToEdit?: any;
+  onClose?: any;
 };
 
 export interface PlayerLinkFormInputs {
@@ -49,7 +50,8 @@ export const AddPlayerLink: React.FC<{
   player?: Player;
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
-}> = ({ player }) => {
+  onClose?: any;
+}> = ({ player, onClose }) => {
   const {
     register,
     formState: { errors },
@@ -84,8 +86,9 @@ export const AddPlayerLink: React.FC<{
           duration: 8000,
         });
       }
+      onClose();
     },
-    [addLink, player?.id, toast],
+    [addLink, player?.id, toast, onClose],
   );
 
   return (
@@ -156,6 +159,7 @@ export const PlayerLinks: React.FC<Props> = ({
   editing,
   admin,
   switchToEdit,
+  onClose,
 }) => {
   const [links, setLinks] = useState<Link[]>([]);
   const [, deleteLink] = useDeletePlayerLinkMutation();
@@ -183,6 +187,7 @@ export const PlayerLinks: React.FC<Props> = ({
         duration: 8000,
       });
     }
+    onClose();
   };
 
   return (
@@ -265,9 +270,10 @@ export const EditPlayerLink: React.FC<{
   linkToEdit?: Link;
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
+  onClose?: any;
   editId?: string;
   editData?: PlayerLinkFormInputs;
-}> = ({ player, linkToEdit, editId, editData }) => {
+}> = ({ player, linkToEdit, editId, editData, onClose }) => {
   const {
     register,
     formState: { errors },
@@ -314,8 +320,9 @@ export const EditPlayerLink: React.FC<{
           duration: 8000,
         });
       }
+      onClose();
     },
-    [updateLink, editId, toast],
+    [updateLink, editId, toast, onClose],
   );
 
   return (

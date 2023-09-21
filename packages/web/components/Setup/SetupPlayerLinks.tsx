@@ -43,6 +43,7 @@ export const SetupPlayerLinks: React.FC<{
         player={player}
         link={linkToEdit}
         setRole={handleSetRole}
+        onClose={onComplete}
       />
       <Button onClick={() => setRole('add')}>Add Link</Button>
     </>
@@ -54,7 +55,8 @@ const PlayerLinksView: React.FC<{
   player: Player;
   link?: Link;
   setRole: any;
-}> = ({ role, player, link, setRole }) => {
+  onClose: any;
+}> = ({ role, player, link, setRole, onClose }) => {
   const currentView = {
     view: (
       <PlayerLinks
@@ -62,11 +64,17 @@ const PlayerLinksView: React.FC<{
         isOwnProfile={true}
         admin={true}
         switchToEdit={setRole}
+        onClose={onClose}
       />
     ),
-    add: <AddPlayerLink player={player} />,
+    add: <AddPlayerLink player={player} onClose={onClose} />,
     edit: (
-      <EditPlayerLink player={player} linkToEdit={link} editId={link?.id} />
+      <EditPlayerLink
+        player={player}
+        linkToEdit={link}
+        editId={link?.id}
+        onClose={onClose}
+      />
     ),
   }[role];
 
