@@ -75,6 +75,14 @@ export const AddPlayerLink: React.FC<{
       const { error } = await addLink(playerLink);
 
       if (error) {
+        toast({
+          title: 'Error creating link!',
+          description:
+            'Oops! We were unable to create this link. Please try again.',
+          status: 'error',
+          isClosable: true,
+          duration: 8000,
+        });
         throw new Error(`Unable to add link. Error: ${error}`);
       } else {
         toast({
@@ -176,6 +184,14 @@ export const PlayerLinks: React.FC<Props> = ({
     const { error } = await deleteLink({ id });
 
     if (error) {
+      toast({
+        title: 'Error deleting link!',
+        description:
+          'Oops! We were unable to delete this link. Please try again.',
+        status: 'error',
+        isClosable: true,
+        duration: 8000,
+      });
       throw new Error(`Unable to delete link. Error: ${error}`);
     } else {
       toast({
@@ -309,6 +325,14 @@ export const EditPlayerLink: React.FC<{
       const { error } = await updateLink(playerLink);
 
       if (error) {
+        toast({
+          title: 'Error updating link!',
+          description:
+            'Oops! We were unable to update this link. Please try again',
+          status: 'error',
+          isClosable: true,
+          duration: 8000,
+        });
         throw new Error(`Unable to add link. Error: ${error}`);
       } else {
         toast({
