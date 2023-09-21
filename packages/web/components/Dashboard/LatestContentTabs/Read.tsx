@@ -27,10 +27,7 @@ export const Read: React.FC = () => {
           }) => {
             const image = item.enclosures[0].url;
             const resizedImage = image.replace(/\/h_[0-9]{2,}/gi, '/h_250'); // resize image to 250px height
-            const shortenedDescription = `${item.description.substring(
-              0,
-              125,
-            )}...`;
+            const shortenedDescription = `${item?.description?.replace(/^(.{125}[^\s]*).*/, "$1")}...`;
             return (
               <AspectRatio
                 key={item.title}
