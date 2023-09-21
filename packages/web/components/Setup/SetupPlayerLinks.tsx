@@ -10,7 +10,7 @@ import {
 } from '@metafam/ds';
 import { Player, useUpsertDeworkProfileMutation } from 'graphql/autogen/types';
 import React, { useState } from 'react';
-import { AddPlayerLink } from 'components/Player/Section/PlayerLinks';
+import { AddPlayerLink, EditPlayerLink } from 'components/Player/Section/PlayerLinks';
 import { PlayerLinks } from 'components/Player/Section/PlayerLinks';
 
 export const SetupPlayerLinks: React.FC<{
@@ -22,10 +22,17 @@ export const SetupPlayerLinks: React.FC<{
   const toast = useToast();
   const [linkToEdit, setLinkToEdit] = useState<string | null>();
   const [role, setRole] = useState<string>('view');
+  const [linkId, setLinkId] = useState<string>('');
+
+  const handleSetRole = (newRole: string, id?: string) => {
+    setRole(newRole)
+    setLinkId(id || '')
+  }
 
   return (
     <>
-      <PlayerLinksView role={role} player={player} />
+      <PlayerLinksView role={role} player={player} setRole={handleSetRole} />
+      <Button onClick={() => setRole('add')}>Add Link</Button>
     </>
   );
 };
@@ -33,10 +40,12 @@ export const SetupPlayerLinks: React.FC<{
 const PlayerLinksView: React.FC<{
   role: string,
   player: Player
-}> = ({role, player}) => {
+  setRole: any
+}> = ({role, player, setRole}) => {
   const currentView = {
-    view: <PlayerLinks player={player} isOwnProfile={true} admin={true} />,
-    add: <AddPlayerLink player={player} />
+    view: <PlayerLinks player={player} isOwnProfile={true} admin={true} switchToEdit={setRole} />,
+    add: <AddPlayerLink player={player} />,
+    edit: <EditPlayerLink player={player} editId={''} />
   }[role]
 
   return <> {currentView} </>
