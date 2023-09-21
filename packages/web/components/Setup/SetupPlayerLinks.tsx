@@ -8,10 +8,17 @@ import {
   Tooltip,
   useToast,
 } from '@metafam/ds';
-import { Player, useUpsertDeworkProfileMutation } from 'graphql/autogen/types';
+import {
+  AddPlayerLink,
+  EditPlayerLink,
+  PlayerLinks,
+} from 'components/Player/Section/PlayerLinks';
+import {
+  Link,
+  Player,
+  useUpsertDeworkProfileMutation,
+} from 'graphql/autogen/types';
 import React, { useState } from 'react';
-import { AddPlayerLink, EditPlayerLink } from 'components/Player/Section/PlayerLinks';
-import { PlayerLinks } from 'components/Player/Section/PlayerLinks';
 
 export const SetupPlayerLinks: React.FC<{
   onComplete: () => void;
@@ -20,33 +27,48 @@ export const SetupPlayerLinks: React.FC<{
   const [deworkURL, setDeworkURL] = useState<string>('');
   const [, upsertPlayerDework] = useUpsertDeworkProfileMutation();
   const toast = useToast();
-  const [linkToEdit, setLinkToEdit] = useState<string | null>();
+  const [linkToEdit, setLinkToEdit] = useState<Link>();
   const [role, setRole] = useState<string>('view');
   const [linkId, setLinkId] = useState<string>('');
 
-  const handleSetRole = (newRole: string, id?: string) => {
-    setRole(newRole)
-    setLinkId(id || '')
-  }
+  const handleSetRole = (newRole: string, link?: Link) => {
+    setRole(newRole);
+    setLinkToEdit(link);
+  };
 
   return (
     <>
-      <PlayerLinksView role={role} player={player} setRole={handleSetRole} />
+      <PlayerLinksView
+        role={role}
+        player={player}
+        link={linkToEdit}
+        setRole={handleSetRole}
+      />
       <Button onClick={() => setRole('add')}>Add Link</Button>
     </>
   );
 };
 
 const PlayerLinksView: React.FC<{
-  role: string,
-  player: Player
-  setRole: any
-}> = ({role, player, setRole}) => {
+  role: string;
+  player: Player;
+  link?: Link;
+  setRole: any;
+}> = ({ role, player, link, setRole }) => {
   const currentView = {
-    view: <PlayerLinks player={player} isOwnProfile={true} admin={true} switchToEdit={setRole} />,
+    view: (
+      <PlayerLinks
+        player={player}
+        isOwnProfile={true}
+        admin={true}
+        switchToEdit={setRole}
+      />
+    ),
     add: <AddPlayerLink player={player} />,
-    edit: <EditPlayerLink player={player} editId={''} />
-  }[role]
+    edit: (
+      <EditPlayerLink player={player} linkToEdit={link} editId={link?.id} />
+    ),
+  }[role];
 
-  return <> {currentView} </>
-}
+  return <> {currentView} </>;
+};

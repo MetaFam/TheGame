@@ -1,6 +1,9 @@
 import {
   Box,
+  Button,
   CloseIcon,
+  DeleteIcon,
+  EditIcon,
   Field,
   Flex,
   Input,
@@ -8,10 +11,8 @@ import {
   MetaTheme,
   Select,
   Text,
-  Button,
+  useToast,
   VStack,
-  EditIcon,
-  DeleteIcon,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import {
@@ -35,7 +36,7 @@ type Props = {
   isOwnProfile?: boolean;
   editing?: boolean;
   admin?: boolean;
-  switchToEdit?: any
+  switchToEdit?: any;
 };
 
 export interface PlayerLinkFormInputs {
@@ -49,28 +50,42 @@ export const AddPlayerLink: React.FC<{
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
 }> = ({ player }) => {
-
   const {
     register,
     formState: { errors },
     handleSubmit,
-    getValues
+    getValues,
   } = useForm<PlayerLinkFormInputs>({
     mode: 'onTouched',
   });
 
   const [, addLink] = useAddPlayerLinkMutation();
+  const toast = useToast();
 
   const onSubmit = useCallback(
     async (link: PlayerLinkFormInputs) => {
-      const playerLink = { playerId: player?.id, name: link.name || link.type, url: link.url, type: link.type};
+      const playerLink = {
+        playerId: player?.id,
+        name: link.name || link.type,
+        url: link.url,
+        type: link.type,
+      };
       const { error } = await addLink(playerLink);
 
       if (error) {
         throw new Error(`Unable to add link. Error: ${error}`);
+      } else {
+        toast({
+          title: 'Link created successfully!',
+          description:
+            'The link was successfully created! Please refresh the page to see the changes.',
+          status: 'success',
+          isClosable: true,
+          duration: 8000,
+        });
       }
     },
-    [addLink, player?.id],
+    [addLink, player?.id, toast],
   );
 
   return (
@@ -140,28 +155,35 @@ export const PlayerLinks: React.FC<Props> = ({
   isOwnProfile,
   editing,
   admin,
-  switchToEdit
+  switchToEdit,
 }) => {
   const [links, setLinks] = useState<Link[]>([]);
   const [, deleteLink] = useDeletePlayerLinkMutation();
+  const toast = useToast();
 
   useEffect(() => {
     if (!player?.id) return;
     (async () => {
-      console.log('made it in', player.id)
       getPlayerLinks(player.id).then((data) => setLinks(data.link));
     })();
-  
   }, [player.id]);
-  
+
   const deleteSingleLink = async (id: string) => {
-    console.log(id,'id')
     const { error } = await deleteLink({ id });
 
     if (error) {
       throw new Error(`Unable to delete link. Error: ${error}`);
+    } else {
+      toast({
+        title: 'Link deleted successfully!',
+        description:
+          'The link was successfully deleted! Please refresh the page to see the changes.',
+        status: 'success',
+        isClosable: true,
+        duration: 8000,
+      });
     }
-  }
+  };
 
   return (
     <ProfileSection
@@ -171,12 +193,12 @@ export const PlayerLinks: React.FC<Props> = ({
     >
       <VStack mt={4} w="full">
         {links?.map((link) => (
-          <>
+          <Flex w="full" justifyContent="start" alignContent="center" gap={4}>
             <a
               href={link?.url || ''}
               target="_blank"
               rel="noreferrer"
-              style={{ width: '100%' }}
+              style={{ width: '100%', flex: 1 }}
               role="group"
               key={link?.id}
             >
@@ -211,23 +233,27 @@ export const PlayerLinks: React.FC<Props> = ({
                 >
                   <FaExternalLinkAlt fill="currentColor" />
                 </Box>
-                
               </Flex>
             </a>
-            {
-              admin && (
-                <>
-                  <Button sx={{ bg: '#13003280' }} disabled={false} onClick={() => deleteSingleLink(link?.id)}>
-                    <DeleteIcon />
-                  </Button>
-                  
-                  <Button sx={{ ml: '1em', bg: '#13003280' }} onClick={() => switchToEdit('edit', link?.id)}>
-                    <EditIcon />
-                  </Button>
-                </> 
-              )}
-          </>
-          
+            {admin && (
+              <Flex alignItems="center" gap={2}>
+                <Button
+                  background={'blackAlpha.300'}
+                  disabled={false}
+                  onClick={() => deleteSingleLink(link?.id)}
+                >
+                  <DeleteIcon color={'violet'} />
+                </Button>
+
+                <Button
+                  background={'blackAlpha.300'}
+                  onClick={() => switchToEdit('edit', link)}
+                >
+                  <EditIcon color={'violet'} />
+                </Button>
+              </Flex>
+            )}
+          </Flex>
         ))}
       </VStack>
     </ProfileSection>
@@ -236,35 +262,60 @@ export const PlayerLinks: React.FC<Props> = ({
 
 export const EditPlayerLink: React.FC<{
   player?: Player;
+  linkToEdit?: Link;
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
   editId?: string;
   editData?: PlayerLinkFormInputs;
-}> = ({ player, editId, editData }) => {
-
+}> = ({ player, linkToEdit, editId, editData }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-    getValues
+    getValues,
+    reset,
   } = useForm<PlayerLinkFormInputs>({
     mode: 'onTouched',
   });
+  const toast = useToast();
 
   const [, addLink] = useAddPlayerLinkMutation();
   const [, updateLink] = useUpdatePlayerLinkMutation();
 
+  useEffect(() => {
+    const values: PlayerLinkFormInputs = {
+      name: linkToEdit?.name || '',
+      url: linkToEdit?.url || '',
+      type: linkToEdit?.type || LinkType_Enum.Other,
+    };
+    reset(values);
+  }, [linkToEdit, reset]);
+
   const onSubmit = useCallback(
     async (link: PlayerLinkFormInputs) => {
-      if (!editId) return
-      const playerLink = { id: editId, name: link.name || link.type, url: link.url, type: link.type};
+      if (!editId) return;
+      const playerLink = {
+        id: editId,
+        name: link.name || link.type,
+        url: link.url,
+        type: link.type,
+      };
       const { error } = await updateLink(playerLink);
 
       if (error) {
         throw new Error(`Unable to add link. Error: ${error}`);
+      } else {
+        toast({
+          title: 'Link updated successfully!',
+          description:
+            'The link was successfully updated! Please refresh the page to see the changes.',
+          status: 'success',
+          isClosable: true,
+          duration: 8000,
+        });
       }
     },
-    [updateLink, player?.id],
+    [updateLink, editId, toast],
   );
 
   return (
@@ -322,7 +373,7 @@ export const EditPlayerLink: React.FC<{
           onClick={handleSubmit(onSubmit)}
           bg="purple.500"
         >
-          Edit Link
+          Update Link
         </MetaButton>
       </VStack>
     </Box>
