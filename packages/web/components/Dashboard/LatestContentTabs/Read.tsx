@@ -48,6 +48,7 @@ export const Read: React.FC = () => {
                   w="100%"
                   h="100%"
                   overflow="hidden"
+                  display="block"
                 >
                   <Box position="relative" zIndex={5} p={6}>
                     <Heading
@@ -70,6 +71,7 @@ export const Read: React.FC = () => {
                         transform: 'translateY(20px)',
                         opacity: 0,
                       }}
+                      h="100px"
                     />
                     <Link
                       display="inline-flex"
@@ -85,12 +87,14 @@ export const Read: React.FC = () => {
                         textDecoration: 'none',
                       }}
                       borderRadius="md"
+                      height='36px'
                     >
                       <Text
                         cursor="pointer"
                         color="blueLight"
                         py={1}
                         fontWeight="bold"
+                        height='36px'
                       >
                         Read Here
                       </Text>
