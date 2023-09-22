@@ -18,15 +18,15 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
+import { SetupPlayerLinks } from 'components/Setup/SetupPlayerLinks';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { EditRoles } from 'components/Setup/SetupRoles';
 import { EditSkills } from 'components/Setup/SetupSkills';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import React, { useCallback } from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
-import { AddPlayerLink } from 'components/Player/Section/PlayerLinks';
+
 import { SetupDeworkLink } from '../Setup/SetupDeworkURL';
-import { SetupPlayerLinks } from 'components/Setup/SetupPlayerLinks';
 
 export type ProfileSectionProps = {
   children?: React.ReactNode;
@@ -272,7 +272,10 @@ const EditSection = ({
     }
     case BoxTypes.PLAYER_LINKS: {
       return (
-        <SetupPlayerLinks player={hydratedPlayer} onComplete={hydrateFromHasura} />
+        <SetupPlayerLinks
+          player={hydratedPlayer}
+          onComplete={hydrateFromHasura}
+        />
       );
     }
     default:

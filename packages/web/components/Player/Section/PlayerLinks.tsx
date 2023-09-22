@@ -94,9 +94,8 @@ export const AddPlayerLink: React.FC<{
           duration: 8000,
         });
       }
-      onClose();
     },
-    [addLink, player?.id, toast, onClose],
+    [addLink, player?.id, toast],
   );
 
   return (
@@ -203,7 +202,9 @@ export const PlayerLinks: React.FC<Props> = ({
         duration: 8000,
       });
     }
-    onClose();
+    if (admin) {
+      onClose();
+    }
   };
 
   return (
