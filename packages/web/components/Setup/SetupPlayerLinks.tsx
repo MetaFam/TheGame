@@ -1,35 +1,18 @@
-import {
-  Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  InfoIcon,
-  Input,
-  Tooltip,
-  useToast,
-} from '@metafam/ds';
+import { MetaButton, useToast } from '@metafam/ds';
 import {
   AddPlayerLink,
   EditPlayerLink,
   PlayerLinks,
 } from 'components/Player/Section/PlayerLinks';
-import {
-  Link,
-  Player,
-  useUpsertDeworkProfileMutation,
-} from 'graphql/autogen/types';
+import { Link, Player } from 'graphql/autogen/types';
 import React, { useState } from 'react';
 
 export const SetupPlayerLinks: React.FC<{
   onComplete: () => void;
   player: Player;
 }> = ({ player, onComplete }) => {
-  const [deworkURL, setDeworkURL] = useState<string>('');
-  const [, upsertPlayerDework] = useUpsertDeworkProfileMutation();
-  const toast = useToast();
   const [linkToEdit, setLinkToEdit] = useState<Link>();
   const [role, setRole] = useState<string>('view');
-  const [linkId, setLinkId] = useState<string>('');
 
   const handleSetRole = (newRole: string, link?: Link) => {
     setRole(newRole);
@@ -45,7 +28,17 @@ export const SetupPlayerLinks: React.FC<{
         setRole={handleSetRole}
         onClose={onComplete}
       />
-      <Button onClick={() => setRole('add')}>Add Link</Button>
+      {role === 'view' ? (
+        <MetaButton
+          loadingText="Adding link..."
+          onClick={() => setRole('add')}
+          bg="purple.500"
+        >
+          Add Link
+        </MetaButton>
+      ) : (
+        ''
+      )}
     </>
   );
 };

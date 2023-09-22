@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CloseIcon,
   DeleteIcon,
   EditIcon,
   Field,
@@ -177,7 +176,7 @@ export const PlayerLinks: React.FC<Props> = ({
     (async () => {
       getPlayerLinks(player.id).then((data) => setLinks(data.link));
     })();
-  }, [player.id]);
+  }, [player.id, admin]);
 
   const deleteSingleLink = async (id: string) => {
     const { error } = await deleteLink({ id });
@@ -295,7 +294,6 @@ export const EditPlayerLink: React.FC<{
     register,
     formState: { errors },
     handleSubmit,
-    getValues,
     reset,
   } = useForm<PlayerLinkFormInputs>({
     mode: 'onTouched',
