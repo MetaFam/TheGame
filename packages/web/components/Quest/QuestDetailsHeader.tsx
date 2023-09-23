@@ -19,10 +19,16 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { Quest, QuestFragment, QuestStatus_Enum } from 'graphql/autogen/types';
+import {
+  Quest,
+  QuestFragment,
+  QuestStatus_Enum,
+  useUpdateQuestMutation,
+} from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 
 import { RepetitionTag, StatusTag } from './QuestTags';
@@ -37,40 +43,55 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
   const { user } = useUser();
   const isMyQuest = user?.id === (quest as Quest).player.id;
   const { repetition, cooldown, title, status } = quest;
-
+  const questSkills = quest.quest_skills;
+  const questRoles = quest.quest_roles;
   // Delete quest modal
   const cancelRef = useRef<HTMLButtonElement>(null);
   const deleteButtonRef = useRef<HTMLButtonElement>(null); // focus returns here when modal is closed
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-  const setDeleted = () => {
-    // Delete
-    // Can I just use the updateQuestResult from edit.tsx, and just update the status?
-    // e.g.
-    // updateQuestInput = { status: DELETED }
-    // then
-    // updateQuest({id: quest.id, input: updateQuestInput})
-    // console.log("DELETE "+quest.id);
+  const router = useRouter();
+  const [, updateQuest] = useUpdateQuestMutation(); // Don't need to use updateQuestResult that's returned from useUpdateQuestMutation e.g const [updateQuestResult, updateQuest] = ...
 
+  // Original skills and roles are needed (required field) for the updateQuest mutation
+  // because the updateQuest mutation deletes existing skills/roles and then adds in those
+  // that were submitted via the form (either the existing skills/roles or changes to them)
+  // If we keep the original skills/roles in, the quest can still be undeleted if needed
+
+  // Roles objects
+  const rolesObjects = questRoles.map((r) => ({
+    questId: quest.id,
+    role: r.PlayerRole.role,
+  }));
+
+  // Skills objects
+  const skillsObjects = questSkills.map((s) => ({
+    questId: quest.id,
+    skillId: s.skill.id,
+  }));
+
+  const setQuestAsDeleted = () => {
+    // 1. Delete it
     // Based on edit.tsx
-    // const updateQuestInput = {
-    //  status: QuestStatus_Enum.Open, // would be status: QuestStatus_Enum.Deleted once that's set up
-    // };
-    /**
+
+    const updateQuestInput = {
+      status: QuestStatus_Enum.Deleted,
+    };
+
     updateQuest({
       id: quest.id,
       input: updateQuestInput,
-      skills: [], // Placeholder b/c not updating
-      roles: [], // Placeholder b/c no updating
+      skills: skillsObjects,
+      roles: rolesObjects,
     }).then((res) => {
       if (res.data?.update_quest_by_pk && !res.error) {
-        router.push("/quests");
+        router.push('/quests');
         toast({
           title: 'Quest deleted',
           description: `The quest was deleted successfully`,
           status: 'success',
           isClosable: true,
-          duration: 4000,        
+          duration: 4000,
         });
       } else {
         toast({
@@ -81,26 +102,10 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
           duration: 10000,
         });
       }
-
-
     });
-    */
 
-    // Close the modal
+    // 2. Close the modal after the action
     onClose();
-
-    // Show the toast
-    // Pretend success
-    // Or put the router push here
-    // router.push("/quests");
-    toast({
-      title: 'Quest deleted',
-      description: `The quest was deleted successfully`,
-      status: 'success',
-      isClosable: true,
-      duration: 4000,
-      // onCloseComplete: () => { history.push("/somewhere")}, // Redirect somwhere, could also use router.push if importing next/router
-    });
   };
   return (
     <Flex
@@ -260,7 +265,7 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
                       size="lg"
                       width={{ base: '100%', sm: 'auto' }}
                       borderWidth={2}
-                      onClick={setDeleted}
+                      onClick={setQuestAsDeleted}
                     >
                       Yes, delete quest
                     </Button>
