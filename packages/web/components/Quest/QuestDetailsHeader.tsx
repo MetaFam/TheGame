@@ -42,9 +42,15 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
   const playerProfileLinkURL = usePlayerURL(quest.player);
   const { user } = useUser();
   const isMyQuest = user?.id === (quest as Quest).player.id;
-  const { repetition, cooldown, title, status } = quest;
-  const questSkills = quest.quest_skills;
-  const questRoles = quest.quest_roles;
+  const {
+    repetition,
+    cooldown,
+    title,
+    status,
+    quest_skills: questSkills,
+    quest_roles: questRoles,
+  } = quest;
+
   // Delete quest modal
   const cancelRef = useRef<HTMLButtonElement>(null);
   const deleteButtonRef = useRef<HTMLButtonElement>(null); // focus returns here when modal is closed
