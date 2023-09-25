@@ -10,6 +10,7 @@ import {
   IPaymaster,
   PaymasterAndDataResponse,
   PaymasterMode,
+  SponsorUserOperationDto,
 } from '@biconomy/paymaster';
 import { Link, MetaButton, Text, useToast } from '@metafam/ds';
 import {
@@ -71,32 +72,49 @@ export const Gasless: React.FC = () => {
           `${accountDeployed ? '' : 'not '}deployed.`,
       });
 
+      const contract = new ethers.Contract(chievAddress, ABI, provider);
+
+      // eslint-disable-next-line no-console
+      console.debug({ contract });
+
+      const { data: txData } = await contract.populateTransaction[
+        'mint(address[],uint256,bytes)'
+      ]([address], `0x${chievTokenId.toString(16)}`, []);
+      const contractTx = { to: chievAddress, data: txData };
+
       const chievesInterface = new ethers.utils.Interface(ABI);
       const args = [[address], `0x${chievTokenId.toString(16)}`, []];
       const data = chievesInterface.encodeFunctionData(
         'mint(address[],uint256,bytes)',
         args,
       );
-
-      const transaction = {
-        to: chievAddress,
-        data,
-        value: 0,
-      };
+      const interfaceTx = { to: chievAddress, data };
 
       // eslint-disable-next-line no-console
-      console.debug({ args, transaction });
+      console.debug({
+        args,
+        contractTx,
+        interfaceTx,
+        chievesInterface,
+        sameData: contractTx.data === interfaceTx.data,
+      });
 
-      const partialUserOp = await account.buildUserOp([transaction]);
+      const partialUserOp = await account.buildUserOp([contractTx]);
 
-      // typing is missing 2nd param in 3.1.0a
-      const { getPaymasterAndData } = account.paymaster;
+      const paymasterServiceData = {
+        mode: PaymasterMode.SPONSORED,
+        smartAccountInfo: {
+          name: 'BICONOMY',
+          version: '2.0.0',
+        },
+      };
       const { paymasterAndData } = await (
-        getPaymasterAndData as (
+        account.paymaster.getPaymasterAndData as (
           op: Partial<UserOperation>,
-          config: { mode: PaymasterMode },
+          service: SponsorUserOperationDto,
         ) => Promise<PaymasterAndDataResponse>
-      )(partialUserOp, { mode: PaymasterMode.SPONSORED });
+      )(partialUserOp, paymasterServiceData);
+
       Object.assign(partialUserOp, { paymasterAndData });
 
       // eslint-disable-next-line no-console
