@@ -1,4 +1,3 @@
-import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,
   Button,
@@ -9,189 +8,80 @@ import {
   Spinner,
   StatusedSubmitButton,
   Text,
-  useToast,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import type {
-  HasuraImageSourcedProps,
-  HasuraProfileProps,
-  Maybe,
-  Optional,
-} from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
 import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { CeramicError, useWeb3 } from 'lib/hooks';
-import type { ReactNode } from 'react';
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
-import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
-import { errorHandler } from 'utils/errorHandler';
+import { useWeb3 } from 'lib/hooks';
+import React, { ReactElement, ReactNode, useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 export type MaybeModalProps = {
   buttonLabel?: string | ReactElement;
-  onClose?: () => void;
+  // this is called when either cancel or save is pressed on the modal
+  onComplete?: (nodeId?: string) => void;
   title?: string | ReactElement;
 };
 
-export type WizardPaneProps<T = string> = {
-  field: keyof HasuraProfileProps | 'roles' | 'skills';
+export type WizardPanePromptProps = {
   title?: string | ReactElement;
   prompt?: string | ReactElement;
+};
+
+export type WizardPaneSubmitProps = {
+  status?: Maybe<string | ReactElement>;
   buttonLabel?: string | ReactElement;
   onClose?: () => void;
-  children: ReactNode | ((props: WizardPaneCallbackProps<T>) => ReactNode);
 };
 
-export type WizardPaneCallbackProps<T = string> = {
-  register: (
-    field: string,
-    opts: Record<string, unknown>,
-  ) => UseFormRegisterReturn;
-  control: Control;
-  loading: boolean;
-  errored: boolean;
-  dirty: boolean;
-  current: T;
-  setter: (arg: T | null | ((prev: Optional<Maybe<T>>) => Maybe<T>)) => void;
-};
-
-export type PaneProps<T = string> = WizardPaneProps<T> & {
-  value: Optional<Maybe<T>>;
-  fetching?: boolean;
-  authenticating?: boolean;
-  onSave?: ({
-    values,
-    images,
-    setStatus,
-  }: {
-    values: Record<string, unknown>;
-    images: Record<string, Maybe<ImageSources>>;
-    setStatus: (msg: string) => void;
-  }) => Promise<void>;
-  children: ReactNode | ((props: WizardPaneCallbackProps<T>) => ReactNode);
-};
+export type WizardPaneProps<T> = WizardPanePromptProps &
+  WizardPaneSubmitProps & {
+    fetching?: boolean;
+    field: string;
+    onSubmit: (values: Record<string, T>) => Promise<void>;
+    children: ReactNode;
+  };
 
 export const WizardPane = <T,>({
   field,
   title,
   prompt,
-  buttonLabel,
+  status,
   onClose,
-  onSave,
-  value: existing,
+  buttonLabel,
+  onSubmit,
   fetching = false,
   children,
-}: PaneProps<T>) => {
-  const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const [status, setStatus] = useState<Maybe<string | ReactElement>>();
-  const {
-    register,
-    control,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors, isValidating: validating, dirtyFields },
-    // This is set to any because HasuraProfileProps wasn't working
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } = useForm<any>();
-  const current = watch(field, existing);
-  const dirty = current !== existing || dirtyFields[field];
+}: WizardPaneProps<T>) => {
   const { connecting, connected, chainId } = useWeb3();
-  const toast = useToast();
+  const {
+    handleSubmit,
+    watch,
+    resetField,
+    formState: { errors, isValidating: validating, defaultValues, dirtyFields },
+  } = useFormContext();
 
+  // When the form is first rendered, the default value has probably not been fetched from ComposeDB yet. So for
+  // react-hook-form validation to work, we have to reset the field so that it knows what to compare the dirty value to
+  const current = watch(field);
   useEffect(() => {
-    setValue(field, existing);
-  }, [existing, field, setValue]);
+    if (
+      defaultValues != null &&
+      !defaultValues[field] &&
+      !dirtyFields[field] &&
+      current
+    ) {
+      resetField(field, { defaultValue: current });
+    }
+  }, [current, defaultValues, dirtyFields, field, resetField]);
 
-  const onSubmit = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async (values: any) => {
-      try {
-        if (!dirty) {
-          setStatus('No Change. Skipping Save…');
-          await new Promise((resolve) => {
-            setTimeout(resolve, 10);
-          });
-        } else if (onSave) {
-          setStatus('Saving…');
-          const images: HasuraImageSourcedProps = {};
-          // handle image upload of profileImageURL to web3.storage
-
-          if (values.profileImageURL === null) {
-            // remove image from ceramic
-            images.profileImageURL = null;
-            // eslint-disable-next-line no-param-reassign
-            delete values.profileImageURL;
-          } else if (values.profileImageURL) {
-            const formData = new FormData();
-
-            // 'profile' is the key for ceramic, equivalent to profileImageURL in Hasura
-            formData.append('profile', values.profileImageURL.file);
-            const result = await fetch(`/api/storage`, {
-              method: 'POST',
-              body: formData,
-              credentials: 'include',
-            });
-            const response = await result.json();
-            const { error } = response;
-            if (result.status >= 400 || error) {
-              throw new Error(
-                `web3.storage ${result.status} response: "${
-                  error ?? result.statusText
-                }"`,
-              );
-            }
-            images.profileImageURL = {
-              original: {
-                src: `ipfs://${response.profile}`,
-                mimeType: values.profileImageURL.file.type,
-                width: values.profileImageURL.width,
-                height: values.profileImageURL.height,
-              },
-            } as ImageSources;
-            // eslint-disable-next-line no-param-reassign
-            delete values.profileImageURL;
-          }
-          await onSave({ values, images, setStatus });
-        }
-
-        (onClose ?? onNextPress).call(this);
-      } catch (err) {
-        const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
-        toast({
-          title: heading,
-          description: (err as Error).message,
-          status: 'error',
-          isClosable: true,
-          duration: 12000,
-        });
-        errorHandler(err as Error);
-        setStatus(null);
-      }
-    },
-    [dirty, onClose, onNextPress, onSave, toast],
-  );
-
-  const setter = useCallback(
-    (val: unknown) => {
-      let next = val;
-      if (val instanceof Function) {
-        next = val(current);
-      }
-      setValue(field, next);
-    },
-    [current, field, setValue],
-  );
-
-  if ((!connecting && !connected) || chainId !== '0x1') {
-    return (
-      <FlexContainer>
-        <MetaHeading color="white">Wrong Chain</MetaHeading>
-        <ConnectToProgress header="" />
-      </FlexContainer>
-    );
+  const wrongChain = chainId != null && chainId !== '0x1';
+  if ((!connecting && !connected) || wrongChain) {
+    return <WalletNotConnected {...{ wrongChain }} />;
   }
 
   return (
@@ -202,19 +92,7 @@ export const WizardPane = <T,>({
       align="center"
       pb={8}
     >
-      <HeadComponent title={`MetaGame: Setting ${title}`} />
-      {title && <MetaHeading textAlign="center">{title}</MetaHeading>}
-      {prompt && (
-        <Box maxW="25rem" {...(title ? {} : { mt: [0, -4] })}>
-          {typeof prompt === 'string' ? (
-            <Text mb={0} textAlign="center">
-              {prompt}
-            </Text>
-          ) : (
-            prompt
-          )}
-        </Box>
-      )}
+      <WizardPanePrompt {...{ title, prompt }} />
       <FormControl
         isInvalid={!!errors[field]}
         isDisabled={!connected || fetching}
@@ -224,7 +102,7 @@ export const WizardPane = <T,>({
             <Spinner thickness="4px" speed="1.25s" size="lg" mr={4} />
             <Text>
               {(() => {
-                if (!connected) return 'Authenticating…';
+                if (!connected) return 'Connecting wallet…';
                 if (validating) return 'Validating…';
                 return 'Loading Current Value…';
               })()}
@@ -232,45 +110,81 @@ export const WizardPane = <T,>({
           </Flex>
         )}
         <Box my={5}>
-          {typeof children === 'function'
-            ? children.call(null, {
-                register,
-                control,
-                loading: !connected || fetching,
-                errored: !!errors[field],
-                dirty,
-                current,
-                setter,
-              })
-            : children}
-          <FormErrorMessage style={{ justifyContent: 'center' }}>
-            {errors[field]?.message}
-          </FormErrorMessage>
+          <>
+            {children}
+            <FormErrorMessage style={{ justifyContent: 'center' }}>
+              {errors[field]?.message?.toString()}
+            </FormErrorMessage>
+          </>
         </Box>
       </FormControl>
-
-      <Wrap align="center">
-        <WrapItem>
-          <StatusedSubmitButton
-            px={[8, 12]}
-            label={buttonLabel ?? nextButtonLabel}
-            {...{ status }}
-          />
-        </WrapItem>
-        {onClose && (
-          <WrapItem>
-            <Button
-              variant="ghost"
-              onClick={onClose}
-              color="white"
-              _hover={{ bg: '#FFFFFF11' }}
-              _active={{ bg: '#FF000011' }}
-            >
-              Close
-            </Button>
-          </WrapItem>
-        )}
-      </Wrap>
+      <WizardPaneSubmit {...{ status, onClose, buttonLabel }} />
     </FlexContainer>
+  );
+};
+
+export const WalletNotConnected: React.FC<{ wrongChain: boolean }> = ({
+  wrongChain,
+}) => (
+  <FlexContainer>
+    {wrongChain ? <MetaHeading color="white">Wrong Chain</MetaHeading> : null}
+    <ConnectToProgress header="" />
+  </FlexContainer>
+);
+
+export const WizardPanePrompt: React.FC<WizardPanePromptProps> = ({
+  title,
+  prompt,
+}) => (
+  <>
+    <HeadComponent title={`MetaGame: Setting ${title}`} />
+    {title && <MetaHeading textAlign="center">{title}</MetaHeading>}
+    {prompt && (
+      <Box maxW="25rem" {...(title ? {} : { mt: [0, -4] })}>
+        {typeof prompt === 'string' ? (
+          <Text mb={0} textAlign="center">
+            {prompt}
+          </Text>
+        ) : (
+          prompt
+        )}
+      </Box>
+    )}
+  </>
+);
+
+export const WizardPaneSubmit: React.FC<WizardPaneSubmitProps> = ({
+  status,
+  buttonLabel,
+  onClose,
+}) => {
+  const {
+    formState: { isValid },
+  } = useFormContext();
+  const { nextButtonLabel } = useSetupFlow();
+  return (
+    <Wrap align="center">
+      <WrapItem>
+        <StatusedSubmitButton
+          px={[8, 12]}
+          label={buttonLabel ?? nextButtonLabel}
+          isDisabled={!isValid}
+          {...{ status }}
+        />
+      </WrapItem>
+      {onClose && (
+        <WrapItem>
+          <Button
+            variant="ghost"
+            onClick={onClose}
+            color="white"
+            _hover={{ bg: '#FFFFFF11' }}
+            _active={{ bg: '#FF000011' }}
+          >
+            Close
+          </Button>
+        </WrapItem>
+      )}
+    </Wrap>
   );
 };

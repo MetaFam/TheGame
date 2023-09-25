@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v1.3.3.cli-migrations-v2
+FROM hasura/graphql-engine:v2.23.0.cli-migrations-v2
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
 RUN chmod +x /wait
@@ -23,6 +23,8 @@ ENV TRIGGERS_ENDPOINT $BACKEND_PROTOCOL://$BACKEND_HOST/$TRIGGERS_PATH
 ENV HASURA_GRAPHQL_MIGRATIONS_DATABASE_ENV_VAR HASURA_GRAPHQL_DATABASE_URL
 ENV HASURA_GRAPHQL_NO_OF_RETRIES 3
 ENV HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT 90
+ENV HASURA_GRAPHQL_V1_BOOLEAN_NULL_COLLAPSE true
+
 ## Migrations
 
 COPY migrations /hasura-migrations

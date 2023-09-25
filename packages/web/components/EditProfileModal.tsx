@@ -1,26 +1,17 @@
 /* eslint-disable no-console */
-import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,
-  BoxProps,
   Button,
-  Center,
-  CloseIcon,
   FormControl,
   FormErrorMessage,
-  FormLabel,
-  FormLabelProps,
+  FormHelperText,
   Grid,
   GridItem,
-  IconButton,
-  Image,
-  InfoIcon,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightAddon,
   ITimezoneOption,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -28,230 +19,145 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  motion,
   SelectTimeZone,
-  Spinner,
   StatusedSubmitButton,
   Text,
-  Textarea,
-  Tooltip,
   useToast,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
 import {
-  AllProfileFields,
-  HasuraProfileProps,
-  Images,
-  Optional,
+  ComposeDBImageMetadata,
+  getMimeType,
+  HasuraImageFieldKey,
+  hasuraImageFields,
+  isHasuraImageField,
+  profileMapping,
 } from '@metafam/utils';
-import FileOpenIcon from 'assets/file-open-icon.svg';
-import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import {
   Maybe,
   Player,
   useInsertCacheInvalidationMutation,
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
-import { useProfileField, useSaveCeramicProfile, useWeb3 } from 'lib/hooks';
-import { useRouter } from 'next/router';
-import type { ChangeEvent, PropsWithChildren } from 'react';
+import { PlayerProfile } from 'graphql/types';
+import { useWeb3 } from 'lib/hooks';
+import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
 import React, {
+  createRef,
   ReactElement,
-  RefObject,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
-import { optimizedImage } from 'utils/imageHelpers';
+import { getImageDimensions } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
+import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
+import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
-import MeetWithWalletProfileEdition from './Player/MeetWithWalletProfileEdition';
+import { EditAvatarImage } from './Player/Profile/EditAvatarImage';
+import { EditBackgroundImage } from './Player/Profile/EditBackgroundImage';
+import { EditDescription } from './Player/Profile/EditDescription';
+import { Label } from './Player/Profile/Label';
+import MeetWithWalletProfileEdition from './Player/Profile/MeetWithWalletProfileEdition';
 
-const MAX_DESC_LEN = 420; // characters
-
-export type ProfileEditorProps = {
-  player?: Maybe<Player>;
-  isOpen: boolean;
-  onClose: () => void;
+type EditProfileFields = {
+  profileImageURL?: Maybe<string>;
+  backgroundImageURL?: Maybe<string>;
+  description?: Maybe<string>;
+  username?: Maybe<string>;
+  name?: Maybe<string>;
+  timeZone?: Maybe<string>;
+  availableHours?: Maybe<number>;
+  pronouns?: Maybe<string>;
+  website?: Maybe<string>;
+  location?: Maybe<string>;
+  emoji?: Maybe<string>;
 };
 
-const Label: React.FC<FormLabelProps> = React.forwardRef(
-  ({ children, ...props }, container) => {
-    const ref = container as RefObject<HTMLLabelElement>;
-    return (
-      <FormLabel color="cyan" {...{ ref, ...props }}>
-        {children}
-      </FormLabel>
-    );
-  },
-);
+const getDefaultFormValues = (player: Player): EditProfileFields => {
+  if (!player.profile) {
+    return {} as EditProfileFields;
+  }
+  return Object.fromEntries(
+    Object.entries(player.profile).filter(([key]) =>
+      Object.keys(profileMapping).includes(key),
+    ),
+  );
+};
 
-export type Merge<P, T> = Omit<P, keyof T> & T;
-export const MotionBox = motion<BoxProps>(Box);
-type PulseHoverBoxProps = PropsWithChildren<{ duration?: number }>;
-export const PulseHoverBox: React.FC<PulseHoverBoxProps> = ({
-  // duration = 2,
-  children,
-}) => (
-  <MotionBox
-    whileHover={{
-      scale: 1.2,
-      // transition: { duration },
-    }}
-    whileTap={{ scale: 0.9 }}
-  >
-    {children}
-  </MotionBox>
-);
+export type EditProfileModalProps = {
+  player: Player;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (ceramicStreamID: string) => void;
+};
 
-export const EditProfileModal: React.FC<ProfileEditorProps> = ({
+export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   player,
   isOpen,
   onClose,
+  onSave,
 }) => {
   const [status, setStatus] = useState<Maybe<ReactElement | string>>();
 
-  const username = player?.profile?.username;
-  const params = useRouter();
-  const debug = !!params.query.debug;
-  const saveToCeramic = useSaveCeramicProfile({ debug, setStatus });
+  const username = player.profile?.username;
+
+  const { save } = useSaveToComposeDB();
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
-  const {
-    handleSubmit,
-    register,
-    setValue,
-    control,
-    watch,
-    formState: { errors, dirtyFields },
-  } = useForm();
-  const { ceramic, address, chainId } = useWeb3();
-  const toast = useToast();
-  const description = watch('description');
-  const remaining = useMemo(
-    () => MAX_DESC_LEN - (description?.length ?? 0),
-    [description],
-  );
-  const metagamer = useMemo(
-    () =>
-      !!player?.guilds.some(
-        ({ Guild: { guildname } }) => guildname === 'metafam',
-      ),
+
+  const initialFormValues = useMemo(
+    () => getDefaultFormValues(player),
     [player],
   );
 
-  const fields = Object.fromEntries(
-    Object.keys(AllProfileFields).map((key) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { value } = useProfileField({
-        field: key,
-        player,
-      });
-      return [key, value];
-    }),
-  );
+  const formMethods = useForm({
+    defaultValues: initialFormValues,
+    mode: 'onTouched',
+  });
+  const {
+    handleSubmit,
+    register,
+    watch,
+    control,
+    reset,
+    formState: { errors, dirtyFields, isDirty },
+  } = formMethods;
+  const { chainId } = useWeb3();
+  const toast = useToast();
 
-  const endpoints = Object.fromEntries(
-    Object.keys(Images).map((hasuraId) => {
-      const key = hasuraId as keyof typeof Images;
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [active, setActive] = useState(false);
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [loading, setLoading] = useState(true);
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [url, setURL] = useState<Optional<string>>(
-        optimizedImage(key, fields[key]),
-      );
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [file, setFile] = useState<Maybe<File>>(null);
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const ref = useRef<HTMLImageElement>(null);
-      // key ends in “URL”
-      return [
-        key,
-        {
-          loading,
-          active,
-          val: url,
-          file,
-          ref,
-          setLoading,
-          setActive,
-          setURL,
-          setFile,
-        },
-      ];
-    }),
-  );
-
-  if (debug) {
-    console.debug({ fields, endpoints, dirtyFields });
-  }
+  const [pickedFiles, setPickedFiles] = useState<
+    Partial<Record<HasuraImageFieldKey, File>>
+  >({});
+  const [pickedFileDataURLs, setPickedFileDataURLs] = useState<
+    Partial<Record<HasuraImageFieldKey, string>>
+  >({});
 
   const resetData = useCallback(() => {
-    Object.entries(fields).forEach(([key, value]) => {
-      if (!key.startsWith('_')) {
-        setValue(key, value ?? undefined);
-      }
-    });
-  }, [setValue]); // eslint-disable-line react-hooks/exhaustive-deps
+    reset(initialFormValues);
+    setPickedFiles({});
+    setPickedFileDataURLs({});
+  }, [initialFormValues, reset]);
 
   useEffect(resetData, [resetData]);
 
-  const onFileChange = useCallback(
-    ({ target: input }: { target: HTMLInputElement }) => {
-      const file = input.files?.[0];
-      if (!file) return;
-      if (file.size === 0) {
-        toast({
-          title: 'Empty Image Error',
-          description:
-            'The selected image has a size of 0. Is it a smybolic link?',
-          status: 'error',
-          isClosable: true,
-          duration: 10000,
-        });
-      } else {
-        const key = input.name as keyof typeof endpoints;
-        endpoints[key].setActive(true);
-        endpoints[key].setFile(file);
-        const reader = new FileReader();
-        reader.addEventListener('load', () => {
-          endpoints[key].setURL(reader.result as string);
-        });
-        reader.addEventListener('error', ({ target }) => {
-          const { error } = target ?? {};
-          toast({
-            title: 'Image Loading Error',
-            description: `Loading Images Error: “${error?.message}”`,
-            status: 'error',
-            isClosable: true,
-            duration: 10000,
-          });
-          endpoints[key].setLoading(false);
-        });
-        reader.readAsDataURL(file);
-      }
-    },
-    [endpoints, toast],
+  const MAX_NAME_LEN = 150; // characters
+
+  const displayName = watch('name');
+  const nameRemaining = useMemo(
+    () => MAX_NAME_LEN - (displayName?.length ?? 0),
+    [displayName],
   );
 
-  const onFileRemove = useCallback(
-    (key: string) => {
-      endpoints[key].setFile(null);
-      endpoints[key].setURL(undefined);
-      endpoints[key].setLoading(true);
-      endpoints[key].setActive(false);
-    },
-    [endpoints],
+  const imageFieldRefs = Object.fromEntries(
+    hasuraImageFields.map((key) => [key, createRef<HTMLImageElement>()]),
   );
 
-  if (!ceramic || !saveToCeramic) {
+  if (!save) {
     toast({
       title: 'Ceramic Connection Error',
       description: 'Unable to connect to the Ceramic API to save changes.',
@@ -263,39 +169,24 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     return null;
   }
 
-  const onSubmit = async (inputs: HasuraProfileProps) => {
+  const onSubmit = async (inputs: EditProfileFields) => {
     try {
-      if (debug) {
-        console.debug(`For ETH Address: ${address}`);
+      if (!isDirty) {
+        setStatus('No changes detected. Skipping save…');
+        setTimeout(() => onClose, 500);
+        return null;
       }
-
-      setStatus(
-        <Text>
-          Uploading images to
-          <Link href="//web3.storage" ml={1}>
-            web3.storage
-          </Link>
-          …
-        </Text>,
-      );
 
       const formData = new FormData();
-      const files: Record<string, File> = {};
-      const images: Record<string, Maybe<ImageSources>> = {};
-      const values = { ...inputs };
-      Object.keys(Images).forEach((hasuraId) => {
-        const key = hasuraId as keyof typeof Images;
-        if (endpoints[key].file) {
-          files[key] = endpoints[key].file as File;
-        } else if (!endpoints[key].val) {
-          images[key] = null;
-        }
-        delete values[key];
-      });
 
-      if (debug) {
-        console.debug({ inputs, values, files, endpoints });
-      }
+      const changedInputs = Object.fromEntries(
+        Object.entries(inputs).filter(([key]) => !isHasuraImageField(key)),
+      );
+
+      const profile: PlayerProfile = { ...changedInputs };
+      const profileImages = Object.fromEntries(
+        hasuraImageFields.map((field) => [field, null]),
+      ) as Record<HasuraImageFieldKey, Maybe<ComposeDBImageMetadata>>;
 
       const toType = (key: string) => {
         const match = key.match(/^(.+?)(Image)?(URL)$/i);
@@ -303,87 +194,56 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
         return name;
       };
 
-      if (Object.keys(files).length > 0) {
-        Object.entries(files).forEach(([key, file]) => {
+      if (Object.keys(pickedFiles).length > 0) {
+        setStatus('Uploading images to web3.storage…');
+
+        // Upload all the files to /api/storage
+        Object.entries(pickedFiles).forEach(([key, file]) => {
           formData.append(toType(key), file);
         });
-        const result = await fetch(`/api/storage`, {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-        });
-        const response = await result.json();
-        const { error } = response;
-        if (result.status >= 400 || error) {
-          throw new Error(
-            `web3.storage ${result.status} response: "${
-              error ?? result.statusText
-            }"`,
-          );
-        }
+        const response = await uploadFiles(formData);
 
-        Object.keys(files).forEach((key: string) => {
-          const tKey = toType(key);
-          if (!response[tKey]) {
-            toast({
-              title: 'Error Saving Image',
-              description: `Uploaded "${tKey}" & didn't get a response back.`,
-              status: 'warning',
-              isClosable: true,
-              duration: 8000,
-            });
-          } else {
-            const { val, ref } = endpoints[key];
-            let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
-            mime ??= 'image/*';
+        await Promise.all(
+          Object.entries(pickedFileDataURLs).map(async ([key, val]) => {
+            const tKey = toType(key);
+            if (!response[tKey]) {
+              toast({
+                title: 'Error Saving Image',
+                description: `Uploaded "${tKey}" & didn't get a response back.`,
+                status: 'warning',
+                isClosable: true,
+                duration: 8000,
+              });
+            } else {
+              setStatus('Calculating image metadata…');
+              const mime = getMimeType(val);
+              const file = pickedFiles[key as HasuraImageFieldKey];
 
-            const elem = ref.current as HTMLImageElement | null;
-            const props: { width?: number; height?: number } = {};
-            ['width', 'height'].forEach((prop) => {
-              props[prop as 'width' | 'height'] = Math.max(
-                elem?.[
-                  `natural${prop[0].toUpperCase()}${prop.slice(1)}` as
-                    | 'naturalWidth'
-                    | 'naturalHeight'
-                ] ?? 0,
-                elem?.[prop as 'width' | 'height'] ?? 0,
-                1,
-              );
-            });
-            // object requried by ceramic
-            images[key as keyof typeof Images] = {
-              original: {
-                src: `ipfs://${response[tKey]}`,
+              const imageMetadata = {
+                url: `ipfs://${response[tKey]}`,
                 mimeType: mime,
-                ...props,
-              },
-            } as ImageSources;
-          }
-        });
-      }
+                size: file?.size,
+              } as ComposeDBImageMetadata;
 
-      if (debug) {
-        console.debug({ files, values, inputs, dirtyFields });
-      }
+              const { width, height } = await getImageDimensions(val);
+              if (width && height) {
+                imageMetadata.width = width;
+                imageMetadata.height = height;
+              }
 
-      Object.keys(values).forEach((hasuraId) => {
-        const key = hasuraId as keyof HasuraProfileProps;
-        if (!dirtyFields[key]) {
-          if (debug) {
-            let display = values[key];
-            if (typeof display === 'string' && display.length > 20) {
-              display = `${display.slice(0, 20)}…`;
+              profileImages[key as HasuraImageFieldKey] = imageMetadata;
             }
-            console.info(`Removing Unchanged Value [${key}]: “${display}”`);
-          }
-          delete values[key];
-        }
-      });
+          }),
+        );
+      }
 
-      await saveToCeramic({ values, images });
+      setStatus('Saving to Ceramic…');
+
+      const payload = hasuraToComposeDBProfile(profile, profileImages);
+      const ceramicStreamID = await save(payload);
 
       if (player) {
-        setStatus(<Text>Invalidating Cache…</Text>);
+        setStatus('Invalidating Cache…');
         await invalidateCache({ playerId: player.id });
       }
 
@@ -396,6 +256,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
         );
       }
 
+      onSave(ceramicStreamID);
       return onClose();
     } catch (err) {
       toast({
@@ -431,514 +292,313 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     <Modal {...{ isOpen, onClose }}>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-        <ModalHeader>Profile</ModalHeader>
+        <ModalHeader>Edit Profile</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Grid
-            templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
-            gap={6}
-          >
-            <GridItem flex={1} alignItems="center" h="10em">
-              <FormControl isInvalid={errors.profileImageURL}>
-                <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
-                  <Label htmlFor="profileImageURL" userSelect="none">
-                    Profile Image
-                    <InfoIcon ml={2} />
-                  </Label>
-                </Tooltip>
-                <Center
-                  w="full"
-                  position="relative"
-                  border="2px solid"
-                  borderColor={
-                    endpoints.profileImageURL.active &&
-                    !endpoints.profileImageURL.val
-                      ? 'blue.400'
-                      : 'transparent'
-                  }
-                >
-                  <Box
-                    h="10em"
-                    w="10em"
-                    borderRadius="full"
-                    display="inline-flex"
-                  >
-                    <Image
-                      id="profile-image-preview"
-                      ref={endpoints.profileImageURL.ref ?? null}
-                      onLoad={() => {
-                        endpoints.profileImageURL.setLoading(false);
-                      }}
-                      display={
-                        endpoints.profileImageURL.loading ? 'none' : 'inherit'
-                      }
-                      src={endpoints.profileImageURL.val}
-                      borderRadius="full"
-                      objectFit="cover"
-                      h="full"
-                      w="full"
-                      border="2px solid"
-                      borderColor={
-                        endpoints.profileImageURL.active &&
-                        endpoints.profileImageURL.val
-                          ? 'blue.400'
-                          : 'transparent'
-                      }
-                    />
-                    <Center cursor="pointer">
-                      {endpoints.profileImageURL.loading &&
-                        (endpoints.profileImageURL.val == null ? (
-                          <Image
-                            maxW="50%"
-                            src={PlayerProfileIcon.src}
-                            opacity={0.5}
-                          />
-                        ) : (
-                          <Spinner
-                            size="xl"
-                            color="purple.500"
-                            thickness="4px"
-                          />
-                        ))}
-                    </Center>
-                  </Box>
-                  <Controller
-                    {...{ control }}
-                    name="profileImageURL"
-                    defaultValue={[]}
-                    render={({ field: { onChange, value, ...props } }) => (
-                      <Input
-                        {...props}
-                        type="file"
-                        value={value?.filename ?? ''}
-                        onChange={async (
-                          evt: ChangeEvent<HTMLInputElement>,
-                        ) => {
-                          onChange(evt.target.files);
-                          onFileChange(evt);
-                        }}
-                        minW="100% !important"
-                        minH="100%"
-                        accept="image/*"
-                        position="absolute"
-                        top={0}
-                        bottom={0}
-                        left={0}
-                        right={0}
-                        opacity={0}
-                        onFocus={() =>
-                          endpoints.profileImageURL.setActive(true)
-                        }
-                        onBlur={() =>
-                          endpoints.profileImageURL.setActive(false)
-                        }
-                        cursor="pointer"
-                      />
-                    )}
-                  />
-                </Center>
-                <FormErrorMessage>
-                  {errors.profileImageURL?.message}
-                </FormErrorMessage>
-              </FormControl>
-            </GridItem>
-            {[
-              {
-                key: 'bannerImageURL',
-                title: 'Header Banner',
-                description:
-                  'An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.',
-              },
-              {
-                key: 'backgroundImageURL',
-                title: 'Page Background',
-                description:
-                  // eslint-disable-next-line prefer-template
-                  'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.' +
-                  (metagamer
-                    ? ''
-                    : '\nOnly available to MetaGame players and patrons.'),
-              },
-            ].map(({ key, title, description: spec }) => (
-              <GridItem flex={1} alignItems="center" h="10em" {...{ key }}>
-                <FormControl isInvalid={errors[key]} h="full">
-                  <Tooltip label={spec}>
-                    <Label
-                      htmlFor={key}
-                      userSelect="none"
-                      whiteSpace="break-spaces"
-                    >
-                      {title}
-                      <InfoIcon ml={2} />
-                    </Label>
-                  </Tooltip>
-                  <Center
-                    position="relative"
-                    w="full"
-                    h="full"
-                    border="2px solid"
-                    borderColor={
-                      endpoints[key].active ? 'blue.400' : 'transparent'
-                    }
-                  >
-                    <Image
-                      ref={endpoints[key].ref ?? null}
-                      onLoad={() => {
-                        endpoints[key].setLoading(false);
-                      }}
-                      onError={() => {
-                        endpoints[key].setLoading(false);
-                      }}
-                      display={endpoints[key].loading ? 'none' : 'inherit'}
-                      src={endpoints[key].val}
-                      h="full"
-                      w="full"
-                    />
-                    {endpoints[key].loading &&
-                      (endpoints[key].val == null ? (
-                        <Image
-                          w="5em"
-                          mx="2.5em"
-                          src={FileOpenIcon.src}
-                          opacity={0.5}
-                        />
-                      ) : (
-                        <Spinner size="xl" color="purple.500" thickness="4px" />
-                      ))}
-                    <Controller
-                      control={control}
-                      name={key}
-                      defaultValue={[]}
-                      render={({ field: { onChange, value, ...props } }) => (
-                        <>
-                          <Input
-                            type="file"
-                            {...props}
-                            value={value?.filename}
-                            onChange={async (
-                              evt: ChangeEvent<HTMLInputElement>,
-                            ) => {
-                              onChange(evt.target.files);
-                              onFileChange(evt);
-                            }}
-                            maxW="100%"
-                            minH="100%"
-                            position="absolute"
-                            cursor="pointer"
-                            accept="image/*"
-                            top={0}
-                            bottom={0}
-                            left={0}
-                            right={0}
-                            opacity={0}
-                            onFocus={() => endpoints[key].setActive(true)}
-                            onBlur={() => endpoints[key].setActive(false)}
-                          />
-                          {endpoints[key].val && !endpoints[key].loading && (
-                            <IconButton
-                              zIndex="10"
-                              position="absolute"
-                              top={2}
-                              right={2}
-                              bg="purple.400"
-                              borderRadius="50%"
-                              aria-label={`remove ${key}`}
-                              size="xs"
-                              _hover={{ bg: 'purple.500' }}
-                              icon={<CloseIcon boxSize="0.5rem" />}
-                              onClick={() => {
-                                onChange([]);
-                                onFileRemove(key);
-                              }}
-                              onFocus={() => endpoints[key].setActive(true)}
-                              onBlur={() => endpoints[key].setActive(false)}
-                            />
-                          )}
-                        </>
-                      )}
-                    />
-                  </Center>
-                  <FormErrorMessage>{errors[key]?.message}</FormErrorMessage>
-                </FormControl>
-              </GridItem>
-            ))}
-            <GridItem flex={1}>
-              <FormControl isInvalid={errors.description}>
-                <Tooltip label={`${MAX_DESC_LEN} characters max.`}>
-                  <Label htmlFor="description" userSelect="none">
-                    Bio
-                    <Text as="sup" ml={2}>
-                      {remaining}
-                    </Text>
-                    ⁄<Text as="sub">{MAX_DESC_LEN}</Text>
-                    <InfoIcon ml={2} />
-                  </Label>
-                </Tooltip>
-                <Textarea
-                  placeholder="Describe yourself."
-                  minW="min(18em, calc(100vw - 2rem))"
-                  color="white"
-                  bg="dark"
-                  {...register('description', {
-                    maxLength: {
-                      value: 420,
-                      message: 'Maximum length is 420 characters.',
-                    },
-                  })}
+          <FormProvider {...formMethods}>
+            <Grid templateColumns={['1fr']} gap={6} p={[0, 8]}>
+              <GridItem flex={1} alignItems="center" h="10em">
+                <EditAvatarImage
+                  ref={imageFieldRefs.profileImageURL}
+                  initialURL={initialFormValues.profileImageURL}
+                  onFilePicked={({ file, dataURL }) => {
+                    setPickedFiles({ ...pickedFiles, profileImageURL: file });
+                    setPickedFileDataURLs({
+                      ...pickedFileDataURLs,
+                      profileImageURL: dataURL,
+                    });
+                  }}
                 />
-                <FormErrorMessage>
-                  {errors.description?.message}
-                </FormErrorMessage>
-              </FormControl>
-            </GridItem>
-            <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.name}>
-                <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
+              </GridItem>
+              <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.name}>
                   <Label htmlFor="name" userSelect="none">
                     Display Name
-                    <InfoIcon ml={2} />
                   </Label>
-                </Tooltip>
-                <Input
-                  w="100%"
-                  placeholder="Imma User"
-                  {...register('name', {
-                    maxLength: {
-                      value: 150,
-                      message: 'Maximum length is 150 characters.',
-                    },
-                  })}
-                />
-                <Box minH="3em">
-                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-                </Box>
-              </FormControl>
-            </GridItem>
-            <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.username}>
-                <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
-                  <Label htmlFor="username" userSelect="none">
-                    Name
-                    <InfoIcon ml={2} />
-                  </Label>
-                </Tooltip>
-                <Input
-                  w="100%"
-                  placeholder="i-am-a-user"
-                  {...register('username', {
-                    validate: async (value) => {
-                      if (/0x[0-9a-z]{40}/i.test(value)) {
-                        return `Name "${value}" has the same format as an Ethereum address.`;
-                      }
-                      if (value !== username && (await getPlayer(value))) {
-                        return `Name "${value}" is already in use.`;
-                      }
-                      return true;
-                    },
-                    pattern: {
-                      value: /^[a-z0-9-_]+$/,
-                      message:
-                        'Only lowercase letters, digits, dashes, & underscores allowed.',
-                    },
-                    minLength: {
-                      value: 3,
-                      message: 'Must have at least three characters.',
-                    },
-                    maxLength: {
-                      value: 150,
-                      message: 'Maximum length is 150 characters.',
-                    },
-                  })}
-                />
-                <Box minH="3em">
-                  <FormErrorMessage>
-                    {errors.username?.message}
-                  </FormErrorMessage>
-                </Box>
-              </FormControl>
-            </GridItem>
-            <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.timeZone}>
-                <Label htmlFor="name">Time Zone</Label>
-                <Controller
-                  {...{ control }}
-                  name="timeZone"
-                  defaultValue={
-                    Intl.DateTimeFormat().resolvedOptions().timeZone
-                  }
-                  render={({ field: { onChange, ref, ...props } }) => (
-                    <SelectTimeZone
-                      labelStyle="abbrev"
-                      onChange={(tz: ITimezoneOption) => {
-                        onChange(tz.value);
-                      }}
-                      {...props}
-                    />
-                  )}
-                />
-                <Box minH="3em">
-                  <FormErrorMessage>
-                    {errors.timeZone?.message}
-                  </FormErrorMessage>
-                </Box>
-              </FormControl>
-            </GridItem>
-            <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.availableHours}>
-                <Label htmlFor="availableHours">Availability</Label>
-                <InputGroup w="100%">
-                  <InputLeftElement>
-                    <Text as="span" role="img" aria-label="clock">
-                      🕛
-                    </Text>
-                  </InputLeftElement>
+                  <FormHelperText pb={3} color="white">
+                    Arbitrary letters, spaces, & punctuation.
+                  </FormHelperText>
                   <Input
-                    flex={1}
                     w="100%"
-                    type="number"
-                    placeholder="23"
-                    pl={10}
-                    minW={20}
-                    maxW="100%"
-                    borderTopEndRadius={0}
-                    borderBottomEndRadius={0}
-                    borderRight={0}
-                    {...register('availableHours', {
-                      valueAsNumber: true,
-                      min: {
-                        value: 0,
-                        message:
-                          'It’s not possible to be available for negative time.',
-                      },
-                      max: {
-                        value: 24 * 7,
-                        message: `There’s only ${24 * 7} hours in a week.`,
+                    placeholder="e.g., Meta Player 10x!"
+                    {...register('name', {
+                      required: 'We have to identify you somehow! 😱',
+                      maxLength: {
+                        value: 150,
+                        message: 'Maximum length is 150 characters.',
                       },
                     })}
                   />
-                  <InputRightAddon background="purpleBoxDark" color="white">
-                    <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
-                  </InputRightAddon>
-                </InputGroup>
-                <Box minH="3em">
-                  <FormErrorMessage>
-                    {errors.availableHours?.message}
-                  </FormErrorMessage>
-                </Box>
-              </FormControl>
-            </GridItem>
-            <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.pronouns}>
-                <Label htmlFor="pronouns">Pronouns</Label>
-                <Input
-                  w="100%"
-                  id="pronouns"
-                  placeholder="He, she, it, they, them, etc."
-                  {...register('pronouns', {
-                    maxLength: {
-                      value: 150,
-                      message: 'Maximum length is 150 characters.',
-                    },
-                  })}
-                />
-                <Box minH="3em">
-                  <FormErrorMessage>
-                    {errors.pronouns?.message}
-                  </FormErrorMessage>
-                </Box>
-              </FormControl>
-            </GridItem>
-            {/*
-        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-          <GridItem  colSpan={HALF}>
-            <CountrySelectDropdown country={COUNTRIES_OPTIONS[0]} />
-          </GridItem>
-        */}
-            <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.website}>
-                <Label htmlFor="name">Website</Label>
-                <Input
-                  w="100%"
-                  id="website"
-                  placeholder="https://github.com/jane-user"
-                  {...register('website', {
-                    pattern: {
-                      value: /^(ipfs|https?):(\/\/)?.+$/i,
-                      message: 'URL must be IPFS, HTTP or HTTPS.',
-                    },
-                    maxLength: {
-                      value: 240,
-                      message: 'Maximum length is 240 characters.',
-                    },
-                  })}
-                />
-                <Box minH="3em">
-                  <FormErrorMessage>{errors.website?.message}</FormErrorMessage>
-                </Box>
-              </FormControl>
-            </GridItem>
-            <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.location}>
-                <Label htmlFor="location">Location</Label>
-                <Input
-                  id="location"
-                  w="100%"
-                  placeholder="Laniakea Supercluster"
-                  {...register('location', {
-                    maxLength: {
-                      value: 140,
-                      message: 'Maximum length is 140 characters.',
-                    },
-                  })}
-                />
-                <Box minH="3em">
-                  <FormErrorMessage>
-                    {errors.location?.message}
-                  </FormErrorMessage>
-                </Box>
-              </FormControl>
-            </GridItem>
-            <GridItem flex={1} alignItems="center">
-              <FormControl isInvalid={errors.emoji}>
-                <Label htmlFor="emoji">Spirit Emoji</Label>
-                <Input
-                  id="emoji"
-                  placeholder="🗽"
-                  _placeholder={{ opacity: 0.75 }}
-                  minW="inherit"
-                  w="100%"
-                  {...register('emoji', {
-                    maxLength: {
-                      value: 2,
-                      message: 'Maximum length is 2 characters.',
-                    },
-                  })}
-                />
-                <Box minH="3em">
-                  <FormErrorMessage>{errors.emoji?.message}</FormErrorMessage>
-                </Box>
-              </FormControl>
-            </GridItem>
-            <GridItem gridColumn={'1/-1'} alignItems="center">
-              <FormControl>
-                <Label>Meeting calendar</Label>
-                <MeetWithWalletProfileEdition
-                  setValue={setValue}
+                  <FormHelperText color="white">
+                    {nameRemaining} characters left.
+                  </FormHelperText>
+                  <Box>
+                    <FormErrorMessage>
+                      {errors.name?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem>
+              <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.username}>
+                  <Label htmlFor="username" userSelect="none">
+                    Profile URL
+                  </Label>
+                  <FormHelperText pb={3} color="white">
+                    Lowercase alpha, digits, dashes, & underscores only.
+                  </FormHelperText>
+                  <InputGroup w="100%">
+                    <InputLeftElement
+                      pointerEvents="none"
+                      children="https://metagame.wtf/players/"
+                      width="auto"
+                      paddingLeft="1em"
+                      color="whiteAlpha.700"
+                    />
+                    <Input
+                      w="100%"
+                      flex={1}
+                      minW={20}
+                      maxW="100%"
+                      pl={250}
+                      placeholder="e.g., meta_player-10x"
+                      {...register('username', {
+                        validate: async (value) => {
+                          if (value && /0x[0-9a-z]{40}/i.test(value)) {
+                            return `Name "${value}" has the same format as an Ethereum address.`;
+                          }
+                          if (
+                            value &&
+                            value !== username &&
+                            (await getPlayer(value))
+                          ) {
+                            return `Name "${value}" is already in use.`;
+                          }
+                          return true;
+                        },
+                        pattern: {
+                          value: /^[a-z0-9-_]+$/,
+                          message:
+                            'Only lowercase letters, digits, dashes, & underscores allowed.',
+                        },
+                        minLength: {
+                          value: 3,
+                          message: 'Must have at least three characters.',
+                        },
+                        maxLength: {
+                          value: 150,
+                          message: 'Maximum length is 150 characters.',
+                        },
+                      })}
+                    />
+                  </InputGroup>
+                  <Box>
+                    <FormErrorMessage>
+                      {errors.username?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem>
+              <GridItem flex={1}>
+                <EditDescription />
+              </GridItem>
+              <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.availableHours}>
+                  <Label htmlFor="availableHours">Availability</Label>
+                  <FormHelperText pb={3} color="white">
+                    What is your weekly availability for any kind of freelance
+                    work?
+                  </FormHelperText>
+                  <InputGroup w="5em">
+                    <InputLeftElement>
+                      <Text as="span" role="img" aria-label="clock">
+                        🕛
+                      </Text>
+                    </InputLeftElement>
+                    <Input
+                      flex={1}
+                      w="100%"
+                      type="number"
+                      placeholder="23"
+                      pl={10}
+                      minW={20}
+                      maxW="100%"
+                      borderTopEndRadius={0}
+                      borderBottomEndRadius={0}
+                      borderRight={0}
+                      {...register('availableHours', {
+                        valueAsNumber: true,
+                        min: {
+                          value: 0,
+                          message:
+                            'It’s not possible to be available for negative time!',
+                        },
+                        max: {
+                          value: 24 * 7,
+                          message: `There are only ${24 * 7} hours in a week!`,
+                        },
+                      })}
+                    />
+                    <InputRightAddon background="purpleBoxDark" color="white">
+                      <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
+                    </InputRightAddon>
+                  </InputGroup>
+                  <Box>
+                    <FormErrorMessage>
+                      {errors.availableHours?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem>
+              <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.timeZone}>
+                  <Label htmlFor="name">Time Zone</Label>
+                  <Controller
+                    {...{ control }}
+                    name="timeZone"
+                    defaultValue={
+                      Intl.DateTimeFormat().resolvedOptions().timeZone
+                    }
+                    render={({ field: { onChange, value, ref, ...props } }) => (
+                      <SelectTimeZone
+                        labelStyle="abbrev"
+                        onChange={(tz: ITimezoneOption) => {
+                          onChange(tz.value);
+                        }}
+                        value={value ?? undefined}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Box>
+                    <FormErrorMessage>
+                      {errors.timeZone?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem>
+              {/* <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.pronouns}>
+                  <Label htmlFor="pronouns">Pronouns</Label>
+                  <Input
+                    w="100%"
+                    id="pronouns"
+                    placeholder="He, she, it, they, them, etc."
+                    {...register('pronouns', {
+                      maxLength: {
+                        value: 150,
+                        message: 'Maximum length is 150 characters.',
+                      },
+                    })}
+                  />
+                  <Box minH="3em">
+                    <FormErrorMessage>
+                      {errors.pronouns?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem> */}
+              <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.website}>
+                  <Label htmlFor="name">Website URL</Label>
+                  <Input
+                    w="100%"
+                    id="website"
+                    placeholder="https://github.com/jane-user"
+                    {...register('website', {
+                      pattern: {
+                        value: /^(ipfs|https?):(\/\/)?.+$/i,
+                        message: 'URL must be IPFS, HTTP or HTTPS.',
+                      },
+                      maxLength: {
+                        value: 240,
+                        message: 'Maximum length is 240 characters.',
+                      },
+                    })}
+                  />
+                  <Box>
+                    <FormErrorMessage>
+                      {errors.website?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem>
+              {/* <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.location}>
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    w="100%"
+                    placeholder="Laniakea Supercluster"
+                    {...register('location', {
+                      maxLength: {
+                        value: 140,
+                        message: 'Maximum length is 140 characters.',
+                      },
+                    })}
+                  />
+                  <Box minH="3em">
+                    <FormErrorMessage>
+                      {errors.location?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem> */}
+              {/* <GridItem flex={1} alignItems="center">
+                <FormControl isInvalid={!!errors.emoji}>
+                  <Label htmlFor="emoji">Spirit Emoji</Label>
+                  <Input
+                    id="emoji"
+                    placeholder="🗽"
+                    _placeholder={{ opacity: 0.75 }}
+                    minW="inherit"
+                    w="100%"
+                    {...register('emoji', {
+                      maxLength: {
+                        value: 2,
+                        message: 'Maximum length is 2 characters.',
+                      },
+                    })}
+                  />
+                  <Box minH="3em">
+                    <FormErrorMessage>
+                      {errors.emoji?.message?.toString()}
+                    </FormErrorMessage>
+                  </Box>
+                </FormControl>
+              </GridItem> */}
+              <GridItem gridColumn={'1/-1'} alignItems="center">
+                <FormControl>
+                  <Label>Meeting Calendar</Label>
+                  <MeetWithWalletProfileEdition {...{ player }} />
+                </FormControl>
+              </GridItem>
+              <GridItem flex={1} alignItems="center" h="10em">
+                <EditBackgroundImage
                   player={player}
+                  ref={imageFieldRefs.profileBackgroundURL}
+                  initialURL={initialFormValues.backgroundImageURL}
+                  onFilePicked={({ file, dataURL }) => {
+                    setPickedFiles({
+                      ...pickedFiles,
+                      backgroundImageURL: file,
+                    });
+                    setPickedFileDataURLs({
+                      ...pickedFileDataURLs,
+                      backgroundImageURL: dataURL,
+                    });
+                  }}
                 />
-              </FormControl>
-            </GridItem>
-          </Grid>
+              </GridItem>
+            </Grid>
+          </FormProvider>
         </ModalBody>
-        {/*
-        <ProfileField title="working hours" placeholder="9am - 10pm" />
-        */}
         <ModalFooter mt={6} flex={1} justifyContent="center">
           <Wrap justify="center" align="center" flex={1}>
             <WrapItem>
               <StatusedSubmitButton
                 isDisabled={isEmpty(dirtyFields)}
-                label="Save Changes"
+                label="Save"
                 {...{ status }}
               />
             </WrapItem>
@@ -954,7 +614,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 _active={{ bg: '#FF000011' }}
                 disabled={!!status}
               >
-                Close
+                Cancel
               </Button>
             </WrapItem>
           </Wrap>

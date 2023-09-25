@@ -90,6 +90,7 @@ export const sortOptionsMap = {
     label: 'Seasonal XP',
     output: {
       seasonXP: 'desc',
+      totalXP: 'desc',
     },
   },
   [SortOption.TOTAL_XP]: {

@@ -33,7 +33,7 @@ const config = {
         immutableTypes: true,
         scalars: {
           account_type:
-            "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'",
+            "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE | DEWORK'",
         },
         dedupeOperationSuffix: true,
       },

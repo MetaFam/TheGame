@@ -1,7 +1,24 @@
+// @to-do change the hardcoded address on line #8 to take a dynamic address once we standardize retrieiving token addresses from ANY guild.
+
 export const PlayerQueries = /* GraphQL */ `
+  query GetPlayersByTotalXP {
+    xp(
+      where: {
+        tokenAddress: { _ilike: "0xEAeCC18198a475c921B24b8A6c1C1f0f5F3F7EA0" }
+        balance: { _gt: "0" }
+      }
+      order_by: { balance: desc }
+    ) {
+      playerId
+      seasonalBalance
+      balance
+    }
+  }
+
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
       id
+      ceramicProfileId
       ethereumAddress
       discordId
       profile {

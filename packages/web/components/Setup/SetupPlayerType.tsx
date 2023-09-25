@@ -7,26 +7,77 @@ import {
   Stack,
   Text,
 } from '@metafam/ds';
-import { Maybe, Optional } from '@metafam/utils';
+import { composeDBProfileFieldExplorerType } from '@metafam/utils';
 import { ExplorerType } from 'graphql/autogen/types';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
+import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 
-import { ProfileWizardPane } from './ProfileWizardPane';
-import { MaybeModalProps, WizardPaneCallbackProps } from './WizardPane';
+import { useShowToastOnQueryError } from './SetupProfile';
+import { MaybeModalProps, WizardPane } from './WizardPane';
+
+const field = composeDBProfileFieldExplorerType;
+
+export const SetupPlayerType: React.FC<MaybeModalProps> = ({
+  onComplete,
+  buttonLabel,
+  title = 'Player Type',
+}) => {
+  const { error, result: existing } =
+    useGetOwnProfileFieldFromComposeDB<string>(field);
+
+  useShowToastOnQueryError(error);
+
+  const formMethods = useForm<{ [field]: string | undefined }>();
+  const {
+    watch,
+    setValue,
+    formState: { dirtyFields },
+    register,
+  } = formMethods;
+
+  useEffect(() => {
+    setValue(field, existing);
+  }, [existing, setValue]);
+
+  const current = watch(field, existing);
+  const dirty = current !== existing || !!dirtyFields[field];
+
+  const { onSubmit, status } = usePlayerSetupSaveToComposeDB({
+    isChanged: dirty,
+    onComplete,
+  });
+
+  return (
+    <FormProvider {...formMethods}>
+      <WizardPane
+        {...{ field, onComplete, onSubmit, status, buttonLabel }}
+        title={title}
+        prompt="Which one suits you best?"
+      >
+        <Center mt={5}>
+          <Input type="hidden" {...register(field, {})} />
+          <ExplorerTypes
+            selectedType={current}
+            setSelectedType={(newValue) => setValue(field, newValue)}
+          />
+        </Center>
+      </WizardPane>
+    </FormProvider>
+  );
+};
 
 export type ExplorerTypesType = {
-  selectedType: Maybe<string>;
-  setSelectedType: (
-    arg: string | ((type: Optional<Maybe<string>>) => Maybe<string>),
-  ) => void;
+  selectedType?: string;
+  setSelectedType: (arg: string) => void;
   disabled?: boolean;
 };
 
 export const ExplorerTypes: React.FC<ExplorerTypesType> = ({
   selectedType,
   setSelectedType,
-  disabled = false,
 }) => {
   const [choices, setChoices] = useState<Array<ExplorerType>>([]);
 
@@ -65,7 +116,6 @@ export const ExplorerTypes: React.FC<ExplorerTypesType> = ({
               justifyContent="flex-start"
               border="2px"
               borderColor={selected ? 'purple.400' : 'transparent'}
-              isDisabled={disabled}
             >
               <Stack>
                 <Text color="white" fontWeight="bold" mb={4}>
@@ -80,31 +130,5 @@ export const ExplorerTypes: React.FC<ExplorerTypesType> = ({
         })}
       </SimpleGrid>
     </InputGroup>
-  );
-};
-export const SetupPlayerType: React.FC<MaybeModalProps> = ({
-  onClose,
-  buttonLabel,
-  title = 'Player Type',
-}) => {
-  const field = 'explorerTypeTitle';
-
-  return (
-    <ProfileWizardPane
-      {...{ field, onClose, buttonLabel }}
-      title={title}
-      prompt="Which one suits you best?"
-    >
-      {({ register, loading, current, setter }: WizardPaneCallbackProps) => (
-        <Center mt={5}>
-          <Input type="hidden" {...register(field, {})} />
-          <ExplorerTypes
-            selectedType={current}
-            setSelectedType={setter}
-            disabled={loading}
-          />
-        </Center>
-      )}
-    </ProfileWizardPane>
   );
 };

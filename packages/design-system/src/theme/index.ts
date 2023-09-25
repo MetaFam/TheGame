@@ -4,6 +4,7 @@ import { GroupBase, StylesConfig } from 'react-select';
 
 import { isBackdropFilterSupported } from '../compatibilityHelpers';
 import { colors } from './colors';
+import { menuTheme } from './menu';
 import { textStyles } from './texts';
 
 const modalContentStyles = isBackdropFilterSupported()
@@ -125,6 +126,7 @@ export const theme = extendTheme(
           },
         },
       },
+      Menu: menuTheme,
       Modal: {
         defaultProps: {
           isCentered: true,

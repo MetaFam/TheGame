@@ -40,13 +40,19 @@ COPY packages/@types/ packages/@types/
 # Build
 FROM build AS build-production
 
-# These should match the build-args in `.github/workflows/gcp-deploy.yaml`
+# Each ENV below must have an ARG as well to be available at runtime
 ARG APP_ENV
 ARG GRAPHQL_URL https://api.metagame.wtf/v1/graphql
 ARG FRONTEND_URL https://metagame.wtf
+ARG IMGIX_TOKEN
 ARG YOUTUBE_API_KEY
 ARG PAYMASTER_URL
 ARG BUNDLER_URL
+ARG HONEYBADGER_API_KEY
+ARG USERBACK_TOKEN
+ARG CERAMIC_URL https://ceramic.metagame.wtf
+ARG WEB3_STORAGE_TOKEN
+ARG OPENSEA_API_KEY
 
 # ARGs are not available at runtime, so define ENV variables
 # These ENVs should match the --set-env-vars in `.github/workflows/gcp-deploy.yaml`
@@ -60,6 +66,7 @@ ENV NEXT_PUBLIC_HONEYBADGER_API_KEY $HONEYBADGER_API_KEY
 ENV NEXT_PUBLIC_USERBACK_TOKEN $USERBACK_TOKEN
 ENV NEXT_PUBLIC_PAYMASTER_URL $PAYMASTER_URL
 ENV NEXT_PUBLIC_BUNDLER_URL $BUNDLER_URL
+ENV NEXT_PUBLIC_CERAMIC_URL $CERAMIC_URL
 # These are not exposed to the browser
 ENV WEB3_STORAGE_TOKEN $WEB3_STORAGE_TOKEN
 ENV OPENSEA_API_KEY $OPENSEA_API_KEY

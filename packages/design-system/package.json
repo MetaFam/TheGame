@@ -16,20 +16,22 @@
   "module": "dist/ds.js",
   "license": "MIT",
   "scripts": {
-    "typecheck": "tsc -b",
+    "typecheck": "tsc --pretty",
     "build": "vite build && tsc --emitDeclarationOnly",
     "dev": "vite build --watch",
     "dev:serve": "vite dev",
     "prod:serve": "vite preview",
     "test": "jest --passWithNoTests",
     "prepublish": "yarn build",
-    "precommit": "yarn lint-staged"
+    "prepare": "yarn build",
+    "precommit": "yarn typecheck"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.5",
     "react": ">=18"
   },
   "dependencies": {
+    "@chakra-ui/anatomy": "^2.1.1",
     "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/media-query": "^3.2.7",
     "@chakra-ui/react": "^2.3.6",

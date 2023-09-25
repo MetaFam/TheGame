@@ -50,81 +50,90 @@ export const syncDaoMemberships = async (
   ethAddress: string,
   members: Member[],
 ) => {
-  // First, find all Members that don't have an associated Dao (by contract address) in our database.
-  // Insert that dao metadata
-  let { dao: existingDaos } = await client.GetDaosByAddress({
-    contractAddress: members.map((m) => m.molochAddress),
-  });
-  // also, ensure the network matches.  Ideally we would do this in the graphQL queries but i'm not sure
-  // how to do multiple _in clauses or if that is even possible
-  existingDaos = existingDaos.filter((dao) =>
-    members.some(
-      (m) =>
-        m.molochAddress === dao.contractAddress &&
-        m.moloch.chain === dao.network,
-    ),
-  );
-
-  const daosToAdd = members
-    .filter(
-      (m) =>
-        !existingDaos.some(
-          (dao) =>
-            dao.contractAddress === m.molochAddress &&
-            dao.network === m.moloch.chain,
-        ),
-    )
-    .map((member) => ({
-      contractAddress: member.molochAddress,
-      network: member.moloch.chain,
-      label: member.moloch.title,
-    }));
-  const daoInsertResponse = await client.InsertDaos({
-    objects: daosToAdd,
-  });
-
-  // Then, find all DAOs that the player with the given eth address belongs to.
-  // Gather a list of dao addresses NOT in the members list. This means they're no longer a member and must be removed.
-  const { dao_player: currentMemberDaos } = await client.GetPlayerDaos({
-    ethereumAddress: ethAddress,
-  });
-  const orphanedDaoIds = currentMemberDaos
-    .filter(
-      (dao) =>
-        !members.some(
-          (m) =>
-            dao.Dao.contractAddress === m.molochAddress &&
-            dao.Dao.network === m.moloch.chain,
-        ),
-    )
-    .map((d) => d.daoId);
-
-  if (orphanedDaoIds.length > 0) {
-    await client.RemovePlayerFromDaos({
-      playerEthAdress: ethAddress,
-      daoIds: orphanedDaoIds,
+  try {
+    // First, find all Members that don't have an associated Dao (by contract address) in our database.
+    // Insert that dao metadata
+    let { dao: existingDaos } = await client.GetDaosByAddress({
+      contractAddress: members.map((m) => m.molochAddress),
     });
-  }
-
-  // Finally, insert dao_player records for the remaining DAOs that the given player does not already belong to.
-  // This could include just-inserted-daos as well as existing ones
-  const getPlayerResponse = await client.GetPlayerFromETH({
-    ethereumAddress: ethAddress,
-  });
-
-  const newDaoMembershipIds = existingDaos.map((dao) => dao.id);
-  if (daoInsertResponse.insert_dao != null) {
-    newDaoMembershipIds.push(
-      ...daoInsertResponse.insert_dao.returning.map((dao) => dao.id),
+    // also, ensure the network matches.  Ideally we would do this in the graphQL queries but i'm not sure
+    // how to do multiple _in clauses or if that is even possible
+    existingDaos = existingDaos.filter((dao) =>
+      members.some(
+        (m) =>
+          m.molochAddress === dao.contractAddress &&
+          m.moloch.chain === dao.network,
+      ),
     );
-  }
-  if (getPlayerResponse.player.length === 1 && newDaoMembershipIds.length > 0) {
-    const playerId = getPlayerResponse.player[0].id;
-    const daoMembersToInsert = newDaoMembershipIds.map((daoId) => ({
-      daoId,
-      playerId,
-    }));
-    await client.UpsertDaoMembers({ objects: daoMembersToInsert });
+
+    const daosToAdd = members
+      .filter(
+        (m) =>
+          !existingDaos.some(
+            (dao) =>
+              dao.contractAddress === m.molochAddress &&
+              dao.network === m.moloch.chain,
+          ),
+      )
+      .map((member) => ({
+        contractAddress: member.molochAddress,
+        network: member.moloch.chain,
+        label: member.moloch.title,
+      }));
+
+    const daoInsertResponse = await client.InsertDaos({
+      objects: daosToAdd,
+    });
+
+    // Then, find all DAOs that the player with the given eth address belongs to.
+    // Gather a list of dao addresses NOT in the members list. This means they're no longer a member and must be removed.
+    const { dao_player: currentMemberDaos } = await client.GetPlayerDaos({
+      ethereumAddress: ethAddress,
+    });
+    const orphanedDaoIds = currentMemberDaos
+      .filter(
+        (dao) =>
+          !members.some(
+            (m) =>
+              dao.Dao.contractAddress === m.molochAddress &&
+              dao.Dao.network === m.moloch.chain,
+          ),
+      )
+      .map((d) => d.daoId);
+
+    if (orphanedDaoIds.length > 0) {
+      await client.RemovePlayerFromDaos({
+        playerEthAdress: ethAddress,
+        daoIds: orphanedDaoIds,
+      });
+    }
+
+    // Finally, insert dao_player records for the remaining DAOs that the given player does not already belong to.
+    // This could include just-inserted-daos as well as existing ones
+    const getPlayerResponse = await client.GetPlayerFromETH({
+      ethereumAddress: ethAddress,
+    });
+
+    const newDaoMembershipIds = existingDaos.map((dao) => dao.id);
+    if (daoInsertResponse.insert_dao != null) {
+      newDaoMembershipIds.push(
+        ...daoInsertResponse.insert_dao.returning.map((dao) => dao.id),
+      );
+    }
+    if (
+      getPlayerResponse.player.length === 1 &&
+      newDaoMembershipIds.length > 0
+    ) {
+      const playerId = getPlayerResponse.player[0].id;
+      const daoMembersToInsert = newDaoMembershipIds.map((daoId) => ({
+        daoId,
+        playerId,
+      }));
+      await client.UpsertDaoMembers({ objects: daoMembersToInsert });
+    }
+  } catch (e) {
+    console.error('An error occurred in syncDaoMemberships:');
+    console.error(e);
   }
 };
 

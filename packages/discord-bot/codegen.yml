@@ -11,7 +11,9 @@ generates:
       - typescript-operations
       - typescript-graphql-request
       - add:
-          content: '/* eslint-disable */'
+          content:
+            - '/* eslint-disable */'
+            - 'import type { DocumentNode } from "graphql/language/ast";'
     config:
       immutableTypes: true
       scalars:

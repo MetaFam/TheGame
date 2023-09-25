@@ -21,7 +21,6 @@ import deepEquals from 'deep-equal';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import { useBoxHeights } from 'lib/hooks/useBoxHeights';
 import React, {
-  ReactElement,
   useCallback,
   useEffect,
   useMemo,
@@ -34,6 +33,7 @@ import {
   BoxType,
   BoxTypes,
   createBoxKey,
+  DisplayOutput,
   gridSX,
   LayoutData,
 } from 'utils/boxTypes';
@@ -51,7 +51,7 @@ import {
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-type Props = {
+type Props = React.PropsWithChildren<{
   player?: Player;
   guild?: GuildFragment;
   savedLayoutData: LayoutData;
@@ -61,18 +61,12 @@ type Props = {
   showEditButton: boolean;
   allBoxOptions: BoxType[];
   ens?: string;
-  displayComponent: (props: {
-    ref?: (e: Maybe<HTMLElement>) => void;
-    editing?: boolean;
-    onRemoveBox?: (boxKey: string) => void;
-    metadata?: BoxMetadata;
-    type: BoxType;
-    player?: Player;
-    guild?: GuildFragment;
-  }) => JSX.Element | null;
-} & BoxProps;
+  displayComponent: DisplayOutput;
+}> &
+  BoxProps;
 
 export const EditableGridLayout: React.FC<Props> = ({
+  children,
   player,
   guild,
   persisting,
@@ -84,7 +78,7 @@ export const EditableGridLayout: React.FC<Props> = ({
   displayComponent: DisplaySection,
   ens,
   ...props
-}): ReactElement => {
+}) => {
   const [saving, setSaving] = useState(false);
   const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
   const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
@@ -223,12 +217,13 @@ export const EditableGridLayout: React.FC<Props> = ({
         <ButtonGroup
           w="full"
           mb={4}
-          justifyContent="end"
+          justifyContent={children ? 'space-between' : 'end'}
           variant="ghost"
           zIndex={10}
           isAttached
           size={mobile ? 'xs' : 'md'}
         >
+          {children}
           {editing && !isDefaultLayout && (
             <MetaButton
               aria-label="Reset Layout"
@@ -324,7 +319,7 @@ export const EditableGridLayout: React.FC<Props> = ({
               {type === BoxTypes.ADD_NEW_BOX ? (
                 <AddBoxSection
                   boxes={availableBoxes}
-                  previewComponent={DisplaySection}
+                  previewComponent={DisplaySection ?? null}
                   {...{ player, guild, onAddBox }}
                   ref={(e: Maybe<HTMLElement>) => {
                     itemsRef.current[i] = e;

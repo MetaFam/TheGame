@@ -1,20 +1,20 @@
-- name: queueExpiredIDXCacheEntries
-  webhook: '{{ACTION_BASE_ENDPOINT}}/idxCache/checkExpired'
+- name: refreshPlayersFromComposeDB
+  webhook: '{{ACTION_BASE_ENDPOINT}}/composeDB/refreshPlayers'
   schedule: 0 3 * * *
   include_in_metadata: true
   payload: {}
-  retry_conf:
-    num_retries: 0
-    timeout_seconds: 600
-    tolerance_seconds: 21600
-    retry_interval_seconds: 10
-  comment: Checks for cache entries more than four days old and queues them to be
-    recached.
+  comment: Finds any cached player profiles more than four days old and queues them to be recached from ComposeDB.
 - name: syncAllGuildDiscordMembers
   webhook: '{{ACTION_BASE_ENDPOINT}}/syncAllGuildDiscordMembers'
   schedule: 31 5 * * *
   include_in_metadata: true
   payload: {}
+- name: syncBalances
+  webhook: '{{ACTION_BASE_ENDPOINT}}/player/syncBalances'
+  schedule: 0 3 * * *
+  include_in_metadata: true
+  payload: {}
+  comment: Updates user's XP within guild
 - name: syncSourceCredLedger
   webhook: '{{ACTION_BASE_ENDPOINT}}/syncSourceCredAccounts'
   schedule: 0 1 * * *
@@ -22,7 +22,7 @@
   payload: {}
   retry_conf:
     num_retries: 0
+    retry_interval_seconds: 10
     timeout_seconds: 600
     tolerance_seconds: 21600
-    retry_interval_seconds: 10
   comment: Reads account data from XP Github and upserts users into the Database

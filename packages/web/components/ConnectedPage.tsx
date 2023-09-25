@@ -1,10 +1,11 @@
 import { Center, Link, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import React from 'react';
 import { errorHandler } from 'utils/errorHandler';
 
-type PlayerPageType = React.FC<{ player: Player }>;
+type PlayerPageType = React.FC<{ player: Maybe<Player> }>;
 
 export const ConnectedPage: React.FC<{
   page: PlayerPageType;

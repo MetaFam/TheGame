@@ -17,7 +17,7 @@ export const PlayerMutations = /* GraphQL */ `
   mutation UpsertAccount(
     $objects: [player_account_insert_input!]!
     $on_conflict: player_account_on_conflict = {
-      constraint: Account_identifier_type_key
+      constraint: player_account_type_player_id_key
       update_columns: [playerId]
     }
   ) {
@@ -44,6 +44,24 @@ export const PlayerMutations = /* GraphQL */ `
       }
     ) {
       affected_rows
+    }
+  }
+
+  mutation UpdateProfileXP(
+    $playerId: uuid!
+    $seasonXP: numeric
+    $totalXP: numeric
+    $rank: PlayerRank_enum
+  ) {
+    update_player(
+      where: { id: { _eq: $playerId } }
+      _set: { seasonXP: $seasonXP, totalXP: $totalXP, rank: $rank }
+    ) {
+      returning {
+        seasonXP
+        totalXP
+        rank
+      }
     }
   }
 
@@ -91,6 +109,12 @@ export const PlayerMutations = /* GraphQL */ `
       where: { playerId: { _eq: $playerId }, type: { _eq: $accountType } }
     ) {
       affected_rows
+    }
+  }
+
+  mutation UpdatePlayerById($playerId: uuid!, $input: player_set_input!) {
+    update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
+      id
     }
   }
 `;

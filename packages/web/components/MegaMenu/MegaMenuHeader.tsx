@@ -116,7 +116,7 @@ export const MegaMenuHeader: React.FC = () => {
           }}
         >
           <Logo
-            link={user ? '/dashboard' : '/'}
+            link={'/'}
             pos={{ base: 'initial', lg: 'absolute' }}
             left={0}
             top="auto"
