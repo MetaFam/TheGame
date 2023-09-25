@@ -20,9 +20,9 @@ import {
   Player,
   useAddPlayerLinkMutation,
   useDeletePlayerLinkMutation,
+  useGetPlayerLinksNoCacheMutation,
   useUpdatePlayerLinkMutation,
 } from 'graphql/autogen/types';
-import { getPlayerLinks } from 'graphql/queries/player';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaExternalLinkAlt } from 'react-icons/fa';
@@ -60,7 +60,9 @@ export const AddPlayerLink: React.FC<{
     mode: 'onTouched',
   });
 
+  const [, getPlayerLinks] = useGetPlayerLinksNoCacheMutation();
   const [, addLink] = useAddPlayerLinkMutation();
+
   const toast = useToast();
 
   const onSubmit = useCallback(
@@ -93,8 +95,10 @@ export const AddPlayerLink: React.FC<{
           duration: 8000,
         });
       }
+      const now = new Date().toISOString();
+      await getPlayerLinks({ playerId: player?.id, updatedAt: now });
     },
-    [addLink, player?.id, toast],
+    [addLink, player?.id, toast, getPlayerLinks],
   );
 
   return (
@@ -170,13 +174,17 @@ export const PlayerLinks: React.FC<Props> = ({
   const [links, setLinks] = useState<Link[]>([]);
   const [, deleteLink] = useDeletePlayerLinkMutation();
   const toast = useToast();
+  const [, getPlayerLinks] = useGetPlayerLinksNoCacheMutation();
 
   useEffect(() => {
     if (!player?.id) return;
     (async () => {
-      getPlayerLinks(player.id).then((data) => setLinks(data.link));
+      const now = new Date().toISOString();
+      getPlayerLinks({ playerId: player.id, updatedAt: now }).then((res) => {
+        setLinks(res?.data?.update_player?.returning[0].links || []);
+      });
     })();
-  }, [player.id, admin]);
+  }, [player.id, admin, getPlayerLinks]);
 
   const deleteSingleLink = async (id: string) => {
     const { error } = await deleteLink({ id });

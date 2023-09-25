@@ -800,6 +800,7 @@
           - dashboard_layout
           - profile_layout
           - role
+          - updated_at
         filter:
           id:
             _eq: X-Hasura-User-Id

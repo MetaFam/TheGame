@@ -84,7 +84,6 @@ export const PlayerSection = forwardRef<HTMLDivElement, Props>(
     );
 
     if (!player) return null;
-
     return (
       <Flex
         w="100%"
