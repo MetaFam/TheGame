@@ -12,6 +12,8 @@ import {
   GetGuildsQuery,
   GetGuildsQueryVariables,
   GuildFragment as GuildFragmentType,
+  GuildLinksQuery,
+  GuildLinksQueryVariables,
   GuildStatus_Enum,
   Maybe,
 } from 'graphql/autogen/types';
@@ -19,6 +21,28 @@ import { GuildFragment, PlayerFragment } from 'graphql/fragments';
 import { GuildPlayer } from 'graphql/types';
 
 import { client } from '../client';
+
+const getGuildLinksQuery = /* GraphQL */ `
+  query GuildLinks($guildId: uuid!) {
+    link(where: { guild_id: { _eq: guildId } }) {
+      guild_id
+      name
+      type
+      url
+      id
+    }
+  }
+`;
+
+export const getPlayerLinks = async (guildId: string): Promise<any> => {
+  if (!guildId) throw new Error('Missing Player Id');
+  const { data } = await client
+    .query<GuildLinksQuery, GuildLinksQueryVariables>(getGuildLinksQuery, {
+      guildId,
+    })
+    .toPromise();
+  return data;
+};
 
 const guildQuery = /* GraphQL */ `
   query GetGuild($guildname: String!) {
