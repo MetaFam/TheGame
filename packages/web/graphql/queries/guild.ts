@@ -24,8 +24,8 @@ import { client } from '../client';
 
 const getGuildLinksQuery = /* GraphQL */ `
   query GuildLinks($guildId: uuid!) {
-    link(where: { guild_id: { _eq: guildId } }) {
-      guild_id
+    link(where: { guildId: { _eq: $guildId } }) {
+      guildId
       name
       type
       url
@@ -34,7 +34,7 @@ const getGuildLinksQuery = /* GraphQL */ `
   }
 `;
 
-export const getPlayerLinks = async (guildId: string): Promise<any> => {
+export const getGuildLinks = async (guildId: string): Promise<any> => {
   if (!guildId) throw new Error('Missing Player Id');
   const { data } = await client
     .query<GuildLinksQuery, GuildLinksQueryVariables>(getGuildLinksQuery, {

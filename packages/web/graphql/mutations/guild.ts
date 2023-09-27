@@ -32,7 +32,7 @@ export {};
     $type: LinkType_enum
   ) {
     insert_link_one(
-      object: { name: $name, type: $type, url: $url, guild_id: $guildId }
+      object: { name: $name, type: $type, url: $url, guildId: $guildId }
     ) {
       id
     }

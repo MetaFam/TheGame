@@ -306,10 +306,6 @@
     column_config:
       discord_id:
         custom_name: discordId
-      discord_invite_url:
-        custom_name: discordInviteUrl
-      github_url:
-        custom_name: githubUrl
       join_button_url:
         custom_name: joinButtonUrl
       membership_through_discord:
@@ -320,20 +316,15 @@
         custom_name: showDiscordAnnouncements
       sort_position:
         custom_name: sortPosition
-      twitter_url:
-        custom_name: twitterUrl
       website_url:
         custom_name: websiteUrl
     custom_column_names:
       discord_id: discordId
-      discord_invite_url: discordInviteUrl
-      github_url: githubUrl
       join_button_url: joinButtonUrl
       membership_through_discord: membershipThroughDiscord
       profile_layout: profileLayout
       show_discord_announcements: showDiscordAnnouncements
       sort_position: sortPosition
-      twitter_url: twitterUrl
       website_url: websiteUrl
     custom_root_fields: {}
   object_relationships:
@@ -394,8 +385,6 @@
         columns:
           - description
           - discord_id
-          - discord_invite_url
-          - github_url
           - guildname
           - id
           - join_button_url
@@ -406,7 +395,6 @@
           - show_discord_announcements
           - sort_position
           - status
-          - twitter_url
           - type
           - website_url
         filter: {}
@@ -415,8 +403,6 @@
         columns:
           - description
           - discord_id
-          - discord_invite_url
-          - github_url
           - guildname
           - id
           - join_button_url
@@ -427,7 +413,6 @@
           - show_discord_announcements
           - sort_position
           - status
-          - twitter_url
           - type
           - website_url
         filter: {}
@@ -540,6 +525,16 @@
 - table:
     name: link
     schema: public
+  configuration:
+    column_config:
+      guild_id:
+        custom_name: guildId
+      player_id:
+        custom_name: playerId
+    custom_column_names:
+      guild_id: guildId
+      player_id: playerId
+    custom_root_fields: {}
   object_relationships:
     - name: LinkType
       using:
@@ -554,9 +549,15 @@
     - role: player
       permission:
         check:
-          player_id:
-            _eq: X-Hasura-User-Id
+          _or:
+            - player_id:
+                _eq: X-Hasura-User-Id
+            - guild:
+                metadata:
+                  creator_id:
+                    _eq: X-Hasura-User-Id
         columns:
+          - guild_id
           - name
           - player_id
           - type
@@ -575,6 +576,7 @@
     - role: public
       permission:
         columns:
+          - guild_id
           - id
           - name
           - player_id
@@ -589,15 +591,25 @@
           - type
           - url
         filter:
-          player_id:
-            _eq: X-Hasura-User-Id
+          _or:
+            - player_id:
+                _eq: X-Hasura-User-Id
+            - guild:
+                metadata:
+                  creator_id:
+                    _eq: X-Hasura-User-Id
         check: null
   delete_permissions:
     - role: player
       permission:
         filter:
-          player_id:
-            _eq: X-Hasura-User-Id
+          _or:
+            - player_id:
+                _eq: X-Hasura-User-Id
+            - guild:
+                metadata:
+                  creator_id:
+                    _eq: X-Hasura-User-Id
 - table:
     name: me
     schema: public

@@ -1107,8 +1107,6 @@ type guild {
   description: String
   discordAnnouncements: [String!]
   discordId: String
-  discordInviteUrl: String
-  githubUrl: String
   "An array relationship"
   guild_players(
     "distinct select on columns"
@@ -1200,7 +1198,6 @@ type guild {
   showDiscordAnnouncements: Boolean!
   sortPosition: Int
   status: GuildStatus_enum!
-  twitterUrl: String
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum!
   websiteUrl: String
@@ -1236,8 +1233,6 @@ type guild_avg_fields {
 type guild_max_fields {
   description: String
   discordId: String
-  discordInviteUrl: String
-  githubUrl: String
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
@@ -1246,7 +1241,6 @@ type guild_max_fields {
   name: String
   profileLayout: String
   sortPosition: Int
-  twitterUrl: String
   websiteUrl: String
 }
 "Used to hold private information for guilds"
@@ -1304,8 +1298,6 @@ type guild_metadata_mutation_response {
 type guild_min_fields {
   description: String
   discordId: String
-  discordInviteUrl: String
-  githubUrl: String
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
@@ -1314,7 +1306,6 @@ type guild_min_fields {
   name: String
   profileLayout: String
   sortPosition: Int
-  twitterUrl: String
   websiteUrl: String
 }
 """
@@ -1408,12 +1399,12 @@ type link {
   LinkType: LinkType
   "An object relationship"
   guild: guild
-  guild_id: uuid
+  guildId: uuid
   id: uuid!
   name: String
   "An object relationship"
   player: player
-  player_id: uuid
+  playerId: uuid
   type: LinkType_enum
   url: String
 }
@@ -1434,18 +1425,18 @@ type link_aggregate_fields {
 }
 "aggregate max on columns"
 type link_max_fields {
-  guild_id: uuid
+  guildId: uuid
   id: uuid
   name: String
-  player_id: uuid
+  playerId: uuid
   url: String
 }
 "aggregate min on columns"
 type link_min_fields {
-  guild_id: uuid
+  guildId: uuid
   id: uuid
   name: String
-  player_id: uuid
+  playerId: uuid
   url: String
 }
 """
@@ -7808,10 +7799,6 @@ enum guild_select_column {
   "column name"
   discordId
   "column name"
-  discordInviteUrl
-  "column name"
-  githubUrl
-  "column name"
   guildname
   "column name"
   id
@@ -7831,8 +7818,6 @@ enum guild_select_column {
   sortPosition
   "column name"
   status
-  "column name"
-  twitterUrl
   "column name"
   type
   "column name"
@@ -7865,10 +7850,6 @@ enum guild_update_column {
   "column name"
   discordId
   "column name"
-  discordInviteUrl
-  "column name"
-  githubUrl
-  "column name"
   guildname
   "column name"
   id
@@ -7889,8 +7870,6 @@ enum guild_update_column {
   "column name"
   status
   "column name"
-  twitterUrl
-  "column name"
   type
   "column name"
   websiteUrl
@@ -7909,13 +7888,13 @@ select columns of table "link"
 """
 enum link_select_column {
   "column name"
-  guild_id
+  guildId
   "column name"
   id
   "column name"
   name
   "column name"
-  player_id
+  playerId
   "column name"
   type
   "column name"
@@ -7926,13 +7905,13 @@ update columns of table "link"
 """
 enum link_update_column {
   "column name"
-  guild_id
+  guildId
   "column name"
   id
   "column name"
   name
   "column name"
-  player_id
+  playerId
   "column name"
   type
   "column name"
@@ -10124,8 +10103,6 @@ input guild_bool_exp {
   daos_aggregate: dao_aggregate_bool_exp
   description: String_comparison_exp
   discordId: String_comparison_exp
-  discordInviteUrl: String_comparison_exp
-  githubUrl: String_comparison_exp
   guild_players: guild_player_bool_exp
   guild_players_aggregate: guild_player_aggregate_bool_exp
   guildname: String_comparison_exp
@@ -10143,7 +10120,6 @@ input guild_bool_exp {
   showDiscordAnnouncements: Boolean_comparison_exp
   sortPosition: Int_comparison_exp
   status: GuildStatus_enum_comparison_exp
-  twitterUrl: String_comparison_exp
   type: GuildType_enum_comparison_exp
   websiteUrl: String_comparison_exp
 }
@@ -10161,8 +10137,6 @@ input guild_insert_input {
   daos: dao_arr_rel_insert_input
   description: String
   discordId: String
-  discordInviteUrl: String
-  githubUrl: String
   guild_players: guild_player_arr_rel_insert_input
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
@@ -10178,7 +10152,6 @@ input guild_insert_input {
   showDiscordAnnouncements: Boolean
   sortPosition: Int
   status: GuildStatus_enum
-  twitterUrl: String
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   websiteUrl: String
@@ -10189,8 +10162,6 @@ order by max() on columns of table "guild"
 input guild_max_order_by {
   description: order_by
   discordId: order_by
-  discordInviteUrl: order_by
-  githubUrl: order_by
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: order_by
   id: order_by
@@ -10199,7 +10170,6 @@ input guild_max_order_by {
   name: order_by
   profileLayout: order_by
   sortPosition: order_by
-  twitterUrl: order_by
   websiteUrl: order_by
 }
 "append existing jsonb value of filtered columns with new jsonb value"
@@ -10325,8 +10295,6 @@ order by min() on columns of table "guild"
 input guild_min_order_by {
   description: order_by
   discordId: order_by
-  discordInviteUrl: order_by
-  githubUrl: order_by
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: order_by
   id: order_by
@@ -10335,7 +10303,6 @@ input guild_min_order_by {
   name: order_by
   profileLayout: order_by
   sortPosition: order_by
-  twitterUrl: order_by
   websiteUrl: order_by
 }
 """
@@ -10362,8 +10329,6 @@ input guild_order_by {
   daos_aggregate: dao_aggregate_order_by
   description: order_by
   discordId: order_by
-  discordInviteUrl: order_by
-  githubUrl: order_by
   guild_players_aggregate: guild_player_aggregate_order_by
   guildname: order_by
   id: order_by
@@ -10378,7 +10343,6 @@ input guild_order_by {
   showDiscordAnnouncements: order_by
   sortPosition: order_by
   status: order_by
-  twitterUrl: order_by
   type: order_by
   websiteUrl: order_by
 }
@@ -10501,8 +10465,6 @@ input type for updating data in table "guild"
 input guild_set_input {
   description: String
   discordId: String
-  discordInviteUrl: String
-  githubUrl: String
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
@@ -10514,7 +10476,6 @@ input guild_set_input {
   showDiscordAnnouncements: Boolean
   sortPosition: Int
   status: GuildStatus_enum
-  twitterUrl: String
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   websiteUrl: String
@@ -10550,8 +10511,6 @@ input guild_stream_cursor_input {
 input guild_stream_cursor_value_input {
   description: String
   discordId: String
-  discordInviteUrl: String
-  githubUrl: String
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
@@ -10563,7 +10522,6 @@ input guild_stream_cursor_value_input {
   showDiscordAnnouncements: Boolean
   sortPosition: Int
   status: GuildStatus_enum
-  twitterUrl: String
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   websiteUrl: String
@@ -10662,11 +10620,11 @@ input link_bool_exp {
   _not: link_bool_exp
   _or: [link_bool_exp!]
   guild: guild_bool_exp
-  guild_id: uuid_comparison_exp
+  guildId: uuid_comparison_exp
   id: uuid_comparison_exp
   name: String_comparison_exp
   player: player_bool_exp
-  player_id: uuid_comparison_exp
+  playerId: uuid_comparison_exp
   type: LinkType_enum_comparison_exp
   url: String_comparison_exp
 }
@@ -10676,11 +10634,11 @@ input type for inserting data into table "link"
 input link_insert_input {
   LinkType: LinkType_obj_rel_insert_input
   guild: guild_obj_rel_insert_input
-  guild_id: uuid
+  guildId: uuid
   id: uuid
   name: String
   player: player_obj_rel_insert_input
-  player_id: uuid
+  playerId: uuid
   type: LinkType_enum
   url: String
 }
@@ -10688,20 +10646,20 @@ input link_insert_input {
 order by max() on columns of table "link"
 """
 input link_max_order_by {
-  guild_id: order_by
+  guildId: order_by
   id: order_by
   name: order_by
-  player_id: order_by
+  playerId: order_by
   url: order_by
 }
 """
 order by min() on columns of table "link"
 """
 input link_min_order_by {
-  guild_id: order_by
+  guildId: order_by
   id: order_by
   name: order_by
-  player_id: order_by
+  playerId: order_by
   url: order_by
 }
 """
@@ -10718,11 +10676,11 @@ Ordering options when selecting data from "link".
 input link_order_by {
   LinkType: LinkType_order_by
   guild: guild_order_by
-  guild_id: order_by
+  guildId: order_by
   id: order_by
   name: order_by
   player: player_order_by
-  player_id: order_by
+  playerId: order_by
   type: order_by
   url: order_by
 }
@@ -10734,10 +10692,10 @@ input link_pk_columns_input {
 input type for updating data in table "link"
 """
 input link_set_input {
-  guild_id: uuid
+  guildId: uuid
   id: uuid
   name: String
-  player_id: uuid
+  playerId: uuid
   type: LinkType_enum
   url: String
 }
@@ -10752,10 +10710,10 @@ input link_stream_cursor_input {
 }
 "Initial value of the column from where the streaming should start"
 input link_stream_cursor_value_input {
-  guild_id: uuid
+  guildId: uuid
   id: uuid
   name: String
-  player_id: uuid
+  playerId: uuid
   type: LinkType_enum
   url: String
 }

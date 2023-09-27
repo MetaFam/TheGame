@@ -77,7 +77,6 @@ export const GuildFragment = /* GraphQL */ `
     guildname
     profileLayout
     description
-    discordInviteUrl
     joinButtonUrl
     logo
     name
@@ -88,8 +87,6 @@ export const GuildFragment = /* GraphQL */ `
       type
     }
     websiteUrl
-    githubUrl
-    twitterUrl
     showDiscordAnnouncements
     daos {
       contractAddress

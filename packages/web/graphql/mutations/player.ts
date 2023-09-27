@@ -29,7 +29,7 @@ export const updatePlayerMutations = /* GraphQL */ `
     $type: LinkType_enum
   ) {
     insert_link_one(
-      object: { name: $name, type: $type, url: $url, player_id: $playerId }
+      object: { name: $name, type: $type, url: $url, playerId: $playerId }
     ) {
       id
     }
@@ -66,7 +66,7 @@ export const updatePlayerMutations = /* GraphQL */ `
           name
           type
           url
-          player_id
+          playerId
         }
       }
     }
