@@ -8,11 +8,7 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
-import {
-  LinkType_Enum,
-  useAddGuildLinkMutation
-} from 'graphql/autogen/types';
-
+import { LinkType_Enum, useAddGuildLinkMutation } from 'graphql/autogen/types';
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -24,7 +20,7 @@ export interface GuildLinkFormInputs {
 
 export const AddGuildLink: React.FC<{
   guildId: string;
-  onClose?: any;
+  onClose: () => void;
 }> = ({ guildId, onClose }) => {
   const {
     register,
@@ -35,15 +31,14 @@ export const AddGuildLink: React.FC<{
     mode: 'onTouched',
   });
 
-  const [, addLink] = useAddGuildLinkMutation()
+  const [, addLink] = useAddGuildLinkMutation();
 
   const toast = useToast();
 
   const onSubmit = useCallback(
     async (link: GuildLinkFormInputs) => {
-      console.log('guildId', guildId)
       const guildLink = {
-        guildId: guildId,
+        guildId,
         name: link.name || link.type,
         url: link.url,
         type: link.type,
@@ -59,7 +54,7 @@ export const AddGuildLink: React.FC<{
           isClosable: true,
           duration: 8000,
         });
-        onClose()
+        onClose();
         throw new Error(`Unable to add link. Error: ${error}`);
       } else {
         toast({
@@ -70,10 +65,10 @@ export const AddGuildLink: React.FC<{
           isClosable: true,
           duration: 8000,
         });
-        onClose()
+        onClose();
       }
     },
-    [addLink, guildId, toast],
+    [addLink, guildId, toast, onClose],
   );
 
   return (

@@ -10,16 +10,16 @@ import {
 } from '@metafam/ds';
 import {
   LinkType_Enum,
-  Player,
   useUpdateGuildLinkMutation,
 } from 'graphql/autogen/types';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+
 import { GuildLinkFormInputs } from './AddGuildLink';
 
 export const EditGuildLink: React.FC<{
-  onClose?: any;
-  linkToEdit:  GuildLinkFormInputs
+  onClose: () => void;
+  linkToEdit: GuildLinkFormInputs;
   editId?: string;
 }> = ({ linkToEdit, editId, onClose }) => {
   const {
@@ -78,7 +78,6 @@ export const EditGuildLink: React.FC<{
     },
     [updateLink, editId, toast, onClose],
   );
-    console.log('in Link to edit')
   return (
     <Box w="100%">
       <VStack spacing={2}>

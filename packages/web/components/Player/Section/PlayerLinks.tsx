@@ -50,12 +50,11 @@ export const AddPlayerLink: React.FC<{
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
   onClose?: any;
-}> = ({ player, onClose }) => {
+}> = ({ player }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-    getValues,
   } = useForm<PlayerLinkFormInputs>({
     mode: 'onTouched',
   });
@@ -290,14 +289,12 @@ export const PlayerLinks: React.FC<Props> = ({
 };
 
 export const EditPlayerLink: React.FC<{
-  player?: Player;
   linkToEdit?: Link;
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
   onClose?: any;
   editId?: string;
-  editData?: PlayerLinkFormInputs;
-}> = ({ player, linkToEdit, editId, editData, onClose }) => {
+}> = ({ linkToEdit, editId, onClose }) => {
   const {
     register,
     formState: { errors },

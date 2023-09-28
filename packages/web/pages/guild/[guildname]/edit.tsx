@@ -5,6 +5,8 @@ import {
   GuildFragment,
   GuildInfoInput,
   GuildType_ActionEnum,
+  LinkType_Enum,
+  useAddGuildLinkMutation,
   useUpdateGuildMutation,
 } from 'graphql/autogen/types';
 import { getGuild } from 'graphql/queries/guild';
@@ -17,20 +19,24 @@ import { uploadFile } from 'utils/uploadHelpers';
 
 const EditGuild: React.FC = () => {
   const router = useRouter();
-
+  const [, addLink] = useAddGuildLinkMutation();
   const [guild, setGuild] = useState<GuildFragment | null>();
   const [{ fetching, data }, updateGuild] = useUpdateGuildMutation();
   const toast = useToast();
 
-  const guildName = router.query.guildname as string;
+  const guildNameRouter = router.query.guildname as string;
 
-  const { data: fetchedGuild, isValidating } = useSWR(guildName, getGuild, {
-    revalidateOnFocus: false,
-  });
+  const { data: fetchedGuild, isValidating } = useSWR(
+    guildNameRouter,
+    getGuild,
+    {
+      revalidateOnFocus: false,
+    },
+  );
 
   useEffect(() => {
     setGuild(fetchedGuild);
-  }, [fetchedGuild, guildName]);
+  }, [fetchedGuild, guildNameRouter]);
 
   const onSubmit = useCallback(
     async (editGuildFormInputs: EditGuildFormInputs) => {
@@ -42,7 +48,15 @@ const EditGuild: React.FC = () => {
         discordMembershipRoles: membershipRoles,
         logoFile,
         logoUrl,
-        ...otherInputs
+        daos,
+        websiteUrl,
+        githubUrl,
+        twitterUrl,
+        description,
+        guildname,
+        name,
+        discordInviteUrl,
+        joinUrl,
       } = editGuildFormInputs;
 
       let newLogoUrl = logoUrl;
@@ -65,13 +79,42 @@ const EditGuild: React.FC = () => {
       }
 
       const payload: GuildInfoInput = {
-        ...otherInputs,
+        guildname,
+        name,
+        description,
+        joinUrl,
+        daos,
+        websiteUrl,
         discordAdminRoles: adminRoles.map((o) => o.value),
         discordMembershipRoles: membershipRoles.map((o) => o.value),
         type: type as unknown as GuildType_ActionEnum,
         uuid: guild.id,
         logoUrl: newLogoUrl,
       };
+
+      const twitterGuildLink = {
+        guildId: guild.id,
+        name: 'Find Us On Twitter',
+        url: twitterUrl || '',
+        type: 'TWITTER' as LinkType_Enum,
+      };
+      await addLink(twitterGuildLink);
+
+      const discordGuildLink = {
+        guildId: guild.id,
+        name: 'Join Us On Discord',
+        url: discordInviteUrl || '',
+        type: 'DISCORD' as LinkType_Enum,
+      };
+      await addLink(discordGuildLink);
+
+      const githubGuildLink = {
+        guildId: guild.id,
+        name: 'Find Us On Github',
+        url: githubUrl || '',
+        type: 'GITHUB' as LinkType_Enum,
+      };
+      await addLink(githubGuildLink);
 
       const response = await updateGuild({ guildInfo: payload });
 
@@ -84,7 +127,7 @@ const EditGuild: React.FC = () => {
           duration: 5000,
         });
         setTimeout(() => {
-          router.push(`/guild/${guildName}`);
+          router.push(`/guild/${guildname}`);
         }, 5000);
       } else {
         toast({
@@ -99,7 +142,7 @@ const EditGuild: React.FC = () => {
         });
       }
     },
-    [guild, guildName, router, toast, updateGuild],
+    [guild, router, toast, updateGuild, addLink],
   );
 
   if (

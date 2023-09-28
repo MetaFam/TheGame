@@ -62,12 +62,7 @@ const PlayerLinksView: React.FC<{
     ),
     add: <AddPlayerLink player={player} onClose={onClose} />,
     edit: (
-      <EditPlayerLink
-        player={player}
-        linkToEdit={link}
-        editId={link?.id}
-        onClose={onClose}
-      />
+      <EditPlayerLink linkToEdit={link} editId={link?.id} onClose={onClose} />
     ),
   }[role];
 
