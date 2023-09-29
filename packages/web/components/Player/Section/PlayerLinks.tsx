@@ -29,6 +29,7 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 import { BoxMetadata, BoxTypes } from 'utils/boxTypes';
 
 import LinkIcon from './LinkIcon';
+import { Links } from './Links';
 
 type Props = {
   player: Player;
@@ -219,71 +220,12 @@ export const PlayerLinks: React.FC<Props> = ({
       type={BoxTypes.PLAYER_LINKS}
       {...{ isOwnProfile, editing }}
     >
-      <VStack mt={4} w="full">
-        {links?.map((link) => (
-          <Flex w="full" justifyContent="start" alignContent="center" gap={4}>
-            <a
-              href={link?.url || ''}
-              target="_blank"
-              rel="noreferrer"
-              style={{ width: '100%', flex: 1 }}
-              role="group"
-              key={link?.id}
-            >
-              <Flex
-                justifyContent="start"
-                alignContent="center"
-                color={'violet'}
-                width={'full'}
-                px={4}
-                py={3}
-                background={'blackAlpha.300'}
-                transition={'ease-in-out'}
-                transitionDuration={'300'}
-                _hover={{
-                  background: 'blackAlpha.500',
-                }}
-                _active={{
-                  background: 'blackAlpha.700',
-                }}
-                rounded={'md'}
-              >
-                <LinkIcon type={link?.type} />
-                <Text mx="auto" fontWeight={600}>
-                  {link?.name}
-                </Text>
-                <Box
-                  my="auto"
-                  mr={1}
-                  opacity={0}
-                  _groupHover={{ opacity: 0.8 }}
-                  _groupActive={{ opacity: 1 }}
-                >
-                  <FaExternalLinkAlt fill="currentColor" />
-                </Box>
-              </Flex>
-            </a>
-            {admin && (
-              <Flex alignItems="center" gap={2}>
-                <Button
-                  background={'blackAlpha.300'}
-                  disabled={false}
-                  onClick={() => deleteSingleLink(link?.id)}
-                >
-                  <DeleteIcon color={'violet'} />
-                </Button>
-
-                <Button
-                  background={'blackAlpha.300'}
-                  onClick={() => switchToEdit('edit', link)}
-                >
-                  <EditIcon color={'violet'} />
-                </Button>
-              </Flex>
-            )}
-          </Flex>
-        ))}
-      </VStack>
+      <Links
+        player={player}
+        admin={admin}
+        switchToEdit={switchToEdit}
+        onClose={onClose}
+      />
     </ProfileSection>
   );
 };

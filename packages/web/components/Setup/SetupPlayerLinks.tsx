@@ -1,8 +1,8 @@
 import { MetaButton } from '@metafam/ds';
+import { Links } from 'components/Player/Section/Links';
 import {
   AddPlayerLink,
   EditPlayerLink,
-  PlayerLinks,
 } from 'components/Player/Section/PlayerLinks';
 import { Link, Player } from 'graphql/autogen/types';
 import React, { useState } from 'react';
@@ -52,7 +52,7 @@ const PlayerLinksView: React.FC<{
 }> = ({ role, player, link, setRole, onClose }) => {
   const currentView = {
     view: (
-      <PlayerLinks
+      <Links
         player={player}
         isOwnProfile={true}
         admin={true}
