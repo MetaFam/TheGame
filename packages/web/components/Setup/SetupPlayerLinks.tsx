@@ -1,9 +1,7 @@
 import { MetaButton } from '@metafam/ds';
 import { Links } from 'components/Player/Section/Links';
-import {
-  AddPlayerLink,
-  EditPlayerLink,
-} from 'components/Player/Section/PlayerLinks';
+import { AddPlayerLink } from 'components/Player/Section/PlayerLinks/AddPlayerLink';
+import { EditPlayerLink } from 'components/Player/Section/PlayerLinks/EditPlayerLink';
 import { Link, Player } from 'graphql/autogen/types';
 import React, { useState } from 'react';
 

@@ -18,7 +18,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { AddPlayerLink } from 'components/Player/Section/PlayerLinks';
+import { AddPlayerLink } from 'components/Player/Section/PlayerLinks/AddPlayerLink';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
