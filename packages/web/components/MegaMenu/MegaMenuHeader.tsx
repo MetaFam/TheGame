@@ -156,7 +156,7 @@ interface SearchResults {
   guilds: GuildFragment[];
 }
 
-const CommandMenu = ({
+const SearchModal = ({
   isSearchModalOpen,
   onSearchModalClose,
 }: {
@@ -423,7 +423,7 @@ export const MegaMenuHeader: React.FC = () => {
 
   return (
     <>
-      <CommandMenu
+      <SearchModal
         isSearchModalOpen={isSearchModalOpen}
         onSearchModalClose={onSearchModalClose}
       />
