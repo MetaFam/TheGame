@@ -156,14 +156,12 @@ interface SearchResults {
   guilds: GuildFragment[];
 }
 
-type SearchProps = FlexProps & { onClose?: () => void };
-
 const CommandMenu = ({
   isSearchModalOpen,
   onSearchModalClose,
 }: {
-  isSearchModalOpen: any;
-  onSearchModalClose: any;
+  isSearchModalOpen: boolean;
+  onSearchModalClose: () => void;
 }) => {
   const router = useRouter();
   const searchInputSubjectRef = useRef(new Subject<string>());
@@ -199,8 +197,10 @@ const CommandMenu = ({
       .pipe(
         filter((searchValue: string) => {
           if (searchValue.length >= 1) return true;
-          resetResults();
-          return false;
+          else {
+            resetResults();
+            return false;
+          }
         }),
         debounceTime(300),
         distinctUntilChanged(),
@@ -236,6 +236,7 @@ const CommandMenu = ({
         maxW="500px"
         aria-expanded="true"
         marginTop={1}
+        p={0}
       >
         <Flex
           flexDirection="column"
@@ -286,7 +287,7 @@ const CommandMenu = ({
             }}
             w="100%"
             maxH="66vh"
-            mt={2}
+            p={0}
           >
             {isModalBodyNotEmpty && (
               <Box
@@ -296,7 +297,7 @@ const CommandMenu = ({
                   transform: 'translate3d(0px, 15px, 0px)',
                 }}
               >
-                <Box as="ul" role="listbox" pb={4}>
+                <Box as="ul" role="listbox" pb={8}>
                   {players.length > 0 && <ResultsTitle>Players</ResultsTitle>}
 
                   {players?.map((player: PlayerFragment) => (
@@ -371,6 +372,7 @@ const HeaderSearchBar = (props: HeaderSearchBarProps) => {
         maxW="fit-content"
         alignItems="center"
         p={2}
+        mx={2}
         my="auto"
         bg={{
           base: '#FFFFFF05',
