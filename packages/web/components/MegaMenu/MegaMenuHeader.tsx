@@ -419,7 +419,7 @@ export const MegaMenuHeader: React.FC = () => {
 
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, []);
+  }, [isSearchModalOpen, onSearchModalClose, onSearchModalOpen]);
 
   return (
     <>
