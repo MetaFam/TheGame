@@ -20,9 +20,9 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  Tooltip,
   useBreakpointValue,
   useDisclosure,
-  Tooltip,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import LogoImage from 'assets/logo.webp';
@@ -43,7 +43,7 @@ import React, {
   useState,
 } from 'react';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
-import { debounceTime, filter, switchMap, shareReplay } from 'rxjs/operators';
+import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
 import { menuIcons } from 'utils/menuIcons';
 import { MenuSectionLinks } from 'utils/menuLinks';
 import {
@@ -197,10 +197,9 @@ const SearchModal = ({
       .pipe(
         filter((searchValue: string) => {
           if (searchValue.length >= 1) return true;
-          else {
-            resetResults();
-            return false;
-          }
+
+          resetResults();
+          return false;
         }),
         debounceTime(300),
         distinctUntilChanged(),
