@@ -53,7 +53,11 @@ export const syncSourceCredAccounts = async (
   const { error: loadError } = await ledgerManager.reloadLedger();
 
   if (loadError) {
-    throw new Error(`Unable to load ledger: ${loadError}`);
+    throw new Error(
+      `Unable to load ledger: ${loadError}.\n` +
+        'Make sure you have a valid GITHUB_API_TOKEN set in your .env ' +
+        'that has access to https://github.com/MetaFam/XP.',
+    );
   }
 
   const force = req.query.force != null;
