@@ -4,9 +4,10 @@ import {
   FlexProps,
   Image,
   StackProps,
+  // useBreakpointValue,
   VStack,
 } from '@chakra-ui/react';
-import { Maybe, Values } from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
 import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 
@@ -103,13 +104,110 @@ export const MetaTile = React.forwardRef<
 
 export const MetaTilePlaybook = React.forwardRef<
   HTMLDivElement,
-  FlexProps & MetaTileProps & { image: string; isPath?: boolean }
+  FlexProps & MetaTileProps & { image: string }
+>(({ noTilt = false, maxTilt = 6, children, image, ...props }, fwdRef) => {
+  const tilt = useRef<Maybe<HTMLDivElement>>(null);
+
+  useEffect(() => {
+    if (!noTilt && tilt.current) {
+      VanillaTilt.init(tilt.current);
+    }
+  }, [noTilt]);
+
+  return (
+    <Flex
+      data-tilt-scale={1.03}
+      data-tilt-max={maxTilt}
+      data-tilt-speed={800}
+      data-tilt-easing="cubic-bezier(.03,.98,.52,.99)"
+      h="full"
+      w="full"
+      minH="480px"
+      mr={0}
+      borderRightRadius={25}
+      ref={(elem) => {
+        tilt.current = elem;
+        if (typeof fwdRef === 'function') {
+          fwdRef(elem);
+        } else if (fwdRef) {
+          // eslint-disable-next-line no-param-reassign
+          fwdRef.current = elem;
+        }
+      }}
+    >
+      <Image
+        src={image}
+        position={'relative'}
+        borderRightRadius={25}
+        maxW={'26rem'}
+        borderLeftRadius={0}
+      />
+      <Flex
+        direction="column"
+        position="absolute"
+        zIndex={2}
+        bgColor="whiteAlpha.200"
+        borderRightRadius={25}
+        p={10}
+        maxW={'26rem'} // (2 / 3.5) = ~0.571 aspect ratio desired
+        w="full"
+        h="full"
+        align="stretch"
+        justify="space-between"
+        {...props}
+      >
+        {children}
+      </Flex>
+    </Flex>
+  );
+});
+
+type MetaPathPlaybooksProps = {
+  image: string;
+  index: number;
+  length: number;
+};
+
+export const MetaTilePathPlaybook = React.forwardRef<
+  HTMLDivElement,
+  FlexProps & MetaTileProps & MetaPathPlaybooksProps
 >(
   (
-    { noTilt = false, maxTilt = 6, children, image, isPath = false, ...props },
+    { noTilt = false, maxTilt = 6, children, image, index, length, ...props },
     fwdRef,
   ) => {
     const tilt = useRef<Maybe<HTMLDivElement>>(null);
+    // const { activeItem, setActiveItem, isDragging, setTrackIsActive } =
+    // useCarouselContext();
+
+    // const isSelected = activeItem === index;
+    // const isFirst = activeItem === 0;
+    // const isLast = activeItem === length - 1;
+
+    // const isMobile = useBreakpointValue({ base: true, lg: false });
+    // const onClick = () => {
+    //   if (!isDragging) {
+    //     setTrackIsActive(true);
+    //     setActiveItem(index);
+    //   }
+    // };
+
+    // const onNextStep = () => {
+    //   if (activeItem < length - 1) {
+    //     setActiveItem(activeItem + 1);
+    //   }
+    // };
+
+    // const onPrevStep = () => {
+    //   if (activeItem > 0) {
+    //     setActiveItem(activeItem - 1);
+    //   }
+    // };
+
+    // const cursor = useMemo(() => {
+    //   if (isDragging) return 'unset';
+    //   return isSelected ? 'initial' : 'pointer';
+    // }, [isSelected, isDragging]);
 
     useEffect(() => {
       if (!noTilt && tilt.current) {
@@ -125,9 +223,9 @@ export const MetaTilePlaybook = React.forwardRef<
         data-tilt-easing="cubic-bezier(.03,.98,.52,.99)"
         h="full"
         w="full"
-        minH="480px"
-        mr={isPath ? 6 : 0}
-        borderRightRadius={isPath ? 16 : 25}
+        minH={{ base: 32, xl: '30rem' }}
+        mr={{ base: 3, xl: 6 }}
+        borderRightRadius={{ base: 'lg', xl: '2xl' }}
         ref={(elem) => {
           tilt.current = elem;
           if (typeof fwdRef === 'function') {
@@ -141,21 +239,24 @@ export const MetaTilePlaybook = React.forwardRef<
         <Image
           src={image}
           position={'relative'}
-          borderRightRadius={isPath ? '2xl' : 25}
-          maxW={isPath ? '21rem' : '26rem'}
-          objectFit={isPath ? 'cover' : 'inherit'}
+          borderRightRadius={{ base: 'lg', xl: '2xl' }}
+          maxW={{ base: 24, xl: '21rem' }}
+          objectFit={'cover'}
           borderLeftRadius={0}
-          zIndex={isPath ? 0 : 'unset'}
+          zIndex={0}
         />
         <Flex
           direction="column"
           position="absolute"
           zIndex={2}
           bgColor="whiteAlpha.200"
-          border={isPath ? '2px solid rgba(255, 255, 255, 0.12)' : 'none'}
-          borderRightRadius={isPath ? '2xl' : 25}
-          p={10}
-          maxW={isPath ? '21rem' : '26rem'} // (2 / 3.5) = ~0.571 aspect ratio desired
+          border={{
+            base: '1px solid rgba(255, 255, 255, 0.12)',
+            xl: '2px solid rgba(255, 255, 255, 0.12)',
+          }}
+          borderRightRadius={{ base: 'lg', xl: '2xl' }}
+          p={{ base: 1, xl: 10 }}
+          maxW={{ base: 24, xl: '21rem' }} // (2 / 3.5) = ~0.571 aspect ratio desired
           w="full"
           h="full"
           align="stretch"
@@ -163,9 +264,9 @@ export const MetaTilePlaybook = React.forwardRef<
           {...props}
         >
           {children}
-          {isPath ? <MetaPathCosmetics type="edges" /> : null}
+          <MetaPathCosmetics type="edges" />
         </Flex>
-        {isPath ? <MetaPathCosmetics type="overlay" /> : null}
+        <MetaPathCosmetics type="overlay" />
       </Flex>
     );
   },
@@ -190,9 +291,9 @@ export const MetaPathCosmetics: React.FC<MetaPathCosmeticsProps> = ({
         position={'absolute'}
         top={0}
         left={'auto'}
-        right={-6}
+        right={{ base: '-0.75rem', xl: '-1.625rem' }}
         bottom={0}
-        width={6}
+        width={{ base: 3, xl: 6 }}
         aria-hidden="true"
       >
         <Box
@@ -202,20 +303,20 @@ export const MetaPathCosmetics: React.FC<MetaPathCosmeticsProps> = ({
           left={0.5}
           right={'auto'}
           bottom={0}
-          width={2.5}
+          width={{ base: 1, xl: 2.5 }}
           bgColor="#AE90C6"
-          borderRightRadius="2xl"
+          borderRightRadius={{ base: 'lg', xl: '2xl' }}
           height="91%"
         />
         <Box
           position={'absolute'}
           top={'8%'}
-          left={'14px'}
+          left={{ base: '0.4375rem', xl: 3.5 }}
           right={'auto'}
           bottom={0}
-          width="10px"
+          width={{ base: 1, xl: 2.5 }}
           bgColor="#936BB3"
-          borderRightRadius="2xl"
+          borderRightRadius={{ base: 'lg', xl: '2xl' }}
           height="84%"
         />
       </Box>
@@ -229,11 +330,11 @@ export const MetaPathCosmetics: React.FC<MetaPathCosmeticsProps> = ({
         inset={0}
         right="auto"
         width="full"
-        maxW="21rem"
+        maxW={{ base: 24, xl: '21rem' }}
         background={
           'linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0.34%, rgba(0, 0, 0, 0.00) 34.08%, rgba(13, 0, 19, 0.35) 59.18%, rgba(20, 0, 28, 0.85) 100%)'
         }
-        borderRightRadius="2xl"
+        borderRightRadius={{ base: 'lg', xl: '2xl' }}
         zIndex={1}
         aria-hidden="true"
       />
