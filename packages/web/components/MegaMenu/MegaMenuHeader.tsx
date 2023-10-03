@@ -216,8 +216,7 @@ const SearchModal = ({
     return () => searchSubscription?.unsubscribe();
   }, []);
 
-  const searchBarRect = searchBarRef?.current?.getBoundingClientRect();
-  const isBodyEmpty = searchBarRect && players.length + guilds.length === 0;
+  const isBodyEmpty = players.length + guilds.length === 0;
   return (
     <Modal {...{ isOpen }} {...{ onClose }} scrollBehavior="inside">
       <ModalOverlay />
