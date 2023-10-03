@@ -23,7 +23,7 @@ const PlayerSearchPage: React.FC = () => {
     moreAvailable,
   } = usePlayerFilter();
   const { query } = useRouter();
-  const searchQuery = (Array.isArray(query.q) ? query.q[0] : query.q) || '';
+  const searchQuery = Array.from(query.q ?? '')[0];
 
   const search = decodeURI(searchQuery);
 

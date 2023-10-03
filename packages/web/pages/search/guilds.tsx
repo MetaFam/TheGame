@@ -23,8 +23,9 @@ const GuildSearchPage: React.FC = () => {
           setGuilds(gs);
         } catch (err) {
           console.error('Unable to search guilds', err);
+        } finally {
+          setIsLoading(false);
         }
-        setIsLoading(false);
       };
       getData();
     }
@@ -32,7 +33,7 @@ const GuildSearchPage: React.FC = () => {
   return (
     <PageContainer>
       <HeadComponent url="https://my.metagame.wtf/community/search" />
-      <SearchFilters activeFilter={GlobalFilters.GUILDS} search={search} />
+      <SearchFilters activeFilter={GlobalFilters.GUILDS} {...{ search }} />
       <GuildList {...{ guilds }} />
       {!isLoading && guilds.length === 0 && <GuildNotFound />}
     </PageContainer>

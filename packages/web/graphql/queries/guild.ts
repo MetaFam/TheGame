@@ -207,7 +207,7 @@ export const getGuildAnnouncements = async (
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 const guildSearch = /* GraphQL */ `
   query SearchGuilds($search: String!, $limit: Int = 3) {
-    guild(where: { guildname: { _ilike: $search } }, limit: $limit) {
+    guild(where: { name: { _ilike: $search } }, limit: $limit) {
       ...GuildFragment
     }
   }

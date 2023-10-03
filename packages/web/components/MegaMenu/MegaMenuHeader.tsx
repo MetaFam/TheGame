@@ -24,7 +24,7 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
+import { httpLink, Maybe } from '@metafam/utils';
 import LogoImage from 'assets/logo.webp';
 import SearchIcon from 'assets/search-icon.svg';
 import { MetaLink } from 'components/Link';
@@ -99,7 +99,7 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
       cursor="pointer"
       rounded="lg"
     >
-      <Avatar name={name} src={image} w={6} h={6} />
+      <Avatar name={name} src={httpLink(image)} w={6} h={6} />
       <Text
         px={2}
         color="black"
@@ -149,7 +149,7 @@ const SeeAllOption = ({
   </Box>
 );
 
-const atLimit = (x: number, limit = 3) => x === limit;
+const LIMIT = 3;
 
 interface SearchResults {
   players: PlayerFragment[];
@@ -157,11 +157,11 @@ interface SearchResults {
 }
 
 const SearchModal = ({
-  isSearchModalOpen,
-  onSearchModalClose,
+  isOpen,
+  onClose,
 }: {
-  isSearchModalOpen: boolean;
-  onSearchModalClose: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }) => {
   const router = useRouter();
   const searchInputSubjectRef = useRef(new Subject<string>());
@@ -180,10 +180,9 @@ const SearchModal = ({
   };
 
   const dropdown = useRef<Maybe<HTMLDivElement>>(null);
-  const handleSubmit: FormEventHandler<HTMLDivElement> &
-    FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    onSearchModalClose();
+    onClose();
     // Default Show Players Matching With Query
     router.push(`/search/players?q=${query}`);
   };
@@ -211,25 +210,20 @@ const SearchModal = ({
         ),
         shareReplay(1),
       )
-      .subscribe(([p, g]) => {
-        setSearchResults({ players: p.players, guilds: g.guilds });
+      .subscribe(([{ players: p }, { guilds: g }]) => {
+        setSearchResults({ players: p, guilds: g });
       });
     return () => searchSubscription?.unsubscribe();
   }, []);
 
   const searchBarRect = searchBarRef?.current?.getBoundingClientRect();
-  const isModalBodyNotEmpty =
-    searchBarRect && players.length + guilds.length > 0;
+  const isBodyEmpty = searchBarRect && players.length + guilds.length === 0;
   return (
-    <Modal
-      isOpen={isSearchModalOpen}
-      onClose={onSearchModalClose}
-      scrollBehavior="inside"
-    >
+    <Modal {...{ isOpen }} {...{ onClose }} scrollBehavior="inside">
       <ModalOverlay />
       <ModalContent
         overflow="hidden"
-        top="8vh"
+        top="max(4rem, 8vh)"
         shadow="lg"
         maxH="700px"
         maxW="500px"
@@ -267,7 +261,7 @@ const SearchModal = ({
                 variant="unstyled"
                 color="white"
                 w="100%"
-                placeholder="Find Players, Guilds"
+                placeholder="Find Players or Guilds"
                 _placeholder={{ color: 'whiteAlpha.500' }}
                 value={query}
                 onChange={({ target: { value } }) => setQuery(value)}
@@ -282,13 +276,13 @@ const SearchModal = ({
               '&::-webkit-scrollbar': {
                 width: '5px',
               },
-              bg: isModalBodyNotEmpty ? 'white' : 'transparent',
+              bg: !isBodyEmpty ? 'white' : 'transparent',
             }}
             w="100%"
             maxH="66vh"
             p={0}
           >
-            {isModalBodyNotEmpty && (
+            {!isBodyEmpty && (
               <Box
                 w="100%"
                 borderRadius="0.25rem"
@@ -304,7 +298,7 @@ const SearchModal = ({
                       key={player.id}
                       onClick={() => {
                         router.push(getPlayerURL(player) as string);
-                        onSearchModalClose();
+                        onClose();
                       }}
                       name={getPlayerName(player) ?? 'Unknown'}
                       image={getPlayerImage(player)}
@@ -315,12 +309,12 @@ const SearchModal = ({
                       }
                     />
                   ))}
-                  {atLimit(players.length) && (
+                  {players.length >= LIMIT && (
                     <SeeAllOption
                       type="Players"
                       onClick={() => {
                         router.push(`/search/players?q=${encodeURI(query)}`);
-                        onSearchModalClose();
+                        onClose();
                       }}
                     />
                   )}
@@ -330,19 +324,19 @@ const SearchModal = ({
                       key={guild.id}
                       onClick={() => {
                         router.push(`/guild/${guild.guildname}`);
-                        onSearchModalClose();
+                        onClose();
                       }}
-                      name={guild.guildname}
+                      name={guild.name}
                       image={guild?.logo as string | undefined}
-                      text={guild.guildname}
+                      text={guild.name}
                     />
                   ))}
-                  {atLimit(guilds.length) && (
+                  {guilds.length >= LIMIT && (
                     <SeeAllOption
                       type="Guilds"
                       onClick={() => {
                         router.push(`/search/quilds?q=${encodeURI(query)}`);
-                        onSearchModalClose();
+                        onClose();
                       }}
                     />
                   )}
@@ -356,12 +350,12 @@ const SearchModal = ({
   );
 };
 
-type HeaderSearchBarProps = BoxProps & { onSearchModalOpen: any };
+type HeaderSearchBarProps = BoxProps & { onOpen: any };
 
 const HeaderSearchBar = (props: HeaderSearchBarProps) => {
-  const { onSearchModalOpen, ...restProps } = props;
+  const { onOpen, ...restProps } = props;
   return (
-    <Tooltip label="Quick Search...   ⌘K">
+    <Tooltip label="Quick Search…   ⌘K">
       <Box
         cursor="pointer"
         display="flex"
@@ -379,7 +373,7 @@ const HeaderSearchBar = (props: HeaderSearchBarProps) => {
         border={{ base: '1px solid #2B2244' }}
         borderRadius={8}
         pos="relative"
-        onClick={onSearchModalOpen}
+        onClick={onOpen}
         {...restProps}
       >
         <Image src={SearchIcon} alt="search" height={4} width={4} />
@@ -398,9 +392,9 @@ export const MegaMenuHeader: React.FC = () => {
   const menuToggle = () => (isOpen ? onClose() : onOpen());
 
   const {
-    isOpen: isSearchModalOpen,
-    onOpen: onSearchModalOpen,
-    onClose: onSearchModalClose,
+    isOpen: isSearchOpen,
+    onOpen: onSearchOpen,
+    onClose: onSearchClose,
   } = useDisclosure();
 
   // Toggle the menu when ⌘K is pressed
@@ -408,24 +402,21 @@ export const MegaMenuHeader: React.FC = () => {
     const down = (e: any) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        if (isSearchModalOpen) {
-          onSearchModalClose();
+        if (isSearchOpen) {
+          onSearchClose();
         } else {
-          onSearchModalOpen();
+          onSearchOpen();
         }
       }
     };
 
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, [isSearchModalOpen, onSearchModalClose, onSearchModalOpen]);
+  }, [isSearchOpen, onSearchClose, onSearchOpen]);
 
   return (
     <>
-      <SearchModal
-        isSearchModalOpen={isSearchModalOpen}
-        onSearchModalClose={onSearchModalClose}
-      />
+      <SearchModal isOpen={isSearchOpen} onClose={onSearchClose} />
       <Stack
         position={router.pathname === '/players' ? 'relative' : 'sticky'}
         top={0}
@@ -488,7 +479,7 @@ export const MegaMenuHeader: React.FC = () => {
             />
             <DesktopNavLinks />
 
-            <HeaderSearchBar onSearchModalOpen={onSearchModalOpen} />
+            <HeaderSearchBar onOpen={onSearchOpen} />
 
             <Box
               textAlign="right"
@@ -523,7 +514,7 @@ export const MegaMenuHeader: React.FC = () => {
             <HeaderSearchBar
               display={{ base: 'none', sm: 'flex', xl: 'none' }}
               right={5}
-              onSearchModalOpen={onSearchModalOpen}
+              onOpen={onSearchOpen}
             />
             <Logo
               display={{ lg: 'flex', xl: 'none' }}
@@ -547,8 +538,7 @@ export const MegaMenuHeader: React.FC = () => {
           p="1rem"
           border="none"
         >
-          {/* <Search onClose={onClose} /> */}
-          <HeaderSearchBar onSearchModalOpen={onSearchModalOpen} />
+          <HeaderSearchBar onOpen={onSearchOpen} />
           {MenuSectionLinks.map((section) => (
             <Stack pt={1} key={section.label}>
               <Link

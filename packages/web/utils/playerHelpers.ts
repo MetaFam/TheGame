@@ -60,7 +60,7 @@ export const getPlayerUsername = (player?: Maybe<Player>): string | undefined =>
 export const getPlayerURL = (
   player?: Maybe<Player | GuildPlayer>,
   opts: { rel?: boolean; default?: string } = {},
-): string | undefined => {
+) => {
   let { username } = player?.profile ?? {};
   username ??= player?.ethereumAddress;
   const { rel: relative = true } = opts;
