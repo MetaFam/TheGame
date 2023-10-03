@@ -49,6 +49,18 @@ export const getQuestChainContract = (
   throw new Error('Unsupported Quest Chain version');
 };
 
+export const QuestChainsCategories = {
+  FOR_METAGAME: 'for-metagame',
+  WEB3_BASICS: 'web3-basics',
+  HOW_TO_DAO: 'how-to-dao',
+  METAALLIANCE: 'metaalliance',
+  WELLBEING_SELF_IMPROVEMENT: 'wellbeing-self-improvement',
+  REGENERATION: 'regeneration',
+  USING_AI: 'using-ai',
+  META: 'meta',
+  RANDOM: 'random',
+};
+
 export const QuestChainsRoles = {
   ENGAGED_OCTOS_PATH: 'engaged-octos-path',
   BUILDERS_PATH: 'builders-path',
@@ -101,7 +113,18 @@ export const Time = {
 
 export type QuestChainType =
   | Values<typeof QuestChainsRoles>
-  | Values<typeof QuestChainsGreatHouses>;
+  | Values<typeof QuestChainsGreatHouses>
+  | Values<typeof QuestChainsPlaybooks>
+  | Values<typeof QuestChainsCategories>;
+
+export type QuestChainCategoryType = Values<typeof QuestChainsCategories>;
+
+type QuestChainCategoryInfo = {
+  name: string;
+  title: string;
+  description?: string;
+  image?: string;
+};
 
 type QuestChainInfo = {
   chainId: string;
@@ -111,6 +134,85 @@ type QuestChainInfo = {
   image: string;
   difficulty?: string;
   time?: string;
+  category?: QuestChainCategoryType;
+  seedsEarned?: number;
+};
+
+export type QuestChainDetailsType =
+  | Values<typeof QuestChainsRoles>
+  | Values<typeof QuestChainsGreatHouses>
+  | Values<typeof QuestChainsPlaybooks>;
+
+export type QuestChainDetails = QuestChainInfo;
+
+export const QuestChainRoles = Object.keys(
+  QuestChainsRoles,
+) as QuestChainType[];
+export const QuestChainGreatHouses = Object.keys(
+  QuestChainsGreatHouses,
+) as QuestChainType[];
+export const QuestChainPlaybooks = Object.keys(
+  QuestChainsPlaybooks,
+) as QuestChainType[];
+export const QuestChainCategories = Object.keys(
+  QuestChainsCategories,
+) as QuestChainType[];
+
+export const QuestChainsCategoriesDetails: Record<
+  QuestChainType,
+  QuestChainCategoryInfo
+> = {
+  [QuestChainsCategories.FOR_METAGAME]: {
+    name: QuestChainsCategories.FOR_METAGAME,
+    title: 'For MetaGame',
+    description:
+      'Quests that are specific to MetaGame, its culture & its community.',
+    image: '',
+  },
+  [QuestChainsCategories.WEB3_BASICS]: {
+    name: QuestChainsCategories.WEB3_BASICS,
+    title: 'Web3 Basics',
+    description:
+      'Quests that are about getting started with Web3 & understanding the basics.',
+    image: '',
+  },
+  [QuestChainsCategories.HOW_TO_DAO]: {
+    name: QuestChainsCategories.HOW_TO_DAO,
+    title: 'How to DAO',
+    description: 'Quests that are about understanding & building DAOs.',
+    image: '',
+  },
+  [QuestChainsCategories.METAALLIANCE]: {
+    name: QuestChainsCategories.METAALLIANCE,
+    title: 'MetaAlliance',
+    description:
+      'Quests that are about building bridges between MetaGame & other communities.',
+    image: '',
+  },
+  [QuestChainsCategories.WELLBEING_SELF_IMPROVEMENT]: {
+    name: QuestChainsCategories.WELLBEING_SELF_IMPROVEMENT,
+    title: 'Wellbeing & Self Improvement',
+    description: 'Quests that are about improving your wellbeing & yourself.',
+    image: '',
+  },
+  [QuestChainsCategories.REGENERATION]: {
+    name: QuestChainsCategories.REGENERATION,
+    title: 'Regeneration',
+    description: 'Quests that are about regenerating the planet.',
+    image: '',
+  },
+  [QuestChainsCategories.USING_AI]: {
+    name: QuestChainsCategories.USING_AI,
+    title: 'Using AI',
+    description: 'Quests that are about using AI.',
+    image: '',
+  },
+  [QuestChainsCategories.META]: {
+    name: QuestChainsCategories.META,
+    title: 'Meta',
+    description: 'Quests that are about Game B itself.',
+    image: '',
+  },
 };
 
 export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
@@ -124,6 +226,8 @@ export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
     image: octopus.src,
     difficulty: Difficulty.EASY,
     time: Time.LONG,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
   },
   // Builder's path: https://questchains.xyz/chain/0x89/0x8d23ef86e502b4c24d1ae4bf96249721903cbc71
   [QuestChainsRoles.BUILDERS_PATH]: {
@@ -135,6 +239,8 @@ export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
     image: builders.src,
     difficulty: Difficulty.EASY,
     time: Time.LONG,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
   },
   // Designer's path: https://questchains.xyz/chain/0x89/0x32079721deef91dae71fc8ebcfabc73702f7b137
   [QuestChainsRoles.DESIGNERS_PATH]: {
@@ -146,6 +252,8 @@ export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
     image: design.src,
     difficulty: Difficulty.EASY,
     time: Time.MEDIUM,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
   },
   // Rogue's path: https://questchains.xyz/chain/0x89/0xF0a2E8e05555F187E1d2b5ACabA925598477F173
   [QuestChainsRoles.ROGUES_PATH]: {
@@ -157,6 +265,8 @@ export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
     image: rogue.src,
     difficulty: Difficulty.EASY,
     time: Time.MEDIUM,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
   },
   // Bridgebuilder's path: https://questchains.xyz/chain/0x89/0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7
   [QuestChainsRoles.BRIDGEBUILDERS_PATH]: {
@@ -168,6 +278,8 @@ export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
     image: bridge.src,
     difficulty: Difficulty.HARD,
     time: Time.LONG,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
   },
   // Patron's path: https://questchains.xyz/chain/0x89/0x372C28C97fcb2600d025Bf536C9738A08fF8022b
   [QuestChainsRoles.PATRONS_PATH]: {
@@ -179,6 +291,8 @@ export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
     image: patron.src,
     difficulty: Difficulty.EASY,
     time: Time.SHORT,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
   },
 };
 
@@ -187,7 +301,6 @@ export const QuestChainGreatHousesDetails: Record<
   QuestChainInfo
 > = {
   // Builder's path: https://questchains.xyz/chain/0x89/0x8d23ef86e502b4c24d1ae4bf96249721903cbc71
-  // difficulty and time are redundant, should be removed
   [QuestChainsGreatHouses.HOUSE_OF_ETHEREUM]: {
     chainId: '0x89',
     address: '0xa5c36c62ead5d3551aaf7765ee68e6f0ea3b3e1c',
@@ -195,6 +308,8 @@ export const QuestChainGreatHousesDetails: Record<
     description:
       'House of Ethereum is about helping you understand the significance of this technology we keep on talking about.',
     image: ethereum.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
   // Engaged Octo's path: https://questchains.xyz/chain/0x89/0xea512722CC047bfDbe90a1a2750491e89a818CA7
   [QuestChainsGreatHouses.HOUSE_OF_DAOS]: {
@@ -204,6 +319,8 @@ export const QuestChainGreatHousesDetails: Record<
     description:
       'House of DAOs gives you an understanding of Decentralized Autonomous Organizations & how to build them.',
     image: daos.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
   [QuestChainsGreatHouses.HOUSE_OF_DAPPS]: {
     chainId: '0x89',
@@ -212,6 +329,8 @@ export const QuestChainGreatHousesDetails: Record<
     description:
       'House of dApps is about making you see the endless possibilities of decentralized composable applications.',
     image: dapps.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
   [QuestChainsGreatHouses.HOUSE_OF_NFTS]: {
     chainId: '0x89',
@@ -220,6 +339,8 @@ export const QuestChainGreatHousesDetails: Record<
     description:
       'House of NFTs shows you what the fuss is about & lists all the different NFT usecases beyond overpriced art pieces.',
     image: nfts.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
   [QuestChainsGreatHouses.HOUSE_OF_DEFINANCE]: {
     chainId: '0x89',
@@ -228,6 +349,8 @@ export const QuestChainGreatHousesDetails: Record<
     description:
       'House of DeFinance is here to help you see how a new financial system is being built & how banks will be made obsolete.',
     image: definance.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
 };
 
@@ -242,6 +365,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P1.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.INSTALL_A_WEB3_WALLET_AND_GET_GAS]: {
     address: '0xa1e05963535a060bfc2e9332c3fa7467c1ed607b',
@@ -250,6 +375,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P2.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.BUILDING_A_STRONG_DAO_FOUNDATION_ESSENTIAL_QUESTIONS_FROM_DAO_CANVAS]:
     {
@@ -260,6 +387,8 @@ export const QuestChainPlaybooksDetails: Record<
       description:
         'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
       image: P3.src,
+      category: QuestChainsCategories.HOW_TO_DAO,
+      seedsEarned: 42069,
     },
   [QuestChainsPlaybooks.GUILDING_101_A_STARTER_KIT_FOR_SUCCESSFUL_TEAMS]: {
     address: '0x340804f8ea5d5d660b7f3fa8f2c37408920bf7fe',
@@ -268,6 +397,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P4.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.BUILDING_SUCCESSFUL_TEAMS]: {
     address: '0xd52fdc2ce552c73cdbbc6dbdc6ff739d3ad919ca',
@@ -276,6 +407,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P5.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.ADDING_VALUE_TO_A_DAO_WITHOUT_TECHNICAL_SKILLS_UNLOCK_YOUR_POTENTIAL]:
     {
@@ -286,6 +419,8 @@ export const QuestChainPlaybooksDetails: Record<
       description:
         'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
       image: P6.src,
+      category: QuestChainsCategories.HOW_TO_DAO,
+      seedsEarned: 42069,
     },
   [QuestChainsPlaybooks.HOW_TO_COACH_ETH]: {
     address: '0xba480bc74150fa05e9d1c815e7f4dd03bab82e85',
@@ -294,6 +429,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P7.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.ENTERING_DAOS_AS_A_WRITER]: {
     address: '0xa5b4578b954e75287a409974ba15b9a7e5e47ab3',
@@ -302,6 +439,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P8.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.HOW_TO_BECOME_AN_ETHEREUM_DEVELOPER]: {
     address: '0x64baec377babbbb62419af890e459d0a26b11074',
@@ -310,6 +449,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P9.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.BECOME_A_BUIDLER_ON_ETHEREUM]: {
     address: '0xe62bda16bc819840e6369fd3b5db528929932b01',
@@ -318,6 +459,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P13.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.HOW_TO_PLAY_TWITTER]: {
     address: '0xd14c9ca6ebd0d8941340b5b57ca3640b0196a61d',
@@ -326,6 +469,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P16.src,
+    category: QuestChainsCategories.RANDOM,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.UNDERSTANDING_IMPOSTER_SYNDROME]: {
     address: '0xed2c1ed50438379770c0a7e21150810786ebdfd8',
@@ -334,6 +479,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P12.src,
+    category: QuestChainsCategories.WELLBEING_SELF_IMPROVEMENT,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.HOW_TO_JOIN_A_DAO_COMMUNITY]: {
     address: '0x7e5a92f7f440e4d29558913bbea7343f5593b6d3',
@@ -342,6 +489,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P15.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.HOW_TO_BUILD_A_NETWORK_FOR_IMPACT]: {
     address: '0xe388d673dcb58b6216d869801710e498fe37f24c',
@@ -350,6 +499,8 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P14.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
+    seedsEarned: 42069,
   },
   [QuestChainsPlaybooks.HANDLING_FOMO_IN_WEB3]: {
     address: '0xad8b64dc695b676e03d49e819d2153ad9465db83',
@@ -358,15 +509,18 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: P11.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
   },
-  [QuestChainsPlaybooks.MGXP_METAGAME_EXPERIENCE_POINTS]: {
-    address: '0x0872df6d8a2f92bf4c5c033be8eea0fd4b3ca39c',
-    chainId: '0x89',
-    title: 'MGXP Metagame Experience Points',
-    description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P10.src,
-  },
+};
+
+export const QuestChainPathsAndPlaybooksDetails: Record<
+  QuestChainDetailsType,
+  QuestChainDetails
+> = {
+  ...QuestChainRolesDetails,
+  ...QuestChainGreatHousesDetails,
+  ...QuestChainPlaybooksDetails,
 };
 
 export const metadataUploader = new metadata.MetadataUploader();
