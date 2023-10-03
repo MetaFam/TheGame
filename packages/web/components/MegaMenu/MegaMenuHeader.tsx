@@ -334,7 +334,7 @@ const SearchModal = ({
                     <SeeAllOption
                       type="Guilds"
                       onClick={() => {
-                        router.push(`/search/quilds?q=${encodeURI(query)}`);
+                        router.push(`/search/guilds?q=${encodeURI(query)}`);
                         onClose();
                       }}
                     />
