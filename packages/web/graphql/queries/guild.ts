@@ -206,7 +206,7 @@ export const getGuildAnnouncements = async (
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 const guildSearch = /* GraphQL */ `
-  query SearchGuilds($search: String!, $limit: Int = 3) {
+  query SearchGuilds($search: String!, $limit: Int) {
     guild(where: { name: { _ilike: $search } }, limit: $limit) {
       ...GuildFragment
     }
@@ -214,10 +214,17 @@ const guildSearch = /* GraphQL */ `
   ${GuildFragment}
 `;
 
-export const searchGuilds = async (search = '') => {
+export const searchGuilds = async ({
+  search = '',
+  limit,
+}: {
+  search: string;
+  limit?: number | undefined;
+}) => {
   const { data, error } = await client
     .query<SearchGuildsQuery, SearchGuildsQueryVariables>(guildSearch, {
       search: `%${search}%`,
+      limit,
     })
     .toPromise();
 

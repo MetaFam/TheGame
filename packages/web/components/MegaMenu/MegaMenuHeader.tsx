@@ -205,7 +205,7 @@ const SearchModal = ({
         switchMap((queryString) =>
           forkJoin([
             from(searchPlayers(queryString)),
-            from(searchGuilds(queryString)),
+            from(searchGuilds({ search: queryString, limit: LIMIT })),
           ]),
         ),
         shareReplay(1),

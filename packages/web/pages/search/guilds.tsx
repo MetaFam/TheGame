@@ -19,7 +19,7 @@ const GuildSearchPage: React.FC = () => {
       setIsLoading(true);
       const getData = async () => {
         try {
-          const { guilds: gs } = await searchGuilds(search);
+          const { guilds: gs } = await searchGuilds({ search });
           setGuilds(gs);
         } catch (err) {
           console.error('Unable to search guilds', err);
