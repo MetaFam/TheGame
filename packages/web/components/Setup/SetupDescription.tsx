@@ -58,7 +58,7 @@ const DescriptionField: React.FC = () => {
     formState: { errors },
   } = useFormContext();
 
-  const { ref: registerRef, ...props } = register(field, {
+  const { ...props } = register(field, {
     maxLength: {
       value: 420,
       message: 'Maximum length is 420 characters.',
@@ -74,10 +74,6 @@ const DescriptionField: React.FC = () => {
         color="white"
         _focus={errors[field] ? { borderColor: 'red' } : undefined}
         bg="dark"
-        ref={(ref) => {
-          ref?.focus();
-          registerRef(ref);
-        }}
         {...props}
       />
     </Flex>
