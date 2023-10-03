@@ -56,7 +56,7 @@ export const syncSourceCredAccounts = async (
     throw new Error(
       `Unable to load ledger: ${loadError}.\n` +
         'Make sure you have a valid GITHUB_API_TOKEN set in your .env ' +
-        'that has access to https://github.com/MetaFam/XP.',
+        'that has access to https://github.com/MetaFam/XP. See guides/BACKEND.md for more info.',
     );
   }
 
