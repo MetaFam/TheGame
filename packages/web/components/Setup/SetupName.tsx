@@ -53,7 +53,7 @@ const SetupNameInput: React.FC = () => {
 
   const { errors } = formState;
 
-  const { ref: registerRef, ...props } = register(field, {
+  const { ...props } = register(field, {
     required: 'We have to identify you somehow! 😱',
     maxLength: {
       value: 150,
@@ -69,10 +69,6 @@ const SetupNameInput: React.FC = () => {
           placeholder="NAME"
           w="auto"
           _focus={errors[field] ? { borderColor: 'red' } : undefined}
-          ref={(ref) => {
-            ref?.focus();
-            registerRef(ref);
-          }}
           {...props}
         />
       </>
