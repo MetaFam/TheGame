@@ -191,6 +191,7 @@ export {
   MetaTileBody,
   MetaTileHeader,
   MetaTileLinkWrapper,
+  MetaTilePathPlaybook,
   MetaTilePlaybook,
 } from './MetaTile.js';
 export { MultiSelect } from './MultiSelect.js';
