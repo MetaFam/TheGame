@@ -170,7 +170,7 @@ export const ProfileSection: React.FC<
                 <Button
                   variant="ghost"
                   onClick={onClose}
-                  color="magenta"
+                  color="landing450"
                   _hover={{ bg: '#FFFFFF11' }}
                   _active={{ bg: '#FF000011' }}
                 >

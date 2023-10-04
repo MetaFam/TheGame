@@ -49,7 +49,7 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
         <Text mb={4}>{description}</Text>
         <Button
           variant="ghost"
-          color="magenta"
+          color="landing450"
           bgColor="whiteAlpha.50"
           _hover={{ bg: 'whiteAlpha.200' }}
           _active={{ bg: 'whiteAlpha.200' }}
