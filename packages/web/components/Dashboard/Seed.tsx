@@ -184,10 +184,6 @@ export const Seed = (): ReactElement => {
             </Box>
           )}
         </Box>
-        {/**
-         * Delete this component after the CoinGecko API is updated with the Polygon Seed Pool info
-         * (and uncomment the following bit to start using the API again for the link)
-         */}
         <Link
           position="absolute"
           bottom={6}
@@ -198,24 +194,6 @@ export const Seed = (): ReactElement => {
         >
           Pool Info
         </Link>
-
-        {/**
-         * Uncomment this after the CoinGecko API is updated with the Polygon Seed Pool info
-        
-      {token?.poolTicker && (
-        <Link
-          position="absolute"
-          bottom={6}
-          left={6}
-          href={token?.poolTicker.token_info_url}
-          isExternal
-          zIndex={20}
-        >
-          Pool Info
-        </Link>
-      )}
-
-        */}
       </VStack>
     </Flex>
   );
