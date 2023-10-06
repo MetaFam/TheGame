@@ -477,27 +477,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              {/* <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.pronouns}>
-                  <Label htmlFor="pronouns">Pronouns</Label>
-                  <Input
-                    w="100%"
-                    id="pronouns"
-                    placeholder="He, she, it, they, them, etc."
-                    {...register('pronouns', {
-                      maxLength: {
-                        value: 150,
-                        message: 'Maximum length is 150 characters.',
-                      },
-                    })}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.pronouns?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem> */}
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.website}>
                   <Label htmlFor="name">Website URL</Label>
@@ -523,50 +502,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              {/* <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.location}>
-                  <Label htmlFor="location">Location</Label>
-                  <Input
-                    id="location"
-                    w="100%"
-                    placeholder="Laniakea Supercluster"
-                    {...register('location', {
-                      maxLength: {
-                        value: 140,
-                        message: 'Maximum length is 140 characters.',
-                      },
-                    })}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.location?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem> */}
-              {/* <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.emoji}>
-                  <Label htmlFor="emoji">Spirit Emoji</Label>
-                  <Input
-                    id="emoji"
-                    placeholder="🗽"
-                    _placeholder={{ opacity: 0.75 }}
-                    minW="inherit"
-                    w="100%"
-                    {...register('emoji', {
-                      maxLength: {
-                        value: 2,
-                        message: 'Maximum length is 2 characters.',
-                      },
-                    })}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.emoji?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem> */}
               <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
                   <Label>Meeting Calendar</Label>

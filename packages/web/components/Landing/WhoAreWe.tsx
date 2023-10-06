@@ -81,6 +81,10 @@ export const WhoAreWe: React.FC<
   const { players } = usePlayerFilter();
 
   const topPlayers = useMemo(() => players.slice(0, 7), [players]);
+  const topPatrons = useMemo(
+    () => (patrons.length > 7 ? patrons.slice(0, 7) : patrons),
+    [patrons],
+  );
 
   return (
     <FullPageContainer
@@ -204,13 +208,13 @@ export const WhoAreWe: React.FC<
               <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">02</Text>Patrons (Funders)
               </Text>
-              {patrons && <UserGrid players={patrons} link={'/patrons'} />}
+              {patrons && <UserGrid players={topPatrons} link={'/patrons'} />}
             </ListItem>
             <ListItem gridArea="third" justifySelf="end">
               <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">03</Text>Elders (Advisors)
               </Text>
-              {patrons && <UserGrid elders={elders} link={'/players'} />}
+              {elders && <UserGrid elders={elders} link={'/players'} />}
             </ListItem>
             <ListItem gridArea="fourth" justifySelf="end">
               <Text as="h3" pb={{ base: 4, lg: 0 }}>

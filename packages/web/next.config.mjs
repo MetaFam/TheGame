@@ -66,6 +66,14 @@ export default {
     WEB3_STORAGE_TOKEN: process.env.WEB3_STORAGE_TOKEN,
   },
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
       config.plugins.push(

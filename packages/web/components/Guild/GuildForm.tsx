@@ -4,7 +4,6 @@ import {
   CloseButton,
   Flex,
   HStack,
-  Image,
   Input,
   LoadingState,
   MetaButton,
@@ -28,6 +27,7 @@ import {
   useGetGuildMetadataQuery,
 } from 'graphql/autogen/types';
 import { useImageReader } from 'lib/hooks/useImageReader';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -252,16 +252,24 @@ export const GuildForm: React.FC<Props> = ({
             <Image
               onLoad={() => setLoading(false)}
               onError={() => setErrored(true)}
-              display={loading ? 'none' : 'inherit'}
-              src={logoURI}
-              borderRadius="full"
-              objectFit="cover"
-              h="full"
-              w="full"
+              alt="logo"
+              src={logoURI || ''}
+              style={{ borderRadius: 'full', objectFit: 'cover' }}
+              height={100}
+              width={100}
             />
             {loading &&
               (!logoURI || errored ? (
-                <Image w="5em" mx="2.5em" src={FileOpenIcon} opacity={0.5} />
+                <Image
+                  style={{
+                    width: '5em',
+                    margin: '2.5em',
+                    opacity: '0.5',
+                    fontSize: 'xx-small',
+                  }}
+                  src={FileOpenIcon}
+                  alt={'file-open'}
+                />
               ) : (
                 <Spinner size="xl" color="purple.500" thickness="4px" />
               ))}

@@ -4,7 +4,6 @@ import {
   Container,
   Flex,
   Heading,
-  Image,
   Link,
   List,
   ListIcon,
@@ -17,6 +16,7 @@ import {
 import PatronsImg from 'assets/patrons-sun_800x820.webp';
 import PlayersImg from 'assets/players-sun_800x822.webp';
 import ThinkingEmojiImg from 'assets/thinking-emoji_400x400.webp';
+import Image from 'next/image';
 import React from 'react';
 import { MdCheckBoxOutlineBlank } from 'react-icons/md';
 
@@ -61,8 +61,8 @@ export const Requirements: React.FC = () => (
             <Image
               src={PlayersImg.src}
               alt="Cloaked player facing sun"
-              mx="auto"
-              maxH={{ md: '20rem', lg: '12rem' }}
+              style={{ margin: 'auto' }}
+              // maxH={{ md: '20rem', lg: '12rem' }}
             />
             <Text
               color="white"
@@ -115,8 +115,8 @@ export const Requirements: React.FC = () => (
             <Image
               src={PatronsImg.src}
               alt="Cloaked patron facing sun"
-              mx="auto"
-              maxH={{ md: '20rem', lg: '12rem' }}
+              style={{ margin: 'auto' }}
+              // maxH={{ md: '20rem', lg: '12rem' }}
             />
             <Text
               color="white"
@@ -173,9 +173,9 @@ export const Requirements: React.FC = () => (
           <Image
             src={ThinkingEmojiImg.src}
             alt="🤔"
-            mx="auto"
-            maxW="10rem"
-            mb={{ base: 8, md: 0 }}
+            style={{ margin: 'auto' }}
+            // maxW="10rem"
+            // mb={{ base: 8, md: 0 }}
           />
 
           <Box ml={{ base: 0, md: 8 }} flex="auto">

@@ -1,4 +1,5 @@
-import { AvatarProps, Flex, Image } from '@metafam/ds';
+import { AvatarProps, Flex } from '@metafam/ds';
+import Image from 'next/image';
 import React from 'react';
 
 type RoundImageProps = AvatarProps & {
@@ -21,13 +22,17 @@ export const RoundImage: React.FC<RoundImageProps> = ({ src, ...props }) => (
     _hover={{ bgGradient: 'linear(to-r, #7900FD, #FC01FC)' }}
   >
     <Image
-      position="absolute"
-      bg="#1B0D2A"
-      borderRadius="50%"
-      w="100%"
-      height="full"
-      objectFit="cover"
-      {...{ src }}
+      height={100}
+      width={100}
+      style={{
+        position: 'absolute',
+        backgroundColor: '#1B0D2A',
+        borderRadius: '50%',
+        fontSize: 'xx-small',
+        objectFit: 'cover',
+      }}
+      alt="user-image"
+      src={src || ''}
     />
   </Flex>
 );

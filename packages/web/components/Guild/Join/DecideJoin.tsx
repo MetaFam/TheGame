@@ -4,11 +4,11 @@ import {
   Container,
   Flex,
   Heading,
-  Image,
   MetaButton,
   Text,
 } from '@metafam/ds';
 import GuildsImg from 'assets/guilds-sun_800x800.webp';
+import Image from 'next/image';
 
 const guildApplicationLink = 'https://form.typeform.com/to/V5YNcdMQ';
 
@@ -43,9 +43,7 @@ export const DecideJoin: React.FC = () => (
         <Image
           src={GuildsImg.src}
           alt="Three cloaked figures"
-          mx="auto"
-          maxW="10rem"
-          mb={{ base: 8, md: 0 }}
+          style={{ margin: 'auto', maxWidth: '10rem', marginBottom: 8 }}
         />
 
         <Box ml={{ base: 0, md: 8 }} flex="auto">

@@ -2,11 +2,11 @@ import {
   AspectRatio,
   Box,
   Heading,
-  Image,
   Link,
   LoadingState,
   Text,
 } from '@metafam/ds';
+import Image from 'next/image';
 import React from 'react';
 import useSWR from 'swr';
 
@@ -126,11 +126,15 @@ export const Read: React.FC = () => {
                         <Image
                           src={resizedImage}
                           alt={item.title}
-                          width="full"
-                          height="full"
-                          objectFit="cover"
+                          width={100}
+                          height={100}
+                          style={{
+                            objectFit: 'cover',
+                            zIndex: 0,
+                            width: '100%',
+                            height: '100%',
+                          }}
                           loading="lazy"
-                          zIndex={0}
                         />
                       </Box>
                     )}

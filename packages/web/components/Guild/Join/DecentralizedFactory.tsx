@@ -1,5 +1,6 @@
-import { Container, Heading, Image } from '@metafam/ds';
+import { Container, Heading } from '@metafam/ds';
 import DecentralizedFactoryImg from 'assets/decentralized-factory_1100x1079.webp';
+import Image from 'next/image';
 import React from 'react';
 
 export const DecentralizedFactory: React.FC = () => (
@@ -20,7 +21,7 @@ export const DecentralizedFactory: React.FC = () => (
     <Image
       src={DecentralizedFactoryImg.src}
       alt="Diagram of the decentralized factory concept"
-      mx="auto"
+      style={{ margin: 'auto' }}
     />
   </Container>
 );

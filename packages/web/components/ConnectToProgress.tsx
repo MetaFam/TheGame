@@ -2,7 +2,6 @@ import {
   Button,
   Collapse,
   Flex,
-  Image,
   Link,
   MetaHeading,
   MetaMaskIcon,
@@ -13,13 +12,18 @@ import {
 import LogoImage from 'assets/logo.webp';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useUser, useWeb3 } from 'lib/hooks';
+import Image from 'next/image';
 import React from 'react';
 
 import { MetaLink } from './Link';
 
 export const MetaGameLogo = () => (
   <Flex justify="center" align="center">
-    <Image w="3.5rem" h="4rem" src={LogoImage.src} />
+    <Image
+      style={{ height: '4rem', width: '3.5rem' }}
+      src={LogoImage.src}
+      alt="MG-LOGO"
+    />
   </Flex>
 );
 

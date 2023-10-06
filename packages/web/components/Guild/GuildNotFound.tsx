@@ -1,5 +1,6 @@
-import { Image, Text, VStack } from '@metafam/ds';
+import { Text, VStack } from '@metafam/ds';
 import PlayersNotFoundImage from 'assets/no-players-found.svg';
+import Image from 'next/image';
 import React from 'react';
 
 export const GuildNotFound: React.FC = () => (
@@ -12,7 +13,7 @@ export const GuildNotFound: React.FC = () => (
     borderRadius="0.5rem"
     bg="blackAlpha.500"
   >
-    <Image src={PlayersNotFoundImage.src} />
+    <Image src={PlayersNotFoundImage.src} alt="player-not-found" />
     <Text fontWeight="bold" fontSize="xl" textAlign="center">
       No Guilds Found
     </Text>

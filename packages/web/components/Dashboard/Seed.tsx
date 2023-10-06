@@ -3,7 +3,6 @@ import {
   Button,
   ButtonGroup,
   Flex,
-  Image,
   Link,
   Stat,
   StatArrow,
@@ -16,6 +15,7 @@ import {
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
 import CoinGeckoLogo from 'assets/attribution/coingecko-logo-text.webp';
+import Image from 'next/image';
 import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
@@ -345,7 +345,13 @@ export const Chart: FC<ChartType> = ({ data }) => {
             },
           }}
         >
-          <Image src={CoinGeckoLogo.src} height="auto" width="100%" mx="auto" />
+          <Image
+            src={CoinGeckoLogo.src}
+            height={100}
+            width={100}
+            style={{ margin: 'auto' }}
+            alt="coingecko"
+          />
         </Link>
       </Box>
     </Box>
