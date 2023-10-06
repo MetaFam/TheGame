@@ -119,16 +119,18 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
                     as={Button}
                     variant="link"
                     minW="fit-content"
-                    color={
-                      section.type === 'external-link' ? '#79F8FB' : 'white'
-                    }
+                    color="white"
                     fontSize={{ m: 's', lg: 'm', xl: 'lg' }}
                     fontWeight={700}
                     textTransform="uppercase"
                     mx={{ lg: 3, xl: 6 }}
                     _expanded={{ color: 'cyan.300' }}
                     _focus={{ outline: 'none', border: 'none' }}
-                    rightIcon={section.type === 'external-link' ?  <ExternalLinkIcon color="#79F8FB" /> : undefined}
+                    rightIcon={
+                      section.type === 'external-link' ? (
+                        <ExternalLinkIcon color="white" />
+                      ) : undefined
+                    }
                   >
                     {section.label}
                     {section.type === 'menu' && (
