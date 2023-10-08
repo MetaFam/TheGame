@@ -77,6 +77,7 @@ export const PlayerHydrationContextProvider: React.FC<
         skills: updatedPlayer.skills,
         roles: updatedPlayer.roles,
         accounts: updatedPlayer.accounts,
+        links: updatedPlayer.links,
       });
     }
     setHydrating(false);

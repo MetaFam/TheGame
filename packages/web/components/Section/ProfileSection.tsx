@@ -69,15 +69,12 @@ export const ProfileSection: React.FC<
     >
       {connected && (
         <Box
-          // position={'absolute'}
-          // top={0}
-          // right={0}
           py={3}
           textAlign="center"
           w="full"
           bgColor="green.700"
           textTransform="uppercase"
-          borderTopRadius={'lg'}
+          borderTopRadius="lg"
         >
           <CheckIcon mr={2} /> Wallet connected
         </Box>

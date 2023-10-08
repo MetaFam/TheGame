@@ -168,7 +168,7 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
                 MyMeta's ComposeDB model includes:
                 <UnorderedList mb={2}>
                   {Object.values(profileMapping).map((field) => (
-                    <ListItem>{field}</ListItem>
+                    <ListItem key={field}>{field}</ListItem>
                   ))}
                 </UnorderedList>
                 Note that skills and DAO memberships are currently <em>not</em>{' '}

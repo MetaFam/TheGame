@@ -20,7 +20,6 @@ import LinkIcon from 'components/Player/Section/LinkIcon';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import {
   GuildFragment,
-  LinkType_Enum,
   useDeleteGuildLinkMutation,
   useGetAdministeredGuildsQuery,
 } from 'graphql/autogen/types';
@@ -31,15 +30,8 @@ import { FaExternalLinkAlt, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 
-import { AddGuildLink, GuildLinkFormInputs } from './Links/AddGuildLink';
-import { EditGuildLink } from './Links/EditGuildLink';
-
-export interface GuildLink {
-  name: string;
-  url: string;
-  type: LinkType_Enum;
-  id: string;
-}
+import { AddGuildLink } from './Links/AddGuildLink';
+import { EditGuildLink, GuildLink, GuildLinkList } from './Links/EditGuildLink';
 
 type Props = {
   guild: GuildFragment;
@@ -58,11 +50,10 @@ export const linkButtonProps = {
 
 export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
   const [editLinks, toggleEditLinks] = useState(false);
-  const [links, setLinks] = useState<GuildLink[]>([]);
+  const [links, setLinks] = useState<GuildLinkList>([]);
   const [editView, setEditView] = useState(false);
   const [addView, setAddView] = useState(false);
-  const [editId, setEditId] = useState<string>('');
-  const [linkToEdit, setLinkToEdit] = useState<GuildLinkFormInputs>();
+  const [linkToEdit, setLinkToEdit] = useState<GuildLink>();
   const [, deleteLink] = useDeleteGuildLinkMutation();
   const toast = useToast();
 
@@ -107,8 +98,8 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
   useEffect(() => {
     if (!guild?.id) return;
     (async () => {
-      getGuildLinks(guild.id).then((data) => {
-        setLinks(data?.link || []);
+      getGuildLinks(guild.id).then(({ link } = { link: [] }) => {
+        setLinks(link);
       });
     })();
   }, [guild?.id]);
@@ -217,12 +208,7 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
                     background={'blackAlpha.300'}
                     onClick={() => {
                       setEditView(true);
-                      setEditId(link?.id);
-                      setLinkToEdit({
-                        name: link.name,
-                        url: link.url,
-                        type: link.type,
-                      });
+                      setLinkToEdit(link);
                     }}
                   >
                     <EditIcon color={'violet'} />
@@ -235,11 +221,7 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
           <AddGuildLink guildId={guild?.id} onClose={handleResetView} />
         )}
         {editView && !addView && linkToEdit && (
-          <EditGuildLink
-            onClose={handleResetView}
-            editId={editId}
-            linkToEdit={linkToEdit}
-          />
+          <EditGuildLink onClose={handleResetView} {...{ linkToEdit }} />
         )}
         {canAdministerGuild && !addView && editLinks && !editView && (
           <MetaButton

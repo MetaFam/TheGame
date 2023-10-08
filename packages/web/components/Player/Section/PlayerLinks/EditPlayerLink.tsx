@@ -27,9 +27,8 @@ export const EditPlayerLink: React.FC<{
   linkToEdit?: Link;
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
-  onClose?: any;
-  editId?: string;
-}> = ({ linkToEdit, editId, onClose }) => {
+  onClose?: () => void;
+}> = ({ linkToEdit, onClose }) => {
   const {
     register,
     formState: { errors },
@@ -52,9 +51,9 @@ export const EditPlayerLink: React.FC<{
 
   const onSubmit = useCallback(
     async (link: PlayerLinkFormInputs) => {
-      if (!editId) return;
+      if (!linkToEdit?.id) throw new Error('Missing link to edit id.');
       const playerLink = {
-        id: editId,
+        id: linkToEdit.id,
         name: link.name || link.type,
         url: link.url,
         type: link.type,
@@ -62,32 +61,23 @@ export const EditPlayerLink: React.FC<{
       const { error } = await updateLink(playerLink);
 
       if (error) {
+        const msg = `Unable to update link: "${error}`;
         toast({
           title: 'Error updating link!',
-          description:
-            'Oops! We were unable to update this link. Please try again',
+          description: msg,
           status: 'error',
           isClosable: true,
           duration: 8000,
         });
-        throw new Error(`Unable to add link. Error: ${error}`);
-      } else {
-        toast({
-          title: 'Link updated successfully!',
-          description:
-            'The link was successfully updated! Please refresh the page to see the changes.',
-          status: 'success',
-          isClosable: true,
-          duration: 8000,
-        });
+        throw new Error(msg);
       }
-      onClose();
+      onClose?.();
     },
-    [updateLink, editId, toast, onClose],
+    [linkToEdit?.id, updateLink, onClose, toast],
   );
 
   return (
-    <Box w="100%">
+    <Box w="100%" as="form" onSubmit={handleSubmit(onSubmit)}>
       <VStack spacing={2}>
         <Field label="Name" error={errors.name}>
           <Input
@@ -96,7 +86,7 @@ export const EditPlayerLink: React.FC<{
             background="dark"
           />
         </Field>
-        <Field label="Type" error={errors.url}>
+        <Field label="Type" error={errors.type}>
           <Select
             sx={{
               textTransform: 'capitalize',
@@ -136,13 +126,19 @@ export const EditPlayerLink: React.FC<{
             background="dark"
           />
         </Field>
-        <MetaButton
-          loadingText="Adding link..."
-          onClick={handleSubmit(onSubmit)}
-          bg="purple.500"
-        >
-          Update Link
-        </MetaButton>
+        <Box>
+          <MetaButton bg="red.500" onClick={onClose} type="button">
+            Cancel
+          </MetaButton>
+          <MetaButton
+            loadingText="Updating link…"
+            ml="1rem"
+            bg="green.500"
+            type="submit"
+          >
+            Update Link
+          </MetaButton>
+        </Box>
       </VStack>
     </Box>
   );

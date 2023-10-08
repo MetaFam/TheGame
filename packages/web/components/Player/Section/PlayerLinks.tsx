@@ -10,8 +10,7 @@ type Props = {
   isOwnProfile?: boolean;
   editing?: boolean;
   admin?: boolean;
-  switchToEdit?: any;
-  onClose?: any;
+  onClose?: () => void;
 };
 
 export interface PlayerLinkFormInputs {
@@ -25,7 +24,6 @@ export const PlayerLinks: React.FC<Props> = ({
   isOwnProfile,
   editing,
   admin,
-  switchToEdit,
   onClose,
 }) => (
   <ProfileSection
@@ -34,10 +32,11 @@ export const PlayerLinks: React.FC<Props> = ({
     {...{ isOwnProfile, editing }}
   >
     <Links
-      player={player}
-      admin={admin}
-      switchToEdit={switchToEdit}
-      onClose={onClose}
+      {...{
+        player,
+        admin,
+        onClose,
+      }}
     />
   </ProfileSection>
 );

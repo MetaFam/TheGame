@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from 'react';
 type LinkProps = { href?: string; target?: '_blank' };
 type RefProps = { ref?: React.Ref<HTMLButtonElement> };
 type MetaButtonProps = PropsWithChildren<ButtonProps & LinkProps & RefProps>;
-export const MetaButton: React.FC<MetaButtonProps> =
+const MetaButton: React.FC<MetaButtonProps> =
   React.forwardRef<HTMLButtonElement>(
     ({ children, ...props }: MetaButtonProps, ref) => {
       const args = props as LinkProps & ButtonProps;
@@ -29,3 +29,5 @@ export const MetaButton: React.FC<MetaButtonProps> =
       );
     },
   );
+MetaButton.displayName = 'MetaButton';
+export { MetaButton };

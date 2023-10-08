@@ -5,7 +5,7 @@ import {
 
 import { client } from '../client';
 
-const getPlayerlinksQuery = /* GraphQL */ `
+const getPlayerLinksQuery = /* GraphQL */ `
   query GetPlayerLinks($playerId: uuid!) {
     link(where: { playerId: { _eq: $playerId } }) {
       id
@@ -16,11 +16,11 @@ const getPlayerlinksQuery = /* GraphQL */ `
   }
 `;
 
-export const getPlayerLinks = async (playerId: string): Promise<any> => {
+export const getPlayerLinks = async (playerId: string) => {
   if (!playerId) throw new Error('Missing Player Id');
   const { data } = await client
     .query<GetPlayerLinksQuery, GetPlayerLinksQueryVariables>(
-      getPlayerlinksQuery,
+      getPlayerLinksQuery,
       { playerId },
     )
     .toPromise();

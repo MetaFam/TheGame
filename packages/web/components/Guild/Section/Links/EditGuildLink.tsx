@@ -9,25 +9,27 @@ import {
   VStack,
 } from '@metafam/ds';
 import {
+  GuildLinksQuery,
   LinkType_Enum,
   useUpdateGuildLinkMutation,
 } from 'graphql/autogen/types';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { GuildLinkFormInputs } from './AddGuildLink';
+export type GuildLinkList = GuildLinksQuery['link'];
+export type GuildLink = GuildLinkList[0];
+export type IdlessGuildLink = Omit<GuildLink, 'id'>;
 
 export const EditGuildLink: React.FC<{
   onClose: () => void;
-  linkToEdit: GuildLinkFormInputs;
-  editId?: string;
-}> = ({ linkToEdit, editId, onClose }) => {
+  linkToEdit: GuildLink;
+}> = ({ linkToEdit, onClose }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<GuildLinkFormInputs>({
+  } = useForm<IdlessGuildLink>({
     mode: 'onTouched',
   });
   const toast = useToast();
@@ -35,7 +37,7 @@ export const EditGuildLink: React.FC<{
   const [, updateLink] = useUpdateGuildLinkMutation();
 
   useEffect(() => {
-    const values: GuildLinkFormInputs = {
+    const values: IdlessGuildLink = {
       name: linkToEdit?.name || '',
       url: linkToEdit?.url || '',
       type: linkToEdit?.type || LinkType_Enum.Other,
@@ -44,10 +46,12 @@ export const EditGuildLink: React.FC<{
   }, [linkToEdit, reset]);
 
   const onSubmit = useCallback(
-    async (link: GuildLinkFormInputs) => {
-      if (!editId) return;
+    async (link: IdlessGuildLink) => {
+      if (!linkToEdit.id) throw new Error('Missing link to edit’s `id`.');
+      if (!link.url) throw new Error('Missing new links `url`.');
+
       const playerLink = {
-        id: editId,
+        id: linkToEdit.id,
         name: link.name || link.type,
         url: link.url,
         type: link.type,
@@ -76,7 +80,7 @@ export const EditGuildLink: React.FC<{
       }
       onClose();
     },
-    [updateLink, editId, toast, onClose],
+    [linkToEdit.id, updateLink, onClose, toast],
   );
   return (
     <Box w="100%">

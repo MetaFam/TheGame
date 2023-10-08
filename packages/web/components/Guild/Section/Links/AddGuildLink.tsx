@@ -26,7 +26,6 @@ export const AddGuildLink: React.FC<{
     register,
     formState: { errors },
     handleSubmit,
-    getValues,
   } = useForm<GuildLinkFormInputs>({
     mode: 'onTouched',
   });

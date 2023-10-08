@@ -48,6 +48,7 @@ export const PlayerFragment = /* GraphQL */ `
       }
     }
     links {
+      id
       name
       url
       type

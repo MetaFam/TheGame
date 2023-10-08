@@ -12,20 +12,10 @@ import {
   LinkType_Enum,
   Player,
   useAddPlayerLinkMutation,
-  useGetPlayerLinksNoCacheMutation,
 } from 'graphql/autogen/types';
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { BoxMetadata } from 'utils/boxTypes';
-
-type Props = {
-  player: Player;
-  isOwnProfile?: boolean;
-  editing?: boolean;
-  admin?: boolean;
-  switchToEdit?: any;
-  onClose?: any;
-};
 
 export interface PlayerLinkFormInputs {
   name: string;
@@ -37,17 +27,17 @@ export const AddPlayerLink: React.FC<{
   player?: Player;
   metadata?: BoxMetadata;
   setMetadata?: (d: BoxMetadata) => void;
-  onClose?: any;
-}> = ({ player }) => {
+  onClose?: () => void;
+}> = ({ player, onClose }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<PlayerLinkFormInputs>({
     mode: 'onTouched',
   });
 
-  const [, getPlayerLinks] = useGetPlayerLinksNoCacheMutation();
   const [, addLink] = useAddPlayerLinkMutation();
 
   const toast = useToast();
@@ -63,45 +53,39 @@ export const AddPlayerLink: React.FC<{
       const { error } = await addLink(playerLink);
 
       if (error) {
+        const msg = `Unable to create link: "${error}"`;
         toast({
           title: 'Error creating link!',
-          description:
-            'Oops! We were unable to create this link. Please try again.',
+          description: msg,
           status: 'error',
           isClosable: true,
           duration: 8000,
         });
-        throw new Error(`Unable to add link. Error: ${error}`);
+        throw new Error(msg);
       } else {
-        toast({
-          title: 'Link created successfully!',
-          description:
-            'The link was successfully created! Please refresh the page to see the changes.',
-          status: 'success',
-          isClosable: true,
-          duration: 8000,
-        });
+        setValue('url', '');
+        setValue('name', '');
+        setValue('type', LinkType_Enum.Other);
       }
-      const now = new Date().toISOString();
-      await getPlayerLinks({ playerId: player?.id, updatedAt: now });
+      await onClose?.();
     },
-    [addLink, player?.id, toast, getPlayerLinks],
+    [player?.id, addLink, onClose, toast, setValue],
   );
 
   return (
-    <Box w="100%">
+    <Box w="100%" as="form" onSubmit={handleSubmit(onSubmit)}>
       <VStack spacing={2}>
         <Field label="Name" error={errors.name}>
           <Input
             {...register('name')}
             isInvalid={!!errors.name}
             background="dark"
+            autoFocus={true}
           />
         </Field>
-        <Field label="Type" error={errors.url}>
+        <Field label="Type" error={errors.type}>
           <Select
             sx={{
-              textTransform: 'capitalize',
               '& > option': {
                 backgroundColor: MetaTheme.colors.purpleBoxLight,
               },
@@ -138,13 +122,19 @@ export const AddPlayerLink: React.FC<{
             background="dark"
           />
         </Field>
-        <MetaButton
-          loadingText="Adding link..."
-          onClick={handleSubmit(onSubmit)}
-          bg="purple.500"
-        >
-          Add Link
-        </MetaButton>
+        <Box>
+          <MetaButton bg="red.500" onClick={onClose} type="button">
+            Cancel
+          </MetaButton>
+          <MetaButton
+            loadingText="Adding link…"
+            bg="green.500"
+            ml="1rem"
+            type="submit"
+          >
+            Add Link
+          </MetaButton>
+        </Box>
       </VStack>
     </Box>
   );

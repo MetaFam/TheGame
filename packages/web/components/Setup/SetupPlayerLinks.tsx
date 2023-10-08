@@ -1,68 +1,70 @@
-import { MetaButton } from '@metafam/ds';
+import { Box, MetaButton } from '@metafam/ds';
 import { Links } from 'components/Player/Section/Links';
 import { AddPlayerLink } from 'components/Player/Section/PlayerLinks/AddPlayerLink';
 import { EditPlayerLink } from 'components/Player/Section/PlayerLinks/EditPlayerLink';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { Link, Player } from 'graphql/autogen/types';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-export const SetupPlayerLinks: React.FC<{
-  onComplete: () => void;
+const SetupPlayerLinks: React.FC<{
+  onComplete?: () => void;
   player: Player;
 }> = ({ player, onComplete }) => {
-  const [linkToEdit, setLinkToEdit] = useState<Link>();
   const [role, setRole] = useState<string>('view');
-
-  const handleSetRole = (newRole: string, link?: Link) => {
-    setRole(newRole);
-    setLinkToEdit(link);
-  };
 
   return (
     <>
-      <PlayerLinksView
-        role={role}
-        player={player}
-        link={linkToEdit}
-        setRole={handleSetRole}
-        onClose={onComplete}
-      />
-      {role === 'view' ? (
-        <MetaButton
-          loadingText="Adding link..."
-          onClick={() => setRole('add')}
-          bg="purple.500"
-        >
-          Add Link
-        </MetaButton>
-      ) : (
-        ''
+      <PlayerLinksView {...{ role, setRole, player }} />
+      {role === 'view' && (
+        <Box textAlign="center" mt="1rem">
+          <MetaButton
+            loadingText="Adding link…"
+            onClick={() => setRole('add')}
+            bg="purple.500"
+          >
+            Add Link
+          </MetaButton>
+          {onComplete && (
+            <MetaButton onClick={onComplete} bg="green.500" ml="1rem">
+              Done
+            </MetaButton>
+          )}
+        </Box>
       )}
     </>
   );
 };
+SetupPlayerLinks.displayName = 'SetupPlayerLinks';
+export { SetupPlayerLinks };
 
 const PlayerLinksView: React.FC<{
   role: string;
   player: Player;
-  link?: Link;
-  setRole: any;
-  onClose: any;
-}> = ({ role, player, link, setRole, onClose }) => {
+  setRole: (role: string) => void;
+}> = ({ role, player, setRole }) => {
+  const { hydrateFromHasura } = usePlayerHydrationContext();
+  const closeInner = useCallback(async () => {
+    await hydrateFromHasura();
+    setRole('view');
+  }, [hydrateFromHasura, setRole]);
+  const [linkToEdit, setLinkToEdit] = useState<Link>();
+  const editLink = (link?: Link) => {
+    setRole('edit');
+    setLinkToEdit(link);
+  };
+
   const currentView = {
     view: (
       <Links
-        player={player}
+        {...{ editLink, player }}
+        onDelete={closeInner}
         isOwnProfile={true}
         admin={true}
-        switchToEdit={setRole}
-        onClose={onClose}
       />
     ),
-    add: <AddPlayerLink player={player} onClose={onClose} />,
-    edit: (
-      <EditPlayerLink linkToEdit={link} editId={link?.id} onClose={onClose} />
-    ),
+    add: <AddPlayerLink {...{ player }} onClose={closeInner} />,
+    edit: <EditPlayerLink {...{ linkToEdit }} onClose={closeInner} />,
   }[role];
 
-  return <> {currentView} </>;
+  return currentView;
 };

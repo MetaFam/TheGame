@@ -18,7 +18,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { AddPlayerLink } from 'components/Player/Section/PlayerLinks/AddPlayerLink';
+import { SetupPlayerLinks } from 'components/Setup/SetupPlayerLinks';
 import { GuildFragment, Player } from 'graphql/autogen/types';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
@@ -214,15 +214,22 @@ export const EditMetadata: React.FC<{
   player?: Player;
   metadata: BoxMetadata;
   setMetadata: React.Dispatch<React.SetStateAction<BoxMetadata>>;
-}> = ({ type, ...props }) => {
+}> = ({ type, player, ...props }) => {
   switch (type) {
-    case BoxTypes.EMBEDDED_URL:
-      return <EmbeddedUrlMetadata {...props} />;
-    case BoxTypes.PLAYER_LINKS:
-      return <AddPlayerLink {...props} />;
-    case BoxTypes.CUSTOM_TEXT:
-      return <CustomTextSectionMetadata {...props} />;
-    default:
+    case BoxTypes.EMBEDDED_URL: {
+      return <EmbeddedUrlMetadata {...{ player, ...props }} />;
+    }
+    case BoxTypes.PLAYER_LINKS: {
+      if (player) {
+        return <SetupPlayerLinks {...{ player, ...props }} />;
+      }
+      throw new Error('`player` not set for Player Links.');
+    }
+    case BoxTypes.CUSTOM_TEXT: {
+      return <CustomTextSectionMetadata {...{ player, ...props }} />;
+    }
+    default: {
       return null;
+    }
   }
 };

@@ -12,7 +12,6 @@ import {
   Link,
   Player,
   useDeletePlayerLinkMutation,
-  useGetPlayerLinksNoCacheMutation,
 } from 'graphql/autogen/types';
 import React, { useEffect, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
@@ -23,70 +22,53 @@ type Props = {
   player: Player;
   isOwnProfile?: boolean;
   admin?: boolean;
-  switchToEdit?: any;
-  onClose?: any;
+  editLink?: (link: Link) => void;
+  onDelete?: () => void;
 };
-
-export const Links: React.FC<Props> = ({
-  player,
-  admin,
-  switchToEdit,
-  onClose,
-}) => {
-  const [links, setLinks] = useState<Link[]>([]);
+const Links: React.FC<Props> = ({ player, admin, editLink, onDelete }) => {
+  const [links, setLinks] = useState<Link[]>(player.links ?? []);
   const [, deleteLink] = useDeletePlayerLinkMutation();
   const toast = useToast();
-  const [, getPlayerLinks] = useGetPlayerLinksNoCacheMutation();
 
   useEffect(() => {
-    if (!player?.id) return;
-    (async () => {
-      const now = new Date().toISOString();
-      getPlayerLinks({ playerId: player.id, updatedAt: now }).then((res) => {
-        setLinks(res?.data?.update_player?.returning[0].links || []);
-      });
-    })();
-  }, [player.id, admin, getPlayerLinks]);
+    if (player) {
+      setLinks(player.links);
+    }
+  }, [player, player.links]);
 
   const deleteSingleLink = async (id: string) => {
     const { error } = await deleteLink({ id });
 
     if (error) {
+      const msg = `Unable to delete link: "${error}"`;
       toast({
         title: 'Error deleting link!',
-        description:
-          'Oops! We were unable to delete this link. Please try again.',
+        description: msg,
         status: 'error',
         isClosable: true,
         duration: 8000,
       });
-      throw new Error(`Unable to delete link. Error: ${error}`);
-    } else {
-      toast({
-        title: 'Link deleted successfully!',
-        description:
-          'The link was successfully deleted! Please refresh the page to see the changes.',
-        status: 'success',
-        isClosable: true,
-        duration: 8000,
-      });
+      throw new Error(msg);
     }
-    if (admin) {
-      onClose();
-    }
+    onDelete?.();
   };
 
   return (
     <VStack mt={4} w="full">
       {links?.map((link) => (
-        <Flex w="full" justifyContent="start" alignContent="center" gap={4}>
+        <Flex
+          w="full"
+          justifyContent="start"
+          alignContent="center"
+          gap={4}
+          key={link.id}
+        >
           <a
-            href={link?.url || ''}
+            href={link.url || ''}
             target="_blank"
             rel="noreferrer"
             style={{ width: '100%', flex: 1 }}
             role="group"
-            key={link?.id}
           >
             <Flex
               justifyContent="start"
@@ -125,17 +107,17 @@ export const Links: React.FC<Props> = ({
             <Flex alignItems="center" gap={2}>
               <Button
                 background={'blackAlpha.300'}
-                disabled={false}
-                onClick={() => deleteSingleLink(link?.id)}
+                onClick={() => editLink?.(link)}
               >
-                <DeleteIcon color={'violet'} />
+                <EditIcon color={'violet'} />
               </Button>
 
               <Button
                 background={'blackAlpha.300'}
-                onClick={() => switchToEdit('edit', link)}
+                disabled={false}
+                onClick={() => deleteSingleLink(link?.id)}
               >
-                <EditIcon color={'violet'} />
+                <DeleteIcon color={'violet'} />
               </Button>
             </Flex>
           )}
@@ -144,3 +126,5 @@ export const Links: React.FC<Props> = ({
     </VStack>
   );
 };
+
+export { Links };
