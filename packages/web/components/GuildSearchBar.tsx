@@ -2,27 +2,13 @@ import {
   Avatar,
   Box,
   BoxedNextImage as Image,
-  BoxProps,
-  CloseIcon,
-  ExternalLinkIcon,
   Flex,
-  FlexProps,
-  HamburgerIcon,
   Input,
   InputGroup,
   InputLeftElement,
-  Link,
-  MetaButton,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-  SimpleGrid,
-  Stack,
   Text,
-  Tooltip,
-  useBreakpointValue,
-  useDisclosure,
+  Button,
+  AddIcon,
 } from '@metafam/ds';
 import { httpLink, Maybe } from '@metafam/utils';
 import LogoImage from 'assets/logo.webp';
@@ -64,7 +50,7 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
   <Box {...{ onClick }} as="li" role="option" sx={{ listStyleType: 'none' }}>
     <Flex
       _hover={{
-        background: 'purple.50',
+        border: '2px solid white'
       }}
       sx={{
         px: '3',
@@ -77,11 +63,13 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
         pb: '3',
         w: '50%',
         ml: '25%',
+        border: '2px solid #FFFFFF25'
       }}
     >
       <Avatar name={name} src={httpLink(image)} w={8} h={8} />
       <Text
-        px={2}
+        pt={1}
+        pl={3}
         color="white"
         fontFamily="Exo 2"
         fontWeight={400}
@@ -91,6 +79,16 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
       >
         {text}
       </Text>
+      <Button
+        sx={{
+          color: 'white', border: '2px solid white', borderRadius: '50%', height: '20px', width: '20px', ml: '2em'
+        }}
+        _hover={{ color: 'white' }}
+        aria-label={`Remove filter`}
+        onClick={() => console.log('none')}
+      >
+        <AddIcon />
+      </Button>
     </Flex>
   </Box>
 );
@@ -234,6 +232,7 @@ export const GuildSearchBar: React.FC = () => {
                     router.push(`/guild/${guild.guildname}`);
                     // onClose();
                   }}
+                
                   name={guild.name}
                   image={guild?.logo as string | undefined}
                   text={guild.name}
