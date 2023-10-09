@@ -86,15 +86,6 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
         duration: 8000,
       });
       throw new Error(`Unable to delete link. Error: ${error}`);
-    } else {
-      toast({
-        title: 'Link deleted successfully!',
-        description:
-          'The link was successfully deleted! Please refresh the page to see the changes.',
-        status: 'success',
-        isClosable: true,
-        duration: 8000,
-      });
     }
   };
 
@@ -152,11 +143,17 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
         </Box>
       )}
 
-      <VStack mt={4} w="full">
+      <VStack mt={4} w="full" key={`links-${links.length}`}>
         {!editView &&
           !addView &&
-          links?.map((link) => (
-            <Flex w="full" justifyContent="start" alignContent="center" gap={4}>
+          links?.map((link, i) => (
+            <Flex
+              w="full"
+              justifyContent="start"
+              alignContent="center"
+              gap={4}
+              key={`guild-link-${i}`}
+            >
               <a
                 href={link?.url || ''}
                 target="_blank"
@@ -203,8 +200,8 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
                   <Button
                     background={'blackAlpha.300'}
                     disabled={false}
-                    onClick={() => {
-                      deleteSingleLink(link?.id);
+                    onClick={async () => {
+                      await deleteSingleLink(link?.id);
                       triggerResetState(!resetState);
                     }}
                   >

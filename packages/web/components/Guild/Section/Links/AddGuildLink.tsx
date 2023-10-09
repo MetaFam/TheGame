@@ -53,19 +53,10 @@ export const AddGuildLink: React.FC<{
           isClosable: true,
           duration: 8000,
         });
-        onClose();
+
         throw new Error(`Unable to add link. Error: ${error}`);
-      } else {
-        toast({
-          title: 'Link created successfully!',
-          description:
-            'The link was successfully created! Please refresh the page to see the changes.',
-          status: 'success',
-          isClosable: true,
-          duration: 8000,
-        });
-        onClose();
       }
+      onClose();
     },
     [addLink, guildId, toast, onClose],
   );

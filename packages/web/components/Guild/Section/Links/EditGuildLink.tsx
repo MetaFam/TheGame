@@ -68,15 +68,6 @@ export const EditGuildLink: React.FC<{
           duration: 8000,
         });
         throw new Error(`Unable to add link. Error: ${error}`);
-      } else {
-        toast({
-          title: 'Link updated successfully!',
-          description:
-            'The link was successfully updated! Please refresh the page to see the changes.',
-          status: 'success',
-          isClosable: true,
-          duration: 8000,
-        });
       }
       onClose();
     },
