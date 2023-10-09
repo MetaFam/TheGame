@@ -117,7 +117,6 @@ const SetupProfilePictureInput: React.FC<{
         name="profileImageURL"
         accept="image/*"
         ref={(ref) => {
-          ref?.focus();
           registerRef(ref);
           inputRef.current = ref;
         }}
