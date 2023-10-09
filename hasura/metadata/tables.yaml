@@ -316,6 +316,8 @@
         custom_name: showDiscordAnnouncements
       sort_position:
         custom_name: sortPosition
+      updated_at:
+        custom_name: updatedAt
       website_url:
         custom_name: websiteUrl
     custom_column_names:
@@ -325,6 +327,7 @@
       profile_layout: profileLayout
       show_discord_announcements: showDiscordAnnouncements
       sort_position: sortPosition
+      updated_at: updatedAt
       website_url: websiteUrl
     custom_root_fields: {}
   object_relationships:
@@ -379,6 +382,12 @@
               guildDiscordId: $discord_id
         remote_schema: backend
       name: discordAnnouncements
+  insert_permissions:
+    - role: player
+      permission:
+        check: {}
+        columns:
+          - updated_at
   select_permissions:
     - role: player
       permission:
@@ -416,6 +425,13 @@
           - type
           - website_url
         filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - updated_at
+        filter: {}
+        check: null
   event_triggers:
     - name: syncDiscordGuildMembers
       definition:

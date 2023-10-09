@@ -25,6 +25,23 @@ export {};
     }
   }
 
+  mutation GetGuildLinksNoCache($guildId: uuid!, $updatedAt: timestamptz!) {
+    update_guild(
+      where: { id: { _eq: $guildId } }
+      _set: { updatedAt: $updatedAt }
+    ) {
+      returning {
+        links {
+          id
+          name
+          type
+          url
+          guildId
+        }
+      }
+    }
+  }
+
   mutation AddGuildLink(
     $guildId: uuid!
     $name: String

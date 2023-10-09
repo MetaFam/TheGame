@@ -22,8 +22,8 @@ import {
   GuildFragment,
   useDeleteGuildLinkMutation,
   useGetAdministeredGuildsQuery,
+  useGetGuildLinksNoCacheMutation,
 } from 'graphql/autogen/types';
-import { getGuildLinks } from 'graphql/queries/guild';
 import { useUser } from 'lib/hooks';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FaExternalLinkAlt, FaGlobe } from 'react-icons/fa';
@@ -55,11 +55,14 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
   const [addView, setAddView] = useState(false);
   const [linkToEdit, setLinkToEdit] = useState<GuildLink>();
   const [, deleteLink] = useDeleteGuildLinkMutation();
+  const [, getGuildLinks] = useGetGuildLinksNoCacheMutation();
+  const [resetState, triggerResetState] = useState(false);
   const toast = useToast();
 
   const handleResetView = () => {
     setAddView(false);
     setEditView(false);
+    triggerResetState(!resetState);
   };
 
   const { user } = useUser();
@@ -98,11 +101,12 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
   useEffect(() => {
     if (!guild?.id) return;
     (async () => {
-      getGuildLinks(guild.id).then(({ link } = { link: [] }) => {
-        setLinks(link);
+      const now = new Date().toISOString();
+      getGuildLinks({ guildId: guild.id, updatedAt: now }).then((res) => {
+        setLinks(res?.data?.update_guild?.returning[0].links || []);
       });
     })();
-  }, [guild?.id]);
+  }, [guild?.id, resetState, getGuildLinks]);
 
   const administeredGuilds = administeredGuildsData?.guild_metadata;
 
@@ -199,7 +203,10 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
                   <Button
                     background={'blackAlpha.300'}
                     disabled={false}
-                    onClick={() => deleteSingleLink(link?.id)}
+                    onClick={() => {
+                      deleteSingleLink(link?.id);
+                      triggerResetState(!resetState);
+                    }}
                   >
                     <DeleteIcon color={'violet'} />
                   </Button>

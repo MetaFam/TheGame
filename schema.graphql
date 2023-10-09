@@ -1200,6 +1200,7 @@ type guild {
   status: GuildStatus_enum!
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum!
+  updatedAt: timestamptz
   websiteUrl: String
 }
 """
@@ -1241,12 +1242,13 @@ type guild_max_fields {
   name: String
   profileLayout: String
   sortPosition: Int
+  updatedAt: timestamptz
   websiteUrl: String
 }
 "Used to hold private information for guilds"
 type guild_metadata {
   creatorId: uuid
-  discordId: String!
+  discordId: String
   discordMetadata(
     "JSON select path"
     path: String
@@ -1306,6 +1308,7 @@ type guild_min_fields {
   name: String
   profileLayout: String
   sortPosition: Int
+  updatedAt: timestamptz
   websiteUrl: String
 }
 """
@@ -7821,6 +7824,8 @@ enum guild_select_column {
   "column name"
   type
   "column name"
+  updatedAt
+  "column name"
   websiteUrl
 }
 """
@@ -7871,6 +7876,8 @@ enum guild_update_column {
   status
   "column name"
   type
+  "column name"
+  updatedAt
   "column name"
   websiteUrl
 }
@@ -10121,6 +10128,7 @@ input guild_bool_exp {
   sortPosition: Int_comparison_exp
   status: GuildStatus_enum_comparison_exp
   type: GuildType_enum_comparison_exp
+  updatedAt: timestamptz_comparison_exp
   websiteUrl: String_comparison_exp
 }
 """
@@ -10154,6 +10162,7 @@ input guild_insert_input {
   status: GuildStatus_enum
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
+  updatedAt: timestamptz
   websiteUrl: String
 }
 """
@@ -10170,6 +10179,7 @@ input guild_max_order_by {
   name: order_by
   profileLayout: order_by
   sortPosition: order_by
+  updatedAt: order_by
   websiteUrl: order_by
 }
 "append existing jsonb value of filtered columns with new jsonb value"
@@ -10303,6 +10313,7 @@ input guild_min_order_by {
   name: order_by
   profileLayout: order_by
   sortPosition: order_by
+  updatedAt: order_by
   websiteUrl: order_by
 }
 """
@@ -10344,6 +10355,7 @@ input guild_order_by {
   sortPosition: order_by
   status: order_by
   type: order_by
+  updatedAt: order_by
   websiteUrl: order_by
 }
 "primary key columns input for table: guild"
@@ -10478,6 +10490,7 @@ input guild_set_input {
   status: GuildStatus_enum
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
+  updatedAt: timestamptz
   websiteUrl: String
 }
 """
@@ -10524,6 +10537,7 @@ input guild_stream_cursor_value_input {
   status: GuildStatus_enum
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
+  updatedAt: timestamptz
   websiteUrl: String
 }
 """
