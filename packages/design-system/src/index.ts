@@ -8,6 +8,8 @@ export {
   CalendarIcon,
   CheckIcon,
   ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ChevronUpIcon,
   CloseIcon,
   DeleteIcon,

@@ -10,8 +10,15 @@ export const Carousel: React.FC<{
   gap: number;
   shrinkItems?: boolean;
   hidePositions?: boolean;
+  hideNav?: boolean;
   children: JSX.Element[];
-}> = ({ children, gap, shrinkItems = false, hidePositions = false }) => {
+}> = ({
+  children,
+  gap,
+  hideNav = true,
+  shrinkItems = false,
+  hidePositions = false,
+}) => {
   const [trackIsActive, setTrackIsActive] = useState(false);
   const [isSubmittingProof, setIsSubmittingProof] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
@@ -67,6 +74,7 @@ export const Carousel: React.FC<{
         gap,
         shrinkItems,
         hidePositions,
+        hideNav,
       }}
     >
       <CarouselInner shrinkItems={shrinkItems}>{children}</CarouselInner>

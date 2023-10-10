@@ -34,7 +34,7 @@ export const getStaticProps = async () => ({
 });
 
 const PathsAndPlaybooksPage: React.FC<Props> = () => {
-  const carouselGap = useBreakpointValue({ base: 8, md: 6, lg: 20 }) || 20;
+  const carouselGap = useBreakpointValue({ base: 8, md: 6, lg: 32 }) || 32;
   const makeItemPath = (type: PathPlaybookType): string => {
     let urlPath: string;
 
@@ -62,7 +62,7 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
         description="MetaGame is a Massive Online Coordination Game! Guilds participating in MetaGame…"
         url="https://metagame.wtf/guilds"
       />
-      <VStack spacing={7} w={{ base: '100%', xl: 'unset' }}>
+      <VStack spacing={7} w={{ base: '100%', xl: 'unset' }} maxW="92rem">
         <Heading
           as="h1"
           fontFamily="body"
@@ -79,15 +79,13 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
           const categoryItems = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
           ).filter(([name, { category: cat }]) => cat === categoryName);
-          const showGrid = categoryItems.length > 0;
 
           return (
             <VStack
               key={category[1].name}
-              spacing={{ base: 4, xl: 8 }}
+              spacing={{ base: 4, xl: 0 }}
               w="full"
               alignItems="left"
-              overflowX="hidden"
             >
               <VStack spacing={1} alignItems="left">
                 <Heading
@@ -116,23 +114,36 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                 pb={{ base: 10, xl: 16 }}
               > */}
               {categoryItems.length > 0 ? (
-                <Carousel gap={carouselGap} shrinkItems hidePositions>
-                  {categoryItems.map(
-                    ([
-                      name,
-                      {
-                        title,
-                        image,
-                        difficulty,
-                        time,
-                        category: cat,
-                        seedsEarned,
-                        type: pathType,
-                      },
-                    ]) => (
-                      <Box key={title} w="full" overflowX="hidden">
+                <Box
+                  w="calc(100% + 10rem)"
+                  transform="translateX(-5rem)"
+                  p="1rem"
+                  px="5rem"
+                  mx="auto"
+                  overflowY="hidden"
+                  overflowX="hidden"
+                >
+                  <Carousel
+                    gap={carouselGap}
+                    shrinkItems
+                    hidePositions
+                    hideNav={false}
+                  >
+                    {categoryItems.map(
+                      ([
+                        name,
+                        {
+                          title,
+                          image,
+                          difficulty,
+                          time,
+                          category: cat,
+                          seedsEarned,
+                          type: pathType,
+                        },
+                      ]) => (
                         <Card
-                          key={title}
+                          key={`${title}-card`}
                           {...{
                             title,
                             difficulty,
@@ -146,10 +157,10 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                             index: i,
                           }}
                         />
-                      </Box>
-                    ),
-                  )}
-                </Carousel>
+                      ),
+                    )}
+                  </Carousel>
+                </Box>
               ) : (
                 <Box w="full" textAlign="left">
                   <Text as="p" fontSize="xl">
@@ -183,7 +194,7 @@ const Card: React.FC<CardProps> = ({ title, link, image, length, index }) => (
       image={image}
       index={index}
       length={length}
-      maxW={{ base: 24, xl: '21rem' }}
+      maxW={{ base: 24, xl: '20rem' }}
     >
       <Flex alignItems="center" justifyContent="center" h="full">
         <Text
