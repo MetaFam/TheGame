@@ -15,6 +15,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
     itemWidth,
     positions,
     gap,
+    hidePositions,
   } = useCarouselContext();
 
   const [ref, { width }] = useBoundingRect();
@@ -31,7 +32,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
       <Box
         ref={ref}
         w={{ base: '100%', md: `calc(100% + ${gap}px)` }}
-        ml={{ base: 0, md: `-${gap / 2}px` }}
+        ml={`-${gap / 2}px`}
         px={`${gap / 2}px`}
         position="relative"
         overflow="visible"
@@ -59,7 +60,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
         {children}
       </Box>
 
-      {positions.length > constraint && (
+      {!hidePositions && positions.length > constraint && (
         <HStack
           w={`${itemWidth}px`}
           justify="center"

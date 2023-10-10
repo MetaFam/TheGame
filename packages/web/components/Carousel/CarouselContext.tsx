@@ -21,6 +21,9 @@ type CarouselContextType = {
   setSliderWidth: React.Dispatch<React.SetStateAction<number>>;
 
   multiplier: number;
+
+  shrinkItems: boolean;
+  hidePositions: boolean;
 };
 
 export const CarouselContext = createContext<CarouselContextType>({
@@ -39,6 +42,8 @@ export const CarouselContext = createContext<CarouselContextType>({
   itemWidth: 0,
   positions: [],
   gap: 0,
+  shrinkItems: false,
+  hidePositions: false,
 });
 
 export const useCarouselContext = () => useContext(CarouselContext);

@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Grid,
   Heading,
   Link,
   MetaTilePathPlaybook,
@@ -9,6 +8,7 @@ import {
   useBreakpointValue,
   VStack,
 } from '@metafam/ds';
+import { Carousel } from 'components/Carousel';
 // import { Carousel } from 'components/Carousel';
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
@@ -18,7 +18,6 @@ import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 import {
   PathPlaybookType,
-  PathPlaybookTypes,
   QuestChainPathPlaybookPaths,
   QuestChainPathsAndPlaybooksDetails,
   QuestChainsCategoriesDetails,
@@ -35,7 +34,26 @@ export const getStaticProps = async () => ({
 });
 
 const PathsAndPlaybooksPage: React.FC<Props> = () => {
-  const carouselGap = useBreakpointValue({ base: 8, md: 6, lg: 8 }) || 8;
+  const carouselGap = useBreakpointValue({ base: 8, md: 6, lg: 20 }) || 20;
+  const makeItemPath = (type: PathPlaybookType): string => {
+    let urlPath: string;
+
+    switch (type) {
+      case 'path':
+        urlPath = QuestChainPathPlaybookPaths.path;
+        break;
+      case 'playbook':
+        urlPath = QuestChainPathPlaybookPaths.playbook;
+        break;
+      case 'greatHouse':
+        urlPath = QuestChainPathPlaybookPaths.greatHouse;
+        break;
+      default:
+        urlPath = '';
+        break;
+    }
+    return urlPath;
+  };
 
   return (
     <PageContainer>
@@ -69,6 +87,7 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
               spacing={{ base: 4, xl: 8 }}
               w="full"
               alignItems="left"
+              overflowX="hidden"
             >
               <VStack spacing={1} alignItems="left">
                 <Heading
@@ -81,12 +100,12 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                 </Heading>
                 {/* Description wasn't in the design but it is an option */}
                 {/* {description ? (
-            <Text fontSize="xl" maxW="3xl">
-              {description}
-            </Text>
-          ) : null} */}
+                  <Text fontSize="xl" maxW="3xl">
+                    {description}
+                  </Text>
+                ) : null} */}
               </VStack>
-              <Grid
+              {/* <Grid
                 templateColumns={[
                   '1fr 1fr 1fr 1fr',
                   '1fr',
@@ -95,9 +114,10 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                 ]}
                 gap={{ base: 2, lg: 6, xl: 8 }}
                 pb={{ base: 10, xl: 16 }}
-              >
-                {categoryItems.length > 0 ? (
-                  categoryItems.map(
+              > */}
+              {categoryItems.length > 0 ? (
+                <Carousel gap={carouselGap} shrinkItems hidePositions>
+                  {categoryItems.map(
                     ([
                       name,
                       {
@@ -109,28 +129,8 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                         seedsEarned,
                         type: pathType,
                       },
-                    ]) => {
-                      const makeItemPath = (type: PathPlaybookType): string => {
-                        let urlPath: string;
-
-                        switch (type) {
-                          case 'path':
-                            urlPath = QuestChainPathPlaybookPaths.path;
-                            break;
-                          case 'playbook':
-                            urlPath = QuestChainPathPlaybookPaths.playbook;
-                            break;
-                          case 'greatHouse':
-                            urlPath = QuestChainPathPlaybookPaths.greatHouse;
-                            break;
-                          default:
-                            urlPath = '';
-                            break;
-                        }
-                        return urlPath;
-                      };
-
-                      return (
+                    ]) => (
+                      <Box key={title} w="full" overflowX="hidden">
                         <Card
                           key={title}
                           {...{
@@ -146,18 +146,18 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                             index: i,
                           }}
                         />
-                      );
-                    },
-                  )
-                ) : (
-                  <Box w="full" textAlign="left">
-                    <Text as="p" fontSize="xl">
-                      No quests found for this category. Why not create one and
-                      get it added!
-                    </Text>
-                  </Box>
-                )}
-              </Grid>
+                      </Box>
+                    ),
+                  )}
+                </Carousel>
+              ) : (
+                <Box w="full" textAlign="left">
+                  <Text as="p" fontSize="xl">
+                    No quests found for this category. Why not create one and
+                    get it added!
+                  </Text>
+                </Box>
+              )}
             </VStack>
           );
         })}
@@ -176,7 +176,7 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ title, link, image, length, index }) => (
-  <Link role="group" _hover={{ textDecoration: 'none' }} href={link}>
+  <Link role="group" _hover={{ textDecoration: 'none' }} href={link} w="full">
     <MetaTilePathPlaybook
       height="full"
       width="full"

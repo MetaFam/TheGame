@@ -6,10 +6,12 @@ import { Item } from './Item';
 import { Slider } from './Slider';
 import { Track } from './Track';
 
-export const Carousel: React.FC<{ gap: number; children: JSX.Element[] }> = ({
-  children,
-  gap,
-}) => {
+export const Carousel: React.FC<{
+  gap: number;
+  shrinkItems?: boolean;
+  hidePositions?: boolean;
+  children: JSX.Element[];
+}> = ({ children, gap, shrinkItems = false, hidePositions = false }) => {
   const [trackIsActive, setTrackIsActive] = useState(false);
   const [isSubmittingProof, setIsSubmittingProof] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
@@ -63,21 +65,28 @@ export const Carousel: React.FC<{ gap: number; children: JSX.Element[] }> = ({
         itemWidth,
         positions,
         gap,
+        shrinkItems,
+        hidePositions,
       }}
     >
-      <CarouselInner>{children}</CarouselInner>
+      <CarouselInner shrinkItems={shrinkItems}>{children}</CarouselInner>
     </CarouselContext.Provider>
   );
 };
 
-const CarouselInner: React.FC<{ children: JSX.Element[] }> = ({ children }) => (
+const CarouselInner: React.FC<{
+  shrinkItems?: boolean;
+  children: JSX.Element[];
+}> = ({ shrinkItems, children }) => (
   <Slider>
     <Track>
-      {children.concat(<Box w="100%" />).map((child, index) => (
-        <Item index={index} key={index}>
-          {child}
-        </Item>
-      ))}
+      {children
+        .concat(<Box w={shrinkItems ? 'unset' : '100%'} />)
+        .map((child, index) => (
+          <Item index={index} key={index}>
+            {child}
+          </Item>
+        ))}
     </Track>
   </Slider>
 );
