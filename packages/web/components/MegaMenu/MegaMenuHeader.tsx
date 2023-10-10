@@ -6,7 +6,6 @@ import {
   CloseIcon,
   ExternalLinkIcon,
   Flex,
-  FlexProps,
   HamburgerIcon,
   HStack,
   Input,
@@ -92,7 +91,7 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
   <Box {...{ onClick }} as="li" role="option" sx={{ listStyleType: 'none' }}>
     <Flex
       _hover={{
-        background: 'purple.50',
+        background: 'rgba(0,0,0,0.56)',
       }}
       align="center"
       px={3}
@@ -103,7 +102,7 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
       <Avatar name={name} src={httpLink(image)} w={6} h={6} />
       <Text
         px={2}
-        color="black"
+        color={'white'}
         fontFamily="Exo 2"
         fontWeight={400}
         textOverflow="ellipsis"
@@ -119,7 +118,7 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
 const ResultsTitle = ({ children }: { children: ReactNode }) => (
   <Text
     fontWeight={600}
-    color="black"
+    color="white"
     w="100%"
     px={3}
     pt={1}
@@ -224,11 +223,12 @@ const SearchModal = ({
       <ModalContent
         overflow="hidden"
         top="max(4rem, 8vh)"
-        shadow="lg"
+        shadow="2xl"
         maxH="700px"
         maxW="500px"
         aria-expanded="true"
         marginTop={1}
+        bgColor="transparent"
         p={0}
       >
         <Flex
@@ -237,6 +237,8 @@ const SearchModal = ({
           minWidth={40}
           pos="relative"
           align="stretch"
+          bg="transparent"
+          backdropFilter="blur(10px)"
           ref={dropdown}
         >
           <Box as="form" onSubmit={handleSubmit} w="full" color="white">
@@ -246,10 +248,14 @@ const SearchModal = ({
               p={2}
               my="auto"
               bg={{
-                base: '#FFFFFF05',
+                base: '#FFFFFF25',
+              }}
+              _focus={{
+                bg: 'blackAlpha.700',
               }}
               border={{ base: '1px solid #2B2244' }}
               borderRadius={4}
+              overflow="hidden"
             >
               <InputLeftElement
                 pointerEvents="none"
@@ -262,7 +268,7 @@ const SearchModal = ({
                 color="white"
                 w="100%"
                 placeholder="Find Players or Guilds"
-                _placeholder={{ color: 'whiteAlpha.500' }}
+                _placeholder={{ color: 'whiteAlpha.700' }}
                 value={query}
                 onChange={({ target: { value } }) => setQuery(value)}
                 size="sm"
@@ -276,8 +282,10 @@ const SearchModal = ({
               '&::-webkit-scrollbar': {
                 width: '5px',
               },
-              bg: !isBodyEmpty ? 'white' : 'transparent',
+              bg: 'linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)',
             }}
+            borderColor="#2B2244"
+            backdropFilter="blur(10px)"
             w="100%"
             maxH="66vh"
             p={0}
@@ -286,11 +294,12 @@ const SearchModal = ({
               <Box
                 w="100%"
                 borderRadius="0.25rem"
+                color="white"
                 css={{
                   transform: 'translate3d(0px, 15px, 0px)',
                 }}
               >
-                <Box as="ul" role="listbox" pb={8}>
+                <Box as="ul" role="listbox" pb={8} px={2} color="white">
                   {players.length > 0 && <ResultsTitle>Players</ResultsTitle>}
 
                   {players?.map((player: PlayerFragment) => (
@@ -350,7 +359,7 @@ const SearchModal = ({
   );
 };
 
-type HeaderSearchBarProps = BoxProps & { onOpen: any };
+type HeaderSearchBarProps = BoxProps & { onOpen: () => void };
 
 const HeaderSearchBar = (props: HeaderSearchBarProps) => {
   const { onOpen, ...restProps } = props;
@@ -399,7 +408,7 @@ export const MegaMenuHeader: React.FC = () => {
 
   // Toggle the menu when ⌘K is pressed
   React.useEffect(() => {
-    const down = (e: any) => {
+    const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         if (isSearchOpen) {
@@ -425,14 +434,14 @@ export const MegaMenuHeader: React.FC = () => {
       >
         <Flex
           borderBottom="1px"
-          bg="rgba(0, 0, 0, 0.5)"
+          bg="#FFFFFF05"
           borderColor="#2B2244"
           backdropFilter="blur(10px)"
           px={4}
           py={1.5}
           pb="0"
           h={20}
-          justify="space-between"
+          justify="center"
           w="100%"
         >
           <Flex
@@ -471,23 +480,24 @@ export const MegaMenuHeader: React.FC = () => {
               xl: 'flex',
             }}
           >
-            <Logo
-              link={user ? '/dashboard' : '/'}
-              pos={{ base: 'initial', lg: 'relative' }}
-              left={0}
-              top="auto"
-              bottom="auto"
-            />
-
+            <HStack w="15%" flexShrink={1}>
+              <Logo
+                link={user ? '/dashboard' : '/'}
+                pos={{ base: 'initial', lg: 'relative' }}
+                left={0}
+                top="auto"
+                bottom="auto"
+              />
+            </HStack>
             <HStack
               flex="0 1 auto"
               align="center"
               justify="center"
               alignSelf="center"
-              height="100%"
               spacing={0}
             >
               <DesktopNavLinks />
+
               <HeaderSearchBar onOpen={onSearchOpen} />
             </HStack>
             <Box
@@ -498,6 +508,7 @@ export const MegaMenuHeader: React.FC = () => {
               left="1"
               top="auto"
               bottom="auto"
+              w="15%"
             >
               {connected && !!user && !fetching && !connecting ? (
                 <DesktopPlayerStats player={user} />
@@ -505,7 +516,7 @@ export const MegaMenuHeader: React.FC = () => {
                 <Stack
                   fontWeight="bold"
                   fontFamily="Exo 2, san-serif"
-                  align="center"
+                  align="flex-end"
                 >
                   <MetaButton
                     h={10}
