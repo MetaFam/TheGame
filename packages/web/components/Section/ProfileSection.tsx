@@ -18,6 +18,7 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
+import { SetupPlayerLinks } from 'components/Setup/SetupPlayerLinks';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { EditRoles } from 'components/Setup/SetupRoles';
 import { EditSkills } from 'components/Setup/SetupSkills';
@@ -68,15 +69,12 @@ export const ProfileSection: React.FC<
     >
       {connected && (
         <Box
-          // position={'absolute'}
-          // top={0}
-          // right={0}
           py={3}
           textAlign="center"
           w="full"
           bgColor="green.700"
           textTransform="uppercase"
-          borderTopRadius={'lg'}
+          borderTopRadius="lg"
         >
           <CheckIcon mr={2} /> Wallet connected
         </Box>
@@ -193,6 +191,7 @@ const isEditable = (type?: Maybe<BoxType>) =>
       BoxTypes.PLAYER_COLOR_DISPOSITION,
       BoxTypes.PLAYER_SKILLS,
       BoxTypes.PLAYER_ROLES,
+      BoxTypes.PLAYER_LINKS,
     ] as Array<BoxType>
   ).includes(type);
 
@@ -265,6 +264,14 @@ const EditSection = ({
         <SetupDeworkLink
           onComplete={hydrateFromHasura}
           player={hydratedPlayer}
+        />
+      );
+    }
+    case BoxTypes.PLAYER_LINKS: {
+      return (
+        <SetupPlayerLinks
+          player={hydratedPlayer}
+          onComplete={hydrateFromHasura}
         />
       );
     }

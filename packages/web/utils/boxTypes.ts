@@ -12,6 +12,7 @@ export const BoxTypes = {
   PLAYER_DAO_MEMBERSHIPS: 'dao-memberships',
   PLAYER_ACHIEVEMENTS: 'player-achievements', // WIP
   PLAYER_TYPE: 'player-type',
+  PLAYER_LINKS: 'player-links',
   PLAYER_COLOR_DISPOSITION: 'color-disposition',
   PLAYER_ROLES: 'player-roles',
   PLAYER_COMPLETED_QUESTS: 'completed-quests',

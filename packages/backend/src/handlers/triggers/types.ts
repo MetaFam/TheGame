@@ -33,17 +33,11 @@ export type GuildRow = Omit<
   | 'joinButtonUrl'
   | 'websiteUrl'
   | 'discordId'
-  | 'discordInviteUrl'
-  | 'twitterUrl'
-  | 'githubUrl'
   | 'membershipThroughDiscord'
 > & {
   join_button_url: string;
   website_url: string;
   discord_id: string;
-  discord_invite_url: string;
-  twitter_url: string;
-  github_url: string;
   membership_through_discord: boolean;
 };
 
@@ -53,9 +47,6 @@ export function toGuild(guildRow: GuildRow): Guild {
     joinButtonUrl: guildRow.join_button_url,
     websiteUrl: guildRow.website_url,
     discordId: guildRow.discord_id,
-    discordInviteUrl: guildRow.discord_invite_url,
-    twitterUrl: guildRow.twitter_url,
-    githubUrl: guildRow.github_url,
     membershipThroughDiscord: guildRow.membership_through_discord,
   };
 }

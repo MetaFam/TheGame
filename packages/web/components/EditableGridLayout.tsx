@@ -62,7 +62,8 @@ type Props = React.PropsWithChildren<{
   allBoxOptions: BoxType[];
   ens?: string;
   displayComponent: DisplayOutput;
-}> & BoxProps;
+}> &
+  BoxProps;
 
 export const EditableGridLayout: React.FC<Props> = ({
   children,
@@ -254,13 +255,13 @@ export const EditableGridLayout: React.FC<Props> = ({
             isOpen={exitAlertReset}
             onNope={() => setExitAlertReset(false)}
             onYep={handleReset}
-            header="Are you sure you want to reset the layout to its default?"
+            header="Reset the layout to its default?"
           />
           <ConfirmModal
             isOpen={exitAlertCancel}
             onNope={() => setExitAlertCancel(false)}
             onYep={handleCancel}
-            header="Are you sure you want to cancel editing the layout?"
+            header="Cancel editing the layout?"
           />
           {(!editing || changed) && (
             <MetaButton

@@ -64,7 +64,7 @@ const SetupAvailabilityInput: React.FC = () => {
     formState: { errors },
   } = useFormContext();
 
-  const { ref: registerRef, ...props } = register(field, {
+  const { ...props } = register(field, {
     valueAsNumber: true,
     min: {
       value: 0,
@@ -103,10 +103,6 @@ const SetupAvailabilityInput: React.FC = () => {
         borderRight={0}
         _focus={errors[field] ? { borderColor: 'red' } : undefined}
         autoFocus
-        ref={(ref) => {
-          ref?.focus();
-          registerRef(ref);
-        }}
         {...props}
       />
       <InputRightAddon bg="purpleBoxDark" color="white">

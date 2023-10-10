@@ -18,41 +18,28 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
+import { SetupPlayerLinks } from 'components/Setup/SetupPlayerLinks';
 import { GuildFragment, Player } from 'graphql/autogen/types';
-import React, {
-  ChangeEvent,
-  forwardRef,
-  ForwardRefExoticComponent,
-  JSXElementConstructor,
-  ReactElement,
-  RefAttributes,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import { BoxMetadata, BoxType, BoxTypes, DisplayOutput } from 'utils/boxTypes';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
 
 import { CustomTextSectionMetadata } from './CustomTextSection';
 import { EmbeddedUrlMetadata } from './EmbeddedUrlSection';
 
-export type AddBoxComponent = FlexProps & {
+type Props = FlexProps & {
   player?: Player;
   guild?: GuildFragment;
   boxes: Array<BoxType>;
   onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
-  previewComponent: DisplayOutput;
+  previewComponent: (props: {
+    metadata: BoxMetadata;
+    type: BoxType;
+    player?: Player;
+    guild?: GuildFragment;
+  }) => JSX.Element | null;
 };
 
-export type AddBoxReference = ForwardRefExoticComponent<
-  Omit<AddBoxComponent, 'ref'> & RefAttributes<HTMLDivElement>
->;
-
-export type AddBoxOutput = (
-  props: AddBoxComponent,
-) => ReactElement<AddBoxComponent, JSXElementConstructor<HTMLDivElement>>;
-export type AddBoxElement = ReturnType<AddBoxOutput>;
-
-export const AddBoxSection = forwardRef<HTMLDivElement, AddBoxComponent>(
+export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
   (
     {
       player,
@@ -86,12 +73,12 @@ export const AddBoxSection = forwardRef<HTMLDivElement, AddBoxComponent>(
 
     return (
       <Flex
-        {...{ ref }}
         w="full"
         h="full"
         direction="column"
         boxShadow="md"
         pos="relative"
+        {...{ ref }}
       >
         <Flex
           bg="whiteAlpha.200"
@@ -159,7 +146,9 @@ export const AddBoxSection = forwardRef<HTMLDivElement, AddBoxComponent>(
                     )}
                   </Select>
                   {type && (
-                    <EditMetadata {...{ type, metadata, setMetadata }} />
+                    <EditMetadata
+                      {...{ type, player, metadata, setMetadata }}
+                    />
                   )}
                   {type && (
                     <Flex
@@ -222,15 +211,25 @@ export const AddBoxSection = forwardRef<HTMLDivElement, AddBoxComponent>(
 
 export const EditMetadata: React.FC<{
   type: BoxType;
+  player?: Player;
   metadata: BoxMetadata;
   setMetadata: React.Dispatch<React.SetStateAction<BoxMetadata>>;
-}> = ({ type, ...props }) => {
+}> = ({ type, player, ...props }) => {
   switch (type) {
-    case BoxTypes.EMBEDDED_URL:
-      return <EmbeddedUrlMetadata {...props} />;
-    case BoxTypes.CUSTOM_TEXT:
-      return <CustomTextSectionMetadata {...props} />;
-    default:
+    case BoxTypes.EMBEDDED_URL: {
+      return <EmbeddedUrlMetadata {...{ player, ...props }} />;
+    }
+    case BoxTypes.PLAYER_LINKS: {
+      if (player) {
+        return <SetupPlayerLinks {...{ player, ...props }} />;
+      }
+      throw new Error('`player` not set for Player Links.');
+    }
+    case BoxTypes.CUSTOM_TEXT: {
+      return <CustomTextSectionMetadata {...{ player, ...props }} />;
+    }
+    default: {
       return null;
+    }
   }
 };

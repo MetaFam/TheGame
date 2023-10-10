@@ -99,12 +99,9 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfoInput) => {
     name: guildInfo.name,
     type: guildInfo.type as unknown as GuildType_Enum,
     description: guildInfo.description,
-    discordInviteUrl: guildInfo.discordInviteUrl,
     joinButtonUrl: guildInfo.joinUrl,
     logo: guildInfo.logoUrl,
     websiteUrl: guildInfo.websiteUrl,
-    twitterUrl: guildInfo.twitterUrl,
-    githubUrl: guildInfo.githubUrl,
   };
 
   await client.UpdateGuild({

@@ -8,6 +8,18 @@ import { computeRank } from '../../../lib/rankHelpers.js';
 
 const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
 
+type SafeResponse = {
+  results: Array<{
+    origin: string;
+    executionDate: string;
+    transfers: Array<{
+      to: string;
+      tokenAddress: string;
+      value: string;
+    }>;
+  }>;
+};
+
 // @todo return balance of token of player in guild
 const setBalances = async ({
   safeAddress,
@@ -22,14 +34,12 @@ const setBalances = async ({
     `https://safe-transaction-polygon.safe.global/api/v1/safes/${safeAddress}/all-transactions/?limit=100&offset=${offset}&executed=true&queued=false&trusted=true`,
   );
 
-  const { results } = (await res.json()) as any;
+  const { results } = (await res.json()) as SafeResponse;
   const uniqueDrops: Record<string, Record<string, number>> = {};
-  const airdrops = results.filter((tx: any) =>
-    tx.origin?.includes('CSV Airdrop'),
-  );
+  const airdrops = results.filter((tx) => tx.origin?.includes('CSV Airdrop'));
 
-  airdrops.forEach(({ executionDate, transfers }: any) => {
-    transfers?.forEach(({ to, tokenAddress, value }: any) => {
+  airdrops.forEach(({ executionDate, transfers }) => {
+    transfers?.forEach(({ to, tokenAddress, value }) => {
       uniqueDrops[executionDate] ??= {};
       uniqueDrops[executionDate][to] ??= 0;
       if (tokenAddress === guildTokenAddress) {
@@ -121,5 +131,5 @@ export default async (req: Request, res: Response): Promise<void> => {
       });
     }),
   );
-  res.json('complete! XP saved');
+  res.json('Complete! XP saved');
 };
