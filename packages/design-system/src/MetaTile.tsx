@@ -224,7 +224,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
         h="full"
         w="full"
         minH={{ base: 32, xl: '30rem' }}
-        mr={{ base: 3, xl: 6 }}
+        mr={{ base: 2.5, xl: 6 }}
         borderRightRadius={{ base: 'lg', xl: '2xl' }}
         ref={(elem) => {
           tilt.current = elem;
