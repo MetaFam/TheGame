@@ -24,6 +24,7 @@ type CarouselContextType = {
 
   shrinkItems: boolean;
   hidePositions: boolean;
+  hideNav: boolean;
 };
 
 export const CarouselContext = createContext<CarouselContextType>({
@@ -44,6 +45,7 @@ export const CarouselContext = createContext<CarouselContextType>({
   gap: 0,
   shrinkItems: false,
   hidePositions: false,
+  hideNav: true,
 });
 
 export const useCarouselContext = () => useContext(CarouselContext);

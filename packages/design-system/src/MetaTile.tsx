@@ -240,7 +240,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
           src={image}
           position={'relative'}
           borderRightRadius={{ base: 'lg', xl: '2xl' }}
-          maxW={{ base: 24, xl: '21rem' }}
+          maxW={{ base: 24, xl: '20rem' }}
           objectFit={'cover'}
           borderLeftRadius={0}
           zIndex={0}
@@ -256,7 +256,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
           }}
           borderRightRadius={{ base: 'lg', xl: '2xl' }}
           p={{ base: 1, xl: 10 }}
-          maxW={{ base: 24, xl: '21rem' }} // (2 / 3.5) = ~0.571 aspect ratio desired
+          maxW={{ base: 24, xl: '20rem' }} // (2 / 3.5) = ~0.571 aspect ratio desired
           w="full"
           h="full"
           align="stretch"
@@ -288,6 +288,11 @@ export const MetaPathCosmetics: React.FC<MetaPathCosmeticsProps> = ({
   if (type === 'edges') {
     return (
       <Box
+        display="flex"
+        flexFlow="row nowrap"
+        alignItems="center"
+        justifyContent="flex-end"
+        gap="2px"
         position={'absolute'}
         top={0}
         left={'auto'}
@@ -298,22 +303,12 @@ export const MetaPathCosmetics: React.FC<MetaPathCosmeticsProps> = ({
       >
         <Box
           role="presentation"
-          position={'absolute'}
-          top={'4.5%'}
-          left={0.5}
-          right={'auto'}
-          bottom={0}
           width={{ base: 1, xl: 2.5 }}
           bgColor="#AE90C6"
           borderRightRadius={{ base: 'lg', xl: '2xl' }}
           height="91%"
         />
         <Box
-          position={'absolute'}
-          top={'8%'}
-          left={{ base: '0.4375rem', xl: 3.5 }}
-          right={'auto'}
-          bottom={0}
           width={{ base: 1, xl: 2.5 }}
           bgColor="#936BB3"
           borderRightRadius={{ base: 'lg', xl: '2xl' }}
@@ -330,7 +325,7 @@ export const MetaPathCosmetics: React.FC<MetaPathCosmeticsProps> = ({
         inset={0}
         right="auto"
         width="full"
-        maxW={{ base: 24, xl: '21rem' }}
+        maxW={{ base: 24, xl: '20rem' }}
         background={
           'linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0.34%, rgba(0, 0, 0, 0.00) 34.08%, rgba(13, 0, 19, 0.35) 59.18%, rgba(20, 0, 28, 0.85) 100%)'
         }
