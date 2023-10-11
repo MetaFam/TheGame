@@ -51,7 +51,7 @@ const UnifiedCommunityPage: React.FC<Props> = ({
         <Tabs
           mt="2em"
           w={{
-            lg: '70vw',
+            lg: '100%',
           }}
         >
           <TabList ml={{ sm: '0em', lg: '4em' }} mr={{ sm: '0em', lg: '4em' }}>
