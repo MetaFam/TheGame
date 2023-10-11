@@ -139,6 +139,7 @@ export {
   StatNumber,
   Switch,
   Tab,
+  TabIndicator,
   Table,
   TableContainer,
   TabList,
