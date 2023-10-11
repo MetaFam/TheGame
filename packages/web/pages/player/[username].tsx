@@ -80,7 +80,7 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
 
   return (
     <PlayerHydrationContextProvider
-      player={player}
+      {...{ player }}
       isHydratedAlready={isHydratedFromComposeDB}
     >
       <PlayerPageContent ens={playerData?.ens || undefined} />
@@ -344,7 +344,7 @@ export const getStaticProps = async (
     const response = await composeDBClient.executeQuery(query);
 
     if (response.errors) {
-      console.error(`Could not hydrate player ${username} from composeDB`);
+      console.error(`Could not hydrate player ${username} from ComposeDB`);
       console.error(response.errors);
     } else if (response.data != null) {
       const composeDBProfileData = (

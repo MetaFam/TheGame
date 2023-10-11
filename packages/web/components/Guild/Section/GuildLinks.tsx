@@ -1,29 +1,37 @@
 import {
   Box,
+  Button,
   ChainIcon,
+  DeleteIcon,
+  EditIcon,
   Flex,
   Heading,
   IconButton,
+  MetaButton,
   MetaTileLinkWrapper,
   Text,
+  useToast,
   VStack,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
 import { LinkGuild } from 'components/Player/PlayerGuild';
+import LinkIcon from 'components/Player/Section/LinkIcon';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { GuildFragment } from 'graphql/autogen/types';
-import React from 'react';
 import {
-  FaDiscord,
-  FaExternalLinkAlt,
-  FaGithub,
-  FaGlobe,
-  FaHome,
-  FaTwitter,
-} from 'react-icons/fa';
+  GuildFragment,
+  useDeleteGuildLinkMutation,
+  useGetAdministeredGuildsQuery,
+  useGetGuildLinksNoCacheMutation,
+} from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
+import React, { useEffect, useMemo, useState } from 'react';
+import { FaExternalLinkAlt, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
+
+import { AddGuildLink } from './Links/AddGuildLink';
+import { EditGuildLink, GuildLink, GuildLinkList } from './Links/EditGuildLink';
 
 type Props = {
   guild: GuildFragment;
@@ -41,34 +49,68 @@ export const linkButtonProps = {
 };
 
 export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
-  const hasIconLink =
-    guild.websiteUrl ||
-    guild.discordInviteUrl ||
-    guild.githubUrl ||
-    guild.twitterUrl;
+  const [editLinks, toggleEditLinks] = useState(false);
+  const [links, setLinks] = useState<GuildLinkList>([]);
+  const [editView, setEditView] = useState(false);
+  const [addView, setAddView] = useState(false);
+  const [linkToEdit, setLinkToEdit] = useState<GuildLink>();
+  const [, deleteLink] = useDeleteGuildLinkMutation();
+  const [, getGuildLinks] = useGetGuildLinksNoCacheMutation();
+  const [resetState, triggerResetState] = useState(false);
+  const toast = useToast();
 
-  const links = {
-    websiteUrl: {
-      label: 'Visit our website',
-      link: guild.websiteUrl,
-      icon: <FaHome />,
-    },
-    discordInviteUrl: {
-      label: 'Join our Discord server',
-      link: guild.discordInviteUrl,
-      icon: <FaDiscord />,
-    },
-    githubUrl: {
-      label: 'Check our work on GitHub',
-      link: guild.githubUrl,
-      icon: <FaGithub />,
-    },
-    twitterUrl: {
-      label: 'Find us on Twitter',
-      link: guild.twitterUrl,
-      icon: <FaTwitter />,
-    },
+  const handleResetView = () => {
+    setAddView(false);
+    setEditView(false);
+    triggerResetState(!resetState);
   };
+
+  const { user } = useUser();
+
+  const [
+    { data: administeredGuildsData, fetching: loadingAdministeredGuilds },
+  ] = useGetAdministeredGuildsQuery({
+    variables: { id: user?.id },
+  });
+
+  const deleteSingleLink = async (id: string) => {
+    const { error } = await deleteLink({ id });
+
+    if (error) {
+      toast({
+        title: 'Error deleting link!',
+        description:
+          'Oops! We were unable to delete this link. Please try again.',
+        status: 'error',
+        isClosable: true,
+        duration: 8000,
+      });
+      throw new Error(`Unable to delete link. Error: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    if (!guild?.id) return;
+    (async () => {
+      const now = new Date().toISOString();
+      getGuildLinks({ guildId: guild.id, updatedAt: now }).then((res) => {
+        setLinks(res?.data?.update_guild?.returning[0].links || []);
+      });
+    })();
+  }, [guild?.id, resetState, getGuildLinks]);
+
+  const administeredGuilds = administeredGuildsData?.guild_metadata;
+
+  const canAdministerGuild = useMemo(
+    () =>
+      !!user &&
+      !loadingAdministeredGuilds &&
+      !!administeredGuilds &&
+      administeredGuilds.some(
+        (guildMetadata) => guildMetadata.guildId === guild?.id,
+      ),
+    [user, loadingAdministeredGuilds, administeredGuilds, guild],
+  );
 
   return (
     <ProfileSection
@@ -76,18 +118,49 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
       type={BoxTypes.GUILD_LINKS}
       editing={editing}
     >
-      {hasIconLink && (
-        <VStack mb={4} w="full">
-          {Object.entries(links).map(([key, value]) => {
-            if (!guild[key as keyof GuildFragment]) return '';
-            return (
+      {canAdministerGuild && !editing && (
+        <Box pos="absolute" right={2} top={2}>
+          <Button
+            _hover={{ textDecoration: 'none' }}
+            bg={'000000000'}
+            onClick={() => {
+              toggleEditLinks(!editLinks);
+              handleResetView();
+            }}
+          >
+            <IconButton
+              aria-label="Edit Profile Info"
+              size="lg"
+              background="transparent"
+              color="pinkShadeOne"
+              icon={<EditIcon />}
+              _hover={{ color: 'white' }}
+              _focus={{ boxShadow: 'none' }}
+              _active={{ transform: 'scale(0.8)' }}
+              isRound
+            />
+          </Button>
+        </Box>
+      )}
+
+      <VStack mt={4} w="full" key={`links-${links.length}`}>
+        {!editView &&
+          !addView &&
+          links?.map((link, i) => (
+            <Flex
+              w="full"
+              justifyContent="start"
+              alignContent="center"
+              gap={4}
+              key={`guild-link-${i}`}
+            >
               <a
-                href={value.link || ''}
+                href={link?.url || ''}
                 target="_blank"
                 rel="noreferrer"
-                style={{ width: '100%' }}
+                style={{ width: '100%', flex: 1 }}
                 role="group"
-                key={key}
+                key={link?.id}
               >
                 <Flex
                   justifyContent="start"
@@ -107,11 +180,9 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
                   }}
                   rounded={'md'}
                 >
-                  <Box my="auto" ml={2}>
-                    {value.icon}
-                  </Box>
+                  <LinkIcon type={link?.type} />
                   <Text mx="auto" fontWeight={600}>
-                    {value.label}
+                    {link?.name}
                   </Text>
                   <Box
                     my="auto"
@@ -124,10 +195,48 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
                   </Box>
                 </Flex>
               </a>
-            );
-          })}
-        </VStack>
-      )}
+              {editLinks && (
+                <Flex alignItems="center" gap={2}>
+                  <Button
+                    background={'blackAlpha.300'}
+                    disabled={false}
+                    onClick={async () => {
+                      await deleteSingleLink(link?.id);
+                      triggerResetState(!resetState);
+                    }}
+                  >
+                    <DeleteIcon color={'violet'} />
+                  </Button>
+
+                  <Button
+                    background={'blackAlpha.300'}
+                    onClick={() => {
+                      setEditView(true);
+                      setLinkToEdit(link);
+                    }}
+                  >
+                    <EditIcon color={'violet'} />
+                  </Button>
+                </Flex>
+              )}
+            </Flex>
+          ))}
+        {addView && !editView && (
+          <AddGuildLink guildId={guild?.id} onClose={handleResetView} />
+        )}
+        {editView && !addView && linkToEdit && (
+          <EditGuildLink onClose={handleResetView} {...{ linkToEdit }} />
+        )}
+        {canAdministerGuild && !addView && editLinks && !editView && (
+          <MetaButton
+            mt="1em"
+            bg="purple.500"
+            onClick={() => setAddView(!addView)}
+          >
+            Add Link
+          </MetaButton>
+        )}
+      </VStack>
       <Wrap justify="space-between" w="full" spacing={4} mb={2}>
         {guild.daos?.map((dao, index) => {
           const daoURL =
@@ -183,21 +292,6 @@ export const GuildLinksSmall: React.FC<GuildLinkSmall> = ({ guild }) => {
       label: 'Website',
       icon: <FaGlobe />,
     },
-    {
-      url: guild.discordInviteUrl,
-      label: 'Discord Server',
-      icon: <FaDiscord />,
-    },
-    {
-      url: guild.githubUrl,
-      label: 'Github',
-      icon: <FaGithub />,
-    },
-    {
-      url: guild.twitterUrl,
-      label: 'Twitter',
-      icon: <FaTwitter />,
-    },
   ];
   const hasIconLink = mediaLinks.reduce(
     (acc, link) => acc || !!link.url,
@@ -225,60 +319,6 @@ export const GuildLinksSmall: React.FC<GuildLinkSmall> = ({ guild }) => {
                 {...linkButtonProps}
               />
               Website
-            </MetaTileLinkWrapper>
-          ) : null}
-          {guild.discordInviteUrl ? (
-            <MetaTileLinkWrapper>
-              <IconButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (guild.discordInviteUrl)
-                    window?.open(guild.discordInviteUrl, '_blank')?.focus();
-                }}
-                aria-label="Discord Server"
-                icon={<FaDiscord />}
-                minW={6}
-                w={6}
-                h={6}
-                borderRadius="full"
-                {...linkButtonProps}
-              />
-            </MetaTileLinkWrapper>
-          ) : null}
-          {guild.githubUrl ? (
-            <MetaTileLinkWrapper>
-              <IconButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (guild.githubUrl)
-                    window?.open(guild.githubUrl, '_blank')?.focus();
-                }}
-                aria-label="Github"
-                icon={<FaGithub />}
-                minW={6}
-                w={6}
-                h={6}
-                borderRadius="full"
-                {...linkButtonProps}
-              />
-            </MetaTileLinkWrapper>
-          ) : null}
-          {guild.twitterUrl ? (
-            <MetaTileLinkWrapper>
-              <IconButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (guild.twitterUrl)
-                    window?.open(guild.twitterUrl, '_blank')?.focus();
-                }}
-                aria-label="Twitter"
-                icon={<FaTwitter />}
-                minW={6}
-                w={6}
-                h={6}
-                borderRadius="full"
-                {...linkButtonProps}
-              />
             </MetaTileLinkWrapper>
           ) : null}
         </Wrap>

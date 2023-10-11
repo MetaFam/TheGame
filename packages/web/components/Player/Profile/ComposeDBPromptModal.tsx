@@ -162,19 +162,6 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
                 the web2 world.
               </Box>
               <Box fontStyle="italic" fontSize="large" mt={4} mb={2}>
-                What data does this include?
-              </Box>
-              <Box>
-                MyMeta's ComposeDB model includes:
-                <UnorderedList mb={2}>
-                  {Object.values(profileMapping).map((field) => (
-                    <ListItem>{field}</ListItem>
-                  ))}
-                </UnorderedList>
-                Note that skills and DAO memberships are currently <em>not</em>{' '}
-                being stored in ComposeDB.
-              </Box>
-              <Box fontStyle="italic" fontSize="large" mt={4} mb={2}>
                 What control do I have over this data? What's the catch?
               </Box>
               <Box>
@@ -195,6 +182,19 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
                 with us). Note that when you port your data, the Ethereum
                 address you are connected with becomes the sole controller of
                 that data.
+              </Box>
+              <Box fontStyle="italic" fontSize="large" mt={4} mb={2}>
+                What data does this include?
+              </Box>
+              <Box>
+                MyMeta's ComposeDB model includes:
+                <UnorderedList mb={2}>
+                  {Object.values(profileMapping).map((field) => (
+                    <ListItem key={field}>{field}</ListItem>
+                  ))}
+                </UnorderedList>
+                Note that skills and DAO memberships are currently <em>not</em>{' '}
+                being stored in ComposeDB.
               </Box>
             </Box>
           </Center>

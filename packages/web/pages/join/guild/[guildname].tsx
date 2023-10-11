@@ -4,6 +4,8 @@ import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import {
   GuildInfoInput,
   GuildType_ActionEnum,
+  LinkType_Enum,
+  useAddGuildLinkMutation,
   useGetGuildQuery,
   useUpdateGuildMutation,
 } from 'graphql/autogen/types';
@@ -15,11 +17,12 @@ import { uploadFile } from 'utils/uploadHelpers';
 
 const SetupGuild: React.FC = () => {
   const router = useRouter();
-  const guildname = router.query.guildname as string;
+  const guildNameRouter = router.query.guildname as string;
   const toast = useToast();
 
+  const [, addLink] = useAddGuildLinkMutation();
   const [updateGuildState, updateGuild] = useUpdateGuildMutation();
-  const [res] = useGetGuildQuery({ variables: { guildname } });
+  const [res] = useGetGuildQuery({ variables: { guildname: guildNameRouter } });
   const guild = res.data?.guild[0];
 
   const onSubmit = useCallback(
@@ -32,7 +35,15 @@ const SetupGuild: React.FC = () => {
         discordMembershipRoles: membershipRoles,
         logoFile,
         logoUrl,
-        ...otherInputs
+        daos,
+        websiteUrl,
+        githubUrl,
+        twitterUrl,
+        description,
+        guildname,
+        name,
+        discordInviteUrl,
+        joinUrl,
       } = editGuildFormInputs;
 
       let newLogoUrl = logoUrl;
@@ -54,8 +65,37 @@ const SetupGuild: React.FC = () => {
         }
       }
 
+      const twitterGuildLink = {
+        guildId: guild.id,
+        name: 'Find Us On Twitter',
+        url: twitterUrl || '',
+        type: 'TWITTER' as LinkType_Enum,
+      };
+      await addLink(twitterGuildLink);
+
+      const discordGuildLink = {
+        guildId: guild.id,
+        name: 'Join Us On Discord',
+        url: discordInviteUrl || '',
+        type: 'DISCORD' as LinkType_Enum,
+      };
+      await addLink(discordGuildLink);
+
+      const githubGuildLink = {
+        guildId: guild.id,
+        name: 'Find Us On Github',
+        url: githubUrl || '',
+        type: 'GITHUB' as LinkType_Enum,
+      };
+      await addLink(githubGuildLink);
+
       const payload: GuildInfoInput = {
-        ...otherInputs,
+        guildname,
+        name,
+        description,
+        joinUrl,
+        daos,
+        websiteUrl,
         discordAdminRoles: adminRoles.map((o) => o.value),
         discordMembershipRoles: membershipRoles.map((o) => o.value),
         type: type as unknown as GuildType_ActionEnum,
@@ -90,7 +130,7 @@ const SetupGuild: React.FC = () => {
         });
       }
     },
-    [guild, router, toast, updateGuild],
+    [guild, router, toast, updateGuild, addLink],
   );
 
   if (res.fetching || res.data == null) {
