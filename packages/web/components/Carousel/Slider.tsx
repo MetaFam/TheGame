@@ -43,7 +43,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
         w={{ base: '100%', md: `calc(100% + ${gap}px)` }}
         ml={`-${gap / 2}px`}
         px={`${gap / 2}px`}
-        py="1rem"
+        py={{ base: 0, lg: '1rem' }}
         position="relative"
         overflow="visible"
         overflowX={!hideNav ? 'hidden' : 'visible'}
