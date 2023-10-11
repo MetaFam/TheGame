@@ -4,7 +4,6 @@ import {
   FlexProps,
   Image,
   StackProps,
-  // useBreakpointValue,
   VStack,
 } from '@chakra-ui/react';
 import { Maybe } from '@metafam/utils';
@@ -162,7 +161,7 @@ export const MetaTilePlaybook = React.forwardRef<
   );
 });
 
-type MetaPathPlaybooksProps = {
+type MetaTilePathPlaybookProps = {
   image: string;
   index: number;
   length: number;
@@ -170,44 +169,13 @@ type MetaPathPlaybooksProps = {
 
 export const MetaTilePathPlaybook = React.forwardRef<
   HTMLDivElement,
-  FlexProps & MetaTileProps & MetaPathPlaybooksProps
+  FlexProps & MetaTileProps & MetaTilePathPlaybookProps
 >(
   (
     { noTilt = false, maxTilt = 6, children, image, index, length, ...props },
     fwdRef,
   ) => {
     const tilt = useRef<Maybe<HTMLDivElement>>(null);
-    // const { activeItem, setActiveItem, isDragging, setTrackIsActive } =
-    // useCarouselContext();
-
-    // const isSelected = activeItem === index;
-    // const isFirst = activeItem === 0;
-    // const isLast = activeItem === length - 1;
-
-    // const isMobile = useBreakpointValue({ base: true, lg: false });
-    // const onClick = () => {
-    //   if (!isDragging) {
-    //     setTrackIsActive(true);
-    //     setActiveItem(index);
-    //   }
-    // };
-
-    // const onNextStep = () => {
-    //   if (activeItem < length - 1) {
-    //     setActiveItem(activeItem + 1);
-    //   }
-    // };
-
-    // const onPrevStep = () => {
-    //   if (activeItem > 0) {
-    //     setActiveItem(activeItem - 1);
-    //   }
-    // };
-
-    // const cursor = useMemo(() => {
-    //   if (isDragging) return 'unset';
-    //   return isSelected ? 'initial' : 'pointer';
-    // }, [isSelected, isDragging]);
 
     useEffect(() => {
       if (!noTilt && tilt.current) {
@@ -264,25 +232,25 @@ export const MetaTilePathPlaybook = React.forwardRef<
           {...props}
         >
           {children}
-          <MetaPathCosmetics type="edges" />
+          <MetaTilePathCosmetics type="edges" />
         </Flex>
-        <MetaPathCosmetics type="overlay" />
+        <MetaTilePathCosmetics type="overlay" />
       </Flex>
     );
   },
 );
 
-type MetaPathCosmeticOptions = 'edges' | 'overlay';
-interface MetaPathCosmeticsProps {
-  type: MetaPathCosmeticOptions;
+type MetaTilePathCosmeticOptions = 'edges' | 'overlay';
+interface MetaTilePathCosmeticsProps {
+  type: MetaTilePathCosmeticOptions;
 }
 
 /**
- * `MetaPathCosmetics` - The cosmetic elements of the MetaTilePlaybook component when used in paths & playbooks
+ * `MetaTilePathCosmetics` - The cosmetic elements of the MetaTilePlaybook component when used in paths & playbooks
  * @param type 'edges | overlay' - The type of cosmetic to render
  * @returns
  */
-export const MetaPathCosmetics: React.FC<MetaPathCosmeticsProps> = ({
+export const MetaTilePathCosmetics: React.FC<MetaTilePathCosmeticsProps> = ({
   type,
 }) => {
   if (type === 'edges') {

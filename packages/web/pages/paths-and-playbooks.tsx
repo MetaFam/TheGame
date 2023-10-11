@@ -11,9 +11,8 @@ import {
 import { Carousel } from 'components/Carousel';
 // import { Carousel } from 'components/Carousel';
 import { PageContainer } from 'components/Container';
+import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
-import { QuestStatus_Enum } from 'graphql/autogen/types';
-import { getQuests } from 'graphql/getQuests';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 import {
@@ -26,10 +25,6 @@ import {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => ({
-  props: {
-    quests: await getQuests({ status: QuestStatus_Enum.Open }),
-    // playbooks: await getPlaybooks()
-  },
   revalidate: 1,
 });
 
@@ -59,8 +54,8 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
     <PageContainer>
       <HeadComponent
         title="Paths & Playbooks"
-        description="MetaGame is a Massive Online Coordination Game! Guilds participating in MetaGame…"
-        url="https://metagame.wtf/guilds"
+        description="MetaGame is a Massive Online Coordination Game! Paths and playbooks to help you find your way and level up in life."
+        url="https://metagame.wtf/paths-and-playbooks"
       />
       <VStack spacing={7} w={{ base: '100%', xl: 'unset' }} maxW="92rem">
         <Heading
@@ -103,16 +98,6 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                   </Text>
                 ) : null} */}
               </VStack>
-              {/* <Grid
-                templateColumns={[
-                  '1fr 1fr 1fr 1fr',
-                  '1fr',
-                  showGrid ? '1fr 1fr 1fr' : '1fr',
-                  showGrid ? '1fr 1fr 1fr 1fr' : '1fr',
-                ]}
-                gap={{ base: 2, lg: 6, xl: 8 }}
-                pb={{ base: 10, xl: 16 }}
-              > */}
               {categoryItems.length > 0 ? (
                 <Box
                   w={{ base: '100%', lg: 'calc(100% + 10rem)' }}
@@ -164,10 +149,11 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
               ) : (
                 <Box w="full" textAlign="left">
                   <Text as="p" fontSize={{ base: 'base', lg: 'xl' }}>
-                    No quests found for this category. Why not{' '}
-                    <Link href="https://discord.gg/jDwXsQ6J" isExternal>
+                    No quests found for this category. <br />
+                    Why not{' '}
+                    <MetaLink href="https://discord.gg/jDwXsQ6J" isExternal>
                       join the Discord
-                    </Link>{' '}
+                    </MetaLink>{' '}
                     and find out how to create one and get it added!
                   </Text>
                 </Box>
@@ -212,23 +198,6 @@ const Card: React.FC<CardProps> = ({ title, link, image, length, index }) => (
           {title}
         </Text>
       </Flex>
-      {/* This might get added in later
-      <Flex
-        position="absolute"
-        inset={0}
-        top="auto"
-        width="full"
-        py={4}
-        flexFlow={'column'}
-        alignItems={'center'}
-      >
-        <Text p={0} fontSize="2xl" fontWeight="400" align="center">
-          {seedsEarned && seedsEarned > 0 ? seedsEarned : 0}
-        </Text>
-        <Text p={0} fontSize="xs" fontWeight="600" align="center">
-          Seeds earned
-        </Text>
-      </Flex> */}
     </MetaTilePathPlaybook>
   </Link>
 );
