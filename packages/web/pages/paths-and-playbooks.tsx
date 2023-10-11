@@ -115,10 +115,10 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
               > */}
               {categoryItems.length > 0 ? (
                 <Box
-                  w="calc(100% + 10rem)"
-                  transform="translateX(-5rem)"
-                  p="1rem"
-                  px="5rem"
+                  w={{ base: '100%', lg: 'calc(100% + 10rem)' }}
+                  transform={{ base: 'unset', lg: 'translateX(-5rem)' }}
+                  p={{ base: 0, lg: '1rem' }}
+                  px={{ base: 0, lg: '5rem' }}
                   mx="auto"
                   overflowY="hidden"
                   overflowX="hidden"
@@ -163,9 +163,12 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                 </Box>
               ) : (
                 <Box w="full" textAlign="left">
-                  <Text as="p" fontSize="xl">
-                    No quests found for this category. Why not create one and
-                    get it added!
+                  <Text as="p" fontSize={{ base: 'base', lg: 'xl' }}>
+                    No quests found for this category. Why not{' '}
+                    <Link href="https://discord.gg/jDwXsQ6J" isExternal>
+                      join the Discord
+                    </Link>{' '}
+                    and find out how to create one and get it added!
                   </Text>
                 </Box>
               )}

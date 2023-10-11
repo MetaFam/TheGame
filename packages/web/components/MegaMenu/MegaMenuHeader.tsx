@@ -99,7 +99,17 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
       cursor="pointer"
       rounded="lg"
     >
-      <Avatar name={name} src={httpLink(image)} w={6} h={6} />
+      <Avatar
+        name={name}
+        src={httpLink(image)}
+        w={6}
+        h={6}
+        sx={{
+          '& > div': {
+            fontSize: 'xs',
+          },
+        }}
+      />
       <Text
         px={2}
         color={'white'}
@@ -120,7 +130,7 @@ const ResultsTitle = ({ children }: { children: ReactNode }) => (
     fontWeight={600}
     color="white"
     w="100%"
-    px={3}
+    px={6}
     pt={1}
     fontFamily="Exo 2"
     fontSize="1rem"
@@ -250,11 +260,9 @@ const SearchModal = ({
               bg={{
                 base: '#FFFFFF25',
               }}
-              _focus={{
-                bg: 'blackAlpha.700',
-              }}
               border={{ base: '1px solid #2B2244' }}
-              borderRadius={4}
+              borderTopRadius={4}
+              borderBottomRadius={query.length > 0 ? 0 : 4}
               overflow="hidden"
             >
               <InputLeftElement
@@ -280,76 +288,75 @@ const SearchModal = ({
           <ModalBody
             sx={{
               '&::-webkit-scrollbar': {
-                width: '5px',
+                width: '8px',
               },
               bg: 'linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)',
             }}
             borderColor="#2B2244"
             backdropFilter="blur(10px)"
             w="100%"
-            maxH="66vh"
+            maxH="67vh"
             p={0}
           >
             {!isBodyEmpty && (
-              <Box
-                w="100%"
-                borderRadius="0.25rem"
-                color="white"
-                css={{
-                  transform: 'translate3d(0px, 15px, 0px)',
-                }}
-              >
-                <Box as="ul" role="listbox" pb={8} px={2} color="white">
-                  {players.length > 0 && <ResultsTitle>Players</ResultsTitle>}
+              <Box w="100%" color="white" py={4}>
+                {players.length > 0 && <ResultsTitle>Players</ResultsTitle>}
+                {players.length > 0 && (
+                  <Box as="ul" role="listbox" mb={2} px={3} color="white">
+                    {players?.map((player: PlayerFragment) => (
+                      <Option
+                        key={player.id}
+                        onClick={() => {
+                          router.push(getPlayerURL(player) as string);
+                          onClose();
+                        }}
+                        name={getPlayerName(player) ?? 'Unknown'}
+                        image={getPlayerImage(player)}
+                        text={
+                          (getPlayerUsername(player as Maybe<Player>) ||
+                            getPlayerName(player)) ??
+                          'Unknown'
+                        }
+                      />
+                    ))}
+                    {players.length >= LIMIT && (
+                      <SeeAllOption
+                        type="Players"
+                        onClick={() => {
+                          router.push(`/search/players?q=${encodeURI(query)}`);
+                          onClose();
+                        }}
+                      />
+                    )}
+                  </Box>
+                )}
 
-                  {players?.map((player: PlayerFragment) => (
-                    <Option
-                      key={player.id}
-                      onClick={() => {
-                        router.push(getPlayerURL(player) as string);
-                        onClose();
-                      }}
-                      name={getPlayerName(player) ?? 'Unknown'}
-                      image={getPlayerImage(player)}
-                      text={
-                        (getPlayerUsername(player as Maybe<Player>) ||
-                          getPlayerName(player)) ??
-                        'Unknown'
-                      }
-                    />
-                  ))}
-                  {players.length >= LIMIT && (
-                    <SeeAllOption
-                      type="Players"
-                      onClick={() => {
-                        router.push(`/search/players?q=${encodeURI(query)}`);
-                        onClose();
-                      }}
-                    />
-                  )}
-                  {guilds.length > 0 && <ResultsTitle>Guilds</ResultsTitle>}
-                  {guilds?.map((guild: GuildFragment) => (
-                    <Option
-                      key={guild.id}
-                      onClick={() => {
-                        router.push(`/guild/${guild.guildname}`);
-                        onClose();
-                      }}
-                      name={guild.name}
-                      image={guild?.logo as string | undefined}
-                      text={guild.name}
-                    />
-                  ))}
-                  {guilds.length >= LIMIT && (
-                    <SeeAllOption
-                      type="Guilds"
-                      onClick={() => {
-                        router.push(`/search/guilds?q=${encodeURI(query)}`);
-                        onClose();
-                      }}
-                    />
-                  )}
-                </Box>
+                {guilds.length > 0 && <ResultsTitle>Guilds</ResultsTitle>}
+                {guilds.length > 0 && (
+                  <Box as="ul" role="listbox" mb={2} px={3} color="white">
+                    {guilds?.map((guild: GuildFragment) => (
+                      <Option
+                        key={guild.id}
+                        onClick={() => {
+                          router.push(`/guild/${guild.guildname}`);
+                          onClose();
+                        }}
+                        name={guild.name}
+                        image={guild?.logo as string | undefined}
+                        text={guild.name}
+                      />
+                    ))}
+                    {guilds.length >= LIMIT && (
+                      <SeeAllOption
+                        type="Guilds"
+                        onClick={() => {
+                          router.push(`/search/guilds?q=${encodeURI(query)}`);
+                          onClose();
+                        }}
+                      />
+                    )}
+                  </Box>
+                )}
               </Box>
             )}
           </ModalBody>
@@ -434,14 +441,14 @@ export const MegaMenuHeader: React.FC = () => {
       >
         <Flex
           borderBottom="1px"
-          bg="#FFFFFF05"
+          bg="rgba(0, 0, 0, 0.5)"
           borderColor="#2B2244"
           backdropFilter="blur(10px)"
           px={4}
           py={1.5}
           pb="0"
           h={20}
-          justify="center"
+          justify={{ base: 'space-between', lg: 'center' }}
           w="100%"
         >
           <Flex
