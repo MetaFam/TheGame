@@ -6,6 +6,13 @@ import { Item } from './Item';
 import { Slider } from './Slider';
 import { Track } from './Track';
 
+/**
+ * `Carousel` - default / no props will give you a carousel like you see in a Quest or Playbook. To change how it displays & functions (eg: the new [paths & playbooks](http://localhost:3000/paths-and-playbooks)), use the props listed:
+ * @prop `gap`: gives you the spacing between items.
+ * @prop `shrinkItems`: false - if true, this unsets the width of the track items so they hug the contents
+ * @prop `hidePositions`: false - true will hide the pagination
+ * @prop `hideNav`: true - set to false if you want prev/next navigation
+ */
 export const Carousel: React.FC<{
   gap: number;
   shrinkItems?: boolean;
