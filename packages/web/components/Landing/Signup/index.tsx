@@ -359,7 +359,7 @@ export const Signup: React.FC = () => {
                     </Tabs>
                   )}
                   {!isMobile && (
-                    <Stack direction={['column', 'row']}>
+                    <Stack direction={['column', 'row']} gap={0}>
                       <PerksCard
                         title="Visitor"
                         type="Free"
@@ -580,7 +580,7 @@ export const Signup: React.FC = () => {
                     </Tabs>
                   )}
                   {!isMobile && (
-                    <Stack direction={['column', 'row']}>
+                    <Stack direction={['column', 'row']} gap={0}>
                       <PerksCard
                         title="Free"
                         description={
@@ -725,7 +725,7 @@ export const Signup: React.FC = () => {
                     </Tabs>
                   )}
                   {!isMobile && (
-                    <Stack direction={['column', 'row']}>
+                    <Stack direction={['column', 'row']} gap={0}>
                       <PerksCard
                         title="Visitor"
                         description={<Text fontSize="xl">FREE</Text>}
