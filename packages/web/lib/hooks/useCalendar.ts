@@ -1,5 +1,5 @@
 import { Maybe } from '@metafam/utils';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type GoogleCalEventDateTimeType =
   | {
@@ -33,10 +33,7 @@ export const useCalendar = (): UseCalendarReturnTypes => {
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<Error>();
 
-
-
   useEffect(() => {
-    console.log('useCalendar events');
     const fetchCalendarData = async (): Promise<void> => {
       try {
         setFetching(true);
@@ -44,8 +41,7 @@ export const useCalendar = (): UseCalendarReturnTypes => {
         const scheduleEndpoint = 'https://mgapi.luxumbra.dev/events';
 
         const res = await fetch(scheduleEndpoint);
-        const {data} = await res.json();
-        console.log('data', data);
+        const { data } = await res.json();
         if (res.status !== 200) {
           throw new Error('Error fetching data');
         }
@@ -53,26 +49,20 @@ export const useCalendar = (): UseCalendarReturnTypes => {
         setEvents(data.items);
         setTimeZone(data.timeZone);
         setFetching(false);
-
       } catch (err) {
-        const msg = `${err}`;
         console.error(err);
         setFetching(false);
         setError(err as Error);
       }
-    }
+    };
     fetchCalendarData();
 
-    return () => {
-      console.log('useCalendar cleanup');
-
-    }
+    return () => {};
   }, []);
 
   if (error) {
     console.error('useCalendar error', error);
   }
-
 
   return {
     events,
