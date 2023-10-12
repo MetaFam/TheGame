@@ -1,7 +1,6 @@
 import { PageContainer } from 'components/Container';
 import { LandingHeader } from 'components/Landing/LandingHeader';
-import { NewOnboard } from 'components/Landing/NewOnboard';
-import { Onboard } from 'components/Landing/Onboard';
+import { Signup } from 'components/Landing/Signup';
 import { HeadComponent } from 'components/Seo';
 import { SocialsDesktop } from 'components/SocialLinks';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -75,7 +74,7 @@ const Onboarding: React.FC = () => {
       />
       <LandingHeader />
       <PageContainer p={0}>
-        <NewOnboard />
+        <Signup />
         <SocialsDesktop />
       </PageContainer>
     </>
