@@ -84,7 +84,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
                 fontWeight="700"
                 mb={{ base: 1, lg: 3 }}
               >
-                MetGame is your portal{' '}
+                MetaGame is your portal{' '}
                 <Text
                   as="span"
                   opacity={displayElement ? 1 : 0}
