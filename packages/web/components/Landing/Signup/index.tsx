@@ -337,22 +337,18 @@ export const Signup: React.FC = () => {
                       <TabPanels>
                         <TabPanel>
                           <PerksCard
-                            title="Visitor"
                             type="Free"
                             list={playerVisitorList}
                             width="50%"
                             background="#FFFFFF0A"
-                            badgeColor="green"
                           />
                         </TabPanel>
                         <TabPanel>
                           <PerksCard
-                            title="Member"
                             type="Few contributions / month"
                             list={playerMemberList}
                             width="50%"
                             background="#00000029"
-                            badgeColor="pink"
                           />
                         </TabPanel>
                       </TabPanels>

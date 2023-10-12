@@ -84,28 +84,27 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
                 fontWeight="700"
                 mb={{ base: 1, lg: 3 }}
               >
-                The revolution will be televized, <br />
-                but{' '}
+                MetGame is your portal{' '}
                 <Text
                   as="span"
                   opacity={displayElement ? 1 : 0}
                   transition={noMotion ? 'none' : 'opacity 0.5s 0.9s ease-in'}
                 >
-                  don’t{' '}
+                  into{' '}
                 </Text>
                 <Text
                   as="span"
                   opacity={displayElement ? 1 : 0}
                   transition={noMotion ? 'none' : 'opacity 0.5s 1.2s ease-in'}
                 >
-                  just{' '}
+                  the{' '}
                 </Text>
                 <Text
                   as="span"
                   opacity={displayElement ? 1 : 0}
                   transition={noMotion ? 'none' : 'opacity 0.5s 1.5s ease-in'}
                 >
-                  watch
+                  DAOverse
                 </Text>
                 <Text
                   as="span"
