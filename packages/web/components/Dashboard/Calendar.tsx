@@ -16,13 +16,12 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
-  Stack,
   Text,
   VStack,
 } from '@metafam/ds';
 import { MarkdownViewer } from 'components/MarkdownViewer';
-import { useCalendar } from 'lib/hooks/useCalendar';
 import type { GoogleCalEventType } from 'lib/hooks/useCalendar';
+import { useCalendar } from 'lib/hooks/useCalendar';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 
@@ -37,7 +36,6 @@ export const Calendar: React.FC = () => {
 
   const groupEventsByDay = (items: GoogleCalEventType[]) => {
     const groupedEvents = items.reduce((acc, event) => {
-      console.log({ acc, start: event.start });
       const start =
         'dateTime' in event.start
           ? DateTime.fromISO(event.start.dateTime)
@@ -61,13 +59,13 @@ export const Calendar: React.FC = () => {
   useEffect(() => {
     if (!fetching && calendar.length === 0 && events !== null) {
       const days = groupEventsByDay(events);
-      console.log('days', days);
       setCalendar(days);
     }
 
     return () => {
       // setCalendar([]);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetching]);
 
   if (error) {
@@ -88,8 +86,8 @@ export const Calendar: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyItems="flex-start"
-            height="100%"
-            maxH="100%"
+          height="100%"
+          maxH="100%"
         >
           <HStack
             align={'center'}
@@ -135,10 +133,14 @@ export const Calendar: React.FC = () => {
                     alignItems="flex-start"
                     justifyContent="flex-start"
                     key={day.date}
+                    _last={{
+                      mb: 0,
+                    }}
                   >
                     <Box
                       as="h3"
                       fontSize="sm"
+                      fontFamily="body"
                       className="calendar__day--title"
                       mb={3}
                       pl={5}
