@@ -61,7 +61,7 @@ export const RoleCard: React.FC<CardProps> = ({
   return (
     <Box
       h="full"
-      w={{ base: 'full', lg: '50%' }}
+      w={{ base: 'full', lg: 'sm' }}
       border={{ base: '1px solid #FF00FF', lg: '4px solid #FF00FF' }}
       borderRadius={18}
       display="flex"
@@ -148,7 +148,7 @@ export const PerksCard: React.FC<CardProps> = ({
   title,
   type,
   list,
-  width,
+  width = 'md',
   description,
   background,
   badgeColor,

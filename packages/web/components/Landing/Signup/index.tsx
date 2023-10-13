@@ -236,13 +236,13 @@ export const Signup: React.FC = () => {
       spacing={12}
       px={{ base: 3, lg: 12 }}
       py={{ base: 6, lg: '6rem' }}
-      minH="100vh"
+      minH="full"
     >
       <Container
         display="flex"
         flexDirection="column"
-        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
-        height={{ base: '100vh', lg: 'auto' }}
+        maxW={{ base: 'full', md: '7xl', '2xl': '8xl' }}
+        height={{ base: 'full', lg: 'auto' }}
         paddingY={{ base: 16, lg: 32 }}
         alignItems="center"
         justifyContent="start"
@@ -278,22 +278,7 @@ export const Signup: React.FC = () => {
             gap={8}
             margin={{ base: 0, lg: '-80px' }}
             borderBottom={isMobile ? '2px solid #FFFFFF16' : 0}
-            position="relative"
-            zIndex={1}
           >
-            <Box
-              h="full"
-              position="absolute"
-              top={10}
-              left={0}
-              bottom={0}
-              right={0}
-              zIndex={-1}
-              sx={{
-                backgroundImage:
-                  'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 90%)',
-              }}
-            ></Box>
             {roles.map((role, idx) => (
               <RoleTab key={idx}>{role}</RoleTab>
             ))}
@@ -355,7 +340,6 @@ export const Signup: React.FC = () => {
                           <PerksCard
                             type="Free"
                             list={playerVisitorList}
-                            width="50%"
                             background="#FFFFFF0A"
                           />
                         </TabPanel>
@@ -363,7 +347,6 @@ export const Signup: React.FC = () => {
                           <PerksCard
                             type="Few contributions / month"
                             list={playerMemberList}
-                            width="50%"
                             background="#00000029"
                           />
                         </TabPanel>
@@ -376,7 +359,6 @@ export const Signup: React.FC = () => {
                         title="Visitor"
                         type="Free"
                         list={playerVisitorList}
-                        width="50%"
                         background="#FFFFFF0A"
                         badgeColor="green"
                       />
@@ -384,7 +366,6 @@ export const Signup: React.FC = () => {
                         title="Member"
                         type="Few contributions / month"
                         list={playerMemberList}
-                        width="50%"
                         background="#00000029"
                         badgeColor="pink"
                       />
@@ -550,7 +531,6 @@ export const Signup: React.FC = () => {
                               </>
                             }
                             list={guildFreeList}
-                            width="50%"
                             background="#FFFFFF0A"
                           />
                         </TabPanel>
@@ -567,7 +547,6 @@ export const Signup: React.FC = () => {
                               </>
                             }
                             list={guildBasicList}
-                            width="50%"
                             background="#00000029"
                           />
                         </TabPanel>
@@ -584,7 +563,6 @@ export const Signup: React.FC = () => {
                               </>
                             }
                             list={guildProList}
-                            width="50%"
                             background="#FFFFFF0A"
                           />
                         </TabPanel>
@@ -721,7 +699,6 @@ export const Signup: React.FC = () => {
                               </Text>
                             }
                             list={patronFreeList}
-                            width="50%"
                             background="#FFFFFF0A"
                           />
                         </TabPanel>
@@ -729,7 +706,6 @@ export const Signup: React.FC = () => {
                           <PerksCard
                             description={<Text fontSize="xl">$100 / YEAR</Text>}
                             list={patronMemberList}
-                            width="50%"
                             background="#00000029"
                           />
                         </TabPanel>
@@ -742,7 +718,6 @@ export const Signup: React.FC = () => {
                         title="Visitor"
                         description={<Text fontSize="xl">FREE</Text>}
                         list={patronFreeList}
-                        width="50%"
                         badgeColor="green"
                         background="#FFFFFF0A"
                       />
@@ -750,7 +725,6 @@ export const Signup: React.FC = () => {
                         title="Member"
                         description={<Text fontSize="xl">$100 / YEAR</Text>}
                         list={patronMemberList}
-                        width="50%"
                         badgeColor="purple"
                         background="#00000029"
                       />
