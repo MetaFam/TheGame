@@ -234,7 +234,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
           {children}
           <MetaTilePathCosmetics type="edges" />
         </Flex>
-        <MetaTilePathCosmetics type="overlay" />
+        {/* <MetaTilePathCosmetics type="overlay" /> */}
       </Flex>
     );
   },
