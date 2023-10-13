@@ -194,9 +194,10 @@ const RoleTab = React.forwardRef<
 });
 
 export const Signup: React.FC = () => {
-  const section = 'onboard';
+  const section = 'signup';
   const roles = ['Player', 'Guild', 'Patron'];
   const router = useRouter();
+
   const isMobile = useBreakpointValue({
     base: true,
     lg: false,
@@ -277,9 +278,24 @@ export const Signup: React.FC = () => {
             gap={8}
             margin={{ base: 0, lg: '-80px' }}
             borderBottom={isMobile ? '2px solid #FFFFFF16' : 0}
+            position="relative"
+            zIndex={1}
           >
-            {roles.map((role) => (
-              <RoleTab>{role}</RoleTab>
+            <Box
+              h="full"
+              position="absolute"
+              top={10}
+              left={0}
+              bottom={0}
+              right={0}
+              zIndex={-1}
+              sx={{
+                backgroundImage:
+                  'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 90%)',
+              }}
+            ></Box>
+            {roles.map((role, idx) => (
+              <RoleTab key={idx}>{role}</RoleTab>
             ))}
           </TabList>
           <TabPanels>
