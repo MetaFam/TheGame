@@ -180,6 +180,7 @@ export const Calendar: React.FC = () => {
                 bg="purpleTag70"
                 onClick={handleLoadMore}
                 disabled={limit >= 20}
+                isDisabled={limit >= 20}
                 w="full"
                 borderTopRadius={0}
               >
