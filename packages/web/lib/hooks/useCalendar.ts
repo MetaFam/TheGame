@@ -48,7 +48,7 @@ export const useCalendar = (limit: number): UseCalendarReturnTypes => {
       try {
         setFetching(true);
 
-        const scheduleEndpoint = 'http://localhost:1188/events';
+        const scheduleEndpoint = 'https://mgapi.luxumbra.dev/events';
 
         const res = await fetch(scheduleEndpoint);
         const { data } = await res.json();
