@@ -9,6 +9,7 @@ import {
 import { getBoxLayoutItemDefaults } from 'utils/layoutHelpers';
 
 export const podcastRSSURL = 'https://anchor.fm/s/57a641c/podcast/rss';
+export const calendarID = 'nih59ktgafmm64ed4qk6ue8vv4';
 
 const DEFAULT_BOX_POSITIONS: Record<ChakraSize, Positions> = {
   lg: {

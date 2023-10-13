@@ -1,13 +1,14 @@
 import {
   Box,
   ButtonGroup,
-  CalendarIcon,
+  CalendarAddIcon,
   ExternalLinkIcon,
   Flex,
   HStack,
   IconButton,
   Image,
   LoadingState,
+  MetaButton,
   Popover,
   PopoverBody,
   PopoverCloseButton,
@@ -17,13 +18,17 @@ import {
   PopoverTrigger,
   Portal,
   Text,
+  Tooltip,
   VStack,
 } from '@metafam/ds';
+import { MetaLink } from 'components/Link';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import type { GoogleCalEventType } from 'lib/hooks/useCalendar';
 import { useCalendar } from 'lib/hooks/useCalendar';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
+
+import { calendarID } from './config';
 
 type GroupedEventsType = {
   date: string;
@@ -32,7 +37,39 @@ type GroupedEventsType = {
 
 export const Calendar: React.FC = () => {
   const [calendar, setCalendar] = useState<GroupedEventsType[]>([]);
-  const { events, timeZone, fetching, error } = useCalendar();
+  const [limit, setLimit] = useState(4);
+  const { events, fetching, error } = useCalendar(limit);
+  const calICS = `https://calendar.google.com/calendar/ical/${calendarID}%40group.calendar.google.com/public/basic.ics`;
+  // const usersOffset = DateTime.local().offset / 60;
+  // const usersOffsetString = usersOffset > 0 ? `+${usersOffset}` : usersOffset;
+
+  // const getUrlStringFromDescription = (desc: string) => {
+  //   const regex = /(?<=")[^"]+(?=")/g;
+  //   const cover = desc ? desc.match(regex) : '';
+
+  //   return cover;
+  // }
+
+  const cleanDescription = (desc: string) =>
+    desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : '';
+  const buildAddToCalendarLink = (event: GoogleCalEventType) => {
+    const start =
+      'dateTime' in event.start
+        ? DateTime.fromISO(event.start.dateTime)
+        : DateTime.fromISO(event.start.date);
+    const end =
+      'dateTime' in event.end
+        ? DateTime.fromISO(event.end.dateTime)
+        : DateTime.fromISO(event.end.date);
+    const title = event.summary;
+    const { location } = event;
+    const details = `${cleanDescription(event.description)}`;
+    const dates = `${start.toFormat('yyyyMMdd')}T${start.toFormat(
+      'HHmmss',
+    )}/${end.toFormat('yyyyMMdd')}T${end.toFormat('HHmmss')}`;
+    const href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}&sf=true&output=xml`;
+    return href;
+  };
 
   const groupEventsByDay = (items: GoogleCalEventType[]) => {
     const groupedEvents = items.reduce((acc, event) => {
@@ -56,6 +93,10 @@ export const Calendar: React.FC = () => {
     return days;
   };
 
+  const handleLoadMore = () => {
+    setLimit(limit + 4);
+  };
+
   useEffect(() => {
     if (!fetching && calendar.length === 0 && events !== null) {
       const days = groupEventsByDay(events);
@@ -63,10 +104,10 @@ export const Calendar: React.FC = () => {
     }
 
     return () => {
-      // setCalendar([]);
+      setCalendar([]);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetching]);
+  }, [limit, fetching]);
 
   if (error) {
     return (
@@ -85,7 +126,7 @@ export const Calendar: React.FC = () => {
         <Box
           display="flex"
           flexDirection="column"
-          justifyItems="flex-start"
+          justifyItems="stretch"
           height="100%"
           maxH="100%"
         >
@@ -94,20 +135,57 @@ export const Calendar: React.FC = () => {
             justifyContent={'flex-start'}
             gap={5}
             flexShrink={1}
+            position="relative"
           >
-            <Text
-              as="span"
-              fontSize="lg"
-              fontWeight="bold"
-              textTransform="uppercase"
+            <HStack flexGrow={1}>
+              <Text
+                as="span"
+                fontSize="lg"
+                fontWeight="bold"
+                textTransform="uppercase"
+              >
+                Calendar
+              </Text>
+              {/* <Text as="span" color="Highlight" fontWeight={600}>
+                  {timeZone.users} {`(UTC${usersOffsetString}) ${DateTime.local().zoneName}`}
+                </Text> */}
+            </HStack>
+
+            <Tooltip
+              label="Download ics"
+              aria-label="Download ics"
+              placement="bottom"
+              hasArrow
             >
-              Calendar
-            </Text>
-            <Text as="span" color="Highlight" fontWeight={600}>
-              {timeZone}
-            </Text>
+              <Box flexShrink={1}>
+                <IconButton
+                  as={MetaLink}
+                  href={calICS}
+                  isExternal
+                  aria-label="Add calendar"
+                  icon={<CalendarAddIcon />}
+                  justifySelf="flex-end"
+                  variant="ghost"
+                  fontSize="2xl"
+                  translateX={9}
+                />
+              </Box>
+            </Tooltip>
           </HStack>
-          <Box flexGrow={1} overflowY="auto">
+          <Box flexGrow={1} overflowY="auto" mb={9}>
+            <HStack position="absolute" inset={0} top="auto" justify="center">
+              <MetaButton
+                variant="ghost"
+                colorScheme="purple"
+                bg="purpleTag70"
+                onClick={handleLoadMore}
+                disabled={limit >= 20}
+                w="full"
+                borderTopRadius={0}
+              >
+                Load More
+              </MetaButton>
+            </HStack>
             <VStack
               as="ol"
               className="calendar"
@@ -115,6 +193,7 @@ export const Calendar: React.FC = () => {
               mt={5}
               ml={0}
               px={0}
+              pr={limit > 4 ? 3 : 0}
               sx={{
                 listStyle: 'none',
               }}
@@ -219,7 +298,12 @@ export const Calendar: React.FC = () => {
                                         event.end.date,
                                       ).toLocaleString(DateTime.TIME_24_SIMPLE)
                                 }
-                                description={event.description}
+                                description={cleanDescription(
+                                  event.description,
+                                )}
+                                htmlLink={event.htmlLink}
+                                location={event.location}
+                                addToCalUrl={buildAddToCalendarLink(event)}
                               />
                             </Popover>
                           </Box>
@@ -247,9 +331,11 @@ const Event = ({ title, start, end }: EventType) => (
       <Text as="h4" fontSize="md" fontFamily="body" fontWeight="bold" mb={0}>
         {title}
       </Text>
-      <Text as="span" fontWeight="400" fontFamily="body" fontSize="sm">
-        {start} – {end}
-      </Text>
+      <HStack spacing={1} align="center" justify="space-between">
+        <Text as="span" fontWeight="400" fontFamily="body" fontSize="sm">
+          {start} – {end}
+        </Text>
+      </HStack>
     </Box>
   </PopoverTrigger>
 );
@@ -259,9 +345,20 @@ interface EventPopoverType {
   start: string;
   end: string;
   description: string;
+  htmlLink: string;
+  location: string;
+  addToCalUrl: string;
 }
 
-const EventPopover = ({ title, start, end, description }: EventPopoverType) => (
+const EventPopover = ({
+  title,
+  start,
+  end,
+  description,
+  htmlLink,
+  location,
+  addToCalUrl,
+}: EventPopoverType) => (
   <Portal>
     <PopoverContent
       backgroundColor="purpleTag70"
@@ -313,14 +410,22 @@ const EventPopover = ({ title, start, end, description }: EventPopoverType) => (
           }}
         >
           <Box as="dt">Date &amp; Time</Box>
-          <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs">
+          <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
             {`${start} – ${end}`}
           </Box>
-          {description !== 'empty' && (
+          {description && (
             <Box>
               <Box as="dt">Description</Box>
-              <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs">
+              <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
                 <MarkdownViewer>{description}</MarkdownViewer>
+              </Box>
+            </Box>
+          )}
+          {location && (
+            <Box>
+              <Box as="dt">Location</Box>
+              <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
+                {location}
               </Box>
             </Box>
           )}
@@ -329,10 +434,21 @@ const EventPopover = ({ title, start, end, description }: EventPopoverType) => (
       <PopoverFooter borderTopWidth={0}>
         <ButtonGroup variant="ghost" colorScheme="cyan">
           <IconButton
+            as={MetaLink}
             aria-label="Add to your calendar"
-            icon={<CalendarIcon />}
+            fontSize="lg"
+            href={addToCalUrl}
+            icon={<CalendarAddIcon />}
+            isExternal
           />
-          <IconButton aria-label="View calendar" icon={<ExternalLinkIcon />} />
+          <IconButton
+            aria-label="View calendar"
+            as={MetaLink}
+            fontSize="lg"
+            href={htmlLink}
+            isExternal
+            icon={<ExternalLinkIcon />}
+          />
         </ButtonGroup>
       </PopoverFooter>
     </PopoverContent>
