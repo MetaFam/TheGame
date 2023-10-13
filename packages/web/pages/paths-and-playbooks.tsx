@@ -25,6 +25,7 @@ import {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => ({
+  props: {},
   revalidate: 1,
 });
 
@@ -70,7 +71,11 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
         </Heading>
 
         {Object.entries(QuestChainsCategoriesDetails).map((category, i) => {
-          const { name: categoryName, title: categoryTitle } = category[1];
+          const {
+            name: categoryName,
+            title: categoryTitle,
+            description,
+          } = category[1];
           const categoryItems = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
           ).filter(([name, { category: cat }]) => cat === categoryName);
@@ -91,12 +96,11 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                 >
                   {categoryTitle}
                 </Heading>
-                {/* Description wasn't in the design but it is an option */}
-                {/* {description ? (
-                  <Text fontSize="xl" maxW="3xl">
+                {description ? (
+                  <Text fontSize={{ base: 'lg', lg: 'xl' }} maxW="3xl">
                     {description}
                   </Text>
-                ) : null} */}
+                ) : null}
               </VStack>
               {categoryItems.length > 0 ? (
                 <Box
