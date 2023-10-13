@@ -44,9 +44,9 @@ export const MenuSectionLinks: MenuLinkSet[] = [
     url: '/community',
   },
   {
-    label: 'paths & playbooks',
+    label: 'academy',
     type: 'internal-link',
-    url: '/paths-and-playbooks',
+    url: '/academy',
   },
   {
     label: 'quests',

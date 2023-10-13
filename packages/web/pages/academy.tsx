@@ -29,7 +29,11 @@ export const getStaticProps = async () => ({
   revalidate: 1,
 });
 
-const PathsAndPlaybooksPage: React.FC<Props> = () => {
+/**
+ * This page merges Paths & Playbooks into one page.
+ * @returns All of the paths, playbooks, and great houses categorised in a single page.
+ */
+const AcademyPage: React.FC<Props> = () => {
   const carouselGap = useBreakpointValue({ base: 8, md: 6, lg: 32 }) || 32;
   const makeItemPath = (type: PathPlaybookType): string => {
     let urlPath: string;
@@ -54,21 +58,27 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
   return (
     <PageContainer>
       <HeadComponent
-        title="Paths & Playbooks"
-        description="MetaGame is a Massive Online Coordination Game! Paths and playbooks to help you find your way and level up in life."
+        title="MetaGame Academy"
+        description="MetaGame is a Massive Online Coordination Game! The Academy is full of Paths and Playbooks to help you find your way and level up in MetaGame & life."
         url="https://metagame.wtf/paths-and-playbooks"
       />
       <VStack spacing={7} w={{ base: '100%', xl: 'unset' }} maxW="92rem">
-        <Heading
-          as="h1"
-          fontFamily="body"
-          fontWeight="600"
-          fontSize={{ base: '4xl', sm: '6xl' }}
-          textAlign="left"
-          w={{ base: 'full', xl: ' full' }}
-        >
-          Paths &amp; Playbooks
-        </Heading>
+        <VStack spacing={1} w="full" align="flex-start">
+          <Heading
+            as="h1"
+            fontFamily="body"
+            fontWeight="600"
+            fontSize={{ base: '4xl', sm: '6xl' }}
+            textAlign="left"
+            w={{ base: 'full', xl: ' full' }}
+          >
+            The Academy
+          </Heading>
+          <Text fontSize={{ base: 'lg', lg: 'xl' }} w="full" maxW="3xl">
+            This place contains paths, playbooks and all things educational,
+            related to MetaGame and the wider web3 community.
+          </Text>
+        </VStack>
 
         {Object.entries(QuestChainsCategoriesDetails).map((category, i) => {
           const {
@@ -97,7 +107,7 @@ const PathsAndPlaybooksPage: React.FC<Props> = () => {
                   {categoryTitle}
                 </Heading>
                 {description ? (
-                  <Text fontSize={{ base: 'lg', lg: 'xl' }} maxW="3xl">
+                  <Text fontSize={{ base: 'md', lg: 'lg' }} maxW="3xl">
                     {description}
                   </Text>
                 ) : null}
@@ -194,6 +204,7 @@ const Card: React.FC<CardProps> = ({ title, link, image, length, index }) => (
           p={0}
           fontSize={{ base: 'xs', sm: '3xl' }}
           fontWeight={{ base: 900, xl: 900 }}
+          textShadow={{ base: '0 0 0.5rem rgba(0,0,0,0.8)' }}
           align="center"
           noOfLines={4}
           width="full"
@@ -206,4 +217,4 @@ const Card: React.FC<CardProps> = ({ title, link, image, length, index }) => (
   </Link>
 );
 
-export default PathsAndPlaybooksPage;
+export default AcademyPage;
