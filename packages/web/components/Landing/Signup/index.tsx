@@ -230,20 +230,15 @@ export const Signup: React.FC = () => {
   return (
     <FullPageContainer
       id={section}
-      position="relative"
       overflow="clip"
       fontSize={{ base: 'xl', md: '5xl' }}
-      spacing={12}
-      px={{ base: 3, lg: 12 }}
-      py={{ base: 6, lg: '6rem' }}
-      minH="full"
     >
       <Container
         display="flex"
         flexDirection="column"
         maxW={{ base: 'full', md: '7xl', '2xl': '8xl' }}
         height={{ base: 'full', lg: 'auto' }}
-        paddingY={{ base: 16, lg: 32 }}
+        paddingY={{ base: 0, lg: 32 }}
         alignItems="center"
         justifyContent="start"
         gap={{ base: 2, lg: '40px' }}
