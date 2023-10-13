@@ -1,4 +1,5 @@
 import { Maybe } from '@metafam/utils';
+import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
 type GoogleCalEventDateTimeType =
@@ -22,32 +23,46 @@ export type GoogleCalEventType = {
 
 type UseCalendarReturnTypes = {
   events: Maybe<GoogleCalEventType[]>;
-  timeZone: string;
+  timeZone: TimeZonesType;
   fetching: boolean;
   error?: Error;
 };
 
-export const useCalendar = (): UseCalendarReturnTypes => {
+type TimeZonesType = {
+  users: string;
+  calendar: string;
+};
+
+export const useCalendar = (limit: number): UseCalendarReturnTypes => {
   const [events, setEvents] = useState<Maybe<GoogleCalEventType[]>>(null);
-  const [timeZone, setTimeZone] = useState<string>('Europe/Belgrade');
+  const [timeZone, setTimeZone] = useState<TimeZonesType>({
+    users: '',
+    calendar: 'Europe/Belgrade',
+  });
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<Error>();
+  // console.log('useCalendar', {limit, events});
 
   useEffect(() => {
-    const fetchCalendarData = async (): Promise<void> => {
+    const fetchCalendarData = async (clamp: number): Promise<void> => {
       try {
         setFetching(true);
 
-        const scheduleEndpoint = 'https://mgapi.luxumbra.dev/events';
+        const scheduleEndpoint = 'http://localhost:1188/events';
 
         const res = await fetch(scheduleEndpoint);
         const { data } = await res.json();
         if (res.status !== 200) {
           throw new Error('Error fetching data');
         }
+        // use limit to limit the number of events
 
-        setEvents(data.items);
-        setTimeZone(data.timeZone);
+        const items = data.items.filter(
+          (item: GoogleCalEventType, i: number) => i < clamp,
+        );
+        const usersTimeZone = DateTime.local().offsetNameShort || data.timeZone;
+        setEvents(items);
+        setTimeZone({ users: usersTimeZone, calendar: data.timeZone });
         setFetching(false);
       } catch (err) {
         console.error(err);
@@ -55,10 +70,10 @@ export const useCalendar = (): UseCalendarReturnTypes => {
         setError(err as Error);
       }
     };
-    fetchCalendarData();
+    fetchCalendarData(limit || 4);
 
     return () => {};
-  }, []);
+  }, [limit]);
 
   if (error) {
     console.error('useCalendar error', error);
