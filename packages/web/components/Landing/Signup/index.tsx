@@ -165,7 +165,12 @@ const RoleTab = React.forwardRef<
       isDisabled={isDisabled}
       {...tabProps}
     >
-      {!isMobile && (
+      {isMobile ? (
+        <Flex align="center" gap={3}>
+          <TabImg type={tabProps.children as string} isSelected={isSelected} />
+          {tabProps.children}
+        </Flex>
+      ) : (
         <>
           <Box
             padding={1}
@@ -182,12 +187,6 @@ const RoleTab = React.forwardRef<
           </Box>
           {tabProps.children}
         </>
-      )}
-      {isMobile && (
-        <Flex align="center" gap={3}>
-          <TabImg type={tabProps.children as string} isSelected={isSelected} />
-          {tabProps.children}
-        </Flex>
       )}
     </Button>
   );
@@ -230,6 +229,7 @@ export const Signup: React.FC = () => {
   return (
     <FullPageContainer
       id={section}
+      overflow="clip"
       fontSize={{ base: 'xl', md: '5xl' }}
       minH="100vh"
     >
@@ -238,7 +238,7 @@ export const Signup: React.FC = () => {
         flexDirection="column"
         maxW={{ base: 'full', md: '7xl', '2xl': '8xl' }}
         height={{ base: 'full', lg: 'auto' }}
-        paddingY={{ base: 16, lg: 32 }}
+        paddingY={{ base: 8, lg: 32 }}
         alignItems="center"
         justifyContent="start"
         gap={{ base: 2, lg: '40px' }}
@@ -279,7 +279,7 @@ export const Signup: React.FC = () => {
             ))}
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
               <Box
                 maxW="container.xl"
                 maxH="container.md"
@@ -287,29 +287,35 @@ export const Signup: React.FC = () => {
                 border={playerBorder}
                 borderRadius={8}
                 paddingX={{ base: '24px', lg: '96px' }}
-                paddingY={{ base: '16px', lg: '128px' }}
+                paddingY={{ base: '10px', lg: '128px' }}
                 boxShadow={playerBoxShadow}
                 color="white"
                 overflowY="auto"
               >
-                <VStack spacing={4} align="stretch">
-                  <Text fontSize="4xl" color="#B6A4F4" align="center">
+                <VStack spacing={{ base: 2, lg: 4 }} align="stretch">
+                  <Text
+                    fontSize={{ base: '2xl', lg: '4xl' }}
+                    color="#B6A4F4"
+                    align={{ base: 'start', lg: 'center' }}
+                  >
                     Players are here to learn, get experience, contribute labor
                     and help build MetaGame.
                   </Text>
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Why become a player?
                   </Text>
-                  <Text fontSize="2xl">A few reasons!</Text>
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }}>
+                    A few reasons!
+                  </Text>
                   <UnorderedList fontSize="md" fontWeight="light">
                     {playerReasons.map((reason, idx) => (
                       <ListItem key={idx}>{reason}</ListItem>
                     ))}
                   </UnorderedList>
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Perks of Joining
                   </Text>
-                  {isMobile && (
+                  {isMobile ? (
                     <Tabs variant="soft-rounded" isFitted>
                       <TabList
                         bg="blackAlpha.500"
@@ -347,8 +353,7 @@ export const Signup: React.FC = () => {
                         </TabPanel>
                       </TabPanels>
                     </Tabs>
-                  )}
-                  {!isMobile && (
+                  ) : (
                     <Stack direction={['column', 'row']} gap={0}>
                       <PerksCard
                         title="Visitor"
@@ -366,15 +371,15 @@ export const Signup: React.FC = () => {
                       />
                     </Stack>
                   )}
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     How to become a player?
                   </Text>
-                  <Text fontSize="2xl">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }}>
                     Ready to rise & become one of the founders of MetaGame?
                   </Text>
                   <Stack
                     direction={['column', 'row']}
-                    spacing={{ base: 5, lg: 10 }}
+                    spacing={{ base: 2, lg: 10 }}
                     align="center"
                   >
                     <RoleCard
@@ -382,8 +387,8 @@ export const Signup: React.FC = () => {
                       image={BabyOctopus.src}
                       description={
                         <Text
-                          fontSize={{ base: 'lg', lg: '2xl' }}
-                          align="center"
+                          fontSize={{ base: 'md', lg: '2xl' }}
+                          align={{ base: 'start', lg: 'center' }}
                         >
                           The path will take you through everything a newcomer
                           should do.
@@ -393,14 +398,19 @@ export const Signup: React.FC = () => {
                       action="Sounds Good"
                       route="/start"
                     />
-                    <Text fontSize="2xl">OR</Text>
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight={{ base: 'bold', lg: 'normal' }}
+                    >
+                      OR
+                    </Text>
                     <RoleCard
                       title="Jump into action"
                       image={Octopus.src}
                       description={
                         <Text
-                          fontSize={{ base: 'lg', lg: '2xl' }}
-                          align="center"
+                          fontSize={{ base: 'md', lg: '2xl' }}
+                          align={{ base: 'start', lg: 'center' }}
                         >
                           Too busy? You can jump straight into action, just say
                           so in the #🏟-metasquare
@@ -413,7 +423,7 @@ export const Signup: React.FC = () => {
                 </VStack>
               </Box>
             </TabPanel>
-            <TabPanel>
+            <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
               <Box
                 maxW="container.xl"
                 maxH="container.md"
@@ -421,35 +431,44 @@ export const Signup: React.FC = () => {
                 border={guildBorder}
                 borderRadius={8}
                 paddingX={{ base: '24px', lg: '96px' }}
-                paddingY={{ base: '16px', lg: '128px' }}
+                paddingY={{ base: '10px', lg: '128px' }}
                 boxShadow={guildBoxShadow}
                 color="white"
                 overflowY="auto"
               >
                 <VStack spacing={4} align="stretch">
-                  <Text fontSize="4xl" color="#7DCDDF" align="center">
+                  <Text
+                    fontSize={{ base: '2xl', lg: '4xl' }}
+                    color="#7DCDDF"
+                    align={{ base: 'start', lg: 'center' }}
+                  >
                     Guilds are groups of people offering tools or services &
                     building projects.
                   </Text>
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Why join as a guild?
                   </Text>
-                  <Text fontSize="2xl">A bunch of reasons, actually!</Text>
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }}>
+                    A bunch of reasons, actually!
+                  </Text>
                   <UnorderedList fontSize="md" fontWeight="light">
                     {guildReasons.map((reason, idx) => (
                       <ListItem key={idx}>{reason}</ListItem>
                     ))}
                   </UnorderedList>
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Before joining as a guild...
                   </Text>
-                  <Text fontSize="2xl" fontWeight="normal">
+                  <Text
+                    fontSize={{ base: 'xl', lg: '2xl' }}
+                    fontWeight="normal"
+                  >
                     Before trying to join as a guild, we recommend you join as a
                     person.
                   </Text>
                   <Stack
                     direction={['column', 'row']}
-                    spacing={{ base: 5, lg: 10 }}
+                    spacing={{ base: 2, lg: 10 }}
                     align="center"
                   >
                     <RoleCard
@@ -457,8 +476,8 @@ export const Signup: React.FC = () => {
                       image={PlayerImg.src}
                       description={
                         <Text
-                          fontSize={{ base: 'lg', lg: '2xl' }}
-                          align="center"
+                          fontSize={{ base: 'md', lg: '2xl' }}
+                          align={{ base: 'start', lg: 'center' }}
                         >
                           Join MetaGame as an active member.
                         </Text>
@@ -466,14 +485,19 @@ export const Signup: React.FC = () => {
                       action="Let's Go!"
                       route="/start"
                     />
-                    <Text fontSize="2xl">OR</Text>
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight={{ base: 'bold', lg: 'normal' }}
+                    >
+                      OR
+                    </Text>
                     <RoleCard
                       title="Patron"
                       image={PatronsImg.src}
                       description={
                         <Text
-                          fontSize={{ base: 'lg', lg: '2xl' }}
-                          align="center"
+                          fontSize={{ base: 'md', lg: '2xl' }}
+                          align={{ base: 'start', lg: 'center' }}
                         >
                           Join MetaGame as a passive player.
                         </Text>
@@ -482,89 +506,90 @@ export const Signup: React.FC = () => {
                       route="/join/patron"
                     />
                   </Stack>
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Tiers & Perks
                   </Text>
-                  {isMobile && (
-                    <Tabs variant="soft-rounded" isFitted>
-                      <TabList
-                        bg="blackAlpha.500"
-                        borderRadius="full"
-                        paddingY={2}
-                        paddingX={4}
-                      >
-                        <Tab
-                          _selected={{ bg: 'green.400', color: 'white' }}
-                          _active={{ bg: 'transparent' }}
+                  {isMobile ? (
+                    <>
+                      <Tabs variant="soft-rounded" isFitted>
+                        <TabList
+                          bg="blackAlpha.500"
+                          borderRadius="full"
+                          paddingY={2}
+                          paddingX={4}
                         >
-                          FREE
-                        </Tab>
-                        <Tab
-                          _selected={{ bg: '#6A88DF', color: 'white' }}
-                          _active={{ bg: 'transparent' }}
-                        >
-                          BASIC
-                        </Tab>
-                        <Tab
-                          _selected={{ bg: '#ED61C5', color: 'white' }}
-                          _active={{ bg: 'transparent' }}
-                        >
-                          PRO
-                        </Tab>
-                      </TabList>
-                      <TabPanels>
-                        <TabPanel>
-                          <PerksCard
-                            description={
-                              <>
-                                <Text fontSize="xl" fontWeight="semibold">
-                                  $0
-                                </Text>
-                                <Text fontSize="xl" fontWeight="light">
-                                  FOR BROKE GUILDS
-                                </Text>
-                              </>
-                            }
-                            list={guildFreeList}
-                            background="#FFFFFF0A"
-                          />
-                        </TabPanel>
-                        <TabPanel>
-                          <PerksCard
-                            description={
-                              <>
-                                <Text fontSize="xl" fontWeight="semibold">
-                                  $800 / year
-                                </Text>
-                                <Text fontSize="xl" fontWeight="light">
-                                  FOR ESTABLISHED GUILDS
-                                </Text>
-                              </>
-                            }
-                            list={guildBasicList}
-                            background="#00000029"
-                          />
-                        </TabPanel>
-                        <TabPanel>
-                          <PerksCard
-                            description={
-                              <>
-                                <Text fontSize="xl" fontWeight="semibold">
-                                  $8K / year
-                                </Text>
-                                <Text fontSize="xl" fontWeight="light">
-                                  FOR WELL-OFF GUILDS
-                                </Text>
-                              </>
-                            }
-                            list={guildProList}
-                            background="#FFFFFF0A"
-                          />
-                        </TabPanel>
-                      </TabPanels>
-                    </Tabs>
-                  )}
-                  {!isMobile && (
+                          <Tab
+                            _selected={{ bg: 'green.400', color: 'white' }}
+                            _active={{ bg: 'transparent' }}
+                          >
+                            FREE
+                          </Tab>
+                          <Tab
+                            _selected={{ bg: '#6A88DF', color: 'white' }}
+                            _active={{ bg: 'transparent' }}
+                          >
+                            BASIC
+                          </Tab>
+                          <Tab
+                            _selected={{ bg: '#ED61C5', color: 'white' }}
+                            _active={{ bg: 'transparent' }}
+                          >
+                            PRO
+                          </Tab>
+                        </TabList>
+                        <TabPanels>
+                          <TabPanel>
+                            <PerksCard
+                              description={
+                                <>
+                                  <Text fontSize="xl" fontWeight="semibold">
+                                    $0
+                                  </Text>
+                                  <Text fontSize="xl" fontWeight="light">
+                                    FOR BROKE GUILDS
+                                  </Text>
+                                </>
+                              }
+                              list={guildFreeList}
+                              background="#FFFFFF0A"
+                            />
+                          </TabPanel>
+                          <TabPanel>
+                            <PerksCard
+                              description={
+                                <>
+                                  <Text fontSize="xl" fontWeight="semibold">
+                                    $800 / year
+                                  </Text>
+                                  <Text fontSize="xl" fontWeight="light">
+                                    FOR ESTABLISHED GUILDS
+                                  </Text>
+                                </>
+                              }
+                              list={guildBasicList}
+                              background="#00000029"
+                            />
+                          </TabPanel>
+                          <TabPanel>
+                            <PerksCard
+                              description={
+                                <>
+                                  <Text fontSize="xl" fontWeight="semibold">
+                                    $8K / year
+                                  </Text>
+                                  <Text fontSize="xl" fontWeight="light">
+                                    FOR WELL-OFF GUILDS
+                                  </Text>
+                                </>
+                              }
+                              list={guildProList}
+                              background="#FFFFFF0A"
+                            />
+                          </TabPanel>
+                        </TabPanels>
+                      </Tabs>
+                    </>
+                  ) : (
                     <Stack direction={['column', 'row']} gap={0}>
                       <PerksCard
                         title="Free"
@@ -587,10 +612,16 @@ export const Signup: React.FC = () => {
                         title="Basic"
                         description={
                           <>
-                            <Text fontSize="xl" fontWeight="semibold">
+                            <Text
+                              fontSize={{ base: 'lg', lg: 'xl' }}
+                              fontWeight="semibold"
+                            >
                               $800 / year
                             </Text>
-                            <Text fontSize="xl" fontWeight="light">
+                            <Text
+                              fontSize={{ base: 'lg', lg: 'xl' }}
+                              fontWeight="light"
+                            >
                               FOR ESTABLISHED GUILDS
                             </Text>
                           </>
@@ -604,10 +635,16 @@ export const Signup: React.FC = () => {
                         title="Pro"
                         description={
                           <>
-                            <Text fontSize="xl" fontWeight="semibold">
+                            <Text
+                              fontSize={{ base: 'lg', lg: 'xl' }}
+                              fontWeight="semibold"
+                            >
                               $8K / year
                             </Text>
-                            <Text fontSize="xl" fontWeight="light">
+                            <Text
+                              fontSize={{ base: 'lg', lg: 'xl' }}
+                              fontWeight="light"
+                            >
                               FOR WELL-OFF GUILDS
                             </Text>
                           </>
@@ -620,10 +657,16 @@ export const Signup: React.FC = () => {
                     </Stack>
                   )}
                   <VStack align="center" spacing={4}>
-                    <Text fontSize="4xl" fontWeight="semibold">
+                    <Text
+                      fontSize={{ base: '2xl', lg: '4xl' }}
+                      fontWeight="semibold"
+                    >
                       Decided to Join?
                     </Text>
-                    <Text fontSize="2xl" fontWeight="light">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="light"
+                    >
                       Ready to become one of the Founding Guilds of MetaGame?
                       Apply now 👇
                     </Text>
@@ -634,7 +677,7 @@ export const Signup: React.FC = () => {
                 </VStack>
               </Box>
             </TabPanel>
-            <TabPanel>
+            <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
               <Box
                 maxW="container.xl"
                 maxH="container.md"
@@ -642,29 +685,35 @@ export const Signup: React.FC = () => {
                 border={patronBorder}
                 borderRadius={8}
                 paddingX={{ base: '24px', lg: '96px' }}
-                paddingY={{ base: '16px', lg: '128px' }}
+                paddingY={{ base: '10px', lg: '128px' }}
                 boxShadow={patronBoxShadow}
                 color="white"
                 overflowY="auto"
               >
                 <VStack spacing={4} align="stretch">
-                  <Text fontSize="4xl" color="#E190E1" align="center">
+                  <Text
+                    fontSize={{ base: '2xl', lg: '4xl' }}
+                    color="#E190E1"
+                    align={{ base: 'start', lg: 'center' }}
+                  >
                     Patrons are here to teach, contribute liquidity & support
                     MetaGame.
                   </Text>
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Why join as a patron?
                   </Text>
-                  <Text fontSize="2xl">Here are a few reasons:</Text>
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }}>
+                    Here are a few reasons:
+                  </Text>
                   <UnorderedList fontSize="md" fontWeight="light">
                     {patronReasons.map((reason, idx) => (
                       <ListItem key={idx}>{reason}</ListItem>
                     ))}
                   </UnorderedList>
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Perks of joining
                   </Text>
-                  {isMobile && (
+                  {isMobile ? (
                     <Tabs variant="soft-rounded" isFitted>
                       <TabList
                         bg="blackAlpha.500"
@@ -706,8 +755,7 @@ export const Signup: React.FC = () => {
                         </TabPanel>
                       </TabPanels>
                     </Tabs>
-                  )}
-                  {!isMobile && (
+                  ) : (
                     <Stack direction={['column', 'row']} gap={0}>
                       <PerksCard
                         title="Visitor"
@@ -725,10 +773,10 @@ export const Signup: React.FC = () => {
                       />
                     </Stack>
                   )}
-                  <Text fontSize="2xl" fontWeight="bold">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     How to become a patron?
                   </Text>
-                  <Text fontSize="2xl" fontWeight="light">
+                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="light">
                     Ready to become one of the founding patrons of MetaGame?
                   </Text>
                   <Stack
@@ -740,44 +788,55 @@ export const Signup: React.FC = () => {
                       title="Do it yourself"
                       image={YoungPlant.src}
                       description={
-                        <>
-                          <Text fontSize="2xl" align="center">
-                            You’ll need some Ether & RAI ready on Polygon.
-                          </Text>
-                          <Text fontSize="2xl" align="center">
-                            Detailed instructions {isMobile ? '👉' : '👇'}
-                          </Text>
-                        </>
+                        <Text
+                          fontSize={{ base: 'md', lg: '2xl' }}
+                          align={{ base: 'start', lg: 'center' }}
+                        >
+                          You’ll need some Ether & RAI ready on Polygon.
+                          Detailed instructions {isMobile ? '👉' : '👇'}
+                        </Text>
                       }
                       action="Yes Pls!"
                       route="/join/patron"
                     />
-                    <Text fontSize="2xl">OR</Text>
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight={{ base: 'bold', lg: 'normal' }}
+                    >
+                      OR
+                    </Text>
                     <RoleCard
                       title="Buy it & forget it"
                       image={PlayerImg.src}
                       description={
-                        <>
-                          <Text fontSize="2xl" align="center">
-                            Too busy to do it manually? We got you covered!
-                          </Text>
-                          <Text fontSize="xl" align="center" fontWeight="bold">
+                        <Text
+                          fontSize={{ base: 'md', lg: '2xl' }}
+                          align={{ base: 'start', lg: 'center' }}
+                        >
+                          Too busy to do it manually? We got you covered!{' '}
+                          <Text fontWeight="bold">
                             For amounts over $1k only.
                           </Text>
-                        </>
+                        </Text>
                       }
                       action="Perfect!"
                       link="https://tally.so/r/w4Jb6r"
                     />
                   </Stack>
-                  <VStack align="center" spacing={4}>
-                    <Text fontSize="4xl" fontWeight="semibold">
+                  <VStack align="center" spacing={{ base: 2, lg: 4 }}>
+                    <Text
+                      fontSize={{ base: '2xl', lg: '4xl' }}
+                      fontWeight="semibold"
+                    >
                       Not ready?
                     </Text>
                     <MetaButton maxW="xs" onClick={() => router.push('/start')}>
                       THE RABBIT HOLE
                     </MetaButton>
-                    <Text fontSize="2xl" fontWeight="light">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="light"
+                    >
                       & / OR
                     </Text>
                     <Link href="https://docs.google.com/document/d/1RoOaW8CR0puEanY0VGtcMbDYH77djkzOPgRSd1nCFJ4/edit#">

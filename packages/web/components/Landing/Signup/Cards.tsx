@@ -67,8 +67,8 @@ export const RoleCard: React.FC<CardProps> = ({
       display="flex"
       flexDir="column"
       alignItems="center"
-      gap={3}
-      p={6}
+      gap={{ base: 0, lg: 3 }}
+      p={{ base: 3, lg: 6 }}
     >
       <Flex
         w="full"
@@ -101,44 +101,52 @@ export const RoleCard: React.FC<CardProps> = ({
             RECOMMENDED
           </Badge>
         )}
-        {isMobile && route && (
-          <IconButton
-            variant="ghost"
-            colorScheme="pink"
-            aria-label="Become a player"
-            onClick={() => router.push(route)}
-            fontSize="4xl"
-            icon={<MdChevronRight />}
-          />
-        )}
-        {isMobile && link && (
-          <Link href={link}>
-            <IconButton
-              variant="ghost"
-              colorScheme="pink"
-              aria-label="Become a player"
-              fontSize="4xl"
-              icon={<MdChevronRight />}
-            />
-          </Link>
+        {isMobile && (
+          <>
+            {route && (
+              <IconButton
+                variant="ghost"
+                colorScheme="pink"
+                aria-label="Become a player"
+                onClick={() => router.push(route)}
+                fontSize="4xl"
+                icon={<MdChevronRight />}
+              />
+            )}
+            {link && (
+              <Link href={link}>
+                <IconButton
+                  variant="ghost"
+                  colorScheme="pink"
+                  aria-label="Become a player"
+                  fontSize="4xl"
+                  icon={<MdChevronRight />}
+                />
+              </Link>
+            )}
+          </>
         )}
       </Flex>
       {description}
-      {!isMobile && route && (
-        <Button
-          colorScheme="pink"
-          textTransform="uppercase"
-          onClick={() => router.push(route)}
-        >
-          {action}
-        </Button>
-      )}
-      {!isMobile && link && (
-        <Link href={link}>
-          <Button textTransform="uppercase" colorScheme="pink">
-            {action}
-          </Button>
-        </Link>
+      {!isMobile && (
+        <>
+          {route && (
+            <Button
+              colorScheme="pink"
+              textTransform="uppercase"
+              onClick={() => router.push(route)}
+            >
+              {action}
+            </Button>
+          )}
+          {link && (
+            <Link href={link}>
+              <Button textTransform="uppercase" colorScheme="pink">
+                {action}
+              </Button>
+            </Link>
+          )}
+        </>
       )}
     </Box>
   );
