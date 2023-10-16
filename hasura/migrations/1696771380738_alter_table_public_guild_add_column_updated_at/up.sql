@@ -1,2 +1,4 @@
-alter table "public"."guild" add column "updated_at" timestamptz
- null default now();
+ALTER TABLE public.guild
+  ADD COLUMN updated_at timestamptz
+  NULL DEFAULT now()
+;

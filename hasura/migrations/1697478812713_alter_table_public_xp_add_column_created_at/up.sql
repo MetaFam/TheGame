@@ -1,2 +1,4 @@
-alter table "public"."xp" add column "created_at" timestamptz
- not null default now();
+ALTER TABLE public.xp
+  ADD COLUMN created_at timestamptz
+  NOT NULL DEFAULT now()
+;
