@@ -1499,16 +1499,22 @@
     schema: public
   configuration:
     column_config:
+      created_at:
+        custom_name: createdAt
       player_id:
         custom_name: playerId
       seasonal_balance:
         custom_name: seasonalBalance
       token_address:
         custom_name: tokenAddress
+      updated_at:
+        custom_name: updatedAt
     custom_column_names:
+      created_at: createdAt
       player_id: playerId
       seasonal_balance: seasonalBalance
       token_address: tokenAddress
+      updated_at: updatedAt
     custom_root_fields: {}
   object_relationships:
     - name: player

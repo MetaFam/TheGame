@@ -12,6 +12,7 @@ export const TokenQueries = /* GraphQL */ `
       safeAddress
       lastOffset
       guildId
+      multiplier
     }
   }
   query GetTotalForPlayer(
