@@ -1,2 +1,4 @@
-alter table "public"."token" add column "created_at" timestamptz
- null default now();
+ALTER TABLE public.token
+  ADD COLUMN created_at timestamptz
+  NULL DEFAULT now()
+;
