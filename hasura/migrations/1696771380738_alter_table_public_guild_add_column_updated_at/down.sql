@@ -1,1 +1,1 @@
-ALTER TABLE public.guild DROP COLUMN updated_at;
+ALTER TABLE public.guild DROP COLUMN updated_at CASCADE;

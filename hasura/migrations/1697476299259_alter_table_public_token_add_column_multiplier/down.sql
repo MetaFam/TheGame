@@ -1,1 +1,1 @@
-ALTER TABLE public.token DROP COLUMN multiplier;
+ALTER TABLE public.token DROP COLUMN multiplie CASCADE;
