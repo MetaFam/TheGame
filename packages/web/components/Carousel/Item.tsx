@@ -44,8 +44,8 @@ export const Item: React.FC<ItemProps> = ({ children, index }) => {
       onKeyUp={handleKeyUp}
       onKeyDown={handleKeyDown}
       w={shrinkItems ? '100%' : `${itemWidth}px`}
-      flex={shrinkItems ? { base: '0 0', xl: '0 0 344px' } : 'inherit'}
-      maxW={shrinkItems ? '344px' : 'inherit'}
+      flex={shrinkItems ? { base: '0 0', xl: '0 0 270px', '2xl': '0 0 344px' } : 'inherit'}
+      maxW={shrinkItems ? {base: '270px', '2xl': '344px'} : 'inherit'}
       _notLast={{
         mr: `${gap}px`,
       }}
