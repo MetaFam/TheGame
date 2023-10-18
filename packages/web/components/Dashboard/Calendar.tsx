@@ -176,8 +176,7 @@ export const Calendar: React.FC = () => {
             <HStack position="absolute" inset={0} top="auto" justify="center">
               <MetaButton
                 variant="ghost"
-                colorScheme="purple"
-                bg="purpleTag70"
+                bg="transparent"
                 onClick={handleLoadMore}
                 disabled={limit >= 20}
                 isDisabled={limit >= 20}
@@ -212,6 +211,7 @@ export const Calendar: React.FC = () => {
                     flexFlow="column wrap"
                     alignItems="flex-start"
                     justifyContent="flex-start"
+                    role="group"
                     key={day.date}
                     _last={{
                       mb: 0,
@@ -256,6 +256,10 @@ export const Calendar: React.FC = () => {
                             py={2}
                             backgroundColor="blackAlpha.500"
                             borderRadius="md"
+                            role="group"
+                            _groupHover={{
+                              backgroundColor: 'blackAlpha.600',
+                            }}
                           >
                             <Popover colorScheme="purple">
                               <Event
