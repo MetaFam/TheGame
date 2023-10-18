@@ -26,7 +26,8 @@ import {
  * @returns All of the paths, playbooks, and great houses categorised in a single page.
  */
 const AcademyPage: React.FC = () => {
-  const carouselGap = useBreakpointValue({ base: 8, md: 6, xl: 24, '2xl': 32 }) || 32;
+  const carouselGap =
+    useBreakpointValue({ base: 8, md: 6, xl: 24, '2xl': 32 }) || 32;
   const makeItemPath = (type: PathPlaybookType): string => {
     let urlPath: string;
 
@@ -54,7 +55,11 @@ const AcademyPage: React.FC = () => {
         description="MetaGame is a Massive Online Coordination Game! The Academy is full of Paths and Playbooks to help you find your way and level up in MetaGame & life."
         url="https://metagame.wtf/paths-and-playbooks"
       />
-      <VStack spacing={7} w={{ base: '100%', xl: 'unset' }} maxW={{base: 'unset', xl: '6xl', '2xl': "92rem"}}>
+      <VStack
+        spacing={7}
+        w={{ base: '100%', xl: 'unset' }}
+        maxW={{ base: 'unset', xl: '6xl', '2xl': '92rem' }}
+      >
         <VStack spacing={1} mb={12} w="full" align="center">
           <Heading
             as="h1"
@@ -111,8 +116,16 @@ const AcademyPage: React.FC = () => {
               </VStack>
               {categoryItems.length > 0 ? (
                 <Box
-                  w={{ base: '100%', lg: 'calc(100% + 4rem)', '2xl': 'calc(100% + 10rem)' }}
-                  transform={{ base: 'unset', lg: 'translateX(-2rem)', '2xl': 'translateX(-5rem)' }}
+                  w={{
+                    base: '100%',
+                    lg: 'calc(100% + 4rem)',
+                    '2xl': 'calc(100% + 10rem)',
+                  }}
+                  transform={{
+                    base: 'unset',
+                    lg: 'translateX(-2rem)',
+                    '2xl': 'translateX(-5rem)',
+                  }}
                   p={{ base: 0, lg: '1rem' }}
                   px={{ base: 0, lg: '2rem', '2xl': '5rem' }}
                   mx="auto"
@@ -187,16 +200,16 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ title, link, image, length, index }) => (
-  <Link role="group" _hover={{ textDecoration: 'none' }} href={link} w="full">
-    <MetaTilePathPlaybook
-      height="full"
-      width="full"
-      image={image}
-      index={index}
-      length={length}
-      maxW={{ base: 24, xl: '15rem', '2xl': '20rem' }}
-    >
-      <Flex alignItems="center" justifyContent="center" h="full">
+  <Link
+    role="group"
+    _hover={{ textDecoration: 'none' }}
+    href={link}
+    w="100%"
+    minW={{ base: '16.875rem', '2xl': '21.5rem' }}
+    p={0}
+  >
+    <MetaTilePathPlaybook image={image} index={index} length={length}>
+      <Flex alignItems="center" justifyContent="center" h="full" w="full">
         <Text
           p={0}
           fontSize={{ base: 'xs', lg: 'xl', '2xl': '3xl' }}

@@ -192,6 +192,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
         h="full"
         w="full"
         minH={{ base: 32, xl: '22.5rem', '2xl': '30rem' }}
+        maxW={{ base: 24, xl: '15rem', '2xl': '20rem' }}
         mr={{ base: 2.5, xl: 4, '2xl': 6 }}
         borderRightRadius={{ base: 'lg', xl: '2xl' }}
         ref={(elem) => {
@@ -229,6 +230,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
           h="full"
           align="stretch"
           justify="space-between"
+          gap="2px"
           {...props}
         >
           {children}
@@ -262,10 +264,9 @@ export const MetaTilePathCosmetics: React.FC<MetaTilePathCosmeticsProps> = ({
         justifyContent="flex-end"
         gap="2px"
         position={'absolute'}
-        top={0}
+        inset={0}
         left={'auto'}
         right={{ base: '-0.75rem', xl: '-1.625rem' }}
-        bottom={0}
         width={{ base: 3, xl: 6 }}
         aria-hidden="true"
       >

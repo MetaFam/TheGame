@@ -24,6 +24,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
     gap,
     hidePositions,
     hideNav,
+    itemsToShow,
   } = useCarouselContext();
 
   const [ref, { width }] = useBoundingRect();
@@ -37,12 +38,12 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
   const handleFocus = () => setTrackIsActive(true);
 
   return (
-    <VStack align="flex-start" w="100%" spacing={4} overflowX="visible">
+    <VStack align="flex-start" w="100%" spacing={4} overflowX="hidden">
       <Box
         ref={ref}
-        w={{ base: '100%', md: `calc(100% + ${gap}px)` }}
-        ml={`-${gap / 2}px`}
-        px={`${gap / 2}px`}
+        w={hideNav ? { base: '100%', md: `calc(100% + ${gap}px)` } : '100%'}
+        ml={hideNav ? `-${gap / 2}px` : 0}
+        px={hideNav ? `${gap / 2}px` : 0}
         py={{ base: 0, lg: '1rem' }}
         position="relative"
         overflow="visible"
@@ -114,8 +115,8 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
             color="gray.200"
             variant="link"
             minW={0}
-            isDisabled={activeItem === itemsCount - 1}
-            opacity={activeItem === itemsCount - 1 ? '0!important' : 1}
+            isDisabled={activeItem + itemsToShow >= itemsCount}
+            opacity={activeItem + itemsToShow >= itemsCount ? '0!important' : 1}
             pointerEvents="all"
             transition="opacity 0.2s ease-in-out"
           />

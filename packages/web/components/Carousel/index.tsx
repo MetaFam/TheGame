@@ -18,6 +18,7 @@ export const Carousel: React.FC<{
   shrinkItems?: boolean;
   hidePositions?: boolean;
   hideNav?: boolean;
+  itemsToShow?: number;
   children: JSX.Element[];
 }> = ({
   children,
@@ -25,6 +26,7 @@ export const Carousel: React.FC<{
   hideNav = true,
   shrinkItems = false,
   hidePositions = false,
+  itemsToShow = 4,
 }) => {
   const [trackIsActive, setTrackIsActive] = useState(false);
   const [isSubmittingProof, setIsSubmittingProof] = useState(false);
@@ -59,7 +61,23 @@ export const Carousel: React.FC<{
       setMultiplier(0.5);
       setConstraint(2);
     }
-  }, [isBetweenBaseAndLg, isGreaterThanLg, sliderWidth, gap]);
+    if (shrinkItems && isBetweenBaseAndLg) {
+      setItemWidth(270);
+      setConstraint(1);
+    }
+
+    if (shrinkItems && isGreaterThanLg) {
+      setItemWidth(344);
+      setConstraint(2);
+    }
+  }, [
+    isBetweenBaseAndLg,
+    isGreaterThanLg,
+    sliderWidth,
+    gap,
+    shrinkItems,
+    itemsToShow,
+  ]);
 
   return (
     <CarouselContext.Provider
@@ -82,6 +100,7 @@ export const Carousel: React.FC<{
         shrinkItems,
         hidePositions,
         hideNav,
+        itemsToShow,
       }}
     >
       <CarouselInner shrinkItems={shrinkItems}>{children}</CarouselInner>
