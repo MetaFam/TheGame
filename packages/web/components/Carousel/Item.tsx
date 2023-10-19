@@ -15,10 +15,9 @@ export const Item: React.FC<ItemProps> = ({ children, index }) => {
     itemWidth,
     positions,
     gap,
-    shrinkItems,
+    defaultCarousel,
   } = useCarouselContext();
   const [userDidTab, setUserDidTab] = useState(false);
-  // console.log("ItemProps", { index, activeItem, constraint, itemWidth, positions, gap, shrinkItems });
 
   const handleFocus = () => setTrackIsActive(true);
 
@@ -43,13 +42,15 @@ export const Item: React.FC<ItemProps> = ({ children, index }) => {
       onBlur={handleBlur}
       onKeyUp={handleKeyUp}
       onKeyDown={handleKeyDown}
-      w={shrinkItems ? '100%' : `${itemWidth}px`}
+      w={!defaultCarousel ? '100%' : `${itemWidth}px`}
       flex={
-        shrinkItems
+        !defaultCarousel
           ? { base: '0 0', xl: '0 0 16.875rem', '2xl': '0 0 21.5rem' }
           : 'inherit'
       }
-      maxW={shrinkItems ? { base: '16.875rem', '2xl': '21.5rem' } : 'inherit'}
+      maxW={
+        !defaultCarousel ? { base: '16.875rem', '2xl': '21.5rem' } : 'inherit'
+      }
       _notLast={{
         mr: `${gap}px`,
       }}

@@ -27,7 +27,7 @@ import {
  */
 const AcademyPage: React.FC = () => {
   const carouselGap =
-    useBreakpointValue({ base: 8, md: 6, xl: 24, '2xl': 32 }) || 32;
+    useBreakpointValue({ base: 8, md: 16, xl: 24, '2xl': 32 }) || 32;
   const makeItemPath = (type: PathPlaybookType): string => {
     let urlPath: string;
 
@@ -65,14 +65,14 @@ const AcademyPage: React.FC = () => {
             as="h1"
             fontFamily="body"
             fontWeight="600"
-            fontSize={{ base: '4xl', sm: '6xl' }}
+            fontSize={{ base: '4xl', xl: '6xl' }}
             textAlign="center"
             w={{ base: 'full', xl: ' full' }}
           >
             The Academy
           </Heading>
           <Text
-            fontSize={{ base: 'lg', lg: 'xl' }}
+            fontSize={{ base: 'md', xl: 'xl' }}
             w="full"
             maxW="4xl"
             textAlign="center"
@@ -104,7 +104,7 @@ const AcademyPage: React.FC = () => {
                   as="h2"
                   fontFamily="body"
                   fontWeight="600"
-                  fontSize={{ base: '3xl', sm: '5xl' }}
+                  fontSize={{ base: '3xl', xl: '5xl' }}
                 >
                   {categoryTitle}
                 </Heading>
@@ -116,27 +116,29 @@ const AcademyPage: React.FC = () => {
               </VStack>
               {categoryItems.length > 0 ? (
                 <Box
+                  position="relative"
                   w={{
                     base: '100%',
-                    lg: 'calc(100% + 4rem)',
+                    md: 'calc(100% + 1rem)',
+                    xl: 'calc(100% + 4rem)',
                     '2xl': 'calc(100% + 10rem)',
                   }}
                   transform={{
                     base: 'unset',
-                    lg: 'translateX(-2rem)',
+                    md: 'translateX(-0.5rem)',
+                    xl: 'translateX(-2rem)',
                     '2xl': 'translateX(-5rem)',
                   }}
-                  p={{ base: 0, lg: '1rem' }}
-                  px={{ base: 0, lg: '2rem', '2xl': '5rem' }}
+                  p={{ base: 0, md: '0.5rem', xl: '1rem' }}
+                  px={{ base: 0, md: '0.5rem', xl: '2rem', '2xl': '5rem' }}
                   mx="auto"
                   overflowY="hidden"
                   overflowX="hidden"
                 >
                   <Carousel
                     gap={carouselGap}
-                    shrinkItems
+                    defaultCarousel={false}
                     hidePositions
-                    hideNav={false}
                   >
                     {categoryItems.map(
                       ([
@@ -205,7 +207,7 @@ const Card: React.FC<CardProps> = ({ title, link, image, length, index }) => (
     _hover={{ textDecoration: 'none' }}
     href={link}
     w="100%"
-    minW={{ base: '16.875rem', '2xl': '21.5rem' }}
+    minW={{ base: '7.175rem', md: '10.125', xl: '16.875rem', '2xl': '21.5rem' }}
     p={0}
   >
     <MetaTilePathPlaybook image={image} index={index} length={length}>

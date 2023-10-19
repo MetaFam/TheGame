@@ -23,8 +23,8 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
     positions,
     gap,
     hidePositions,
-    hideNav,
     itemsToShow,
+    defaultCarousel,
   } = useCarouselContext();
 
   const [ref, { width }] = useBoundingRect();
@@ -38,16 +38,20 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
   const handleFocus = () => setTrackIsActive(true);
 
   return (
-    <VStack align="flex-start" w="100%" spacing={4} overflowX="hidden">
+    <VStack align="flex-start" w="100%" spacing={4} overflowX="visible">
       <Box
         ref={ref}
-        w={hideNav ? { base: '100%', md: `calc(100% + ${gap}px)` } : '100%'}
-        ml={hideNav ? `-${gap / 2}px` : 0}
-        px={hideNav ? `${gap / 2}px` : 0}
+        w={
+          defaultCarousel
+            ? { base: '100%', md: `calc(100% + ${gap}px)` }
+            : `calc(100% + ${gap / 2}px)`
+        }
+        ml={defaultCarousel ? `-${gap / 2}px` : 0}
+        px={defaultCarousel ? `${gap / 2}px` : 0}
         py={{ base: 0, lg: '1rem' }}
         position="relative"
         overflow="visible"
-        overflowX={!hideNav ? 'hidden' : 'visible'}
+        overflowX={defaultCarousel ? 'visible' : 'hidden'}
         _before={{
           bgGradient: 'linear(to-r, base.d400, transparent)',
           position: 'absolute',
@@ -71,14 +75,15 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
       >
         {children}
       </Box>
-      {!hideNav && positions.length > constraint && (
+      {!defaultCarousel && positions.length > constraint && (
         <HStack
+          display={{ base: 'none', xl: 'flex' }}
           position="absolute"
           top="auto"
           bottom="25%"
           h="50%"
-          w="100%"
-          left={0}
+          w={{ base: `calc(100% + ${40}px)`, '2xl': '100%' }}
+          left={{ base: '-20px', '2xl': 0 }}
           justify="space-between"
           align="center"
           spacing={2}
@@ -131,7 +136,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
           spacing={2}
         >
           {positions.map((_, index) => {
-            if (!hideNav && index <= itemsCount / 3) {
+            if (!defaultCarousel && index <= itemsCount / 3) {
               return (
                 <Button
                   key={index}
