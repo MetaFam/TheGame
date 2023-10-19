@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, useTheme } from '@metafam/ds';
+import { Box, useBreakpointValue, useMediaQuery, useTheme } from '@metafam/ds';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { CarouselContext } from './CarouselContext';
@@ -9,24 +9,24 @@ import { Track } from './Track';
 /**
  * `Carousel` - default / no props will give you a carousel like you see in a Quest or Playbook. To change how it displays & functions (eg: the new [paths & playbooks](http://localhost:3000/paths-and-playbooks)), use the props listed:
  * @prop `gap`: gives you the spacing between items.
- * @prop `shrinkItems`: false - if true, this unsets the width of the track items so they hug the contents
+ * @prop `defaultCarousel`: false - if true, this unsets the width of the track items so they hug the contents
  * @prop `hidePositions`: false - true will hide the pagination
  * @prop `hideNav`: true - set to false if you want prev/next navigation
  */
 export const Carousel: React.FC<{
   gap: number;
-  shrinkItems?: boolean;
   hidePositions?: boolean;
   hideNav?: boolean;
   itemsToShow?: number;
+  defaultCarousel?: boolean;
   children: JSX.Element[];
 }> = ({
   children,
   gap,
   hideNav = true,
-  shrinkItems = false,
   hidePositions = false,
   itemsToShow = 4,
+  defaultCarousel = true,
 }) => {
   const [trackIsActive, setTrackIsActive] = useState(false);
   const [isSubmittingProof, setIsSubmittingProof] = useState(false);
@@ -50,6 +50,14 @@ export const Carousel: React.FC<{
 
   const [isGreaterThanLg] = useMediaQuery(`(min-width: ${breakpoints.lg})`);
 
+  const isGreaterThanBase = useBreakpointValue({ base: true, md: false });
+
+  const isGreaterThanMd = useBreakpointValue({ base: false, md: true });
+
+  const isGreaterThanXl = useBreakpointValue({ base: false, xl: true });
+
+  const isGreaterThan2Xl = useBreakpointValue({ base: false, '2xl': true });
+
   useEffect(() => {
     if (isBetweenBaseAndLg) {
       setItemWidth(sliderWidth - gap);
@@ -61,12 +69,21 @@ export const Carousel: React.FC<{
       setMultiplier(0.5);
       setConstraint(2);
     }
-    if (shrinkItems && isBetweenBaseAndLg) {
+
+    if (!defaultCarousel && isGreaterThanBase) {
+      setItemWidth(114);
+      setConstraint(1);
+    }
+    if (!defaultCarousel && isGreaterThanMd) {
+      setItemWidth(158);
+      setConstraint(1);
+    }
+    if (!defaultCarousel && isGreaterThanXl) {
       setItemWidth(270);
       setConstraint(1);
     }
 
-    if (shrinkItems && isGreaterThanLg) {
+    if (!defaultCarousel && isGreaterThan2Xl) {
       setItemWidth(344);
       setConstraint(2);
     }
@@ -75,8 +92,12 @@ export const Carousel: React.FC<{
     isGreaterThanLg,
     sliderWidth,
     gap,
-    shrinkItems,
     itemsToShow,
+    defaultCarousel,
+    isGreaterThanBase,
+    isGreaterThanMd,
+    isGreaterThanXl,
+    isGreaterThan2Xl,
   ]);
 
   return (
@@ -97,13 +118,13 @@ export const Carousel: React.FC<{
         itemWidth,
         positions,
         gap,
-        shrinkItems,
         hidePositions,
         hideNav,
         itemsToShow,
+        defaultCarousel,
       }}
     >
-      <CarouselInner shrinkItems={shrinkItems}>{children}</CarouselInner>
+      <CarouselInner shrinkItems={!defaultCarousel}>{children}</CarouselInner>
     </CarouselContext.Provider>
   );
 };

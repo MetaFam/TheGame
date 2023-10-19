@@ -1,5 +1,12 @@
 import { createContext, useContext } from 'react';
 
+type AcademySliderType = {
+  hidePositions: boolean;
+  hideNav: boolean;
+  shrinkItems: boolean;
+  itemsToShow: number;
+};
+
 type CarouselContextType = {
   trackIsActive: boolean;
   setTrackIsActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,10 +29,10 @@ type CarouselContextType = {
 
   multiplier: number;
 
-  shrinkItems: boolean;
   hidePositions: boolean;
   hideNav: boolean;
   itemsToShow: number;
+  defaultCarousel: boolean;
 };
 
 export const CarouselContext = createContext<CarouselContextType>({
@@ -44,10 +51,10 @@ export const CarouselContext = createContext<CarouselContextType>({
   itemWidth: 0,
   positions: [],
   gap: 0,
-  shrinkItems: false,
   hidePositions: false,
   hideNav: true,
   itemsToShow: 4,
+  defaultCarousel: true,
 });
 
 export const useCarouselContext = () => useContext(CarouselContext);
