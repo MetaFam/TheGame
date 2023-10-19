@@ -1,7 +1,9 @@
 import {
   Box,
+  Button,
   ButtonGroup,
   CalendarAddIcon,
+  CalendarIcon,
   ExternalLinkIcon,
   Flex,
   HStack,
@@ -50,6 +52,7 @@ export const Calendar: React.FC = () => {
   //   return cover;
   // }
 
+  // strip out the +++cover+++ from the description
   const cleanDescription = (desc: string) =>
     desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : '';
   const buildAddToCalendarLink = (event: GoogleCalEventType) => {
@@ -117,7 +120,7 @@ export const Calendar: React.FC = () => {
     );
   }
   return (
-    <Flex direction="column" p={6} width="100%" height="100%">
+    <Flex direction="column" p={6} width="100%" minH="100%">
       {fetching ? (
         <Flex align="center" justify="center" width="100%">
           <LoadingState />
@@ -128,7 +131,6 @@ export const Calendar: React.FC = () => {
           flexDirection="column"
           justifyItems="stretch"
           height="100%"
-          maxH="100%"
         >
           <HStack
             align={'center'}
@@ -150,37 +152,44 @@ export const Calendar: React.FC = () => {
                   {timeZone.users} {`(UTC${usersOffsetString}) ${DateTime.local().zoneName}`}
                 </Text> */}
             </HStack>
-
-            <Tooltip
-              label="Download ics"
-              aria-label="Download ics"
-              placement="bottom"
-              hasArrow
-            >
-              <Box flexShrink={1}>
-                <IconButton
-                  as={MetaLink}
-                  href={calICS}
-                  isExternal
-                  aria-label="Add calendar"
-                  icon={<CalendarAddIcon />}
-                  justifySelf="flex-end"
-                  variant="ghost"
-                  fontSize="2xl"
-                  translateX={9}
-                />
-              </Box>
-            </Tooltip>
+            <Box flexShrink={1}>
+              <Button
+                as={MetaLink}
+                href={calICS}
+                isExternal
+                aria-label="Add calendar"
+                leftIcon={<CalendarIcon />}
+                justifySelf="flex-end"
+                variant="ghost"
+                bg="blackAlpha.300"
+                color="violet"
+                fontSize="md"
+                translateX={9}
+              >
+                Download ICS
+              </Button>
+            </Box>
           </HStack>
-          <Box flexGrow={1} overflowY="auto" mb={9}>
-            <HStack position="absolute" inset={0} top="auto" justify="center">
+          <Box flexGrow={1} overflowY="auto" mb={9} h="100%">
+            <HStack
+              position="absolute"
+              inset={0}
+              top="auto"
+              justify="center"
+              py={3}
+              height="75px"
+            >
               <MetaButton
                 variant="ghost"
-                bg="transparent"
+                bg="blackAlpha.300"
+                color="violet"
+                textTransform="none"
                 onClick={handleLoadMore}
                 disabled={limit >= 20}
                 isDisabled={limit >= 20}
-                w="full"
+                w="auto"
+                h="auto"
+                py={3}
                 borderTopRadius={0}
               >
                 Load More
@@ -223,7 +232,7 @@ export const Calendar: React.FC = () => {
                       fontFamily="body"
                       className="calendar__day--title"
                       mb={3}
-                      pl={5}
+                      pl={0}
                     >
                       {DateTime.fromISO(day.date)
                         .toLocaleString({ weekday: 'long' })
