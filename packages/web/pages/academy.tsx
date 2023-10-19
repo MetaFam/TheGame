@@ -56,6 +56,7 @@ const AcademyPage: React.FC = () => {
         url="https://metagame.wtf/paths-and-playbooks"
       />
       <VStack
+        pb={16}
         spacing={7}
         w={{ base: '100%', xl: 'unset' }}
         maxW={{ base: 'unset', xl: '6xl', '2xl': '92rem' }}
@@ -77,12 +78,13 @@ const AcademyPage: React.FC = () => {
             maxW="4xl"
             textAlign="center"
           >
-            This place contains paths, playbooks and all things educational,
-            related to MetaGame.
+            A place of paths, playbooks, and all things educational related to
+            MetaGame.
           </Text>
         </VStack>
 
         {Object.entries(QuestChainsCategoriesDetails).map((category, i) => {
+          if (category[1].name === 'all') return null;
           const {
             name: categoryName,
             title: categoryTitle,
@@ -90,7 +92,18 @@ const AcademyPage: React.FC = () => {
           } = category[1];
           const categoryItems = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
-          ).filter(([name, { category: cat }]) => cat === categoryName);
+          ).filter(
+            ([name, { category: cat }]) =>
+              cat === categoryName && cat !== 'all',
+          );
+
+          // if there's an item with the category of all, add it to the categoryItems array and
+          const allItem = Object.entries(
+            QuestChainPathsAndPlaybooksDetails,
+          ).filter(([name, { category: cat }]) => cat === 'all');
+          if (allItem.length > 0 && category) {
+            categoryItems.push(allItem[0]);
+          }
 
           return (
             <VStack

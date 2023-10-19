@@ -1,5 +1,6 @@
 import { Values } from '@metafam/utils';
 import { contracts, metadata } from '@quest-chains/sdk';
+import submitPlaybook from 'assets/academy/submit-playbook.png';
 import daos from 'assets/houses/daos.png';
 import dapps from 'assets/houses/dapps.png';
 import definance from 'assets/houses/definance.png';
@@ -58,6 +59,7 @@ export const QuestChainsCategories = {
   USING_AI: 'using-ai',
   META: 'meta',
   RANDOM: 'random',
+  ALL: 'all',
 };
 
 export const QuestChainsRoles = {
@@ -97,6 +99,7 @@ export const QuestChainsPlaybooks = {
   HOW_TO_BUILD_A_NETWORK_FOR_IMPACT: 'how-to-build-a-network-for-impact',
   HANDLING_FOMO_IN_WEB3: 'handling-fomo-in-web3',
   MGXP_METAGAME_EXPERIENCE_POINTS: 'mgxp-metagame-experience-points',
+  SUBMIT_A_PLAYBOOK: 'submit-a-playbook-fyfcrr',
 };
 
 export const Difficulty = {
@@ -188,15 +191,16 @@ export const QuestChainsCategoriesDetails: Record<
   },
   [QuestChainsCategories.WEB3_BASICS]: {
     name: QuestChainsCategories.WEB3_BASICS,
-    title: 'Web3 Basics',
+    title: 'Web3 in General',
     description:
-      'Quests that are about getting started with Web3 & understanding the basics.',
+      'Here you will learn the basics of Web3 as well as how to get involved in building it.',
     image: '',
   },
   [QuestChainsCategories.HOW_TO_DAO]: {
     name: QuestChainsCategories.HOW_TO_DAO,
-    title: 'How to DAO',
-    description: 'Quests that are about understanding & building DAOs.',
+    title: 'DAO Playbooks',
+    description:
+      'This section is all things regarding DAOs & coordination - from tooling to methods',
     image: '',
   },
   [QuestChainsCategories.METAALLIANCE]: {
@@ -208,26 +212,37 @@ export const QuestChainsCategoriesDetails: Record<
   },
   [QuestChainsCategories.WELLBEING_SELF_IMPROVEMENT]: {
     name: QuestChainsCategories.WELLBEING_SELF_IMPROVEMENT,
-    title: 'Wellbeing & Self Improvement',
-    description: 'Quests that are about improving your wellbeing & yourself.',
+    title: 'Self-actualization & Wellbeing',
+    description:
+      'Another one we are weak in; open to anything regarding personal wellbeing & self-improvement.',
     image: '',
   },
   [QuestChainsCategories.REGENERATION]: {
     name: QuestChainsCategories.REGENERATION,
     title: 'Regeneration',
-    description: 'Quests that are about regenerating the planet.',
+    description:
+      'MetaGame is very much about regeneration - yet failing at it! Consider submitting regen playbooks.',
     image: '',
   },
   [QuestChainsCategories.USING_AI]: {
     name: QuestChainsCategories.USING_AI,
-    title: 'Using AI',
-    description: 'Quests that are about using AI.',
+    title: 'AI Playbooks',
+    description:
+      "This is the section we're currently weakest in, but recognize the potential as great as Web3.",
     image: '',
   },
   [QuestChainsCategories.META]: {
     name: QuestChainsCategories.META,
     title: 'Meta',
-    description: 'Quests that are about Game B itself.',
+    description:
+      'This section is about the bigger picture, state of the world & global philosophies.',
+    image: '',
+  },
+  [QuestChainsCategories.RANDOM]: {
+    name: QuestChainsCategories.RANDOM,
+    title: 'Random Game META',
+    description:
+      'Most effective tactics available for using different platforms & games of life..',
     image: '',
   },
 };
@@ -316,6 +331,25 @@ export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PATH,
+  },
+};
+
+export const QuestChainSubmitAPlaybookDetails: Record<
+  QuestChainType,
+  QuestChainInfo
+> = {
+  [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
+    chainId: '0x89',
+    address: '0xd9ff2e738b32bc78125e1a7c73ba721258ff555d',
+    title: 'Submit a Playbook',
+    description:
+      'This is a questline for those interested in filling up The Academy with more useful content.',
+    image: submitPlaybook.src,
+    difficulty: Difficulty.EASY,
+    time: Time.SHORT,
+    category: QuestChainsCategories.ALL,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
   },
 };
 
@@ -555,6 +589,9 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
+  [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
+    ...QuestChainSubmitAPlaybookDetails[QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK],
+  },
 };
 
 export const QuestChainPathsAndPlaybooksDetails: Record<
@@ -564,6 +601,7 @@ export const QuestChainPathsAndPlaybooksDetails: Record<
   ...QuestChainRolesDetails,
   ...QuestChainGreatHousesDetails,
   ...QuestChainPlaybooksDetails,
+  ...QuestChainSubmitAPlaybookDetails,
 };
 
 export const metadataUploader = new metadata.MetadataUploader();
