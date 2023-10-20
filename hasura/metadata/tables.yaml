@@ -64,6 +64,10 @@
           - title
         filter: {}
 - table:
+    name: GuildLegitimacy
+    schema: public
+  is_enum: true
+- table:
     name: GuildStatus
     schema: public
   is_enum: true
@@ -312,7 +316,13 @@
       website_url: websiteUrl
     custom_root_fields: {}
   object_relationships:
-    - name: GuildType
+    - name: guild_legitimacy
+      using:
+        foreign_key_constraint_on: legitimacy
+    - name: guild_status
+      using:
+        foreign_key_constraint_on: status
+    - name: guild_type
       using:
         foreign_key_constraint_on: type
     - name: metadata
@@ -338,6 +348,13 @@
           column: guild_id
           table:
             name: guild_player
+            schema: public
+    - name: guild_token
+      using:
+        foreign_key_constraint_on:
+          column: guild_id
+          table:
+            name: token
             schema: public
     - name: quests
       using:
