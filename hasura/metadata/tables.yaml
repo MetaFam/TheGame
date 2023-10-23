@@ -1470,17 +1470,23 @@
     column_config:
       chain_id:
         custom_name: chainId
+      created_at:
+        custom_name: createdAt
       guild_id:
         custom_name: guildId
-      last_offset:
-        custom_name: lastOffset
+      last_block_height:
+        custom_name: lastBlockHeight
       safe_address:
         custom_name: safeAddress
+      updated_at:
+        custom_name: updatedAt
     custom_column_names:
       chain_id: chainId
+      created_at: createdAt
       guild_id: guildId
-      last_offset: lastOffset
+      last_block_height: lastBlockHeight
       safe_address: safeAddress
+      updated_at: updatedAt
     custom_root_fields: {}
   object_relationships:
     - name: guild

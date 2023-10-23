@@ -221,8 +221,8 @@ type UpdateComposeDBProfileResponse {
 
 type TokenReturn {
   added: [BalanceOutput]
-  oldOffset: Int
-  newOffset: Int
+  oldHeight: Int
+  newHeight: Int
   count: Int
   multiplier: Float
   players: [PlayerOutput]

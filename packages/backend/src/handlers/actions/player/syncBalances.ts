@@ -1,4 +1,4 @@
-import { getCurrentSeasonStart } from '@metafam/utils';
+import { getCurrentSeasonStart, Maybe } from '@metafam/utils';
 import ethers from 'ethers';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
@@ -7,8 +7,10 @@ import { client } from '../../../lib/hasuraClient.js';
 import { computeRank } from '../../../lib/rankHelpers.js';
 
 type SafeResponse = {
+  next: Maybe<string>;
   results: Array<{
     origin: string;
+    blockNumber: number;
     executionDate: string;
     transfers: Array<{
       to: string;
@@ -21,76 +23,89 @@ type SafeResponse = {
 // @todo return balance of token of player in guild
 const setBalances = async ({
   safeAddress,
-  offset = 0,
+  lastBlockHeight = 0,
   tokenAddress: guildTokenAddress,
   chainId = 1,
 }: {
   safeAddress: string;
-  offset?: number;
+  lastBlockHeight?: number;
   tokenAddress: string;
   chainId: number;
 }) => {
-  const safes = {
-    137:
-      'https://safe-transaction-polygon.safe.global' +
-      `/api/v1/safes/${safeAddress}/all-transactions/` +
-      `?limit=100&offset=${offset}&executed=true` +
-      '&queued=false&trusted=true',
-  };
-  const safeURL = safes[chainId as keyof typeof safes];
-  if (!safeURL) {
-    throw new Error(`No Safe URL for chain #${chainId}.`);
-  }
-
-  const res = await fetch(safeURL);
-  const { results } = (await res.json()) as SafeResponse;
+  let safeURL;
+  let minBlockHeight;
+  let maxBlockHeight;
   const uniqueDrops: Record<string, Record<string, number>> = {};
-  const airdrops = results.filter((tx) => tx.origin?.includes('CSV Airdrop'));
+  do {
+    const safes = {
+      137:
+        'https://safe-transaction-polygon.safe.global' +
+        `/api/v1/safes/${safeAddress}/all-transactions/` +
+        `?limit=10&executed=true` +
+        '&queued=false&trusted=true',
+    };
+    safeURL ??= safes[chainId as keyof typeof safes];
+    if (!safeURL) {
+      throw new Error(`No Safe URL for chain #${chainId}.`);
+    }
 
-  airdrops.forEach(({ executionDate, transfers }) => {
-    transfers?.forEach(({ to, tokenAddress, value }) => {
-      uniqueDrops[executionDate] ??= {};
-      uniqueDrops[executionDate][to] ??= 0;
-      if (tokenAddress === guildTokenAddress) {
-        uniqueDrops[executionDate][to] += Number(
-          ethers.utils.formatEther(value),
-        );
-      }
+    // eslint-disable-next-line no-await-in-loop
+    const res = await fetch(safeURL);
+    // eslint-disable-next-line no-await-in-loop
+    const { next, results } = (await res.json()) as SafeResponse;
+    safeURL = next;
+    const heights = results.map(({ blockNumber }) => blockNumber);
+    minBlockHeight = Math.min(minBlockHeight ?? Infinity, ...heights);
+    maxBlockHeight = Math.max(maxBlockHeight ?? 0, ...heights);
+    const airdrops = results.filter((tx) => tx.origin?.includes('CSV Airdrop'));
+
+    airdrops.forEach(({ blockNumber, executionDate, transfers }) => {
+      if (blockNumber <= lastBlockHeight) return;
+
+      transfers?.forEach(({ to, tokenAddress, value }) => {
+        uniqueDrops[executionDate] ??= {};
+        uniqueDrops[executionDate][to] ??= 0;
+        if (tokenAddress === guildTokenAddress) {
+          uniqueDrops[executionDate][to] += Number(
+            ethers.utils.formatEther(value),
+          );
+        }
+      });
     });
-  });
+  } while (!!safeURL && minBlockHeight > lastBlockHeight);
 
   const added = await Promise.all(
     Object.entries(uniqueDrops).map(async ([executedAt, drops]) => {
-      const dropsRet = await Promise.all(
+      const dropsReturned = await Promise.all(
         Object.entries(drops).map(async ([to, value]) => {
-          const dat = {
+          const entry = {
             playerAddress: to,
             amount: value,
           };
           await client.AddBalance({
-            ...dat,
+            ...entry,
             executedAt: new Date(executedAt),
             tokenAddress: guildTokenAddress,
           });
-          return dat;
+          return entry;
         }),
       );
       return {
-        executedAt: new Date(executedAt).toLocaleString('sv'),
-        drops: dropsRet,
+        executedAt: new Date(executedAt).toLocaleString('sv').replace(' ', '@'),
+        drops: dropsReturned,
       };
     }),
   );
 
-  await client.UpdateLastOffset({
+  await client.UpdateLastBlockHeight({
     tokenAddress: guildTokenAddress,
-    offset: offset + results.length,
+    height: maxBlockHeight,
   });
 
   return {
     added,
-    oldOffset: offset,
-    newOffset: offset + results.length,
+    oldHeight: lastBlockHeight,
+    newHeight: maxBlockHeight,
   };
 };
 
@@ -99,26 +114,26 @@ export default async (req: Request, res: Response): Promise<void> => {
   try {
     const { token: tokens } = await client.GetTokens();
     const seasonStart = getCurrentSeasonStart();
-    const tokenPromiseRet = await Promise.allSettled(
+    const tokenPromiseReturn = await Promise.allSettled(
       tokens.map(
         async ({
           safeAddress,
-          lastOffset: offset,
+          lastBlockHeight,
           guildId,
           address,
           chainId,
           multiplier,
         }) => {
-          const balRet = await setBalances({
+          const balancesReturned = await setBalances({
             safeAddress,
-            offset,
+            lastBlockHeight,
             tokenAddress: address,
             chainId,
           });
           const {
             guild: [{ guild_players: players }],
           } = await client.GetGuildMembers({ id: guildId });
-          const playerRet = await Promise.all(
+          const playerReturned = await Promise.all(
             players.map(
               async ({
                 Player: { ethereumAddress: ethAddress, id: playerId },
@@ -135,8 +150,9 @@ export default async (req: Request, res: Response): Promise<void> => {
                   playerAddress: ethAddress,
                   executedAfter: seasonStart,
                 });
-                const seasonalBalance =
+                const seasonalSum =
                   seasonalTotal.balance_aggregate.aggregate?.sum?.amount ?? 0;
+                const seasonalBalance = seasonalSum * multiplier;
 
                 const {
                   xp: [{ initial } = { initial: 0 }],
@@ -163,15 +179,15 @@ export default async (req: Request, res: Response): Promise<void> => {
             ),
           );
           return {
-            ...balRet,
+            ...balancesReturned,
             multiplier,
             count: players.length,
-            players: playerRet,
+            players: playerReturned,
           };
         },
       ),
     );
-    const tokenRet = tokenPromiseRet.map((t) =>
+    const tokenReturns = tokenPromiseReturn.map((t) =>
       t.status === 'fulfilled' ? t.value : { status: 'failed' },
     );
 
@@ -191,7 +207,7 @@ export default async (req: Request, res: Response): Promise<void> => {
       success: true,
       message: `Successfully synced ${xp.length} users.`,
       seasonStart,
-      tokenReturns: tokenRet,
+      tokenReturns,
     });
   } catch (err) {
     res.status(500).json({ success: false, message: (err as Error).message });
