@@ -58,16 +58,17 @@ async function clearBalances() {
 
 const resetOffsetsMutation = /* GraphQL */`
   mutation ResetOffsets {
-    update_token(where: {}, _set: { lastOffset: 0 }) {
+    update_token(where: {}, _set: { lastBlockHeight: 42746520 }) {
       affected_rows
     }
   }
 `.trim()
 
 async function resetOffsets() {
-  const { data } = await fetchGraphQL({
+  const { data, errors } = await fetchGraphQL({
     opDoc: resetOffsetsMutation,
   })
+  if(!!errors) throw errors[0]
   return data.update_token.affected_rows
 }
 

@@ -6939,14 +6939,14 @@ columns and relationships of "token"
 type token {
   address: String!
   chainId: Int!
-  created_at: timestamptz
+  createdAt: timestamptz
   "An object relationship"
   guild: guild!
   guildId: uuid!
-  lastOffset: Int!
+  lastBlockHeight: Int!
   multiplier: float8!
   safeAddress: String!
-  updated_at: timestamptz
+  updatedAt: timestamptz
   "An array relationship"
   xps(
     "distinct select on columns"
@@ -7000,30 +7000,30 @@ type token_aggregate_fields {
 "aggregate avg on columns"
 type token_avg_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
   multiplier: Float
 }
 "aggregate max on columns"
 type token_max_fields {
   address: String
   chainId: Int
-  created_at: timestamptz
+  createdAt: timestamptz
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
   multiplier: float8
   safeAddress: String
-  updated_at: timestamptz
+  updatedAt: timestamptz
 }
 "aggregate min on columns"
 type token_min_fields {
   address: String
   chainId: Int
-  created_at: timestamptz
+  createdAt: timestamptz
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
   multiplier: float8
   safeAddress: String
-  updated_at: timestamptz
+  updatedAt: timestamptz
 }
 """
 response of any mutation on the table "token"
@@ -7037,43 +7037,43 @@ type token_mutation_response {
 "aggregate stddev on columns"
 type token_stddev_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
   multiplier: Float
 }
 "aggregate stddev_pop on columns"
 type token_stddev_pop_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
   multiplier: Float
 }
 "aggregate stddev_samp on columns"
 type token_stddev_samp_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
   multiplier: Float
 }
 "aggregate sum on columns"
 type token_sum_fields {
   chainId: Int
-  lastOffset: Int
+  lastBlockHeight: Int
   multiplier: float8
 }
 "aggregate var_pop on columns"
 type token_var_pop_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
   multiplier: Float
 }
 "aggregate var_samp on columns"
 type token_var_samp_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
   multiplier: Float
 }
 "aggregate variance on columns"
 type token_variance_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
   multiplier: Float
 }
 """
@@ -8525,17 +8525,17 @@ enum token_select_column {
   "column name"
   chainId
   "column name"
-  created_at
+  createdAt
   "column name"
   guildId
   "column name"
-  lastOffset
+  lastBlockHeight
   "column name"
   multiplier
   "column name"
   safeAddress
   "column name"
-  updated_at
+  updatedAt
 }
 """
 update columns of table "token"
@@ -8546,17 +8546,17 @@ enum token_update_column {
   "column name"
   chainId
   "column name"
-  created_at
+  createdAt
   "column name"
   guildId
   "column name"
-  lastOffset
+  lastBlockHeight
   "column name"
   multiplier
   "column name"
   safeAddress
   "column name"
-  updated_at
+  updatedAt
 }
 """
 unique or primary key constraints on table "xp"
@@ -12616,13 +12616,13 @@ input token_bool_exp {
   _or: [token_bool_exp!]
   address: String_comparison_exp
   chainId: Int_comparison_exp
-  created_at: timestamptz_comparison_exp
+  createdAt: timestamptz_comparison_exp
   guild: guild_bool_exp
   guildId: uuid_comparison_exp
-  lastOffset: Int_comparison_exp
+  lastBlockHeight: Int_comparison_exp
   multiplier: float8_comparison_exp
   safeAddress: String_comparison_exp
-  updated_at: timestamptz_comparison_exp
+  updatedAt: timestamptz_comparison_exp
   xps: xp_bool_exp
   xps_aggregate: xp_aggregate_bool_exp
 }
@@ -12631,7 +12631,7 @@ input type for incrementing numeric columns in table "token"
 """
 input token_inc_input {
   chainId: Int
-  lastOffset: Int
+  lastBlockHeight: Int
   multiplier: float8
 }
 """
@@ -12640,13 +12640,13 @@ input type for inserting data into table "token"
 input token_insert_input {
   address: String
   chainId: Int
-  created_at: timestamptz
+  createdAt: timestamptz
   guild: guild_obj_rel_insert_input
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
   multiplier: float8
   safeAddress: String
-  updated_at: timestamptz
+  updatedAt: timestamptz
   xps: xp_arr_rel_insert_input
 }
 """
@@ -12671,13 +12671,13 @@ Ordering options when selecting data from "token".
 input token_order_by {
   address: order_by
   chainId: order_by
-  created_at: order_by
+  createdAt: order_by
   guild: guild_order_by
   guildId: order_by
-  lastOffset: order_by
+  lastBlockHeight: order_by
   multiplier: order_by
   safeAddress: order_by
-  updated_at: order_by
+  updatedAt: order_by
   xps_aggregate: xp_aggregate_order_by
 }
 "primary key columns input for table: token"
@@ -12690,12 +12690,12 @@ input type for updating data in table "token"
 input token_set_input {
   address: String
   chainId: Int
-  created_at: timestamptz
+  createdAt: timestamptz
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
   multiplier: float8
   safeAddress: String
-  updated_at: timestamptz
+  updatedAt: timestamptz
 }
 """
 Streaming cursor of the table "token"
@@ -12710,12 +12710,12 @@ input token_stream_cursor_input {
 input token_stream_cursor_value_input {
   address: String
   chainId: Int
-  created_at: timestamptz
+  createdAt: timestamptz
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
   multiplier: float8
   safeAddress: String
-  updated_at: timestamptz
+  updatedAt: timestamptz
 }
 input token_updates {
   "increments the numeric columns with given value of the filtered values"
