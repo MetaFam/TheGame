@@ -64,6 +64,9 @@
           - title
         filter: {}
 - table:
+    name: GuildLegitimacy
+    schema: public
+- table:
     name: GuildStatus
     schema: public
   is_enum: true

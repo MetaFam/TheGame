@@ -135,7 +135,7 @@ export const ProfileSection: React.FC<
         {children}
       </Box>
       {(boxType || modal) && (
-        <Modal {...{ isOpen, onClose }}>
+        <Modal {...{ isOpen, onClose }} scrollBehavior="outside">
           <ModalOverlay />
           <ModalContent>
             {modalTitle !== false && (
