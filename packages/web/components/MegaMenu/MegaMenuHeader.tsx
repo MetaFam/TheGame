@@ -8,6 +8,7 @@ import {
   Flex,
   FlexProps,
   HamburgerIcon,
+  HStack,
   Input,
   InputGroup,
   InputLeftElement,
@@ -429,6 +430,7 @@ export const MegaMenuHeader: React.FC = () => {
           backdropFilter="blur(10px)"
           px={4}
           py={1.5}
+          pb="0"
           h={20}
           justify="space-between"
           w="100%"
@@ -459,7 +461,7 @@ export const MegaMenuHeader: React.FC = () => {
           <Flex
             w={{ base: 'auto', lg: '100%' }}
             align="center"
-            justify="center"
+            justify="space-between"
             pos="relative"
             display={{
               base: 'none',
@@ -476,10 +478,18 @@ export const MegaMenuHeader: React.FC = () => {
               top="auto"
               bottom="auto"
             />
-            <DesktopNavLinks />
 
-            <HeaderSearchBar onOpen={onSearchOpen} />
-
+            <HStack
+              flex="0 1 auto"
+              align="center"
+              justify="center"
+              alignSelf="center"
+              height="100%"
+              spacing={0}
+            >
+              <DesktopNavLinks />
+              <HeaderSearchBar onOpen={onSearchOpen} />
+            </HStack>
             <Box
               textAlign="right"
               display={{ base: 'none', lg: 'block' }}

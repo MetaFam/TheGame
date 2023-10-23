@@ -40,30 +40,8 @@ export const MenuSectionLinks: MenuLinkSet[] = [
   },
   {
     label: 'community',
-    type: 'menu',
-    menuItems: [
-      {
-        title: 'Players',
-        explainerText:
-          'Find players of MetaGame; their NFTs, their skills & whatever else they put on there',
-        url: '/players',
-        icon: 'players',
-      },
-      {
-        title: 'Patrons',
-        explainerText:
-          'Check the patrons of MetaGame; the ones supporting MetaGame by buying Seeds',
-        url: '/patrons',
-        icon: 'patrons',
-      },
-      {
-        title: 'Guilds',
-        explainerText:
-          'Discover the guilds of MetaGame; groups of players set around more specific goals',
-        url: '/guilds',
-        icon: 'guilds',
-      },
-    ],
+    type: 'internal-link',
+    url: '/community',
   },
   {
     label: 'learn',
@@ -105,10 +83,5 @@ export const MenuSectionLinks: MenuLinkSet[] = [
     label: 'discord',
     type: 'external-link',
     url: 'https://discord.gg/XGNFdUaxCH',
-  },
-  {
-    label: 'forum',
-    type: 'external-link',
-    url: 'https://forum.metagame.wtf/',
   },
 ];
