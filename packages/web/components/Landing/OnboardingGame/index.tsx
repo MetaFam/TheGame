@@ -452,7 +452,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             textShadow={`0 0 10px var(--chakra-colors-landing500)`}
             maxW={{ base: 'full', md: '4xl' }}
             height="100vh"
-            border="2px solid red"
             overflowY="auto"
             width={{ base: '90%', xl: '100%' }}
             pl={{ base: 0, md: 10, xl: 0 }}
