@@ -12,11 +12,12 @@ import { PageContainer } from 'components/Container';
 import { getPatrons, getPSeedPrice } from 'graphql/getPatrons';
 import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
+import { useRouter } from 'next/router';
 import GuildsPage from 'pages/guilds';
 import PatronsPage from 'pages/patrons';
 import Players from 'pages/players';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -83,37 +84,29 @@ const UnifiedCommunityPage: React.FC<Props> = ({
             onChange={handleTabChange}
           >
             <TabList ml={{ sm: '0em', lg: '4em' }} mr={{ sm: '0em', lg: '4em' }}>
-              <>
-                {
-                  communityTabs.map(({ link }) => {
-                    return(
-                      <Tab
-                        key={`tab-${link}`}
-                        _selected={{
-                          color: 'teal.200',
-                          borderBottom: '2px solid #81E6D9',
-                        }}
-                        w="100%"
-                      >
-                        {link}
-                      </Tab>
-                    )
-                  })
-                }
-              </>
+              {
+                communityTabs.map(({ link }) => 
+                  <Tab
+                    key={`tab-${link}`}
+                    _selected={{
+                      color: 'teal.200',
+                      borderBottom: '2px solid #81E6D9',
+                    }}
+                    w="100%"
+                  >
+                    {link}
+                  </Tab>
+                )
+              }
             </TabList>
             <TabPanels w="100%" p="0">
-              
-                {
-                  communityTabs.map(({ link, component }) => {
-                    return (
-                      <TabPanel key={`panel-${link}`}>
-                        {component}
-                      </TabPanel>
-                    )
-                  })
-                }
-              
+              {
+                communityTabs.map(({ link, component }) => 
+                  <TabPanel key={`panel-${link}`}>
+                    {component}
+                  </TabPanel>
+                )
+              }
             </TabPanels>
           </Tabs>
         </Box>
