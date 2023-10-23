@@ -1,9 +1,12 @@
 import {
   Box,
+  Button,
   ChainIcon,
   chakra,
+  EditIcon,
   Flex,
   Heading,
+  IconButton,
   Image,
   LoadingState,
   Modal,
@@ -27,6 +30,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
+
+import { AddPlayerGuild } from './MembershipModals/AddPlayerGuild';
 
 type DAOListingProps = {
   membership: GuildMembership;
@@ -223,6 +228,8 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editView, setEditView] = useState(false);
+  const [addGuildView, setAddGuildView] = useState(false);
 
   useEffect(() => {
     getAllMemberships(player).then(({ all }) => {
@@ -233,30 +240,96 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
   return (
     <ProfileSection
-      title="DAO Memberships"
+      title="Guild Memberships"
       type={BoxTypes.PLAYER_DAO_MEMBERSHIPS}
       {...{ isOwnProfile, editing }}
+      sx={{
+        bg: editView ? '#422F6A' : '',
+      }}
     >
-      {loading && <LoadingState mb={6} />}
+      {isOwnProfile && (
+        <Box pos="absolute" right={-1} top={2}>
+          <Button
+            _hover={{ textDecoration: 'none' }}
+            bg={'000000000'}
+            onClick={() => {
+              setEditView(!editView);
+            }}
+          >
+            <IconButton
+              aria-label="Edit Profile Info"
+              size="lg"
+              background="transparent"
+              color="pinkShadeOne"
+              icon={<EditIcon />}
+              _hover={{ color: 'white' }}
+              _focus={{ boxShadow: 'none' }}
+              _active={{ transform: 'scale(0.8)' }}
+              isRound
+            />
+          </Button>
+        </Box>
+      )}
+      {!editView && loading && <LoadingState mb={6} />}
 
-      {!loading && memberships.length === 0 && (
+      {!editView && !loading && memberships.length === 0 && (
         <Text fontStyle="italic" textAlign="center" mb={4}>
-          No DAO member&shy;ships found for{' '}
+          No Guild member&shy;ships found for{' '}
           {isOwnProfile ? 'you' : 'this player'}.
         </Text>
       )}
 
       <VStack align="stretch">
-        {memberships.slice(0, 4).map((membership) => (
-          <DAOListing {...{ membership }} key={membership.memberId} />
-        ))}
+        {!editView &&
+          memberships
+            .slice(0, 4)
+            .map((membership) => (
+              <DAOListing {...{ membership }} key={membership.memberId} />
+            ))}
       </VStack>
 
-      {memberships.length > 4 && (
+      {!editView && memberships.length > 4 && (
         <Box textAlign="end">
           <MembershipListModal {...{ isOpen, onClose, memberships }} />
           <ViewAllButton onClick={onOpen} size={memberships.length} />
         </Box>
+      )}
+
+      {editView && (
+        <>
+          <Text textAlign="left" mb={4}>
+            Here you can modify your existing guild memberships, or add new
+            ones.
+            <br />
+            Verified Guild Memberships can only be hidden whereas unverified
+            ones can be removed.
+          </Text>
+
+          <VStack>
+            {memberships?.map((membership) => (
+              <DAOListing {...{ membership }} key={membership.memberId} />
+            ))}
+            <Button
+              sx={{
+                w: '100%',
+                pt: '1',
+                pb: '1',
+                border: '2px dotted #ffffff25',
+              }}
+              onClick={() => setAddGuildView(!addGuildView)}
+            >
+              + Add Membership
+            </Button>
+          </VStack>
+        </>
+      )}
+      {editView && addGuildView && (
+        <>
+          <AddPlayerGuild
+            isOpen={addGuildView}
+            onClose={() => setAddGuildView(false)}
+          />
+        </>
       )}
     </ProfileSection>
   );
