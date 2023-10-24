@@ -32,73 +32,68 @@ export const Carousel: React.FC<{
   const [isSubmittingProof, setIsSubmittingProof] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
   const [isDragging, setDragging] = useState(false);
-  const [multiplier, setMultiplier] = useState(0.35);
   const [sliderWidth, setSliderWidth] = useState(0);
-  const [constraint, setConstraint] = useState(0);
-  const [itemWidth, setItemWidth] = useState(0);
-
-  const positions: number[] = useMemo(
-    () => children.map((_, index) => -Math.abs((itemWidth + gap) * index)),
-    [children, itemWidth, gap],
-  );
 
   const { breakpoints } = useTheme();
-
   const [isBetweenBaseAndLg] = useMediaQuery(
     `(min-width: ${breakpoints.base}) and (max-width: ${breakpoints.lg})`,
   );
-
   const [isGreaterThanLg] = useMediaQuery(`(min-width: ${breakpoints.lg})`);
-
   const isGreaterThanBase = useBreakpointValue({ base: true, md: false });
-
   const isGreaterThanMd = useBreakpointValue({ base: false, md: true });
-
   const isGreaterThanXl = useBreakpointValue({ base: false, xl: true });
-
   const isGreaterThan2Xl = useBreakpointValue({ base: false, '2xl': true });
 
-  useEffect(() => {
+  const responsiveValues = useMemo(() => {
+    let itemWidth = sliderWidth - gap;
+    let multiplier = 0.35;
+    let constraint = 0;
+
     if (isBetweenBaseAndLg) {
-      setItemWidth(sliderWidth - gap);
-      setMultiplier(0.65);
-      setConstraint(1);
+      itemWidth = sliderWidth - gap;
+      multiplier = 0.65;
+      constraint = 1;
     }
     if (isGreaterThanLg) {
-      setItemWidth(sliderWidth / 2 - gap);
-      setMultiplier(0.5);
-      setConstraint(2);
+      itemWidth = sliderWidth / 2 - gap;
+      multiplier = 0.5;
+      constraint = 2;
     }
-
     if (!defaultCarousel && isGreaterThanBase) {
-      setItemWidth(114);
-      setConstraint(1);
+      itemWidth = 114;
+      constraint = 1;
     }
     if (!defaultCarousel && isGreaterThanMd) {
-      setItemWidth(158);
-      setConstraint(1);
+      itemWidth = 158;
+      constraint = 1;
     }
     if (!defaultCarousel && isGreaterThanXl) {
-      setItemWidth(270);
-      setConstraint(1);
+      itemWidth = 270;
+      constraint = 1;
+    }
+    if (!defaultCarousel && isGreaterThan2Xl) {
+      itemWidth = 344;
+      constraint = 2;
     }
 
-    if (!defaultCarousel && isGreaterThan2Xl) {
-      setItemWidth(344);
-      setConstraint(2);
-    }
+    return { itemWidth, multiplier, constraint };
   }, [
     isBetweenBaseAndLg,
     isGreaterThanLg,
     sliderWidth,
     gap,
-    itemsToShow,
     defaultCarousel,
     isGreaterThanBase,
     isGreaterThanMd,
     isGreaterThanXl,
     isGreaterThan2Xl,
   ]);
+  const { itemWidth, multiplier, constraint } = responsiveValues;
+
+  const positions: number[] = useMemo(
+    () => children.map((_, index) => -Math.abs((itemWidth + gap) * index)),
+    [children, itemWidth, gap],
+  );
 
   return (
     <CarouselContext.Provider
