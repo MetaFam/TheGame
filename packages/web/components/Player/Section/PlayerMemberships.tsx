@@ -1,4 +1,5 @@
 import {
+  AddIcon,
   Box,
   Button,
   ChainIcon,
@@ -27,11 +28,16 @@ import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
+import { Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+import { BsEyeFill } from 'react-icons/bs';
+import { MdDragHandle } from 'react-icons/md';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
 
 import { AddPlayerGuild } from './MembershipModals/AddPlayerGuild';
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type DAOListingProps = {
   membership: GuildMembership;
@@ -138,6 +144,133 @@ export const DAOListing: React.FC<DAOListingProps> = ({
         </Flex>
       </Flex>
     </LinkGuild>
+  );
+};
+
+export const GuildListing: React.FC<DAOListingProps> = ({
+  membership: {
+    title,
+    memberShares,
+    daoShares,
+    memberRank,
+    memberXP,
+    chain,
+    address,
+    logoURL,
+    guildname,
+  },
+}) => {
+  const stake = useMemo(() => {
+    if (memberXP != null) {
+      return `XP: ${Math.floor(memberXP)}`;
+    }
+    if (daoShares != null) {
+      const member = memberShares ? Number(memberShares) : null;
+      const dao = Number(daoShares);
+      const percent = member != null ? ((member * 100) / dao).toFixed(3) : '?';
+      return (
+        <chakra.span
+          textAlign={['center', 'left']}
+          display={['flex', 'inline']}
+          flexDirection={['column', 'inherit']}
+        >
+          <chakra.span mr={[0, 1]} _after={{ content: [undefined, '":"'] }}>
+            Shares
+          </chakra.span>
+          <chakra.span whiteSpace="nowrap" title={`${percent}%`}>
+            <Text as="sup">
+              {member != null ? member.toLocaleString() : 'Unknown'}
+            </Text>{' '}
+            <chakra.span fontSize="lg" pos="relative" top={0.5}>
+              ⁄
+            </chakra.span>{' '}
+            <Text as="sub">{dao.toLocaleString()}</Text>
+          </chakra.span>
+        </chakra.span>
+      );
+    }
+    return null;
+  }, [memberShares, memberXP, daoShares]);
+
+  const daoURL = useMemo(() => getDAOLink(chain, address), [chain, address]);
+
+  return (
+    <Flex
+      w="100%"
+      justifyContent="space-between"
+      alignItems="center"
+      sx={{
+        px: 4,
+        py: 3,
+        rounder: 'lg',
+        bg: '#604B8B',
+        mt: '1em',
+        border: '2px solid #FFFFFF25',
+        borderRadius: '8px',
+      }}
+    >
+      <Flex align="center">
+        <IconButton
+          aria-label="hide guild"
+          size="lg"
+          icon={<BsEyeFill />}
+          variant="unstyled"
+        ></IconButton>
+        <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
+          {logoURL ? (
+            <Image
+              src={optimizedImage('logoURL', logoURL)}
+              w={14}
+              h={14}
+              mx="auto"
+              my={1}
+              borderRadius={4}
+            />
+          ) : (
+            <ChainIcon {...{ chain }} boxSize={16} p={2} />
+          )}
+        </Box>
+        <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
+      </Flex>
+      <Flex w="full" direction="column" align="start">
+        <Heading
+          fontWeight="bold"
+          style={{ fontVariant: 'small-caps' }}
+          fontSize="xs"
+          color={daoURL ? 'cyanText' : 'white'}
+          ml={[0, '1em']}
+          sx={{ textIndent: [0, '-1em'] }}
+          textAlign={['center', 'left']}
+          flexGrow={1}
+        >
+          {title ?? (
+            <Text as="span">
+              Unknown{' '}
+              <Text as="span" textTransform="capitalize">
+                {chain}
+              </Text>{' '}
+              DAO
+            </Text>
+          )}
+        </Heading>
+        <Flex align="center" mt="0 !important">
+          {memberRank && (
+            <Text fontSize="xs" casing="capitalize" mr={3}>
+              {memberRank}
+            </Text>
+          )}
+          <Text fontSize="xs" ml={[1.5, 0]}>
+            {stake}
+          </Text>
+        </Flex>
+      </Flex>
+      <IconButton
+        aria-label="drag n drop handle"
+        size="lg"
+        icon={<MdDragHandle />}
+        variant="unstyled"
+      ></IconButton>
+    </Flex>
   );
 };
 
@@ -304,23 +437,33 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             Verified Guild Memberships can only be hidden whereas unverified
             ones can be removed.
           </Text>
-
-          <VStack>
-            {memberships?.map((membership) => (
-              <DAOListing {...{ membership }} key={membership.memberId} />
-            ))}
-            <Button
-              sx={{
-                w: '100%',
-                pt: '1',
-                pb: '1',
-                border: '2px dotted #ffffff25',
-              }}
-              onClick={() => setAddGuildView(!addGuildView)}
+          <Box w="100%" h="min-content">
+            <ResponsiveGridLayout
+              breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+              cols={{ lg: 1, md: 1, sm: 1, xs: 1, xxs: 1 }}
+              rowHeight={30}
             >
-              + Add Membership
-            </Button>
-          </VStack>
+              {memberships?.map((membership) => (
+                <GuildListing
+                  {...{ membership }}
+                  key={membership.memberId}
+                  data-grid={{ x: 0, y: 0, w: 1, h: 2 }}
+                />
+              ))}
+            </ResponsiveGridLayout>
+          </Box>
+          <Button
+            variant="unstyled"
+            sx={{
+              w: '100%',
+              mt: '1em',
+              border: '2px dotted #ffffff25',
+            }}
+            onClick={() => setAddGuildView(!addGuildView)}
+            leftIcon={<AddIcon />}
+          >
+            Add Membership
+          </Button>
         </>
       )}
       {editView && addGuildView && (
