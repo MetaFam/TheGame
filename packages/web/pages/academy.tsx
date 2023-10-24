@@ -13,7 +13,7 @@ import { Carousel } from 'components/Carousel';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   PathPlaybookType,
   QuestChainPathPlaybookPaths,
@@ -28,7 +28,15 @@ import {
 const AcademyPage: React.FC = () => {
   const carouselGap =
     useBreakpointValue({ base: 8, md: 16, xl: 24, '2xl': 32 }) || 32;
-  const makeItemPath = (type: PathPlaybookType): string => {
+  const cardMinWidth =
+    useBreakpointValue({
+      base: '7.175rem',
+      md: '10.125',
+      xl: '16.875rem',
+      '2xl': '21.5rem',
+    }) || '21.5rem';
+
+  const makeItemPath = useCallback((type: PathPlaybookType): string => {
     let urlPath: string;
 
     switch (type) {
@@ -46,7 +54,7 @@ const AcademyPage: React.FC = () => {
         break;
     }
     return urlPath;
-  };
+  }, []);
 
   return (
     <PageContainer>
@@ -179,6 +187,7 @@ const AcademyPage: React.FC = () => {
                             seedsEarned,
                             length: categoryItems.length,
                             index: i,
+                            minWidth: cardMinWidth,
                           }}
                         />
                       ),
@@ -212,15 +221,23 @@ type CardProps = {
   seedsEarned?: number;
   length: number;
   index: number;
+  minWidth: string | number;
 };
 
-const Card: React.FC<CardProps> = ({ title, link, image, length, index }) => (
+const Card: React.FC<CardProps> = ({
+  title,
+  link,
+  image,
+  length,
+  index,
+  minWidth,
+}) => (
   <Link
     role="group"
     _hover={{ textDecoration: 'none' }}
     href={link}
     w="100%"
-    minW={{ base: '7.175rem', md: '10.125', xl: '16.875rem', '2xl': '21.5rem' }}
+    minW={minWidth}
     p={0}
   >
     <MetaTilePathPlaybook image={image} index={index} length={length}>

@@ -4,6 +4,7 @@ import {
   FlexProps,
   Image,
   StackProps,
+  useBreakpointValue,
   VStack,
 } from '@chakra-ui/react';
 import { Maybe } from '@metafam/utils';
@@ -175,8 +176,22 @@ export const MetaTilePathPlaybook = React.forwardRef<
     { noTilt = false, maxTilt = 6, children, image, index, length, ...props },
     fwdRef,
   ) => {
-    const tilt = useRef<Maybe<HTMLDivElement>>(null);
+    const cardMaxWidth =
+      useBreakpointValue({
+        base: 24,
+        md: '9.875rem',
+        xl: '15rem',
+        '2xl': '20rem',
+      }) || '20rem';
+    const cardMinHeight =
+      useBreakpointValue({
+        base: 32,
+        md: '15.187rem',
+        xl: '22.5rem',
+        '2xl': '30rem',
+      }) || '30rem';
 
+    const tilt = useRef<Maybe<HTMLDivElement>>(null);
     useEffect(() => {
       if (!noTilt && tilt.current) {
         VanillaTilt.init(tilt.current);
@@ -191,8 +206,8 @@ export const MetaTilePathPlaybook = React.forwardRef<
         data-tilt-easing="cubic-bezier(.03,.98,.52,.99)"
         h="full"
         w="full"
-        minH={{ base: 32, md: '15.187rem', xl: '22.5rem', '2xl': '30rem' }}
-        maxW={{ base: 24, md: '9.875rem', xl: '15rem', '2xl': '20rem' }}
+        minH={cardMinHeight}
+        maxW={cardMaxWidth}
         mr={{ base: 2.5, xl: 4, '2xl': 6 }}
         borderRightRadius={{ base: 'lg', xl: '2xl' }}
         ref={(elem) => {
@@ -209,7 +224,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
           src={image}
           position={'relative'}
           borderRightRadius={{ base: 'lg', xl: '2xl' }}
-          maxW={{ base: 24, md: '9.875rem', xl: '15rem', '2xl': '20rem' }}
+          maxW={cardMaxWidth}
           objectFit={'cover'}
           borderLeftRadius={0}
           zIndex={0}
@@ -225,7 +240,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
           }}
           borderRightRadius={{ base: 'lg', xl: '2xl' }}
           p={{ base: 1, xl: 10 }}
-          maxW={{ base: 24, md: '9.875rem', xl: '15rem', '2xl': '20rem' }} // (2 / 3.5) = ~0.571 aspect ratio desired
+          maxW={cardMaxWidth}
           w="full"
           h="full"
           align="stretch"
@@ -236,7 +251,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
           {children}
           <MetaTilePathCosmetics type="edges" />
         </Flex>
-        <MetaTilePathCosmetics type="overlay" />
+        <MetaTilePathCosmetics type="overlay" width={cardMaxWidth} />
       </Flex>
     );
   },
@@ -245,15 +260,18 @@ export const MetaTilePathPlaybook = React.forwardRef<
 type MetaTilePathCosmeticOptions = 'edges' | 'overlay';
 interface MetaTilePathCosmeticsProps {
   type: MetaTilePathCosmeticOptions;
+  width?: string | number;
 }
 
 /**
- * `MetaTilePathCosmetics` - The cosmetic elements of the MetaTilePlaybook component when used in paths & playbooks
+ * `MetaTilePathCosmetics` - The cosmetic elements of the MetaTilePathPlaybook component when used in paths & playbooks
  * @param type 'edges | overlay' - The type of cosmetic to render
+ * @param width string | number - Sets the width of the cosmetic overlay
  * @returns
  */
 export const MetaTilePathCosmetics: React.FC<MetaTilePathCosmeticsProps> = ({
   type,
+  width,
 }) => {
   if (type === 'edges') {
     return (
@@ -294,7 +312,7 @@ export const MetaTilePathCosmetics: React.FC<MetaTilePathCosmeticsProps> = ({
         inset={0}
         right="auto"
         width="full"
-        maxW={{ base: 24, md: '9.875rem', xl: '15rem', '2xl': '20rem' }}
+        maxW={width}
         background={
           'linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0.34%, rgba(0, 0, 0, 0.00) 34.08%, rgba(13, 0, 19, 0.35) 59.18%, rgba(20, 0, 28, 0.85) 100%)'
         }
