@@ -27,12 +27,11 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer } from 'components/MarkdownViewer';
+import { CONFIG } from 'config';
 import type { GoogleCalEventType } from 'lib/hooks/useCalendar';
 import { useCalendar } from 'lib/hooks/useCalendar';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
-
-import { calendarID } from './config';
 
 type GroupedEventsType = {
   date: string;
@@ -54,11 +53,12 @@ const loadMoreButtonStyles: ButtonProps = {
 
 export const Calendar: React.FC = () => {
   const [calendar, setCalendar] = useState<GroupedEventsType[]>([]);
+  const { calendarId } = CONFIG;
   const [loadingMore, setLoadingMore] = useState(false);
   const showHowMany = 4;
   const [limit, setLimit] = useState(showHowMany);
   const { events, fetching, error } = useCalendar();
-  const calICS = `https://calendar.google.com/calendar/ical/${calendarID}%40group.calendar.google.com/public/basic.ics`;
+  const calICS = `https://calendar.google.com/calendar/ical/${calendarId}%40group.calendar.google.com/public/basic.ics`;
   const totalEvents = events?.length || 0;
   const clampedEvents = events?.slice(0, limit);
 
@@ -145,9 +145,6 @@ export const Calendar: React.FC = () => {
       setCalendar(days);
     }
 
-    return () => {
-      setCalendar([]);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit, fetching]);
 
