@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  ButtonProps,
   CalendarAddIcon,
   CalendarIcon,
   ExternalLinkIcon,
@@ -19,6 +20,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Spinner,
   Text,
   Tooltip,
   VStack,
@@ -37,24 +39,33 @@ type GroupedEventsType = {
   events: GoogleCalEventType[];
 };
 
+const loadMoreButtonStyles: ButtonProps = {
+  display: 'flex',
+  variant: 'ghost',
+  bg: 'blackAlpha.300',
+  color: 'violet',
+  fontSize: 'sm',
+  w: 'auto',
+  h: 'full',
+  py: 0,
+  px: 4,
+  textTransform: 'none',
+};
+
 export const Calendar: React.FC = () => {
   const [calendar, setCalendar] = useState<GroupedEventsType[]>([]);
-  const [limit, setLimit] = useState(4);
-  const { events, fetching, error } = useCalendar(limit);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const showHowMany = 4;
+  const [limit, setLimit] = useState(showHowMany);
+  const { events, fetching, error } = useCalendar();
   const calICS = `https://calendar.google.com/calendar/ical/${calendarID}%40group.calendar.google.com/public/basic.ics`;
-  // const usersOffset = DateTime.local().offset / 60;
-  // const usersOffsetString = usersOffset > 0 ? `+${usersOffset}` : usersOffset;
-
-  // const getUrlStringFromDescription = (desc: string) => {
-  //   const regex = /(?<=")[^"]+(?=")/g;
-  //   const cover = desc ? desc.match(regex) : '';
-
-  //   return cover;
-  // }
+  const totalEvents = events?.length || 0;
+  const clampedEvents = events?.slice(0, limit);
 
   // strip out the +++cover+++ from the description
   const cleanDescription = (desc: string) =>
     desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : '';
+
   const buildAddToCalendarLink = (event: GoogleCalEventType) => {
     const start =
       'dateTime' in event.start
@@ -96,13 +107,41 @@ export const Calendar: React.FC = () => {
     return days;
   };
 
-  const handleLoadMore = () => {
-    setLimit(limit + 4);
+  const handleShowMoreItems = async () => {
+    try {
+      setLoadingMore(true);
+      setTimeout(() => {
+        setLimit((prevValue) => prevValue + showHowMany);
+        setLoadingMore(false);
+      }, 500);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  function renderLoadMoreButton() {
+    if (limit < totalEvents) {
+      /* When there are more items to show */
+      return (
+        <MetaButton onClick={handleShowMoreItems} {...loadMoreButtonStyles}>
+          {loadingMore ? <Spinner size="xs" /> : 'Load More'}
+        </MetaButton>
+      );
+    }
+
+    /* When there are no more items to show */
+    return (
+      <Tooltip label="No more to load" aria-label="A tooltip">
+        <MetaButton as="span" isDisabled {...loadMoreButtonStyles}>
+          Load more
+        </MetaButton>
+      </Tooltip>
+    );
+  }
+
   useEffect(() => {
-    if (!fetching && calendar.length === 0 && events !== null) {
-      const days = groupEventsByDay(events);
+    if (!fetching && clampedEvents !== undefined) {
+      const days = groupEventsByDay(clampedEvents as GoogleCalEventType[]);
       setCalendar(days);
     }
 
@@ -138,6 +177,7 @@ export const Calendar: React.FC = () => {
             gap={5}
             flexShrink={1}
             position="relative"
+            pb={3}
           >
             <HStack flexGrow={1}>
               <Text
@@ -163,7 +203,7 @@ export const Calendar: React.FC = () => {
                 variant="ghost"
                 bg="blackAlpha.300"
                 color="violet"
-                fontSize="md"
+                fontSize="sm"
                 translateX={9}
               >
                 Download ICS
@@ -175,25 +215,13 @@ export const Calendar: React.FC = () => {
               position="absolute"
               inset={0}
               top="auto"
+              bottom={4}
               justify="center"
-              py={3}
-              height="75px"
+              align="stretch"
+              py={0}
+              height="40px"
             >
-              <MetaButton
-                variant="ghost"
-                bg="blackAlpha.300"
-                color="violet"
-                textTransform="none"
-                onClick={handleLoadMore}
-                disabled={limit >= 20}
-                isDisabled={limit >= 20}
-                w="auto"
-                h="auto"
-                py={3}
-                borderTopRadius={0}
-              >
-                Load More
-              </MetaButton>
+              {renderLoadMoreButton()}
             </HStack>
             <VStack
               as="ol"
@@ -203,6 +231,7 @@ export const Calendar: React.FC = () => {
               ml={0}
               px={0}
               pr={limit > 4 ? 3 : 0}
+              transition={'all 0.3s ease'}
               sx={{
                 listStyle: 'none',
               }}
@@ -230,8 +259,9 @@ export const Calendar: React.FC = () => {
                       as="h3"
                       fontSize="sm"
                       fontFamily="body"
+                      fontWeight={400}
                       className="calendar__day--title"
-                      mb={3}
+                      mb={2}
                       pl={0}
                     >
                       {DateTime.fromISO(day.date)
