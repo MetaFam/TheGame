@@ -27,14 +27,21 @@ import {
  */
 const AcademyPage: React.FC = () => {
   const carouselGap =
-    useBreakpointValue({ base: 8, md: 16, xl: 24, '2xl': 32 }) || 32;
+    useBreakpointValue({ base: 8, md: 8, xl: 24, '2xl': 32 }) || 32;
   const cardMinWidth =
     useBreakpointValue({
-      base: '7.175rem',
-      md: '10.125',
-      xl: '16.875rem',
+      base: '9.75rem',
+      md: '12rem',
+      xl: '16.475rem',
       '2xl': '21.5rem',
     }) || '21.5rem';
+  const itemsOnScreen = useBreakpointValue({
+    base: 2,
+    md: 3,
+    lg: 3,
+    xl: 4,
+    '2xl': 4,
+  });
 
   const makeItemPath = useCallback((type: PathPlaybookType): string => {
     let urlPath: string;
@@ -64,24 +71,24 @@ const AcademyPage: React.FC = () => {
         url="https://metagame.wtf/paths-and-playbooks"
       />
       <VStack
-        pb={16}
+        pb={{ base: 8, xl: 10, '2xl': 16 }}
         spacing={7}
         w={{ base: '100%', xl: 'unset' }}
         maxW={{ base: 'unset', xl: '6xl', '2xl': '92rem' }}
       >
-        <VStack spacing={1} mb={12} w="full" align="center">
+        <VStack spacing={1} mb={{ base: 6, '2xl': 12 }} w="full" align="center">
           <Heading
             as="h1"
             fontFamily="body"
             fontWeight="600"
-            fontSize={{ base: '4xl', xl: '6xl' }}
+            fontSize={{ base: '4xl', '2xl': '6xl' }}
             textAlign="center"
             w={{ base: 'full', xl: ' full' }}
           >
             The Academy
           </Heading>
           <Text
-            fontSize={{ base: 'md', xl: 'xl' }}
+            fontSize={{ base: 'md', '2xl': 'xl' }}
             w="full"
             maxW="4xl"
             textAlign="center"
@@ -125,12 +132,12 @@ const AcademyPage: React.FC = () => {
                   as="h2"
                   fontFamily="body"
                   fontWeight="600"
-                  fontSize={{ base: '3xl', xl: '5xl' }}
+                  fontSize={{ base: '3xl', '2xl': '5xl' }}
                 >
                   {categoryTitle}
                 </Heading>
                 {description ? (
-                  <Text fontSize={{ base: 'md', lg: 'lg' }} maxW="3xl">
+                  <Text fontSize={{ base: 'md', '2xl': 'lg' }} maxW="3xl">
                     {description}
                   </Text>
                 ) : null}
@@ -139,19 +146,24 @@ const AcademyPage: React.FC = () => {
                 <Box
                   position="relative"
                   w={{
-                    base: '100%',
+                    base: 'calc(100% + 1.5rem)',
                     md: 'calc(100% + 1rem)',
                     xl: 'calc(100% + 4rem)',
                     '2xl': 'calc(100% + 10rem)',
                   }}
                   transform={{
-                    base: 'unset',
+                    base: 'translateX(-0.75rem)',
                     md: 'translateX(-0.5rem)',
                     xl: 'translateX(-2rem)',
                     '2xl': 'translateX(-5rem)',
                   }}
                   p={{ base: 0, md: '0.5rem', xl: '1rem' }}
-                  px={{ base: 0, md: '0.5rem', xl: '2rem', '2xl': '5rem' }}
+                  px={{
+                    base: '1.25rem',
+                    md: '0.5rem',
+                    xl: '2rem',
+                    '2xl': '5rem',
+                  }}
                   mx="auto"
                   overflowY="hidden"
                   overflowX="hidden"
@@ -159,6 +171,7 @@ const AcademyPage: React.FC = () => {
                   <Carousel
                     gap={carouselGap}
                     defaultCarousel={false}
+                    itemsToShow={itemsOnScreen}
                     hidePositions
                   >
                     {categoryItems.map(
@@ -238,6 +251,7 @@ const Card: React.FC<CardProps> = ({
     href={link}
     w="100%"
     minW={minWidth}
+    maxW={minWidth}
     p={0}
   >
     <MetaTilePathPlaybook image={image} index={index} length={length}>

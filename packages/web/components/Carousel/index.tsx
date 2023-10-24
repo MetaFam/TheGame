@@ -60,19 +60,19 @@ export const Carousel: React.FC<{
       constraint = 2;
     }
     if (!defaultCarousel && isGreaterThanBase) {
-      itemWidth = 114;
-      constraint = 1;
+      itemWidth = sliderWidth / 2 - gap;
+      constraint = 2;
     }
     if (!defaultCarousel && isGreaterThanMd) {
-      itemWidth = 158;
-      constraint = 1;
+      itemWidth = sliderWidth / 3 - gap;
+      constraint = 2;
     }
     if (!defaultCarousel && isGreaterThanXl) {
-      itemWidth = 270;
-      constraint = 1;
+      itemWidth = sliderWidth / 4 - gap;
+      constraint = 2;
     }
     if (!defaultCarousel && isGreaterThan2Xl) {
-      itemWidth = 344;
+      itemWidth = sliderWidth / 4 - gap;
       constraint = 2;
     }
 
