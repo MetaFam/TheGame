@@ -1,4 +1,5 @@
 import { Maybe } from '@metafam/utils';
+import { CONFIG } from 'config';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
@@ -33,7 +34,8 @@ type TimeZonesType = {
   calendar: string;
 };
 
-export const useCalendar = (limit: number): UseCalendarReturnTypes => {
+export const useCalendar = (limit?: number): UseCalendarReturnTypes => {
+  const { metagameCalendarBackend } = CONFIG;
   const [events, setEvents] = useState<Maybe<GoogleCalEventType[]>>(null);
   const [timeZone, setTimeZone] = useState<TimeZonesType>({
     users: '',
@@ -48,18 +50,18 @@ export const useCalendar = (limit: number): UseCalendarReturnTypes => {
       try {
         setFetching(true);
 
-        const scheduleEndpoint = 'https://mgapi.luxumbra.dev/events';
-
-        const res = await fetch(scheduleEndpoint);
+        const res = await fetch(metagameCalendarBackend);
         const { data } = await res.json();
         if (res.status !== 200) {
           throw new Error('Error fetching data');
         }
-        // use limit to limit the number of events
 
-        const items = data.items.filter(
-          (item: GoogleCalEventType, i: number) => i < clamp,
-        );
+        const items =
+          clamp === 0
+            ? data.items.map((item: GoogleCalEventType) => item)
+            : data.items.filter(
+                (item: GoogleCalEventType, i: number) => i < clamp,
+              );
         const usersTimeZone = DateTime.local().offsetNameShort || data.timeZone;
         setEvents(items);
         setTimeZone({ users: usersTimeZone, calendar: data.timeZone });
@@ -70,10 +72,10 @@ export const useCalendar = (limit: number): UseCalendarReturnTypes => {
         setError(err as Error);
       }
     };
-    fetchCalendarData(limit || 4);
+    fetchCalendarData(limit || 0);
 
     return () => {};
-  }, [limit]);
+  }, [limit, metagameCalendarBackend]);
 
   if (error) {
     console.error('useCalendar error', error);
