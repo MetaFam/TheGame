@@ -45,12 +45,14 @@ export const Item: React.FC<ItemProps> = ({ children, index }) => {
       w={!defaultCarousel ? '100%' : `${itemWidth}px`}
       flex={
         !defaultCarousel
-          ? { base: '0 0', xl: '0 0 16.875rem', '2xl': '0 0 21.5rem' }
+          ? {
+              base: `0 0 ${itemWidth}px`,
+              xl: `0 0 ${itemWidth}px`,
+              '2xl': `0 0 ${itemWidth}px`,
+            }
           : 'inherit'
       }
-      maxW={
-        !defaultCarousel ? { base: '16.875rem', '2xl': '21.5rem' } : 'inherit'
-      }
+      maxW={!defaultCarousel ? `${itemWidth}px` : 'inherit'}
       _notLast={{
         mr: `${gap}px`,
       }}

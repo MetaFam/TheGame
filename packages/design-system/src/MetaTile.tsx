@@ -178,15 +178,15 @@ export const MetaTilePathPlaybook = React.forwardRef<
   ) => {
     const cardMaxWidth =
       useBreakpointValue({
-        base: 24,
-        md: '9.875rem',
+        base: 36,
+        md: 48,
         xl: '15rem',
         '2xl': '20rem',
       }) || '20rem';
     const cardMinHeight =
       useBreakpointValue({
-        base: 32,
-        md: '15.187rem',
+        base: '13.5rem',
+        md: '18rem',
         xl: '22.5rem',
         '2xl': '30rem',
       }) || '30rem';
@@ -207,6 +207,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
         h="full"
         w="full"
         minH={cardMinHeight}
+        maxH={cardMinHeight}
         maxW={cardMaxWidth}
         mr={{ base: 2.5, xl: 4, '2xl': 6 }}
         borderRightRadius={{ base: 'lg', xl: '2xl' }}
@@ -239,7 +240,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
             xl: '2px solid rgba(255, 255, 255, 0.12)',
           }}
           borderRightRadius={{ base: 'lg', xl: '2xl' }}
-          p={{ base: 1, xl: 10 }}
+          p={{ base: 1, md: 2, xl: 6, '2xl': 10 }}
           maxW={cardMaxWidth}
           w="full"
           h="full"

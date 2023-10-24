@@ -4,6 +4,7 @@ import {
   ChevronRight,
   HStack,
   IconButton,
+  useBreakpointValue,
   VStack,
 } from '@metafam/ds';
 import { useBoundingRect } from 'lib/hooks/useBoundingRect';
@@ -29,6 +30,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const [ref, { width }] = useBoundingRect();
   const itemsCount = positions.length;
+  // const isMobile = useBreakpointValue({ base: true, lg: false });
 
   useEffect(
     () => setSliderWidth(Math.round(width ?? 0)),
@@ -44,10 +46,10 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
         w={
           defaultCarousel
             ? { base: '100%', md: `calc(100% + ${gap}px)` }
-            : `calc(100% + ${gap / 2}px)`
+            : `calc(100% + ${gap / 2}px + 1rem)`
         }
-        ml={defaultCarousel ? `-${gap / 2}px` : 0}
-        px={defaultCarousel ? `${gap / 2}px` : 0}
+        ml={defaultCarousel ? `-${gap / 2}px` : { base: 0, lg: -4 }}
+        px={defaultCarousel ? `${gap / 2}px` : { base: 0, lg: 4 }}
         py={{ base: 0, lg: '1rem' }}
         position="relative"
         overflow="visible"
@@ -77,13 +79,13 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
       </Box>
       {!defaultCarousel && positions.length > constraint && (
         <HStack
-          display={{ base: 'none', xl: 'flex' }}
+          display={{ base: 'flex', xl: 'flex' }}
           position="absolute"
           top="auto"
           bottom="25%"
           h="50%"
-          w={{ base: `calc(100% + ${40}px)`, '2xl': '100%' }}
-          left={{ base: '-20px', '2xl': 0 }}
+          w={{ base: '100%', lg: `calc(100% + ${45}px)`, '2xl': '100%' }}
+          left={{ base: '0', lg: '-25px', '2xl': 0 }}
           justify="space-between"
           align="center"
           spacing={2}
@@ -92,7 +94,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
           <IconButton
             icon={<ChevronRight />}
             aria-label="Previous"
-            fontSize="9xl"
+            fontSize={{ base: '7xl', xl: '9xl' }}
             onClick={() => {
               setTrackIsActive(true);
               setActiveItem(activeItem - 1);
@@ -101,8 +103,10 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
             color="gray.200"
             variant="link"
             minW={0}
+            maxW={{ base: 5, lg: 'inherit' }}
             isDisabled={activeItem === 0}
             opacity={activeItem === 0 ? '0!important' : 1}
+            cursor={activeItem === 0 ? 'default!important' : 'pointer'}
             pointerEvents="all"
             transform="scaleX(-1)"
             transition="opacity 0.2s ease-in-out"
@@ -111,7 +115,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
           <IconButton
             icon={<ChevronRight />}
             aria-label="Next"
-            fontSize="9xl"
+            fontSize={{ base: '7xl', xl: '9xl' }}
             onClick={() => {
               setTrackIsActive(true);
               setActiveItem(activeItem + 1);
@@ -120,7 +124,13 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
             color="gray.200"
             variant="link"
             minW={0}
+            maxW={{ base: 5, lg: 'inherit' }}
             isDisabled={activeItem + itemsToShow >= itemsCount}
+            cursor={
+              activeItem + itemsToShow >= itemsCount
+                ? 'default!important'
+                : 'pointer'
+            }
             opacity={activeItem + itemsToShow >= itemsCount ? '0!important' : 1}
             pointerEvents="all"
             transition="opacity 0.2s ease-in-out"
@@ -128,7 +138,7 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
         </HStack>
       )}
 
-      {!hidePositions && positions.length > constraint && (
+      {!hidePositions && defaultCarousel && positions.length > constraint && (
         <HStack
           w={`${itemWidth}px`}
           justify="center"
@@ -191,6 +201,70 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
           })}
         </HStack>
       )}
+
+      {/* {hidePositions && !defaultCarousel && isMobile && positions.length > constraint && (
+        <HStack
+          w={`${width}px`}
+          justify="center"
+          align="center"
+          spacing={2}
+        >
+          {positions.map((_, index) => {
+            if (!defaultCarousel && index <= itemsCount / 3) {
+              return (
+                <Button
+                  key={index}
+                  onClick={() => {
+                    setTrackIsActive(true);
+                    setActiveItem(index);
+                  }}
+                  onFocus={handleFocus}
+                  color="gray.200"
+                  variant="link"
+                  minW={0}
+                >
+                  {index === activeItem ? (
+                    <Box bg="#DBD1DB" borderRadius="50%" h={4} w={4} />
+                  ) : (
+                    <Box
+                      border="1px solid"
+                      borderColor="#DBD1DB"
+                      borderRadius="50%"
+                      h={4}
+                      w={4}
+                    />
+                  )}
+                </Button>
+              );
+            }
+            return (
+              <Button
+                key={index}
+                onClick={() => {
+                  setTrackIsActive(true);
+                  setActiveItem(index);
+                }}
+                onFocus={handleFocus}
+                color="gray.200"
+                variant="link"
+                minW={0}
+              >
+                {index === activeItem ? (
+                  <Box bg="#DBD1DB" borderRadius="50%" h={4} w={4} />
+                ) : (
+                  <Box
+                    border="1px solid"
+                    borderColor="#DBD1DB"
+                    borderRadius="50%"
+                    h={4}
+                    w={4}
+                  />
+                )}
+              </Button>
+            );
+          })}
+        </HStack>
+      )} */}
     </VStack>
   );
 };
