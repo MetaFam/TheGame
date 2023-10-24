@@ -9,7 +9,6 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Carousel } from 'components/Carousel';
-// import { Carousel } from 'components/Carousel';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
@@ -112,7 +111,6 @@ const AcademyPage: React.FC = () => {
               cat === categoryName && cat !== 'all',
           );
 
-          // if there's an item with the category of all, add it to the categoryItems array and
           const allItem = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
           ).filter(([name, { category: cat }]) => cat === 'all');

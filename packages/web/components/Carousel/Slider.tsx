@@ -30,7 +30,6 @@ export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const [ref, { width }] = useBoundingRect();
   const itemsCount = positions.length;
-  // const isMobile = useBreakpointValue({ base: true, lg: false });
 
   useEffect(
     () => setSliderWidth(Math.round(width ?? 0)),
