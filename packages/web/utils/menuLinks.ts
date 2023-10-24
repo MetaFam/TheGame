@@ -84,9 +84,4 @@ export const MenuSectionLinks: MenuLinkSet[] = [
     type: 'external-link',
     url: 'https://discord.gg/XGNFdUaxCH',
   },
-  {
-    label: 'forum',
-    type: 'external-link',
-    url: 'https://forum.metagame.wtf/',
-  },
 ];

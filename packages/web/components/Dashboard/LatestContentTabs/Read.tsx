@@ -48,8 +48,17 @@ export const Read: React.FC = () => {
                   w="100%"
                   h="100%"
                   overflow="hidden"
+                  justifyContent={'left'}
                 >
-                  <Box position="relative" zIndex={5} p={6}>
+                  <Box
+                    position="relative"
+                    zIndex={5}
+                    p={6}
+                    justifyContent={'left'}
+                    display={'flex'}
+                    flexDirection={'column'}
+                    width="100%"
+                  >
                     <Heading
                       size="xs"
                       color="white"

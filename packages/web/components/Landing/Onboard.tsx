@@ -13,7 +13,7 @@ export const Onboard: React.FC = () => {
     <FullPageContainer
       id={section}
       position="relative"
-      overflow="clip"
+      overflowY="auto"
       fontSize={{ base: 'xl', md: '5xl' }}
       spacing={12}
       px={{ base: 3, lg: 12 }}
