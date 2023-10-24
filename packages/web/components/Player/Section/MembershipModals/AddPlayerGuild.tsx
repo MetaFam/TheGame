@@ -1,4 +1,5 @@
 import {
+  AddIcon,
   Box,
   Button,
   Modal,
@@ -31,14 +32,14 @@ export const AddPlayerGuild: React.FC<{
           mt={3}
           mb={10}
         >
-          Search For Guild
+          Search for a Guild
         </Text>
       </ModalHeader>
       <ModalCloseButton />
       <ModalBody p={[0, 6]}>
         <GuildSearchBar />
       </ModalBody>
-      <Button w="50%" ml="25%">
+      <Button variant="outline" w="50%" ml="25%" leftIcon={<AddIcon />}>
         Add New Guild
       </Button>
       <ModalFooter mt={6} justifyContent="center">

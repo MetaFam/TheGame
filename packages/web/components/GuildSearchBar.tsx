@@ -1,14 +1,17 @@
 import {
+  AddIcon,
   Avatar,
   Box,
   BoxedNextImage as Image,
+  Button,
+  Center,
   Flex,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
+  Stack,
   Text,
-  Button,
-  AddIcon,
 } from '@metafam/ds';
 import { httpLink, Maybe } from '@metafam/utils';
 import LogoImage from 'assets/logo.webp';
@@ -42,52 +45,76 @@ import {
 interface OptionProps {
   text: string;
   name: string;
+  url?: string;
   image?: string;
   onClick: () => void;
 }
 
-const Option = ({ onClick, name, image, text }: OptionProps) => (
-  <Box {...{ onClick }} as="li" role="option" sx={{ listStyleType: 'none' }}>
+const Option = ({ onClick, name, image, text, url }: OptionProps) => (
+  <Box as="li" role="option" sx={{ listStyleType: 'none' }}>
     <Flex
-      _hover={{
-        border: '2px solid white'
-      }}
+      justifyContent="space-between"
+      alignItems="center"
       sx={{
-        px: '3',
-        py: '2',
-        cursor: 'pointer',
+        px: 4,
+        py: 2,
         rounder: 'lg',
         bg: '#341F47',
         mt: '1em',
-        pt: '3',
-        pb: '3',
+        pt: 3,
+        pb: 3,
         w: '50%',
         ml: '25%',
-        border: '2px solid #FFFFFF25'
+        border: '2px solid #FFFFFF25',
+        borderRadius: '8px',
       }}
     >
-      <Avatar name={name} src={httpLink(image)} w={8} h={8} />
-      <Text
-        pt={1}
-        pl={3}
+      <Flex align="center">
+        <Avatar
+          name={name}
+          src={httpLink(image)}
+          w={12}
+          h={12}
+          borderRadius="8px"
+        />
+        <Stack gap={0}>
+          <Text
+            pt={1}
+            pl={3}
+            color="white"
+            fontFamily="Exo 2"
+            fontWeight={400}
+            textOverflow="ellipsis"
+            overflow="hidden"
+            whiteSpace="nowrap"
+          >
+            {text}
+          </Text>
+          <Text
+            pt={1}
+            pl={3}
+            color="white"
+            fontFamily="Exo 2"
+            fontWeight={400}
+            textOverflow="ellipsis"
+            overflow="hidden"
+            whiteSpace="nowrap"
+          >
+            {url}
+          </Text>
+        </Stack>
+      </Flex>
+      <IconButton
+        {...{ onClick }}
+        size="sm"
+        variant="outline"
+        aria-label="Add guild membership"
+        icon={<AddIcon />}
+        isRound
+        borderColor="white"
         color="white"
-        fontFamily="Exo 2"
-        fontWeight={400}
-        textOverflow="ellipsis"
-        overflow="hidden"
-        whiteSpace="nowrap"
-      >
-        {text}
-      </Text>
-      <Button
-        sx={{
-          color: 'white', border: '2px solid white', borderRadius: '50%', height: '20px', width: '20px', ml: '2em'
-        }}
-        _hover={{ color: 'white' }}
-        aria-label={`Remove filter`}
-      >
-        <AddIcon />
-      </Button>
+        _hover={{ bg: 'transparent', color: 'white', borderColor: 'white' }}
+      />
     </Flex>
   </Box>
 );
@@ -95,8 +122,9 @@ const Option = ({ onClick, name, image, text }: OptionProps) => (
 const ResultsTitle = ({ children }: { children: ReactNode }) => (
   <Text
     fontWeight={600}
-    color="black"
-    w="100%"
+    color="white"
+    w="50%"
+    ml="25%"
     px={3}
     pt={1}
     fontFamily="Exo 2"
@@ -223,7 +251,11 @@ export const GuildSearchBar: React.FC = () => {
             }}
           >
             <Box as="ul" role="listbox" pb={8}>
-              {guilds.length > 0 && <ResultsTitle>Guilds</ResultsTitle>}
+              {guilds.length > 0 && (
+                <ResultsTitle>
+                  Only add guilds where you are already a member.
+                </ResultsTitle>
+              )}
               {guilds?.map((guild: GuildFragment) => (
                 <Option
                   key={guild.id}
@@ -231,10 +263,10 @@ export const GuildSearchBar: React.FC = () => {
                     router.push(`/guild/${guild.guildname}`);
                     // onClose();
                   }}
-
                   name={guild.name}
                   image={guild?.logo as string | undefined}
                   text={guild.name}
+                  url={guild?.websiteUrl as string | undefined}
                 />
               ))}
               {guilds.length >= LIMIT && (
