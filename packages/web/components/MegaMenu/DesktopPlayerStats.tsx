@@ -28,7 +28,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
   const linkURL = usePlayerURL(player);
 
   return (
-    <Flex align="center" justifyContent="flex-end" border={'2px solid blue'}>
+    <Flex align="center" justifyContent="flex-end">
       <XPSeedsBalance totalXP={player.totalXP} />
 
       <Menu>
