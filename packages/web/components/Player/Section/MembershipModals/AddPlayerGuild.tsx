@@ -1,6 +1,5 @@
 import {
   AddIcon,
-  Box,
   Button,
   Modal,
   ModalBody,
@@ -10,7 +9,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  useDisclosure,
 } from '@metafam/ds';
 import { GuildSearchBar } from 'components/GuildSearchBar';
 import React from 'react';
@@ -39,7 +37,7 @@ export const AddPlayerGuild: React.FC<{
       <ModalBody p={[0, 6]}>
         <GuildSearchBar />
       </ModalBody>
-      <Button variant="outline" w="50%" ml="25%" leftIcon={<AddIcon />}>
+      <Button variant="outline" w="20%" ml="40%" leftIcon={<AddIcon />}>
         Add New Guild
       </Button>
       <ModalFooter mt={6} justifyContent="center">
