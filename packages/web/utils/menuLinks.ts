@@ -44,30 +44,9 @@ export const MenuSectionLinks: MenuLinkSet[] = [
     url: '/community',
   },
   {
-    label: 'learn',
-    type: 'menu',
-    menuItems: [
-      {
-        title: 'Roles',
-        explainerText:
-          'Find about all roles in MetaGame, see which ones are open & how to play them',
-        // url: 'https://meta-game.notion.site/Internal-Roles-Guilds-bec3a0437f684322b650dbb7aca616e8',
-        url: '/roles',
-        icon: 'roles',
-      },
-      {
-        title: 'Playbooks',
-        explainerText: descriptions.playbooks,
-        url: '/learn/playbooks',
-        icon: 'playbooks',
-      },
-      {
-        title: 'The Great Houses',
-        explainerText: descriptions.thegreathouses,
-        url: '/learn/thegreathouses',
-        icon: 'thegreathouses',
-      },
-    ],
+    label: 'academy',
+    type: 'internal-link',
+    url: '/academy',
   },
   {
     label: 'quests',
