@@ -41,7 +41,7 @@ import {
 import { useRouter } from 'next/router';
 import { SSRData } from 'next-urql';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { canCompleteQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -71,12 +71,12 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
   // Quest image is used in QuestDetailsImage and the share image
   const questImage = httpLink(quest.image) ?? DefaultQuestImage.src;
 
-  // 'Quest was deleted' note
-  // A note is shown if we're viewing a quest that has been deleted
-  const isQuestSetAsDeleted = quest.status === QuestStatus_Enum.Deleted;
+  // 'Quest was archiveed' note
+  // A note is shown if we're viewing a quest that has been archived
+  const isQuestSetAsArchived = quest.status === QuestStatus_Enum.Archived;
 
-  // Here's the content of the Quest was deleted note, which is shown if isQuestSetAsDeleted = true
-  function showDeletedAlert() {
+  // Here's the content of the Quest was archived note, which is shown if isQuestSetAsArchived = true
+  function showArchivedAlert() {
     return (
       <Alert
         mb={8}
@@ -92,7 +92,7 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
           </AlertTitle>
           <AlertDescription>
             <Text as="p" mb={2}>
-              This quest was deleted by its owner. You can view the quest
+              This quest was archived by its owner. You can view the quest
               details, and try out the quest if you feel like it.
             </Text>
             <Text as="p" mb={2}>
@@ -144,8 +144,8 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
             </GridItem>
             <GridItem>
               <>
-                {/* Show a message if the quest has been deleted */}
-                {isQuestSetAsDeleted && showDeletedAlert()}
+                {/* Show a message if the quest has been archived */}
+                {isQuestSetAsArchived && showArchivedAlert()}
                 <QuestDetailsDescription {...{ quest }} />
               </>
             </GridItem>
