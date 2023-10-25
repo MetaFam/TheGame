@@ -10,10 +10,8 @@ import {
   Button,
   Flex,
   Heading,
-  ListItem,
   Stack,
   Text,
-  UnorderedList,
   useDisclosure,
   useToast,
 } from '@metafam/ds';
@@ -51,9 +49,9 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
     quest_roles: questRoles,
   } = quest;
 
-  // Delete quest modal
+  // Archive quest modal
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const deleteButtonRef = useRef<HTMLButtonElement>(null); // focus returns here when modal is closed
+  const archiveButtonRef = useRef<HTMLButtonElement>(null); // focus returns here when modal is closed
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const router = useRouter();
@@ -62,7 +60,7 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
   // Original skills and roles are needed (required field) for the updateQuest mutation
   // because the updateQuest mutation deletes existing skills/roles and then adds in those
   // that were submitted via the form (either the existing skills/roles or changes to them)
-  // If we keep the original skills/roles in, the quest can still be undeleted if needed
+  // If we keep the original skills/roles in, the quest can still be unarchived if needed
 
   // Roles objects
   const rolesObjects = questRoles.map((r) => ({
@@ -76,12 +74,12 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
     skillId: s.skill.id,
   }));
 
-  const setQuestAsDeleted = () => {
-    // 1. Delete it
+  const setQuestAsArchived = () => {
+    // 1. Archive it
     // Based on edit.tsx
 
     const updateQuestInput = {
-      status: QuestStatus_Enum.Deleted,
+      status: QuestStatus_Enum.Archived,
     };
 
     updateQuest({
@@ -93,15 +91,15 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
       if (res.data?.update_quest_by_pk && !res.error) {
         router.push('/quests');
         toast({
-          title: 'Quest deleted',
-          description: `The quest was deleted successfully`,
+          title: 'Quest archived',
+          description: `The quest was successfully archived`,
           status: 'success',
           isClosable: true,
           duration: 4000,
         });
       } else {
         toast({
-          title: 'Error while deleting quest',
+          title: 'Error while archiving quest',
           description: res.error?.message || 'unknown error',
           status: 'error',
           isClosable: true,
@@ -163,7 +161,7 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
         </Flex>
       </Box>
 
-      {/* Edit and delete buttons are displayed to the Quest Owner */}
+      {/* Edit and Archive buttons are displayed to the Quest Owner */}
       {isMyQuest && status === QuestStatus_Enum.Open && (
         <Box w="full" maxW={{ base: '100%', md: '12rem' }}>
           {/* Stacked vertically after md breakpoint */}
@@ -186,18 +184,18 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
               fontSize="md"
               w="full"
               onClick={onOpen}
-              ref={deleteButtonRef}
+              ref={archiveButtonRef}
             >
-              Delete quest
+              Archive quest
             </Button>
 
-            {/* The modal for deleting a Quest */}
+            {/* The modal for archiving a Quest */}
             <AlertDialog
               isCentered
               isOpen={isOpen}
               leastDestructiveRef={cancelRef}
               onClose={onClose}
-              finalFocusRef={deleteButtonRef}
+              finalFocusRef={archiveButtonRef}
             >
               <AlertDialogOverlay bg="blueProfileSection">
                 <AlertDialogContent
@@ -217,29 +215,21 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
                     mb={3}
                     mx="auto"
                   >
-                    Really delete quest?
+                    You sure ’bout that?
                   </AlertDialogHeader>
                   <AlertDialogCloseButton />
                   <AlertDialogBody>
                     <Text as="p" mb={3}>
-                      Heads up! You’re about to delete the{' '}
+                      You’re about to archive the{' '}
                       <Text as="strong">{title}</Text> quest.
                     </Text>
-                    <Text as="p" mb={1}>
-                      Deleting the quest will:
-                    </Text>
-                    <UnorderedList mb={3}>
-                      <ListItem>
-                        Remove the quest for all current and past players, along
-                        with any related achievements or NFTs
-                      </ListItem>
-                      <ListItem>Delete the quest permanently</ListItem>
-                    </UnorderedList>
                     <Text as="p" mb={3}>
-                      This cannot be undone.
+                      It will no longer appear in the Quests Explorer, but the
+                      records of completions will remain and you will still be
+                      able to see the quest through a direct link.
                     </Text>
                     <Text as="p" mb={3}>
-                      Are you sure you want to delete the quest?
+                      Is that what you want?
                     </Text>
                   </AlertDialogBody>
 
@@ -262,7 +252,7 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
                       ref={cancelRef}
                       onClick={onClose}
                     >
-                      No, I want to keep it
+                      Nah
                     </Button>
                     <Button
                       variant="warning"
@@ -271,9 +261,9 @@ export const QuestDetailsHeader: React.FC<Props> = ({ quest }) => {
                       size="lg"
                       width={{ base: '100%', sm: 'auto' }}
                       borderWidth={2}
-                      onClick={setQuestAsDeleted}
+                      onClick={setQuestAsArchived}
                     >
-                      Yes, delete quest
+                      Yes, please
                     </Button>
                   </AlertDialogFooter>
                 </AlertDialogContent>
