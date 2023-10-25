@@ -29,5 +29,5 @@ export const CONFIG = {
   openseaAPIKey: process.env.OPENSEA_API_KEY,
   alchemyAPIKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
   mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
-  metagameCalendarBackend: 'http://localhost:1188/events',
+  metagameCalendarBackend: 'https://mgapi.luxumbra.dev/events',
 };
