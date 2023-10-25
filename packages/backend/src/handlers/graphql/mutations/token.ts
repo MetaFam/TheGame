@@ -16,16 +16,18 @@ export const TokenMutations = /* GraphQL */ `
       id
     }
   }
-  mutation UpdateLastOffset($tokenAddress: String!, $offset: Int!) {
+
+  mutation UpdateLastBlockHeight($tokenAddress: String!, $height: Int!) {
     update_token(
       where: { address: { _eq: $tokenAddress } }
-      _set: { lastOffset: $offset }
+      _set: { lastBlockHeight: $height }
     ) {
       returning {
-        lastOffset
+        lastBlockHeight
       }
     }
   }
+
   mutation UpsertXP(
     $balance: float8!
     $playerId: uuid!

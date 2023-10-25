@@ -281,13 +281,17 @@ export const theme = extendTheme(
           boxShadow: 'inset 0 0 5px rgb(0 0 0 / 70%)',
         },
         '::-webkit-scrollbar-thumb': {
-          backgroundColor: colors.pink[400],
+          backgroundColor: colors.whiteAlpha[400],
           borderRadius: '2px',
           boxShadow: '0 0 5px rgb(0 0 0 / 70%)',
           transition: 'background 0.3s ease',
         },
         '::-webkit-scrollbar-thumb:hover': {
-          backgroundColor: colors.pink[600],
+          backgroundColor: colors.whiteAlpha[600],
+        },
+        '*': {
+          scrollbarWidth: 'auto',
+          scrollbarColor: `${colors.whiteAlpha[400]} ${colors.dark}`,
         },
         '#__next': {
           background: colors.dark,

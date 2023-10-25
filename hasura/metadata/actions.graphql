@@ -39,6 +39,10 @@ type Mutation {
 }
 
 type Mutation {
+  syncBalances: SyncBalancesOutput!
+}
+
+type Mutation {
   syncSourceCredAccounts: SourceCredSyncOutput
 }
 
@@ -213,5 +217,43 @@ type UpdateComposeDBProfileResponse {
   ethereumAddress: String
   accountLinks: [String]
   fields: [String]
+}
+
+type TokenReturn {
+  added: [BalanceOutput]
+  oldHeight: Int
+  newHeight: Int
+  count: Int
+  multiplier: Float
+  players: [PlayerOutput]
+}
+
+type SyncBalancesOutput {
+  seasonStart: timestamp
+  success: Boolean
+  message: String
+  tokenReturns: [TokenReturn]
+}
+
+type PlayerOutput {
+  address: String
+  xp: XPOutput
+}
+
+type XPOutput {
+  initial: Float
+  accumulated: Float
+  calculated: Float
+  seasonal: Float
+}
+
+type BalanceOutput {
+  executedAt: timestamp
+  drops: [DropOutput]
+}
+
+type DropOutput {
+  playerAddress: String
+  amount: Float
 }
 
