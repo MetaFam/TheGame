@@ -7,6 +7,7 @@ scalar float8
 scalar json
 scalar jsonb
 scalar numeric
+scalar timestamp
 scalar timestamptz
 scalar uuid
 """
@@ -46,6 +47,10 @@ type AccountType_mutation_response {
   affected_rows: Int!
   "data from the rows affected by the mutation"
   returning: [AccountType!]!
+}
+type BalanceOutput {
+  drops: [DropOutput]
+  executedAt: timestamp
 }
 type BrightIdStatus {
   app: String!
@@ -197,6 +202,10 @@ type DiscordRole {
   id: String!
   name: String!
   position: Int!
+}
+type DropOutput {
+  amount: Float
+  playerAddress: String
 }
 """
 columns and relationships of "ExplorerType"
@@ -508,6 +517,10 @@ type Moloch {
 }
 type PSeedInfo {
   priceUsd: String
+}
+type PlayerOutput {
+  address: String
+  xp: XPOutput
 }
 """
 columns and relationships of "PlayerRank"
@@ -836,10 +849,24 @@ type SourceCredSyncOutput {
   numUnclaimed: Int!
   numUpdated: Int!
 }
+type SyncBalancesOutput {
+  message: String
+  seasonStart: timestamp
+  success: Boolean
+  tokenReturns: [TokenReturn]
+}
 type TokenBalances {
   id: ID!
   pSeedBalance: String!
   seedBalance: String!
+}
+type TokenReturn {
+  added: [BalanceOutput]
+  count: Int
+  multiplier: Float
+  newOffset: Int
+  oldOffset: Int
+  players: [PlayerOutput]
 }
 type UpdateComposeDBProfileResponse {
   accountLinks: [String]
@@ -854,6 +881,12 @@ type UpdateQuestCompletionOutput {
   quest_completion: quest_completion
   quest_completion_id: uuid
   success: Boolean!
+}
+type XPOutput {
+  accumulated: Float
+  calculated: Float
+  initial: Float
+  seasonal: Float
 }
 """
 columns and relationships of "balance"
@@ -2396,6 +2429,7 @@ type mutation_root {
   saveGuildInformation(guildInformation: GuildInfoInput!): SaveGuildResponse
   saveGuildLayout(guildLayoutInfo: GuildLayoutInfoInput!): SaveGuildLayoutResponse
   syncAllGuildDiscordMembers: [DiscordGuildsSyncOutput]
+  syncBalances: SyncBalancesOutput!
   syncSourceCredAccounts: SourceCredSyncOutput
   updateCachedProfile(playerId: uuid): uuid!
   updatePlayerFromComposeDB(playerId: uuid!): uuid!
@@ -6905,11 +6939,14 @@ columns and relationships of "token"
 type token {
   address: String!
   chainId: Int!
+  createdAt: timestamptz
   "An object relationship"
   guild: guild!
   guildId: uuid!
-  lastOffset: Int!
+  lastBlockHeight: Int!
+  multiplier: float8!
   safeAddress: String!
+  updatedAt: timestamptz
   "An array relationship"
   xps(
     "distinct select on columns"
@@ -6963,23 +7000,30 @@ type token_aggregate_fields {
 "aggregate avg on columns"
 type token_avg_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
+  multiplier: Float
 }
 "aggregate max on columns"
 type token_max_fields {
   address: String
   chainId: Int
+  createdAt: timestamptz
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
+  multiplier: float8
   safeAddress: String
+  updatedAt: timestamptz
 }
 "aggregate min on columns"
 type token_min_fields {
   address: String
   chainId: Int
+  createdAt: timestamptz
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
+  multiplier: float8
   safeAddress: String
+  updatedAt: timestamptz
 }
 """
 response of any mutation on the table "token"
@@ -6993,37 +7037,44 @@ type token_mutation_response {
 "aggregate stddev on columns"
 type token_stddev_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
+  multiplier: Float
 }
 "aggregate stddev_pop on columns"
 type token_stddev_pop_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
+  multiplier: Float
 }
 "aggregate stddev_samp on columns"
 type token_stddev_samp_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
+  multiplier: Float
 }
 "aggregate sum on columns"
 type token_sum_fields {
   chainId: Int
-  lastOffset: Int
+  lastBlockHeight: Int
+  multiplier: float8
 }
 "aggregate var_pop on columns"
 type token_var_pop_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
+  multiplier: Float
 }
 "aggregate var_samp on columns"
 type token_var_samp_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
+  multiplier: Float
 }
 "aggregate variance on columns"
 type token_variance_fields {
   chainId: Float
-  lastOffset: Float
+  lastBlockHeight: Float
+  multiplier: Float
 }
 """
 fields of action: "updateCachedProfile"
@@ -7056,6 +7107,7 @@ columns and relationships of "xp"
 """
 type xp {
   balance: float8!
+  createdAt: timestamptz!
   id: uuid!
   initial: float8
   "An object relationship"
@@ -7065,6 +7117,7 @@ type xp {
   "An object relationship"
   token: token!
   tokenAddress: String!
+  updatedAt: timestamptz!
 }
 """
 aggregated selection of "xp"
@@ -7098,20 +7151,24 @@ type xp_avg_fields {
 "aggregate max on columns"
 type xp_max_fields {
   balance: float8
+  createdAt: timestamptz
   id: uuid
   initial: float8
   playerId: uuid
   seasonalBalance: float8
   tokenAddress: String
+  updatedAt: timestamptz
 }
 "aggregate min on columns"
 type xp_min_fields {
   balance: float8
+  createdAt: timestamptz
   id: uuid
   initial: float8
   playerId: uuid
   seasonalBalance: float8
   tokenAddress: String
+  updatedAt: timestamptz
 }
 """
 response of any mutation on the table "xp"
@@ -8468,11 +8525,17 @@ enum token_select_column {
   "column name"
   chainId
   "column name"
+  createdAt
+  "column name"
   guildId
   "column name"
-  lastOffset
+  lastBlockHeight
+  "column name"
+  multiplier
   "column name"
   safeAddress
+  "column name"
+  updatedAt
 }
 """
 update columns of table "token"
@@ -8483,11 +8546,17 @@ enum token_update_column {
   "column name"
   chainId
   "column name"
+  createdAt
+  "column name"
   guildId
   "column name"
-  lastOffset
+  lastBlockHeight
+  "column name"
+  multiplier
   "column name"
   safeAddress
+  "column name"
+  updatedAt
 }
 """
 unique or primary key constraints on table "xp"
@@ -8509,6 +8578,8 @@ enum xp_select_column {
   "column name"
   balance
   "column name"
+  createdAt
+  "column name"
   id
   "column name"
   initial
@@ -8518,6 +8589,8 @@ enum xp_select_column {
   seasonalBalance
   "column name"
   tokenAddress
+  "column name"
+  updatedAt
 }
 """
 select "xp_aggregate_bool_exp_avg_arguments_columns" columns of table "xp"
@@ -8614,6 +8687,8 @@ enum xp_update_column {
   "column name"
   balance
   "column name"
+  createdAt
+  "column name"
   id
   "column name"
   initial
@@ -8623,6 +8698,8 @@ enum xp_update_column {
   seasonalBalance
   "column name"
   tokenAddress
+  "column name"
+  updatedAt
 }
 """
 Boolean expression to filter rows from the table "AccountType". All fields are combined with a logical 'AND'.
@@ -12539,10 +12616,13 @@ input token_bool_exp {
   _or: [token_bool_exp!]
   address: String_comparison_exp
   chainId: Int_comparison_exp
+  createdAt: timestamptz_comparison_exp
   guild: guild_bool_exp
   guildId: uuid_comparison_exp
-  lastOffset: Int_comparison_exp
+  lastBlockHeight: Int_comparison_exp
+  multiplier: float8_comparison_exp
   safeAddress: String_comparison_exp
+  updatedAt: timestamptz_comparison_exp
   xps: xp_bool_exp
   xps_aggregate: xp_aggregate_bool_exp
 }
@@ -12551,7 +12631,8 @@ input type for incrementing numeric columns in table "token"
 """
 input token_inc_input {
   chainId: Int
-  lastOffset: Int
+  lastBlockHeight: Int
+  multiplier: float8
 }
 """
 input type for inserting data into table "token"
@@ -12559,10 +12640,13 @@ input type for inserting data into table "token"
 input token_insert_input {
   address: String
   chainId: Int
+  createdAt: timestamptz
   guild: guild_obj_rel_insert_input
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
+  multiplier: float8
   safeAddress: String
+  updatedAt: timestamptz
   xps: xp_arr_rel_insert_input
 }
 """
@@ -12587,10 +12671,13 @@ Ordering options when selecting data from "token".
 input token_order_by {
   address: order_by
   chainId: order_by
+  createdAt: order_by
   guild: guild_order_by
   guildId: order_by
-  lastOffset: order_by
+  lastBlockHeight: order_by
+  multiplier: order_by
   safeAddress: order_by
+  updatedAt: order_by
   xps_aggregate: xp_aggregate_order_by
 }
 "primary key columns input for table: token"
@@ -12603,9 +12690,12 @@ input type for updating data in table "token"
 input token_set_input {
   address: String
   chainId: Int
+  createdAt: timestamptz
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
+  multiplier: float8
   safeAddress: String
+  updatedAt: timestamptz
 }
 """
 Streaming cursor of the table "token"
@@ -12620,9 +12710,12 @@ input token_stream_cursor_input {
 input token_stream_cursor_value_input {
   address: String
   chainId: Int
+  createdAt: timestamptz
   guildId: uuid
-  lastOffset: Int
+  lastBlockHeight: Int
+  multiplier: float8
   safeAddress: String
+  updatedAt: timestamptz
 }
 input token_updates {
   "increments the numeric columns with given value of the filtered values"
@@ -12759,6 +12852,7 @@ input xp_bool_exp {
   _not: xp_bool_exp
   _or: [xp_bool_exp!]
   balance: float8_comparison_exp
+  createdAt: timestamptz_comparison_exp
   id: uuid_comparison_exp
   initial: float8_comparison_exp
   player: player_bool_exp
@@ -12766,6 +12860,7 @@ input xp_bool_exp {
   seasonalBalance: float8_comparison_exp
   token: token_bool_exp
   tokenAddress: String_comparison_exp
+  updatedAt: timestamptz_comparison_exp
 }
 """
 input type for incrementing numeric columns in table "xp"
@@ -12780,6 +12875,7 @@ input type for inserting data into table "xp"
 """
 input xp_insert_input {
   balance: float8
+  createdAt: timestamptz
   id: uuid
   initial: float8
   player: player_obj_rel_insert_input
@@ -12787,28 +12883,33 @@ input xp_insert_input {
   seasonalBalance: float8
   token: token_obj_rel_insert_input
   tokenAddress: String
+  updatedAt: timestamptz
 }
 """
 order by max() on columns of table "xp"
 """
 input xp_max_order_by {
   balance: order_by
+  createdAt: order_by
   id: order_by
   initial: order_by
   playerId: order_by
   seasonalBalance: order_by
   tokenAddress: order_by
+  updatedAt: order_by
 }
 """
 order by min() on columns of table "xp"
 """
 input xp_min_order_by {
   balance: order_by
+  createdAt: order_by
   id: order_by
   initial: order_by
   playerId: order_by
   seasonalBalance: order_by
   tokenAddress: order_by
+  updatedAt: order_by
 }
 """
 on_conflict condition type for table "xp"
@@ -12823,6 +12924,7 @@ Ordering options when selecting data from "xp".
 """
 input xp_order_by {
   balance: order_by
+  createdAt: order_by
   id: order_by
   initial: order_by
   player: player_order_by
@@ -12830,6 +12932,7 @@ input xp_order_by {
   seasonalBalance: order_by
   token: token_order_by
   tokenAddress: order_by
+  updatedAt: order_by
 }
 "primary key columns input for table: xp"
 input xp_pk_columns_input {
@@ -12840,11 +12943,13 @@ input type for updating data in table "xp"
 """
 input xp_set_input {
   balance: float8
+  createdAt: timestamptz
   id: uuid
   initial: float8
   playerId: uuid
   seasonalBalance: float8
   tokenAddress: String
+  updatedAt: timestamptz
 }
 """
 order by stddev() on columns of table "xp"
@@ -12882,11 +12987,13 @@ input xp_stream_cursor_input {
 "Initial value of the column from where the streaming should start"
 input xp_stream_cursor_value_input {
   balance: float8
+  createdAt: timestamptz
   id: uuid
   initial: float8
   playerId: uuid
   seasonalBalance: float8
   tokenAddress: String
+  updatedAt: timestamptz
 }
 """
 order by sum() on columns of table "xp"

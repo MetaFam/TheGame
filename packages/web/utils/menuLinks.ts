@@ -40,56 +40,13 @@ export const MenuSectionLinks: MenuLinkSet[] = [
   },
   {
     label: 'community',
-    type: 'menu',
-    menuItems: [
-      {
-        title: 'Players',
-        explainerText:
-          'Find players of MetaGame; their NFTs, their skills & whatever else they put on there',
-        url: '/players',
-        icon: 'players',
-      },
-      {
-        title: 'Patrons',
-        explainerText:
-          'Check the patrons of MetaGame; the ones supporting MetaGame by buying Seeds',
-        url: '/patrons',
-        icon: 'patrons',
-      },
-      {
-        title: 'Guilds',
-        explainerText:
-          'Discover the guilds of MetaGame; groups of players set around more specific goals',
-        url: '/guilds',
-        icon: 'guilds',
-      },
-    ],
+    type: 'internal-link',
+    url: '/community',
   },
   {
-    label: 'learn',
-    type: 'menu',
-    menuItems: [
-      {
-        title: 'Roles',
-        explainerText:
-          'Find about all roles in MetaGame, see which ones are open & how to play them',
-        // url: 'https://meta-game.notion.site/Internal-Roles-Guilds-bec3a0437f684322b650dbb7aca616e8',
-        url: '/roles',
-        icon: 'roles',
-      },
-      {
-        title: 'Playbooks',
-        explainerText: descriptions.playbooks,
-        url: '/learn/playbooks',
-        icon: 'playbooks',
-      },
-      {
-        title: 'The Great Houses',
-        explainerText: descriptions.thegreathouses,
-        url: '/learn/thegreathouses',
-        icon: 'thegreathouses',
-      },
-    ],
+    label: 'academy',
+    type: 'internal-link',
+    url: '/academy',
   },
   {
     label: 'quests',
@@ -105,10 +62,5 @@ export const MenuSectionLinks: MenuLinkSet[] = [
     label: 'discord',
     type: 'external-link',
     url: 'https://discord.gg/XGNFdUaxCH',
-  },
-  {
-    label: 'forum',
-    type: 'external-link',
-    url: 'https://forum.metagame.wtf/',
   },
 ];

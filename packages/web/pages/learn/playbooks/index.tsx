@@ -16,7 +16,8 @@ const ThePlaybooksPage: React.FC = () => (
       Playbooks
     </Heading>
     <Text mb={8} maxW="xl" textAlign="center">
-      Playbooks description
+      Playbooks are a collection of quests that are designed to help you learn
+      about a specific topic.
     </Text>
     <Grid
       templateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr 1fr']}

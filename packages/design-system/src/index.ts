@@ -8,6 +8,8 @@ export {
   CalendarIcon,
   CheckIcon,
   ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ChevronUpIcon,
   CloseIcon,
   DeleteIcon,
@@ -191,6 +193,7 @@ export {
   MetaTileBody,
   MetaTileHeader,
   MetaTileLinkWrapper,
+  MetaTilePathPlaybook,
   MetaTilePlaybook,
 } from './MetaTile.js';
 export { MultiSelect } from './MultiSelect.js';
