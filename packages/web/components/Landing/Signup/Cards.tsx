@@ -9,20 +9,14 @@ import {
   List,
   ListIcon,
   ListItem,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Text,
   useBreakpointValue,
 } from '@metafam/ds';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { BsCircleFill, BsDot, BsFillCircleFill } from 'react-icons/bs';
-import { FaDotCircle } from 'react-icons/fa';
-import { MdCheckCircle, MdChevronRight } from 'react-icons/md';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
+import { FaCircle } from 'react-icons/fa';
+import { MdChevronRight } from 'react-icons/md';
 
 export interface Perk {
   perk: string;
@@ -60,8 +54,8 @@ export const RoleCard: React.FC<CardProps> = ({
   });
   return (
     <Box
-      h="full"
-      w={{ base: 'full', lg: 'sm' }}
+      h={{ sm: 'full', lg: '494px' }}
+      w={{ sm: 'full', lg: '320px' }}
       border={{ base: '1px solid #FF00FF', lg: '4px solid #FF00FF' }}
       borderRadius={18}
       display="flex"
@@ -79,8 +73,8 @@ export const RoleCard: React.FC<CardProps> = ({
       >
         <Image
           src={image}
-          h={{ base: '24px', lg: '50%' }}
-          w={{ base: '24px', lg: '50%' }}
+          h={{ base: '24px', lg: '150px' }}
+          w={{ base: '24px', lg: '150px' }}
           borderRadius="full"
         />
         <Text
@@ -162,7 +156,7 @@ export const PerksCard: React.FC<CardProps> = ({
   badgeColor,
 }) => (
   <Box
-    h="full"
+    h={list && list.length > 10 ? '620px' : 'full'}
     w={{ base: 'full', lg: width }}
     bg={background}
     display="flex"
@@ -191,9 +185,8 @@ export const PerksCard: React.FC<CardProps> = ({
       {list?.map((item, idx) => (
         <ListItem key={idx}>
           <ListIcon
-            as={item?.checked ? MdCheckCircle : BsCircleFill}
+            as={item?.checked ? BsFillCheckCircleFill : FaCircle}
             color={item?.checked ? 'green.500' : 'gray.600'}
-            alignItems="center"
           />
           {item.perk}
         </ListItem>

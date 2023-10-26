@@ -1,6 +1,6 @@
 import { PageContainer } from 'components/Container';
 import { LandingHeader } from 'components/Landing/LandingHeader';
-import { Onboard } from 'components/Landing/Onboard';
+import { Signup } from 'components/Landing/Signup';
 import { HeadComponent } from 'components/Seo';
 import { SocialsDesktop } from 'components/SocialLinks';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -51,7 +51,7 @@ const Onboarding: React.FC = () => {
   useEffect(() => {
     scrollContainer?.addEventListener('scroll', handleScroll);
     document.addEventListener('keydown', handleKeyDown);
-    document.querySelector('body')?.classList.add('onboarding');
+    document.querySelector('body')?.classList.add('signup');
 
     if (typeof window !== 'undefined') {
       setHostName(window.location.origin);
@@ -66,15 +66,15 @@ const Onboarding: React.FC = () => {
   return (
     <>
       <HeadComponent
-        title="MetaGame: Onboarding Game 🐙"
-        description="Start your journey into MetaGame here! Play the Onboarding Game and follow the purple octo..."
+        title="MetaGame: Signup 🐙"
+        description="Start your journey into MetaGame here! Sign up as a player, guild or patron..."
         url={hostName.current}
         img={`${hostName.current}/assets/social.webp`}
         cardStyle="summary_large_image"
       />
       <LandingHeader />
       <PageContainer p={0}>
-        <Onboard />
+        <Signup />
         <SocialsDesktop />
       </PageContainer>
     </>
