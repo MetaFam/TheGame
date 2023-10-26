@@ -4,7 +4,6 @@ import {
   Container,
   Flex,
   Image,
-  Link,
   ListItem,
   MetaButton,
   Stack,
@@ -27,6 +26,8 @@ import BabyOctopus from 'assets/quests/baby_octo.webp';
 import Octopus from 'assets/quests/octopus.webp';
 import YoungPlant from 'assets/young-plant.webp';
 import { FullPageContainer } from 'components/Container';
+import useActiveTab from 'lib/hooks/useActiveTab';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -135,12 +136,15 @@ const RoleTab = React.forwardRef<
   { children: React.ReactNode }
 >((props, ref) => {
   const tabProps = useTab({ ...props, ref: ref as Ref<HTMLElement> });
+  const activeTab = useActiveTab();
   const isMobile = useBreakpointValue({
     base: true,
     lg: false,
   });
   const styles = useMultiStyleConfig('Tabs', tabProps);
-  const isSelected = !!tabProps['aria-selected'];
+  const isSelected =
+    !!tabProps['aria-selected'] &&
+    activeTab === (tabProps.children as string).toLowerCase();
   const isDisabled = !!tabProps['aria-disabled'];
   const cursor = isDisabled ? 'not-allowed' : 'pointer';
   return (
@@ -164,6 +168,7 @@ const RoleTab = React.forwardRef<
       }}
       isDisabled={isDisabled}
       {...tabProps}
+      aria-selected={activeTab === (tabProps.children as string).toLowerCase()}
     >
       {isMobile ? (
         <Flex align="center" gap={3}>
@@ -196,7 +201,9 @@ export const Signup: React.FC = () => {
   const section = 'signup';
   const roles = ['Player', 'Guild', 'Patron'];
   const router = useRouter();
-
+  const activeTab = useActiveTab();
+  const selectedIndex =
+    roles.map((role) => role.toLowerCase()).indexOf(activeTab as string) ?? 0;
   const isMobile = useBreakpointValue({
     base: true,
     lg: false,
@@ -226,6 +233,10 @@ export const Signup: React.FC = () => {
     lg: 'inset 0px 0px 48px 0px #C846C88C, -8px 0px 72px 0px #C846C859',
   });
 
+  if (!router.isReady) {
+    return null;
+  }
+
   return (
     <FullPageContainer
       id={section}
@@ -252,6 +263,7 @@ export const Signup: React.FC = () => {
         </Text>
         {!isMobile && (
           <Button
+            ml="13%"
             alignSelf="start"
             variant="ghost"
             color="#D59BD5"
@@ -266,7 +278,19 @@ export const Signup: React.FC = () => {
             Go Back
           </Button>
         )}
-        <Tabs variant="unstyled">
+        <Tabs
+          variant="unstyled"
+          index={selectedIndex}
+          defaultIndex={selectedIndex}
+          onChange={(index) => {
+            const tab = roles.at(index)?.toLowerCase();
+            router.replace(
+              { href: '/signup', query: { activeTab: tab } },
+              undefined,
+              { shallow: true },
+            );
+          }}
+        >
           <TabList
             display="flex"
             justifyContent="center"
@@ -281,7 +305,7 @@ export const Signup: React.FC = () => {
           <TabPanels>
             <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
               <Box
-                maxW="container.xl"
+                maxW="container.lg"
                 maxH="container.md"
                 bg="tranparent"
                 border={playerBorder}
@@ -396,7 +420,7 @@ export const Signup: React.FC = () => {
                       }
                       recommended
                       action="Sounds Good"
-                      route="/start"
+                      route="/onboarding"
                     />
                     <Text
                       fontSize={{ base: 'xl', lg: '2xl' }}
@@ -425,7 +449,7 @@ export const Signup: React.FC = () => {
             </TabPanel>
             <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
               <Box
-                maxW="container.xl"
+                maxW="container.lg"
                 maxH="container.md"
                 bg="tranparent"
                 border={guildBorder}
@@ -679,7 +703,7 @@ export const Signup: React.FC = () => {
             </TabPanel>
             <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
               <Box
-                maxW="container.xl"
+                maxW="container.lg"
                 maxH="container.md"
                 bg="tranparent"
                 border={patronBorder}
@@ -781,7 +805,7 @@ export const Signup: React.FC = () => {
                   </Text>
                   <Stack
                     direction={['column', 'row']}
-                    spacing={{ base: 5, lg: 10 }}
+                    spacing={{ base: 2, lg: 10 }}
                     align="center"
                   >
                     <RoleCard

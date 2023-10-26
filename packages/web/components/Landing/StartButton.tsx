@@ -18,7 +18,7 @@ export const StartButton: React.FC<{ text: string }> = ({
       rounded="md"
       size={buttonSize}
       minW="7rem"
-      onClick={() => router.push('/onboarding')}
+      onClick={() => router.push('/signup')}
     >
       <Text as="span">{text}</Text>
     </Button>
