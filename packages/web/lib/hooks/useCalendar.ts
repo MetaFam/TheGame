@@ -50,7 +50,7 @@ export const useCalendar = (limit?: number): UseCalendarReturnTypes => {
       try {
         setFetching(true);
 
-        const res = await fetch(metagameCalendarBackend);
+        const res = await fetch('/api/events');
         const { data } = await res.json();
         if (res.status !== 200) {
           throw new Error('Error fetching data');

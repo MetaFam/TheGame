@@ -45,6 +45,7 @@
     "draftjs-to-html": "0.9.1",
     "ethers": "5.7.0",
     "fake-tag": "3.0.0",
+    "googleapis": "^122.0.0",
     "graphql": "16.8.0",
     "graphql-request": "^5.0.0",
     "gsap": "3.9.1",

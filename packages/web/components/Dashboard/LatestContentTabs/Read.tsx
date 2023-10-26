@@ -83,7 +83,8 @@ export const Read: React.FC = () => {
                     <Link
                       display="inline-flex"
                       href={item.link}
-                      px={2}
+                      px={3}
+                      py={1}
                       _hover={{
                         bg: 'landingDarkGlass',
                         textDecoration: 'none',
@@ -96,9 +97,9 @@ export const Read: React.FC = () => {
                       borderRadius="md"
                     >
                       <Text
+                        as="span"
                         cursor="pointer"
-                        color="blueLight"
-                        py={1}
+                        color="violet"
                         fontWeight="bold"
                       >
                         Read Here
