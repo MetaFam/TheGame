@@ -50,6 +50,7 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => {
                         ? '3px solid #79F8FB'
                         : ''
                     }
+                    height={'100%'}
                     fontWeight={700}
                     textTransform="uppercase"
                     mx={{ lg: 3, xl: 6 }}
