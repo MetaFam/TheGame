@@ -599,7 +599,7 @@ export const Signup: React.FC = () => {
                               description={
                                 <>
                                   <Text fontSize="xl" fontWeight="semibold">
-                                    $8K / year
+                                    Inquire
                                   </Text>
                                   <Text fontSize="xl" fontWeight="light">
                                     FOR WELL-OFF GUILDS
@@ -663,7 +663,7 @@ export const Signup: React.FC = () => {
                               fontSize={{ base: 'lg', lg: 'xl' }}
                               fontWeight="semibold"
                             >
-                              $8K / year
+                              Inquire
                             </Text>
                             <Text
                               fontSize={{ base: 'lg', lg: 'xl' }}
