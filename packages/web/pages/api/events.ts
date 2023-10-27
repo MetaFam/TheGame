@@ -38,8 +38,7 @@ export default async (
         orderBy: 'startTime',
       };
       const result = await calendar.events.list(params);
-
-      const events = result.data.items;
+      const events = result.data;
 
       res.status(200).json(events);
     } catch (err) {
