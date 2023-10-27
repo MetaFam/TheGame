@@ -28,8 +28,9 @@ import YoungPlant from 'assets/young-plant.webp';
 import { FullPageContainer } from 'components/Container';
 import useActiveTab from 'lib/hooks/useActiveTab';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { useRouter } from 'next/router';
-import React, { Ref, RefObject } from 'react';
+import React, { Ref, RefObject, useEffect } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 
 import { Rain } from '../OnboardingGame/Rain';
@@ -46,6 +47,8 @@ import {
   playerReasons,
   playerVisitorList,
 } from './lists';
+
+const roles = ['Player', 'Guild', 'Patron'];
 
 const TabImg = ({
   type,
@@ -122,11 +125,15 @@ const getBorderColor = ({
   tabProps: any;
 }) => {
   let borderColor = 'transparent';
-  if (isSelected && tabProps.tabIndex === 0 && tabProps.children === 'Player')
+  if (isSelected && tabProps.tabIndex === 0 && tabProps.children === roles[0])
     borderColor = '#A69AC9';
-  if (isSelected && tabProps.tabIndex === 0 && tabProps.children === 'Guild')
+  if (isSelected && tabProps.tabIndex === 0 && tabProps.children === roles[1])
     borderColor = '#338B97';
-  if (isSelected && tabProps.tabIndex === 0 && tabProps.children === 'Patron')
+  if (
+    isSelected &&
+    tabProps.tabIndex === 0 &&
+    tabProps.children === roles[roles.length - 1]
+  )
     borderColor = '#C846C8';
   return borderColor;
 };
@@ -199,9 +206,16 @@ const RoleTab = React.forwardRef<
 
 export const Signup: React.FC = () => {
   const section = 'signup';
-  const roles = ['Player', 'Guild', 'Patron'];
   const router = useRouter();
   const activeTab = useActiveTab();
+  useEffect(() => {
+    if (router.asPath === '/signup' && activeTab === roles[0].toLowerCase())
+      router.replace(
+        { href: router.asPath, query: { tab: roles[0].toLowerCase() } },
+        undefined,
+        { shallow: true },
+      );
+  });
   const selectedIndex =
     roles.map((role) => role.toLowerCase()).indexOf(activeTab as string) ?? 0;
   const isMobile = useBreakpointValue({
@@ -284,11 +298,9 @@ export const Signup: React.FC = () => {
           defaultIndex={selectedIndex}
           onChange={(index) => {
             const tab = roles.at(index)?.toLowerCase();
-            router.replace(
-              { href: '/signup', query: { activeTab: tab } },
-              undefined,
-              { shallow: true },
-            );
+            router.replace({ href: '/signup', query: { tab } }, undefined, {
+              shallow: true,
+            });
           }}
         >
           <TabList
