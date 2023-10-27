@@ -27,7 +27,6 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer } from 'components/MarkdownViewer';
-import { CONFIG } from 'config';
 import type { GoogleCalEventType } from 'lib/hooks/useCalendar';
 import { useCalendar } from 'lib/hooks/useCalendar';
 import { DateTime } from 'luxon';
@@ -53,59 +52,18 @@ const loadMoreButtonStyles: ButtonProps = {
 
 export const Calendar: React.FC = () => {
   const [calendar, setCalendar] = useState<GroupedEventsType[]>([]);
-  const { calendarId } = CONFIG;
   const [loadingMore, setLoadingMore] = useState(false);
   const showHowMany = 4;
   const [limit, setLimit] = useState(showHowMany);
-  const { events, fetching, error } = useCalendar();
-  const calICS = `https://calendar.google.com/calendar/ical/${calendarId}%40group.calendar.google.com/public/basic.ics`;
-  const totalEvents = events?.length || 0;
-  const clampedEvents = events?.slice(0, limit);
-
-  // strip out the +++cover+++ from the description
-  const cleanDescription = (desc: string) =>
-    desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : '';
-
-  const buildAddToCalendarLink = (event: GoogleCalEventType) => {
-    const start =
-      'dateTime' in event.start
-        ? DateTime.fromISO(event.start.dateTime)
-        : DateTime.fromISO(event.start.date);
-    const end =
-      'dateTime' in event.end
-        ? DateTime.fromISO(event.end.dateTime)
-        : DateTime.fromISO(event.end.date);
-    const title = event.summary;
-    const { location } = event;
-    const details = `${cleanDescription(event.description)}`;
-    const dates = `${start.toFormat('yyyyMMdd')}T${start.toFormat(
-      'HHmmss',
-    )}/${end.toFormat('yyyyMMdd')}T${end.toFormat('HHmmss')}`;
-    const href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}&sf=true&output=xml`;
-    return href;
-  };
-
-  const groupEventsByDay = (items: GoogleCalEventType[]) => {
-    const groupedEvents = items.reduce((acc, event) => {
-      const start =
-        'dateTime' in event.start
-          ? DateTime.fromISO(event.start.dateTime)
-          : DateTime.fromISO(event.start.date);
-      const date = `${start}`;
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(event);
-      return acc;
-    }, {} as Record<string, GoogleCalEventType[]>);
-
-    const days = Object.entries(groupedEvents).map(([date, calEvents]) => ({
-      date,
-      events: calEvents as GoogleCalEventType[],
-    }));
-
-    return days;
-  };
+  const {
+    fetching,
+    error,
+    ics,
+    eventsGroupedByDay,
+    totalEvents,
+    cleanDescription,
+    buildAddToCalendarLink,
+  } = useCalendar(limit);
 
   const handleShowMoreItems = async () => {
     try {
@@ -140,9 +98,8 @@ export const Calendar: React.FC = () => {
   }
 
   useEffect(() => {
-    if (!fetching && clampedEvents !== undefined) {
-      const days = groupEventsByDay(clampedEvents as GoogleCalEventType[]);
-      setCalendar(days);
+    if (!fetching && eventsGroupedByDay) {
+      setCalendar(eventsGroupedByDay);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,9 +107,11 @@ export const Calendar: React.FC = () => {
 
   if (error) {
     return (
-      <VStack align="center" justify="center" width="100%">
-        {error.message}
-      </VStack>
+      <Flex direction="column" p={6} width="100%" minH="100%">
+        <Flex align="center" justify="center" width="100%">
+          {error.message}
+        </Flex>
+      </Flex>
     );
   }
   return (
@@ -192,7 +151,7 @@ export const Calendar: React.FC = () => {
             <Box flexShrink={1}>
               <Button
                 as={MetaLink}
-                href={calICS}
+                href={ics}
                 isExternal
                 aria-label="Add calendar"
                 leftIcon={<CalendarIcon />}
