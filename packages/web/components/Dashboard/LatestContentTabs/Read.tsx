@@ -54,7 +54,7 @@ export const Read: React.FC = () => {
                     position="relative"
                     zIndex={5}
                     p={6}
-                    justifyContent={'left'}
+                    alignItems="flex-start"
                     display={'flex'}
                     flexDirection={'column'}
                     width="100%"
@@ -95,6 +95,7 @@ export const Read: React.FC = () => {
                         textDecoration: 'none',
                       }}
                       borderRadius="md"
+                      transition={'all 0.2s ease-out'}
                     >
                       <Text
                         as="span"
