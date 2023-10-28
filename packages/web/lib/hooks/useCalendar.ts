@@ -28,9 +28,10 @@ type UseCalendarReturnTypes = {
   fetching: boolean;
   error?: Error;
   ics: string;
-  clampedEvents?: Maybe<GoogleCalEventType[]>;
   eventsGroupedByDay: GroupedEventsType[];
   totalEvents: number;
+  limit: number;
+  setLimit: (limit: number) => void;
   cleanDescription: (desc: string) => string;
   buildAddToCalendarLink: (event: GoogleCalEventType) => string;
 };
@@ -45,27 +46,34 @@ type GroupedEventsType = {
   events: GoogleCalEventType[];
 };
 
-export const useCalendar = (limit?: number): UseCalendarReturnTypes => {
+/**
+ * useCalendar hook to call the metagame calendar backend in `/api/events` and return calendar data
+ * @param clamp restricts number of events to show
+ * @returns calendar data (events, timezone, fetching, error, ics, eventsGroupedByDay, totalEvents, limit, setLimit)
+ */
+export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
   const { metagameCalendarBackend, calendarId } = CONFIG;
   const [events, setEvents] = useState<Maybe<GoogleCalEventType[]>>(null);
   const [timeZone, setTimeZone] = useState<TimeZonesType>({
     users: '',
     calendar: 'Europe/Belgrade',
   });
+  const [limit, setLimit] = useState<number>(clamp || 0);
+  const [totalEvents, setTotalEvents] = useState<number>(0);
   const [eventsGroupedByDay, setEventsGroupedByDay] = useState<
     GroupedEventsType[]
-  >([]); // [date, events][
+  >([]);
   const [fetching, setFetching] = useState(false);
-  const [error, setError] = useState<Error>();
-  const totalEvents = events?.length || 0;
-  const clampedEvents = events?.slice(0, limit || 0);
-  // console.log('useCalendar', {limit, events});
+  const [error, setError] = useState<Error | undefined>(undefined);
   const calendarICS = `https://calendar.google.com/calendar/ical/${calendarId}%40group.calendar.google.com/public/basic.ics`;
 
   // strip out the +++cover+++ from the description
   const cleanDescription = (desc: string) =>
     desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : '';
 
+  /**
+   * Builds a google calendar event url for adding to your calendar
+   * */
   const buildAddToCalendarLink = (event: GoogleCalEventType) => {
     const start =
       'dateTime' in event.start
@@ -110,7 +118,7 @@ export const useCalendar = (limit?: number): UseCalendarReturnTypes => {
   };
 
   useEffect(() => {
-    const fetchCalendarData = async (clamp: number): Promise<void> => {
+    const fetchCalendarData = async (): Promise<void> => {
       try {
         setFetching(true);
 
@@ -121,12 +129,9 @@ export const useCalendar = (limit?: number): UseCalendarReturnTypes => {
           throw new Error('Error fetching data');
         }
 
-        const items =
-          clamp === 0
-            ? data.items.map((item: GoogleCalEventType) => item)
-            : data.items.filter(
-                (item: GoogleCalEventType, i: number) => i < clamp,
-              );
+        setTotalEvents(data.items.length);
+
+        const items = data.items.map((item: GoogleCalEventType) => item);
         const usersTimeZone = DateTime.local().offsetNameShort || data.timeZone;
         setEvents(items);
         const groupedEvents = groupEventsByDay(items);
@@ -140,10 +145,10 @@ export const useCalendar = (limit?: number): UseCalendarReturnTypes => {
         setFetching(false);
       }
     };
-    fetchCalendarData(limit || 0);
+    fetchCalendarData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit, metagameCalendarBackend]);
+  }, [metagameCalendarBackend]);
 
   if (error) {
     console.error('useCalendar error', error);
@@ -155,10 +160,11 @@ export const useCalendar = (limit?: number): UseCalendarReturnTypes => {
     fetching,
     error,
     ics: calendarICS,
-    clampedEvents,
     eventsGroupedByDay,
     totalEvents,
     cleanDescription,
     buildAddToCalendarLink,
+    limit,
+    setLimit,
   };
 };

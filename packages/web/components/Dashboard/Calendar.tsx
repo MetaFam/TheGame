@@ -54,7 +54,6 @@ export const Calendar: React.FC = () => {
   const [calendar, setCalendar] = useState<GroupedEventsType[]>([]);
   const [loadingMore, setLoadingMore] = useState(false);
   const showHowMany = 4;
-  const [limit, setLimit] = useState(showHowMany);
   const {
     fetching,
     error,
@@ -63,13 +62,15 @@ export const Calendar: React.FC = () => {
     totalEvents,
     cleanDescription,
     buildAddToCalendarLink,
-  } = useCalendar(limit);
+    limit,
+    setLimit,
+  } = useCalendar(showHowMany);
 
   const handleShowMoreItems = async () => {
     try {
       setLoadingMore(true);
       setTimeout(() => {
-        setLimit((prevValue) => prevValue + showHowMany);
+        setLimit(limit + showHowMany);
         setLoadingMore(false);
       }, 500);
     } catch (err) {
@@ -99,7 +100,8 @@ export const Calendar: React.FC = () => {
 
   useEffect(() => {
     if (!fetching && eventsGroupedByDay) {
-      setCalendar(eventsGroupedByDay);
+      const limitedEvents = eventsGroupedByDay.slice(0, limit);
+      setCalendar(limitedEvents);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
