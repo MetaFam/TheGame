@@ -146,8 +146,6 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
       }
     };
     fetchCalendarData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metagameCalendarBackend]);
 
   if (error) {
