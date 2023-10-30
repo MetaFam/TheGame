@@ -502,6 +502,7 @@ export const MegaMenuHeader: React.FC = () => {
               justify="center"
               alignSelf="center"
               spacing={0}
+              height="100%"
             >
               <DesktopNavLinks />
 
