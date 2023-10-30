@@ -35,6 +35,7 @@ export const BoxTypes = {
   DASHBOARD_LEADERBOARD: 'dashboard-leaderboard',
   DASHBOARD_COMPLETED_QUESTS: 'dashboard-completed-quests',
   DASHBOARD_CREATED_QUESTS: 'dashboard-created-quests',
+  DASHBOARD_PLAYBOOKS: 'dashboard-playbooks',
   // Common Boxes
   ADD_NEW_BOX: 'add-new-box',
   EMBEDDED_URL: 'embedded-url',

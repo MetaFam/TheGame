@@ -48,13 +48,12 @@ export const ALL_BOXES = [
 ];
 
 export const DEFAULT_BOXES = [
-  BoxTypes.DASHBOARD_COMPLETED_QUESTS,
-  BoxTypes.DASHBOARD_CREATED_QUESTS,
   BoxTypes.DASHBOARD_LASTEST_CONTENT,
   BoxTypes.DASHBOARD_XP_INFO,
   BoxTypes.DASHBOARD_SEEDS_INFO,
   BoxTypes.DASHBOARD_CALENDER,
   BoxTypes.DASHBOARD_LEADERBOARD,
+  BoxTypes.DASHBOARD_PLAYBOOKS,
   // Adding default boxes MUST be accompanied by adding default box positions as well
 ];
 

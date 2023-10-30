@@ -12,6 +12,7 @@ import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 import { isBoxResizable } from 'utils/layoutHelpers';
 
+import { Playbooks } from './Playbooks';
 import { DashboardQuestsCompleted } from './QuestsCompleted';
 import { DashboardQuestsCreated } from './QuestsCreated';
 
@@ -43,6 +44,8 @@ const DashboardSectionInner: React.FC<Props> = ({
       return <DashboardQuestsCompleted />;
     case BoxTypes.DASHBOARD_CREATED_QUESTS:
       return <DashboardQuestsCreated />;
+    case BoxTypes.DASHBOARD_PLAYBOOKS:
+      return <Playbooks />;
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
