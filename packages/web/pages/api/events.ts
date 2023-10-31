@@ -3,13 +3,11 @@ import { DateTime } from 'luxon';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const options = {
-  GOOGLE_PRIVATE_KEY: process.env.private_key,
-  GOOGLE_CLIENT_EMAIL: process.env.client_email,
-  GOOGLE_PROJECT_NUMBER: process.env.project_number,
-  GOOGLE_CALENDAR_ID: process.env.calendar_id,
+  PRIVATE_KEY: process.env.GOOGLE_CAL_PRIVATE_KEY,
+  CLIENT_EMAIL: process.env.NEXT_PUBLIC_GOOGLE_CAL_CLIENT_EMAIL,
+  PROJECT_NUMBER: process.env.NEXT_PUBLIC_GOOGLE_CAL_PROJECT_NUMBER,
+  CALENDAR_ID: process.env.NEXT_PUBLIC_GOOGLE_CAL_CALENDAR_ID,
   SCOPES: ['https://www.googleapis.com/auth/calendar'],
-  client_email: process.env.client_email,
-  private_key: process.env.private_key,
 };
 
 export default async (
@@ -17,13 +15,13 @@ export default async (
   res: NextApiResponse,
 ): Promise<void> => {
   if (req.method === 'GET') {
-    const calId = options.GOOGLE_CALENDAR_ID || '';
+    const calId = options.CALENDAR_ID || '';
     const calendarId = `${calId}@group.calendar.google.com`;
 
     const auth = new google.auth.JWT(
-      options.client_email,
+      options.CLIENT_EMAIL,
       undefined,
-      options.private_key,
+      options.PRIVATE_KEY,
       ['https://www.googleapis.com/auth/calendar.readonly'],
     );
 
