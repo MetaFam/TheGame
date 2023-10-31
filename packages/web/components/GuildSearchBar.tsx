@@ -3,8 +3,6 @@ import {
   Avatar,
   Box,
   BoxedNextImage as Image,
-  Button,
-  Center,
   Flex,
   IconButton,
   Input,
@@ -14,15 +12,13 @@ import {
   Text,
 } from '@metafam/ds';
 import { httpLink, Maybe } from '@metafam/utils';
-import LogoImage from 'assets/logo.webp';
 import SearchIcon from 'assets/search-icon.svg';
-import { MetaLink } from 'components/Link';
-import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
-import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
-import { GuildFragment, Player, PlayerFragment } from 'graphql/autogen/types';
-import { searchPlayers } from 'graphql/getPlayers';
+import {
+  GuildFragment,
+  Player,
+  useAddGuildMemberMutation,
+} from 'graphql/autogen/types';
 import { searchGuilds } from 'graphql/queries/guild';
-import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, {
   FormEventHandler,
@@ -33,14 +29,6 @@ import React, {
 } from 'react';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
-import { menuIcons } from 'utils/menuIcons';
-import { MenuSectionLinks } from 'utils/menuLinks';
-import {
-  getPlayerImage,
-  getPlayerName,
-  getPlayerURL,
-  getPlayerUsername,
-} from 'utils/playerHelpers';
 
 interface OptionProps {
   text: string;
@@ -160,7 +148,7 @@ interface SearchResults {
   guilds: GuildFragment[];
 }
 
-export const GuildSearchBar: React.FC = () => {
+export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
   const router = useRouter();
   const searchInputSubjectRef = useRef(new Subject<string>());
   const searchBarRef = useRef<HTMLInputElement>(null);
@@ -169,10 +157,30 @@ export const GuildSearchBar: React.FC = () => {
     guilds: [],
   });
 
+  const [, addGuildMember] = useAddGuildMemberMutation();
+
   const resetResults = () => {
     setSearchResults({
       guilds: [],
     });
+  };
+
+  const handleAddGuildMembership = async (guildId: string) => {
+    try {
+      const response = await addGuildMember({
+        playerId: player?.id,
+        guildId,
+      });
+      // Handle the response if necessary.
+      // For example, you might want to update the UI based on the mutation's result:
+      // if (response && response.data) {
+      //   console.log('Guild membership added successfully!', response.data);
+      // }
+    } catch (error) {
+      throw Error(
+        `Error upserting the Dework profile: ${(error as Error).message}`,
+      );
+    }
   };
 
   const dropdown = useRef<Maybe<HTMLDivElement>>(null);
@@ -260,8 +268,7 @@ export const GuildSearchBar: React.FC = () => {
                 <Option
                   key={guild.id}
                   onClick={() => {
-                    router.push(`/guild/${guild.guildname}`);
-                    // onClose();
+                    handleAddGuildMembership(guild.id);
                   }}
                   name={guild.name}
                   image={guild?.logo as string | undefined}
