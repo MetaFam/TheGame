@@ -11,12 +11,14 @@ import {
   Text,
 } from '@metafam/ds';
 import { GuildSearchBar } from 'components/GuildSearchBar';
+import { Player } from 'graphql/autogen/types';
 import React from 'react';
 
 export const AddPlayerGuild: React.FC<{
   isOpen: boolean;
   onClose: () => void;
-}> = ({ isOpen, onClose }) => (
+  player: Player;
+}> = ({ isOpen, onClose, player }) => (
   <Modal {...{ isOpen, onClose }}>
     <ModalOverlay />
     <ModalContent>
@@ -35,7 +37,7 @@ export const AddPlayerGuild: React.FC<{
       </ModalHeader>
       <ModalCloseButton />
       <ModalBody p={[0, 6]}>
-        <GuildSearchBar />
+        <GuildSearchBar player={player} />
       </ModalBody>
       <Button variant="outline" w="20%" ml="40%" leftIcon={<AddIcon />}>
         Add New Guild

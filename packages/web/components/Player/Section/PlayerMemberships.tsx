@@ -476,6 +476,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
           <AddPlayerGuild
             isOpen={addGuildView}
             onClose={() => setAddGuildView(false)}
+            player={player}
           />
         </>
       )}
