@@ -78,6 +78,9 @@ jobs:
       GRAPHQL_URL: ${{env.GRAPHQL_URL}}
       FRONTEND_TAG: ${{env.FRONTEND_TAG}}
       APP_ENV: ${{env.APP_ENV}}
+      GOOGLE_CAL_PROJECT_NUMBER: ${{env.GOOGLE_CAL_PROJECT_NUMBER}}
+      GOOGLE_CAL_CLIENT_EMAIL: ${{env.GOOGLE_CAL_CLIENT_EMAIL}}
+      GOOGLE_CAL_CALENDAR_ID: ${{env.GOOGLE_CAL_CALENDAR_ID}}
 
     steps:
       - name: First Interpolation of Variables
@@ -141,10 +144,12 @@ jobs:
             FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
             YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
             IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
-            HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}} 
-            USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}} 
-            WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} 
+            HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}}
+            USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}}
+            WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}}
             OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
+            GOOGLE_CAL_API_KEY=${{secrets.GOOGLE_CAL_API_KEY}}
+            GOOGLE_CAL_PRIVATE_KEY=${{secrets.GOOGLE_CAL_PRIVATE_KEY}}
           push: true
 
   deploy-frontend:
