@@ -417,6 +417,7 @@ export const Signup: React.FC = () => {
                     direction={['column', 'row']}
                     spacing={{ base: 2, lg: 10 }}
                     align="center"
+                    justify="center"
                   >
                     <RoleCard
                       title="Take the path"
@@ -506,6 +507,7 @@ export const Signup: React.FC = () => {
                     direction={['column', 'row']}
                     spacing={{ base: 2, lg: 10 }}
                     align="center"
+                    justify="center"
                   >
                     <RoleCard
                       title="Player"
@@ -819,6 +821,7 @@ export const Signup: React.FC = () => {
                     direction={['column', 'row']}
                     spacing={{ base: 2, lg: 10 }}
                     align="center"
+                    justify="center"
                   >
                     <RoleCard
                       title="Do it yourself"
