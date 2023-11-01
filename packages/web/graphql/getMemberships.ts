@@ -26,6 +26,7 @@ const daoMembershipsQuery = /* GraphQL */ `
 const guildMembershipsQuery = /* GraphQL */ `
   query GetPlayerGuilds($playerId: uuid!) {
     guild_player(where: { playerId: { _eq: $playerId } }) {
+      visible
       guildId
       Guild {
         id
@@ -54,7 +55,6 @@ export const getGuildMemberships = async (playerId: string) => {
       { playerId },
     )
     .toPromise();
-
   return response.data?.guild_player;
 };
 
@@ -81,6 +81,8 @@ export type GuildMembership = {
   address?: string;
   logoURL?: string;
   guildname?: string;
+  visible?: boolean;
+  guildId?: string;
 };
 
 export const getAllMemberships = async (player: Player) => {
@@ -109,6 +111,8 @@ export const getAllMemberships = async (player: Player) => {
     memberRank: gp.discordRoles[0]?.name ?? undefined,
     memberXP: gp.Guild.guildname === 'metafam' ? player.totalXP : null,
     logoURL: gp.Guild.logo ?? undefined,
+    visible: gp.visible,
+    guildId: gp.guildId,
   }));
 
   const daoHaus = (filteredMemberships || []).map((m) => ({

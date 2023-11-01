@@ -528,19 +528,48 @@
               playerId: $player_id
         remote_schema: backend
       name: discordRoles
+  insert_permissions:
+    - role: player
+      permission:
+        check:
+          player_id:
+            _eq: X-Hasura-User-Id
+        columns:
+          - visible
+          - guild_id
+          - player_id
   select_permissions:
     - role: player
       permission:
         columns:
           - guild_id
           - player_id
+          - visible
         filter: {}
     - role: public
       permission:
         columns:
           - guild_id
           - player_id
+          - visible
         filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - visible
+          - guild_id
+          - player_id
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
+        check: null
+  delete_permissions:
+    - role: player
+      permission:
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
 - table:
     name: link
     schema: public

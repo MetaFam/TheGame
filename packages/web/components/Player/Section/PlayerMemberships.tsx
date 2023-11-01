@@ -25,7 +25,10 @@ import {
 } from '@metafam/ds';
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { Player } from 'graphql/autogen/types';
+import {
+  Player,
+  useUpdatePlayerGuildVisibilityMutation,
+} from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactGridLayout, { Layout } from 'react-grid-layout';
@@ -39,6 +42,8 @@ import { AddPlayerGuild } from './MembershipModals/AddPlayerGuild';
 
 type DAOListingProps = {
   membership: GuildMembership;
+  editing?: boolean;
+  playerId?: string;
 };
 
 export const DAOListing: React.FC<DAOListingProps> = ({
@@ -156,8 +161,33 @@ export const GuildListing: React.FC<DAOListingProps> = React.forwardRef(
       chain,
       address,
       logoURL,
+      visible,
+      guildId,
     },
+    playerId,
   }) => {
+    const [, updatePlayerGuildVisibility] =
+      useUpdatePlayerGuildVisibilityMutation();
+
+    const handleUpdateVisibility = async () => {
+      try {
+        const response = await updatePlayerGuildVisibility({
+          playerId,
+          guildId,
+          visible: !visible,
+        });
+        // Handle the response if necessary.
+        // For example, you might want to update the UI based on the mutation's result:
+        // if (response && response.data) {
+
+        // }
+      } catch (error) {
+        throw Error(
+          `Error upserting the Dework profile: ${(error as Error).message}`,
+        );
+      }
+    };
+
     const stake = useMemo(() => {
       if (memberXP != null) {
         return `XP: ${Math.floor(memberXP)}`;
@@ -213,6 +243,9 @@ export const GuildListing: React.FC<DAOListingProps> = React.forwardRef(
             size="lg"
             icon={<BsEyeFill />}
             variant="unstyled"
+            onClick={async () => {
+              handleUpdateVisibility();
+            }}
           ></IconButton>
           <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
             {logoURL ? (
@@ -423,6 +456,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
       <VStack align="stretch">
         {!editView &&
           memberships
+            .filter((m) => m.visible)
             .slice(0, 4)
             .map((membership) => (
               <DAOListing {...{ membership }} key={membership.memberId} />
@@ -454,7 +488,11 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             onLayoutChange={(currentLayout) => setLayout(currentLayout)}
           >
             {memberships?.map((membership) => (
-              <GuildListing {...{ membership }} key={membership.memberId} />
+              <GuildListing
+                {...{ membership }}
+                key={membership.memberId}
+                playerId={player?.id}
+              />
             ))}
           </ReactGridLayout>
           <Button
