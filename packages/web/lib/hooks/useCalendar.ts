@@ -93,30 +93,6 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     return href;
   };
 
-  const groupEventsByDay = (items: GoogleCalEventType[]) => {
-    const groupedEvents = items.reduce((acc, event) => {
-      // console.log('event', {acc, event});
-
-      const start =
-        'dateTime' in event.start
-          ? DateTime.fromISO(event.start.dateTime)
-          : DateTime.fromISO(event.start.date);
-      const date = `${start}`;
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(event);
-      return acc;
-    }, {} as Record<string, GoogleCalEventType[]>);
-
-    const days = Object.entries(groupedEvents).map(([date, calEvents]) => ({
-      date,
-      events: calEvents as GoogleCalEventType[],
-    }));
-
-    return days;
-  };
-
   useEffect(() => {
     const fetchCalendarData = async (): Promise<void> => {
       try {
@@ -124,19 +100,23 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
 
         const res = await fetch(metagameCalendarBackend);
         const data = await res.json();
+        const { days, events: fetchedEvents } = data;
 
         if (res.status !== 200 || !data) {
           throw new Error('Error fetching data');
         }
 
-        setTotalEvents(data.items.length);
+        setTotalEvents(fetchedEvents.items.length);
 
-        const items = data.items.map((item: GoogleCalEventType) => item);
-        const usersTimeZone = DateTime.local().offsetNameShort || data.timeZone;
+        const items = fetchedEvents.items.map(
+          (item: GoogleCalEventType) => item,
+        );
+        const usersTimeZone =
+          DateTime.local().offsetNameShort || fetchedEvents.timeZone;
         setEvents(items);
-        const groupedEvents = groupEventsByDay(items);
+        const groupedEvents = days;
         setEventsGroupedByDay(groupedEvents);
-        setTimeZone({ users: usersTimeZone, calendar: data.timeZone });
+        setTimeZone({ users: usersTimeZone, calendar: fetchedEvents.timeZone });
         setError(undefined);
       } catch (err) {
         console.error(err);
@@ -145,8 +125,14 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
         setFetching(false);
       }
     };
+
+    if (events) {
+      setFetching(false);
+      return;
+    }
+
     fetchCalendarData();
-  }, [metagameCalendarBackend]);
+  }, [metagameCalendarBackend, events]);
 
   if (error) {
     console.error('useCalendar error', error);

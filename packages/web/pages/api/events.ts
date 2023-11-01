@@ -10,6 +10,24 @@ const options = {
   SCOPES: ['https://www.googleapis.com/auth/calendar'],
 };
 
+type GoogleCalEventDateTimeType =
+  | {
+      dateTime: string;
+      timeZone: string;
+    }
+  | {
+      date: string;
+    };
+export type GoogleCalEventType = {
+  id: string;
+  summary: string;
+  description: string;
+  start: GoogleCalEventDateTimeType;
+  end: GoogleCalEventDateTimeType;
+  htmlLink: string;
+  location: string;
+};
+
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -18,6 +36,34 @@ export default async (
     const calId = options.CALENDAR_ID || '';
     const calendarId = `${calId}@group.calendar.google.com`;
 
+    const groupEventsByDay = (items: GoogleCalEventType[]) => {
+      const groupedEvents = items.reduce((acc, event) => {
+        // console.log('event', {acc, event});
+
+        const start =
+          'dateTime' in event.start
+            ? DateTime.fromISO(event.start.dateTime)
+            : DateTime.fromISO(event.start.date);
+        const date = `${start}`;
+        if (!acc[date]) {
+          acc[date] = [];
+        }
+        acc[date].push(event);
+        return acc;
+      }, {} as Record<string, GoogleCalEventType[]>);
+
+      const days = Object.entries(groupedEvents).map(([date, calEvents]) => ({
+        date,
+        events: calEvents as GoogleCalEventType[],
+      }));
+
+      return days;
+    };
+
+    if (req.method !== 'GET') {
+      res.status(405).end(); // Method Not Allowed
+      return;
+    }
     const auth = new google.auth.JWT(
       options.CLIENT_EMAIL,
       undefined,
@@ -37,8 +83,10 @@ export default async (
       };
       const result = await calendar.events.list(params);
       const events = result.data;
+      const days = groupEventsByDay(events.items as GoogleCalEventType[]);
+      const calData = { events, days };
 
-      res.status(200).json(events);
+      res.status(200).json(calData);
     } catch (err) {
       console.error('err', err);
       res.status(500).json({ error: `${err}` });
