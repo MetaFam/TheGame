@@ -131,7 +131,7 @@ const getDefaultFormValues = (
 };
 
 type Props = {
-  workingGuild: GuildFragment;
+  workingGuild?: GuildFragment;
   onSubmit: (data: EditGuildFormInputs) => void;
   success?: boolean;
   submitting?: boolean;
@@ -145,7 +145,7 @@ type GuildMetadata = {
   };
 };
 
-export const GuildForm: React.FC<Props> = ({
+export const UnverifiedGuildForm: React.FC<Props> = ({
   workingGuild,
   onSubmit,
   success,
@@ -156,7 +156,7 @@ export const GuildForm: React.FC<Props> = ({
 
   const [getGuildMetadataResponse, getGuildMetadata] = useGetGuildMetadataQuery(
     {
-      variables: { id: workingGuild.id },
+      variables: { id: workingGuild?.id },
     },
   );
   const fetchingMetadata =

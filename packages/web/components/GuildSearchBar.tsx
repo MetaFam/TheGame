@@ -29,6 +29,7 @@ import React, {
 } from 'react';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
+import { UnverifiedGuildForm } from './Guild/UnverifiedGuildForm';
 
 interface OptionProps {
   text: string;
@@ -183,7 +184,6 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
     }
   };
 
-  const dropdown = useRef<Maybe<HTMLDivElement>>(null);
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     // onClose();
@@ -223,7 +223,6 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
         <InputGroup
           bg="#1B0D2A"
           justifyContent="flex-start"
-          h="fit-content"
           p={2}
           my="auto"
           border={{ base: '3px solid #5946BC' }}
