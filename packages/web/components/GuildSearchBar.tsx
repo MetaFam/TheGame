@@ -174,7 +174,7 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
       // Handle the response if necessary.
       // For example, you might want to update the UI based on the mutation's result:
       // if (response && response.data) {
-      //   console.log('Guild membership added successfully!', response.data);
+
       // }
     } catch (error) {
       throw Error(
@@ -267,8 +267,8 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
               {guilds?.map((guild: GuildFragment) => (
                 <Option
                   key={guild.id}
-                  onClick={() => {
-                    handleAddGuildMembership(guild.id);
+                  onClick={async () => {
+                    await handleAddGuildMembership(guild.id);
                   }}
                   name={guild.name}
                   image={guild?.logo as string | undefined}
