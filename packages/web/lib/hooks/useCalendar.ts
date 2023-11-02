@@ -1,7 +1,7 @@
 import { Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DateTime } from 'luxon';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type GoogleCalEventDateTimeType =
   | {
@@ -46,6 +46,13 @@ type GroupedEventsType = {
   events: GoogleCalEventType[];
 };
 
+type CalendarDataType = {
+  events: Maybe<GoogleCalEventType[]>;
+  days: GroupedEventsType[];
+  timeZone: TimeZonesType;
+  totalEvents: number;
+};
+
 /**
  * useCalendar hook to call the metagame calendar backend in `/api/events` and return calendar data
  * @param clamp restricts number of events to show
@@ -53,16 +60,16 @@ type GroupedEventsType = {
  */
 export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
   const { metagameCalendarBackend, calendarId } = CONFIG;
-  const [events, setEvents] = useState<Maybe<GoogleCalEventType[]>>(null);
-  const [timeZone, setTimeZone] = useState<TimeZonesType>({
-    users: '',
-    calendar: 'Europe/Belgrade',
+  const [calendarData, setCalendarData] = useState<CalendarDataType>({
+    events: null,
+    days: [],
+    timeZone: {
+      users: '',
+      calendar: 'Europe/Belgrade',
+    },
+    totalEvents: 0,
   });
   const [limit, setLimit] = useState<number>(clamp || 0);
-  const [totalEvents, setTotalEvents] = useState<number>(0);
-  const [eventsGroupedByDay, setEventsGroupedByDay] = useState<
-    GroupedEventsType[]
-  >([]);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
   const calendarICS = `https://calendar.google.com/calendar/ical/${calendarId}%40group.calendar.google.com/public/basic.ics`;
@@ -93,73 +100,59 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     return href;
   };
 
-  const groupEventsByDay = (items: GoogleCalEventType[]) => {
-    const groupedEvents = items.reduce((acc, event) => {
-      // console.log('event', {acc, event});
+  const fetchCalendarData = useCallback(async (): Promise<void> => {
+    try {
+      if (calendarData.days.length > 0) return;
+      setFetching(true);
 
-      const start =
-        'dateTime' in event.start
-          ? DateTime.fromISO(event.start.dateTime)
-          : DateTime.fromISO(event.start.date);
-      const date = `${start}`;
-      if (!acc[date]) {
-        acc[date] = [];
+      const res = await fetch(metagameCalendarBackend);
+      const data = await res.json();
+      const { days, events: fetchedEvents } = data;
+
+      if (res.status !== 200 || !data) {
+        throw new Error('Error fetching data');
       }
-      acc[date].push(event);
-      return acc;
-    }, {} as Record<string, GoogleCalEventType[]>);
 
-    const days = Object.entries(groupedEvents).map(([date, calEvents]) => ({
-      date,
-      events: calEvents as GoogleCalEventType[],
-    }));
+      const usersTimeZone =
+        DateTime.local().offsetNameShort || fetchedEvents.timeZone;
+      const calValues: CalendarDataType = {
+        events: fetchedEvents.items,
+        days,
+        timeZone: { users: usersTimeZone, calendar: fetchedEvents.timeZone },
+        totalEvents: fetchedEvents.items.length,
+      };
+      setCalendarData(calValues);
 
-    return days;
-  };
+      setError(undefined);
+    } catch (err) {
+      console.error(err);
+      setError(err as Error);
+    } finally {
+      setFetching(false);
+    }
+  }, [metagameCalendarBackend, calendarData]);
 
   useEffect(() => {
-    const fetchCalendarData = async (): Promise<void> => {
-      try {
-        setFetching(true);
+    if (calendarData.days.length > 0) {
+      setFetching(false);
+      return;
+    }
 
-        const res = await fetch(metagameCalendarBackend);
-        const data = await res.json();
-
-        if (res.status !== 200 || !data) {
-          throw new Error('Error fetching data');
-        }
-
-        setTotalEvents(data.items.length);
-
-        const items = data.items.map((item: GoogleCalEventType) => item);
-        const usersTimeZone = DateTime.local().offsetNameShort || data.timeZone;
-        setEvents(items);
-        const groupedEvents = groupEventsByDay(items);
-        setEventsGroupedByDay(groupedEvents);
-        setTimeZone({ users: usersTimeZone, calendar: data.timeZone });
-        setError(undefined);
-      } catch (err) {
-        console.error(err);
-        setError(err as Error);
-      } finally {
-        setFetching(false);
-      }
-    };
     fetchCalendarData();
-  }, [metagameCalendarBackend]);
+  }, [metagameCalendarBackend, calendarData, fetchCalendarData]);
 
   if (error) {
     console.error('useCalendar error', error);
   }
 
   return {
-    events,
-    timeZone,
+    events: calendarData.events,
+    timeZone: calendarData.timeZone,
     fetching,
     error,
     ics: calendarICS,
-    eventsGroupedByDay,
-    totalEvents,
+    eventsGroupedByDay: calendarData.days,
+    totalEvents: calendarData.totalEvents,
     cleanDescription,
     buildAddToCalendarLink,
     limit,
