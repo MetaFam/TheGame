@@ -1,3 +1,4 @@
+import { CONFIG } from 'config';
 import { calendar_v3, google } from 'googleapis';
 import { DateTime } from 'luxon';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -27,14 +28,21 @@ export type GoogleCalEventType = {
   htmlLink: string;
   location: string;
 };
+export const cleanDescription = (desc: string): string =>
+  desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : desc;
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> => {
+  const { host } = req.headers;
+  const { publicURL } = CONFIG;
+  const publicHost = publicURL?.replace('https://', '').replace('http://', '');
   if (req.method === 'GET') {
     const calId = options.CALENDAR_ID || '';
     const calendarId = `${calId}@group.calendar.google.com`;
+
+    // strip out the +++cover+++ from the description
 
     const groupEventsByDay = (items: GoogleCalEventType[]) => {
       const groupedEvents = items.reduce((acc, event) => {
@@ -42,13 +50,16 @@ export default async (
 
         const start =
           'dateTime' in event.start
-            ? DateTime.fromISO(event.start.dateTime)
-            : DateTime.fromISO(event.start.date);
-        const date = `${start}`;
-        if (!acc[date]) {
-          acc[date] = [];
+            ? DateTime.fromISO(event.start.dateTime, {
+                zone: event.start.timeZone,
+              }).toLocal()
+            : DateTime.fromISO(event.start.date).toLocal();
+
+        const dateKey = start.toFormat('yyyy-MM-dd');
+        if (!acc[dateKey]) {
+          acc[dateKey] = [];
         }
-        acc[date].push(event);
+        acc[dateKey].push(event);
         return acc;
       }, {} as Record<string, GoogleCalEventType[]>);
 
@@ -64,6 +75,19 @@ export default async (
       res.status(405).end(); // Method Not Allowed
       return;
     }
+    if (host !== publicHost) {
+      res.status(403).end(); // Forbidden
+      return;
+    }
+    if (!options.PRIVATE_KEY || !options.CLIENT_EMAIL) {
+      res.status(500).json({ error: 'Missing Google Cal Credentials' });
+      return;
+    }
+    if (!calendarId) {
+      res.status(500).json({ error: 'Missing Google Cal Calendar ID' });
+      return;
+    }
+
     const auth = new google.auth.JWT(
       options.CLIENT_EMAIL,
       undefined,
@@ -84,6 +108,7 @@ export default async (
       const result = await calendar.events.list(params);
       const events = result.data;
       const days = groupEventsByDay(events.items as GoogleCalEventType[]);
+
       const calData = { events, days };
 
       res.status(200).json(calData);
