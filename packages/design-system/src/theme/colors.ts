@@ -50,6 +50,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   darkMagenta: string;
   plum: string;
   wine: string;
+  violet: string;
 };
 
 export const colors: MetaColors = {
@@ -84,6 +85,7 @@ export const colors: MetaColors = {
   darkMagenta: '#2F1646',
   plum: '#3E1C5D',
   wine: '#410834',
+  violet: '#D59BD5',
   cyan: {
     50: '#dbffff',
     100: '#b1fcfe',
