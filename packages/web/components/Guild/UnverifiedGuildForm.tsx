@@ -51,12 +51,6 @@ const validations = {
   type: {
     required: true,
   },
-  discordAdminRoles: {
-    validate: (roles: SelectOption[]) => roles != null && roles.length > 0,
-  },
-  discordMembershipRoles: {
-    validate: (roles: SelectOption[]) => roles != null && roles.length > 0,
-  },
   daoAddress: {
     required: true,
     validate: (address: string) => isAddress(address),
@@ -66,20 +60,18 @@ const validations = {
   },
 };
 
-export interface EditGuildFormInputs {
+export interface CreateGuildFormInputs {
   guildname: string;
   name: string;
   description?: Maybe<string>;
-  discordInviteUrl?: Maybe<string>;
-  joinUrl?: Maybe<string>;
   logoUrl?: Maybe<string>;
   logoFile?: Maybe<FileList>;
   websiteUrl?: Maybe<string>;
+  joinUrl?: Maybe<string>;
   twitterUrl?: Maybe<string>;
+  discordInviteUrl?: Maybe<string>;
   githubUrl?: Maybe<string>;
   type: GuildType_Enum;
-  discordAdminRoles: SelectOption[];
-  discordMembershipRoles: SelectOption[];
   daos?: Maybe<GuildDaoInput[]>;
 }
 
@@ -90,63 +82,24 @@ const placeholderDaoInput = {
   url: null,
 };
 
-const getDefaultFormValues = (
-  guild: GuildFragment,
-  metadata: GuildMetadata | undefined,
-  roleOptions: SelectOption[],
-): EditGuildFormInputs => {
-  const discordAdminRoleIds = metadata?.discordMetadata.administratorRoleIds;
-  const discordAdminRoleOptions =
-    metadata == null || discordAdminRoleIds == null
-      ? []
-      : roleOptions.filter((r) => discordAdminRoleIds.includes(r.value));
-
-  const discordMembershipRoleIds = metadata?.discordMetadata.membershipRoleIds;
-  const discordMembershipRoleOptions =
-    metadata == null || discordMembershipRoleIds == null
-      ? []
-      : roleOptions.filter((r) => discordMembershipRoleIds.includes(r.value));
-
-  let daos: GuildDaoInput[] = [];
-  if (guild.daos?.length > 0) {
-    daos = guild.daos.map((d) => ({
-      contractAddress: d.contractAddress,
-      network: d.network,
-      label: d.label,
-      url: d.url,
-    }));
-  }
-
-  return {
-    guildname: guild.guildname,
-    name: guild.name,
-    description: guild.description || '',
-    logoUrl: optimizedImage('logoURL', guild.logo) || '',
-    websiteUrl: guild.websiteUrl || '',
-    type: guild.type,
-    discordAdminRoles: discordAdminRoleOptions,
-    discordMembershipRoles: discordMembershipRoleOptions,
-    daos,
-  };
-};
+const getDefaultFormValues = (): CreateGuildFormInputs => ({
+  guildname: '',
+  name: '',
+  description: '',
+  logoUrl: '',
+  websiteUrl: '',
+  type: GuildType_Enum.Social, // Adjust this to your default guild type.
+  daos: [placeholderDaoInput],
+});
 
 type Props = {
   workingGuild?: GuildFragment;
-  onSubmit: (data: EditGuildFormInputs) => void;
+  onSubmit: (data: CreateGuildFormInputs) => void;
   success?: boolean;
   submitting?: boolean;
 };
 
-type GuildMetadata = {
-  discordRoles: DiscordRole[];
-  discordMetadata: {
-    membershipRoleIds: string[];
-    administratorRoleIds: string[];
-  };
-};
-
 export const UnverifiedGuildForm: React.FC<Props> = ({
-  workingGuild,
   onSubmit,
   success,
   submitting,
@@ -154,35 +107,13 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   const router = useRouter();
   const readFile = useImageReader();
 
-  const [getGuildMetadataResponse, getGuildMetadata] = useGetGuildMetadataQuery(
-    {
-      variables: { id: workingGuild?.id },
-    },
-  );
-  const fetchingMetadata =
-    getGuildMetadataResponse == null || getGuildMetadataResponse.fetching;
-  const guildMetadata = getGuildMetadataResponse.data
-    ?.guild_metadata[0] as GuildMetadata;
-
-  const loadGuildMetadata = () => {
-    getGuildMetadata({ requestPolicy: 'network-only' });
-  };
-
-  const roleOptions = useMemo(() => {
-    const allDiscordRoles = guildMetadata?.discordRoles || [];
-    return allDiscordRoles.map((role) => ({
-      label: role.name,
-      value: role.id,
-    }));
-  }, [guildMetadata]);
-
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
     control,
-  } = useForm<EditGuildFormInputs>({
+  } = useForm<CreateGuildFormInputs>({
     mode: 'onTouched',
   });
 
@@ -195,19 +126,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
     name: 'daos',
   });
 
-  useEffect(() => {
-    const values = getDefaultFormValues(
-      workingGuild,
-      guildMetadata,
-      roleOptions,
-    );
-    // https://react-hook-form.com/api#useForm
-    reset(values);
-  }, [workingGuild, guildMetadata, roleOptions, reset]);
-
-  const [logoURI, setLogoURI] = useState<string | undefined>(
-    workingGuild.logo ?? undefined,
-  );
+  const [logoURI, setLogoURI] = useState<string | undefined>();
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errored, setErrored] = useState(false);
