@@ -9,7 +9,7 @@ export const CONFIG = {
   brightIdNodeURL:
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
   publicURL: process.env.NEXT_PUBLIC_FRONTEND_URL,
-  gaId: process.env.NEXT_PUBLIC_GA4_ID,
+  gaId: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
   honeybadgerAPIKey: process.env.NEXT_PUBLIC_HONEYBADGER_API_KEY,
   get useHoneybadger() {
     return this.appEnv === 'production' && !!this.honeybadgerAPIKey;
