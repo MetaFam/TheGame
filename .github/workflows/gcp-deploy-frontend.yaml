@@ -140,6 +140,7 @@ jobs:
             YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
             IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
             HONEYBADGER_API_KEY=${{secrets.HONEYBADGER_API_KEY}}
+            GOOGLE_ANALYTICS_ID=${{secrets.GOOGLE_ANALYTICS_ID}}
             USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}}
             WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}}
             OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
