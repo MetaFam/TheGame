@@ -15,7 +15,6 @@ import { get, set } from 'lib/store';
 import React, { useEffect, useState } from 'react';
 
 const discordOAuthCallbackURL = `${CONFIG.publicURL}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
-
 export const discordAuthStateGuidKey = 'metagame-add-guild';
 
 const GuildSetupAuthCallback: React.FC = () => {

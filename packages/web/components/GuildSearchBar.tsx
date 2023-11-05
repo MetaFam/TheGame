@@ -11,7 +11,7 @@ import {
   Stack,
   Text,
 } from '@metafam/ds';
-import { httpLink, Maybe } from '@metafam/utils';
+import { httpLink } from '@metafam/utils';
 import SearchIcon from 'assets/search-icon.svg';
 import {
   GuildFragment,
@@ -29,7 +29,6 @@ import React, {
 } from 'react';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
-import { UnverifiedGuildForm } from './Guild/UnverifiedGuildForm';
 
 interface OptionProps {
   text: string;
