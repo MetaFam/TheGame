@@ -454,6 +454,11 @@ jobs:
     needs: [env, delete-frontend, undeploy-frontend, deploy-hasura, seed-db]
 
     steps:
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
+
       - name: Set Up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
