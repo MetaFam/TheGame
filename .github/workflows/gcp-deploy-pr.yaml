@@ -471,7 +471,7 @@ jobs:
 
       - name: "Build & Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
         env:
-          NODE_OPTIONS: "--max_old_space_size=5120"
+          NODE_OPTIONS: "--max-old-space-size=5120"
         uses: docker/build-push-action@v5
         with:
           file: docker/frontend/Dockerfile
