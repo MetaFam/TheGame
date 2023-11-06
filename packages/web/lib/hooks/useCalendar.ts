@@ -59,7 +59,10 @@ type CalendarDataType = {
  * @returns calendar data (events, timezone, fetching, error, ics, eventsGroupedByDay, totalEvents, limit, setLimit)
  */
 export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
-  const { metagameCalendarBackend, calendarId } = CONFIG;
+  const {
+    calendarEndpoint,
+    gcal: { calendarId },
+  } = CONFIG;
   const [calendarData, setCalendarData] = useState<CalendarDataType>({
     events: null,
     days: [],
@@ -71,12 +74,12 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
   });
   const [limit, setLimit] = useState<number>(clamp || 0);
   const [fetching, setFetching] = useState(false);
-  const [error, setError] = useState<Error | undefined>(undefined);
+  const [error, setError] = useState<Error>();
   const calendarICS = `https://calendar.google.com/calendar/ical/${calendarId}%40group.calendar.google.com/public/basic.ics`;
 
   // strip out the +++cover+++ from the description
   const cleanDescription = (desc: string) =>
-    desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : '';
+    desc?.replace(/(\+\+\+).*(\+\+\+)/, '') || '';
 
   /**
    * Builds a google calendar event url for adding to your calendar
@@ -96,7 +99,11 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     const dates = `${start.toFormat('yyyyMMdd')}T${start.toFormat(
       'HHmmss',
     )}/${end.toFormat('yyyyMMdd')}T${end.toFormat('HHmmss')}`;
-    const href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}&sf=true&output=xml`;
+    const href =
+      'https://www.google.com/calendar/render' +
+      `?action=TEMPLATE&text=${title}&dates=${dates}` +
+      `&details=${details}&location=${location}` +
+      '&sf=true&output=xml';
     return href;
   };
 
@@ -105,7 +112,7 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
       if (calendarData.days.length > 0) return;
       setFetching(true);
 
-      const res = await fetch(metagameCalendarBackend);
+      const res = await fetch(calendarEndpoint);
       const data = await res.json();
       const { days, events: fetchedEvents, error: errorMsg } = data;
 
@@ -118,7 +125,10 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
       const calValues: CalendarDataType = {
         events: fetchedEvents.items,
         days,
-        timeZone: { users: usersTimeZone, calendar: fetchedEvents.timeZone },
+        timeZone: {
+          users: usersTimeZone,
+          calendar: fetchedEvents.timeZone,
+        },
         totalEvents: fetchedEvents.items.length,
       };
       setCalendarData(calValues);
@@ -130,7 +140,7 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     } finally {
       setFetching(false);
     }
-  }, [metagameCalendarBackend, calendarData]);
+  }, [calendarData, calendarEndpoint]);
 
   useEffect(() => {
     if (calendarData.days.length > 0) {
@@ -139,10 +149,10 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     }
 
     fetchCalendarData();
-  }, [metagameCalendarBackend, calendarData, fetchCalendarData]);
+  }, [calendarData, fetchCalendarData]);
 
   if (error) {
-    console.error('useCalendar error', error);
+    console.error({ 'useCalendar error': error });
   }
 
   return {
