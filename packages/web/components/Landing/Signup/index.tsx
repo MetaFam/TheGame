@@ -870,7 +870,7 @@ export const Signup: React.FC = () => {
                           fontSize={{ base: 'md', lg: '2xl' }}
                           align={{ base: 'start', lg: 'center' }}
                         >
-                          Too busy to do it manually? We got you covered!{' '}
+                          Too busy to do it manually? We got you!{' '}
                           <Text fontWeight="bold">
                             For amounts over $1k only.
                           </Text>
