@@ -107,10 +107,10 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
 
       const res = await fetch(metagameCalendarBackend);
       const data = await res.json();
-      const { days, events: fetchedEvents } = data;
+      const { days, events: fetchedEvents, error: errorMsg } = data;
 
       if (res.status !== 200 || !data) {
-        throw new Error('Error fetching data');
+        throw new Error(errorMsg || 'Error fetching calendar data.');
       }
 
       const usersTimeZone =

@@ -143,8 +143,10 @@ jobs:
             USERBACK_TOKEN=${{secrets.USERBACK_TOKEN}}
             WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}}
             OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
-            GOOGLE_CAL_API_KEY=${{secrets.GOOGLE_CAL_API_KEY}}
             GOOGLE_CAL_PRIVATE_KEY=${{secrets.GOOGLE_CAL_PRIVATE_KEY}}
+            GOOGLE_CAL_CLIENT_EMAIL=${{secrets.GOOGLE_CAL_CLIENT_EMAIL}}
+            GOOGLE_CAL_PROJECT_NUMBER=${{secrets.GOOGLE_CAL_PROJECT_NUMBER}}
+            GOOGLE_CAL_CALENDAR_ID=${{secrets.GOOGLE_CAL_CALENDAR_ID}}
           push: true
 
   deploy-frontend:
