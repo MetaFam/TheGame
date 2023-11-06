@@ -51,9 +51,10 @@ ARG USERBACK_TOKEN
 ARG CERAMIC_URL https://ceramic.metagame.wtf
 ARG WEB3_STORAGE_TOKEN
 ARG OPENSEA_API_KEY
-ARG GOOGLE_CAL_PRIVATE_KEY
-ARG GOOGLE_CAL_CLIENT_EMAIL
-ARG GOOGLE_CAL_PROJECT_NUMBER
+ARG GCAL_CALENDAR_ID
+ARG GCAL_PRIVATE_KEY
+ARG GCAL_CLIENT_EMAIL
+ARG GCAL_PROJECT_NUMBER
 
 # ARGs are not available at runtime, so define ENV variables
 # These ENVs should match the --set-env-vars in `.github/workflows/gcp-deploy.yaml`
