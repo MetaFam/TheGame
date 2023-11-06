@@ -457,7 +457,7 @@ jobs:
       - name: Set Swap Space
         uses: pierotofy/set-swap-space@master
         with:
-          swap-size-gb: 10
+          swap-size-gb: 5
 
       - name: Set Up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -470,6 +470,8 @@ jobs:
           password: ${{secrets.GCP_SA_KEY}}
 
       - name: "Build & Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
+        env:
+          NODE_OPTIONS: "--max_old_space_size=5120"
         uses: docker/build-push-action@v5
         with:
           file: docker/frontend/Dockerfile
