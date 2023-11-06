@@ -11,7 +11,7 @@ FROM node:20-slim AS base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
-RUN apt-get update && apt-get install -y --no-install-recommends g++ make python git ca-certificates
+RUN apt-get update && apt-get install -y --no-install-recommends g++ make python3 git ca-certificates
 
 # Install dependencies for dev and prod
 COPY package.json ./
@@ -75,7 +75,7 @@ ENV GCAL_PRIVATE_KEY $GCAL_PRIVATE_KEY
 ENV GCAL_CLIENT_EMAIL $GCAL_CLIENT_EMAIL
 ENV GCAL_PROJECT_NUMBER $GCAL_PROJECT_NUMBER
 
-ONBUILD RUN yarn web:build -- --max-old-space-size=5120
+ONBUILD RUN yarn web:build
 # Delete devDependencies
 ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
