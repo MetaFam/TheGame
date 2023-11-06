@@ -7,7 +7,7 @@
 # site or dev environment respectively.
 ARG TARGET=production
 
-FROM node:16-slim AS base
+FROM node:20-slim AS base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
@@ -75,7 +75,7 @@ ENV GCAL_PRIVATE_KEY $GCAL_PRIVATE_KEY
 ENV GCAL_CLIENT_EMAIL $GCAL_CLIENT_EMAIL
 ENV GCAL_PROJECT_NUMBER $GCAL_PROJECT_NUMBER
 
-ONBUILD RUN yarn web:build
+ONBUILD RUN yarn web:build -- --max-old-space-size=5120
 # Delete devDependencies
 ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
@@ -85,7 +85,7 @@ ONBUILD RUN yarn web:deps:build
 FROM "build-$TARGET" as built
 
 # New stage including only necessary files
-FROM node:16-slim AS app
+FROM node:20-slim AS app
 WORKDIR /app
 
 # Copy necessary files into the stage
