@@ -28,7 +28,6 @@ import YoungPlant from 'assets/young-plant.webp';
 import { FullPageContainer } from 'components/Container';
 import useActiveTab from 'lib/hooks/useActiveTab';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useEffect } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -46,7 +45,7 @@ import {
   playerMemberList,
   playerReasons,
   playerVisitorList,
-} from './lists';
+} from './data';
 
 const roles = ['Player', 'Guild', 'Patron'];
 
@@ -162,6 +161,7 @@ const RoleTab = React.forwardRef<
       w="120px"
       variant="outline"
       fontWeight={400}
+      zIndex={100}
       transform={isSelected && !isMobile ? 'scale(1.5)' : 'none'}
       transition={isMobile ? 'none' : 'transform 0.3s ease-in-out'}
       _hover={{ bg: 'transparent' }}
@@ -296,7 +296,7 @@ export const Signup: React.FC = () => {
           variant="unstyled"
           index={selectedIndex}
           defaultIndex={selectedIndex}
-          onChange={(index) => {
+          onChange={(index: any) => {
             const tab = roles.at(index)?.toLowerCase();
             router.replace({ href: '/signup', query: { tab } }, undefined, {
               shallow: true,
@@ -315,16 +315,22 @@ export const Signup: React.FC = () => {
             ))}
           </TabList>
           <TabPanels>
-            <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
+            <TabPanel
+              paddingY={{ base: 0, lg: 'initial' }}
+              border={playerBorder}
+              boxShadow={playerBoxShadow}
+              borderRadius={8}
+            >
               <Box
                 maxW="container.lg"
                 maxH="container.md"
-                bg="tranparent"
-                border={playerBorder}
-                borderRadius={8}
+                bg="transparent"
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
-                boxShadow={playerBoxShadow}
+                sx={{
+                  maskImage:
+                    'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                }}
                 color="white"
                 overflowY="auto"
               >
@@ -460,16 +466,22 @@ export const Signup: React.FC = () => {
                 </VStack>
               </Box>
             </TabPanel>
-            <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
+            <TabPanel
+              paddingY={{ base: 0, lg: 'initial' }}
+              border={guildBorder}
+              boxShadow={guildBoxShadow}
+              borderRadius={8}
+            >
               <Box
                 maxW="container.lg"
                 maxH="container.md"
-                bg="tranparent"
-                border={guildBorder}
-                borderRadius={8}
+                bg="transparent"
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
-                boxShadow={guildBoxShadow}
+                sx={{
+                  maskImage:
+                    'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                }}
                 color="white"
                 overflowY="auto"
               >
@@ -715,16 +727,22 @@ export const Signup: React.FC = () => {
                 </VStack>
               </Box>
             </TabPanel>
-            <TabPanel paddingY={{ base: 0, lg: 'initial' }}>
+            <TabPanel
+              paddingY={{ base: 0, lg: 'initial' }}
+              border={patronBorder}
+              boxShadow={patronBoxShadow}
+              borderRadius={8}
+            >
               <Box
                 maxW="container.lg"
                 maxH="container.md"
-                bg="tranparent"
-                border={patronBorder}
-                borderRadius={8}
+                bg="transparent"
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
-                boxShadow={patronBoxShadow}
+                sx={{
+                  maskImage:
+                    'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                }}
                 color="white"
                 overflowY="auto"
               >
