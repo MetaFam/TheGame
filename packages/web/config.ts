@@ -35,5 +35,9 @@ export const CONFIG = {
     clientEmail: process.env.GCAL_CLIENT_EMAIL,
     projectNumber: process.env.GCAL_PROJECT_NUMBER,
     scopes: ['https://www.googleapis.com/auth/calendar'],
+    whitelist: [
+      'https://*.metagame.wtf',
+      'https://frontend-pr-*-mjhnbmqqna-uk.a.run.app',
+    ],
   },
 };

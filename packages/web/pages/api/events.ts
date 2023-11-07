@@ -23,22 +23,38 @@ export type GoogleCalEventType = {
 export const cleanDescription = (desc: string): string =>
   desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : desc;
 
+export const matchHostToPattern = (host: string, pattern: string): boolean => {
+  const regexPattern = pattern
+    .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+    .replace(/\*/g, '.*');
+
+  const regex = new RegExp(`^${regexPattern}$`);
+
+  return regex.test(host);
+};
+
+export const isHostWhitelisted = (host: string, whitelist: string[]): boolean =>
+  whitelist.some((pattern) => matchHostToPattern(host, pattern));
+
 export default async (
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> => {
-  const { host } = req.headers;
   const { publicURL, gcal } = CONFIG;
-  const publicHost = publicURL?.replace(/^https?:\/\//, '');
   const calendarId = `${gcal.calendarId}@group.calendar.google.com`;
+
+  const isWhitelisted =
+    publicURL && gcal.whitelist.length > 0
+      ? isHostWhitelisted(publicURL, gcal.whitelist)
+      : false;
 
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Only GET requests allowed.' });
     return;
   }
-  if (host !== publicHost) {
+  if (!isWhitelisted) {
     res.status(403).json({
-      error: `Traffic only allowed from ${publicHost} (not ${host}).`,
+      error: `Traffic not allowed from ${publicURL}.`,
     });
     return;
   }
