@@ -33,11 +33,13 @@ export default async (
   const calendarId = `${gcal.calendarId}@group.calendar.google.com`;
 
   if (req.method !== 'GET') {
-    res.status(405).end(); // Method Not Allowed
+    res.status(405).json({ error: 'Only GET requests allowed.' });
     return;
   }
   if (host !== publicHost) {
-    res.status(403).end(); // Forbidden
+    res.status(403).json({
+      error: `Traffic only allowed from ${publicHost} (not ${host}).`,
+    });
     return;
   }
   if (!gcal.privateKey || !gcal.clientEmail) {
