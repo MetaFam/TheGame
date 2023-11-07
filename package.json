@@ -102,7 +102,9 @@
     "ethers": "5.7.0",
     "graphql": "16.8.0",
     "multihashes": "4.0.3",
-    "@urql/core": "3.2.2"
+    "@urql/core": "3.2.2",
+    "node-gyp": "10.0.1",
+    "better-sqlite3": "9.0.0"
   },
   "browserslist": [
     "defaults",
