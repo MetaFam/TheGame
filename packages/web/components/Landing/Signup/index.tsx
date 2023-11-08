@@ -22,9 +22,6 @@ import {
 import GuildsImg from 'assets/guilds-sun_800x800.webp';
 import PatronsImg from 'assets/patrons-sun_800x820.webp';
 import PlayerImg from 'assets/players-sun_800x822.webp';
-import BabyOctopus from 'assets/quests/baby_octo.webp';
-import Octopus from 'assets/quests/octopus.webp';
-import YoungPlant from 'assets/young-plant.webp';
 import { FullPageContainer } from 'components/Container';
 import useActiveTab from 'lib/hooks/useActiveTab';
 import Link from 'next/link';
@@ -35,19 +32,16 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { Rain } from '../OnboardingGame/Rain';
 import { PerksCard, RoleCard } from './Cards';
 import {
-  guildBasicList,
-  guildFreeList,
-  guildProList,
+  guildPerks,
   guildReasons,
-  patronFreeList,
-  patronMemberList,
+  patronPerks,
   patronReasons,
-  playerMemberList,
+  playerPerks,
   playerReasons,
-  playerVisitorList,
+  roles,
 } from './data';
 
-const roles = ['Player', 'Guild', 'Patron'];
+const tabs = ['Player', 'Guild', 'Patron'];
 
 const TabImg = ({
   type,
@@ -208,16 +202,8 @@ export const Signup: React.FC = () => {
   const section = 'signup';
   const router = useRouter();
   const activeTab = useActiveTab();
-  useEffect(() => {
-    if (router.asPath === '/signup' && activeTab === roles[0].toLowerCase())
-      router.replace(
-        { href: router.asPath, query: { tab: roles[0].toLowerCase() } },
-        undefined,
-        { shallow: true },
-      );
-  });
   const selectedIndex =
-    roles.map((role) => role.toLowerCase()).indexOf(activeTab as string) ?? 0;
+    tabs.map((tab) => tab.toLowerCase()).indexOf(activeTab as string) ?? 0;
   const isMobile = useBreakpointValue({
     base: true,
     lg: false,
@@ -297,7 +283,7 @@ export const Signup: React.FC = () => {
           index={selectedIndex}
           defaultIndex={selectedIndex}
           onChange={(index: any) => {
-            const tab = roles.at(index)?.toLowerCase();
+            const tab = tabs.at(index)?.toLowerCase();
             router.replace({ href: '/signup', query: { tab } }, undefined, {
               shallow: true,
             });
@@ -310,8 +296,8 @@ export const Signup: React.FC = () => {
             margin={{ base: 0, lg: '-80px' }}
             borderBottom={isMobile ? '2px solid #FFFFFF16' : 0}
           >
-            {roles.map((role, idx) => (
-              <RoleTab key={idx}>{role}</RoleTab>
+            {tabs.map((tab, idx) => (
+              <RoleTab key={idx}>{tab}</RoleTab>
             ))}
           </TabList>
           <TabPanels>
@@ -328,8 +314,8 @@ export const Signup: React.FC = () => {
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
                 sx={{
-                  maskImage:
-                    'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                  maskImage: isMobile ?
+                    'unset' : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
                 }}
                 color="white"
                 overflowY="auto"
@@ -365,52 +351,36 @@ export const Signup: React.FC = () => {
                         paddingY={2}
                         paddingX={4}
                       >
-                        <Tab
-                          _selected={{ bg: 'green.200', color: 'green.900' }}
-                          _active={{ bg: 'transparent' }}
-                        >
-                          VISITOR
-                        </Tab>
-                        <Tab
-                          _selected={{ bg: 'pink.200', color: 'pink.900' }}
-                          _active={{ bg: 'transparent' }}
-                        >
-                          MEMBER
-                        </Tab>
+                        {playerPerks.map((perk, index) => (
+                          <Tab
+                            key={index}
+                            _selected={{ bg: index === 0 ? 'green.200' : 'pink.200', color: index === 0 ? 'green.900' : 'pink.900' }}
+                            _active={{ bg: 'transparent' }}
+                            textTransform='uppercase'
+                          >
+                            {perk.title}
+                          </Tab>
+                        ))}
                       </TabList>
                       <TabPanels>
-                        <TabPanel>
-                          <PerksCard
-                            type="Free"
-                            list={playerVisitorList}
-                            background="#FFFFFF0A"
-                          />
-                        </TabPanel>
-                        <TabPanel>
-                          <PerksCard
-                            type="Few contributions / month"
-                            list={playerMemberList}
-                            background="#00000029"
-                          />
-                        </TabPanel>
+                        {playerPerks.map((perk, index) => (
+                          <TabPanel key={index}>
+                            <PerksCard
+                              {...perk}
+                            />
+                          </TabPanel>
+                        ))}
                       </TabPanels>
                     </Tabs>
                   ) : (
                     <Stack direction={['column', 'row']} gap={0}>
-                      <PerksCard
-                        title="Visitor"
-                        type="Free"
-                        list={playerVisitorList}
-                        background="#FFFFFF0A"
-                        badgeColor="green"
-                      />
-                      <PerksCard
-                        title="Member"
-                        type="Few contributions / month"
-                        list={playerMemberList}
-                        background="#00000029"
-                        badgeColor="pink"
-                      />
+                      {playerPerks.map((perk, index) => (
+                        <PerksCard
+                          key={index}
+                          {...perk}
+                          badgeColor={index === 0 ? "green" : "pink"}
+                        />
+                      ))}
                     </Stack>
                   )}
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
@@ -425,43 +395,22 @@ export const Signup: React.FC = () => {
                     align="center"
                     justify="center"
                   >
-                    <RoleCard
-                      title="Take the path"
-                      image={BabyOctopus.src}
-                      description={
-                        <Text
-                          fontSize={{ base: 'md', lg: '2xl' }}
-                          align={{ base: 'start', lg: 'center' }}
-                        >
-                          The path will take you through everything a newcomer
-                          should do.
-                        </Text>
-                      }
-                      recommended
-                      action="Sounds Good"
-                      route="/onboarding"
-                    />
-                    <Text
-                      fontSize={{ base: 'xl', lg: '2xl' }}
-                      fontWeight={{ base: 'bold', lg: 'normal' }}
-                    >
-                      OR
-                    </Text>
-                    <RoleCard
-                      title="Jump into action"
-                      image={Octopus.src}
-                      description={
-                        <Text
-                          fontSize={{ base: 'md', lg: '2xl' }}
-                          align={{ base: 'start', lg: 'center' }}
-                        >
-                          Too busy? You can jump straight into action, just say
-                          so in the #🏟-metasquare
-                        </Text>
-                      }
-                      action="Let's Go!"
-                      link="https://discord.gg/dMqAW8veKT"
-                    />
+                    {roles.map((role, index) => (
+                      <React.Fragment>
+                        {role.tab === activeTab && (
+                          <RoleCard
+                            key={index}
+                            {...role}
+                          />
+                        )}
+                        {role.tab === activeTab && index === 0 && (
+                          <Text fontSize={{ base: 'xl', lg: '2xl' }}
+                            fontWeight={{ base: 'bold', lg: 'normal' }}>
+                            OR
+                          </Text>
+                        )}
+                      </React.Fragment>
+                    ))}
                   </Stack>
                 </VStack>
               </Box>
@@ -479,8 +428,8 @@ export const Signup: React.FC = () => {
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
                 sx={{
-                  maskImage:
-                    'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                  maskImage: isMobile ?
+                    'unset' : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
                 }}
                 color="white"
                 overflowY="auto"
@@ -521,189 +470,67 @@ export const Signup: React.FC = () => {
                     align="center"
                     justify="center"
                   >
-                    <RoleCard
-                      title="Player"
-                      image={PlayerImg.src}
-                      description={
-                        <Text
-                          fontSize={{ base: 'md', lg: '2xl' }}
-                          align={{ base: 'start', lg: 'center' }}
-                        >
-                          Join MetaGame as an active member.
-                        </Text>
-                      }
-                      action="Let's Go!"
-                      route="/start"
-                    />
-                    <Text
-                      fontSize={{ base: 'xl', lg: '2xl' }}
-                      fontWeight={{ base: 'bold', lg: 'normal' }}
-                    >
-                      OR
-                    </Text>
-                    <RoleCard
-                      title="Patron"
-                      image={PatronsImg.src}
-                      description={
-                        <Text
-                          fontSize={{ base: 'md', lg: '2xl' }}
-                          align={{ base: 'start', lg: 'center' }}
-                        >
-                          Join MetaGame as a passive player.
-                        </Text>
-                      }
-                      action="Let's Go!"
-                      route="/join/patron"
-                    />
+                    {roles.map((role, index) => (
+                      <>
+                        {role.tab === activeTab && (
+                          <RoleCard
+                            key={index}
+                            {...role}
+                          />
+                        )}
+                        {role.tab === activeTab && index < roles.length - 1 && (
+                          <Text
+                            fontSize={{ base: 'xl', lg: '2xl' }}
+                            fontWeight={{ base: 'bold', lg: 'normal' }}
+                            mx={2}
+                          >
+                            OR
+                          </Text>
+                        )}
+                      </>
+                    ))}
                   </Stack>
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Tiers & Perks
                   </Text>
                   {isMobile ? (
-                    <>
-                      <Tabs variant="soft-rounded" isFitted>
-                        <TabList
-                          bg="blackAlpha.500"
-                          borderRadius="full"
-                          paddingY={2}
-                          paddingX={4}
-                        >
+                    <Tabs variant="soft-rounded" isFitted>
+                      <TabList
+                        bg="blackAlpha.500"
+                        borderRadius="full"
+                        paddingY={2}
+                        paddingX={4}
+                      >
+                        {guildPerks.map((perk, index) => (
                           <Tab
-                            _selected={{ bg: 'green.400', color: 'white' }}
+                            key={index}
+                            _selected={{ bg: index === 0 ? 'green.200' : index === 1 ? '#6A88DF' : '#ED61C5', color: 'white' }}
                             _active={{ bg: 'transparent' }}
+                            textTransform='uppercase'
                           >
-                            FREE
+                            {perk.type}
                           </Tab>
-                          <Tab
-                            _selected={{ bg: '#6A88DF', color: 'white' }}
-                            _active={{ bg: 'transparent' }}
-                          >
-                            BASIC
-                          </Tab>
-                          <Tab
-                            _selected={{ bg: '#ED61C5', color: 'white' }}
-                            _active={{ bg: 'transparent' }}
-                          >
-                            PRO
-                          </Tab>
-                        </TabList>
-                        <TabPanels>
-                          <TabPanel>
+                        ))}
+                      </TabList>
+                      <TabPanels>
+                        {guildPerks.map((perk, index) => (
+                          <TabPanel key={index}>
                             <PerksCard
-                              description={
-                                <>
-                                  <Text fontSize="xl" fontWeight="semibold">
-                                    $0
-                                  </Text>
-                                  <Text fontSize="xl" fontWeight="light">
-                                    FOR BROKE GUILDS
-                                  </Text>
-                                </>
-                              }
-                              list={guildFreeList}
-                              background="#FFFFFF0A"
+                              {...perk}
                             />
                           </TabPanel>
-                          <TabPanel>
-                            <PerksCard
-                              description={
-                                <>
-                                  <Text fontSize="xl" fontWeight="semibold">
-                                    $800 / year
-                                  </Text>
-                                  <Text fontSize="xl" fontWeight="light">
-                                    FOR ESTABLISHED GUILDS
-                                  </Text>
-                                </>
-                              }
-                              list={guildBasicList}
-                              background="#00000029"
-                            />
-                          </TabPanel>
-                          <TabPanel>
-                            <PerksCard
-                              description={
-                                <>
-                                  <Text fontSize="xl" fontWeight="semibold">
-                                    Inquire
-                                  </Text>
-                                  <Text fontSize="xl" fontWeight="light">
-                                    FOR WELL-OFF GUILDS
-                                  </Text>
-                                </>
-                              }
-                              list={guildProList}
-                              background="#FFFFFF0A"
-                            />
-                          </TabPanel>
-                        </TabPanels>
-                      </Tabs>
-                    </>
+                        ))}
+                      </TabPanels>
+                    </Tabs>
                   ) : (
                     <Stack direction={['column', 'row']} gap={0}>
-                      <PerksCard
-                        title="Free"
-                        description={
-                          <>
-                            <Text fontSize="xl" fontWeight="semibold">
-                              $0
-                            </Text>
-                            <Text fontSize="xl" fontWeight="light">
-                              FOR BROKE GUILDS
-                            </Text>
-                          </>
-                        }
-                        list={guildFreeList}
-                        width="1/3"
-                        background="#FFFFFF0A"
-                        badgeColor="green"
-                      />
-                      <PerksCard
-                        title="Basic"
-                        description={
-                          <>
-                            <Text
-                              fontSize={{ base: 'lg', lg: 'xl' }}
-                              fontWeight="semibold"
-                            >
-                              $800 / year
-                            </Text>
-                            <Text
-                              fontSize={{ base: 'lg', lg: 'xl' }}
-                              fontWeight="light"
-                            >
-                              FOR ESTABLISHED GUILDS
-                            </Text>
-                          </>
-                        }
-                        list={guildBasicList}
-                        width="1/3"
-                        background="#00000029"
-                        badgeColor="purple"
-                      />
-                      <PerksCard
-                        title="Pro"
-                        description={
-                          <>
-                            <Text
-                              fontSize={{ base: 'lg', lg: 'xl' }}
-                              fontWeight="semibold"
-                            >
-                              Inquire
-                            </Text>
-                            <Text
-                              fontSize={{ base: 'lg', lg: 'xl' }}
-                              fontWeight="light"
-                            >
-                              FOR WELL-OFF GUILDS
-                            </Text>
-                          </>
-                        }
-                        list={guildProList}
-                        width="1/3"
-                        background="#FFFFFF0A"
-                        badgeColor="pink"
-                      />
+                      {guildPerks.map((perk, index) => (
+                        <PerksCard
+                          key={index}
+                          {...perk}
+                          badgeColor={index === 0 ? "green" : index === 1 ? "purple" : "pink"}
+                        />
+                      ))}
                     </Stack>
                   )}
                   <VStack align="center" spacing={4}>
@@ -740,8 +567,8 @@ export const Signup: React.FC = () => {
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
                 sx={{
-                  maskImage:
-                    'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                  maskImage: isMobile ?
+                    'unset' : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
                 }}
                 color="white"
                 overflowY="auto"
@@ -777,56 +604,36 @@ export const Signup: React.FC = () => {
                         paddingY={2}
                         paddingX={4}
                       >
-                        <Tab
-                          _selected={{ bg: 'green.200', color: 'green.900' }}
-                          _active={{ bg: 'transparent' }}
-                        >
-                          VISITOR
-                        </Tab>
-                        <Tab
-                          _selected={{ bg: 'pink.200', color: 'pink.900' }}
-                          _active={{ bg: 'transparent' }}
-                        >
-                          MEMBER
-                        </Tab>
+                        {patronPerks.map((perk, index) => (
+                          <Tab
+                            key={index}
+                            _selected={{ bg: index === 0 ? 'green.200' : 'pink.200', color: 'white' }}
+                            _active={{ bg: 'transparent' }}
+                            textTransform='uppercase'
+                          >
+                            {perk.title}
+                          </Tab>
+                        ))}
                       </TabList>
                       <TabPanels>
-                        <TabPanel>
-                          <PerksCard
-                            description={
-                              <Text fontSize="xl" fontWeight="semibold">
-                                FREE
-                              </Text>
-                            }
-                            list={patronFreeList}
-                            background="#FFFFFF0A"
-                          />
-                        </TabPanel>
-                        <TabPanel>
-                          <PerksCard
-                            description={<Text fontSize="xl">$100 / YEAR</Text>}
-                            list={patronMemberList}
-                            background="#00000029"
-                          />
-                        </TabPanel>
+                        {patronPerks.map((perk, index) => (
+                          <TabPanel key={index}>
+                            <PerksCard
+                              {...perk}
+                            />
+                          </TabPanel>
+                        ))}
                       </TabPanels>
                     </Tabs>
                   ) : (
                     <Stack direction={['column', 'row']} gap={0}>
-                      <PerksCard
-                        title="Visitor"
-                        description={<Text fontSize="xl">FREE</Text>}
-                        list={patronFreeList}
-                        badgeColor="green"
-                        background="#FFFFFF0A"
-                      />
-                      <PerksCard
-                        title="Member"
-                        description={<Text fontSize="xl">$100 / YEAR</Text>}
-                        list={patronMemberList}
-                        badgeColor="purple"
-                        background="#00000029"
-                      />
+                      {patronPerks.map((perk, index) => (
+                        <PerksCard
+                          key={index}
+                          {...perk}
+                          badgeColor={index === 0 ? "green" : "pink"}
+                        />
+                      ))}
                     </Stack>
                   )}
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
@@ -841,44 +648,19 @@ export const Signup: React.FC = () => {
                     align="center"
                     justify="center"
                   >
-                    <RoleCard
-                      title="Do it yourself"
-                      image={YoungPlant.src}
-                      description={
-                        <Text
-                          fontSize={{ base: 'md', lg: '2xl' }}
-                          align={{ base: 'start', lg: 'center' }}
-                        >
-                          You’ll need some Ether & RAI ready on Polygon.
-                          Detailed instructions {isMobile ? '👉' : '👇'}
-                        </Text>
-                      }
-                      action="Yes Pls!"
-                      route="/join/patron"
-                    />
-                    <Text
-                      fontSize={{ base: 'xl', lg: '2xl' }}
-                      fontWeight={{ base: 'bold', lg: 'normal' }}
-                    >
-                      OR
-                    </Text>
-                    <RoleCard
-                      title="Buy it & forget it"
-                      image={PlayerImg.src}
-                      description={
-                        <Text
-                          fontSize={{ base: 'md', lg: '2xl' }}
-                          align={{ base: 'start', lg: 'center' }}
-                        >
-                          Too busy to do it manually? We got you!{' '}
-                          <Text fontWeight="bold">
-                            For amounts over $1k only.
+                    {roles.map((role, index) => (
+                      <React.Fragment key={index}>
+                        {role.tab === activeTab && <RoleCard {...role} />}
+                        {role.tab === activeTab && index < roles.length - 1 && (
+                          <Text
+                            fontSize={{ base: 'xl', lg: '2xl' }}
+                            fontWeight={{ base: 'bold', lg: 'normal' }}
+                          >
+                            OR
                           </Text>
-                        </Text>
-                      }
-                      action="Perfect!"
-                      link="https://tally.so/r/w4Jb6r"
-                    />
+                        )}
+                      </React.Fragment>
+                    ))}
                   </Stack>
                   <VStack align="center" spacing={{ base: 2, lg: 4 }}>
                     <Text
