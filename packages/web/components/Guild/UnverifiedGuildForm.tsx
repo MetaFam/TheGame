@@ -210,16 +210,6 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
       // };
       // await addLink(githubGuildLink);
 
-      const payload: any = {
-        guildname,
-        name,
-        description,
-        joinUrl,
-        websiteUrl,
-        type: type as unknown as GuildType_ActionEnum,
-        logoUrl: newLogoUrl,
-      };
-
       const response = await onSubmit({ guildname, name, description, logo: newLogoUrl, websiteUrl, joinUrl, type, legitimacy: 'UNVERIFIED' });
       console.log('response', response)
       // const saveGuildResponse = response?.data?.saveGuildInformation;
