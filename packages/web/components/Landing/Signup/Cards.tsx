@@ -27,12 +27,14 @@ type CardProps = {
   title?: string;
   type?: string;
   image?: string;
-  description?: React.ReactNode;
+  price?: string
+  description?: string;
   action?: string;
   list?: Perk[];
   width?: string;
   background?: string;
   badgeColor?: string;
+  info?: string;
   route?: string;
   link?: string;
   recommended?: boolean;
@@ -44,6 +46,7 @@ export const RoleCard: React.FC<CardProps> = ({
   description,
   recommended,
   action,
+  info,
   route,
   link,
 }) => {
@@ -121,7 +124,21 @@ export const RoleCard: React.FC<CardProps> = ({
           </>
         )}
       </Flex>
-      {description}
+      {description && (
+        <Text
+          fontSize={{ base: 'md', lg: '2xl' }}
+          align={{ base: 'start', lg: 'center' }}
+        >
+          {description}
+        </Text>
+      )}
+      {info && (
+        <Text fontSize={{ base: 'md', lg: '2xl' }}
+          align={{ base: 'start', lg: 'center' }}
+          fontWeight="bold">
+          {info}
+        </Text>
+      )}
       {!isMobile && (
         <>
           {route && (
@@ -150,6 +167,7 @@ export const PerksCard: React.FC<CardProps> = ({
   title,
   type,
   list,
+  price,
   width = 'md',
   description,
   background,
@@ -177,20 +195,33 @@ export const PerksCard: React.FC<CardProps> = ({
         {title}
       </Badge>
     )}
-    {description}
-    <Text fontSize="xl" textTransform="uppercase">
-      {type}
-    </Text>
-    <List fontSize="md" fontWeight="light">
-      {list?.map((item, idx) => (
-        <ListItem key={idx}>
-          <ListIcon
-            as={item?.checked ? BsFillCheckCircleFill : FaCircle}
-            color={item?.checked ? 'green.500' : 'gray.600'}
-          />
-          {item.perk}
-        </ListItem>
-      ))}
-    </List>
+    {price && (
+      <Text fontSize="xl" fontWeight="semibold">
+        {price}
+      </Text>
+    )}
+    {description && (
+      <Text fontSize="xl" fontWeight="light">
+        {description}
+      </Text>
+    )}
+    {type && (
+      <Text fontSize="xl" textTransform="uppercase">
+        {type}
+      </Text>
+    )}
+    {list && list.length > 0 && (
+      <List fontSize="md" fontWeight="light">
+        {list?.map((item, idx) => (
+          <ListItem key={idx}>
+            <ListIcon
+              as={item?.checked ? BsFillCheckCircleFill : FaCircle}
+              color={item?.checked ? 'green.500' : 'gray.600'}
+            />
+            {item.perk}
+          </ListItem>
+        ))}
+      </List>
+    )}
   </Box>
 );
