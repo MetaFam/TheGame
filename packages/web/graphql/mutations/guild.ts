@@ -42,6 +42,27 @@ export {};
     }
   }
 
+  mutation AddUnverifiedGuild (
+    $description: String!
+    $guildname: String!
+    $joinUrl: String!
+    $legitimacy: String!
+    $logo: String!
+    $name: String!
+    $websiteUrl: String!
+    $type: GuildType_enum!
+  ) {
+    insert_guild(
+      objects: { description: $description, guildname: $guildname, joinButtonUrl: $joinUrl, legitimacy: $legitimacy, logo: $logo, name: $name, websiteUrl: $websiteUrl, type: $type }
+    ) {
+      returning {
+        id
+      }
+      affected_rows
+    }
+  }
+  
+
   mutation AddGuildLink(
     $guildId: uuid!
     $name: String

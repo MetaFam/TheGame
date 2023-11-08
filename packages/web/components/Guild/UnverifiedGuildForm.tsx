@@ -15,28 +15,28 @@ import {
   Textarea,
   VStack,
 } from '@metafam/ds';
-import { SelectOption } from '@metafam/ds/src/MultiSelect';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Field, FieldDescription } from 'components/Forms/Field';
 import { MetaLink } from 'components/Link';
 import {
-  DiscordRole,
   GuildDaoInput,
   GuildFragment,
   GuildType_Enum,
   Maybe,
-  useGetGuildMetadataQuery,
+  GuildType_ActionEnum,
 } from 'graphql/autogen/types';
 import { useImageReader } from 'lib/hooks/useImageReader';
-import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Controller,
   FieldError,
   useFieldArray,
   useForm,
 } from 'react-hook-form';
-import { optimizedImage } from 'utils/imageHelpers';
+import { uploadFile } from 'utils/uploadHelpers';
+import { useToast } from '@metafam/ds';
+import { errorHandler } from 'utils/errorHandler';
+import { useRouter } from 'next/router';
 
 const validations = {
   guildname: {
@@ -72,7 +72,7 @@ export interface CreateGuildFormInputs {
   discordInviteUrl?: Maybe<string>;
   githubUrl?: Maybe<string>;
   type: GuildType_Enum;
-  daos?: Maybe<GuildDaoInput[]>;
+  legitimacy: string;
 }
 
 const placeholderDaoInput = {
@@ -89,12 +89,13 @@ const getDefaultFormValues = (): CreateGuildFormInputs => ({
   logoUrl: '',
   websiteUrl: '',
   type: GuildType_Enum.Social, // Adjust this to your default guild type.
-  daos: [placeholderDaoInput],
+  legitimacy: 'UNVERIFIED',
+  //daos: [placeholderDaoInput],
 });
 
 type Props = {
   workingGuild?: GuildFragment;
-  onSubmit: (data: CreateGuildFormInputs) => void;
+  onSubmit: (data: any) => void;
   success?: boolean;
   submitting?: boolean;
 };
@@ -104,8 +105,9 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   success,
   submitting,
 }) => {
-  const router = useRouter();
   const readFile = useImageReader();
+  const toast = useToast();
+  const router = useRouter();
 
   const {
     register,
@@ -117,14 +119,14 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
     mode: 'onTouched',
   });
 
-  const {
-    fields: daoFields,
-    append,
-    remove,
-  } = useFieldArray({
-    control,
-    name: 'daos',
-  });
+  // const {
+  //   fields: daoFields,
+  //   append,
+  //   remove,
+  // } = useFieldArray({
+  //   control,
+  //   // name: 'daos',
+  // });
 
   const [logoURI, setLogoURI] = useState<string | undefined>();
   const [active, setActive] = useState(false);
@@ -148,12 +150,109 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
     [readFile],
   );
 
+  const submitForm = useCallback(
+    async (createUnverifiedGuild: CreateGuildFormInputs) => {
+
+      const {
+        type,
+        logoFile,
+        logoUrl,
+        websiteUrl,
+        githubUrl,
+        twitterUrl,
+        description,
+        guildname,
+        name,
+        discordInviteUrl,
+        joinUrl,
+      } = createUnverifiedGuild;
+      
+      let newLogoUrl = logoUrl;
+
+      if (logoFile?.[0]) {
+        try {
+          const ipfsHash = await uploadFile(logoFile[0]);
+          newLogoUrl = `ipfs://${ipfsHash}`;
+        } catch (error) {
+          toast({
+            title: 'Error Saving Logo',
+            description: (error as Error).message,
+            status: 'warning',
+            isClosable: true,
+            duration: 8000,
+          });
+          errorHandler(error as Error);
+          return;
+        }
+      }
+
+      // const twitterGuildLink = {
+      //   guildId: guild.id,
+      //   name: 'Find Us On Twitter',
+      //   url: twitterUrl || '',
+      //   type: 'TWITTER' as LinkType_Enum,
+      // };
+      // await addLink(twitterGuildLink);
+
+      // const discordGuildLink = {
+      //   guildId: guild.id,
+      //   name: 'Join Us On Discord',
+      //   url: discordInviteUrl || '',
+      //   type: 'DISCORD' as LinkType_Enum,
+      // };
+      // await addLink(discordGuildLink);
+
+      // const githubGuildLink = {
+      //   guildId: guild.id,
+      //   name: 'Find Us On Github',
+      //   url: githubUrl || '',
+      //   type: 'GITHUB' as LinkType_Enum,
+      // };
+      // await addLink(githubGuildLink);
+
+      const payload: any = {
+        guildname,
+        name,
+        description,
+        joinUrl,
+        websiteUrl,
+        type: type as unknown as GuildType_ActionEnum,
+        logoUrl: newLogoUrl,
+      };
+
+      const response = await onSubmit({ guildname, name, description, logo: newLogoUrl, websiteUrl, joinUrl, type, legitimacy: 'UNVERIFIED' });
+      console.log('response', response)
+      // const saveGuildResponse = response?.data?.saveGuildInformation;
+      // if (saveGuildResponse?.success) {
+      //   toast({
+      //     title: 'Guild information submitted',
+      //     description: 'Thanks! Your guild will go live shortly 🚀',
+      //     status: 'success',
+      //     isClosable: true,
+      //     duration: 5000,
+      //   });
+      // } else {
+      //   toast({
+      //     title: 'Error while saving guild information',
+      //     description:
+      //       // response?.error?.message ||
+      //       // saveGuildResponse?.error ||
+      //       'unknown error',
+      //     status: 'error',
+      //     isClosable: true,
+      //     duration: 10000,
+      //   });
+      // }
+    },
+    [router, toast, onSubmit],
+  );
+
   return (
-    <Box w="100%" maxW="40rem">
+    <Box w="100%" pl="5%" pr="5%">
       <VStack>
         <Field label="Logo" error={errors.logoUrl}>
           <Flex
-            w="10em"
+            w="100%"
             h="10em"
             borderRadius="full"
             display="inline-flex"
@@ -318,7 +417,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             ))}
           </Select>
         </Field>
-        <Box
+        {/* <Box
           borderWidth="1px"
           borderRadius="lg"
           borderColor="rgba(255, 255, 255, 0.25)"
@@ -436,13 +535,13 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
           <MetaButton size="sm" onClick={() => append(placeholderDaoInput)}>
             Add {daoFields.length > 0 ? 'Another' : 'a DAO'}
           </MetaButton>
-        </Box>
+        </Box> */}
 
         <HStack justify="space-between" mt={10} w="100%">
           <MetaButton
             isLoading={submitting}
             loadingText="Submitting information…"
-            onClick={handleSubmit(onSubmit)}
+            onClick={handleSubmit(submitForm)}
             isDisabled={success}
             bg="purple.500"
           >

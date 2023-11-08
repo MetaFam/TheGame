@@ -12,7 +12,7 @@ import {
 } from '@metafam/ds';
 import { UnverifiedGuildForm } from 'components/Guild/UnverifiedGuildForm';
 import { GuildSearchBar } from 'components/GuildSearchBar';
-import { Player } from 'graphql/autogen/types';
+import { Player, useAddUnverifiedGuildMutation } from 'graphql/autogen/types';
 import React from 'react';
 
 export const AddPlayerGuild: React.FC<{
@@ -22,6 +22,8 @@ export const AddPlayerGuild: React.FC<{
 }> = ({ isOpen, onClose, player }) => {
   const [addUnverifiedGuildView, setAddUnverifiedGuildView] =
     React.useState(false);
+
+  const [, addUnverifiedGuild] = useAddUnverifiedGuildMutation();
 
   return (
     <Modal {...{ isOpen, onClose }} scrollBehavior="inside">
@@ -46,7 +48,7 @@ export const AddPlayerGuild: React.FC<{
           <ModalCloseButton />
           <ModalBody p={[0, 6]}>
             {addUnverifiedGuildView ? (
-              <UnverifiedGuildForm onSubmit={() => {}} />
+              <UnverifiedGuildForm onSubmit={addUnverifiedGuild} />
             ) : (
               <GuildSearchBar player={player} />
             )}

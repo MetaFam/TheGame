@@ -390,7 +390,20 @@
       permission:
         check: {}
         columns:
+          - description
+          - discord_id
+          - guildname
+          - id
+          - join_button_url
+          - legitimacy
+          - logo
+          - membership_through_discord
+          - name
+          - show_discord_announcements
+          - sort_position
+          - type
           - updated_at
+          - website_url
   select_permissions:
     - role: player
       permission:
