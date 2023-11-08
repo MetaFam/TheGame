@@ -41,10 +41,6 @@ export default async (
   res: NextApiResponse,
 ): Promise<void> => {
   const { publicURL, gcal } = CONFIG;
-
-  // eslint-disable-next-line no-console
-  console.debug({ gcal });
-
   const calendarId = `${gcal.calendarId}@group.calendar.google.com`;
 
   const canWhitelist = !!publicURL && gcal.whitelist.length > 0;
