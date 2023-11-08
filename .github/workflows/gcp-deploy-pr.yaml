@@ -32,6 +32,10 @@ env:
   HASURA_SECRET: metagame_secret
   GA4_ID: G-B1NKK3Q1BP
   APP_ENV: development
+  GCAL_PRIVATE_KEY: ${{secrets.GCAL_PRIVATE_KEY}}
+  GCAL_PROJECT_NUMBER: ${{secrets.GCAL_PROJECT_NUMBER}}
+  GCAL_CLIENT_EMAIL: ${{secrets.GCAL_CLIENT_EMAIL}}
+  GCAL_CALENDAR_ID: ${{secrets.GCAL_CALENDAR_ID}}
 
 jobs:
   start-deployment:
