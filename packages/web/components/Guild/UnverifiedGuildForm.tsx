@@ -24,6 +24,10 @@ import {
   GuildType_Enum,
   Maybe,
   GuildType_ActionEnum,
+  LinkType_Enum,
+  useAddGuildLinkMutation,
+  useAddGuildMemberMutation,
+  Player,
 } from 'graphql/autogen/types';
 import { useImageReader } from 'lib/hooks/useImageReader';
 import React, { useCallback, useState } from 'react';
@@ -98,12 +102,14 @@ type Props = {
   onSubmit: (data: any) => void;
   success?: boolean;
   submitting?: boolean;
+  player: Player;
 };
 
 export const UnverifiedGuildForm: React.FC<Props> = ({
   onSubmit,
   success,
   submitting,
+  player,
 }) => {
   const readFile = useImageReader();
   const toast = useToast();
@@ -119,15 +125,8 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
     mode: 'onTouched',
   });
 
-  // const {
-  //   fields: daoFields,
-  //   append,
-  //   remove,
-  // } = useFieldArray({
-  //   control,
-  //   // name: 'daos',
-  // });
-
+  const [, addGuildMember] = useAddGuildMemberMutation();
+  const [, addLink] = useAddGuildLinkMutation();
   const [logoURI, setLogoURI] = useState<string | undefined>();
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -186,53 +185,63 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         }
       }
 
-      // const twitterGuildLink = {
-      //   guildId: guild.id,
-      //   name: 'Find Us On Twitter',
-      //   url: twitterUrl || '',
-      //   type: 'TWITTER' as LinkType_Enum,
-      // };
-      // await addLink(twitterGuildLink);
+      
 
-      // const discordGuildLink = {
-      //   guildId: guild.id,
-      //   name: 'Join Us On Discord',
-      //   url: discordInviteUrl || '',
-      //   type: 'DISCORD' as LinkType_Enum,
-      // };
-      // await addLink(discordGuildLink);
+      try {
+        const response: any = await onSubmit({ guildname, name, description, logo: newLogoUrl, websiteUrl, joinUrl, type, legitimacy: 'UNVERIFIED' });
+        const saveGuildResponse = response.data.insert_guild.returning[0].id;
+    
+        if (saveGuildResponse) {
+          toast({
+            title: 'Guild information submitted',
+            description: 'Thanks! Your guild will go live shortly 🚀',
+            status: 'success',
+            isClosable: true,
+            duration: 5000,
+          });
+          const response = await addGuildMember({
+            playerId: player?.id,
+            guildId: saveGuildResponse,
+          });
+          const twitterGuildLink = {
+            guildId: saveGuildResponse,
+            name: 'Find Us On Twitter',
+            url: twitterUrl || '',
+            type: 'TWITTER' as LinkType_Enum,
+          };
+          await addLink(twitterGuildLink);
 
-      // const githubGuildLink = {
-      //   guildId: guild.id,
-      //   name: 'Find Us On Github',
-      //   url: githubUrl || '',
-      //   type: 'GITHUB' as LinkType_Enum,
-      // };
-      // await addLink(githubGuildLink);
+          const discordGuildLink = {
+            guildId: saveGuildResponse,
+            name: 'Join Us On Discord',
+            url: discordInviteUrl || '',
+            type: 'DISCORD' as LinkType_Enum,
+          };
+          await addLink(discordGuildLink);
 
-      const response = await onSubmit({ guildname, name, description, logo: newLogoUrl, websiteUrl, joinUrl, type, legitimacy: 'UNVERIFIED' });
-      console.log('response', response)
-      // const saveGuildResponse = response?.data?.saveGuildInformation;
-      // if (saveGuildResponse?.success) {
-      //   toast({
-      //     title: 'Guild information submitted',
-      //     description: 'Thanks! Your guild will go live shortly 🚀',
-      //     status: 'success',
-      //     isClosable: true,
-      //     duration: 5000,
-      //   });
-      // } else {
-      //   toast({
-      //     title: 'Error while saving guild information',
-      //     description:
-      //       // response?.error?.message ||
-      //       // saveGuildResponse?.error ||
-      //       'unknown error',
-      //     status: 'error',
-      //     isClosable: true,
-      //     duration: 10000,
-      //   });
-      // }
+          const githubGuildLink = {
+            guildId: saveGuildResponse,
+            name: 'Find Us On Github',
+            url: githubUrl || '',
+            type: 'GITHUB' as LinkType_Enum,
+          };
+          await addLink(githubGuildLink);
+        }
+        
+      } catch (error) {
+        console.log('error', error);
+        toast({
+          title: 'Error while saving guild information',
+          description:
+            // response?.error?.message ||
+            // saveGuildResponse?.error ||
+            'unknown error',
+          status: 'error',
+          isClosable: true,
+          duration: 10000,
+        });
+      }
+      
     },
     [router, toast, onSubmit],
   );
