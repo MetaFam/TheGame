@@ -43,10 +43,13 @@ export default async (
   const { publicURL, gcal } = CONFIG;
   const calendarId = `${gcal.calendarId}@group.calendar.google.com`;
 
-  const isWhitelisted =
-    publicURL && gcal.whitelist.length > 0
-      ? isHostWhitelisted(publicURL, gcal.whitelist)
-      : false;
+  const canWhitelist = publicURL && gcal.whitelist.length > 0;
+  const isWhitelisted = canWhitelist
+    ? isHostWhitelisted(publicURL, gcal.whitelist)
+    : true;
+
+  // eslint-disable-next-line no-console
+  console.debug({ gcal });
 
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Only GET requests allowed.' });
