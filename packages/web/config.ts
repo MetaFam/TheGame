@@ -30,7 +30,7 @@ export const CONFIG = {
   mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
   calendarEndpoint: '/api/events',
   gcal: {
-    calendarId: process.env.GCAL_CALENDAR_ID,
+    calendarId: process.env.NEXT_PUBLIC_GCAL_CALENDAR_ID,
     privateKey: process.env.GCAL_PRIVATE_KEY,
     clientEmail: process.env.GCAL_CLIENT_EMAIL,
     projectNumber: process.env.GCAL_PROJECT_NUMBER,
