@@ -41,15 +41,16 @@ export default async (
   res: NextApiResponse,
 ): Promise<void> => {
   const { publicURL, gcal } = CONFIG;
-  const calendarId = `${gcal.calendarId}@group.calendar.google.com`;
-
-  const canWhitelist = publicURL && gcal.whitelist.length > 0;
-  const isWhitelisted = canWhitelist
-    ? isHostWhitelisted(publicURL, gcal.whitelist)
-    : true;
 
   // eslint-disable-next-line no-console
   console.debug({ gcal });
+
+  const calendarId = `${gcal.calendarId}@group.calendar.google.com`;
+
+  const canWhitelist = !!publicURL && gcal.whitelist.length > 0;
+  const isWhitelisted = canWhitelist
+    ? isHostWhitelisted(publicURL, gcal.whitelist)
+    : true;
 
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Only GET requests allowed.' });

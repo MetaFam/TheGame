@@ -31,7 +31,7 @@ export const CONFIG = {
   calendarEndpoint: '/api/events',
   gcal: {
     calendarId: process.env.NEXT_PUBLIC_GCAL_CALENDAR_ID,
-    privateKey: process.env.GCAL_PRIVATE_KEY,
+    privateKey: process.env.GCAL_PRIVATE_KEY?.replace(/\\n/g, '\n'),
     clientEmail: process.env.GCAL_CLIENT_EMAIL,
     projectNumber: process.env.GCAL_PROJECT_NUMBER,
     scopes: ['https://www.googleapis.com/auth/calendar'],
