@@ -48,7 +48,7 @@ export const AddPlayerGuild: React.FC<{
           <ModalCloseButton />
           <ModalBody p={[0, 6]}>
             {addUnverifiedGuildView ? (
-              <UnverifiedGuildForm onSubmit={addUnverifiedGuild} />
+              <UnverifiedGuildForm onSubmit={addUnverifiedGuild} player={player} />
             ) : (
               <GuildSearchBar player={player} />
             )}
