@@ -32,6 +32,12 @@ interface PerkList {
   description?: string;
 }
 
+export enum RoleTitle {
+  Player = 'player',
+  Guild = 'guild',
+  Patron = 'patron',
+}
+
 export const playerVisitorList: Perk[] = [
   { perk: 'Access to educational resources', checked: true },
   { perk: 'Access to community calls', checked: true },
@@ -178,7 +184,7 @@ export const playerPerks: PerkList[] = [
 
 export const roles: Role[] = [
   {
-    tab: 'player',
+    tab: RoleTitle.Player,
     title: 'Take the path',
     image: BabyOctopus.src,
     description:
@@ -188,7 +194,7 @@ export const roles: Role[] = [
     route: '/onboarding',
   },
   {
-    tab: 'player',
+    tab: RoleTitle.Player,
     title: 'Jump into action',
     image: Octopus.src,
     description:
@@ -197,7 +203,7 @@ export const roles: Role[] = [
     link: 'https://discord.gg/dMqAW8veKT',
   },
   {
-    tab: 'guild',
+    tab: RoleTitle.Guild,
     title: 'Player',
     image: PlayerImg.src,
     description: 'Join MetaGame as an active member.',
@@ -205,7 +211,7 @@ export const roles: Role[] = [
     route: '/start',
   },
   {
-    tab: 'guild',
+    tab: RoleTitle.Guild,
     title: 'Patron',
     image: PatronsImg.src,
     description: 'Join MetaGame as a passive player.',
@@ -213,16 +219,16 @@ export const roles: Role[] = [
     route: '/join/patron',
   },
   {
-    tab: 'patron',
+    tab: RoleTitle.Patron,
     title: 'Do it yourself',
     image: YoungPlant.src,
     description:
-      'You’ll need some Ether & RAI ready on Polygon. Detailed instructions 👇',
+      'You’ll need some Ether & RAI ready on Polygon. Detailed instructions',
     action: 'Yes Pls!',
     route: '/join/patron',
   },
   {
-    tab: 'patron',
+    tab: RoleTitle.Patron,
     title: 'Buy it & forget it',
     image: PlayerImg.src,
     description: 'Too busy to do it manually? We got you!',
