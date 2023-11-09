@@ -32,7 +32,7 @@ import {
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactGridLayout, { Layout } from 'react-grid-layout';
-import { BsEyeFill } from 'react-icons/bs';
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { MdDragHandle } from 'react-icons/md';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
@@ -241,7 +241,7 @@ export const GuildListing: React.FC<DAOListingProps> = React.forwardRef(
           <IconButton
             aria-label="hide guild"
             size="lg"
-            icon={<BsEyeFill />}
+            icon={visible ? <BsEyeFill /> : <BsEyeSlashFill />}
             variant="unstyled"
             onClick={async () => {
               handleUpdateVisibility();
