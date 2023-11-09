@@ -17,6 +17,7 @@ import React from 'react';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
 import { MdChevronRight } from 'react-icons/md';
+import { RoleTitle } from './data';
 
 export interface Perk {
   perk: string;
@@ -51,6 +52,7 @@ export const RoleCard: React.FC<CardProps> = ({
   link,
 }) => {
   const router = useRouter();
+  const activeTab = router.query.tab ?? RoleTitle.Player;
   const isMobile = useBreakpointValue({
     base: true,
     lg: false,
@@ -65,7 +67,7 @@ export const RoleCard: React.FC<CardProps> = ({
       flexDir="column"
       alignItems="center"
       gap={{ base: 0, lg: 3 }}
-      p={{ base: 3, lg: 6 }}
+      p={{ base: 4, lg: 6 }}
     >
       <Flex
         w="full"
@@ -129,7 +131,7 @@ export const RoleCard: React.FC<CardProps> = ({
           fontSize={{ base: 'md', lg: '2xl' }}
           align={{ base: 'start', lg: 'center' }}
         >
-          {description}
+          {description} {description.includes('Detailed instructions') && activeTab === RoleTitle.Patron && (isMobile ? '👉' : '👇')}
         </Text>
       )}
       {info && (

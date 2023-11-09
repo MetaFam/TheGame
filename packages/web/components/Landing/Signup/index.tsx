@@ -23,7 +23,6 @@ import GuildsImg from 'assets/guilds-sun_800x800.webp';
 import PatronsImg from 'assets/patrons-sun_800x820.webp';
 import PlayerImg from 'assets/players-sun_800x822.webp';
 import { FullPageContainer } from 'components/Container';
-import useActiveTab from 'lib/hooks/useActiveTab';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useEffect } from 'react';
@@ -39,6 +38,7 @@ import {
   playerPerks,
   playerReasons,
   roles,
+  RoleTitle,
 } from './data';
 
 const tabs = ['Player', 'Guild', 'Patron'];
@@ -136,7 +136,8 @@ const RoleTab = React.forwardRef<
   { children: React.ReactNode }
 >((props, ref) => {
   const tabProps = useTab({ ...props, ref: ref as Ref<HTMLElement> });
-  const activeTab = useActiveTab();
+  const { query } = useRouter();
+  const activeTab = query.tab ?? RoleTitle.Player;
   const isMobile = useBreakpointValue({
     base: true,
     lg: false,
@@ -201,7 +202,7 @@ const RoleTab = React.forwardRef<
 export const Signup: React.FC = () => {
   const section = 'signup';
   const router = useRouter();
-  const activeTab = useActiveTab();
+  const activeTab = router.query.tab ?? RoleTitle.Player;
   const selectedIndex =
     tabs.map((tab) => tab.toLowerCase()).indexOf(activeTab as string) ?? 0;
   const isMobile = useBreakpointValue({
@@ -403,7 +404,7 @@ export const Signup: React.FC = () => {
                             {...role}
                           />
                         )}
-                        {role.tab === activeTab && index === 0 && (
+                        {role.tab === activeTab && index === roles.findIndex(role => role.tab === RoleTitle.Player) && (
                           <Text fontSize={{ base: 'xl', lg: '2xl' }}
                             fontWeight={{ base: 'bold', lg: 'normal' }}>
                             OR
@@ -478,7 +479,7 @@ export const Signup: React.FC = () => {
                             {...role}
                           />
                         )}
-                        {role.tab === activeTab && index < roles.length - 1 && (
+                        {role.tab === activeTab && index === roles.findIndex(role => role.tab === RoleTitle.Guild) && (
                           <Text
                             fontSize={{ base: 'xl', lg: '2xl' }}
                             fontWeight={{ base: 'bold', lg: 'normal' }}
@@ -504,7 +505,7 @@ export const Signup: React.FC = () => {
                         {guildPerks.map((perk, index) => (
                           <Tab
                             key={index}
-                            _selected={{ bg: index === 0 ? 'green.200' : index === 1 ? '#6A88DF' : '#ED61C5', color: 'white' }}
+                            _selected={{ bg: index === 0 ? 'green.200' : index === 1 ? '#6A88DF' : '#ED61C5', color: index === 0 ? 'green.900' : index === 1 ? 'purple.900' : 'pink.900' }}
                             _active={{ bg: 'transparent' }}
                             textTransform='uppercase'
                           >
@@ -607,7 +608,7 @@ export const Signup: React.FC = () => {
                         {patronPerks.map((perk, index) => (
                           <Tab
                             key={index}
-                            _selected={{ bg: index === 0 ? 'green.200' : 'pink.200', color: 'white' }}
+                            _selected={{ bg: index === 0 ? 'green.200' : 'pink.200', color: index === 0 ? 'green.900' : 'pink.900' }}
                             _active={{ bg: 'transparent' }}
                             textTransform='uppercase'
                           >
@@ -651,7 +652,7 @@ export const Signup: React.FC = () => {
                     {roles.map((role, index) => (
                       <React.Fragment key={index}>
                         {role.tab === activeTab && <RoleCard {...role} />}
-                        {role.tab === activeTab && index < roles.length - 1 && (
+                        {role.tab === activeTab && index === roles.findIndex(role => role.tab === RoleTitle.Patron) && (
                           <Text
                             fontSize={{ base: 'xl', lg: '2xl' }}
                             fontWeight={{ base: 'bold', lg: 'normal' }}
