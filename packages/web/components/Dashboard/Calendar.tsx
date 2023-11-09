@@ -31,6 +31,7 @@ import type { GoogleCalEventType } from 'lib/hooks/useCalendar';
 import { useCalendar } from 'lib/hooks/useCalendar';
 import { DateTime } from 'luxon';
 import React, { useEffect, useRef, useState } from 'react';
+import { safelyParseContent } from 'utils/stringHelpers';
 
 type GroupedEventsType = {
   date: string;
@@ -436,6 +437,8 @@ const EventPopover = ({
       <PopoverBody>
         <Box
           as="dl"
+          maxH={'200px'}
+          overflowY="auto"
           sx={{
             dt: {
               fontSize: 'sm',
@@ -451,7 +454,7 @@ const EventPopover = ({
             <Box>
               <Box as="dt">Description</Box>
               <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
-                <MarkdownViewer>{description}</MarkdownViewer>
+                {safelyParseContent(description)}
               </Box>
             </Box>
           )}
