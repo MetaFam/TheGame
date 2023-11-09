@@ -57,7 +57,7 @@ const Option = ({ onClick, name, image, text, url }: OptionProps) => (
         borderRadius: '8px',
       }}
     >
-      <Flex align="center">
+      <Flex align="center" w='full'>
         <Avatar
           name={name}
           src={httpLink(image)}
@@ -102,6 +102,7 @@ const Option = ({ onClick, name, image, text, url }: OptionProps) => (
         borderColor="white"
         color="white"
         _hover={{ bg: 'transparent', color: 'white', borderColor: 'white' }}
+        borderWidth={2}
       />
     </Flex>
   </Box>

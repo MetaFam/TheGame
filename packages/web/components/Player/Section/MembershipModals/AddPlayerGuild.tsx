@@ -57,8 +57,9 @@ export const AddPlayerGuild: React.FC<{
           {!addUnverifiedGuildView && (
             <Button
               variant="outline"
-              w="20%"
-              ml="40%"
+              w={{ base: "50%", lg: "20%" }}
+              mt={{ base: 6, lg: 0 }}
+              ml={{ base: "20%", lg: "40%" }}
               leftIcon={<AddIcon />}
               onClick={() => setAddUnverifiedGuildView(true)}
             >
