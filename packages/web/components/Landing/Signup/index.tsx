@@ -42,6 +42,8 @@ import {
 } from './data';
 
 const tabs = ['Player', 'Guild', 'Patron'];
+const bgColors = ['green.200', '#6A88DF', '#ED61C5'];
+const textColors = ['green.900', 'purple.900', 'pink.900'];
 
 const TabImg = ({
   type,
@@ -505,7 +507,10 @@ export const Signup: React.FC = () => {
                         {guildPerks.map((perk, index) => (
                           <Tab
                             key={index}
-                            _selected={{ bg: index === 0 ? 'green.200' : index === 1 ? '#6A88DF' : '#ED61C5', color: index === 0 ? 'green.900' : index === 1 ? 'purple.900' : 'pink.900' }}
+                            _selected={{
+                              bg: bgColors[index] || 'defaultColor',
+                              color: textColors[index] || 'defaultColor'
+                            }}
                             _active={{ bg: 'transparent' }}
                             textTransform='uppercase'
                           >
