@@ -19,7 +19,8 @@ export const AddPlayerGuild: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   player: Player;
-}> = ({ isOpen, onClose, player }) => {
+  hydratePlayer: () => void;
+}> = ({ isOpen, onClose, player, hydratePlayer }) => {
   const [addUnverifiedGuildView, setAddUnverifiedGuildView] =
     React.useState(false);
 
@@ -48,7 +49,7 @@ export const AddPlayerGuild: React.FC<{
           <ModalCloseButton />
           <ModalBody p={[0, 6]}>
             {addUnverifiedGuildView ? (
-              <UnverifiedGuildForm onSubmit={addUnverifiedGuild} player={player} />
+              <UnverifiedGuildForm onSubmit={addUnverifiedGuild} player={player} hydratePlayer={hydratePlayer} />
             ) : (
               <GuildSearchBar player={player} />
             )}
