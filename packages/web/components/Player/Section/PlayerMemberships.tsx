@@ -37,13 +37,14 @@ import { MdDragHandle } from 'react-icons/md';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
-
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { AddPlayerGuild } from './MembershipModals/AddPlayerGuild';
 
 type DAOListingProps = {
   membership: GuildMembership;
   editing?: boolean;
   playerId?: string;
+  onClose?: () => void;
 };
 
 export const DAOListing: React.FC<DAOListingProps> = ({
@@ -165,22 +166,19 @@ export const GuildListing: React.FC<DAOListingProps> = React.forwardRef(
       guildId,
     },
     playerId,
+    onClose,
   }) => {
     const [, updatePlayerGuildVisibility] =
       useUpdatePlayerGuildVisibilityMutation();
 
     const handleUpdateVisibility = async () => {
       try {
-        const response = await updatePlayerGuildVisibility({
+        await updatePlayerGuildVisibility({
           playerId,
           guildId,
           visible: !visible,
         });
-        // Handle the response if necessary.
-        // For example, you might want to update the UI based on the mutation's result:
-        // if (response && response.data) {
-
-        // }
+        if (onClose) onClose();
       } catch (error) {
         throw Error(
           `Error upserting the Dework profile: ${(error as Error).message}`,
@@ -397,12 +395,18 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const [addGuildView, setAddGuildView] = useState(false);
   const [layout, setLayout] = useState<Layout[]>();
 
+  const {
+    hydrateFromHasura: performHasuraHydration,
+    hydratedPlayer,
+  } = usePlayerHydrationContext();
+
   useEffect(() => {
-    getAllMemberships(player).then(({ all }) => {
+    getAllMemberships(hydratedPlayer || player).then(({ all }) => {
       setLoading(false);
       setMemberships(all);
     });
-  }, [player]);
+    console.log('hydratedPlayer', hydratedPlayer);
+  }, [hydratedPlayer, addGuildView]);
 
   useEffect(() => {
     const layouts: Layout[] = [];
@@ -465,7 +469,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
       {!editView && memberships.length > 4 && (
         <Box textAlign="end">
-          <MembershipListModal {...{ isOpen, onClose, memberships }} />
+          <MembershipListModal {...{ isOpen, onClose, memberships }} hydratePlayer={performHasuraHydration} />
           <ViewAllButton onClick={onOpen} size={memberships.length} />
         </Box>
       )}
@@ -491,7 +495,8 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
               <GuildListing
                 {...{ membership }}
                 key={membership.memberId}
-                playerId={player?.id}
+                playerId={hydratedPlayer?.id}
+                onClose={performHasuraHydration}
               />
             ))}
           </ReactGridLayout>
@@ -513,8 +518,11 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         <>
           <AddPlayerGuild
             isOpen={addGuildView}
-            onClose={() => setAddGuildView(false)}
-            player={player}
+            onClose={() => {
+              setAddGuildView(false)
+            }}
+            player={hydratedPlayer}
+            hydratePlayer={performHasuraHydration}
           />
         </>
       )}

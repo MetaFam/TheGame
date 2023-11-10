@@ -62,6 +62,21 @@ const validations = {
   daoNetwork: {
     required: true,
   },
+  twitterUrl: {
+    required: true,
+  },
+  discordInviteUrl: {
+    required: true,
+  },
+  githubUrl: {
+    required: true,
+  },
+  websiteUrl: {
+    required: true,
+  },
+  joinUrl: {
+    required: true,
+  },
 };
 
 export interface CreateGuildFormInputs {
@@ -79,29 +94,12 @@ export interface CreateGuildFormInputs {
   legitimacy: string;
 }
 
-const placeholderDaoInput = {
-  contractAddress: '',
-  network: 'mainnet',
-  label: null,
-  url: null,
-};
-
-const getDefaultFormValues = (): CreateGuildFormInputs => ({
-  guildname: '',
-  name: '',
-  description: '',
-  logoUrl: '',
-  websiteUrl: '',
-  type: GuildType_Enum.Social, // Adjust this to your default guild type.
-  legitimacy: 'UNVERIFIED',
-  //daos: [placeholderDaoInput],
-});
-
 type Props = {
   workingGuild?: GuildFragment;
   onSubmit: (data: any) => void;
   success?: boolean;
   submitting?: boolean;
+  hydratePlayer: () => void;
   player: Player;
 };
 
@@ -110,6 +108,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   success,
   submitting,
   player,
+  hydratePlayer
 }) => {
   const readFile = useImageReader();
   const toast = useToast();
@@ -124,13 +123,14 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   } = useForm<CreateGuildFormInputs>({
     mode: 'onTouched',
   });
-
+  // @to-do: useTheHasuraPlayerHook to load the data with no refresh
   const [, addGuildMember] = useAddGuildMemberMutation();
   const [, addLink] = useAddGuildLinkMutation();
   const [logoURI, setLogoURI] = useState<string | undefined>();
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errored, setErrored] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onFileChange = useCallback(
     async (file: File | undefined) => {
@@ -151,7 +151,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
 
   const submitForm = useCallback(
     async (createUnverifiedGuild: CreateGuildFormInputs) => {
-
+      setIsSubmitting(true);
       const {
         type,
         logoFile,
@@ -185,12 +185,10 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         }
       }
 
-      
-
       try {
         const response: any = await onSubmit({ guildname, name, description, logo: newLogoUrl, websiteUrl, joinUrl, type, legitimacy: 'UNVERIFIED' });
         const saveGuildResponse = response.data.insert_guild.returning[0].id;
-    
+
         if (saveGuildResponse) {
           toast({
             title: 'Guild information submitted',
@@ -199,37 +197,42 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             isClosable: true,
             duration: 5000,
           });
-          const response = await addGuildMember({
+          await addGuildMember({
             playerId: player?.id,
             guildId: saveGuildResponse,
           });
-          const twitterGuildLink = {
-            guildId: saveGuildResponse,
-            name: 'Find Us On Twitter',
-            url: twitterUrl || '',
-            type: 'TWITTER' as LinkType_Enum,
-          };
-          await addLink(twitterGuildLink);
+          if (twitterUrl, discordInviteUrl, githubUrl) {
+            const twitterGuildLink = {
+              guildId: saveGuildResponse,
+              name: 'Find Us On Twitter',
+              url: twitterUrl,
+              type: 'TWITTER' as LinkType_Enum,
+            };
+            await addLink(twitterGuildLink);
+  
+            const discordGuildLink = {
+              guildId: saveGuildResponse,
+              name: 'Join Us On Discord',
+              url: discordInviteUrl,
+              type: 'DISCORD' as LinkType_Enum,
+            };
+            await addLink(discordGuildLink);
+  
+            const githubGuildLink = {
+              guildId: saveGuildResponse,
+              name: 'Find Us On Github',
+              url: githubUrl,
+              type: 'GITHUB' as LinkType_Enum,
+            };
+            await addLink(githubGuildLink);
+          }
+          
 
-          const discordGuildLink = {
-            guildId: saveGuildResponse,
-            name: 'Join Us On Discord',
-            url: discordInviteUrl || '',
-            type: 'DISCORD' as LinkType_Enum,
-          };
-          await addLink(discordGuildLink);
-
-          const githubGuildLink = {
-            guildId: saveGuildResponse,
-            name: 'Find Us On Github',
-            url: githubUrl || '',
-            type: 'GITHUB' as LinkType_Enum,
-          };
-          await addLink(githubGuildLink);
         }
-        
+        hydratePlayer()
+        setIsSubmitting(false);
       } catch (error) {
-        console.log('error', error);
+        console.error('error', error);
         toast({
           title: 'Error while saving guild information',
           description:
@@ -241,7 +244,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
           duration: 10000,
         });
       }
-      
+      setIsSubmitting(false);
     },
     [router, toast, onSubmit],
   );
@@ -416,132 +419,13 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             ))}
           </Select>
         </Field>
-        {/* <Box
-          borderWidth="1px"
-          borderRadius="lg"
-          borderColor="rgba(255, 255, 255, 0.25)"
-          p={4}
-        >
-          <Text mb={2}>Related DAOs or other contracts</Text>
-          <Text fontSize="sm" mb={4}>
-            If your guild has an on-chain DAO, token, multisig, or any other
-            relevant contract, you can specify them here. If the entered
-            contract address is in DAOHaus, we will look up its information from
-            the{' '}
-            <MetaLink
-              isExternal
-              href="https://thegraph.com/hosted-service/subgraph/odyssy-automaton/daohaus"
-            >
-              DAOHaus Subgraph
-            </MetaLink>
-            . Otherwise you can provide your own URL to link to.
-          </Text>
-          {daoFields.map((_, index) => (
-            <Box
-              key={index}
-              background="rgba(255, 255, 255, 0.1)"
-              borderRadius="lg"
-              p={2}
-              mb={4}
-            >
-              <HStack justifyContent="space-between">
-                <Text size="lg" ml={2}>
-                  {index + 1}.
-                </Text>
-                <CloseButton size="sm" onClick={() => remove(index)} />
-              </HStack>
-              <Box borderRadius="lg" p={2}>
-                <Flex direction="row">
-                  <Box mr={4}>
-                    <Field label="Label">
-                      <Input
-                        placeholder="DAO, Multisig, etc"
-                        {...register(`daos.${index}.label`)}
-                        background="dark"
-                      />
-                    </Field>
-                  </Box>
-                  <Box flex="1">
-                    <Field label="URL">
-                      <Input
-                        placeholder="https://"
-                        {...register(`daos.${index}.url`)}
-                        background="dark"
-                      />
-                      <FieldDescription>
-                        An optional URL to link this address to
-                      </FieldDescription>
-                    </Field>
-                  </Box>
-                </Flex>
-                <Flex direction="row">
-                  <Box maxWidth="10rem" mr={4}>
-                    <Field label="Network">
-                      <Select
-                        {...register(`daos.${index}.network`, {
-                          required: {
-                            value: true,
-                            message: 'This is a required field.',
-                          },
-                        })}
-                        background="dark"
-                        color="white"
-                      >
-                        <option key="mainnet" value="mainnet">
-                          Mainnet
-                        </option>
-                        <option key="polygon" value="polygon">
-                          Polygon
-                        </option>
-                        <option key="gnosis" value="gnosis">
-                          Gnosis
-                        </option>
-                      </Select>
-                    </Field>
-                  </Box>
-                  <Box flex="1">
-                    <Field
-                      label="Address"
-                      error={
-                        (
-                          errors.daos as {
-                            contractAddress?: FieldError | undefined;
-                          }[]
-                        )?.[index]?.contractAddress
-                      }
-                    >
-                      <Input
-                        placeholder="0x…"
-                        {...register(`daos.${index}.contractAddress`, {
-                          required: validations.daoAddress.required,
-                          pattern: {
-                            value: /^0x([a-zA-Z0-9-]{40})$/,
-                            message: 'Invalid contract address',
-                          },
-                        })}
-                        background="dark"
-                      />
-                      <FieldDescription>
-                        The address of the DAO contract, multisig, treasury,
-                        etc.
-                      </FieldDescription>
-                    </Field>
-                  </Box>
-                </Flex>
-              </Box>
-            </Box>
-          ))}
-          <MetaButton size="sm" onClick={() => append(placeholderDaoInput)}>
-            Add {daoFields.length > 0 ? 'Another' : 'a DAO'}
-          </MetaButton>
-        </Box> */}
 
         <HStack justify="space-between" mt={10} w="100%">
           <MetaButton
             isLoading={submitting}
             loadingText="Submitting information…"
             onClick={handleSubmit(submitForm)}
-            isDisabled={success}
+            isDisabled={success || isSubmitting}
             bg="purple.500"
           >
             Submit Guild Information
