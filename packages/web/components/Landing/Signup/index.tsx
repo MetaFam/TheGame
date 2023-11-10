@@ -406,7 +406,7 @@ export const Signup: React.FC = () => {
                             {...role}
                           />
                         )}
-                        {role.tab === activeTab && index === roles.findIndex(role => role.tab === RoleTitle.Player) && (
+                        {role.tab === activeTab && index === roles.findIndex(r => r.tab === RoleTitle.Player) && (
                           <Text fontSize={{ base: 'xl', lg: '2xl' }}
                             fontWeight={{ base: 'bold', lg: 'normal' }}>
                             OR
@@ -474,14 +474,14 @@ export const Signup: React.FC = () => {
                     justify="center"
                   >
                     {roles.map((role, index) => (
-                      <>
+                      <React.Fragment>
                         {role.tab === activeTab && (
                           <RoleCard
                             key={index}
                             {...role}
                           />
                         )}
-                        {role.tab === activeTab && index === roles.findIndex(role => role.tab === RoleTitle.Guild) && (
+                        {role.tab === activeTab && index === roles.findIndex(r => r.tab === RoleTitle.Guild) && (
                           <Text
                             fontSize={{ base: 'xl', lg: '2xl' }}
                             fontWeight={{ base: 'bold', lg: 'normal' }}
@@ -490,7 +490,7 @@ export const Signup: React.FC = () => {
                             OR
                           </Text>
                         )}
-                      </>
+                      </React.Fragment>
                     ))}
                   </Stack>
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
@@ -657,7 +657,7 @@ export const Signup: React.FC = () => {
                     {roles.map((role, index) => (
                       <React.Fragment key={index}>
                         {role.tab === activeTab && <RoleCard {...role} />}
-                        {role.tab === activeTab && index === roles.findIndex(role => role.tab === RoleTitle.Patron) && (
+                        {role.tab === activeTab && index === roles.findIndex(r => r.tab === RoleTitle.Patron) && (
                           <Text
                             fontSize={{ base: 'xl', lg: '2xl' }}
                             fontWeight={{ base: 'bold', lg: 'normal' }}
