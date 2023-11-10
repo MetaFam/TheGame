@@ -44,6 +44,7 @@ import {
 const tabs = ['Player', 'Guild', 'Patron'];
 const bgColors = ['green.200', '#6A88DF', '#ED61C5'];
 const textColors = ['green.900', 'purple.900', 'pink.900'];
+const badgeColors = ['green', 'purple', 'pink'];
 
 const TabImg = ({
   type,
@@ -543,7 +544,7 @@ export const Signup: React.FC = () => {
                         <PerksCard
                           key={index}
                           {...perk}
-                          badgeColor={index === 0 ? "green" : index === 1 ? "purple" : "pink"}
+                          badgeColor={badgeColors[index]}
                         />
                       ))}
                     </Stack>
