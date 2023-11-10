@@ -25,7 +25,7 @@ import PlayerImg from 'assets/players-sun_800x822.webp';
 import { FullPageContainer } from 'components/Container';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { Ref, RefObject, useEffect } from 'react';
+import React, { Ref, RefObject, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 
 import { Rain } from '../OnboardingGame/Rain';
@@ -205,6 +205,17 @@ export const Signup: React.FC = () => {
   const section = 'signup';
   const router = useRouter();
   const activeTab = router.query.tab ?? RoleTitle.Player;
+  const [hasRedirected, setHasRedirected] = useState(false);
+
+  if (router.asPath === '/signup' && !hasRedirected) {
+    router.push(
+      { href: router.asPath, query: { tab: RoleTitle.Player } },
+      undefined,
+      { shallow: true },
+    );
+    setHasRedirected(true);
+  }
+
   const selectedIndex =
     tabs.map((tab) => tab.toLowerCase()).indexOf(activeTab as string) ?? 0;
   const isMobile = useBreakpointValue({
@@ -399,10 +410,9 @@ export const Signup: React.FC = () => {
                     justify="center"
                   >
                     {roles.map((role, index) => (
-                      <React.Fragment>
+                      <React.Fragment key={index}>
                         {role.tab === activeTab && (
                           <RoleCard
-                            key={index}
                             {...role}
                           />
                         )}
@@ -474,10 +484,9 @@ export const Signup: React.FC = () => {
                     justify="center"
                   >
                     {roles.map((role, index) => (
-                      <React.Fragment>
+                      <React.Fragment key={index}>
                         {role.tab === activeTab && (
                           <RoleCard
-                            key={index}
                             {...role}
                           />
                         )}
