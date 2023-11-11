@@ -3,7 +3,7 @@ import { CONFIG } from 'config';
 import { DateTime } from 'luxon';
 import { useCallback, useEffect, useState } from 'react';
 
-type GoogleCalEventDateTimeType =
+export type GoogleCalEventDateTimeType =
   | {
       dateTime: string;
       timeZone: string;
@@ -16,13 +16,14 @@ export type GoogleCalEventType = {
   id: string;
   summary: string;
   description: string;
+  cover?: string;
   start: GoogleCalEventDateTimeType;
   end: GoogleCalEventDateTimeType;
   htmlLink: string;
   location: string;
 };
 
-type UseCalendarReturnTypes = {
+export type UseCalendarReturnTypes = {
   events: Maybe<GoogleCalEventType[]>;
   timeZone: TimeZonesType;
   fetching: boolean;
@@ -32,7 +33,6 @@ type UseCalendarReturnTypes = {
   totalEvents: number;
   limit: number;
   setLimit: (limit: number) => void;
-  cleanDescription: (desc: string) => string;
   buildAddToCalendarLink: (event: GoogleCalEventType) => string;
 };
 
@@ -41,12 +41,12 @@ type TimeZonesType = {
   calendar: string;
 };
 
-type GroupedEventsType = {
+export type GroupedEventsType = {
   date: string;
   events: GoogleCalEventType[];
 };
 
-type CalendarDataType = {
+export type CalendarDataType = {
   events: Maybe<GoogleCalEventType[]>;
   days: GroupedEventsType[];
   timeZone: TimeZonesType;
@@ -77,12 +77,63 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
   const [error, setError] = useState<Error>();
   const calendarICS = `https://calendar.google.com/calendar/ical/${calendarId}%40group.calendar.google.com/public/basic.ics`;
 
-  // strip out the +++cover+++ from the description
-  const cleanDescription = (desc: string) =>
-    desc?.replace(/(\+\+\+).*(\+\+\+)/, '') || '';
+  /**
+   * sanitize the description & get the cover image url if there is one and return the url & sanitized description
+   */
+  const cleanDescription = (
+    desc: string,
+  ): { cover?: string; description: string; originalDesc?: string } => {
+    if (!desc) {
+      return {
+        cover: undefined,
+        description: '',
+        originalDesc: desc,
+      };
+    }
+
+    function extractCoverUrl(input: string) {
+      const splitInput = input.split('+++<br>');
+      const coverSection = splitInput.length > 1 ? splitInput[1] : null;
+      const urlRegex = /(https?:\/\/[^"\s<]+)/g;
+
+      let coverUrl;
+      const modifiedInput = splitInput[0];
+
+      if (coverSection) {
+        const urls = coverSection.match(urlRegex);
+        if (urls && urls.length) {
+          coverUrl = urls[urls.length - 1];
+        }
+      }
+
+      return {
+        coverUrl,
+        modifiedInput,
+      };
+    }
+
+    const { coverUrl, modifiedInput } = extractCoverUrl(desc);
+
+    let cleanedDesc: string;
+
+    cleanedDesc = modifiedInput.replace(
+      /(^(?:<br>)+|(?:<br>)+$|(?:<br>){2,})|(?:<\w+><\/\w+>\s*)+/g,
+      '',
+    );
+
+    // Remove remaining empty elements until the first element with innerText
+    const startOfInnerTextElement = cleanedDesc.search(/<\w+>[^<]+<\/\w+>/);
+    cleanedDesc = cleanedDesc.substring(startOfInnerTextElement);
+
+    return {
+      cover: coverUrl,
+      description: cleanedDesc,
+      originalDesc: desc,
+    };
+  };
 
   /**
-   * Builds a google calendar event url for adding to your calendar
+   * Builds a google calendar event url for adding to users calendar
    * */
   const buildAddToCalendarLink = (event: GoogleCalEventType) => {
     const start =
@@ -122,15 +173,51 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
 
       const usersTimeZone =
         DateTime.local().offsetNameShort || fetchedEvents.timeZone;
+
+      // Sanitize the events descriptions & get the cover image url if there is one
+      const sanitizedEvents = fetchedEvents.items.map(
+        (event: GoogleCalEventType) => {
+          const { description } = event;
+          const { cover, description: cleanedDesc } =
+            cleanDescription(description);
+          return {
+            ...event,
+            description: cleanedDesc,
+            cover,
+          };
+        },
+      );
+
+      // Sanitize the grouped events descriptions & get the cover image url if there is one
+      const sanitizedDays = days.map((day: GroupedEventsType) => {
+        const { events } = day;
+        const cleanedEvents = events.map((event: GoogleCalEventType) => {
+          const { description } = event;
+          const { cover, description: cleanedDesc } =
+            cleanDescription(description);
+          return {
+            ...event,
+            description: cleanedDesc,
+            cover,
+          };
+        });
+        return {
+          ...day,
+          events: cleanedEvents,
+        };
+      });
+
       const calValues: CalendarDataType = {
         events: fetchedEvents.items,
-        days,
+        days: sanitizedDays,
         timeZone: {
           users: usersTimeZone,
           calendar: fetchedEvents.timeZone,
         },
-        totalEvents: fetchedEvents.items.length,
+        totalEvents: sanitizedEvents.length,
       };
+      // console.log({ calValues });
+
       setCalendarData(calValues);
 
       setError(undefined);
@@ -163,7 +250,6 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     ics: calendarICS,
     eventsGroupedByDay: calendarData.days,
     totalEvents: calendarData.totalEvents,
-    cleanDescription,
     buildAddToCalendarLink,
     limit,
     setLimit,
