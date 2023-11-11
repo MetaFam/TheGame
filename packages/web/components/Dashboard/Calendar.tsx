@@ -393,7 +393,6 @@ const EventPopover = ({
 }: EventPopoverType) => (
   <Portal>
     <PopoverContent
-      // background="linear-gradient(180deg, var(--chakra-colors-whiteAlpha-200) 0%, var(--chakra-colors-whiteAlpha-600) 50%)"
       bgColor="darkPurpleAlpha.200"
       backdropFilter="blur(10px)"
       boxShadow="0 0 10px rgba(0,0,0,0.3)"
@@ -406,29 +405,9 @@ const EventPopover = ({
       }}
     >
       <Box role="group" position="relative" w="full" h="full">
-        {/* <Box
-        bg="transparent"
-        borderWidth={0}
-        position="absolute"
-        left={-1}
-        top={0}
-        width="100%"
-          textAlign="center"
-          zIndex={2}
-        >
-          <Avatar
-            src={miniLogo.src}
-            size="sm"
-            mx="auto"
-            transform="translateY(-7px)"
-            p={2}
-            zIndex={3}
-          />
-        </Box> */}
-
         <PopoverCloseButton
           zIndex={3}
-          top="calc(var(--chakra-spacing-2) + 2px)"
+          top={'calc(var(--chakra-space-2) + 1px)'}
         />
         <PopoverHeader
           position={'relative'}
@@ -514,7 +493,6 @@ const EventPopover = ({
             '&::after': {
               position: 'absolute',
               content: '""',
-              // bg: 'linear-gradient(180deg, var(--chakra-colors-darkPurpleAlpha-700) 0%, var(--chakra-colors-darkPurpleAlpha-900) 50%)',
               boxShadow:
                 '0 0 80px 10px var(--chakra-colors-darkPurpleAlpha-900) inset',
               w: 'full',
