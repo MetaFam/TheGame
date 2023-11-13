@@ -9,6 +9,7 @@ import {
   Flex,
   HStack,
   Image,
+  ListItem,
   LoadingState,
   MetaButton,
   Popover,
@@ -244,8 +245,8 @@ export const Calendar: React.FC = () => {
                             const { cover, description } = event;
 
                             return (
-                              <Box
-                                as="li"
+                              <ListItem
+                                key={event.id}
                                 position="relative"
                                 className="calendar__day--event"
                                 width="100%"
@@ -334,7 +335,7 @@ export const Calendar: React.FC = () => {
                                   transition="all 0.1s ease-in-out"
                                   zIndex={-1}
                                 />
-                              </Box>
+                              </ListItem>
                             );
                           })}
                       </VStack>
