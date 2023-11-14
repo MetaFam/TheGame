@@ -9,6 +9,7 @@ import {
   Flex,
   HStack,
   Image,
+  List,
   ListItem,
   LoadingState,
   MetaButton,
@@ -231,8 +232,8 @@ export const Calendar: React.FC = () => {
                           })
                           .toUpperCase()}
                       </Box>
-                      <VStack
-                        as="ol"
+                      <List
+                        as={VStack}
                         className="calendar__day--events"
                         ml={0}
                         width="100%"
@@ -263,62 +264,30 @@ export const Calendar: React.FC = () => {
                                 <Popover colorScheme="purple">
                                   <Event
                                     title={event.summary}
-                                    start={
+                                    start={DateTime.fromISO(
                                       'dateTime' in event.start
-                                        ? DateTime.fromISO(
-                                            event.start.dateTime,
-                                          ).toLocaleString(
-                                            DateTime.TIME_24_SIMPLE,
-                                          )
-                                        : DateTime.fromISO(
-                                            event.start.date,
-                                          ).toLocaleString(
-                                            DateTime.TIME_24_SIMPLE,
-                                          )
-                                    }
-                                    end={
+                                        ? event.start.dateTime
+                                        : event.start.date,
+                                    ).toLocaleString(DateTime.TIME_24_SIMPLE)}
+                                    end={DateTime.fromISO(
                                       'dateTime' in event.end
-                                        ? DateTime.fromISO(
-                                            event.end.dateTime,
-                                          ).toLocaleString(
-                                            DateTime.TIME_24_SIMPLE,
-                                          )
-                                        : DateTime.fromISO(
-                                            event.end.date,
-                                          ).toLocaleString(
-                                            DateTime.TIME_24_SIMPLE,
-                                          )
-                                    }
+                                        ? event.end.dateTime
+                                        : event.end.date,
+                                    ).toLocaleString(DateTime.TIME_24_SIMPLE)}
                                   />
 
                                   <EventPopover
                                     title={event.summary}
-                                    start={
+                                    start={DateTime.fromISO(
                                       'dateTime' in event.start
-                                        ? DateTime.fromISO(
-                                            event.start.dateTime,
-                                          ).toLocaleString(
-                                            DateTime.TIME_24_SIMPLE,
-                                          )
-                                        : DateTime.fromISO(
-                                            event.start.date,
-                                          ).toLocaleString(
-                                            DateTime.TIME_24_SIMPLE,
-                                          )
-                                    }
-                                    end={
+                                        ? event.start.dateTime
+                                        : event.start.date,
+                                    ).toLocaleString(DateTime.TIME_24_SIMPLE)}
+                                    end={DateTime.fromISO(
                                       'dateTime' in event.end
-                                        ? DateTime.fromISO(
-                                            event.end.dateTime,
-                                          ).toLocaleString(
-                                            DateTime.TIME_24_SIMPLE,
-                                          )
-                                        : DateTime.fromISO(
-                                            event.end.date,
-                                          ).toLocaleString(
-                                            DateTime.TIME_24_SIMPLE,
-                                          )
-                                    }
+                                        ? event.end.dateTime
+                                        : event.end.date,
+                                    ).toLocaleString(DateTime.TIME_24_SIMPLE)}
                                     description={description}
                                     cover={cover}
                                     htmlLink={event.htmlLink}
@@ -338,7 +307,7 @@ export const Calendar: React.FC = () => {
                               </ListItem>
                             );
                           })}
-                      </VStack>
+                      </List>
                     </Box>
                   );
                 })}
