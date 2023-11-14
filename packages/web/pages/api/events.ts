@@ -77,9 +77,8 @@ export default async (
           : DateTime.fromISO(event.start.date).toLocal();
 
       const dateKey = start.toFormat('yyyy-MM-dd');
-      if (!acc[dateKey]) {
-        acc[dateKey] = [];
-      }
+      acc[dateKey] ??= [];
+
       acc[dateKey].push(event);
       return acc;
     }, {} as Record<string, GoogleCalEventType[]>);

@@ -49,7 +49,7 @@ const loadMoreButtonStyles: ButtonProps = {
 export const Calendar: React.FC = () => {
   const [calendar, setCalendar] = useState<GroupedEventsType[]>([]);
   const [loadingMore, setLoadingMore] = useState(false);
-  const showHowMany = 3;
+  const showHowMany = 4;
   const {
     fetching,
     error,
@@ -439,7 +439,7 @@ const EventPopover = ({
               leftIcon={<CalendarAddIcon />}
               isExternal
             >
-              Add event
+              Add to my calendar
             </Button>
             <Button
               aria-label="View calendar"

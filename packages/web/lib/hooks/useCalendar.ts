@@ -5,11 +5,11 @@ import { useCallback, useEffect, useState } from 'react';
 
 export type GoogleCalEventDateTimeType =
   | {
-      dateTime: string;
-      timeZone: string;
+      date: string;
     }
   | {
-      date: string;
+      dateTime: string;
+      timeZone: string;
     };
 
 export type GoogleCalEventType = {
@@ -102,7 +102,7 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
       if (coverSection) {
         const urls = coverSection.match(urlRegex);
         if (urls && urls.length) {
-          coverUrl = urls[urls.length - 1];
+          coverUrl = urls.at(-1);
         }
       }
 
@@ -114,16 +114,9 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
 
     const { coverUrl, modifiedInput } = extractCoverUrl(desc);
 
-    let cleanedDesc: string;
-
-    cleanedDesc = modifiedInput.replace(
-      /(^(?:<br>)+|(?:<br>)+$|(?:<br>){2,})|(?:<\w+><\/\w+>\s*)+/g,
-      '',
-    );
-
-    // Remove remaining empty elements until the first element with innerText
-    const startOfInnerTextElement = cleanedDesc.search(/<\w+>[^<]+<\/\w+>/);
-    cleanedDesc = cleanedDesc.substring(startOfInnerTextElement);
+    const cleanRegex =
+      /(^(?:<br>)+|(?:<br>)+$|(?:<br>){2,})|(?:<\w+><\/\w+>\s*)+/g;
+    const cleanedDesc = modifiedInput.replace(cleanRegex, '');
 
     return {
       cover: coverUrl,
@@ -136,25 +129,27 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
    * Builds a google calendar event url for adding to users calendar
    * */
   const buildAddToCalendarLink = (event: GoogleCalEventType) => {
-    const start =
-      'dateTime' in event.start
-        ? DateTime.fromISO(event.start.dateTime)
-        : DateTime.fromISO(event.start.date);
-    const end =
-      'dateTime' in event.end
-        ? DateTime.fromISO(event.end.dateTime)
-        : DateTime.fromISO(event.end.date);
+    const start = DateTime.fromISO(
+      'dateTime' in event.start ? event.start.dateTime : event.start.date,
+    );
+    const end = DateTime.fromISO(
+      'dateTime' in event.end ? event.end.dateTime : event.end.date,
+    );
     const title = event.summary;
     const { location } = event;
-    const details = `${cleanDescription(event.description)}`;
+
+    const details = `${
+      cleanDescription(event.description).description
+    } \n\n<a href="${event.htmlLink}">MetaGame calendar event link</a>`;
     const dates = `${start.toFormat('yyyyMMdd')}T${start.toFormat(
       'HHmmss',
     )}/${end.toFormat('yyyyMMdd')}T${end.toFormat('HHmmss')}`;
     const href =
       'https://www.google.com/calendar/render' +
       `?action=TEMPLATE&text=${title}&dates=${dates}` +
-      `&details=${details}&location=${location}` +
+      `&details=${encodeURIComponent(details)}&location=${location}` +
       '&sf=true&output=xml';
+
     return href;
   };
 
@@ -216,7 +211,6 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
         },
         totalEvents: sanitizedEvents.length,
       };
-      // console.log({ calValues });
 
       setCalendarData(calValues);
 
