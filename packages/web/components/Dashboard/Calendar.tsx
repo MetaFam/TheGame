@@ -8,8 +8,9 @@ import {
   ExternalLinkIcon,
   Flex,
   HStack,
-  IconButton,
   Image,
+  List,
+  ListItem,
   LoadingState,
   MetaButton,
   Popover,
@@ -26,16 +27,11 @@ import {
   VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { MarkdownViewer } from 'components/MarkdownViewer';
-import type { GoogleCalEventType } from 'lib/hooks/useCalendar';
+import type { GroupedEventsType } from 'lib/hooks/useCalendar';
 import { useCalendar } from 'lib/hooks/useCalendar';
 import { DateTime } from 'luxon';
 import React, { useEffect, useRef, useState } from 'react';
-
-type GroupedEventsType = {
-  date: string;
-  events: GoogleCalEventType[];
-};
+import { safelyParseContent } from 'utils/stringHelpers';
 
 const loadMoreButtonStyles: ButtonProps = {
   display: 'flex',
@@ -53,14 +49,13 @@ const loadMoreButtonStyles: ButtonProps = {
 export const Calendar: React.FC = () => {
   const [calendar, setCalendar] = useState<GroupedEventsType[]>([]);
   const [loadingMore, setLoadingMore] = useState(false);
-  const showHowMany = 3;
+  const showHowMany = 4;
   const {
     fetching,
     error,
     ics,
     eventsGroupedByDay,
     totalEvents,
-    cleanDescription,
     buildAddToCalendarLink,
     limit,
     setLimit,
@@ -237,8 +232,8 @@ export const Calendar: React.FC = () => {
                           })
                           .toUpperCase()}
                       </Box>
-                      <VStack
-                        as="ol"
+                      <List
+                        as={VStack}
                         className="calendar__day--events"
                         ml={0}
                         width="100%"
@@ -247,101 +242,72 @@ export const Calendar: React.FC = () => {
                         }}
                       >
                         {day &&
-                          day.events?.map((event) => (
-                            <Box
-                              as="li"
-                              position="relative"
-                              className="calendar__day--event"
-                              width="100%"
-                              px={5}
-                              py={2}
-                              backgroundColor="blackAlpha.500"
-                              borderRadius="md"
-                              overflow="hidden"
-                              role="group"
-                              _groupHover={{
-                                backgroundColor: 'blackAlpha.600',
-                              }}
-                            >
-                              <Popover colorScheme="purple">
-                                <Event
-                                  title={event.summary}
-                                  start={
-                                    'dateTime' in event.start
-                                      ? DateTime.fromISO(
-                                          event.start.dateTime,
-                                        ).toLocaleString(
-                                          DateTime.TIME_24_SIMPLE,
-                                        )
-                                      : DateTime.fromISO(
-                                          event.start.date,
-                                        ).toLocaleString(
-                                          DateTime.TIME_24_SIMPLE,
-                                        )
-                                  }
-                                  end={
-                                    'dateTime' in event.end
-                                      ? DateTime.fromISO(
-                                          event.end.dateTime,
-                                        ).toLocaleString(
-                                          DateTime.TIME_24_SIMPLE,
-                                        )
-                                      : DateTime.fromISO(
-                                          event.end.date,
-                                        ).toLocaleString(
-                                          DateTime.TIME_24_SIMPLE,
-                                        )
-                                  }
-                                />
+                          day.events?.map((event) => {
+                            const { cover, description } = event;
 
-                                <EventPopover
-                                  title={event.summary}
-                                  start={
-                                    'dateTime' in event.start
-                                      ? DateTime.fromISO(
-                                          event.start.dateTime,
-                                        ).toLocaleString(
-                                          DateTime.TIME_24_SIMPLE,
-                                        )
-                                      : DateTime.fromISO(
-                                          event.start.date,
-                                        ).toLocaleString(
-                                          DateTime.TIME_24_SIMPLE,
-                                        )
-                                  }
-                                  end={
-                                    'dateTime' in event.end
-                                      ? DateTime.fromISO(
-                                          event.end.dateTime,
-                                        ).toLocaleString(
-                                          DateTime.TIME_24_SIMPLE,
-                                        )
-                                      : DateTime.fromISO(
-                                          event.end.date,
-                                        ).toLocaleString(
-                                          DateTime.TIME_24_SIMPLE,
-                                        )
-                                  }
-                                  description={cleanDescription(
-                                    event.description,
-                                  )}
-                                  htmlLink={event.htmlLink}
-                                  location={event.location}
-                                  addToCalUrl={buildAddToCalendarLink(event)}
-                                />
-                              </Popover>
-                              <Box
-                                position="absolute"
-                                inset={0}
+                            return (
+                              <ListItem
+                                key={event.id}
+                                position="relative"
+                                className="calendar__day--event"
+                                width="100%"
+                                px={5}
+                                py={2}
+                                backgroundColor="blackAlpha.500"
+                                borderRadius="md"
+                                overflow="hidden"
+                                role="group"
                                 _groupHover={{
                                   backgroundColor: 'blackAlpha.600',
                                 }}
-                                transition="all 0.1s ease-in-out"
-                                zIndex={-1}
-                              />
-                            </Box>
-                          ))}
-                      </VStack>
+                              >
+                                <Popover colorScheme="purple">
+                                  <Event
+                                    title={event.summary}
+                                    start={DateTime.fromISO(
+                                      'dateTime' in event.start
+                                        ? event.start.dateTime
+                                        : event.start.date,
+                                    ).toLocaleString(DateTime.TIME_24_SIMPLE)}
+                                    end={DateTime.fromISO(
+                                      'dateTime' in event.end
+                                        ? event.end.dateTime
+                                        : event.end.date,
+                                    ).toLocaleString(DateTime.TIME_24_SIMPLE)}
+                                  />
+
+                                  <EventPopover
+                                    title={event.summary}
+                                    start={DateTime.fromISO(
+                                      'dateTime' in event.start
+                                        ? event.start.dateTime
+                                        : event.start.date,
+                                    ).toLocaleString(DateTime.TIME_24_SIMPLE)}
+                                    end={DateTime.fromISO(
+                                      'dateTime' in event.end
+                                        ? event.end.dateTime
+                                        : event.end.date,
+                                    ).toLocaleString(DateTime.TIME_24_SIMPLE)}
+                                    description={description}
+                                    cover={cover}
+                                    htmlLink={event.htmlLink}
+                                    location={event.location}
+                                    addToCalUrl={buildAddToCalendarLink(event)}
+                                  />
+                                </Popover>
+                                <Box
+                                  position="absolute"
+                                  inset={0}
+                                  _groupHover={{
+                                    backgroundColor: 'blackAlpha.600',
+                                  }}
+                                  transition="all 0.1s ease-in-out"
+                                  zIndex={-1}
+                                />
+                              </ListItem>
+                            );
+                          })}
+                      </List>
                     </Box>
                   );
                 })}
@@ -379,6 +345,7 @@ interface EventPopoverType {
   start: string;
   end: string;
   description: string;
+  cover?: string;
   htmlLink: string;
   location: string;
   addToCalUrl: string;
@@ -389,13 +356,14 @@ const EventPopover = ({
   start,
   end,
   description,
+  cover,
   htmlLink,
   location,
   addToCalUrl,
 }: EventPopoverType) => (
   <Portal>
     <PopoverContent
-      backgroundColor="purpleTag70"
+      bgColor="darkPurpleAlpha.200"
       backdropFilter="blur(10px)"
       boxShadow="0 0 10px rgba(0,0,0,0.3)"
       borderWidth={0}
@@ -406,85 +374,118 @@ const EventPopover = ({
         },
       }}
     >
-      <Box
-        bg="transparent"
-        borderWidth={0}
-        position="absolute"
-        left={-1}
-        top={0}
-        width="100%"
-        textAlign="center"
-      >
-        <Image
-          src="/assets/logo.png"
-          minH="15px"
-          minW="12px"
-          maxH="15px"
-          mx="auto"
-          transform="translateY(-7px)"
+      <Box role="group" position="relative" w="full" h="full">
+        <PopoverCloseButton
+          zIndex={3}
+          top={'calc(var(--chakra-space-2) + 1px)'}
         />
-      </Box>
-      <PopoverCloseButton />
-      <PopoverHeader
-        borderColor="cyanText"
-        borderBottomWidth={1}
-        fontWeight="600"
-        fontFamily="exo"
-      >
-        {title}
-      </PopoverHeader>
-      <PopoverBody>
+        <PopoverHeader
+          position={'relative'}
+          borderColor="whiteAlpha.300"
+          borderBottomWidth={1}
+          fontWeight="600"
+          fontFamily="exo"
+          zIndex={2}
+        >
+          {title}
+        </PopoverHeader>
+        <PopoverBody position="relative" zIndex={2}>
+          <Box
+            as="dl"
+            maxH={'200px'}
+            overflowY="auto"
+            pr={2}
+            sx={{
+              dt: {
+                fontSize: 'sm',
+                fontWeight: '600',
+              },
+            }}
+          >
+            <Box as="dt">Time</Box>
+            <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
+              {`${start} – ${end}`}
+            </Box>
+            {description && (
+              <Box>
+                <Box as="dt">Description</Box>
+                <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
+                  {safelyParseContent(description)}
+                </Box>
+              </Box>
+            )}
+            {location && (
+              <Box>
+                <Box as="dt">Location</Box>
+                <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
+                  {location}
+                </Box>
+              </Box>
+            )}
+          </Box>
+        </PopoverBody>
+        <PopoverFooter position="relative" borderTopWidth={0} zIndex={2}>
+          <ButtonGroup
+            variant="ghost"
+            colorScheme="cyan"
+            justifyContent="space-between"
+            w="full"
+          >
+            <Button
+              as={MetaLink}
+              aria-label="Add to your calendar"
+              fontSize="sm"
+              href={addToCalUrl}
+              leftIcon={<CalendarAddIcon />}
+              isExternal
+            >
+              Add to my calendar
+            </Button>
+            <Button
+              aria-label="View calendar"
+              as={MetaLink}
+              fontSize="sm"
+              href={htmlLink}
+              isExternal
+              leftIcon={<ExternalLinkIcon />}
+            >
+              View full event
+            </Button>
+          </ButtonGroup>
+        </PopoverFooter>
         <Box
-          as="dl"
+          position="absolute"
+          borderRadius="md"
+          overflow={'hidden'}
+          inset={0}
+          zIndex={0}
           sx={{
-            dt: {
-              fontSize: 'sm',
-              fontWeight: '600',
+            '&::after': {
+              position: 'absolute',
+              content: '""',
+              boxShadow:
+                '0 0 80px 10px var(--chakra-colors-darkPurpleAlpha-900) inset',
+              w: 'full',
+              h: 'full',
+              inset: 0,
+              opacity: cover ? 0.8 : 0.7,
+              zIndex: 1,
             },
           }}
         >
-          <Box as="dt">Date &amp; Time</Box>
-          <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
-            {`${start} – ${end}`}
-          </Box>
-          {description && (
-            <Box>
-              <Box as="dt">Description</Box>
-              <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
-                <MarkdownViewer>{description}</MarkdownViewer>
-              </Box>
-            </Box>
-          )}
-          {location && (
-            <Box>
-              <Box as="dt">Location</Box>
-              <Box as="dd" fontWeight="400" fontFamily="body" fontSize="xs">
-                {location}
-              </Box>
-            </Box>
+          {cover && (
+            <Image
+              src={cover}
+              alt={title}
+              objectFit="cover"
+              h="full"
+              w="auto"
+              opacity={0.2}
+              zIndex={0}
+            />
           )}
         </Box>
-      </PopoverBody>
-      <PopoverFooter borderTopWidth={0}>
-        <ButtonGroup variant="ghost" colorScheme="cyan">
-          <IconButton
-            as={MetaLink}
-            aria-label="Add to your calendar"
-            fontSize="lg"
-            href={addToCalUrl}
-            icon={<CalendarAddIcon />}
-            isExternal
-          />
-          <IconButton
-            aria-label="View calendar"
-            as={MetaLink}
-            fontSize="lg"
-            href={htmlLink}
-            isExternal
-            icon={<ExternalLinkIcon />}
-          />
-        </ButtonGroup>
-      </PopoverFooter>
+      </Box>
     </PopoverContent>
   </Portal>
 );
