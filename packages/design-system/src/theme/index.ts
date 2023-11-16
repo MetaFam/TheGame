@@ -130,13 +130,12 @@ export const theme = extendTheme(
       Modal: {
         defaultProps: {
           isCentered: true,
-          scrollBehavior: 'inside',
+          scrollBehavior: 'outside',
           size: '5xl',
         },
         baseStyle: {
           dialogContainer: {
             alignItems: 'center',
-            overflow: 'hidden',
           },
           header: {
             fontSize: ['2rem', '2rem', '2.5rem'],
@@ -156,7 +155,6 @@ export const theme = extendTheme(
             ml: 4,
             mr: 4,
             maxW: 'xl',
-            maxH: 'calc(100% - 10rem)',
             p: [2, 2, 4, 8],
             ...modalContentStyles,
           },
