@@ -30,13 +30,13 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   const displayElement = noMotion ? true : !!onScreen;
 
   const sentences = [
-    'an infinite game',
-    'a real-life MMO-RPG',
-    'about finding the most optimal ways to play life',
-    'an ecosystem of people, projects & resources',
-    'a game of life',
-    'a game that builds itself',
-    'a layer above nation states & network states',
+    'an infinite game.',
+    'a real-life MMO-RPG.',
+    'about finding the most optimal ways to play life.',
+    'an ecosystem of people, projects & resources.',
+    'a game of life.',
+    'a game that builds itself.',
+    'a layer above nation states & network states.',
     'wondering why are you still here instead of progressing???'
   ];
 
@@ -46,30 +46,27 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
 
   // typeWriter effect
   useEffect(() => {
-    if (index === sentences.length) {
-      setIndex(0);
-      return;
+    if (onScreen) {
+      if (subIndex === sentences[index % sentences.length].length + 1 && !reverse) {
+        setTimeout(() => {
+          setReverse(true);
+        }, 500); // delay before start deleting
+        return;
+      }
+
+      if (subIndex === 0 && reverse) {
+        setReverse(false);
+        setIndex((prevIndex) => (prevIndex + 1) % sentences.length);
+        return;
+      }
+
+      const timeout = setTimeout(() => {
+        setSubIndex((prevSubIndex) => prevSubIndex + (reverse ? -1 : 1));
+      }, 150);
+
+      return () => clearTimeout(timeout);
     }
-
-    if (subIndex === sentences[index].length + 1 &&
-      index !== sentences.length - 1 &&
-      !reverse) {
-      setReverse(true);
-      return;
-    }
-
-    if (subIndex === 0 && reverse) {
-      setReverse(false);
-      setIndex((prevIndex) => prevIndex + 1);
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      setSubIndex((prevSubIndex) => prevSubIndex + (reverse ? -1 : 1));
-    }, 150);
-
-    return () => clearTimeout(timeout);
-  }, [subIndex, index, reverse]);
+  }, [subIndex, index, reverse, onScreen]);
 
   return (
     <FullPageContainer
@@ -131,45 +128,9 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
                   as="span"
                   opacity={displayElement ? 1 : 0}
                 >
-                  {`${sentences[index].substring(0, subIndex)}${subIndex === sentences[index].length ? "|" : ""}`}
+                  {`${sentences[index % sentences.length].substring(0, subIndex)}${subIndex === sentences[index % sentences.length].length + 1 && !reverse ? "|" : ""}`}
                 </Text>
               </Text>
-              {/* <Text
-                fontSize={{ base: 'sm', md: '2xl' }}
-                lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
-                fontWeight="700"
-                mb={{ base: 1, lg: 3 }}
-              >
-                MetaGame is your portal{' '}
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                  transition={noMotion ? 'none' : 'opacity 0.5s 0.9s ease-in'}
-                >
-                  into{' '}
-                </Text>
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                  transition={noMotion ? 'none' : 'opacity 0.5s 1.2s ease-in'}
-                >
-                  the{' '}
-                </Text>
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                  transition={noMotion ? 'none' : 'opacity 0.5s 1.5s ease-in'}
-                >
-                  DAOverse
-                </Text>
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                  transition={noMotion ? 'none' : 'opacity 0.5s 1.8s ease-in'}
-                >
-                  .
-                </Text>
-              </Text> */}
               <StartButton text="Join" />
             </Box>
             <Box position="relative" padding={{ base: 2, md: 10 }}>
