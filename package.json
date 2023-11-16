@@ -13,7 +13,7 @@
     "docker:build": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
-    "docker:dev": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up --build",
+    "docker:dev": "DOCKER_BUILDKIT=1 docker compose up --build",
     "build": "lerna run --concurrency 1 --stream build",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --include-dependencies",
     "web:build": "lerna run build --scope @metafam/web --include-dependencies --stream",
@@ -102,7 +102,9 @@
     "ethers": "5.7.0",
     "graphql": "16.8.0",
     "multihashes": "4.0.3",
-    "@urql/core": "3.2.2"
+    "@urql/core": "3.2.2",
+    "node-gyp": "10.0.1",
+    "better-sqlite3": "9.0.0"
   },
   "browserslist": [
     "defaults",

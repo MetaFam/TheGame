@@ -32,9 +32,6 @@ env:
   HASURA_SECRET: metagame_secret
   GA4_ID: G-B1NKK3Q1BP
   APP_ENV: development
-  GOOGLE_CAL_PROJECT_NUMBER: 510169944888
-  GOOGLE_CAL_CLIENT_EMAIL: metagamecalwebsite@metagamecal.iam.gserviceaccount.com
-  GOOGLE_CAL_CALENDAR_ID: nih59ktgafmm64ed4qk6ue8vv4
 
 jobs:
   start-deployment:
@@ -103,9 +100,6 @@ jobs:
       HASURA_TAG: ${{env.HASURA_TAG}}
       FRONTEND_TAG: ${{env.FRONTEND_TAG}}
       FRONTEND_TARGET: ${{env.FRONTEND_TARGET}}
-      GOOGLE_CAL_PROJECT_NUMBER: ${{env.GOOGLE_CAL_PROJECT_NUMBER}}
-      GOOGLE_CAL_CLIENT_EMAIL: ${{env.GOOGLE_CAL_CLIENT_EMAIL}}
-      GOOGLE_CAL_CALENDAR_ID: ${{env.GOOGLE_CAL_CALENDAR_ID}}
 
     steps:
       - name: First Intepolation of Variables
@@ -255,23 +249,18 @@ jobs:
     needs: [env, delete-backend, undeploy-backend]
 
     steps:
-      - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v3
-        with:
-          ref: ${{github.event.pull_request.head.sha}}
-
       - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
       - name: "Build & Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           file: docker/backend/Dockerfile
           tags: ${{needs.env.outputs.BACKEND_TAG}}
@@ -367,17 +356,17 @@ jobs:
           ref: ${{github.event.pull_request.head.sha}}
 
       - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
       - name: "Build & Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           file: hasura/Dockerfile
           context: hasura
@@ -465,23 +454,18 @@ jobs:
     needs: [env, delete-frontend, undeploy-frontend, deploy-hasura, seed-db]
 
     steps:
-      - name: "Checkout: ${{github.event.pull_request.head.label}}"
-        uses: actions/checkout@v3
-        with:
-          ref: ${{github.event.pull_request.head.sha}}
-
       - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
       - name: "Build & Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           file: docker/frontend/Dockerfile
           tags: ${{needs.env.outputs.FRONTEND_TAG}}
@@ -494,8 +478,10 @@ jobs:
             IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
             WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}}
             OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
-            GOOGLE_CAL_API_KEY=${{secrets.GOOGLE_CAL_API_KEY}}
-            GOOGLE_CAL_PRIVATE_KEY=${{secrets.GOOGLE_CAL_PRIVATE_KEY}}
+            GCAL_PRIVATE_KEY=${{secrets.GCAL_PRIVATE_KEY}}
+            GCAL_PROJECT_NUMBER=${{secrets.GCAL_PROJECT_NUMBER}}
+            GCAL_CLIENT_EMAIL=${{secrets.GCAL_CLIENT_EMAIL}}
+            GCAL_CALENDAR_ID=${{secrets.GCAL_CALENDAR_ID}}
           push: true
 
   deploy-frontend:
@@ -527,7 +513,12 @@ jobs:
             --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '5Gi' || '512Mi'}} \
             --ingress all \
             --max-instances 1 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --set-env-vars GCAL_PRIVATE_KEY="${{secrets.GCAL_PRIVATE_KEY}}" \
+            --set-env-vars GCAL_PROJECT_NUMBER="${{secrets.GCAL_PROJECT_NUMBER}}" \
+            --set-env-vars GCAL_CLIENT_EMAIL="${{secrets.GCAL_CLIENT_EMAIL}}" \
+            --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}"
+
 
   seed-db:
     name: Seed Database

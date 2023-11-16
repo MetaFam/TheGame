@@ -7,11 +7,11 @@
 # site or dev environment respectively.
 ARG TARGET=production
 
-FROM node:16-slim AS base
+FROM node:20-slim AS base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
-RUN apt-get update && apt-get install -y --no-install-recommends g++ make python git ca-certificates
+RUN apt-get update && apt-get install -y --no-install-recommends g++ make python3 git ca-certificates
 
 # Install dependencies for dev and prod
 COPY package.json ./
@@ -51,6 +51,10 @@ ARG USERBACK_TOKEN
 ARG CERAMIC_URL https://ceramic.metagame.wtf
 ARG WEB3_STORAGE_TOKEN
 ARG OPENSEA_API_KEY
+ARG GCAL_CALENDAR_ID
+ARG GCAL_PRIVATE_KEY
+ARG GCAL_CLIENT_EMAIL
+ARG GCAL_PROJECT_NUMBER
 
 # ARGs are not available at runtime, so define ENV variables
 # These ENVs should match the --set-env-vars in `.github/workflows/gcp-deploy.yaml`
@@ -63,9 +67,13 @@ ENV NEXT_PUBLIC_YOUTUBE_API_KEY $YOUTUBE_API_KEY
 ENV NEXT_PUBLIC_HONEYBADGER_API_KEY $HONEYBADGER_API_KEY
 ENV NEXT_PUBLIC_USERBACK_TOKEN $USERBACK_TOKEN
 ENV NEXT_PUBLIC_CERAMIC_URL $CERAMIC_URL
+ENV NEXT_PUBLIC_GCAL_CALENDAR_ID $GCAL_CALENDAR_ID
 # These are not exposed to the browser
 ENV WEB3_STORAGE_TOKEN $WEB3_STORAGE_TOKEN
 ENV OPENSEA_API_KEY $OPENSEA_API_KEY
+ENV GCAL_PRIVATE_KEY $GCAL_PRIVATE_KEY
+ENV GCAL_CLIENT_EMAIL $GCAL_CLIENT_EMAIL
+ENV GCAL_PROJECT_NUMBER $GCAL_PROJECT_NUMBER
 
 ONBUILD RUN yarn web:build
 # Delete devDependencies
@@ -77,7 +85,7 @@ ONBUILD RUN yarn web:deps:build
 FROM "build-$TARGET" as built
 
 # New stage including only necessary files
-FROM node:16-slim AS app
+FROM node:20-slim AS app
 WORKDIR /app
 
 # Copy necessary files into the stage

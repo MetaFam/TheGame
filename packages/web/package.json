@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"next\" \"yarn generate --watch\"",
-    "build": "yarn generate:graphql && next build",
+    "build": "yarn generate:graphql && NODE_OPTIONS='--max-old-space-size=5120' next build",
     "start": "next start",
     "typecheck": "tsc --noEmit --pretty",
     "generate": "yarn generate:graphql",
