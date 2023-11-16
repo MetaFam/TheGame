@@ -3,26 +3,27 @@ import { CONFIG } from 'config';
 import { DateTime } from 'luxon';
 import { useCallback, useEffect, useState } from 'react';
 
-type GoogleCalEventDateTimeType =
+export type GoogleCalEventDateTimeType =
+  | {
+      date: string;
+    }
   | {
       dateTime: string;
       timeZone: string;
-    }
-  | {
-      date: string;
     };
 
 export type GoogleCalEventType = {
   id: string;
   summary: string;
   description: string;
+  cover?: string;
   start: GoogleCalEventDateTimeType;
   end: GoogleCalEventDateTimeType;
   htmlLink: string;
   location: string;
 };
 
-type UseCalendarReturnTypes = {
+export type UseCalendarReturnTypes = {
   events: Maybe<GoogleCalEventType[]>;
   timeZone: TimeZonesType;
   fetching: boolean;
@@ -32,7 +33,6 @@ type UseCalendarReturnTypes = {
   totalEvents: number;
   limit: number;
   setLimit: (limit: number) => void;
-  cleanDescription: (desc: string) => string;
   buildAddToCalendarLink: (event: GoogleCalEventType) => string;
 };
 
@@ -41,12 +41,12 @@ type TimeZonesType = {
   calendar: string;
 };
 
-type GroupedEventsType = {
+export type GroupedEventsType = {
   date: string;
   events: GoogleCalEventType[];
 };
 
-type CalendarDataType = {
+export type CalendarDataType = {
   events: Maybe<GoogleCalEventType[]>;
   days: GroupedEventsType[];
   timeZone: TimeZonesType;
@@ -59,7 +59,10 @@ type CalendarDataType = {
  * @returns calendar data (events, timezone, fetching, error, ics, eventsGroupedByDay, totalEvents, limit, setLimit)
  */
 export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
-  const { metagameCalendarBackend, calendarId } = CONFIG;
+  const {
+    calendarEndpoint,
+    gcal: { calendarId },
+  } = CONFIG;
   const [calendarData, setCalendarData] = useState<CalendarDataType>({
     events: null,
     days: [],
@@ -71,32 +74,82 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
   });
   const [limit, setLimit] = useState<number>(clamp || 0);
   const [fetching, setFetching] = useState(false);
-  const [error, setError] = useState<Error | undefined>(undefined);
+  const [error, setError] = useState<Error>();
   const calendarICS = `https://calendar.google.com/calendar/ical/${calendarId}%40group.calendar.google.com/public/basic.ics`;
 
-  // strip out the +++cover+++ from the description
-  const cleanDescription = (desc: string) =>
-    desc ? desc.replace(/(\+\+\+).*(\+\+\+)/, '') : '';
+  /**
+   * sanitize the description & get the cover image url if there is one and return the url & sanitized description
+   */
+  const cleanDescription = (
+    desc: string,
+  ): { cover?: string; description: string; originalDesc?: string } => {
+    if (!desc) {
+      return {
+        cover: undefined,
+        description: '',
+        originalDesc: desc,
+      };
+    }
+
+    function extractCoverUrl(input: string) {
+      const splitInput = input.split('+++<br>');
+      const coverSection = splitInput.length > 1 ? splitInput[1] : null;
+      const urlRegex = /(https?:\/\/[^"\s<]+)/g;
+
+      let coverUrl;
+      const modifiedInput = splitInput[0];
+
+      if (coverSection) {
+        const urls = coverSection.match(urlRegex);
+        if (urls && urls.length) {
+          coverUrl = urls.at(-1);
+        }
+      }
+
+      return {
+        coverUrl,
+        modifiedInput,
+      };
+    }
+
+    const { coverUrl, modifiedInput } = extractCoverUrl(desc);
+
+    const cleanRegex =
+      /(^(?:<br>)+|(?:<br>)+$|(?:<br>){2,})|(?:<\w+><\/\w+>\s*)+/g;
+    const cleanedDesc = modifiedInput.replace(cleanRegex, '');
+
+    return {
+      cover: coverUrl,
+      description: cleanedDesc,
+      originalDesc: desc,
+    };
+  };
 
   /**
-   * Builds a google calendar event url for adding to your calendar
+   * Builds a google calendar event url for adding to users calendar
    * */
   const buildAddToCalendarLink = (event: GoogleCalEventType) => {
-    const start =
-      'dateTime' in event.start
-        ? DateTime.fromISO(event.start.dateTime)
-        : DateTime.fromISO(event.start.date);
-    const end =
-      'dateTime' in event.end
-        ? DateTime.fromISO(event.end.dateTime)
-        : DateTime.fromISO(event.end.date);
+    const start = DateTime.fromISO(
+      'dateTime' in event.start ? event.start.dateTime : event.start.date,
+    );
+    const end = DateTime.fromISO(
+      'dateTime' in event.end ? event.end.dateTime : event.end.date,
+    );
     const title = event.summary;
     const { location } = event;
-    const details = `${cleanDescription(event.description)}`;
+
+    const details = `${
+      cleanDescription(event.description).description
+    } \n\n<a href="${event.htmlLink}">MetaGame calendar event link</a>`;
     const dates = `${start.toFormat('yyyyMMdd')}T${start.toFormat(
       'HHmmss',
     )}/${end.toFormat('yyyyMMdd')}T${end.toFormat('HHmmss')}`;
-    const href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}&sf=true&output=xml`;
+    const href =
+      'https://www.google.com/calendar/render' +
+      `?action=TEMPLATE&text=${title}&dates=${dates}` +
+      `&details=${encodeURIComponent(details)}&location=${location}` +
+      '&sf=true&output=xml';
+
     return href;
   };
 
@@ -105,22 +158,60 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
       if (calendarData.days.length > 0) return;
       setFetching(true);
 
-      const res = await fetch(metagameCalendarBackend);
+      const res = await fetch(calendarEndpoint);
       const data = await res.json();
-      const { days, events: fetchedEvents } = data;
+      const { days, events: fetchedEvents, error: errorMsg } = data;
 
       if (res.status !== 200 || !data) {
-        throw new Error('Error fetching data');
+        throw new Error(errorMsg || 'Error fetching calendar data.');
       }
 
       const usersTimeZone =
         DateTime.local().offsetNameShort || fetchedEvents.timeZone;
+
+      // Sanitize the events descriptions & get the cover image url if there is one
+      const sanitizedEvents = fetchedEvents.items.map(
+        (event: GoogleCalEventType) => {
+          const { description } = event;
+          const { cover, description: cleanedDesc } =
+            cleanDescription(description);
+          return {
+            ...event,
+            description: cleanedDesc,
+            cover,
+          };
+        },
+      );
+
+      // Sanitize the grouped events descriptions & get the cover image url if there is one
+      const sanitizedDays = days.map((day: GroupedEventsType) => {
+        const { events } = day;
+        const cleanedEvents = events.map((event: GoogleCalEventType) => {
+          const { description } = event;
+          const { cover, description: cleanedDesc } =
+            cleanDescription(description);
+          return {
+            ...event,
+            description: cleanedDesc,
+            cover,
+          };
+        });
+        return {
+          ...day,
+          events: cleanedEvents,
+        };
+      });
+
       const calValues: CalendarDataType = {
         events: fetchedEvents.items,
-        days,
-        timeZone: { users: usersTimeZone, calendar: fetchedEvents.timeZone },
-        totalEvents: fetchedEvents.items.length,
+        days: sanitizedDays,
+        timeZone: {
+          users: usersTimeZone,
+          calendar: fetchedEvents.timeZone,
+        },
+        totalEvents: sanitizedEvents.length,
       };
+
       setCalendarData(calValues);
 
       setError(undefined);
@@ -130,7 +221,7 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     } finally {
       setFetching(false);
     }
-  }, [metagameCalendarBackend, calendarData]);
+  }, [calendarData, calendarEndpoint]);
 
   useEffect(() => {
     if (calendarData.days.length > 0) {
@@ -139,10 +230,10 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     }
 
     fetchCalendarData();
-  }, [metagameCalendarBackend, calendarData, fetchCalendarData]);
+  }, [calendarData, fetchCalendarData]);
 
   if (error) {
-    console.error('useCalendar error', error);
+    console.error({ 'useCalendar error': error });
   }
 
   return {
@@ -153,7 +244,6 @@ export const useCalendar = (clamp?: number): UseCalendarReturnTypes => {
     ics: calendarICS,
     eventsGroupedByDay: calendarData.days,
     totalEvents: calendarData.totalEvents,
-    cleanDescription,
     buildAddToCalendarLink,
     limit,
     setLimit,

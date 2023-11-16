@@ -23,11 +23,21 @@ export const CONFIG = {
     'https://ceramic-clay.3boxlabs.com', // testnet
   ceramicNetwork:
     process.env.NEXT_PUBLIC_CERAMIC_NETWORK || 'mainnet' || 'testnet-clay',
-  calendarId: process.env.NEXT_PUBLIC_GOOGLE_CAL_CALENDAR_ID,
   googleDataAPIKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
   openseaAPIKey: process.env.OPENSEA_API_KEY,
   alchemyAPIKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
   mainnetRPC: process.env.NEXT_PUBLIC_MAINNET_RPC || 'https://eth.llamarpc.com',
-  metagameCalendarBackend: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/events`,
+  calendarEndpoint: '/api/events',
+  gcal: {
+    calendarId: process.env.NEXT_PUBLIC_GCAL_CALENDAR_ID,
+    privateKey: process.env.GCAL_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    clientEmail: process.env.GCAL_CLIENT_EMAIL,
+    projectNumber: process.env.GCAL_PROJECT_NUMBER,
+    scopes: ['https://www.googleapis.com/auth/calendar'],
+    whitelist: [
+      'https://*.metagame.wtf',
+      'https://frontend-pr-*-mjhnbmqqna-uk.a.run.app',
+    ],
+  },
 };
