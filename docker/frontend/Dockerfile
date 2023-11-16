@@ -26,7 +26,6 @@ COPY packages/web/graphql ./packages/web/graphql/
 COPY packages/utils/*.json ./packages/utils/
 COPY packages/design-system/*.json ./packages/design-system/
 
-RUN yarn policies set-version 1.15.2
 RUN yarn install --pure-lockfile
 
 FROM base AS build
