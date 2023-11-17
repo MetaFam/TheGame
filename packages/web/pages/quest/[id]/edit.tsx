@@ -7,7 +7,7 @@ import {
   QuestFragment,
   useUpdateQuestMutation,
 } from 'graphql/autogen/types';
-import { getSsrClient } from 'graphql/client';
+import { getSSRClient } from 'graphql/client';
 import { getQuest } from 'graphql/getQuest';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { getSkills } from 'graphql/queries/enums/getSkills';
@@ -138,7 +138,7 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
-  const [ssrClient] = getSsrClient();
+  const [ssrClient] = getSSRClient();
   const id = context.params?.id;
 
   const quest = await getQuest(id, ssrClient);

@@ -6,7 +6,7 @@ import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
 import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
-import { getSsrClient } from 'graphql/client';
+import { getSSRClient } from 'graphql/client';
 import {
   getPlayerFilters,
   getPlayersWithCount,
@@ -16,6 +16,7 @@ import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useMemo, useRef } from 'react';
+import { SSRData } from 'urql';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -23,7 +24,7 @@ export const getStaticProps = async (): Promise<{
   props: { urqlState?: any };
   revalidate: 1;
 }> => {
-  const [ssrClient, ssrCache] = getSsrClient();
+  const [ssrClient, ssrCache] = getSSRClient();
 
   // This populates the cache server-side
   const { error } = await getPlayersWithCount(undefined, ssrClient);
