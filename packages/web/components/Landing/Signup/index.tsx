@@ -1,4 +1,23 @@
-import { Box, Button, Container, Flex, Image, ListItem, MetaButton, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, UnorderedList, useBreakpointValue, useMultiStyleConfig, useTab, VStack } from '@metafam/ds';
+import {
+  Box,
+  Button,
+  Container,
+  Flex, Image,
+  ListItem,
+  MetaButton,
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  UnorderedList,
+  VStack,
+  useBreakpointValue,
+  useMultiStyleConfig,
+  useTab
+} from '@metafam/ds';
 import GuildsImg from 'assets/guilds-sun_800x800.webp';
 import PatronsImg from 'assets/patrons-sun_800x820.webp';
 import PlayerImg from 'assets/players-sun_800x822.webp';
@@ -7,10 +26,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-
 import { Rain } from '../OnboardingGame/Rain';
 import { PerksCard, RoleCard } from './Cards';
-import { guildPerks, guildReasons, patronPerks, patronReasons, playerPerks, playerReasons, roles, RoleTitle } from './data';
+import { RoleTitle, guildPerks, guildReasons, patronPerks, patronReasons, playerPerks, playerReasons, roles } from './data';
 
 const tabs = ['Player', 'Guild', 'Patron'];
 const bgColors = ['green.200', '#6A88DF', '#ED61C5'];

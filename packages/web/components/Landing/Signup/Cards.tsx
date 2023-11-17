@@ -17,6 +17,7 @@ import React from 'react';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
 import { MdChevronRight } from 'react-icons/md';
+
 import { RoleTitle } from './data';
 
 export interface Perk {
