@@ -40,12 +40,12 @@ export const ConfirmModal: React.FC<Props> = ({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            {header || ' Are you sure ?'}
+            {header || 'Are you sure ?'}
           </AlertDialogHeader>
 
           {body && <AlertDialogBody>{body}</AlertDialogBody>}
 
-          <AlertDialogFooter>
+          <AlertDialogFooter justifyContent="center">
             <MetaButton
               ref={cancelRef}
               onClick={onNope}
