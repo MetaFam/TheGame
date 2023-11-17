@@ -15,7 +15,7 @@ import { MetaLink } from 'components/Link';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import Script from 'next/script';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { LandingFooter } from './LandingFooter';
@@ -29,7 +29,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
 
-  const sentences = [
+  const sentences = useMemo(() => [
     'an infinite game.',
     'a real-life MMO-RPG.',
     'about finding the most optimal ways to play life.',
@@ -38,7 +38,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
     'a game that builds itself.',
     'a layer above nation states & network states.',
     'wondering why are you still here instead of progressing???'
-  ];
+  ], []);
 
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
@@ -50,14 +50,14 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
       if (subIndex === sentences[index % sentences.length].length + 1 && !reverse) {
         setTimeout(() => {
           setReverse(true);
-        }, 500); // delay before start deleting
-        return;
+        }, 500); // delay cursor before deleting sentence
+        return undefined;
       }
 
       if (subIndex === 0 && reverse) {
         setReverse(false);
         setIndex((prevIndex) => (prevIndex + 1) % sentences.length);
-        return;
+        return undefined;
       }
 
       const timeout = setTimeout(() => {
@@ -66,7 +66,8 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
 
       return () => clearTimeout(timeout);
     }
-  }, [subIndex, index, reverse, onScreen]);
+    return undefined;
+  }, [subIndex, index, reverse, onScreen, sentences]);
 
   return (
     <FullPageContainer
