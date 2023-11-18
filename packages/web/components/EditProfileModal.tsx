@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   Box,
   Button,
@@ -104,9 +103,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   onSave,
 }) => {
   const [status, setStatus] = useState<Maybe<ReactElement | string>>();
-
-  const username = player.profile?.username;
-
+  const { username } = player.profile ?? {};
   const { save } = useSaveToComposeDB();
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
 
@@ -296,7 +293,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           <FormProvider {...formMethods}>
-            <Grid templateColumns={['1fr']} gap={6} p={[0, 8]}>
+            <Grid templateColumns="1fr" gap={6} p={[0, 8]}>
               <GridItem flex={1} alignItems="center" h="10em">
                 <EditAvatarImage
                   ref={imageFieldRefs.profileImageURL}

@@ -27,13 +27,8 @@ export const getENSForAddress = async (address: string | undefined) => {
 };
 
 export const getENSAndPlayer = async (username: string) => {
-  if (username == null) {
-    return null;
-  }
-
-  let userAddress: string | undefined;
-
-  if (username.includes('.')) {
+  let userAddress;
+  if (username?.includes('.')) {
     const address = await getAddressForENS(username);
     userAddress = address?.toLowerCase();
   }

@@ -13,6 +13,7 @@ import {
   Spinner,
   Text,
   Textarea,
+  useToast,
   VStack,
 } from '@metafam/ds';
 import FileOpenIcon from 'assets/file-open-icon.svg';
@@ -21,15 +22,16 @@ import { MetaLink } from 'components/Link';
 import {
   GuildDaoInput,
   GuildFragment,
-  GuildType_Enum,
-  Maybe,
   GuildType_ActionEnum,
+  GuildType_Enum,
   LinkType_Enum,
+  Maybe,
+  Player,
   useAddGuildLinkMutation,
   useAddGuildMemberMutation,
-  Player,
 } from 'graphql/autogen/types';
 import { useImageReader } from 'lib/hooks/useImageReader';
+import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import {
   Controller,
@@ -37,10 +39,8 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
-import { uploadFile } from 'utils/uploadHelpers';
-import { useToast } from '@metafam/ds';
 import { errorHandler } from 'utils/errorHandler';
-import { useRouter } from 'next/router';
+import { uploadFile } from 'utils/uploadHelpers';
 
 const validations = {
   guildname: {
@@ -108,7 +108,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   success,
   submitting,
   player,
-  hydratePlayer
+  hydratePlayer,
 }) => {
   const readFile = useImageReader();
   const toast = useToast();
@@ -165,7 +165,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         discordInviteUrl,
         joinUrl,
       } = createUnverifiedGuild;
-      
+
       let newLogoUrl = logoUrl;
 
       if (logoFile?.[0]) {
@@ -186,7 +186,16 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
       }
 
       try {
-        const response: any = await onSubmit({ guildname, name, description, logo: newLogoUrl, websiteUrl, joinUrl, type, legitimacy: 'UNVERIFIED' });
+        const response: any = await onSubmit({
+          guildname,
+          name,
+          description,
+          logo: newLogoUrl,
+          websiteUrl,
+          joinUrl,
+          type,
+          legitimacy: 'UNVERIFIED',
+        });
         const saveGuildResponse = response.data.insert_guild.returning[0].id;
 
         if (saveGuildResponse) {
@@ -201,44 +210,41 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             playerId: player?.id,
             guildId: saveGuildResponse,
           });
-          if (twitterUrl, discordInviteUrl, githubUrl) {
-            const twitterGuildLink = {
+          if (twitterUrl) {
+            await addLink({
               guildId: saveGuildResponse,
               name: 'Find Us On Twitter',
               url: twitterUrl,
               type: 'TWITTER' as LinkType_Enum,
-            };
-            await addLink(twitterGuildLink);
-  
-            const discordGuildLink = {
+            });
+          }
+          if (discordInviteUrl) {
+            await addLink({
               guildId: saveGuildResponse,
               name: 'Join Us On Discord',
               url: discordInviteUrl,
               type: 'DISCORD' as LinkType_Enum,
-            };
-            await addLink(discordGuildLink);
-  
-            const githubGuildLink = {
+            });
+          }
+          if (githubUrl) {
+            await addLink({
               guildId: saveGuildResponse,
               name: 'Find Us On Github',
               url: githubUrl,
               type: 'GITHUB' as LinkType_Enum,
-            };
-            await addLink(githubGuildLink);
+            });
           }
-          
-
         }
-        hydratePlayer()
+        hydratePlayer();
         setIsSubmitting(false);
       } catch (error) {
-        console.error('error', error);
+        console.error({ error });
         toast({
-          title: 'Error while saving guild information',
+          title: 'Error Saving Guild',
           description:
             // response?.error?.message ||
             // saveGuildResponse?.error ||
-            'unknown error',
+            (error as Error).message ?? 'unknown error',
           status: 'error',
           isClosable: true,
           duration: 10000,
@@ -246,7 +252,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
       }
       setIsSubmitting(false);
     },
-    [router, toast, onSubmit],
+    [toast, onSubmit, hydratePlayer, addGuildMember, player?.id, addLink],
   );
 
   return (

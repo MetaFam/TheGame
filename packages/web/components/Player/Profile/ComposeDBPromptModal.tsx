@@ -152,9 +152,9 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
                 The previous version of MyMeta used an old version of Ceramic
                 that is no longer supported. We have since ported MyMeta
                 Profiles to store data in ComposeDB. Unfortunately, there is no
-                way to automatically port your existing data to ComposeDB -- you
+                way to automatically port your existing data to ComposeDB ― you
                 must explicitly opt in. However, ComposeDB allows data
-                portability -- for example, another web3 application that you
+                portability ― for example, another web3 application that you
                 trust (and explicitly authorize) could pull in your MyMeta data
                 automatically! This opens up the ability for you to be able to
                 enter your profile information in <em>one place</em> instead of
@@ -201,14 +201,13 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
         </ModalBody>
         <ModalFooter justifyContent="center">
           {chainId === '0x1' ? (
-            <>
-              <MetaButton disabled={!areImagesLoaded} onClick={onClick}>
-                {status}
-              </MetaButton>
-            </>
+            <MetaButton disabled={!areImagesLoaded} {...{ onClick }}>
+              {status}
+            </MetaButton>
           ) : (
             <Text fontSize="md" w="100%" textAlign="center">
-              Please switch to <SwitchNetworkButton chainId="0x1" /> to progress
+              Please switch to <SwitchNetworkButton chainId="0x1" /> to
+              progress.
             </Text>
           )}
         </ModalFooter>

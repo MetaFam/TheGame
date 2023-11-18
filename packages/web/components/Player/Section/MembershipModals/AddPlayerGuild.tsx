@@ -23,62 +23,60 @@ export const AddPlayerGuild: React.FC<{
 }> = ({ isOpen, onClose, player, hydratePlayer }) => {
   const [addUnverifiedGuildView, setAddUnverifiedGuildView] =
     React.useState(false);
-
   const [, addUnverifiedGuild] = useAddUnverifiedGuildMutation();
 
   return (
-    <Modal {...{ isOpen, onClose }} scrollBehavior="inside">
+    <Modal {...{ isOpen, onClose }}>
       <ModalOverlay />
       <ModalContent>
-        <>
-          <ModalHeader>
-            Add Guild Membership
-            <Text
-              fontStyle="italic"
-              color="gray.400"
-              textAlign="center"
-              fontSize="md"
-              mt={3}
-              mb={10}
-            >
-              {addUnverifiedGuildView
-                ? 'Create new guild'
-                : 'Search for a Guild'}
-            </Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody p={[0, 6]}>
-            {addUnverifiedGuildView ? (
-              <UnverifiedGuildForm onSubmit={addUnverifiedGuild} player={player} hydratePlayer={hydratePlayer} />
-            ) : (
-              <GuildSearchBar player={player} />
-            )}
-          </ModalBody>
+        <ModalHeader>
+          Add Guild Membership
+          <Text
+            fontStyle="italic"
+            color="gray.400"
+            textAlign="center"
+            fontSize="md"
+            mt={3}
+            mb={10}
+          >
+            {addUnverifiedGuildView ? 'Create new Guild' : 'Search for a Guild'}
+          </Text>
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody p={[0, 6]}>
+          {addUnverifiedGuildView ? (
+            <UnverifiedGuildForm
+              onSubmit={addUnverifiedGuild}
+              {...{ player, hydratePlayer }}
+            />
+          ) : (
+            <GuildSearchBar player={player} />
+          )}
 
           {!addUnverifiedGuildView && (
             <Button
               variant="outline"
-              w={{ base: "50%", lg: "20%" }}
-              mt={{ base: 6, lg: 0 }}
-              ml={{ base: "20%", lg: "40%" }}
+              w={{ base: '50%', lg: '20%' }}
+              mt={6}
+              ml={{ base: '20%', lg: '40%' }}
               leftIcon={<AddIcon />}
               onClick={() => setAddUnverifiedGuildView(true)}
             >
               Add New Guild
             </Button>
           )}
-          <ModalFooter mt={6} justifyContent="center">
-            <Button
-              variant="ghost"
-              onClick={onClose}
-              color="landing450"
-              _hover={{ bg: '#FFFFFF11' }}
-              _active={{ bg: '#FF000011' }}
-            >
-              Go Back to Profile
-            </Button>
-          </ModalFooter>
-        </>
+        </ModalBody>
+        <ModalFooter mt={6} justifyContent="center">
+          <Button
+            variant="ghost"
+            onClick={onClose}
+            color="landing450"
+            _hover={{ bg: '#FFFFFF11' }}
+            _active={{ bg: '#FF000011' }}
+          >
+            Go Back to Profile
+          </Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );
