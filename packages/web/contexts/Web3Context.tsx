@@ -198,6 +198,10 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     [provider],
   );
 
+  if (!authToken && connected) {
+    console.warn('`authToken` unset when connected.');
+  }
+
   return (
     <Web3Context.Provider
       value={{

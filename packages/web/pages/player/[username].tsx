@@ -65,9 +65,7 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
   const { data: playerData, isValidating } = useSWR(
     username && username.includes('.') && !playerFromProps ? username : null,
     getENSAndPlayer,
-    {
-      revalidateOnFocus: false,
-    },
+    { revalidateOnFocus: false },
   );
 
   if (router.isFallback || (isValidating && !playerData)) {
@@ -83,7 +81,7 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
       {...{ player }}
       isHydratedAlready={isHydratedFromComposeDB}
     >
-      <PlayerPageContent ens={playerData?.ens || undefined} />
+      <PlayerPageContent ens={playerData?.ens} />
     </PlayerHydrationContextProvider>
   );
 };
@@ -105,7 +103,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     user?.profile?.username === username ||
     user?.ethereumAddress === username;
 
-  // if this is not the current user's page AND there is no player prop (meaning a
+  // If this is not the current user's page AND there is no player prop (meaning a
   // page was not server-side-rendered for this player), AND the path isn't an
   // ENS name, fetch the player
   useEffect(() => {
@@ -124,7 +122,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
 
   // if the username contains a dot, look up the player's ETH address and player with ENS
   const { data: ensAndPlayer, isValidating } = useSWR(
-    username && username.includes('.') ? username : null,
+    username?.includes('.') ? username : null,
     getENSAndPlayer,
     { revalidateOnFocus: false },
   );
@@ -175,8 +173,8 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
   if (isValidating && !player) return <LoadingState />;
 
   if (
-    (!player && username && username.includes('.') && !isValidating) ||
-    (!player && router.pathname === '/me')
+    !player &&
+    ((username?.includes('.') && !isValidating) || router.pathname === '/me')
   ) {
     return <Page404 />;
   }

@@ -31,7 +31,7 @@ export const useUser = ({
   const { authToken, connecting, connected } = useWeb3();
   const router = useRouter();
   const [{ data, error, fetching }] = useGetMeQuery({
-    pause: connecting || !connected || !authToken,
+    pause: !connected,
     requestPolicy,
   });
   const [me] = data?.me ?? [];
@@ -40,10 +40,8 @@ export const useUser = ({
 
   const hasuraUser = useMemo(
     () =>
-      !error && !fetching && authToken && me && connected
-        ? (me.record as Player)
-        : null,
-    [error, authToken, me, connected, fetching],
+      !error && !fetching && me && connected ? (me.record as Player) : null,
+    [error, me, connected, fetching],
   );
 
   const {
@@ -54,29 +52,18 @@ export const useUser = ({
 
   useEffect(() => {
     if (hasuraUser) {
-      if (hasuraUser.ceramicProfileId == null || composeDBError) {
+      if (hasuraUser.ceramicProfileId == null || !!composeDBError) {
         setHydratedPlayer(hasuraUser);
-      } else if (hasuraUser && result) {
+      } else if (result) {
         setHydratedPlayer(hydratePlayerProfile(hasuraUser, result));
       }
     }
   }, [result, hasuraUser, composeDBError]);
 
-  if (error) {
-    console.error('useUser error', error);
-  }
-
-  if (!authToken && connected) {
-    // eslint-disable-next-line no-console
-    console.warn('`authToken` unset when connected');
-  }
-
   useEffect(() => {
-    if (!redirectTo || fetching || connecting) return;
+    if (fetching || connecting) return;
 
-    // If redirectTo is set and redirectIfNotFound is set then
-    // redirect if the user was not found.
-    if (redirectTo && redirectIfNotFound && !hasuraUser) {
+    if (!hasuraUser && redirectIfNotFound && redirectTo) {
       router.push(redirectTo);
     }
   }, [
@@ -88,9 +75,8 @@ export const useUser = ({
     redirectTo,
   ]);
 
-  if (!authToken && connected) {
-    console.warn('`authToken` unset when connected.');
-  }
+  if (error) console.error({ error });
+  if (composeDBError) console.error({ composeDBError });
 
   return {
     connecting,

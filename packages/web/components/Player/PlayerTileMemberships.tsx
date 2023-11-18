@@ -9,12 +9,12 @@ type Props = {
 const SHOW_MEMBERSHIPS = 4;
 
 export const PlayerTileMemberships: React.FC<Props> = ({ memberships }) =>
-  memberships.length === 0 ? null : (
+  memberships.length > 0 && (
     <VStack spacing={2} align="stretch" mt={2}>
       <Text textStyle="caption">Guilds</Text>
       <Wrap>
         {memberships.slice(0, SHOW_MEMBERSHIPS).map((member, i: number) => (
-          <WrapItem key={member.memberId || i}>
+          <WrapItem key={member.id || i}>
             <MetaTag size="md" fontWeight="normal">
               {member.title}
             </MetaTag>
