@@ -1,7 +1,22 @@
 import { ComposeDBImageMetadata, imageLink, Maybe } from '@metafam/utils';
 
-export const optimizedImage = (key: string, url?: Maybe<string>, opts = {}) => {
-  switch (key) {
+export function optimizedImage(
+  type: string,
+  url: string,
+  opts?: Record<string, unknown>,
+): string;
+export function optimizedImage(
+  type: string,
+  url?: null,
+  opts?: Record<string, unknown>,
+): undefined;
+export function optimizedImage(
+  type: string,
+  url?: Maybe<string>,
+  opts?: Record<string, unknown>,
+): string | undefined;
+export function optimizedImage(type: string, url?: Maybe<string>, opts = {}) {
+  switch (type) {
     case 'logoURL':
     case 'profileImageURL': {
       return imageLink(url, { ar: '1:1', height: 200, ...opts }) ?? undefined;
@@ -14,7 +29,7 @@ export const optimizedImage = (key: string, url?: Maybe<string>, opts = {}) => {
       return imageLink(url, opts) ?? undefined;
     }
   }
-};
+}
 
 export type ImageDimensions = {
   width?: number;

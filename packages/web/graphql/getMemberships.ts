@@ -71,7 +71,7 @@ export const getDaoMemberships = async (address: string | null) => {
 };
 
 export type GuildMembership = {
-  memberId: string;
+  id: string;
   memberShares?: string;
   memberRank?: string;
   memberXP?: number;
@@ -105,7 +105,7 @@ export const getAllMemberships = async (player: Player) => {
   );
 
   const guild = (guildPlayers ?? []).map((gp) => ({
-    memberId: `${gp.guildId}:${player.id}`,
+    id: `${gp.guildId}:${player.id}`,
     title: gp.Guild.name,
     guildname: gp.Guild.guildname,
     memberRank: gp.discordRoles[0]?.name ?? undefined,
@@ -116,7 +116,7 @@ export const getAllMemberships = async (player: Player) => {
   }));
 
   const daoHaus = (filteredMemberships || []).map((m) => ({
-    memberId: m.id,
+    id: m.id,
     title: m.moloch.title ?? undefined,
     memberShares: m.shares,
     daoShares: m.moloch.totalShares,
