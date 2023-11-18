@@ -290,7 +290,7 @@ export const getStaticProps = async (
   try {
     const info = QuestChainPlaybooksDetails[questchain];
     if (!info) {
-      throw new Error(`Quest chain ${questchain} not found!`);
+      throw new Error(`Quest chain "${questchain}" not found.`);
     }
     questChain = await getQuestChainInfo(info.chainId, info.address);
   } catch (error) {

@@ -25,27 +25,22 @@ import {
 } from '@metafam/ds';
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Section/ProfileSection';
+import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import {
   Player,
   useUpdatePlayerGuildVisibilityMutation,
 } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactGridLayout, { Layout } from 'react-grid-layout';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { MdDragHandle } from 'react-icons/md';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
-import { AddPlayerGuild } from './MembershipModals/AddPlayerGuild';
 
-type DAOListingProps = {
-  membership: GuildMembership;
-  editing?: boolean;
-  playerId?: string;
-  onClose?: () => void;
-};
+import { AddPlayerGuild } from './MembershipModals/AddPlayerGuild';
+import { DAOListingProps, GuildListing } from './MembershipModals/GuildListing';
 
 export const DAOListing: React.FC<DAOListingProps> = ({
   membership: {
@@ -151,159 +146,6 @@ export const DAOListing: React.FC<DAOListingProps> = ({
   );
 };
 
-export const GuildListing: React.FC<DAOListingProps> = React.forwardRef(
-  ({
-    membership: {
-      title,
-      memberShares,
-      daoShares,
-      memberRank,
-      memberXP,
-      chain,
-      address,
-      logoURL,
-      visible,
-      guildId,
-    },
-    playerId,
-    onClose,
-  }) => {
-    const [, updatePlayerGuildVisibility] =
-      useUpdatePlayerGuildVisibilityMutation();
-
-    const handleUpdateVisibility = async () => {
-      try {
-        await updatePlayerGuildVisibility({
-          playerId,
-          guildId,
-          visible: !visible,
-        });
-        if (onClose) onClose();
-      } catch (error) {
-        throw Error(
-          `Error upserting the Dework profile: ${(error as Error).message}`,
-        );
-      }
-    };
-
-    const stake = useMemo(() => {
-      if (memberXP != null) {
-        return `XP: ${Math.floor(memberXP)}`;
-      }
-      if (daoShares != null) {
-        const member = memberShares ? Number(memberShares) : null;
-        const dao = Number(daoShares);
-        const percent =
-          member != null ? ((member * 100) / dao).toFixed(3) : '?';
-        return (
-          <chakra.span
-            textAlign={['center', 'left']}
-            display={['flex', 'inline']}
-            flexDirection={['column', 'inherit']}
-          >
-            <chakra.span mr={[0, 1]} _after={{ content: [undefined, '":"'] }}>
-              Shares
-            </chakra.span>
-            <chakra.span whiteSpace="nowrap" title={`${percent}%`}>
-              <Text as="sup">
-                {member != null ? member.toLocaleString() : 'Unknown'}
-              </Text>{' '}
-              <chakra.span fontSize="lg" pos="relative" top={0.5}>
-                ⁄
-              </chakra.span>{' '}
-              <Text as="sub">{dao.toLocaleString()}</Text>
-            </chakra.span>
-          </chakra.span>
-        );
-      }
-      return null;
-    }, [memberShares, memberXP, daoShares]);
-
-    const daoURL = useMemo(() => getDAOLink(chain, address), [chain, address]);
-
-    return (
-      <Flex
-        w="100%"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{
-          px: 4,
-          py: 3,
-          rounder: 'lg',
-          bg: '#604B8B',
-          mt: '1em',
-          borderRadius: '8px',
-        }}
-      >
-        <Flex align="center">
-          <IconButton
-            aria-label="hide guild"
-            size="lg"
-            icon={visible ? <BsEyeFill /> : <BsEyeSlashFill />}
-            variant="unstyled"
-            onClick={async () => {
-              handleUpdateVisibility();
-            }}
-          ></IconButton>
-          <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
-            {logoURL ? (
-              <Image
-                src={optimizedImage('logoURL', logoURL)}
-                w={14}
-                h={14}
-                mx="auto"
-                my={1}
-                borderRadius={4}
-              />
-            ) : (
-              <ChainIcon {...{ chain }} boxSize={16} p={2} />
-            )}
-          </Box>
-          <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
-        </Flex>
-        <Flex w="full" direction="column" align="start">
-          <Heading
-            fontWeight="bold"
-            style={{ fontVariant: 'small-caps' }}
-            fontSize="xs"
-            color={daoURL ? 'cyanText' : 'white'}
-            ml={[0, '1em']}
-            sx={{ textIndent: [0, '-1em'] }}
-            textAlign={['center', 'left']}
-            flexGrow={1}
-          >
-            {title ?? (
-              <Text as="span">
-                Unknown{' '}
-                <Text as="span" textTransform="capitalize">
-                  {chain}
-                </Text>{' '}
-                DAO
-              </Text>
-            )}
-          </Heading>
-          <Flex align="center" mt="0 !important">
-            {memberRank && (
-              <Text fontSize="xs" casing="capitalize" mr={3}>
-                {memberRank}
-              </Text>
-            )}
-            <Text fontSize="xs" ml={[1.5, 0]}>
-              {stake}
-            </Text>
-          </Flex>
-        </Flex>
-        <IconButton
-          aria-label="drag n drop handle"
-          size="lg"
-          icon={<MdDragHandle />}
-          variant="unstyled"
-        ></IconButton>
-      </Flex>
-    );
-  },
-);
-
 export const DAOMembershipSmall: React.FC<DAOListingProps> = ({
   membership: { title, chain, address, logoURL, guildname },
 }) => {
@@ -369,7 +211,7 @@ const MembershipListModal: React.FC<MembershipListProps> = ({
           justifyContent="center"
         >
           {memberships.map((membership) => (
-            <DAOListing key={membership.memberId} {...{ membership }} />
+            <GuildListing key={membership.id} {...{ membership }} />
           ))}
         </SimpleGrid>
       </ModalBody>
@@ -389,88 +231,113 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   editing,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [visibility, setVisibility] = useState<Record<string, boolean>>({});
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
+  const [currentMemberships, setCurrentMemberships] = useState<
+    GuildMembership[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [editView, setEditView] = useState(false);
   const [addGuildView, setAddGuildView] = useState(false);
   const [layout, setLayout] = useState<Layout[]>();
 
-  const {
-    hydrateFromHasura: performHasuraHydration,
-    hydratedPlayer,
-  } = usePlayerHydrationContext();
+  const { hydrateFromHasura: performHasuraHydration, hydratedPlayer } =
+    usePlayerHydrationContext();
 
-  useEffect(() => {
+  const updateMemberships = useCallback(() => {
     getAllMemberships(hydratedPlayer || player).then(({ all }) => {
-      setLoading(false);
+      const visible = structuredClone(visibility);
+      const withHidden = all.map((membership) => {
+        visible[membership.id] ??= !!membership.visible;
+        return { ...membership, visible: visible[membership.id] };
+      });
       setMemberships(all);
+      setCurrentMemberships(withHidden);
+      if (Object.entries(visible).some(([id, val]) => visibility[id] !== val)) {
+        setVisibility(visible);
+      }
+
+      setLoading(false);
     });
-    console.log('hydratedPlayer', hydratedPlayer);
-  }, [hydratedPlayer, addGuildView]);
+  }, [player, hydratedPlayer, visibility]);
+
+  useEffect(updateMemberships, [updateMemberships]);
 
   useEffect(() => {
-    const layouts: Layout[] = [];
-    memberships?.map((membership) =>
-      layouts.push({ i: membership.memberId, x: 0, y: 0, w: 3, h: 3 }),
-    );
-    setLayout(layouts);
+    const layouts = memberships?.map((membership) => ({
+      i: membership.id,
+      x: 0,
+      y: 0,
+      w: 3,
+      h: 3,
+    }));
+    setLayout(layouts ?? []);
   }, [memberships]);
+
+  const visibleMemberships = currentMemberships.filter(({ visible: v }) => v);
+  const dirty = memberships.some(
+    (membership) => visibility[membership.id] !== membership.visible,
+  );
 
   return (
     <ProfileSection
       title="Guild Memberships"
       type={BoxTypes.PLAYER_DAO_MEMBERSHIPS}
       {...{ isOwnProfile, editing }}
-      sx={{
-        bg: editView ? '#422F6A' : '',
-      }}
+      sx={{ bg: editView ? '#422F6A' : '' }}
     >
       {isOwnProfile && (
-        <Box pos="absolute" right={-1} top={2}>
-          <Button
-            _hover={{ textDecoration: 'none' }}
-            bg={'000000000'}
+        <Box pos="absolute" right={1} top={2}>
+          <IconButton
+            aria-label="Edit Profile Info"
+            size="lg"
+            background="transparent"
+            color="pinkShadeOne"
+            icon={<EditIcon />}
+            _hover={{ color: 'white' }}
+            _focus={{ boxShadow: 'none' }}
+            _active={{ transform: 'scale(0.8)' }}
+            isRound
             onClick={() => {
               setEditView(!editView);
             }}
-          >
-            <IconButton
-              aria-label="Edit Profile Info"
-              size="lg"
-              background="transparent"
-              color="pinkShadeOne"
-              icon={<EditIcon />}
-              _hover={{ color: 'white' }}
-              _focus={{ boxShadow: 'none' }}
-              _active={{ transform: 'scale(0.8)' }}
-              isRound
-            />
-          </Button>
+          />
         </Box>
       )}
-      {!editView && loading && <LoadingState mb={6} />}
-
-      {!editView && !loading && memberships.length === 0 && (
-        <Text fontStyle="italic" textAlign="center" mb={4}>
-          No Guild member&shy;ships found for{' '}
-          {isOwnProfile ? 'you' : 'this player'}.
-        </Text>
-      )}
+      {!editView &&
+        (loading ? (
+          <LoadingState mb={6} />
+        ) : (
+          memberships.length === 0 ||
+          (visibleMemberships.length === 0 && (
+            <Text fontStyle="italic" textAlign="center" mb={4}>
+              No Guild member&shy;ships{' '}
+              {memberships.length === 0 ? 'found' : 'visible'} for{' '}
+              {isOwnProfile ? 'you' : 'this player'}.
+            </Text>
+          ))
+        ))}
 
       <VStack align="stretch">
         {!editView &&
-          memberships
-            .filter((m) => m.visible)
+          visibleMemberships
             .slice(0, 4)
             .map((membership) => (
-              <DAOListing {...{ membership }} key={membership.memberId} />
+              <GuildListing
+                key={membership.id}
+                editing={false}
+                {...{ membership }}
+              />
             ))}
       </VStack>
 
-      {!editView && memberships.length > 4 && (
+      {!editView && visibleMemberships.length > 4 && (
         <Box textAlign="end">
-          <MembershipListModal {...{ isOpen, onClose, memberships }} hydratePlayer={performHasuraHydration} />
-          <ViewAllButton onClick={onOpen} size={memberships.length} />
+          <MembershipListModal
+            memberships={visibleMemberships}
+            {...{ isOpen, onClose }}
+          />
+          <ViewAllButton onClick={onOpen} size={visibleMemberships.length} />
         </Box>
       )}
 
@@ -479,24 +346,30 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
           <Text textAlign="left" mb={4}>
             Here you can modify your existing guild memberships, or add new
             ones.
-            <br />
-            Verified Guild Memberships can only be hidden whereas unverified
+          </Text>
+          <Text textAlign="left" mb={4}>
+            Verified guild memberships can only be hidden whereas unverified
             ones can be removed.
           </Text>
           <ReactGridLayout
+            {...{ layout }}
             isDraggable={!!editView}
             preventCollision={false}
             cols={12}
             rowHeight={30}
-            layout={layout}
             onLayoutChange={(currentLayout) => setLayout(currentLayout)}
+            width={1080}
           >
-            {memberships?.map((membership) => (
+            {currentMemberships?.map((membership) => (
               <GuildListing
                 {...{ membership }}
-                key={membership.memberId}
+                key={membership.id}
+                editing={true}
                 playerId={hydratedPlayer?.id}
                 onClose={performHasuraHydration}
+                updateVisibility={(vis) => {
+                  setVisibility((viss) => ({ ...viss, [membership.id]: vis }));
+                }}
               />
             ))}
           </ReactGridLayout>
@@ -507,7 +380,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             w="100%"
             bg="#E9DFF133"
             border="2px dotted #ffffff25"
-            onClick={() => setAddGuildView(!addGuildView)}
+            onClick={() => setAddGuildView(true)}
             leftIcon={<AddIcon />}
           >
             Add Membership
@@ -519,7 +392,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
           <AddPlayerGuild
             isOpen={addGuildView}
             onClose={() => {
-              setAddGuildView(false)
+              setAddGuildView(false);
             }}
             player={hydratedPlayer}
             hydratePlayer={performHasuraHydration}
