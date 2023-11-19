@@ -12,13 +12,39 @@ import {
   GetGuildsQuery,
   GetGuildsQueryVariables,
   GuildFragment as GuildFragmentType,
+  GuildLinksQuery,
+  GuildLinksQueryVariables,
   GuildStatus_Enum,
   Maybe,
+  SearchGuildsQuery,
+  SearchGuildsQueryVariables,
 } from 'graphql/autogen/types';
 import { GuildFragment, PlayerFragment } from 'graphql/fragments';
 import { GuildPlayer } from 'graphql/types';
 
 import { client } from '../client';
+
+const getGuildLinksQuery = /* GraphQL */ `
+  query GuildLinks($guildId: uuid!) {
+    link(where: { guildId: { _eq: $guildId } }) {
+      guildId
+      name
+      type
+      url
+      id
+    }
+  }
+`;
+
+export const getGuildLinks = async (guildId: string) => {
+  if (!guildId) throw new Error('Missing Player Id');
+  const { data } = await client
+    .query<GuildLinksQuery, GuildLinksQueryVariables>(getGuildLinksQuery, {
+      guildId,
+    })
+    .toPromise();
+  return data;
+};
 
 const guildQuery = /* GraphQL */ `
   query GetGuild($guildname: String!) {
@@ -200,4 +226,35 @@ export const getGuildAnnouncements = async (
 
   if (!data) return [];
   return data.guild[0].discordAnnouncements;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+const guildSearch = /* GraphQL */ `
+  query SearchGuilds($search: String!, $limit: Int) {
+    guild(where: { name: { _ilike: $search } }, limit: $limit) {
+      ...GuildFragment
+    }
+  }
+  ${GuildFragment}
+`;
+
+export const searchGuilds = async ({
+  search = '',
+  limit,
+}: {
+  search: string;
+  limit?: number | undefined;
+}) => {
+  const { data, error } = await client
+    .query<SearchGuildsQuery, SearchGuildsQueryVariables>(guildSearch, {
+      search: `%${search}%`,
+      limit,
+    })
+    .toPromise();
+
+  if (!data && error) throw new Error(`Error:- ${error}`);
+
+  return {
+    guilds: data?.guild || [],
+  };
 };

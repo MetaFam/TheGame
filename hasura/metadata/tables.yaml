@@ -91,6 +91,31 @@
           - name
         filter: {}
 - table:
+    name: LinkType
+    schema: public
+  is_enum: true
+  array_relationships:
+    - name: links
+      using:
+        foreign_key_constraint_on:
+          column: type
+          table:
+            name: link
+            schema: public
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - description
+          - type
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - description
+          - type
+        filter: {}
+- table:
     name: PlayerRank
     schema: public
   is_enum: true
@@ -281,10 +306,6 @@
     column_config:
       discord_id:
         custom_name: discordId
-      discord_invite_url:
-        custom_name: discordInviteUrl
-      github_url:
-        custom_name: githubUrl
       join_button_url:
         custom_name: joinButtonUrl
       membership_through_discord:
@@ -295,20 +316,18 @@
         custom_name: showDiscordAnnouncements
       sort_position:
         custom_name: sortPosition
-      twitter_url:
-        custom_name: twitterUrl
+      updated_at:
+        custom_name: updatedAt
       website_url:
         custom_name: websiteUrl
     custom_column_names:
       discord_id: discordId
-      discord_invite_url: discordInviteUrl
-      github_url: githubUrl
       join_button_url: joinButtonUrl
       membership_through_discord: membershipThroughDiscord
       profile_layout: profileLayout
       show_discord_announcements: showDiscordAnnouncements
       sort_position: sortPosition
-      twitter_url: twitterUrl
+      updated_at: updatedAt
       website_url: websiteUrl
     custom_root_fields: {}
   object_relationships:
@@ -339,6 +358,13 @@
           table:
             name: guild_player
             schema: public
+    - name: links
+      using:
+        foreign_key_constraint_on:
+          column: guild_id
+          table:
+            name: link
+            schema: public
     - name: quests
       using:
         foreign_key_constraint_on:
@@ -356,14 +382,18 @@
               guildDiscordId: $discord_id
         remote_schema: backend
       name: discordAnnouncements
+  insert_permissions:
+    - role: player
+      permission:
+        check: {}
+        columns:
+          - updated_at
   select_permissions:
     - role: player
       permission:
         columns:
           - description
           - discord_id
-          - discord_invite_url
-          - github_url
           - guildname
           - id
           - join_button_url
@@ -374,7 +404,6 @@
           - show_discord_announcements
           - sort_position
           - status
-          - twitter_url
           - type
           - website_url
         filter: {}
@@ -383,8 +412,6 @@
         columns:
           - description
           - discord_id
-          - discord_invite_url
-          - github_url
           - guildname
           - id
           - join_button_url
@@ -395,10 +422,16 @@
           - show_discord_announcements
           - sort_position
           - status
-          - twitter_url
           - type
           - website_url
         filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - updated_at
+        filter: {}
+        check: null
   event_triggers:
     - name: syncDiscordGuildMembers
       definition:
@@ -506,6 +539,94 @@
           - player_id
         filter: {}
 - table:
+    name: link
+    schema: public
+  configuration:
+    column_config:
+      guild_id:
+        custom_name: guildId
+      player_id:
+        custom_name: playerId
+    custom_column_names:
+      guild_id: guildId
+      player_id: playerId
+    custom_root_fields: {}
+  object_relationships:
+    - name: LinkType
+      using:
+        foreign_key_constraint_on: type
+    - name: guild
+      using:
+        foreign_key_constraint_on: guild_id
+    - name: player
+      using:
+        foreign_key_constraint_on: player_id
+  insert_permissions:
+    - role: player
+      permission:
+        check:
+          _or:
+            - player_id:
+                _eq: X-Hasura-User-Id
+            - guild:
+                metadata:
+                  creator_id:
+                    _eq: X-Hasura-User-Id
+        columns:
+          - guild_id
+          - name
+          - player_id
+          - type
+          - url
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - name
+          - type
+          - url
+          - guild_id
+          - id
+          - player_id
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - guild_id
+          - id
+          - name
+          - player_id
+          - type
+          - url
+        filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - name
+          - type
+          - url
+        filter:
+          _or:
+            - player_id:
+                _eq: X-Hasura-User-Id
+            - guild:
+                metadata:
+                  creator_id:
+                    _eq: X-Hasura-User-Id
+        check: null
+  delete_permissions:
+    - role: player
+      permission:
+        filter:
+          _or:
+            - player_id:
+                _eq: X-Hasura-User-Id
+            - guild:
+                metadata:
+                  creator_id:
+                    _eq: X-Hasura-User-Id
+- table:
     name: me
     schema: public
   configuration:
@@ -600,6 +721,13 @@
           column: player_id
           table:
             name: guild_player
+            schema: public
+    - name: links
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            name: link
             schema: public
     - name: quest_completions
       using:
@@ -700,6 +828,7 @@
           - dashboard_layout
           - profile_layout
           - role
+          - updated_at
         filter:
           id:
             _eq: X-Hasura-User-Id
@@ -1341,17 +1470,23 @@
     column_config:
       chain_id:
         custom_name: chainId
+      created_at:
+        custom_name: createdAt
       guild_id:
         custom_name: guildId
-      last_offset:
-        custom_name: lastOffset
+      last_block_height:
+        custom_name: lastBlockHeight
       safe_address:
         custom_name: safeAddress
+      updated_at:
+        custom_name: updatedAt
     custom_column_names:
       chain_id: chainId
+      created_at: createdAt
       guild_id: guildId
-      last_offset: lastOffset
+      last_block_height: lastBlockHeight
       safe_address: safeAddress
+      updated_at: updatedAt
     custom_root_fields: {}
   object_relationships:
     - name: guild
@@ -1370,16 +1505,22 @@
     schema: public
   configuration:
     column_config:
+      created_at:
+        custom_name: createdAt
       player_id:
         custom_name: playerId
       seasonal_balance:
         custom_name: seasonalBalance
       token_address:
         custom_name: tokenAddress
+      updated_at:
+        custom_name: updatedAt
     custom_column_names:
+      created_at: createdAt
       player_id: playerId
       seasonal_balance: seasonalBalance
       token_address: tokenAddress
+      updated_at: updatedAt
     custom_root_fields: {}
   object_relationships:
     - name: player

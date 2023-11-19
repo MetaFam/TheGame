@@ -23,7 +23,6 @@ export const CONFIG = {
     'https://ceramic-clay.3boxlabs.com', // testnet
   ceramicNetwork:
     process.env.NEXT_PUBLIC_CERAMIC_NETWORK || 'mainnet' || 'testnet-clay',
-  calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
   googleDataAPIKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
   openseaAPIKey: process.env.OPENSEA_API_KEY,
@@ -38,4 +37,16 @@ export const CONFIG = {
   ),
   paymasterURL: process.env.NEXT_PUBLIC_PAYMASTER_URL,
   bundlerURL: process.env.NEXT_PUBLIC_BUNDLER_URL,
+  calendarEndpoint: '/api/events',
+  gcal: {
+    calendarId: process.env.NEXT_PUBLIC_GCAL_CALENDAR_ID,
+    privateKey: process.env.GCAL_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    clientEmail: process.env.GCAL_CLIENT_EMAIL,
+    projectNumber: process.env.GCAL_PROJECT_NUMBER,
+    scopes: ['https://www.googleapis.com/auth/calendar'],
+    whitelist: [
+      'https://*.metagame.wtf',
+      'https://frontend-pr-*-mjhnbmqqna-uk.a.run.app',
+    ],
+  },
 };

@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "license": "GPL-3.0",
   "engines": {
-    "node": "^16"
+    "node": ">=16"
   },
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "docker:build": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
-    "docker:dev": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up --build",
+    "docker:dev": "DOCKER_BUILDKIT=1 docker compose up --build",
     "build": "lerna run --concurrency 1 --stream build",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --include-dependencies",
     "web:build": "lerna run build --scope @metafam/web --include-dependencies --stream",
@@ -63,12 +63,13 @@
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@graphql-codegen/typescript-urql": "^3.7.3",
     "@types/jest": "^29.2.1",
+    "@types/node": "^20.8.6",
     "@types/node-fetch": "^2.6.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.45.0",
-    "@typescript-eslint/parser": "5.45.0",
+    "@typescript-eslint/parser": "^6.6.0",
     "caniuse-lite": "^1.0.30001383",
     "concurrently": "7.0.0",
     "env-cmd": "10.1.0",
@@ -101,7 +102,9 @@
     "ethers": "5.7.0",
     "graphql": "16.8.0",
     "multihashes": "4.0.3",
-    "@urql/core": "3.2.2"
+    "@urql/core": "3.2.2",
+    "node-gyp": "10.0.1",
+    "better-sqlite3": "9.0.0"
   },
   "browserslist": [
     "defaults",

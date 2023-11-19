@@ -48,8 +48,17 @@ export const Read: React.FC = () => {
                   w="100%"
                   h="100%"
                   overflow="hidden"
+                  justifyContent={'left'}
                 >
-                  <Box position="relative" zIndex={5} p={6}>
+                  <Box
+                    position="relative"
+                    zIndex={5}
+                    p={6}
+                    alignItems="flex-start"
+                    display={'flex'}
+                    flexDirection={'column'}
+                    width="100%"
+                  >
                     <Heading
                       size="xs"
                       color="white"
@@ -74,7 +83,8 @@ export const Read: React.FC = () => {
                     <Link
                       display="inline-flex"
                       href={item.link}
-                      px={2}
+                      px={3}
+                      py={1}
                       _hover={{
                         bg: 'landingDarkGlass',
                         textDecoration: 'none',
@@ -85,11 +95,12 @@ export const Read: React.FC = () => {
                         textDecoration: 'none',
                       }}
                       borderRadius="md"
+                      transition={'all 0.2s ease-out'}
                     >
                       <Text
+                        as="span"
                         cursor="pointer"
-                        color="blueLight"
-                        py={1}
+                        color="violet"
                         fontWeight="bold"
                       >
                         Read Here

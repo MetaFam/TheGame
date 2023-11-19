@@ -15,7 +15,7 @@ import { MetaLink } from 'components/Link';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import Script from 'next/script';
-import React, { useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { LandingFooter } from './LandingFooter';
@@ -28,6 +28,52 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   const root = typeof window !== 'undefined' ? document.body : null;
   const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
+
+  const sentences = useMemo(
+    () => [
+      'an infinite game.',
+      'a real-life MMO-RPG.',
+      'about finding the most optimal ways to play life.',
+      'an ecosystem of people, projects & resources.',
+      'a game of life.',
+      'a game that builds itself.',
+      'a layer above nation states & network states.',
+      'wondering why are you still here instead of progressing???',
+    ],
+    [],
+  );
+
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+
+  // typeWriter effect
+  useEffect(() => {
+    if (onScreen) {
+      if (
+        subIndex === sentences[index % sentences.length].length + 1 &&
+        !reverse
+      ) {
+        setTimeout(() => {
+          setReverse(true);
+        }, 500); // delay cursor before deleting sentence
+        return undefined;
+      }
+
+      if (subIndex === 0 && reverse) {
+        setReverse(false);
+        setIndex((prevIndex) => (prevIndex + 1) % sentences.length);
+        return undefined;
+      }
+
+      const timeout = setTimeout(() => {
+        setSubIndex((prevSubIndex) => prevSubIndex + (reverse ? -1 : 1));
+      }, 150);
+
+      return () => clearTimeout(timeout);
+    }
+    return undefined;
+  }, [subIndex, index, reverse, onScreen, sentences]);
 
   return (
     <FullPageContainer
@@ -84,35 +130,17 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
                 fontWeight="700"
                 mb={{ base: 1, lg: 3 }}
               >
-                The revolution will be televized, <br />
-                but{' '}
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                  transition={noMotion ? 'none' : 'opacity 0.5s 0.9s ease-in'}
-                >
-                  don’t{' '}
-                </Text>
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                  transition={noMotion ? 'none' : 'opacity 0.5s 1.2s ease-in'}
-                >
-                  just{' '}
-                </Text>
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                  transition={noMotion ? 'none' : 'opacity 0.5s 1.5s ease-in'}
-                >
-                  watch
-                </Text>
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                  transition={noMotion ? 'none' : 'opacity 0.5s 1.8s ease-in'}
-                >
-                  .
+                MetaGame is{' '}
+                <Text as="span" opacity={displayElement ? 1 : 0}>
+                  {`${sentences[index % sentences.length].substring(
+                    0,
+                    subIndex,
+                  )}${
+                    subIndex ===
+                      sentences[index % sentences.length].length + 1 && !reverse
+                      ? '|'
+                      : ''
+                  }`}
                 </Text>
               </Text>
               <StartButton text="Join" />
