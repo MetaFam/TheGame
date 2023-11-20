@@ -29,6 +29,7 @@ const guildMembershipsQuery = /* GraphQL */ `
       visible
       guildId
       Guild {
+        legitimacy
         id
         logo
         name
@@ -53,6 +54,7 @@ export const getGuildMemberships = async (playerId: string) => {
     .query<GetPlayerGuildsQuery, GetPlayerGuildsQueryVariables>(
       guildMembershipsQuery,
       { playerId },
+      { requestPolicy: 'network-only' },
     )
     .toPromise();
   return response.data?.guild_player;
@@ -83,6 +85,7 @@ export type GuildMembership = {
   guildname?: string;
   visible?: boolean;
   guildId?: string;
+  legitimacy?: string | null;
 };
 
 export const getAllMemberships = async (player: Player) => {
@@ -113,6 +116,7 @@ export const getAllMemberships = async (player: Player) => {
     logoURL: gp.Guild.logo ?? undefined,
     visible: gp.visible,
     guildId: gp.guildId,
+    legitimacy: gp.Guild.legitimacy,
   }));
 
   const daoHaus = (filteredMemberships || []).map((m) => ({

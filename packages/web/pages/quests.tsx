@@ -31,7 +31,6 @@ import { useQuestFilter } from 'lib/hooks/quests';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
-import { SSRData } from 'urql';
 import { isAllowedToCreateQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;

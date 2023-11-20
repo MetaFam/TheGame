@@ -242,8 +242,6 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         toast({
           title: 'Error Saving Guild',
           description:
-            // response?.error?.message ||
-            // saveGuildResponse?.error ||
             (error as Error).message ?? 'unknown error',
           status: 'error',
           isClosable: true,
@@ -434,7 +432,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             isDisabled={success || isSubmitting}
             bg="purple.500"
           >
-            Submit Guild Information
+            {isSubmitting ? 'Submitting, please wait..' : 'Submit Guild Information'}
           </MetaButton>
         </HStack>
       </VStack>

@@ -28,13 +28,10 @@ import { ProfileSection } from 'components/Section/ProfileSection';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import {
   Player,
-  useUpdatePlayerGuildVisibilityMutation,
 } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactGridLayout, { Layout } from 'react-grid-layout';
-import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
-import { MdDragHandle } from 'react-icons/md';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
@@ -261,7 +258,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     });
   }, [player, hydratedPlayer, visibility]);
 
-  useEffect(updateMemberships, [updateMemberships]);
+  useEffect(updateMemberships, [updateMemberships, editView]);
 
   useEffect(() => {
     const layouts = memberships?.map((membership) => ({
@@ -278,6 +275,8 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const dirty = memberships.some(
     (membership) => visibility[membership.id] !== membership.visible,
   );
+
+    console.log(memberships, ',')
 
   return (
     <ProfileSection
