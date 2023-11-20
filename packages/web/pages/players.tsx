@@ -16,7 +16,6 @@ import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useMemo, useRef } from 'react';
-import { SSRData } from 'urql';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

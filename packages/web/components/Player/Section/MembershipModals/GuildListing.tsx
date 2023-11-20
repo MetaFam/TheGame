@@ -12,7 +12,7 @@ import {
 } from '@metafam/ds';
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { GuildMembership } from 'graphql/getMemberships';
-import React, { ChangeEvent, MouseEvent, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { MdDragHandle } from 'react-icons/md';
 import { getDAOLink } from 'utils/daoHelpers';
@@ -41,27 +41,14 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
         logoURL,
         visible,
         guildname,
-        guildId,
+        legitimacy,
       },
-      playerId,
-      onClose,
       editing = false,
       updateVisibility,
     },
     ref,
   ) => {
-    // const [, updatePlayerGuildVisibility] =
-    //   useUpdatePlayerGuildVisibilityMutation();
-
-    // const handleUpdateVisibility = async () => {
-    //   await updatePlayerGuildVisibility({
-    //     playerId,
-    //     guildId,
-    //     visible: !visible,
-    //   });
-    //   onClose?.();
-    // };
-
+    //@to-do ADD A BADGE FOR LEGITIMACY NITEGEIST
     const stake = useMemo(() => {
       if (memberXP != null) {
         return `XP: ${Math.floor(memberXP)}`;
@@ -106,9 +93,12 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
           px: 4,
           py: 3,
           rounder: 'lg',
-          bg: '#604B8B',
+          bg: 'rgba(0, 0, 0, 0.16)',
           mt: '1em',
           borderRadius: '8px',
+          _hover: {
+            bg: 'rgba(0, 0, 0, 0.24)',
+          }
         }}
         {...{ ref }}
       >
