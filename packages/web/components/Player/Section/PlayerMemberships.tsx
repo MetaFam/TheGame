@@ -241,7 +241,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     if (savedLayout) {
       return JSON.parse(savedLayout);
     }
-    if (!savedLayoput) {
+    if (!savedLayout) {
       return memberships.map((membership, index) => ({
         i: membership.id,
         x: 3,
