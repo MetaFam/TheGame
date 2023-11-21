@@ -365,7 +365,6 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             {...{ layout }}
             isDraggable={!!editView}
             isResizable={false}
-            isBounded={true}
             onLayoutChange={onLayoutChange}
             cols={1}
             rowHeight={30}
