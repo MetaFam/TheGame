@@ -50,7 +50,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
       if (subIndex === sentences[index % sentences.length].length + 1 && !reverse) {
         setTimeout(() => {
           setReverse(true);
-        }, 500); // delay cursor before deleting sentence
+        }, 250); // delay cursor before deleting sentence, speed up by 2x
         return undefined;
       }
 
@@ -62,7 +62,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
 
       const timeout = setTimeout(() => {
         setSubIndex((prevSubIndex) => prevSubIndex + (reverse ? -1 : 1));
-      }, 150);
+      }, 75); // speed up by 2x
 
       return () => clearTimeout(timeout);
     }
