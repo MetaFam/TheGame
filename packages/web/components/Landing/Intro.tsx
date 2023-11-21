@@ -13,11 +13,11 @@ import {
 } from '@metafam/ds';
 import BubbleLg from 'assets/landing/pretty/bubble-large.svg';
 import BubbleSm from 'assets/landing/pretty/bubble-small.svg';
+import BackgroundImage5xl from 'assets/landing/sections/section-1.jpg';
+import BackgroundImageMobile from 'assets/landing/sections/section-1.sm.jpg';
 import BackgroundImage2xl from 'assets/landing/sections/section-1-2xl.jpg';
 import BackgroundImage4xl from 'assets/landing/sections/section-1-4xl.jpg';
 import BackgroundImageLg from 'assets/landing/sections/section-1-lg.jpg';
-import BackgroundImage5xl from 'assets/landing/sections/section-1.jpg';
-import BackgroundImageMobile from 'assets/landing/sections/section-1.sm.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import React, { useEffect, useState } from 'react';
@@ -76,7 +76,7 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
           mt={{ base: 16, lg: -10, '2xl': 0 }}
           pr={20}
           pb={10}
-          h='100%'
+          h="100%"
           w="100%"
           direction={{ base: 'column', lg: 'column' }}
           zIndex={100}
@@ -117,7 +117,14 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
               >
                 Learn, Connect, Create
               </Heading>
-              <Text mt={3} fontSize={{ base: 'lg', lg: '2xl' }} textAlign={{ base: 'left', lg: 'center' }}>MetaGame is a decentralized factory for builders of the future <br /> a DAO incubation & growth platform.</Text>
+              <Text
+                mt={3}
+                fontSize={{ base: 'lg', lg: '2xl' }}
+                textAlign={{ base: 'left', lg: 'center' }}
+              >
+                MetaGame is a decentralized factory for builders of the future{' '}
+                <br /> a DAO incubation & growth platform.
+              </Text>
               <Flex w="100%" justify="center" mt={8} gap={6}>
                 <Button
                   as="a"
@@ -132,13 +139,15 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
                 >
                   learn more
                 </Button>
-                <MetaButton as="a" href="#join-us">connect</MetaButton>
+                <MetaButton as="a" href="#join-us">
+                  connect
+                </MetaButton>
               </Flex>
             </Box>
           </Flex>
         </Stack>
-      </Container >
-    </FullPageContainer >
+      </Container>
+    </FullPageContainer>
   );
 };
 

@@ -29,7 +29,7 @@ type CardProps = {
   title?: string;
   type?: string;
   image?: string;
-  price?: string
+  price?: string;
   description?: string;
   action?: string;
   list?: Perk[];
@@ -132,13 +132,18 @@ export const RoleCard: React.FC<CardProps> = ({
           fontSize={{ base: 'md', lg: '2xl' }}
           align={{ base: 'start', lg: 'center' }}
         >
-          {description} {description.includes('Detailed instructions') && activeTab === RoleTitle.Patron && (isMobile ? '👉' : '👇')}
+          {description}{' '}
+          {description.includes('Detailed instructions') &&
+            activeTab === RoleTitle.Patron &&
+            (isMobile ? '👉' : '👇')}
         </Text>
       )}
       {info && (
-        <Text fontSize={{ base: 'md', lg: '2xl' }}
+        <Text
+          fontSize={{ base: 'md', lg: '2xl' }}
           align={{ base: 'start', lg: 'center' }}
-          fontWeight="bold">
+          fontWeight="bold"
+        >
           {info}
         </Text>
       )}

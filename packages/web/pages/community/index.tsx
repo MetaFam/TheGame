@@ -18,7 +18,6 @@ import PatronsPage from 'pages/patrons';
 import Players from 'pages/players';
 import React, { useEffect, useState } from 'react';
 
-
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
@@ -45,20 +44,25 @@ const UnifiedCommunityPage: React.FC<Props> = ({
   patrons,
   pSeedPrice,
 }) => {
-
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<{ link: string, index: number }>({ link: 'Players', index: 0 });
+  const [activeTab, setActiveTab] = useState<{ link: string; index: number }>({
+    link: 'Players',
+    index: 0,
+  });
 
   const communityTabs = [
     { link: 'Players', component: <Players /> },
-    { link: 'Guilds', component: <GuildsPage guilds={guilds} />},
-    { link: 'Patrons', component: <PatronsPage patrons={patrons} pSeedPrice={pSeedPrice} /> }
-  ]
+    { link: 'Guilds', component: <GuildsPage guilds={guilds} /> },
+    {
+      link: 'Patrons',
+      component: <PatronsPage patrons={patrons} pSeedPrice={pSeedPrice} />,
+    },
+  ];
 
   useEffect(() => {
     const { query } = router;
     if (query.tab) {
-      const index = communityTabs.findIndex(tab => tab.link === query.tab);
+      const index = communityTabs.findIndex((tab) => tab.link === query.tab);
       setActiveTab({ link: query.tab as string, index });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,37 +87,33 @@ const UnifiedCommunityPage: React.FC<Props> = ({
             index={activeTab.index}
             onChange={handleTabChange}
           >
-            <TabList ml={{ sm: '0em', lg: '4em' }} mr={{ sm: '0em', lg: '4em' }}>
-              {
-                communityTabs.map(({ link }) => 
-                  <Tab
-                    key={`tab-${link}`}
-                    _selected={{
-                      color: 'teal.200',
-                      borderBottom: '2px solid #81E6D9',
-                    }}
-                    w="100%"
-                  >
-                    {link}
-                  </Tab>
-                )
-              }
+            <TabList
+              ml={{ sm: '0em', lg: '4em' }}
+              mr={{ sm: '0em', lg: '4em' }}
+            >
+              {communityTabs.map(({ link }) => (
+                <Tab
+                  key={`tab-${link}`}
+                  _selected={{
+                    color: 'teal.200',
+                    borderBottom: '2px solid #81E6D9',
+                  }}
+                  w="100%"
+                >
+                  {link}
+                </Tab>
+              ))}
             </TabList>
             <TabPanels w="100%" p="0">
-              {
-                communityTabs.map(({ link, component }) => 
-                  <TabPanel key={`panel-${link}`}>
-                    {component}
-                  </TabPanel>
-                )
-              }
+              {communityTabs.map(({ link, component }) => (
+                <TabPanel key={`panel-${link}`}>{component}</TabPanel>
+              ))}
             </TabPanels>
           </Tabs>
         </Box>
       </VStack>
     </PageContainer>
-  )
-  
+  );
 };
 
 export default UnifiedCommunityPage;
