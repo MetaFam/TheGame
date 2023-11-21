@@ -250,7 +250,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         h: 3,
       }));
     }
-    return;
+    return [];
   });
 
   const { hydrateFromHasura: performHasuraHydration, hydratedPlayer } =
