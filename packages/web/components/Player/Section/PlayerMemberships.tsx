@@ -31,7 +31,7 @@ import {
 } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import ReactGridLayout, { Layout } from 'react-grid-layout';
+import ReactGridLayout from 'react-grid-layout';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
@@ -236,7 +236,20 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const [loading, setLoading] = useState(true);
   const [editView, setEditView] = useState(false);
   const [addGuildView, setAddGuildView] = useState(false);
-  const [layout, setLayout] = useState<Layout[]>();
+  const [layout, setLayout] = useState(() => {
+    const savedLayout = window.localStorage.getItem('savedLayout');
+    if (savedLayout) {
+      return JSON.parse(savedLayout);
+    } else {
+      return memberships.map((membership, index) => ({
+        i: membership.id,
+        x: 3,
+        y: index,
+        w: 3,
+        h: 3,
+      }));
+    }
+  });
 
   const { hydrateFromHasura: performHasuraHydration, hydratedPlayer } =
     usePlayerHydrationContext();
@@ -260,23 +273,21 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
   useEffect(updateMemberships, [updateMemberships, editView]);
 
-  useEffect(() => {
-    const layouts = memberships?.map((membership) => ({
-      i: membership.id,
-      x: 0,
-      y: 0,
-      w: 3,
-      h: 3,
-    }));
-    setLayout(layouts ?? []);
-  }, [memberships]);
+  const onLayoutChange = (newLayout: any) => {
+    const savedLayout = window.localStorage.getItem('savedLayout');
+    if (savedLayout) {
+      window.localStorage.removeItem('savedLayout');
+    }
+    window.localStorage.setItem('savedLayout', JSON.stringify(newLayout));
+    setLayout(newLayout);
+  };
 
   const visibleMemberships = currentMemberships.filter(({ visible: v }) => v);
   const dirty = memberships.some(
     (membership) => visibility[membership.id] !== membership.visible,
   );
 
-    console.log(memberships, ',')
+  console.log(memberships, ',')
 
   return (
     <ProfileSection
@@ -353,23 +364,25 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
           <ReactGridLayout
             {...{ layout }}
             isDraggable={!!editView}
-            preventCollision={false}
-            cols={12}
+            isResizable={false}
+            isBounded={true}
+            onLayoutChange={onLayoutChange}
+            cols={1}
             rowHeight={30}
-            onLayoutChange={(currentLayout) => setLayout(currentLayout)}
-            width={1080}
+            draggableHandle=".guildDragHandle"
           >
-            {currentMemberships?.map((membership) => (
-              <GuildListing
-                {...{ membership }}
-                key={membership.id}
-                editing={true}
-                playerId={hydratedPlayer?.id}
-                onClose={performHasuraHydration}
-                updateVisibility={(vis) => {
-                  setVisibility((viss) => ({ ...viss, [membership.id]: vis }));
-                }}
-              />
+            {currentMemberships.map((membership, index) => (
+              <Box key={membership.id} w="100%">
+                <GuildListing
+                  {...{ membership }}
+                  editing={true}
+                  playerId={hydratedPlayer?.id}
+                  onClose={performHasuraHydration}
+                  updateVisibility={(vis) => {
+                    setVisibility((viss) => ({ ...viss, [membership.id]: vis }));
+                  }}
+                />
+              </Box>
             ))}
           </ReactGridLayout>
           <Button

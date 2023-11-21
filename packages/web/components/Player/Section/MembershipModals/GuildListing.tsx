@@ -13,7 +13,7 @@ import {
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { GuildMembership } from 'graphql/getMemberships';
 import React, { useMemo } from 'react';
-import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import { BsEyeFill, BsEyeSlashFill, BsPatchCheckFill, BsPatchQuestion } from 'react-icons/bs';
 import { MdDragHandle } from 'react-icons/md';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
@@ -48,7 +48,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
     },
     ref,
   ) => {
-    //@to-do ADD A BADGE FOR LEGITIMACY NITEGEIST
+    // @to-do ADD A BADGE FOR LEGITIMACY NITEGEIST
     const stake = useMemo(() => {
       if (memberXP != null) {
         return `XP: ${Math.floor(memberXP)}`;
@@ -110,9 +110,9 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
               _hover={{ cursor: 'pointer', color: 'purple.200' }}
             >
               {visible ? (
-                <BsEyeFill size="2.5rem" />
+                <BsEyeFill size="1.5rem" />
               ) : (
-                <BsEyeSlashFill size="2.5rem" />
+                <BsEyeSlashFill size="1.5rem" />
               )}
               <Input
                 type="checkbox"
@@ -141,6 +141,9 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
             )}
           </Box>
           <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
+          <Box mr={2}>
+            {legitimacy ? <BsPatchCheckFill /> : <BsPatchQuestion />}
+          </Box>
         </Flex>
         <Flex w="full" direction="column" align="start">
           <Heading
@@ -176,6 +179,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
         </Flex>
         {editing && (
           <IconButton
+            className="guildDragHandle"
             aria-label="drag n drop handle"
             size="lg"
             icon={<MdDragHandle />}
