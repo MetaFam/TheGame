@@ -240,7 +240,8 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     const savedLayout = window.localStorage.getItem('savedLayout');
     if (savedLayout) {
       return JSON.parse(savedLayout);
-    } else {
+    }
+    if (!savedLayoput) {
       return memberships.map((membership, index) => ({
         i: membership.id,
         x: 3,
@@ -286,8 +287,6 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const dirty = memberships.some(
     (membership) => visibility[membership.id] !== membership.visible,
   );
-
-  console.log(memberships, ',')
 
   return (
     <ProfileSection
