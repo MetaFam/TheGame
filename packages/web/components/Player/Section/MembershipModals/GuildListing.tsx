@@ -181,6 +181,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
           <IconButton
             className="guildDragHandle"
             aria-label="drag n drop handle"
+            sx={{ cursor: 'grab', _active: { cursor: 'grabbing' } }}
             size="lg"
             icon={<MdDragHandle />}
             variant="unstyled"

@@ -31,13 +31,15 @@ import {
 } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import ReactGridLayout from 'react-grid-layout';
+import RGL, { WidthProvider } from 'react-grid-layout';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
 
 import { AddPlayerGuild } from './MembershipModals/AddPlayerGuild';
 import { DAOListingProps, GuildListing } from './MembershipModals/GuildListing';
+
+const ReactGridLayout = WidthProvider(RGL);
 
 export const DAOListing: React.FC<DAOListingProps> = ({
   membership: {
@@ -244,10 +246,10 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     if (!savedLayout) {
       return memberships.map((membership, index) => ({
         i: membership.id,
-        x: 3,
+        x: 0,
         y: index,
-        w: 3,
-        h: 3,
+        w: 1,
+        h: 1,
       }));
     }
     return [];
@@ -365,9 +367,11 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             {...{ layout }}
             isDraggable={!!editView}
             isResizable={false}
+            useCSSTransforms={true}
             onLayoutChange={onLayoutChange}
             cols={1}
-            rowHeight={30}
+            rowHeight={90}
+            margin={[0, 10]}
             draggableHandle=".guildDragHandle"
           >
             {currentMemberships.map((membership, index) => (
@@ -391,6 +395,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             w="100%"
             bg="#E9DFF133"
             border="2px dotted #ffffff25"
+            mt={4}
             onClick={() => setAddGuildView(true)}
             leftIcon={<AddIcon />}
           >
