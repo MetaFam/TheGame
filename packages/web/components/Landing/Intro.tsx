@@ -67,6 +67,7 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
         alignItems="flex-start"
         justifyContent={{ base: 'flex-start', lg: 'center' }}
         pt={{ base: 0, xl: 14 }}
+        bg='linear-gradient(0deg, #140231 20%, rgba(19, 1, 49, 0.00) 40%);'
       >
         <Stack
           pos="relative"
