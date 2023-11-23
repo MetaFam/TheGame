@@ -84,7 +84,17 @@ const GuildSetupAuthCallback: React.FC = () => {
               as="a"
               href={discordAuthURL}
             >
-              Join
+              Join with Discord
+            </MetaButton>
+            <MetaButton
+              ml={{ base: 0, md: 4, lg: 4, xl: 4 }}
+              size="lg"
+              maxW="15rem"
+              mt={6}
+              as="a"
+              href={discordAuthURL}
+            >
+              Join without Discord
             </MetaButton>
           </>
         ) : (
