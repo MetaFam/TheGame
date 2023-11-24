@@ -3,6 +3,7 @@ import {
   Box,
   CloseButton,
   Flex,
+  FormLabel,
   HStack,
   Image,
   Input,
@@ -62,19 +63,19 @@ const validations = {
   daoNetwork: {
     required: true,
   },
-  twitterUrl: {
+  twitterURL: {
     required: true,
   },
-  discordInviteUrl: {
+  discordInviteURL: {
     required: true,
   },
-  githubUrl: {
+  githubURL: {
     required: true,
   },
-  websiteUrl: {
+  websiteURL: {
     required: true,
   },
-  joinUrl: {
+  joinURL: {
     required: true,
   },
 };
@@ -83,13 +84,13 @@ export interface CreateGuildFormInputs {
   guildname: string;
   name: string;
   description?: Maybe<string>;
-  logoUrl?: Maybe<string>;
+  logoURL?: Maybe<string>;
   logoFile?: Maybe<FileList>;
-  websiteUrl?: Maybe<string>;
-  joinUrl?: Maybe<string>;
-  twitterUrl?: Maybe<string>;
-  discordInviteUrl?: Maybe<string>;
-  githubUrl?: Maybe<string>;
+  websiteURL?: Maybe<string>;
+  joinURL?: Maybe<string>;
+  twitterURL?: Maybe<string>;
+  discordInviteURL?: Maybe<string>;
+  githubURL?: Maybe<string>;
   type: GuildType_Enum;
   legitimacy: string;
 }
@@ -111,14 +112,16 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   hydratePlayer,
 }) => {
   const readFile = useImageReader();
-  const toast = useToast();
+  const toast = useToast({
+    isClosable: true,
+    duration: 8000,
+  });
   const router = useRouter();
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
     control,
   } = useForm<CreateGuildFormInputs>({
     mode: 'onTouched',
@@ -133,7 +136,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onFileChange = useCallback(
-    async (file: File | undefined) => {
+    async (file?: File) => {
       if (!file) return;
       setLoading(true);
 
@@ -155,30 +158,28 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
       const {
         type,
         logoFile,
-        logoUrl,
-        websiteUrl,
-        githubUrl,
-        twitterUrl,
+        logoURL,
+        websiteURL,
+        githubURL,
+        twitterURL,
         description,
         guildname,
         name,
-        discordInviteUrl,
-        joinUrl,
+        discordInviteURL,
+        joinURL,
       } = createUnverifiedGuild;
 
-      let newLogoUrl = logoUrl;
+      let newLogoURL = logoURL;
 
       if (logoFile?.[0]) {
         try {
           const ipfsHash = await uploadFile(logoFile[0]);
-          newLogoUrl = `ipfs://${ipfsHash}`;
+          newLogoURL = `ipfs://${ipfsHash}`;
         } catch (error) {
           toast({
             title: 'Error Saving Logo',
             description: (error as Error).message,
             status: 'warning',
-            isClosable: true,
-            duration: 8000,
           });
           errorHandler(error as Error);
           return;
@@ -186,85 +187,84 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
       }
 
       try {
-        const response: any = await onSubmit({
+        const {
+          error,
+          data: { insert_guild: response } = { insert_guild: null },
+        }: any = await onSubmit({
           guildname,
           name,
           description,
-          logo: newLogoUrl,
-          websiteUrl,
-          joinUrl,
+          logo: newLogoURL,
+          websiteURL,
+          joinURL,
           type,
-          legitimacy: 'UNVERIFIED',
         });
-        const saveGuildResponse = response.data.insert_guild.returning[0].id;
 
-        if (saveGuildResponse) {
+        if (error) {
+          throw new Error(error);
+        }
+
+        const newGuildId = response.returning[0].id;
+        if (newGuildId) {
           toast({
-            title: 'Guild information submitted',
-            description: 'Thanks! Your guild will go live shortly 🚀',
+            title: 'Guild Information Submitted',
+            description: 'Thanks! Your guild will go live shortly. 🚀',
             status: 'success',
-            isClosable: true,
-            duration: 5000,
           });
           await addGuildMember({
             playerId: player?.id,
-            guildId: saveGuildResponse,
+            guildId: newGuildId,
           });
-          if (twitterUrl) {
+          if (twitterURL) {
             await addLink({
-              guildId: saveGuildResponse,
+              guildId: newGuildId,
               name: 'Find Us On Twitter',
-              url: twitterUrl,
+              url: twitterURL,
               type: 'TWITTER' as LinkType_Enum,
             });
           }
-          if (discordInviteUrl) {
+          if (discordInviteURL) {
             await addLink({
-              guildId: saveGuildResponse,
+              guildId: newGuildId,
               name: 'Join Us On Discord',
-              url: discordInviteUrl,
+              url: discordInviteURL,
               type: 'DISCORD' as LinkType_Enum,
             });
           }
-          if (githubUrl) {
+          if (githubURL) {
             await addLink({
-              guildId: saveGuildResponse,
+              guildId: newGuildId,
               name: 'Find Us On Github',
-              url: githubUrl,
+              url: githubURL,
               type: 'GITHUB' as LinkType_Enum,
             });
           }
         }
         hydratePlayer();
-        setIsSubmitting(false);
       } catch (error) {
         console.error({ error });
         toast({
           title: 'Error Saving Guild',
-          description:
-            (error as Error).message ?? 'unknown error',
+          description: (error as Error).message ?? 'unknown error',
           status: 'error',
-          isClosable: true,
-          duration: 10000,
         });
+      } finally {
+        setIsSubmitting(false);
       }
-      setIsSubmitting(false);
     },
     [toast, onSubmit, hydratePlayer, addGuildMember, player?.id, addLink],
   );
 
   return (
     <Box w="100%" pl="5%" pr="5%">
-      <VStack>
-        <Field label="Logo" error={errors.logoUrl}>
-          <Flex
+      <VStack as="form" onSubmit={handleSubmit(submitForm)}>
+        <Field label="Logo" error={errors.logoURL}>
+          <FormLabel
             w="100%"
             h="10em"
             borderRadius="full"
             display="inline-flex"
             overflow="hidden"
-            align="center"
-            justify="center"
             position="relative"
             border="2px solid"
             borderColor={active ? 'blue.400' : 'transparent'}
@@ -273,15 +273,20 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
               onLoad={() => setLoading(false)}
               onError={() => setErrored(true)}
               display={loading ? 'none' : 'inherit'}
-              src={logoURI}
+              src={logoURI ?? FileOpenIcon.src}
               borderRadius="full"
-              objectFit="cover"
+              objectFit="contain"
               h="full"
               w="full"
             />
             {loading &&
               (!logoURI || errored ? (
-                <Image w="5em" mx="2.5em" src={FileOpenIcon} opacity={0.5} />
+                <Image
+                  w="5em"
+                  mx="2.5em"
+                  src={FileOpenIcon.src}
+                  opacity={0.5}
+                />
               ) : (
                 <Spinner size="xl" color="purple.500" thickness="4px" />
               ))}
@@ -297,21 +302,16 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
                     const file = evt.target.files?.[0];
                     onFileChange(file);
                   }}
-                  accept="image/png,image/gif,image/jpeg,image/svg+xml"
+                  accept="image/*"
                   position="absolute"
-                  top={0}
-                  bottom={0}
-                  left={0}
-                  right={0}
+                  inset={0}
                   opacity={0}
-                  w="100%"
-                  h="100%"
                   onFocus={() => setActive(true)}
                   onBlur={() => setActive(false)}
                 />
               )}
             />
-          </Flex>
+          </FormLabel>
           <FieldDescription>
             Logos should be square (same width and height) and reasonably
             high-resolution.
@@ -337,7 +337,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             background="dark"
           />
           <FieldDescription>
-            A unique identifier for your guild, like a username.
+            A unique identifier for your guild to use in URLs, like a username.
           </FieldDescription>
         </Field>
         <Field label="Name" error={errors.name}>
@@ -356,7 +356,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             background="dark"
           />
           <FieldDescription>
-            Your guild&apos;s name. This is what will show throughout MetaGame.
+            Your guild&apos;s name. This will show throughout MetaGame.
           </FieldDescription>
         </Field>
         <Field label="Description" error={errors.description}>
@@ -366,40 +366,40 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             background="dark"
           />
         </Field>
-        <Field label="Website URL" error={errors.websiteUrl}>
-          <Input {...register('websiteUrl')} background="dark" />
+        <Field label="Website URL" error={errors.websiteURL}>
+          <Input {...register('websiteURL')} background="dark" />
           <FieldDescription>Your guild&apos;s main website.</FieldDescription>
         </Field>
-        <Field label="Discord Invite URL" error={errors.discordInviteUrl}>
+        <Field label="Discord Invite URL" error={errors.discordInviteURL}>
           <Input
             placeholder="https://discord.gg/fHvx7gu"
-            {...register('discordInviteUrl')}
+            {...register('discordInviteURL')}
             background="dark"
           />
           <FieldDescription>
             A public invite URL for your Discord server.
           </FieldDescription>
         </Field>
-        <Field label="Join URL" error={errors.joinUrl}>
-          <Input {...register('joinUrl')} background="dark" />
+        <Field label="Join URL" error={errors.joinURL}>
+          <Input {...register('joinURL')} background="dark" />
           <FieldDescription>
-            The URL that the <q>JOIN</q> button will point to.
+            The URL that the <q>JOIN</q> button will lead to.
           </FieldDescription>
         </Field>
-        <Field label="Twitter URL" error={errors.twitterUrl}>
+        <Field label="Twitter URL" error={errors.twitterURL}>
           <Input
             placeholder="https://twitter.com/…"
-            {...register('twitterUrl')}
+            {...register('twitterURL')}
             background="dark"
           />
           <FieldDescription>
             Your guild&apos;s home on Twitter.
           </FieldDescription>
         </Field>
-        <Field label="GitHub URL" error={errors.githubUrl}>
+        <Field label="GitHub URL" error={errors.githubURL}>
           <Input
             placeholder="https://github.com/…"
-            {...register('githubUrl')}
+            {...register('githubURL')}
             background="dark"
           />
           <FieldDescription>Your guild&apos;s home on GitHub.</FieldDescription>
@@ -426,13 +426,13 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
 
         <HStack justify="space-between" mt={10} w="100%">
           <MetaButton
+            type="submit"
             isLoading={submitting}
             loadingText="Submitting information…"
-            onClick={handleSubmit(submitForm)}
             isDisabled={success || isSubmitting}
             bg="purple.500"
           >
-            {isSubmitting ? 'Submitting, please wait..' : 'Submit Guild Information'}
+            {isSubmitting ? 'Submitting…' : 'Submit Guild Information'}
           </MetaButton>
         </HStack>
       </VStack>
