@@ -9,7 +9,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit --pretty",
     "generate": "yarn generate:graphql",
-    "generate:graphql": "yarn graphql-codegen",
+    "generate:graphql": "yarn graphql-codegen-esm --verbose --debug",
     "precommit": "yarn typecheck"
   },
   "dependencies": {
@@ -65,7 +65,7 @@
     "next-plausible": "^3.7.2",
     "next-transpile-modules": "9.0.0",
     "next-urql": "^5.0.2",
-    "node-fetch": "3.2.1",
+    "node-fetch": "^3.3.2",
     "opensea-js": "^4.0.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -85,7 +85,7 @@
     "sourcecred": "0.11.0",
     "swr": "2.0.3",
     "urql": "^4.0.6",
-    "web3.storage": "3.5.6",
+    "web3.storage": "^4.5.5",
     "web3modal": "1.9.5"
   },
   "devDependencies": {
