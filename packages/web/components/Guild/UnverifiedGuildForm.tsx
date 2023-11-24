@@ -15,7 +15,6 @@ import {
 } from '@metafam/ds';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Field, FieldDescription } from 'components/Forms/Field';
-import { NewUnverifiedGuild } from 'components/Player/Section/MembershipModals/AddPlayerGuild';
 import {
   AddUnverifiedGuildMutationVariables,
   GuildFragment,
@@ -24,6 +23,7 @@ import {
   Maybe,
   Player,
   useAddGuildLinkMutation,
+  AddUnverifiedGuildMutation,
   useAddGuildMemberMutation,
 } from 'graphql/autogen/types';
 import { useImageReader } from 'lib/hooks/useImageReader';
@@ -32,6 +32,13 @@ import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
 import { uploadFile } from 'utils/uploadHelpers';
+import { CombinedError } from 'urql';
+
+export type NewUnverifiedGuild = {
+  error?: CombinedError;
+  data?: AddUnverifiedGuildMutation;
+};
+
 
 const validations = {
   guildname: {

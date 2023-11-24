@@ -20,10 +20,6 @@ import {
 import React, { useState } from 'react';
 import { CombinedError } from 'urql';
 
-export type NewUnverifiedGuild = {
-  error?: CombinedError;
-  data?: AddUnverifiedGuildMutation;
-};
 
 export const AddPlayerGuild: React.FC<{
   isOpen: boolean;
