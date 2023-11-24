@@ -22,6 +22,19 @@ export const UpdateGuildMutations = /* GraphQL */ `
     }
   }
 
+  mutation RewriteGuildOrder(
+    $playerId: uuid!
+    $inputs: [guild_player_insert_input!]!
+  ) {
+    delete_guild_player(where: { playerId: { _eq: $playerId } }) {
+      affected_rows
+    }
+
+    insert_guild_player(objects: $inputs) {
+      affected_rows
+    }
+  }
+
   mutation GetGuildLinksNoCache($guildId: uuid!, $updatedAt: timestamptz!) {
     update_guild(
       where: { id: { _eq: $guildId } }

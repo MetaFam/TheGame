@@ -18,12 +18,14 @@ const getPlayerLinksQuery = /* GraphQL */ `
 
 const getPlayerGuildMembershipsQuery = /* GraphQL */ `
   query getPlayerGuildMemberships($playerId: uuid!) {
-    guild_player_aggregate(where: { playerId: { _eq: $playerId } }) {
-      nodes {
-        guildId
-        playerId
-        visible
-      }
+    guild_player(
+      order_by: { position: asc }
+      where: { playerId: { _eq: $playerId } }
+    ) {
+      guildId
+      playerId
+      position
+      visible
     }
   }
 `;

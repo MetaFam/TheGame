@@ -1408,6 +1408,7 @@ type guild_player {
   discordRoles: [DiscordRole!]!
   guildId: uuid!
   playerId: uuid!
+  position: Int
   visible: Boolean!
 }
 """
@@ -1421,19 +1422,33 @@ type guild_player_aggregate {
 aggregate fields of "guild_player"
 """
 type guild_player_aggregate_fields {
+  avg: guild_player_avg_fields
   count(columns: [guild_player_select_column!], distinct: Boolean): Int!
   max: guild_player_max_fields
   min: guild_player_min_fields
+  stddev: guild_player_stddev_fields
+  stddev_pop: guild_player_stddev_pop_fields
+  stddev_samp: guild_player_stddev_samp_fields
+  sum: guild_player_sum_fields
+  var_pop: guild_player_var_pop_fields
+  var_samp: guild_player_var_samp_fields
+  variance: guild_player_variance_fields
+}
+"aggregate avg on columns"
+type guild_player_avg_fields {
+  position: Float
 }
 "aggregate max on columns"
 type guild_player_max_fields {
   guildId: uuid
   playerId: uuid
+  position: Int
 }
 "aggregate min on columns"
 type guild_player_min_fields {
   guildId: uuid
   playerId: uuid
+  position: Int
 }
 """
 response of any mutation on the table "guild_player"
@@ -1443,6 +1458,34 @@ type guild_player_mutation_response {
   affected_rows: Int!
   "data from the rows affected by the mutation"
   returning: [guild_player!]!
+}
+"aggregate stddev on columns"
+type guild_player_stddev_fields {
+  position: Float
+}
+"aggregate stddev_pop on columns"
+type guild_player_stddev_pop_fields {
+  position: Float
+}
+"aggregate stddev_samp on columns"
+type guild_player_stddev_samp_fields {
+  position: Float
+}
+"aggregate sum on columns"
+type guild_player_sum_fields {
+  position: Int
+}
+"aggregate var_pop on columns"
+type guild_player_var_pop_fields {
+  position: Float
+}
+"aggregate var_samp on columns"
+type guild_player_var_samp_fields {
+  position: Float
+}
+"aggregate variance on columns"
+type guild_player_variance_fields {
+  position: Float
 }
 "aggregate stddev on columns"
 type guild_stddev_fields {
@@ -2944,6 +2987,8 @@ type mutation_root {
   update data of the table: "guild_player"
   """
   update_guild_player(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: guild_player_inc_input,
     "sets the columns of the filtered rows to the given values"
     _set: guild_player_set_input,
     "filter the rows which have to be updated"
@@ -2953,6 +2998,8 @@ type mutation_root {
   update single row of the table: "guild_player"
   """
   update_guild_player_by_pk(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: guild_player_inc_input,
     "sets the columns of the filtered rows to the given values"
     _set: guild_player_set_input,pk_columns: guild_player_pk_columns_input!  ): guild_player
   """
@@ -3421,6 +3468,8 @@ type player {
     "JSON select path"
     path: String
   ): jsonb
+  "An object relationship"
+  player_guilds: guild_player
   "An object relationship"
   profile: profile
   profileLayout: String
@@ -8057,6 +8106,10 @@ enum guild_player_constraint {
   """
   unique or primary key constraint on columns "guild_id", "player_id"
   """
+  guild_player_guild_id_player_id_key
+  """
+  unique or primary key constraint on columns "guild_id", "player_id"
+  """
   guild_player_pkey
 }
 """
@@ -8067,6 +8120,8 @@ enum guild_player_select_column {
   guildId
   "column name"
   playerId
+  "column name"
+  position
   "column name"
   visible
 }
@@ -8092,6 +8147,8 @@ enum guild_player_update_column {
   guildId
   "column name"
   playerId
+  "column name"
+  position
   "column name"
   visible
 }
@@ -10787,9 +10844,17 @@ input guild_player_aggregate_bool_exp_count {
 order by aggregate values of table "guild_player"
 """
 input guild_player_aggregate_order_by {
+  avg: guild_player_avg_order_by
   count: order_by
   max: guild_player_max_order_by
   min: guild_player_min_order_by
+  stddev: guild_player_stddev_order_by
+  stddev_pop: guild_player_stddev_pop_order_by
+  stddev_samp: guild_player_stddev_samp_order_by
+  sum: guild_player_sum_order_by
+  var_pop: guild_player_var_pop_order_by
+  var_samp: guild_player_var_samp_order_by
+  variance: guild_player_variance_order_by
 }
 """
 input type for inserting array relation for remote table "guild_player"
@@ -10798,6 +10863,12 @@ input guild_player_arr_rel_insert_input {
   data: [guild_player_insert_input!]!
   "upsert condition"
   on_conflict: guild_player_on_conflict
+}
+"""
+order by avg() on columns of table "guild_player"
+"""
+input guild_player_avg_order_by {
+  position: order_by
 }
 """
 Boolean expression to filter rows from the table "guild_player". All fields are combined with a logical 'AND'.
@@ -10810,7 +10881,14 @@ input guild_player_bool_exp {
   _or: [guild_player_bool_exp!]
   guildId: uuid_comparison_exp
   playerId: uuid_comparison_exp
+  position: Int_comparison_exp
   visible: Boolean_comparison_exp
+}
+"""
+input type for incrementing numeric columns in table "guild_player"
+"""
+input guild_player_inc_input {
+  position: Int
 }
 """
 input type for inserting data into table "guild_player"
@@ -10820,6 +10898,7 @@ input guild_player_insert_input {
   Player: player_obj_rel_insert_input
   guildId: uuid
   playerId: uuid
+  position: Int
   visible: Boolean
 }
 """
@@ -10828,6 +10907,7 @@ order by max() on columns of table "guild_player"
 input guild_player_max_order_by {
   guildId: order_by
   playerId: order_by
+  position: order_by
 }
 """
 order by min() on columns of table "guild_player"
@@ -10835,6 +10915,15 @@ order by min() on columns of table "guild_player"
 input guild_player_min_order_by {
   guildId: order_by
   playerId: order_by
+  position: order_by
+}
+"""
+input type for inserting object relation for remote table "guild_player"
+"""
+input guild_player_obj_rel_insert_input {
+  data: guild_player_insert_input!
+  "upsert condition"
+  on_conflict: guild_player_on_conflict
 }
 """
 on_conflict condition type for table "guild_player"
@@ -10852,6 +10941,7 @@ input guild_player_order_by {
   Player: player_order_by
   guildId: order_by
   playerId: order_by
+  position: order_by
   visible: order_by
 }
 "primary key columns input for table: guild_player"
@@ -10865,7 +10955,26 @@ input type for updating data in table "guild_player"
 input guild_player_set_input {
   guildId: uuid
   playerId: uuid
+  position: Int
   visible: Boolean
+}
+"""
+order by stddev() on columns of table "guild_player"
+"""
+input guild_player_stddev_order_by {
+  position: order_by
+}
+"""
+order by stddev_pop() on columns of table "guild_player"
+"""
+input guild_player_stddev_pop_order_by {
+  position: order_by
+}
+"""
+order by stddev_samp() on columns of table "guild_player"
+"""
+input guild_player_stddev_samp_order_by {
+  position: order_by
 }
 """
 Streaming cursor of the table "guild_player"
@@ -10880,13 +10989,40 @@ input guild_player_stream_cursor_input {
 input guild_player_stream_cursor_value_input {
   guildId: uuid
   playerId: uuid
+  position: Int
   visible: Boolean
 }
+"""
+order by sum() on columns of table "guild_player"
+"""
+input guild_player_sum_order_by {
+  position: order_by
+}
 input guild_player_updates {
+  "increments the numeric columns with given value of the filtered values"
+  _inc: guild_player_inc_input
   "sets the columns of the filtered rows to the given values"
   _set: guild_player_set_input
   "filter the rows which have to be updated"
   where: guild_player_bool_exp!
+}
+"""
+order by var_pop() on columns of table "guild_player"
+"""
+input guild_player_var_pop_order_by {
+  position: order_by
+}
+"""
+order by var_samp() on columns of table "guild_player"
+"""
+input guild_player_var_samp_order_by {
+  position: order_by
+}
+"""
+order by variance() on columns of table "guild_player"
+"""
+input guild_player_variance_order_by {
+  position: order_by
 }
 """
 input type for updating data in table "guild"
@@ -11344,6 +11480,7 @@ input player_bool_exp {
   links: link_bool_exp
   links_aggregate: link_aggregate_bool_exp
   membership_metadata: jsonb_comparison_exp
+  player_guilds: guild_player_bool_exp
   profile: profile_bool_exp
   profileLayout: String_comparison_exp
   quest_completions: quest_completion_bool_exp
@@ -11396,6 +11533,7 @@ input player_insert_input {
   id: uuid
   links: link_arr_rel_insert_input
   membership_metadata: jsonb
+  player_guilds: guild_player_obj_rel_insert_input
   profile: profile_obj_rel_insert_input
   profileLayout: String
   quest_completions: quest_completion_arr_rel_insert_input
@@ -11440,6 +11578,7 @@ input player_order_by {
   id: order_by
   links_aggregate: link_aggregate_order_by
   membership_metadata: order_by
+  player_guilds: guild_player_order_by
   profile: profile_order_by
   profileLayout: order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by

@@ -1,29 +1,24 @@
 import { isAddress } from '@ethersproject/address';
 import {
   Box,
-  CloseButton,
-  Flex,
+  chakra,
   FormLabel,
   HStack,
   Image,
   Input,
-  LoadingState,
   MetaButton,
-  MultiSelect,
   Select,
   Spinner,
-  Text,
   Textarea,
   useToast,
   VStack,
 } from '@metafam/ds';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Field, FieldDescription } from 'components/Forms/Field';
-import { MetaLink } from 'components/Link';
+import { NewUnverifiedGuild } from 'components/Player/Section/MembershipModals/AddPlayerGuild';
 import {
-  GuildDaoInput,
+  AddUnverifiedGuildMutationVariables,
   GuildFragment,
-  GuildType_ActionEnum,
   GuildType_Enum,
   LinkType_Enum,
   Maybe,
@@ -34,12 +29,7 @@ import {
 import { useImageReader } from 'lib/hooks/useImageReader';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
-import {
-  Controller,
-  FieldError,
-  useFieldArray,
-  useForm,
-} from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
 import { uploadFile } from 'utils/uploadHelpers';
 
@@ -97,7 +87,9 @@ export interface CreateGuildFormInputs {
 
 type Props = {
   workingGuild?: GuildFragment;
-  onSubmit: (data: any) => void;
+  onSubmit: (
+    data: AddUnverifiedGuildMutationVariables,
+  ) => Promise<NewUnverifiedGuild>;
   success?: boolean;
   submitting?: boolean;
   hydratePlayer: () => void;
@@ -186,11 +178,13 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         }
       }
 
+      if (!newLogoURL) throw new Error('Logo must be set for a new guild.');
+
       try {
         const {
           error,
           data: { insert_guild: response } = { insert_guild: null },
-        }: any = await onSubmit({
+        }: NewUnverifiedGuild = await onSubmit({
           guildname,
           name,
           description,
@@ -200,9 +194,8 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
           type,
         });
 
-        if (error) {
-          throw new Error(error);
-        }
+        if (error) throw new Error(error.message);
+        if (!response) throw new Error('No response from server.');
 
         const newGuildId = response.returning[0].id;
         if (newGuildId) {
@@ -258,7 +251,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   return (
     <Box w="100%" pl="5%" pr="5%">
       <VStack as="form" onSubmit={handleSubmit(submitForm)}>
-        <Field label="Logo" error={errors.logoURL}>
+        <Field label="Logo *" error={errors.logoURL}>
           <FormLabel
             w="100%"
             h="10em"
@@ -278,6 +271,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
               objectFit="contain"
               h="full"
               w="full"
+              opacity={logoURI ? 1 : 0.25}
             />
             {loading &&
               (!logoURI || errored ? (
@@ -293,6 +287,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             <Controller
               {...{ control }}
               name="logoFile"
+              rules={{ required: true }}
               render={({ field: { onChange, value, ...props } }) => (
                 <Input
                   {...props}
@@ -313,11 +308,11 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             />
           </FormLabel>
           <FieldDescription>
-            Logos should be square (same width and height) and reasonably
-            high-resolution.
+            Logos should be square (same width and height) and at least
+            250px⨯250px.
           </FieldDescription>
         </Field>
-        <Field label="Guildname" error={errors.guildname}>
+        <Field label="Username *" error={errors.guildname}>
           <Input
             {...register('guildname', {
               required: {
@@ -337,10 +332,10 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             background="dark"
           />
           <FieldDescription>
-            A unique identifier for your guild to use in URLs, like a username.
+            A unique identifier to use in URLs for your guild.
           </FieldDescription>
         </Field>
-        <Field label="Name" error={errors.name}>
+        <Field label="Display Name *" error={errors.name}>
           <Input
             {...register('name', {
               required: {
@@ -356,7 +351,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             background="dark"
           />
           <FieldDescription>
-            Your guild&apos;s name. This will show throughout MetaGame.
+            Your guild’s name. This will show throughout MetaGame.
           </FieldDescription>
         </Field>
         <Field label="Description" error={errors.description}>
@@ -368,7 +363,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         </Field>
         <Field label="Website URL" error={errors.websiteURL}>
           <Input {...register('websiteURL')} background="dark" />
-          <FieldDescription>Your guild&apos;s main website.</FieldDescription>
+          <FieldDescription>Your guild’s main website.</FieldDescription>
         </Field>
         <Field label="Discord Invite URL" error={errors.discordInviteURL}>
           <Input
@@ -392,9 +387,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             {...register('twitterURL')}
             background="dark"
           />
-          <FieldDescription>
-            Your guild&apos;s home on Twitter.
-          </FieldDescription>
+          <FieldDescription>Your guild’s home on Twitter.</FieldDescription>
         </Field>
         <Field label="GitHub URL" error={errors.githubURL}>
           <Input
@@ -402,7 +395,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
             {...register('githubURL')}
             background="dark"
           />
-          <FieldDescription>Your guild&apos;s home on GitHub.</FieldDescription>
+          <FieldDescription>Your guild’s home on GitHub.</FieldDescription>
         </Field>
         <Field label="Type" error={errors.type}>
           <Select
@@ -413,13 +406,14 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
               },
             })}
             isInvalid={!!errors.type}
-            background="dark"
+            bg="dark"
             color="white"
+            sx={{ '& > option': { bg: 'dark' } }}
           >
             {Object.entries(GuildType_Enum).map(([key, value]) => (
-              <option key={value} value={value}>
+              <chakra.option key={value} value={value}>
                 {key}
-              </option>
+              </chakra.option>
             ))}
           </Select>
         </Field>
@@ -427,6 +421,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         <HStack justify="space-between" mt={10} w="100%">
           <MetaButton
             type="submit"
+            m="auto"
             isLoading={submitting}
             loadingText="Submitting information…"
             isDisabled={success || isSubmitting}
