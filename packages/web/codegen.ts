@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   generates: {
     './graphql/autogen/types.ts': {
       schema: '../../schema.graphql',
-      documents: ['./graphql/**/(!(*.d)).ts', '!./graphql/composeDB/**'],
+      documents: ['graphql/**/*.ts', '!graphql/composeDB/**'],
       plugins: [
         'typescript',
         'typescript-operations',
@@ -14,10 +14,12 @@ const config: CodegenConfig = {
         { add: { content: '/* eslint-disable */' } },
       ],
       config: {
+        withHooks: true,
         gqlImport: 'fake-tag',
         skipTypename: true,
         dedupeOperationSuffix: true,
         documentMode: 'documentNode',
+        emitLegacyCommonJSImports: false,
 
         // This generates typenames more in line with the rest
         // of the codebase, but, unfortunately, player_role and
