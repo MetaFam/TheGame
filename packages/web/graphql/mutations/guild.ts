@@ -1,7 +1,4 @@
-export {};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-/* GraphQL */ `
+export const UpdateGuildMutations = /* GraphQL */ `
   mutation AuthenticateDiscordGuild($code: String!) {
     authenticateDiscordGuild(code: $code) {
       success
@@ -42,18 +39,26 @@ export {};
     }
   }
 
-  mutation AddUnverifiedGuild (
-    $description: String!
+  mutation AddUnverifiedGuild(
+    $description: String
     $guildname: String!
-    $joinUrl: String!
-    $legitimacy: String!
+    $joinURL: String
     $logo: String!
     $name: String!
-    $websiteUrl: String!
+    $websiteURL: String
     $type: GuildType_enum!
   ) {
     insert_guild(
-      objects: { description: $description, guildname: $guildname, joinButtonUrl: $joinUrl, legitimacy: $legitimacy, logo: $logo, name: $name, websiteUrl: $websiteUrl, type: $type }
+      objects: {
+        description: $description
+        guildname: $guildname
+        joinButtonUrl: $joinURL
+        legitimacy: "UNVERIFIED"
+        logo: $logo
+        name: $name
+        websiteUrl: $websiteURL
+        type: $type
+      }
     ) {
       returning {
         id
@@ -61,7 +66,6 @@ export {};
       affected_rows
     }
   }
-  
 
   mutation AddGuildLink(
     $guildId: uuid!
