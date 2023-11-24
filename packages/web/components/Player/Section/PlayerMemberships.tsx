@@ -10,6 +10,7 @@ import {
   IconButton,
   Image,
   LoadingState,
+  MetaButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -26,9 +27,7 @@ import {
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
-import {
-  Player,
-} from 'graphql/autogen/types';
+import { Player, useRewriteGuildOrderMutation } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
@@ -224,6 +223,16 @@ type MembershipSectionProps = {
   editing?: boolean;
 };
 
+type LayoutEntry = {
+  i: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+const GUILD_LAYOUT_STORAGE_KEY = 'savedGuildLayout';
+
 export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   player,
   isOwnProfile,
@@ -231,6 +240,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [visibility, setVisibility] = useState<Record<string, boolean>>({});
+  const [position, setPosition] = useState<Record<string, number>>({});
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
   const [currentMemberships, setCurrentMemberships] = useState<
     GuildMembership[]
@@ -238,28 +248,23 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const [loading, setLoading] = useState(true);
   const [editView, setEditView] = useState(false);
   const [addGuildView, setAddGuildView] = useState(false);
-  const [layout, setLayout] = useState(() => {
-    const savedLayout = window.localStorage.getItem('savedLayout');
-    if (savedLayout) {
-      return JSON.parse(savedLayout);
-    }
-    if (!savedLayout) {
-      return memberships.map((membership, index) => ({
-        i: membership.id,
-        x: 0,
-        y: index,
-        w: 1,
-        h: 1,
-      }));
-    }
-    return [];
-  });
+  const [layout, setLayout] = useState<Array<LayoutEntry>>(
+    (() => {
+      const savedLayout = window.localStorage.getItem(GUILD_LAYOUT_STORAGE_KEY);
+      return savedLayout ? JSON.parse(savedLayout) : [];
+    })(),
+  );
+  const [, rewriteGuildOrder] = useRewriteGuildOrderMutation();
+
+  useEffect(() => {
+    setPosition(Object.fromEntries(layout.map(({ i, y }) => [i, y])));
+  }, [layout]);
 
   const { hydrateFromHasura: performHasuraHydration, hydratedPlayer } =
     usePlayerHydrationContext();
 
   const updateMemberships = useCallback(() => {
-    getAllMemberships(hydratedPlayer || player).then(({ all }) => {
+    getAllMemberships(hydratedPlayer || player, false).then(({ all }) => {
       const visible = structuredClone(visibility);
       const withHidden = all.map((membership) => {
         visible[membership.id] ??= !!membership.visible;
@@ -277,19 +282,61 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
   useEffect(updateMemberships, [updateMemberships, editView]);
 
-  const onLayoutChange = (newLayout: any) => {
-    const savedLayout = window.localStorage.getItem('savedLayout');
-    if (savedLayout) {
-      window.localStorage.removeItem('savedLayout');
-    }
-    window.localStorage.setItem('savedLayout', JSON.stringify(newLayout));
-    setLayout(newLayout);
-  };
+  const cancel = useCallback(() => {
+    setEditView(false);
+    setVisibility(
+      Object.fromEntries(memberships.map(({ id, visible }) => [id, !!visible])),
+    );
+    setLayout(
+      memberships.map(({ id }, i) => ({
+        i: id,
+        x: 0,
+        y: i,
+        w: 1,
+        h: 1,
+      })),
+    );
+  }, [memberships]);
 
-  const visibleMemberships = currentMemberships.filter(({ visible: v }) => v);
-  const dirty = memberships.some(
-    (membership) => visibility[membership.id] !== membership.visible,
-  );
+  const saveMemberships = useCallback(() => {
+    setEditView(false);
+
+    const savedLayout = window.localStorage.getItem(GUILD_LAYOUT_STORAGE_KEY);
+    if (savedLayout) {
+      window.localStorage.removeItem(GUILD_LAYOUT_STORAGE_KEY);
+    }
+    window.localStorage.setItem(
+      GUILD_LAYOUT_STORAGE_KEY,
+      JSON.stringify(layout),
+    );
+
+    const inputs = currentMemberships.map(({ id, guildId, visible }) => ({
+      playerId: hydratedPlayer?.id,
+      guildId,
+      visible,
+      position: position[id],
+    }));
+
+    rewriteGuildOrder({ playerId: hydratedPlayer.id, inputs });
+  }, [
+    currentMemberships,
+    hydratedPlayer.id,
+    layout,
+    position,
+    rewriteGuildOrder,
+  ]);
+
+  const visibleMemberships = currentMemberships
+    .filter(({ visible: v }) => v)
+    .sort((a, b) => position[a.id] - position[b.id]);
+  const dirty =
+    memberships.length >= 0 &&
+    (memberships.some(
+      (membership) => visibility[membership.id] !== membership.visible,
+    ) ||
+      Object.entries(position).some(
+        ([id, pos]) => !memberships[pos] || memberships[pos].id !== id,
+      ));
 
   return (
     <ProfileSection
@@ -320,14 +367,13 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         (loading ? (
           <LoadingState mb={6} />
         ) : (
-          memberships.length === 0 ||
-          (visibleMemberships.length === 0 && (
+          visibleMemberships.length === 0 && (
             <Text fontStyle="italic" textAlign="center" mb={4}>
               No Guild member&shy;ships{' '}
               {memberships.length === 0 ? 'found' : 'visible'} for{' '}
               {isOwnProfile ? 'you' : 'this player'}.
             </Text>
-          ))
+          )
         ))}
 
       <VStack align="stretch">
@@ -368,7 +414,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             isDraggable={!!editView}
             isResizable={false}
             useCSSTransforms={true}
-            onLayoutChange={onLayoutChange}
+            onLayoutChange={setLayout}
             cols={1}
             rowHeight={90}
             margin={[0, 10]}
@@ -382,12 +428,23 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
                   playerId={hydratedPlayer?.id}
                   onClose={performHasuraHydration}
                   updateVisibility={(vis) => {
-                    setVisibility((viss) => ({ ...viss, [membership.id]: vis }));
+                    setVisibility((viss) => ({
+                      ...viss,
+                      [membership.id]: vis,
+                    }));
                   }}
                 />
               </Box>
             ))}
           </ReactGridLayout>
+          {dirty && (
+            <Box display="flex" justifyContent="center" mt={4}>
+              <MetaButton onClick={cancel} mr={4}>
+                Cancel
+              </MetaButton>
+              <MetaButton onClick={saveMemberships}>Save</MetaButton>
+            </Box>
+          )}
           <Button
             variant="unstyled"
             size="md"
@@ -404,16 +461,12 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         </>
       )}
       {editView && addGuildView && (
-        <>
-          <AddPlayerGuild
-            isOpen={addGuildView}
-            onClose={() => {
-              setAddGuildView(false);
-            }}
-            player={hydratedPlayer}
-            hydratePlayer={performHasuraHydration}
-          />
-        </>
+        <AddPlayerGuild
+          isOpen={addGuildView}
+          onClose={() => setAddGuildView(false)}
+          player={hydratedPlayer}
+          hydratePlayer={performHasuraHydration}
+        />
       )}
     </ProfileSection>
   );

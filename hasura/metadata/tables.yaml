@@ -550,15 +550,17 @@
           player_id:
             _eq: X-Hasura-User-Id
         columns:
-          - visible
           - guild_id
           - player_id
+          - position
+          - visible
   select_permissions:
     - role: player
       permission:
         columns:
           - guild_id
           - player_id
+          - position
           - visible
         filter: {}
     - role: public
@@ -566,15 +568,17 @@
         columns:
           - guild_id
           - player_id
+          - position
           - visible
         filter: {}
   update_permissions:
     - role: player
       permission:
         columns:
-          - visible
           - guild_id
           - player_id
+          - position
+          - visible
         filter:
           player_id:
             _eq: X-Hasura-User-Id

@@ -25,7 +25,11 @@ const daoMembershipsQuery = /* GraphQL */ `
 
 const guildMembershipsQuery = /* GraphQL */ `
   query GetPlayerGuilds($playerId: uuid!) {
-    guild_player(where: { playerId: { _eq: $playerId } }) {
+    guild_player(
+      order_by: { position: asc }
+      where: { playerId: { _eq: $playerId } }
+    ) {
+      position
       visible
       guildId
       Guild {
@@ -49,15 +53,22 @@ const guildMembershipsQuery = /* GraphQL */ `
   }
 `;
 
-export const getGuildMemberships = async (playerId: string) => {
-  const response = await client
+export const getGuildMemberships = async (playerId: string, cache = true) => {
+  const ops: Record<string, string> = {};
+  if (!cache) {
+    ops.requestPolicy = 'network-only';
+  }
+  const { error, data } = await client
     .query<GetPlayerGuildsQuery, GetPlayerGuildsQueryVariables>(
       guildMembershipsQuery,
       { playerId },
-      { requestPolicy: 'network-only' },
+      ops,
     )
     .toPromise();
-  return response.data?.guild_player;
+
+  if (error) throw error;
+
+  return data?.guild_player;
 };
 
 export const getDaoMemberships = async (address: string | null) => {
@@ -88,8 +99,8 @@ export type GuildMembership = {
   legitimacy?: string | null;
 };
 
-export const getAllMemberships = async (player: Player) => {
-  const guildPlayers = await getGuildMemberships(player.id);
+export const getAllMemberships = async (player: Player, cache = true) => {
+  const guildPlayers = await getGuildMemberships(player.id, cache);
 
   const daoMemberships =
     player.daohausMemberships ??
@@ -117,6 +128,7 @@ export const getAllMemberships = async (player: Player) => {
     visible: gp.visible,
     guildId: gp.guildId,
     legitimacy: gp.Guild.legitimacy,
+    position: gp.position,
   }));
 
   const daoHaus = (filteredMemberships || []).map((m) => ({

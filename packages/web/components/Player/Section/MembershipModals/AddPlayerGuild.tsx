@@ -12,8 +12,18 @@ import {
 } from '@metafam/ds';
 import { UnverifiedGuildForm } from 'components/Guild/UnverifiedGuildForm';
 import { GuildSearchBar } from 'components/GuildSearchBar';
-import { Player, useAddUnverifiedGuildMutation } from 'graphql/autogen/types';
-import React from 'react';
+import {
+  AddUnverifiedGuildMutation,
+  Player,
+  useAddUnverifiedGuildMutation,
+} from 'graphql/autogen/types';
+import React, { useState } from 'react';
+import { CombinedError } from 'urql';
+
+export type NewUnverifiedGuild = {
+  error?: CombinedError;
+  data?: AddUnverifiedGuildMutation;
+};
 
 export const AddPlayerGuild: React.FC<{
   isOpen: boolean;
@@ -21,8 +31,7 @@ export const AddPlayerGuild: React.FC<{
   player: Player;
   hydratePlayer: () => void;
 }> = ({ isOpen, onClose, player, hydratePlayer }) => {
-  const [addUnverifiedGuildView, setAddUnverifiedGuildView] =
-    React.useState(false);
+  const [showGuildForm, setShowGuildForm] = useState(false);
   const [, addUnverifiedGuild] = useAddUnverifiedGuildMutation();
 
   return (
@@ -30,7 +39,7 @@ export const AddPlayerGuild: React.FC<{
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          Add Guild Membership
+          {showGuildForm ? 'Create New Guild' : 'Search for a Guild'}
           <Text
             fontStyle="italic"
             color="gray.400"
@@ -39,28 +48,32 @@ export const AddPlayerGuild: React.FC<{
             mt={3}
             mb={10}
           >
-            {addUnverifiedGuildView ? 'Create new Guild' : 'Search for a Guild'}
+            Add Guild Membership
           </Text>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody p={[0, 6]}>
-          {addUnverifiedGuildView ? (
+          {showGuildForm ? (
             <UnverifiedGuildForm
-              onSubmit={addUnverifiedGuild}
+              onSubmit={async (...args) => {
+                const ret = await addUnverifiedGuild(...args);
+                if (!ret.error) onClose();
+                return ret;
+              }}
               {...{ player, hydratePlayer }}
             />
           ) : (
-            <GuildSearchBar player={player} />
+            <GuildSearchBar {...{ player }} />
           )}
 
-          {!addUnverifiedGuildView && (
+          {!showGuildForm && (
             <Button
               variant="outline"
               w={{ base: '50%', lg: '20%' }}
               mt={6}
               ml={{ base: '20%', lg: '40%' }}
               leftIcon={<AddIcon />}
-              onClick={() => setAddUnverifiedGuildView(true)}
+              onClick={() => setShowGuildForm(true)}
             >
               Add New Guild
             </Button>
