@@ -3,11 +3,11 @@ export const GuildQueries = /* GraphQL */ `
     id
     guildname
     description
-    joinButtonUrl
+    joinButtonURL
     logo
     name
     type
-    websiteUrl
+    websiteURL
     discordId
     status
     membershipThroughDiscord

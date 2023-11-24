@@ -65,11 +65,11 @@ export const UpdateGuildMutations = /* GraphQL */ `
       objects: {
         description: $description
         guildname: $guildname
-        joinButtonUrl: $joinURL
+        joinButtonURL: $joinURL
         legitimacy: "UNVERIFIED"
         logo: $logo
         name: $name
-        websiteUrl: $websiteURL
+        websiteURL: $websiteURL
         type: $type
       }
     ) {

@@ -46,7 +46,7 @@ const GuildsPage: React.FC<Props> = ({ guilds }) => (
         </Text>
       </Center>
 
-      <GuildList {...{ guilds }} />
+      {guilds && <GuildList {...{ guilds }} />}
     </VStack>
   </PageContainer>
 );

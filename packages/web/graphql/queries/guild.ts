@@ -15,7 +15,6 @@ import {
   GuildLinksQuery,
   GuildLinksQueryVariables,
   GuildStatus_Enum,
-  Maybe,
   SearchGuildsQuery,
   SearchGuildsQueryVariables,
 } from 'graphql/autogen/types';
@@ -38,11 +37,14 @@ const getGuildLinksQuery = /* GraphQL */ `
 
 export const getGuildLinks = async (guildId: string) => {
   if (!guildId) throw new Error('Missing Player Id');
-  const { data } = await client
+  const { error, data } = await client
     .query<GuildLinksQuery, GuildLinksQueryVariables>(getGuildLinksQuery, {
       guildId,
     })
     .toPromise();
+
+  if (error) throw error;
+
   return data;
 };
 
@@ -55,13 +57,13 @@ const guildQuery = /* GraphQL */ `
   ${GuildFragment}
 `;
 
-export const getGuild = async (
-  guildname: string | undefined,
-): Promise<GuildFragmentType | undefined> => {
+export const getGuild = async (guildname: string | undefined) => {
   if (guildname) {
-    const { data } = await client
+    const { error, data } = await client
       .query<GetGuildQuery, GetGuildQueryVariables>(guildQuery, { guildname })
       .toPromise();
+
+    if (error) throw error;
 
     return data?.guild[0];
   }
@@ -84,12 +86,15 @@ const guildMetadataQuery = /* GraphQL */ `
 
 export const getGuildMetadata = async (id: string) => {
   if (!id) return null;
-  const { data } = await client
+  const { error, data } = await client
     .query<GetGuildMetadataQuery, GetGuildMetadataQueryVariables>(
       guildMetadataQuery,
       { id },
     )
     .toPromise();
+
+  if (error) throw error;
+
   return data?.guild_metadata[0];
 };
 
@@ -114,19 +119,14 @@ const guildsQuery = /* GraphQL */ `
   ${GuildFragment}
 `;
 
-export const getGuilds = async (limit = 50): Promise<GuildFragmentType[]> => {
-  const { data, error } = await client
+export const getGuilds = async (limit = 50) => {
+  const { error, data } = await client
     .query<GetGuildsQuery, GetGuildsQueryVariables>(guildsQuery, { limit })
     .toPromise();
 
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
+  if (error) throw error;
 
-  return data.guild;
+  return data?.guild;
 };
 
 const guildnamesQuery = /* GraphQL */ `
@@ -141,7 +141,7 @@ const guildnamesQuery = /* GraphQL */ `
 export const getGuildnames = async (
   status = GuildStatus_Enum.Active,
   limit = 50,
-): Promise<string[]> => {
+) => {
   const { data, error } = await client
     .query<GetGuildnamesQuery, GetGuildnamesQueryVariables>(guildnamesQuery, {
       status,
@@ -149,14 +149,9 @@ export const getGuildnames = async (
     })
     .toPromise();
 
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
+  if (error) throw error;
 
-  return data.guild.map(({ guildname }) => guildname);
+  return data?.guild.map(({ guildname }) => guildname);
 };
 
 const getGuildPlayersQuery = /* GraphQL */ `
@@ -181,16 +176,16 @@ const getGuildPlayersQuery = /* GraphQL */ `
 export const getGuildPlayers = async (
   guildId: string,
   isMetafam = false,
-): Promise<GuildPlayer[]> => {
+): Promise<GuildPlayer[] | void> => {
   if (!guildId) return [];
-  const { data } = await client
+  const { error, data } = await client
     .query<GetGuildPlayersQuery, GetGuildPlayersQueryVariables>(
       getGuildPlayersQuery,
       { guildId },
     )
     .toPromise();
 
-  if (!data) return [];
+  if (error) throw error;
 
   const guildPlayers = data?.guild_player.map((gp) => ({
     ...gp.Player,
@@ -213,22 +208,21 @@ const getGuildAnnouncementsQuery = /* GraphQL */ `
   ${PlayerFragment}
 `;
 
-export const getGuildAnnouncements = async (
-  guildId: string,
-): Promise<Maybe<string[]> | undefined> => {
+export const getGuildAnnouncements = async (guildId: string) => {
   if (!guildId) return [];
-  const { data } = await client
+
+  const { error, data } = await client
     .query<GetGuildAnnouncementsQuery, GetGuildAnnouncementsQueryVariables>(
       getGuildAnnouncementsQuery,
       { guildId },
     )
     .toPromise();
 
-  if (!data) return [];
-  return data.guild[0].discordAnnouncements;
+  if (error) throw error;
+
+  return data?.guild[0].discordAnnouncements;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 const guildSearch = /* GraphQL */ `
   query SearchGuilds($search: String!, $limit: Int) {
     guild(where: { name: { _ilike: $search } }, limit: $limit) {
@@ -252,7 +246,7 @@ export const searchGuilds = async ({
     })
     .toPromise();
 
-  if (!data && error) throw new Error(`Error:- ${error}`);
+  if (error) throw error;
 
   return {
     guilds: data?.guild || [],

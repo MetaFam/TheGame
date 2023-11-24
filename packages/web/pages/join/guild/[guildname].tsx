@@ -34,24 +34,24 @@ const SetupGuild: React.FC = () => {
         discordAdminRoles: adminRoles,
         discordMembershipRoles: membershipRoles,
         logoFile,
-        logoUrl,
+        logoURL,
         daos,
-        websiteUrl,
-        githubUrl,
-        twitterUrl,
+        websiteURL,
+        githubURL,
+        twitterURL,
         description,
         guildname,
         name,
-        discordInviteUrl,
-        joinUrl,
+        discordInviteURL,
+        joinURL,
       } = editGuildFormInputs;
 
-      let newLogoUrl = logoUrl;
+      let newLogoURL = logoURL;
 
       if (logoFile?.[0]) {
         try {
           const ipfsHash = await uploadFile(logoFile[0]);
-          newLogoUrl = `ipfs://${ipfsHash}`;
+          newLogoURL = `ipfs://${ipfsHash}`;
         } catch (error) {
           toast({
             title: 'Error Saving Logo',
@@ -68,7 +68,7 @@ const SetupGuild: React.FC = () => {
       const twitterGuildLink = {
         guildId: guild.id,
         name: 'Find Us On Twitter',
-        url: twitterUrl || '',
+        url: twitterURL || '',
         type: 'TWITTER' as LinkType_Enum,
       };
       await addLink(twitterGuildLink);
@@ -76,7 +76,7 @@ const SetupGuild: React.FC = () => {
       const discordGuildLink = {
         guildId: guild.id,
         name: 'Join Us On Discord',
-        url: discordInviteUrl || '',
+        url: discordInviteURL || '',
         type: 'DISCORD' as LinkType_Enum,
       };
       await addLink(discordGuildLink);
@@ -84,7 +84,7 @@ const SetupGuild: React.FC = () => {
       const githubGuildLink = {
         guildId: guild.id,
         name: 'Find Us On Github',
-        url: githubUrl || '',
+        url: githubURL || '',
         type: 'GITHUB' as LinkType_Enum,
       };
       await addLink(githubGuildLink);
@@ -93,14 +93,14 @@ const SetupGuild: React.FC = () => {
         guildname,
         name,
         description,
-        joinUrl,
+        joinURL,
         daos,
-        websiteUrl,
+        websiteURL,
         discordAdminRoles: adminRoles.map((o) => o.value),
         discordMembershipRoles: membershipRoles.map((o) => o.value),
         type: type as unknown as GuildType_ActionEnum,
         uuid: guild.id,
-        logoUrl: newLogoUrl,
+        logoURL: newLogoURL,
       };
 
       const response = await updateGuild({ guildInfo: payload });
