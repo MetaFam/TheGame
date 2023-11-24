@@ -2,7 +2,8 @@ import {
   Box,
   Button,
   Container,
-  Flex, Image,
+  Flex,
+  Image,
   ListItem,
   MetaButton,
   Stack,
@@ -16,7 +17,8 @@ import {
   useBreakpointValue,
   useMultiStyleConfig,
   useTab,
-  VStack} from '@metafam/ds';
+  VStack,
+} from '@metafam/ds';
 import GuildsImg from 'assets/guilds-sun_800x800.webp';
 import PatronsImg from 'assets/patrons-sun_800x820.webp';
 import PlayerImg from 'assets/players-sun_800x822.webp';
@@ -36,7 +38,8 @@ import {
   playerPerks,
   playerReasons,
   roles,
-  RoleTitle} from './data';
+  RoleTitle,
+} from './data';
 
 const tabs = ['Player', 'Guild', 'Patron'];
 const bgColors = ['green.200', '#6A88DF', '#ED61C5'];
@@ -326,8 +329,9 @@ export const Signup: React.FC = () => {
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
                 sx={{
-                  maskImage: isMobile ?
-                    'unset' : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                  maskImage: isMobile
+                    ? 'unset'
+                    : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
                 }}
                 color="white"
                 overflowY="auto"
@@ -366,9 +370,12 @@ export const Signup: React.FC = () => {
                         {playerPerks.map((perk, index) => (
                           <Tab
                             key={index}
-                            _selected={{ bg: index === 0 ? 'green.200' : 'pink.200', color: index === 0 ? 'green.900' : 'pink.900' }}
+                            _selected={{
+                              bg: index === 0 ? 'green.200' : 'pink.200',
+                              color: index === 0 ? 'green.900' : 'pink.900',
+                            }}
                             _active={{ bg: 'transparent' }}
-                            textTransform='uppercase'
+                            textTransform="uppercase"
                           >
                             {perk.title}
                           </Tab>
@@ -377,9 +384,7 @@ export const Signup: React.FC = () => {
                       <TabPanels>
                         {playerPerks.map((perk, index) => (
                           <TabPanel key={index}>
-                            <PerksCard
-                              {...perk}
-                            />
+                            <PerksCard {...perk} />
                           </TabPanel>
                         ))}
                       </TabPanels>
@@ -390,7 +395,7 @@ export const Signup: React.FC = () => {
                         <PerksCard
                           key={index}
                           {...perk}
-                          badgeColor={index === 0 ? "green" : "pink"}
+                          badgeColor={index === 0 ? 'green' : 'pink'}
                         />
                       ))}
                     </Stack>
@@ -409,17 +414,19 @@ export const Signup: React.FC = () => {
                   >
                     {roles.map((role, index) => (
                       <React.Fragment key={index}>
-                        {role.tab === activeTab && (
-                          <RoleCard
-                            {...role}
-                          />
-                        )}
-                        {role.tab === activeTab && index === roles.findIndex(r => r.tab === RoleTitle.Player) && (
-                          <Text fontSize={{ base: 'xl', lg: '2xl' }}
-                            fontWeight={{ base: 'bold', lg: 'normal' }}>
-                            OR
-                          </Text>
-                        )}
+                        {role.tab === activeTab && <RoleCard {...role} />}
+                        {role.tab === activeTab &&
+                          index ===
+                            roles.findIndex(
+                              (r) => r.tab === RoleTitle.Player,
+                            ) && (
+                            <Text
+                              fontSize={{ base: 'xl', lg: '2xl' }}
+                              fontWeight={{ base: 'bold', lg: 'normal' }}
+                            >
+                              OR
+                            </Text>
+                          )}
                       </React.Fragment>
                     ))}
                   </Stack>
@@ -439,8 +446,9 @@ export const Signup: React.FC = () => {
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
                 sx={{
-                  maskImage: isMobile ?
-                    'unset' : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                  maskImage: isMobile
+                    ? 'unset'
+                    : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
                 }}
                 color="white"
                 overflowY="auto"
@@ -483,20 +491,20 @@ export const Signup: React.FC = () => {
                   >
                     {roles.map((role, index) => (
                       <React.Fragment key={index}>
-                        {role.tab === activeTab && (
-                          <RoleCard
-                            {...role}
-                          />
-                        )}
-                        {role.tab === activeTab && index === roles.findIndex(r => r.tab === RoleTitle.Guild) && (
-                          <Text
-                            fontSize={{ base: 'xl', lg: '2xl' }}
-                            fontWeight={{ base: 'bold', lg: 'normal' }}
-                            mx={2}
-                          >
-                            OR
-                          </Text>
-                        )}
+                        {role.tab === activeTab && <RoleCard {...role} />}
+                        {role.tab === activeTab &&
+                          index ===
+                            roles.findIndex(
+                              (r) => r.tab === RoleTitle.Guild,
+                            ) && (
+                            <Text
+                              fontSize={{ base: 'xl', lg: '2xl' }}
+                              fontWeight={{ base: 'bold', lg: 'normal' }}
+                              mx={2}
+                            >
+                              OR
+                            </Text>
+                          )}
                       </React.Fragment>
                     ))}
                   </Stack>
@@ -516,10 +524,10 @@ export const Signup: React.FC = () => {
                             key={index}
                             _selected={{
                               bg: bgColors[index] || 'defaultColor',
-                              color: textColors[index] || 'defaultColor'
+                              color: textColors[index] || 'defaultColor',
                             }}
                             _active={{ bg: 'transparent' }}
-                            textTransform='uppercase'
+                            textTransform="uppercase"
                           >
                             {perk.type}
                           </Tab>
@@ -528,9 +536,7 @@ export const Signup: React.FC = () => {
                       <TabPanels>
                         {guildPerks.map((perk, index) => (
                           <TabPanel key={index}>
-                            <PerksCard
-                              {...perk}
-                            />
+                            <PerksCard {...perk} />
                           </TabPanel>
                         ))}
                       </TabPanels>
@@ -580,8 +586,9 @@ export const Signup: React.FC = () => {
                 paddingX={{ base: '24px', lg: '96px' }}
                 paddingY={{ base: '10px', lg: '128px' }}
                 sx={{
-                  maskImage: isMobile ?
-                    'unset' : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
+                  maskImage: isMobile
+                    ? 'unset'
+                    : 'linear-gradient(to top, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 96%);',
                 }}
                 color="white"
                 overflowY="auto"
@@ -620,9 +627,12 @@ export const Signup: React.FC = () => {
                         {patronPerks.map((perk, index) => (
                           <Tab
                             key={index}
-                            _selected={{ bg: index === 0 ? 'green.200' : 'pink.200', color: index === 0 ? 'green.900' : 'pink.900' }}
+                            _selected={{
+                              bg: index === 0 ? 'green.200' : 'pink.200',
+                              color: index === 0 ? 'green.900' : 'pink.900',
+                            }}
                             _active={{ bg: 'transparent' }}
-                            textTransform='uppercase'
+                            textTransform="uppercase"
                           >
                             {perk.title}
                           </Tab>
@@ -631,9 +641,7 @@ export const Signup: React.FC = () => {
                       <TabPanels>
                         {patronPerks.map((perk, index) => (
                           <TabPanel key={index}>
-                            <PerksCard
-                              {...perk}
-                            />
+                            <PerksCard {...perk} />
                           </TabPanel>
                         ))}
                       </TabPanels>
@@ -644,7 +652,7 @@ export const Signup: React.FC = () => {
                         <PerksCard
                           key={index}
                           {...perk}
-                          badgeColor={index === 0 ? "green" : "pink"}
+                          badgeColor={index === 0 ? 'green' : 'pink'}
                         />
                       ))}
                     </Stack>
@@ -664,14 +672,18 @@ export const Signup: React.FC = () => {
                     {roles.map((role, index) => (
                       <React.Fragment key={index}>
                         {role.tab === activeTab && <RoleCard {...role} />}
-                        {role.tab === activeTab && index === roles.findIndex(r => r.tab === RoleTitle.Patron) && (
-                          <Text
-                            fontSize={{ base: 'xl', lg: '2xl' }}
-                            fontWeight={{ base: 'bold', lg: 'normal' }}
-                          >
-                            OR
-                          </Text>
-                        )}
+                        {role.tab === activeTab &&
+                          index ===
+                            roles.findIndex(
+                              (r) => r.tab === RoleTitle.Patron,
+                            ) && (
+                            <Text
+                              fontSize={{ base: 'xl', lg: '2xl' }}
+                              fontWeight={{ base: 'bold', lg: 'normal' }}
+                            >
+                              OR
+                            </Text>
+                          )}
                       </React.Fragment>
                     ))}
                   </Stack>

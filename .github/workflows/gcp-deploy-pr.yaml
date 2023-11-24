@@ -518,7 +518,6 @@ jobs:
             --set-env-vars GCAL_CLIENT_EMAIL="${{secrets.GCAL_CLIENT_EMAIL}}" \
             --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}"
 
-
   seed-db:
     name: Seed Database
     runs-on: ubuntu-latest
