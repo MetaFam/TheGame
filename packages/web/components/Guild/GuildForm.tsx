@@ -70,13 +70,13 @@ export interface EditGuildFormInputs {
   guildname: string;
   name: string;
   description?: Maybe<string>;
-  discordInviteUrl?: Maybe<string>;
-  joinUrl?: Maybe<string>;
-  logoUrl?: Maybe<string>;
+  discordInviteURL?: Maybe<string>;
+  joinURL?: Maybe<string>;
+  logoURL?: Maybe<string>;
   logoFile?: Maybe<FileList>;
-  websiteUrl?: Maybe<string>;
-  twitterUrl?: Maybe<string>;
-  githubUrl?: Maybe<string>;
+  websiteURL?: Maybe<string>;
+  twitterURL?: Maybe<string>;
+  githubURL?: Maybe<string>;
   type: GuildType_Enum;
   discordAdminRoles: SelectOption[];
   discordMembershipRoles: SelectOption[];
@@ -121,8 +121,8 @@ const getDefaultFormValues = (
     guildname: guild.guildname,
     name: guild.name,
     description: guild.description || '',
-    logoUrl: optimizedImage('logoURL', guild.logo) || '',
-    websiteUrl: guild.websiteUrl || '',
+    logoURL: optimizedImage('logoURL', guild.logo) || '',
+    websiteURL: guild.websiteURL || '',
     type: guild.type,
     discordAdminRoles: discordAdminRoleOptions,
     discordMembershipRoles: discordMembershipRoleOptions,
@@ -232,7 +232,7 @@ export const GuildForm: React.FC<Props> = ({
   return (
     <Box w="100%" maxW="40rem">
       <VStack>
-        <Field label="Logo" error={errors.logoUrl}>
+        <Field label="Logo" error={errors.logoURL}>
           <Flex
             w="10em"
             h="10em"
@@ -342,40 +342,40 @@ export const GuildForm: React.FC<Props> = ({
             background="dark"
           />
         </Field>
-        <Field label="Website URL" error={errors.websiteUrl}>
-          <Input {...register('websiteUrl')} background="dark" />
+        <Field label="Website URL" error={errors.websiteURL}>
+          <Input {...register('websiteURL')} background="dark" />
           <FieldDescription>Your guild&apos;s main website.</FieldDescription>
         </Field>
-        <Field label="Discord Invite URL" error={errors.discordInviteUrl}>
+        <Field label="Discord Invite URL" error={errors.discordInviteURL}>
           <Input
             placeholder="https://discord.gg/fHvx7gu"
-            {...register('discordInviteUrl')}
+            {...register('discordInviteURL')}
             background="dark"
           />
           <FieldDescription>
             A public invite URL for your Discord server.
           </FieldDescription>
         </Field>
-        <Field label="Join URL" error={errors.joinUrl}>
-          <Input {...register('joinUrl')} background="dark" />
+        <Field label="Join URL" error={errors.joinURL}>
+          <Input {...register('joinURL')} background="dark" />
           <FieldDescription>
             The URL that the <q>JOIN</q> button will point to.
           </FieldDescription>
         </Field>
-        <Field label="Twitter URL" error={errors.twitterUrl}>
+        <Field label="Twitter URL" error={errors.twitterURL}>
           <Input
             placeholder="https://twitter.com/…"
-            {...register('twitterUrl')}
+            {...register('twitterURL')}
             background="dark"
           />
           <FieldDescription>
             Your guild&apos;s home on Twitter.
           </FieldDescription>
         </Field>
-        <Field label="GitHub URL" error={errors.githubUrl}>
+        <Field label="GitHub URL" error={errors.githubURL}>
           <Input
             placeholder="https://github.com/…"
-            {...register('githubUrl')}
+            {...register('githubURL')}
             background="dark"
           />
           <FieldDescription>Your guild&apos;s home on GitHub.</FieldDescription>

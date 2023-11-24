@@ -101,13 +101,15 @@ const CreateQuestPage: React.FC<Props> = ({
         New Quest
       </Heading>
 
-      <QuestForm
-        {...{ guilds, skillChoices, onSubmit, roleChoices }}
-        success={!!createQuestState.data?.createQuest?.success}
-        fetching={createQuestState.fetching}
-        submitLabel="Create Quest"
-        loadingLabel="Creating Quest…"
-      />
+      {guilds && (
+        <QuestForm
+          {...{ guilds, skillChoices, onSubmit, roleChoices }}
+          success={!!createQuestState.data?.createQuest?.success}
+          fetching={createQuestState.fetching}
+          submitLabel="Create Quest"
+          loadingLabel="Creating Quest…"
+        />
+      )}
     </PageContainer>
   );
 };

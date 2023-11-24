@@ -272,7 +272,7 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
                   name={guild.name}
                   image={guild?.logo as string | undefined}
                   text={guild.name}
-                  url={guild?.websiteUrl as string | undefined}
+                  url={guild?.websiteURL as string | undefined}
                 />
               ))}
               {guilds.length >= LIMIT && (

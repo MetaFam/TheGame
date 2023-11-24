@@ -35,7 +35,7 @@ export const GuildPlayers: React.FC<Props> = ({
   useEffect(() => {
     getGuildPlayers(guildId, guildname === 'metafam').then((players) => {
       setLoading(false);
-      setGuildPlayers(players);
+      setGuildPlayers(players ?? []);
     });
   }, [guildId, guildname]);
 

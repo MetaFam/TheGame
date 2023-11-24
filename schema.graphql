@@ -1210,7 +1210,7 @@ type guild {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String!
   id: uuid!
-  joinButtonUrl: String
+  joinButtonURL: String
   legitimacy: String
   "An array relationship"
   links(
@@ -1276,7 +1276,7 @@ type guild {
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum!
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 aggregated selection of "guild"
@@ -1312,14 +1312,14 @@ type guild_max_fields {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
   legitimacy: String
   logo: String
   name: String
   profileLayout: String
   sortPosition: Int
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 "Used to hold private information for guilds"
 type guild_metadata {
@@ -1379,14 +1379,14 @@ type guild_min_fields {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
   legitimacy: String
   logo: String
   name: String
   profileLayout: String
   sortPosition: Int
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 response of any mutation on the table "guild"
@@ -8165,7 +8165,7 @@ enum guild_select_column {
   "column name"
   id
   "column name"
-  joinButtonUrl
+  joinButtonURL
   "column name"
   legitimacy
   "column name"
@@ -8187,7 +8187,7 @@ enum guild_select_column {
   "column name"
   updatedAt
   "column name"
-  websiteUrl
+  websiteURL
 }
 """
 select "guild_aggregate_bool_exp_bool_and_arguments_columns" columns of table "guild"
@@ -8220,7 +8220,7 @@ enum guild_update_column {
   "column name"
   id
   "column name"
-  joinButtonUrl
+  joinButtonURL
   "column name"
   legitimacy
   "column name"
@@ -8242,7 +8242,7 @@ enum guild_update_column {
   "column name"
   updatedAt
   "column name"
-  websiteUrl
+  websiteURL
 }
 """
 unique or primary key constraints on table "link"
@@ -9300,18 +9300,18 @@ input GuildInfoInput {
   daos: [GuildDaoInput!]
   description: String
   discordAdminRoles: [String]!
-  discordInviteUrl: String
+  discordInviteURL: String
   discordMembershipRoles: [String]!
-  githubUrl: String
+  githubURL: String
   guildname: String!
-  joinUrl: String
-  logoUrl: String
+  joinURL: String
+  logoURL: String
   membershipThroughDiscord: Boolean
   name: String!
-  twitterUrl: String
+  twitterURL: String
   type: GuildType_ActionEnum!
   uuid: String!
-  websiteUrl: String
+  websiteURL: String
 }
 input GuildLayoutInfoInput {
   profileLayout: String!
@@ -10564,7 +10564,7 @@ input guild_bool_exp {
   guild_players_aggregate: guild_player_aggregate_bool_exp
   guildname: String_comparison_exp
   id: uuid_comparison_exp
-  joinButtonUrl: String_comparison_exp
+  joinButtonURL: String_comparison_exp
   legitimacy: String_comparison_exp
   links: link_bool_exp
   links_aggregate: link_aggregate_bool_exp
@@ -10580,7 +10580,7 @@ input guild_bool_exp {
   status: GuildStatus_enum_comparison_exp
   type: GuildType_enum_comparison_exp
   updatedAt: timestamptz_comparison_exp
-  websiteUrl: String_comparison_exp
+  websiteURL: String_comparison_exp
 }
 """
 input type for incrementing numeric columns in table "guild"
@@ -10600,7 +10600,7 @@ input guild_insert_input {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
   legitimacy: String
   links: link_arr_rel_insert_input
   logo: String
@@ -10615,7 +10615,7 @@ input guild_insert_input {
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 order by max() on columns of table "guild"
@@ -10626,14 +10626,14 @@ input guild_max_order_by {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: order_by
   id: order_by
-  joinButtonUrl: order_by
+  joinButtonURL: order_by
   legitimacy: order_by
   logo: order_by
   name: order_by
   profileLayout: order_by
   sortPosition: order_by
   updatedAt: order_by
-  websiteUrl: order_by
+  websiteURL: order_by
 }
 "append existing jsonb value of filtered columns with new jsonb value"
 input guild_metadata_append_input {
@@ -10761,14 +10761,14 @@ input guild_min_order_by {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: order_by
   id: order_by
-  joinButtonUrl: order_by
+  joinButtonURL: order_by
   legitimacy: order_by
   logo: order_by
   name: order_by
   profileLayout: order_by
   sortPosition: order_by
   updatedAt: order_by
-  websiteUrl: order_by
+  websiteURL: order_by
 }
 """
 input type for inserting object relation for remote table "guild"
@@ -10797,7 +10797,7 @@ input guild_order_by {
   guild_players_aggregate: guild_player_aggregate_order_by
   guildname: order_by
   id: order_by
-  joinButtonUrl: order_by
+  joinButtonURL: order_by
   legitimacy: order_by
   links_aggregate: link_aggregate_order_by
   logo: order_by
@@ -10811,7 +10811,7 @@ input guild_order_by {
   status: order_by
   type: order_by
   updatedAt: order_by
-  websiteUrl: order_by
+  websiteURL: order_by
 }
 "primary key columns input for table: guild"
 input guild_pk_columns_input {
@@ -11033,7 +11033,7 @@ input guild_set_input {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
   legitimacy: String
   logo: String
   membershipThroughDiscord: Boolean
@@ -11045,7 +11045,7 @@ input guild_set_input {
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 order by stddev() on columns of table "guild"
@@ -11081,7 +11081,7 @@ input guild_stream_cursor_value_input {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
   legitimacy: String
   logo: String
   membershipThroughDiscord: Boolean
@@ -11093,7 +11093,7 @@ input guild_stream_cursor_value_input {
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 order by sum() on columns of table "guild"

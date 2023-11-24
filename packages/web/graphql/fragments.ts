@@ -24,7 +24,7 @@ export const GuildFragment = /* GraphQL */ `
     guildname
     profileLayout
     description
-    joinButtonUrl
+    joinButtonURL
     logo
     legitimacy
     name
@@ -34,7 +34,7 @@ export const GuildFragment = /* GraphQL */ `
       url
       type
     }
-    websiteUrl
+    websiteURL
     showDiscordAnnouncements
     daos {
       contractAddress

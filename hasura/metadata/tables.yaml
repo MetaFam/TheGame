@@ -310,7 +310,7 @@
       discord_id:
         custom_name: discordId
       join_button_url:
-        custom_name: joinButtonUrl
+        custom_name: joinButtonURL
       membership_through_discord:
         custom_name: membershipThroughDiscord
       profile_layout:
@@ -322,16 +322,16 @@
       updated_at:
         custom_name: updatedAt
       website_url:
-        custom_name: websiteUrl
+        custom_name: websiteURL
     custom_column_names:
       discord_id: discordId
-      join_button_url: joinButtonUrl
+      join_button_url: joinButtonURL
       membership_through_discord: membershipThroughDiscord
       profile_layout: profileLayout
       show_discord_announcements: showDiscordAnnouncements
       sort_position: sortPosition
       updated_at: updatedAt
-      website_url: websiteUrl
+      website_url: websiteURL
     custom_root_fields: {}
   object_relationships:
     - name: GuildType
