@@ -20,7 +20,6 @@ import {
 import React, { useState } from 'react';
 import { CombinedError } from 'urql';
 
-
 export const AddPlayerGuild: React.FC<{
   isOpen: boolean;
   onClose: () => void;
