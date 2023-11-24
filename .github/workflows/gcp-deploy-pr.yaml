@@ -30,7 +30,6 @@ env:
   HASURA_PORT: 8080
   FRONTEND_PORT: 3000
   HASURA_SECRET: metagame_secret
-  GA4_ID: G-B1NKK3Q1BP
   APP_ENV: development
 
 jobs:
