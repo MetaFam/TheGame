@@ -1,7 +1,6 @@
 import { getCurrentSeasonStart, Maybe } from '@metafam/utils';
 import ethers from 'ethers';
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
 
 import { client } from '../../../lib/hasuraClient.js';
 import { computeRank } from '../../../lib/rankHelpers.js';
