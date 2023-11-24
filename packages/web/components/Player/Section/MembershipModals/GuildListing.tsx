@@ -13,7 +13,12 @@ import {
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { GuildMembership } from 'graphql/getMemberships';
 import React, { useMemo } from 'react';
-import { BsEyeFill, BsEyeSlashFill, BsPatchCheckFill, BsPatchQuestion } from 'react-icons/bs';
+import {
+  BsEyeFill,
+  BsEyeSlashFill,
+  BsPatchCheckFill,
+  BsPatchQuestion,
+} from 'react-icons/bs';
 import { MdDragHandle } from 'react-icons/md';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
@@ -98,7 +103,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
           borderRadius: '8px',
           _hover: {
             bg: 'rgba(0, 0, 0, 0.24)',
-          }
+          },
         }}
         {...{ ref }}
       >

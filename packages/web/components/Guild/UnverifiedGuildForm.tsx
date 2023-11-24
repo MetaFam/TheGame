@@ -16,6 +16,7 @@ import {
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Field, FieldDescription } from 'components/Forms/Field';
 import {
+  AddUnverifiedGuildMutation,
   AddUnverifiedGuildMutationVariables,
   GuildFragment,
   GuildType_Enum,
@@ -23,22 +24,20 @@ import {
   Maybe,
   Player,
   useAddGuildLinkMutation,
-  AddUnverifiedGuildMutation,
   useAddGuildMemberMutation,
 } from 'graphql/autogen/types';
 import { useImageReader } from 'lib/hooks/useImageReader';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { CombinedError } from 'urql';
 import { errorHandler } from 'utils/errorHandler';
 import { uploadFile } from 'utils/uploadHelpers';
-import { CombinedError } from 'urql';
 
 export type NewUnverifiedGuild = {
   error?: CombinedError;
   data?: AddUnverifiedGuildMutation;
 };
-
 
 const validations = {
   guildname: {

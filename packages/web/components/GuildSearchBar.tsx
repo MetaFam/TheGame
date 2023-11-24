@@ -57,7 +57,7 @@ const Option = ({ onClick, name, image, text, url }: OptionProps) => (
         borderRadius: '8px',
       }}
     >
-      <Flex align="center" w='full'>
+      <Flex align="center" w="full">
         <Avatar
           name={name}
           src={httpLink(image)}
