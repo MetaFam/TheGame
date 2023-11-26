@@ -27,7 +27,11 @@ import {
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
-import { Player, useRewriteGuildOrderMutation } from 'graphql/autogen/types';
+import {
+  Player,
+  useRewriteDaoOrderMutation,
+  useRewriteGuildOrderMutation,
+} from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
@@ -255,6 +259,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     })(),
   );
   const [, rewriteGuildOrder] = useRewriteGuildOrderMutation();
+  const [, rewriteDAOOrder] = useRewriteDaoOrderMutation();
 
   useEffect(() => {
     setPosition(Object.fromEntries(layout.map(({ i, y }) => [i, y])));
@@ -310,19 +315,29 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
       JSON.stringify(layout),
     );
 
-    const inputs = currentMemberships.map(({ id, guildId, visible }) => ({
-      playerId: hydratedPlayer?.id,
-      guildId,
-      visible,
-      position: position[id],
-    }));
+    const membershipOrder = (ships: Array<GuildMembership>) =>
+      ships.map(({ id, guildId, visible }) => ({
+        playerId: hydratedPlayer?.id,
+        guildId: guildId ?? id,
+        visible,
+        position: position[id],
+      }));
 
-    rewriteGuildOrder({ playerId: hydratedPlayer.id, inputs });
+    const guildsInfo = membershipOrder(
+      currentMemberships.filter(({ type }) => type === 'GUILD'),
+    );
+    rewriteGuildOrder({ playerId: hydratedPlayer.id, inputs: guildsInfo });
+
+    const daosInfo = membershipOrder(
+      currentMemberships.filter(({ type }) => type === 'DAO'),
+    );
+    rewriteDAOOrder({ playerId: hydratedPlayer.id, inputs: daosInfo });
   }, [
     currentMemberships,
     hydratedPlayer.id,
     layout,
     position,
+    rewriteDAOOrder,
     rewriteGuildOrder,
   ]);
 
