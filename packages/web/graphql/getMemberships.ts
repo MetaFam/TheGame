@@ -97,6 +97,7 @@ export type GuildMembership = {
   visible?: boolean;
   guildId?: string;
   legitimacy?: string | null;
+  type: 'GUILD' | 'DAO';
 };
 
 export const getAllMemberships = async (player: Player, cache = true) => {
@@ -129,6 +130,7 @@ export const getAllMemberships = async (player: Player, cache = true) => {
     guildId: gp.guildId,
     legitimacy: gp.Guild.legitimacy,
     position: gp.position,
+    type: 'GUILD' as const,
   }));
 
   const daoHaus = (filteredMemberships || []).map((m) => ({
@@ -139,6 +141,7 @@ export const getAllMemberships = async (player: Player, cache = true) => {
     chain: m.moloch.chain,
     logoURL: m.moloch.avatarURL ?? undefined,
     address: m.molochAddress,
+    type: 'DAO' as const,
   }));
 
   const all: Array<GuildMembership> = [...guild, ...daoHaus];

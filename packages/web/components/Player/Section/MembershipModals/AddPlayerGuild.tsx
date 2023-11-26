@@ -12,13 +12,8 @@ import {
 } from '@metafam/ds';
 import { UnverifiedGuildForm } from 'components/Guild/UnverifiedGuildForm';
 import { GuildSearchBar } from 'components/GuildSearchBar';
-import {
-  AddUnverifiedGuildMutation,
-  Player,
-  useAddUnverifiedGuildMutation,
-} from 'graphql/autogen/types';
+import { Player, useAddUnverifiedGuildMutation } from 'graphql/autogen/types';
 import React, { useState } from 'react';
-import { CombinedError } from 'urql';
 
 export const AddPlayerGuild: React.FC<{
   isOpen: boolean;
