@@ -4,6 +4,8 @@ import {
   FaDiscord,
   FaGithub,
   FaGlobe,
+  FaPaperPlane,
+  FaPodcast,
   FaTelegram,
   FaTwitter,
   FaYoutube,
@@ -12,6 +14,8 @@ import {
 const LinkIcon = ({ type }: { type: Maybe<LinkType_Enum> | undefined }) => {
   if (!type) return <></>;
   const currentIcon = {
+    PODCAST: <FaPodcast />,
+    NEWSLETTER: <FaPaperPlane />,
     TWITTER: <FaTwitter />,
     DISCORD: <FaDiscord />,
     GITHUB: <FaGithub />,

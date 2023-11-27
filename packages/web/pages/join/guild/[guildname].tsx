@@ -42,6 +42,8 @@ const SetupGuild: React.FC = () => {
         description,
         guildname,
         name,
+        newsletterUrl,
+        podcastUrl,
         discordInviteUrl,
         joinUrl,
       } = editGuildFormInputs;
@@ -87,7 +89,24 @@ const SetupGuild: React.FC = () => {
         url: githubUrl || '',
         type: 'GITHUB' as LinkType_Enum,
       };
-      await addLink(githubGuildLink);
+
+      const newsletterGuildLink = {
+        guildId: guild.id,
+        name: 'Sign Up to our newsletter',
+        url: newsletterUrl || '',
+        type: 'NEWSLETTER' as LinkType_Enum,
+      };
+      await addLink(newsletterGuildLink);
+
+      const podcastGuildLink = {
+        guildId: guild.id,
+        name: 'Listen to our podcast',
+        url: podcastUrl || '',
+        type: 'PODCAST' as LinkType_Enum,
+      };
+
+
+      await addLink(podcastGuildLink);
 
       const payload: GuildInfoInput = {
         guildname,

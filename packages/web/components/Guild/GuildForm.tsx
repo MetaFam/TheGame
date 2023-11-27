@@ -8,6 +8,7 @@ import {
   Input,
   LoadingState,
   MetaButton,
+  MetaHeading,
   MultiSelect,
   Select,
   Spinner,
@@ -44,6 +45,11 @@ const validations = {
     minLength: 3,
     maxLength: 50,
   },
+  description: {
+    required: true,
+    minLength: 10,
+    maxLength: 300,
+  },
   name: {
     required: true,
     minLength: 4,
@@ -77,6 +83,8 @@ export interface EditGuildFormInputs {
   websiteUrl?: Maybe<string>;
   twitterUrl?: Maybe<string>;
   githubUrl?: Maybe<string>;
+  newsletterUrl?: Maybe<string>;
+  podcastUrl?: Maybe<string>; 
   type: GuildType_Enum;
   discordAdminRoles: SelectOption[];
   discordMembershipRoles: SelectOption[];
@@ -245,6 +253,7 @@ export const GuildForm: React.FC<Props> = ({
             border="2px solid"
             borderColor={active ? 'blue.400' : 'transparent'}
           >
+            <MetaHeading>Essential Information</MetaHeading>
             <Image
               onLoad={() => setLoading(false)}
               onError={() => setErrored(true)}
@@ -342,6 +351,7 @@ export const GuildForm: React.FC<Props> = ({
             background="dark"
           />
         </Field>
+        <MetaHeading>Guild Links</MetaHeading>
         <Field label="Website URL" error={errors.websiteUrl}>
           <Input {...register('websiteUrl')} background="dark" />
           <FieldDescription>Your guild&apos;s main website.</FieldDescription>
@@ -370,6 +380,26 @@ export const GuildForm: React.FC<Props> = ({
           />
           <FieldDescription>
             Your guild&apos;s home on Twitter.
+          </FieldDescription>
+        </Field>
+        <Field label="Twitter URL" error={errors.twitterUrl}>
+          <Input
+            placeholder="https://podcast.com/…"
+            {...register('podcastUrl')}
+            background="dark"
+          />
+          <FieldDescription>
+            Your guild&apos;s Podcast.
+          </FieldDescription>
+        </Field>
+        <Field label="Twitter URL" error={errors.twitterUrl}>
+          <Input
+            placeholder="https://newsletter.com/…"
+            {...register('newsletterUrl')}
+            background="dark"
+          />
+          <FieldDescription>
+            Your guild&apos;s Newsletter.
           </FieldDescription>
         </Field>
         <Field label="GitHub URL" error={errors.githubUrl}>
