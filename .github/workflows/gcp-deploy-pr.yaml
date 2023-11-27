@@ -30,7 +30,6 @@ env:
   HASURA_PORT: 8080
   FRONTEND_PORT: 3000
   HASURA_SECRET: metagame_secret
-  GA4_ID: G-B1NKK3Q1BP
   APP_ENV: development
 
 jobs:
@@ -518,7 +517,6 @@ jobs:
             --set-env-vars GCAL_PROJECT_NUMBER="${{secrets.GCAL_PROJECT_NUMBER}}" \
             --set-env-vars GCAL_CLIENT_EMAIL="${{secrets.GCAL_CLIENT_EMAIL}}" \
             --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}"
-
 
   seed-db:
     name: Seed Database

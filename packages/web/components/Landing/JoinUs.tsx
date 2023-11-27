@@ -29,16 +29,19 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
 
-  const sentences = useMemo(() => [
-    'an infinite game.',
-    'a real-life MMO-RPG.',
-    'about finding the most optimal ways to play life.',
-    'an ecosystem of people, projects & resources.',
-    'a game of life.',
-    'a game that builds itself.',
-    'a layer above nation states & network states.',
-    'wondering why are you still here instead of progressing???'
-  ], []);
+  const sentences = useMemo(
+    () => [
+      'an infinite game.',
+      'a real-life MMO-RPG.',
+      'about finding the most optimal ways to play life.',
+      'an ecosystem of people, projects & resources.',
+      'a game of life.',
+      'a game that builds itself.',
+      'a layer above nation states & network states.',
+      'wondering why are you still here instead of progressing???',
+    ],
+    [],
+  );
 
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
@@ -47,10 +50,13 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   // typeWriter effect
   useEffect(() => {
     if (onScreen) {
-      if (subIndex === sentences[index % sentences.length].length + 1 && !reverse) {
+      if (
+        subIndex === sentences[index % sentences.length].length + 1 &&
+        !reverse
+      ) {
         setTimeout(() => {
           setReverse(true);
-        }, 500); // delay cursor before deleting sentence
+        }, 250); // delay cursor before deleting sentence, speed up by 2x
         return undefined;
       }
 
@@ -62,7 +68,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
 
       const timeout = setTimeout(() => {
         setSubIndex((prevSubIndex) => prevSubIndex + (reverse ? -1 : 1));
-      }, 150);
+      }, 75); // speed up by 2x
 
       return () => clearTimeout(timeout);
     }
@@ -124,12 +130,17 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
                 fontWeight="700"
                 mb={{ base: 1, lg: 3 }}
               >
-                MetaGame is {' '}
-                <Text
-                  as="span"
-                  opacity={displayElement ? 1 : 0}
-                >
-                  {`${sentences[index % sentences.length].substring(0, subIndex)}${subIndex === sentences[index % sentences.length].length + 1 && !reverse ? "|" : ""}`}
+                MetaGame is{' '}
+                <Text as="span" opacity={displayElement ? 1 : 0}>
+                  {`${sentences[index % sentences.length].substring(
+                    0,
+                    subIndex,
+                  )}${
+                    subIndex ===
+                      sentences[index % sentences.length].length + 1 && !reverse
+                      ? '|'
+                      : ''
+                  }`}
                 </Text>
               </Text>
               <StartButton text="Join" />
@@ -229,7 +240,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
             </MetaLink>
           </HStack>
         </Box>
-      </Container >
+      </Container>
       <LandingFooter />
       <Box
         backgroundImage={BackgroundImage.src}
@@ -247,6 +258,6 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
         zIndex={1}
       />
       <Rain effectOpacity={0.2} />
-    </FullPageContainer >
+    </FullPageContainer>
   );
 };

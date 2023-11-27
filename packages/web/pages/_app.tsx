@@ -18,12 +18,10 @@ import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
-const { userbackToken, honeybadgerAPIKey, gaId } = CONFIG;
+const { userbackToken, honeybadgerAPIKey, gaId, appEnv } = CONFIG;
 
 const Analytics: React.FC = () => {
-  // console.log('CONFIG', gaId);
-
-  if (!gaId) {
+  if (!gaId || appEnv !== 'production') {
     return null;
   }
   return (
@@ -67,7 +65,7 @@ const App: React.FC<WithUrqlProps> = ({
           justifyContent: 'center',
         }}
       >
-        <Image src={Animocto.src} alt="Loading..." height={250} width={250} />
+        <Image src={Animocto.src} alt="Loading…" height={250} width={250} />
         <style jsx global>{`
           body {
             margin: 0;

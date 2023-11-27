@@ -7581,6 +7581,7 @@ enum QuestStatus_constraint {
   QuestStatus_pkey
 }
 enum QuestStatus_enum {
+  ARCHIVED
   CLOSED
   OPEN
 }
