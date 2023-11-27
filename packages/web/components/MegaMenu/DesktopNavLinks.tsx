@@ -128,7 +128,7 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => {
                     h="full"
                     borderBottom={
                       router?.pathname.includes(section.label)
-                        ? '3px solid #79F8FB'
+                        ? '3px solid #a48df3'
                         : ''
                     }
                     alignItems="center"
@@ -144,7 +144,7 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => {
                       textTransform="uppercase"
                       mx={{ lg: 3, xl: 6 }}
                       _expanded={{ color: 'cyan.300' }}
-                      _focus={{ outline: 'none', border: 'none' }}
+                      _focus={{ outline: 'none', border: 'none', textDecor: 'none' }}
                       rightIcon={
                         section.type === 'external-link' ? (
                           <ExternalLinkIcon color="white" />
