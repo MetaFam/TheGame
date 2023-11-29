@@ -32,7 +32,7 @@ export const Onboard: React.FC = () => {
           <OnboardingGame />
         </GameContextProvider>
       </Container>
-      <Rain top={-12} effectOpacity={0.3} />
+      <Rain top={2} effectOpacity={0.3} />
     </FullPageContainer>
   );
 };
