@@ -423,7 +423,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       position="relative"
       display="flex"
       flexDirection="column"
-      height="100vh"
+      minHeight="50vh"
+      height="100%"
       width="100%"
       fontFamily="onboarding"
       justifyContent={isLoading ? 'center' : 'flex-start'}
@@ -466,10 +467,10 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               className="step"
               display="flex"
               flexDirection="column"
-              justifyContent="space-between"
+              justifyContent="flex-start"
               alignItems="flex-start"
               flexGrow={1}
-              height="full"
+              height="100%"
               opacity={onScreen ? 1 : noMotion ? 1 : 0}
               transition="opacity 0.5s 0.2s ease-in"
               sx={{
@@ -520,7 +521,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                   p: {
                     display: 'block',
                     fontSize: { base: 'sm', md: 'sm', '2xl': 'lg' },
-                    marginBottom: { base: 2, '2xl': 5 },
+                    marginBottom: { base: 3, '2xl': 6 },
                   },
                   blockquote: {
                     position: 'relative',
