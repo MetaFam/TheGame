@@ -8,6 +8,7 @@ import Document, {
 } from 'next/document';
 import React from 'react';
 
+
 class MetaDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext,

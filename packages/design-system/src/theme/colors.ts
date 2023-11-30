@@ -26,6 +26,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   bronze: string;
   purple80: string;
   purpleProfileSection: string;
+  octo: string;
   brightIdOrange: ColorHues;
   borderPurple: string;
   pinkShadeOne: string;
@@ -84,6 +85,7 @@ export const colors: MetaColors = {
   royalBlue: '#214781',
   deepMagenta: '#2B1441',
   darkMagenta: '#2F1646',
+  octo: '#0C0223',
   plum: '#3E1C5D',
   wine: '#410834',
   violet: '#D59BD5',

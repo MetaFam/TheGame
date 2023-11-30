@@ -38,6 +38,7 @@ export const CONFIG = {
     whitelist: [
       'https://*.metagame.wtf',
       'https://frontend-pr-*-mjhnbmqqna-uk.a.run.app',
+      'http://localhost:3000'
     ],
   },
 };

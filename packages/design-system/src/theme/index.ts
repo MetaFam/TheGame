@@ -294,11 +294,11 @@ export const theme = extendTheme(
           scrollbarColor: `${colors.whiteAlpha[500]} ${colors.dark}`,
         },
         '#__next': {
-          background: colors.dark,
+          background: colors.octo,
           color: colors.white,
           minHeight: '100vh',
           option: {
-            background: colors.dark,
+            background: colors.octo,
             color: colors.white,
           },
         },
@@ -307,7 +307,7 @@ export const theme = extendTheme(
           zIndex: '500',
           '.web3modal-modal-card': {
             position: 'relative',
-            background: colors.dark,
+            background: colors.octo,
             boxShadow: '0 0 20px rgba(0 0 0 / 80%)',
             border: '1px solid var(--chakra-colors-landing600)',
             minHeight: '33vh',
