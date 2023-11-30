@@ -10,6 +10,8 @@ import {
   InputLeftElement,
   Stack,
   Text,
+  Tooltip,
+  InfoIcon,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import SearchIcon from 'assets/search-icon.svg';
@@ -36,9 +38,10 @@ interface OptionProps {
   url?: string;
   image?: string;
   onClick: () => void;
+  verified?: Boolean;
 }
 
-const Option = ({ onClick, name, image, text, url }: OptionProps) => (
+const Option = ({ onClick, name, image, text, url, verified }: OptionProps) => (
   <Box as="li" role="option" sx={{ listStyleType: 'none' }}>
     <Flex
       justifyContent="space-between"
@@ -92,18 +95,21 @@ const Option = ({ onClick, name, image, text, url }: OptionProps) => (
           </Text>
         </Stack>
       </Flex>
-      <IconButton
-        {...{ onClick }}
-        size="sm"
-        variant="outline"
-        aria-label="Add guild membership"
-        icon={<AddIcon />}
-        isRound
-        borderColor="white"
-        color="white"
-        _hover={{ bg: 'transparent', color: 'white', borderColor: 'white' }}
-        borderWidth={2}
-      />
+      <Tooltip label={verified ? 'If you are already a member of this verified guild please reach out to us on Discord for help.' : ''}>
+        <IconButton
+          {...{ onClick }}
+          size="sm"
+          variant="outline"
+          aria-label="Add guild membership"
+          icon={verified ? <InfoIcon /> : <AddIcon />}
+          isRound
+          borderColor="white"
+          color="white"
+          _hover={{ bg: 'transparent', color: 'white', borderColor: 'white' }}
+          borderWidth={2}
+        />
+      </Tooltip>
+      
     </Flex>
   </Box>
 );
@@ -267,11 +273,12 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
                 <Option
                   key={guild.id}
                   onClick={async () => {
-                    await handleAddGuildMembership(guild.id);
+                    guild.legitimacy === 'VERIFIED' ? {} : await handleAddGuildMembership(guild.id);
                   }}
                   name={guild.name}
                   image={guild?.logo as string | undefined}
                   text={guild.name}
+                  verified={guild?.legitimacy === 'VERIFIED'}
                   url={guild?.websiteURL as string | undefined}
                 />
               ))}
