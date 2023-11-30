@@ -147,7 +147,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
           </Box>
           <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
           <Box mr={2}>
-            {legitimacy ? <BsPatchCheckFill /> : <BsPatchQuestion />}
+            {legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : <BsPatchQuestion />}
           </Box>
         </Flex>
         <Flex w="full" direction="column" align="start">
