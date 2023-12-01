@@ -55,7 +55,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           borderRadius="md"
           border={0}
           px={2}
-          position="absolute"
+          position="relative"
         >
           <Icon
             as={MenuArrow}
@@ -99,7 +99,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
                   color: 'white',
                   borderRadius: 'md',
                 },
-                bg: 'transparent',
+                bg: 'transparent'
               }}
             >
               <Profile w={4} h={4} mr={4} /> Profile Wizard
@@ -117,7 +117,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
                   color: 'white',
                   borderRadius: 'md',
                 },
-                bg: 'transparent',
+                bg: 'transparent'
               }}
             >
               <Dashboard w={4} h={4} mr={4} fill="white" />
@@ -132,7 +132,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
                 color: 'white',
                 borderRadius: 'md',
               },
-              bg: 'transparent',
+              bg: 'transparent'
             }}
           >
             <LogOut w={4} h={4} mr={4} fill="white" />

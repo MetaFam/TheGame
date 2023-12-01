@@ -289,11 +289,10 @@ export const getStaticProps = async (
   let questChain: graphql.QuestChainInfoFragment | null = null;
   try {
     const info = QuestChainPlaybooksDetails[questchain];
-    if (!info) {
-      throw new Error(`Quest chain ${questchain} not found!`);
-    }
     questChain = await getQuestChainInfo(info.chainId, info.address);
   } catch (error) {
+    // eslint-disable-next-line no-console
+
     errorHandler(error as Error);
   }
 

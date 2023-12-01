@@ -81,7 +81,6 @@ export const WhoAreWe: React.FC<
   const { players } = usePlayerFilter();
 
   const topPlayers = useMemo(() => players.slice(0, 7), [players]);
-  const topPatrons = useMemo(() => patrons.slice(0, 7), [patrons]);
 
   return (
     <FullPageContainer
@@ -198,38 +197,26 @@ export const WhoAreWe: React.FC<
                 <Text as="span">01</Text>Players (Builders)
               </Text>
               {topPlayers && (
-                <UserGrid
-                  players={topPlayers}
-                  link={'/community/?tab=Players'}
-                />
+                <UserGrid players={topPlayers} link={'/players'} />
               )}
             </ListItem>
             <ListItem gridArea="second">
               <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">02</Text>Patrons (Funders)
               </Text>
-              {topPatrons && (
-                <UserGrid
-                  players={topPatrons}
-                  link={'/community/?tab=Patrons'}
-                />
-              )}
+              {patrons && <UserGrid players={patrons} link={'/patrons'} />}
             </ListItem>
             <ListItem gridArea="third" justifySelf="end">
               <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">03</Text>Elders (Advisors)
               </Text>
-              {players && (
-                <UserGrid elders={elders} link={'/community/?tab=Players'} />
-              )}
+              {patrons && <UserGrid elders={elders} link={'/players'} />}
             </ListItem>
             <ListItem gridArea="fourth" justifySelf="end">
               <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">04</Text>MetaAlliance (Member projects)
               </Text>
-              {guilds && (
-                <UserGrid guilds={guilds} link={'/community/?tab=Guilds'} />
-              )}
+              {guilds && <UserGrid guilds={guilds} link={'/guilds'} />}
             </ListItem>
           </UnorderedList>
         </Box>
