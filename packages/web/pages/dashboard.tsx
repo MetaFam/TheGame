@@ -1,5 +1,3 @@
-import { Maybe } from '@metafam/utils';
-import { ConnectedPage } from 'components/ConnectedPage';
 import { PageContainer } from 'components/Container';
 import {
   ALL_BOXES,
@@ -11,19 +9,13 @@ import {
   Player,
   useUpdatePlayerDashboardLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import React, { useCallback, useMemo } from 'react';
 import { DisplayOutput, LayoutData } from 'utils/boxTypes';
 
-const ConnectedDashboardPage: React.FC<Props> = () => (
-  <ConnectedPage page={DashboardPage} pageLabel="Your Dashboard" />
-);
-
-export default ConnectedDashboardPage;
-
-type Props = { player: Maybe<Player> };
-
-export const DashboardPage: React.FC<Props> = ({ player }) => {
+const DashboardPage: React.FC = () => {
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
+  const { user: player } = useUser();
   const savedLayoutData = useMemo<LayoutData>(
     () =>
       player?.dashboardLayout
@@ -46,14 +38,12 @@ export const DashboardPage: React.FC<Props> = ({ player }) => {
     [saveLayoutData, player],
   );
 
-  if (!player) return null;
-
   return (
     <PageContainer>
       <EditableGridLayout
         {...{
           player: player as Player,
-          defaultLayoutData: DEFAULT_DASHBOARD_LAYOUT_DATA,
+          defaultLayoutData: DEFAULT_DASHBOARD_LAYOUT_DATA as LayoutData,
           savedLayoutData,
           showEditButton: true,
           persistLayoutData,
@@ -65,3 +55,5 @@ export const DashboardPage: React.FC<Props> = ({ player }) => {
     </PageContainer>
   );
 };
+
+export default DashboardPage;

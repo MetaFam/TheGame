@@ -1,5 +1,7 @@
 export { BrightIdIcon } from './BrightIdIcon.js';
+export { CalendarAddIcon } from './CalendarAddIcon.js';
 export { ChainIcon } from './ChainIcon.js';
+export { ChevronRight } from './ChevronRight.js';
 export { Dashboard } from './Dashboard.js';
 export { DropDownIcon } from './DropDownIcon.js';
 export { EthereumIcon } from './EthereumIcon.js';

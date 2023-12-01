@@ -3,8 +3,10 @@ import {
   Button,
   ChevronDownIcon,
   Container,
+  Flex,
   Heading,
   Image,
+  MetaButton,
   Stack,
   Text,
   useBreakpointValue,
@@ -65,6 +67,13 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
         alignItems="flex-start"
         justifyContent={{ base: 'flex-start', lg: 'center' }}
         pt={{ base: 0, xl: 14 }}
+        pl={{ base: 12 }}
+        pb={'5'}
+        bg="linear-gradient(0deg, #140231 5%, rgba(19, 1, 49, 0.00) 40%);"
+        position="absolute"
+        bottom="0"
+        left="0"
+        right="0"
       >
         <Stack
           pos="relative"
@@ -74,8 +83,9 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
           mt={{ base: 16, lg: -10, '2xl': 0 }}
           pr={20}
           pb={10}
+          h="100%"
+          w="100%"
           direction={{ base: 'column', lg: 'column' }}
-          maxW={{ base: '2xs', xl: '2xl' }}
           zIndex={100}
           transform={`translate3d(0, ${displayElement ? 0 : '3rem'}, 0)`}
           opacity={displayElement ? 1 : 0}
@@ -83,32 +93,66 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
             'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in'
           }
         >
-          <Heading
-            as="h1"
-            fontFamily="landingHeading"
-            textTransform="uppercase"
-            className="gradient"
-            fontSize={{ base: 'lg', lg: 'md', '3xl': 'lg', '4xl': '3xl' }}
-            fontWeight={100}
-            my={0}
-            textAlign={{ base: 'left', lg: 'center' }}
-            sx={{
-              strong: {
-                fontWeight: 300,
-              },
-            }}
-          >
-            <Text as="strong">A</Text> Massive{' '}
-            <Text as="strong">Online Coordination</Text> Game
-          </Heading>
+          <Flex h="100%" w="100%" direction="column">
+            <Heading
+              flex={1}
+              as="h1"
+              fontFamily="landingHeading"
+              textTransform="uppercase"
+              className="gradient"
+              fontSize={{ base: 'lg', lg: 'md', '3xl': 'lg', '4xl': '3xl' }}
+              fontWeight={100}
+              my={0}
+              top={0}
+              textAlign={{ base: 'left', lg: 'center' }}
+              sx={{
+                strong: {
+                  fontWeight: 300,
+                },
+              }}
+            >
+              <Text as="strong">A</Text> Massive{' '}
+              <Text as="strong">Online Coordination</Text> Game
+            </Heading>
+            <Box w="100%" pb={{ base: 10, lg: 0 }}>
+              <Heading
+                as="h1"
+                fontFamily="exo2"
+                fontWeight="normal"
+                fontSize={{ base: '2xl', lg: '5xl' }}
+                textAlign={{ base: 'left', lg: 'center' }}
+              >
+                Learn, Connect, Create
+              </Heading>
+              <Text
+                mt={3}
+                fontSize={{ base: 'lg', lg: '2xl' }}
+                textAlign={{ base: 'left', lg: 'center' }}
+              >
+                MetaGame is a decentralized factory for builders of the future{' '}
+                <br /> a DAO incubation & growth platform.
+              </Text>
+              <Flex w="100%" justify="center" mt={8} gap={6}>
+                <Button
+                  as="a"
+                  variant="outline"
+                  colorScheme="blue"
+                  textTransform="uppercase"
+                  letterSpacing="0.1em"
+                  px={14}
+                  size="lg"
+                  fontSize="sm"
+                  href="#wtf-is-a-metagame"
+                >
+                  learn more
+                </Button>
+                <MetaButton as="a" href="#join-us">
+                  connect
+                </MetaButton>
+              </Flex>
+            </Box>
+          </Flex>
         </Stack>
-        <ScrollLink showQuote={showQuote} toggleQuote={toggleQuote} />
-        <QuoteLayer
-          quote="You never change things by fighting the existing reality. To change something, build a new model that makes the existing model obsolete."
-          attr="Buckminster Fuller"
-          showQuote={showQuote}
-          toggleQuote={toggleQuote}
-        />
       </Container>
     </FullPageContainer>
   );

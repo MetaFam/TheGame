@@ -1,9 +1,9 @@
-FROM node:16-slim as base
+FROM node:20-slim as base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends g++ make python git openssl && \
+    apt-get install -y --no-install-recommends g++ make python3 git openssl && \
     apt-get install -y --no-install-recommends --reinstall ca-certificates
 
 # Install dependencies for dev and prod
@@ -44,7 +44,7 @@ RUN yarn backend:build
 RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
-FROM node:16-slim as app
+FROM node:20-slim as app
 WORKDIR /app
 
 # Copy necessary files into the stage
