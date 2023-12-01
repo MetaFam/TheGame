@@ -1,2 +1,2 @@
-alter table "public"."guild" alter column "github_url" drop not null;
-alter table "public"."guild" add column "github_url" text;
+ALTER TABLE public.guild ALTER COLUMN github_url DROP NOT NULL;
+ALTER TABLE public.guild ADD COLUMN github_url text;

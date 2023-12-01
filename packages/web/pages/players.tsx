@@ -21,7 +21,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async (): Promise<{
-  props: { urqlState: SSRData };
+  props: { urqlState?: SSRData };
   revalidate: 1;
 }> => {
   const [ssrClient, ssrCache] = getSsrClient();

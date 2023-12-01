@@ -84,6 +84,7 @@ export function Rain({
         right={0}
         bottom={0}
         width="100%"
+        minHeight="100vh"
         height="100%"
         zIndex={z ?? 0}
         opacity={effectOpacity ?? 0.5}
