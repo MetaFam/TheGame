@@ -160,7 +160,7 @@ export const approveTokens = async (
   amount: BigNumber,
   provider?: JsonRpcProvider,
 ): Promise<TransactionResponse> => {
-  if (!provider) throw new Error('Wallet not detected');
+  if (!provider)  throw new Error('Wallet not detected');
   const erc20 = await new Contract(
     tokenAddress,
     erc20ABI,
@@ -175,7 +175,7 @@ export const spendTokens = async (
   owner: string,
   provider?: JsonRpcProvider,
 ): Promise<TransactionResponse> => {
-  if (!provider) throw new Error('Wallet not detected');
+  if (!provider)  throw new Error('Wallet not detected');
   const erc20 = await new Contract(
     tokenAddress,
     erc20ABI,
@@ -190,7 +190,7 @@ export const mint = (
   recipient: string,
   provider?: JsonRpcProvider,
 ): Promise<TransactionResponse> => {
-  if (!provider) throw new Error('Wallet not detected');
+  if (!provider)  throw new Error('Wallet not detected');
   const meTokenFoundry = new Contract(
     meTokenDiamond,
     FoundryFacetABI,
@@ -205,7 +205,7 @@ export const burn = (
   sender: string,
   provider?: JsonRpcProvider,
 ): Promise<TransactionResponse> => {
-  if (!provider) throw new Error('Wallet not detected');
+  if (!provider)  throw new Error('Wallet not detected');
   const meTokenFoundry = new Contract(
     meTokenDiamond,
     FoundryFacetABI,

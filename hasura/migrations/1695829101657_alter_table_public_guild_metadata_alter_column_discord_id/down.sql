@@ -1,1 +1,1 @@
-ALTER TABLE public.guild_metadata ALTER COLUMN discord_id SET NOT NULL;
+alter table "public"."guild_metadata" alter column "discord_id" set not null;

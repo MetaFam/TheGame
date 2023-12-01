@@ -23,26 +23,20 @@ export const Watch: React.FC = () => {
   useEffect(() => {
     const abortController = new AbortController();
     const load = async () => {
-      try {
-        const res: any = await fetch(URL, {
-          signal: abortController.signal,
-        }).then((r) => r.json());
-        const videosList = res.items
-          ? res.items.map((video: GoogleApiYouTubePlaylistItemResource) => ({
-              id: video.id,
-              videoId: video.snippet.resourceId.videoId,
-              title: video.snippet.title,
-            }))
-          : [];
-        setNextPageToken(res.nextPageToken);
-        setVideos(videosList);
-        setCount(res.pageInfo ? res.pageInfo.totalResults : null);
-        setLoading(false);
-      } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
-          throw err;
-        }
-      }
+      const res = await fetch(URL, {
+        signal: abortController.signal,
+      }).then((r) => r.json());
+      const videosList = res.items
+        ? res.items.map((video: GoogleApiYouTubePlaylistItemResource) => ({
+            id: video.id,
+            videoId: video.snippet.resourceId.videoId,
+            title: video.snippet.title,
+          }))
+        : [];
+      setNextPageToken(res.nextPageToken);
+      setVideos(videosList);
+      setCount(res.pageInfo ? res.pageInfo.totalResults : null);
+      setLoading(false);
     };
 
     load();

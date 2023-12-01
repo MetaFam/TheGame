@@ -1,8 +1,4 @@
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Box,
   Flex,
   Grid,
@@ -11,7 +7,6 @@ import {
   HStack,
   LoadingState,
   MetaButton,
-  Text,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
@@ -26,7 +21,6 @@ import { QuestDetailsRequirementsRewards } from 'components/Quest/QuestDetailsRe
 import { HeadComponent } from 'components/Seo';
 import {
   QuestRepetition_Enum,
-  QuestStatus_Enum,
   useGetQuestWithCompletionsQuery,
 } from 'graphql/autogen/types';
 import { getSsrClient } from 'graphql/client';
@@ -71,39 +65,6 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
   // Quest image is used in QuestDetailsImage and the share image
   const questImage = httpLink(quest.image) ?? DefaultQuestImage.src;
 
-  // 'Quest was archiveed' note
-  // A note is shown if we're viewing a quest that has been archived
-  const isQuestSetAsArchived = quest.status === QuestStatus_Enum.Archived;
-
-  // Here's the content of the Quest was archived note, which is shown if isQuestSetAsArchived = true
-  function showArchivedAlert() {
-    return (
-      <Alert
-        mb={8}
-        p={6}
-        status="warning"
-        variant="subtle"
-        bgColor="whiteAlpha.100"
-      >
-        <AlertIcon boxSize="60px" mr={6} color="blue.50" />
-        <Box>
-          <AlertTitle fontSize="2xl" mb={3}>
-            Heads up!
-          </AlertTitle>
-          <AlertDescription>
-            <Text as="p" mb={2}>
-              This quest was archived by its owner. You can view the quest
-              details, and try out the quest if you feel like it.
-            </Text>
-            <Text as="p" mb={2}>
-              You won’t be able to claim the quest or get any rewards.
-            </Text>
-          </AlertDescription>
-        </Box>
-      </Alert>
-    );
-  }
-
   return (
     <PageContainer sx={questArticleCss}>
       <HeadComponent
@@ -143,11 +104,7 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
               <QuestDetailsRequirementsRewards {...{ quest }} />
             </GridItem>
             <GridItem>
-              <>
-                {/* Show a message if the quest has been archived */}
-                {isQuestSetAsArchived && showArchivedAlert()}
-                <QuestDetailsDescription {...{ quest }} />
-              </>
+              <QuestDetailsDescription {...{ quest }} />
             </GridItem>
           </Grid>
 

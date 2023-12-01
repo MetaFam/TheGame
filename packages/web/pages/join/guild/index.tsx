@@ -113,6 +113,15 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
 
         {/* Section: Tiers and Perks */}
         <TiersPerks />
+
+        {/* Section: Other guilds include... 
+          NOTES
+          - Was supposed to be limited to 6 guilds with a LOAD MORE button :(
+          - Is actually limited to first 6 guilds with VIEW ALL GUILDS button that links to https://metagame.wtf/guilds
+          - This section is not imported as a component because getStaticProps is used to get the list of guilds and it's not possible
+            to use getStaticProps in a component that is imported to a static page
+        */}
+
         <Container as="section" className="mg-guild-join-section">
           <Heading
             as="h2"

@@ -18,18 +18,15 @@ import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
-const { userbackToken, honeybadgerAPIKey, gaId, appEnv } = CONFIG;
+const { userbackToken, honeybadgerAPIKey } = CONFIG;
 
-const Analytics: React.FC = () => {
-  if (!gaId || appEnv !== 'production') {
-    return null;
-  }
-  return (
+const Analytics: React.FC = () =>
+  !CONFIG.gaId ? null : (
     <>
       <script
         async
         defer
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+        src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
       />
       <script
         type="text/javascript"
@@ -40,13 +37,12 @@ const Analytics: React.FC = () => {
             window.dataLayer = window.dataLayer || [];
             function gtag() { dataLayer.push(arguments) }
             gtag('js', new Date());
-            gtag('config', '${gaId}');
+            gtag('config', '${CONFIG.gaId}');
           `,
         }}
       />
     </>
   );
-};
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
@@ -65,7 +61,7 @@ const App: React.FC<WithUrqlProps> = ({
           justifyContent: 'center',
         }}
       >
-        <Image src={Animocto.src} alt="Loading…" height={250} width={250} />
+        <Image src={Animocto.src} alt="Loading..." height={250} width={250} />
         <style jsx global>{`
           body {
             margin: 0;
@@ -92,7 +88,7 @@ const App: React.FC<WithUrqlProps> = ({
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MetaGame</title>
-        <Analytics />
+        {CONFIG.appEnv === 'production' && <Analytics />}
       </Head>
       <Web3ContextProvider {...{ resetUrqlClient }}>
         <ComposeDBContextProvider>

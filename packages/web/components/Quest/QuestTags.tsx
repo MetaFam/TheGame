@@ -19,7 +19,7 @@ interface RepetitionProps {
 }
 function getRepetitionText(props: RepetitionProps) {
   if (props.cooldown && props.repetition === QuestRepetition_Enum.Recurring) {
-    const cd = moment.duration(props.cooldown, 'second').humanize();
+    const cd = moment.duration(7200, 'second').humanize();
     return `${QuestRepetitionHint[QuestRepetition_Enum.Recurring]} (${cd})`;
   }
   return QuestRepetitionHint[props.repetition];
@@ -43,7 +43,6 @@ export const RepetitionTag: React.FC<RepetitionProps> = ({
 export const StatusColors: Record<QuestStatus_Enum, string> = {
   [QuestStatus_Enum.Open]: 'green.700',
   [QuestStatus_Enum.Closed]: 'pink.700',
-  [QuestStatus_Enum.Archived]: 'red.700',
 };
 interface StatusProps {
   status: QuestStatus_Enum;
