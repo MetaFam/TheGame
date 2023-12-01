@@ -121,8 +121,12 @@ export const UploadProof: React.FC<{
         questChain.version,
         provider.getSigner(),
       );
+
       const tx = await (questChain.version === '1'
-        ? (contract as contracts.V1.QuestChain).submitProofs([0], [details])
+        ? (contract as contracts.V1.QuestChain).submitProofs(
+            [questId],
+            [details],
+          )
         : (contract as contracts.V0.QuestChain).submitProof(questId, details));
       addToast({
         description: 'Transaction submitted. Waiting for 1 block confirmation',
@@ -152,7 +156,6 @@ export const UploadProof: React.FC<{
         duration: 2000,
         isClosable: true,
       });
-      console.error(error);
       errorHandler(error as Error);
     }
 

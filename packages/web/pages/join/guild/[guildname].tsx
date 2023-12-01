@@ -154,7 +154,7 @@ const SetupGuild: React.FC = () => {
           rounded="lg"
           p="6"
           my="6"
-          w="max-content"
+          w="100%"
           align="stretch"
           justify="space-between"
         >

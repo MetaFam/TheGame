@@ -30,6 +30,7 @@ env:
   HASURA_PORT: 8080
   FRONTEND_PORT: 3000
   HASURA_SECRET: metagame_secret
+  GA4_ID: G-B1NKK3Q1BP
   APP_ENV: development
 
 jobs:
@@ -248,18 +249,23 @@ jobs:
     needs: [env, delete-backend, undeploy-backend]
 
     steps:
+      - name: "Checkout: ${{github.event.pull_request.head.label}}"
+        uses: actions/checkout@v3
+        with:
+          ref: ${{github.event.pull_request.head.sha}}
+
       - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v3
+        uses: docker/login-action@v2
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
       - name: "Build & Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v4
         with:
           file: docker/backend/Dockerfile
           tags: ${{needs.env.outputs.BACKEND_TAG}}
@@ -355,17 +361,17 @@ jobs:
           ref: ${{github.event.pull_request.head.sha}}
 
       - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v3
+        uses: docker/login-action@v2
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
       - name: "Build & Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v4
         with:
           file: hasura/Dockerfile
           context: hasura
@@ -453,18 +459,23 @@ jobs:
     needs: [env, delete-frontend, undeploy-frontend, deploy-hasura, seed-db]
 
     steps:
+      - name: "Checkout: ${{github.event.pull_request.head.label}}"
+        uses: actions/checkout@v3
+        with:
+          ref: ${{github.event.pull_request.head.sha}}
+
       - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v2
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v3
+        uses: docker/login-action@v2
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
       - name: "Build & Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v4
         with:
           file: docker/frontend/Dockerfile
           tags: ${{needs.env.outputs.FRONTEND_TAG}}
@@ -475,12 +486,8 @@ jobs:
             FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
             YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
             IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
-            WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}}
+            WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} 
             OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}}
-            GCAL_PRIVATE_KEY=${{secrets.GCAL_PRIVATE_KEY}}
-            GCAL_PROJECT_NUMBER=${{secrets.GCAL_PROJECT_NUMBER}}
-            GCAL_CLIENT_EMAIL=${{secrets.GCAL_CLIENT_EMAIL}}
-            GCAL_CALENDAR_ID=${{secrets.GCAL_CALENDAR_ID}}
           push: true
 
   deploy-frontend:
@@ -512,11 +519,7 @@ jobs:
             --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '5Gi' || '512Mi'}} \
             --ingress all \
             --max-instances 1 \
-            --allow-unauthenticated \
-            --set-env-vars GCAL_PRIVATE_KEY="${{secrets.GCAL_PRIVATE_KEY}}" \
-            --set-env-vars GCAL_PROJECT_NUMBER="${{secrets.GCAL_PROJECT_NUMBER}}" \
-            --set-env-vars GCAL_CLIENT_EMAIL="${{secrets.GCAL_CLIENT_EMAIL}}" \
-            --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}"
+            --allow-unauthenticated
 
   seed-db:
     name: Seed Database
