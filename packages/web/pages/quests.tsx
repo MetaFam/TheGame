@@ -14,7 +14,6 @@ import {
   Text,
   Tooltip,
   useToast,
-  VStack,
 } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
@@ -89,111 +88,107 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://metagame.wtf/quests"
       />
-      {/* VStack is used for consistent spacing between its children, and to provide a full height container as the flow root for the sticky nav */}
-      <VStack w="100%" spacing={8} pb={8}>
-        <Box w="full" maxW="7xl">
-          <Accordion
-            allowToggle
-            w="full"
-            mt={{ base: '3', sm: '0' }}
-            display={{ base: 'block', md: 'none' }}
+      <Box w="full" maxW="7xl">
+        <Accordion
+          allowToggle
+          w="full"
+          mb={8}
+          mt={{ base: '3', sm: '0' }}
+          display={{ base: 'block', md: 'none' }}
+        >
+          <AccordionItem
+            px={2}
+            py={2}
+            bgColor="blackAlpha.400"
+            borderColor="whiteAlpha.400"
+            borderRadius={4}
+            borderWidth={1}
+            fontSize="sm"
           >
-            <AccordionItem
-              px={2}
-              py={2}
-              bgColor="blackAlpha.400"
-              borderColor="whiteAlpha.400"
-              borderRadius={4}
-              borderWidth={1}
-              fontSize="sm"
-            >
-              {/* "AccordionButton must be wrapped in an element with role=heading" */}
-              <h2>
-                <AccordionButton color="gray.300" fontSize="sm" p={0}>
-                  <AccordionIcon mr={2} />
-                  {questDashboardTooltipText.title}
-                </AccordionButton>
-              </h2>
-              <AccordionPanel color="white" pb={2} pl={6}>
-                <Text maxW="60ch">{questDashboardTooltipText.text}</Text>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
+            {/* "AccordionButton must be wrapped in an element with role=heading" */}
+            <h2>
+              <AccordionButton color="gray.300" fontSize="sm" p={0}>
+                <AccordionIcon mr={2} />
+                {questDashboardTooltipText.title}
+              </AccordionButton>
+            </h2>
+            <AccordionPanel color="white" pb={2} pl={6}>
+              <Text maxW="60ch">{questDashboardTooltipText.text}</Text>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
 
-          <Flex
-            align="left"
-            alignItems="center"
-            flexDirection={{
-              base: 'column',
-              md: 'row',
-            }}
-            gap={6}
-          >
-            <HStack w="full" flexBasis="100%">
-              <Heading
-                as="h1"
-                fontFamily="body"
-                fontWeight="600"
-                fontSize={{ base: '4xl', sm: '5xl' }}
-              >
-                Quest Explorer
-              </Heading>
-              <Tooltip label={questDashboardTooltipText.text}>
-                <InfoIcon display={{ base: 'none', md: 'block' }} />
-              </Tooltip>
-            </HStack>
-            <Box w="full" maxW={{ base: '100%', md: '11rem' }}>
-              <Tooltip
-                label={
-                  !canCreateQuest &&
-                  `You need to hold at least ${Constants.PSEED_FOR_QUEST} pSEED to create a quest.`
-                }
-              >
-                <MetaButton
-                  borderRadius={4}
-                  fontSize="md"
-                  letterSpacing="auto"
-                  size="md"
-                  w="full"
-                  isLoading={fetchingBalance}
-                  onClick={() => {
-                    if (!canCreateQuest) {
-                      toast({
-                        title: 'Error',
-                        description: `Insufficient pSEED Balance. Must have ≥ ${Constants.PSEED_FOR_QUEST} pSEED.`,
-                        status: 'error',
-                        isClosable: true,
-                      });
-                    } else {
-                      router.push('/quest/create');
-                    }
-                  }}
-                >
-                  Create Quest
-                </MetaButton>
-              </Tooltip>
-            </Box>
-          </Flex>
-        </Box>
-
-        <QuestFilter
-          quests={quests || []}
-          {...{
-            roleChoices,
-            aggregates,
-            queryVariables,
-            setQueryVariable,
+        <Flex
+          align="left"
+          alignItems="center"
+          flexDirection={{
+            base: 'column',
+            md: 'row',
           }}
-        />
-
-        <Box w="full" maxW="7xl">
-          <Box w="full">
-            {fetching && <LoadingState />}
-            {error && <Text>{`Error: ${error.message}`}</Text>}
-            {quests && !fetching && <QuestList {...{ quests }} />}
+          gap={6}
+        >
+          <HStack w="full" flexBasis="100%">
+            <Heading
+              as="h1"
+              fontFamily="body"
+              fontWeight="600"
+              fontSize={{ base: '4xl', sm: '5xl' }}
+            >
+              Quest Explorer
+            </Heading>
+            <Tooltip label={questDashboardTooltipText.text}>
+              <InfoIcon display={{ base: 'none', md: 'block' }} />
+            </Tooltip>
+          </HStack>
+          <Box w="full" maxW={{ base: '100%', md: '11rem' }}>
+            <Tooltip
+              label={
+                !canCreateQuest &&
+                `You need to hold at least ${Constants.PSEED_FOR_QUEST} pSEED to create a quest.`
+              }
+            >
+              <MetaButton
+                borderRadius={4}
+                fontSize="md"
+                letterSpacing="auto"
+                size="md"
+                w="full"
+                isLoading={fetchingBalance}
+                onClick={() => {
+                  if (!canCreateQuest) {
+                    toast({
+                      title: 'Error',
+                      description: `Insufficient pSEED Balance. Must have ≥ ${Constants.PSEED_FOR_QUEST} pSEED.`,
+                      status: 'error',
+                      isClosable: true,
+                    });
+                  } else {
+                    router.push('/quest/create');
+                  }
+                }}
+              >
+                Create Quest
+              </MetaButton>
+            </Tooltip>
           </Box>
+        </Flex>
+        <Box mt={8} w="full">
+          <QuestFilter
+            quests={quests || []}
+            {...{
+              roleChoices,
+              aggregates,
+              queryVariables,
+              setQueryVariable,
+            }}
+          />
         </Box>
-      </VStack>
+        <Box mt={8} w="full">
+          {fetching && <LoadingState />}
+          {error && <Text>{`Error: ${error.message}`}</Text>}
+          {quests && !fetching && <QuestList {...{ quests }} />}
+        </Box>
+      </Box>
     </PageContainer>
   );
 };

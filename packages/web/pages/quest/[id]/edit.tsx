@@ -51,6 +51,7 @@ const EditQuestPage: React.FC<Props> = ({
     const updateQuestInput = {
       title: data.title,
       description: data.description,
+      externalLink: data.externalLink,
       repetition: data.repetition,
       cooldown: transformCooldownForBackend(data.cooldown, data.repetition),
       status: data.status,
@@ -104,15 +105,7 @@ const EditQuestPage: React.FC<Props> = ({
 
   return (
     <PageContainer>
-      <Heading
-        as="h1"
-        fontFamily="body"
-        fontWeight="600"
-        fontSize={{ base: '4xl', md: '6xl' }}
-        mb={5}
-      >
-        Edit Quest
-      </Heading>
+      <Heading mb={4}>Edit Quest</Heading>
 
       <QuestForm
         {...{ roleChoices, onSubmit, guilds, skillChoices }}

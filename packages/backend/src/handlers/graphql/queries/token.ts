@@ -5,18 +5,15 @@ export const TokenQueries = /* GraphQL */ `
       chainId
     }
   }
-
   query GetTokens {
     token {
       address
       chainId
       safeAddress
-      lastBlockHeight
+      lastOffset
       guildId
-      multiplier
     }
   }
-
   query GetTotalForPlayer(
     $playerAddress: String!
     $tokenAddress: String!
@@ -36,7 +33,6 @@ export const TokenQueries = /* GraphQL */ `
       }
     }
   }
-
   query GetInitialXP($playerId: uuid!) {
     xp(where: { playerId: { _eq: $playerId } }) {
       initial

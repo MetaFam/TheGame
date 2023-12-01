@@ -1,2 +1,2 @@
-ALTER TABLE public.guild ALTER COLUMN discord_invite_url DROP NOT NULL;
-ALTER TABLE public.guild ADD COLUMN discord_invite_url text;
+alter table "public"."guild" alter column "discord_invite_url" drop not null;
+alter table "public"."guild" add column "discord_invite_url" text;

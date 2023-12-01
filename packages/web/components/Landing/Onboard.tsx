@@ -13,7 +13,7 @@ export const Onboard: React.FC = () => {
     <FullPageContainer
       id={section}
       position="relative"
-      overflowY="auto"
+      overflow="clip"
       fontSize={{ base: 'xl', md: '5xl' }}
       spacing={12}
       px={{ base: 3, lg: 12 }}
@@ -32,7 +32,7 @@ export const Onboard: React.FC = () => {
           <OnboardingGame />
         </GameContextProvider>
       </Container>
-      <Rain top={2} effectOpacity={0.3} />
+      <Rain top={-12} effectOpacity={0.3} />
     </FullPageContainer>
   );
 };

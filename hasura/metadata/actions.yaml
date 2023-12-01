@@ -46,10 +46,6 @@ actions:
     definition:
       kind: synchronous
       handler: '{{ACTION_BASE_ENDPOINT}}/syncAllGuildDiscordMembers'
-  - name: syncBalances
-    definition:
-      kind: synchronous
-      handler: '{{ACTION_BASE_ENDPOINT}}/syncBalances'
   - name: syncSourceCredAccounts
     definition:
       kind: synchronous
@@ -158,10 +154,4 @@ custom_types:
     - name: DiscordGuildsSyncOutput
     - name: LinkCeramicProfileNodeResponse
     - name: UpdateComposeDBProfileResponse
-    - name: TokenReturn
-    - name: SyncBalancesOutput
-    - name: PlayerOutput
-    - name: XPOutput
-    - name: BalanceOutput
-    - name: DropOutput
   scalars: []

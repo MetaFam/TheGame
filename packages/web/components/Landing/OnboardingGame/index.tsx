@@ -423,8 +423,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       position="relative"
       display="flex"
       flexDirection="column"
-      minHeight="50vh"
-      height="100%"
+      height="100vh"
       width="100%"
       fontFamily="onboarding"
       justifyContent={isLoading ? 'center' : 'flex-start'}
@@ -440,6 +439,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         top="25vh"
         right={0}
         width={1}
+        height="50vh"
         pointerEvents="none"
         zIndex={0}
       />
@@ -447,12 +447,14 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         <>
           <Box
             position="absolute"
+            bottom="18%"
             flexDirection="column"
             justifyContent="flex-start"
             color="var(--chakra-colors-landing550)"
             textShadow={`0 0 10px var(--chakra-colors-landing500)`}
             maxW={{ base: 'full', md: '4xl' }}
-            height="100%"
+            height="100vh"
+            maxH="66vh"
             overflowY="auto"
             width={{ base: '90%', xl: '100%' }}
             pl={{ base: 0, md: 10, xl: 0 }}
@@ -467,10 +469,10 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               className="step"
               display="flex"
               flexDirection="column"
-              justifyContent="flex-start"
+              justifyContent="space-between"
               alignItems="flex-start"
               flexGrow={1}
-              height="100%"
+              height="full"
               opacity={onScreen ? 1 : noMotion ? 1 : 0}
               transition="opacity 0.5s 0.2s ease-in"
               sx={{
@@ -521,7 +523,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                   p: {
                     display: 'block',
                     fontSize: { base: 'sm', md: 'sm', '2xl': 'lg' },
-                    marginBottom: { base: 3, '2xl': 6 },
+                    marginBottom: { base: 2, '2xl': 5 },
                   },
                   blockquote: {
                     position: 'relative',
