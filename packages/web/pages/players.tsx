@@ -15,13 +15,12 @@ import {
 import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
-import { SSRData } from 'next-urql';
 import React, { useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async (): Promise<{
-  props: { urqlState?: SSRData };
+  props: { urqlState?: any };
   revalidate: 1;
 }> => {
   const [ssrClient, ssrCache] = getSsrClient();
