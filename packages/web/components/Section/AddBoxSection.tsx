@@ -1,10 +1,9 @@
 import {
   Box,
   Button,
-  ExternalLinkIcon,
   Flex,
   FlexProps,
-  MetaButton,
+  Link,
   MetaTheme,
   Modal,
   ModalBody,
@@ -14,6 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Text,
   useDisclosure,
   VStack,
 } from '@metafam/ds';
@@ -169,6 +169,19 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                     </Flex>
                   )}
                 </VStack>
+                <Text sx={{ textAlign: 'center', fontSize: '14px', mt: '2' }}>
+                  <i>
+                    Not seeing what you need?
+                    <Link
+                      target={'_blank'}
+                      rel={'noreferrer'}
+                      href="//metagame.wtf/quest/6524b99a-df7e-4c10-838d-c441a8417e77"
+                      sx={{ textDecoration: 'underline', ml: '8px' }}
+                    >
+                      Consider Building a new block!
+                    </Link>
+                  </i>
+                </Text>
               </ModalBody>
               <ModalFooter>
                 <Box mx="auto">
@@ -190,15 +203,6 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                       Close
                     </Button>
                   </Flex>
-                  <MetaButton
-                    href="//metagame.wtf/quest/6524b99a-df7e-4c10-838d-c441a8417e77"
-                    mx="auto"
-                    mt="3rem"
-                    target="_blank"
-                  >
-                    Create a Custom Block
-                    <ExternalLinkIcon ml={3} />
-                  </MetaButton>
                 </Box>
               </ModalFooter>
             </ModalContent>

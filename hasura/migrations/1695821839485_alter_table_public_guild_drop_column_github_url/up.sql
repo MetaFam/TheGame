@@ -1,1 +1,1 @@
-alter table "public"."guild" drop column "github_url" cascade;
+ALTER TABLE public.guild DROP COLUMN github_url CASCADE;

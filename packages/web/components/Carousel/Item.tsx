@@ -15,6 +15,7 @@ export const Item: React.FC<ItemProps> = ({ children, index }) => {
     itemWidth,
     positions,
     gap,
+    defaultCarousel,
   } = useCarouselContext();
   const [userDidTab, setUserDidTab] = useState(false);
 
@@ -41,7 +42,17 @@ export const Item: React.FC<ItemProps> = ({ children, index }) => {
       onBlur={handleBlur}
       onKeyUp={handleKeyUp}
       onKeyDown={handleKeyDown}
-      w={`${itemWidth}px`}
+      w={!defaultCarousel ? '100%' : `${itemWidth}px`}
+      flex={
+        !defaultCarousel
+          ? {
+              base: `0 0 ${itemWidth}px`,
+              xl: `0 0 ${itemWidth}px`,
+              '2xl': `0 0 ${itemWidth}px`,
+            }
+          : 'inherit'
+      }
+      maxW={!defaultCarousel ? `${itemWidth}px` : 'inherit'}
       _notLast={{
         mr: `${gap}px`,
       }}

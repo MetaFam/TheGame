@@ -1,1 +1,1 @@
-DELETE FROM link
+DELETE FROM link;

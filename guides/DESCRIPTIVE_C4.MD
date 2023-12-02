@@ -1,14 +1,16 @@
-A deeper understanding of the C4
-=================================
-I was very surprised to learn that the core software which ultra-reliable high frequency trading platforms are built upon was constructed using a software development process with no leadership, no vision, no roadmaps, no planning, and no meetings.   
+# A deeper understanding of the C4
+
+==================================
+
+I was very surprised to learn that the core software which ultra-reliable high frequency trading platforms are built upon was constructed using a software development process with no leadership, no vision, no roadmaps, no planning, and no meetings.
 
 ZeroMQ is the [core that these systems are built on](https://umbrella.cisco.com/blog/2015/11/05/the-avalanche-project-when-high-frequency-trading-meets-traffic-classification/), and ZeroMQ was built with the C4. The reason Blockrazor and Krazor use the C4 is quite simple: centralization is a blocking process which yields inaccurate results.
 
-The C4 is a hill-climbing algorithm, and an evolution of the GitHub [Fork + Pull Model](http://help.github.com/send-pull-requests/). It is an _extremely_ powerful and fully battle-tested approach to developing software, with proven results. It's probably not possible for any non-C4 project to win in the free market against a project that (properly) uses the C4. Now we get to find out if this holds true in the fierce and brutal cryptocurrency battleground.   
+The C4 is a hill-climbing algorithm, and an evolution of the GitHub [Fork + Pull Model](http://help.github.com/send-pull-requests/). It is an *extremely* powerful and fully battle-tested approach to developing software, with proven results. It's probably not possible for any non-C4 project to win in the free market against a project that (properly) uses the C4. Now we get to find out if this holds true in the fierce and brutal cryptocurrency battleground.
 
+## Language
 
-Language
---------
+---
 
 > The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
 
@@ -16,10 +18,11 @@ By starting with the RFC 2119 language, the C4 text makes very clear its intenti
 
 I think C4 is the first time anyone has attempted to codify a community's rulebook as a formal and reusable protocol spec. Previously, ZMQ rules were spread out over several wiki pages and were quite specific to libzmq in many ways. But experience teaches us that the more formal, accurate, and reusable the rules, the easier it is for strangers to collaborate up-front. And less friction means a more scalable community. At the time of C4, we also had some disagreement in the libzmq project over precisely what process we were using. Not everyone felt bound by the same rules. Let's just say some people felt they had a special status, which created friction with the rest of the community. So codification made things clear.
 
-It's easy to use C4: just host your project on GitHub, get one other person to join, and open the floor to pull requests. In your README, put a link to C4 and that's it. We've done this in quite a few projects and it does seem to work. I've been pleasantly surprised a few times just applying these rules to my own work, like CZMQ. _None_ of us are so amazing that we can work without others.
+It's easy to use C4: just host your project on GitHub, get one other person to join, and open the floor to pull requests. In your README, put a link to C4 and that's it. We've done this in quite a few projects and it does seem to work. I've been pleasantly surprised a few times just applying these rules to my own work, like CZMQ. *None* of us are so amazing that we can work without others.
 
-Goals
------
+## Goals
+
+---
 
 > C4 is meant to provide a reusable optimal collaboration model for open source software projects.
 
@@ -31,19 +34,19 @@ Making C4 reusable is therefore really important. To learn more about the best p
 
 > It has these specific goals: To maximize the scale of the community around a project, by reducing the friction for new Contributors and creating a scaled participation model with strong positive feedbacks;
 
-The number one goal is size and health of the community--not technical quality, not profits, not performance, not market share. The goal is simply the number of people who contribute to the project. The science here is simple: the larger the community, the more accurate the results (The Wisdom of Crowds provides a basic introduction to the research in this field).
+The number one goal is size and health of the community—not technical quality, not profits, not performance, not market share. The goal is simply the number of people who contribute to the project. The science here is simple: the larger the community, the more accurate the results (The Wisdom of Crowds provides a basic introduction to the research in this field).
 
 > To relieve dependencies on key individuals by separating different skill sets so that there is a larger pool of competence in any required domain;
 
-Perhaps the worst problem we faced in libzmq was dependence on people who could understand the code, manage GitHub branches, and make clean releases--all at the same time. It's like looking for athletes who can run marathons and sprint, swim, and also lift weights. We humans are really good at specialization. Asking us to be really good at two contradictory things reduces the number of candidates sharply, which is a Bad Thing for any project. We had this problem severely in libzmq in 2009 or so, and fixed it by splitting the role of maintainer into two: one person makes patches and another makes releases.
+Perhaps the worst problem we faced in libzmq was dependence on people who could understand the code, manage GitHub branches, and make clean releasesu2014all at the same time. It's like looking for athletes who can run marathons and sprint, swim, and also lift weights. We humans are really good at specialization. Asking us to be really good at two contradictory things reduces the number of candidates sharply, which is a Bad Thing for any project. We had this problem severely in libzmq in 2009 or so, and fixed it by splitting the role of maintainer into two: one person makes patches and another makes releases.
 
 > To allow the project to develop faster and more accurately, by increasing the diversity of the decision making process;
 
-This is theory--not fully proven, but not falsified. The diversity of the community and the number of people who can weigh in on discussions, without fear of being criticized or dismissed, the faster and more accurately the software develops. Speed is quite subjective here. Going very fast in the wrong direction is not just useless, it's actively damaging (and we suffered a lot of that in libzmq before we switched to C4).
+This is theory—not fully proven, but not falsified. The diversity of the community and the number of people who can weigh in on discussions, without fear of being criticized or dismissed, the faster and more accurately the software develops. Speed is quite subjective here. Going very fast in the wrong direction is not just useless, it's actively damaging (and we suffered a lot of that in libzmq before we switched to C4).
 
 > To support the natural life cycle of project versions from experimental through to stable, by allowing safe experimentation, rapid failure, and isolation of stable code;
 
-It's quite an interesting effect of the process: _the git master is almost always perfectly stable_. This has to do with the size of changes and their _latency_, i.e., the time between someone writing the code and someone actually using it fully. However, the healthy design learning process tends to cycle through drafts until becoming stable, and inviolable.
+It's quite an interesting effect of the process: *the git master is almost always perfectly stable*. This has to do with the size of changes and their *latency*, i.e., the time between someone writing the code and someone actually using it fully. However, the healthy design learning process tends to cycle through drafts until becoming stable, and inviolable.
 
 > To reduce the internal complexity of project repositories, thus making it easier for Contributors to participate and reducing the scope for error;
 
@@ -53,8 +56,9 @@ Curious observation: people who thrive in complex situations like to create comp
 
 Ultimately, we're economic creatures, and the sense that "we own this, and our work can never be used against us" makes it much easier for people to invest in an open source project like ZeroMQ. And it can't be just a feeling, it has to be real. There are a number of aspects to making collective ownership work, we'll see these one-by-one as we go through C4.
 
-Preliminaries
--------------
+## Preliminaries
+
+---
 
 > The project SHALL use the git distributed revision control system.
 
@@ -78,7 +82,7 @@ Now we move on to definitions of the parties, and the splitting of roles that sa
 
 > Contributors SHALL NOT have commit access to the repository unless they are also Maintainers. Maintainers SHALL have commit access to the repository.
 
-What we wanted to avoid was people pushing their changes directly to master. This was the biggest source of trouble in libzmq historically: large masses of raw code that took months or years to fully stabilize. We eventually followed other ZeroMQ projects like PyZMQ in using pull requests. We went further, and stipulated that _all_ changes had to follow the same path. No exceptions for "special people".
+What we wanted to avoid was people pushing their changes directly to master. This was the biggest source of trouble in libzmq historically: large masses of raw code that took months or years to fully stabilize. We eventually followed other ZeroMQ projects like PyZMQ in using pull requests. We went further, and stipulated that *all* changes had to follow the same path. No exceptions for "special people".
 
 > Everyone, without distinction or discrimination, SHALL have an equal right to become a Contributor under the terms of this contract.
 
@@ -86,8 +90,9 @@ We had to state this explicitly. It used to be that the libzmq maintainers would
 
 I think this fight between individual expertise and collective intelligence plays out in other areas. It defined Wikipedia, and still does, a decade after that work surpassed anything built by small groups of experts. For me, we make software by slowly synthesizing the most accurate knowledge, much as we make Wikipedia articles.
 
-Licensing and Ownership
------------------------
+## Licensing and Ownership
+
+---
 
 > The project SHALL use a share-alike license such as the MPLv2, or a GPLv3 variant thereof (GPL, LGPL, AGPL).
 
@@ -99,14 +104,15 @@ This removes the need for any specific license or contribution agreement for pat
 
 > All patches are owned by their authors. There SHALL NOT be any copyright assignment process.
 
-Here we come to the key reason people trust their investments in ZeroMQ: it's logistically impossible to buy the copyrights to create a closed source competitor to ZeroMQ. iMatix can't do this either. And the more people that send patches, the harder it becomes. ZeroMQ isn't just free and open today--this specific rule means it will remain so forever. Note that it's not the case in all MPLv2/GPL projects, many of which still ask for copyright transfer back to the maintainers.
+Here we come to the key reason people trust their investments in ZeroMQ: it's logistically impossible to buy the copyrights to create a closed source competitor to ZeroMQ. iMatix can't do this either. And the more people that send patches, the harder it becomes. ZeroMQ isn't just free and open today—this specific rule means it will remain so forever. Note that it's not the case in all MPLv2/GPL projects, many of which still ask for copyright transfer back to the maintainers.
 
 > Each Contributor SHALL be responsible for identifying themselves in the project Contributor list.
 
 In other words, the maintainers are not karma accountants. Anyone who wants credit has to claim it themselves.
 
-Patch Requirements
-------------------
+## Patch Requirements
+
+---
 
 In this section, we define the obligations of the contributor: specifically, what constitutes a "valid" patch, so that maintainers have rules they can use to accept or reject patches.
 
@@ -124,7 +130,7 @@ This is just sanity. I've spent time cleaning up other peoples' patches because 
 
 > A patch MUST adhere to the "Evolution of Public Contracts" guidelines defined below.
 
-Ah, the pain, the pain. I'm not speaking of the time at age eight when I stepped on a plank with a 4-inch nail protruding from it. That was relatively OK. I'm speaking of 2010-2011 when we had multiple parallel releases of ZeroMQ, each with different _incompatible_ APIs or wire protocols. It was an exercise in bad rules, pointlessly enforced, that still hurts us today. The rule was, "If you change the API or protocol, you SHALL create a new major version". Give me the nail through the foot; that hurt less.
+Ah, the pain, the pain. I'm not speaking of the time at age eight when I stepped on a plank with a 4-inch nail protruding from it. That was relatively OK. I'm speaking of 2010-2011 when we had multiple parallel releases of ZeroMQ, each with different *incompatible* APIs or wire protocols. It was an exercise in bad rules, pointlessly enforced, that still hurts us today. The rule was, "If you change the API or protocol, you SHALL create a new major version". Give me the nail through the foot; that hurt less.
 
 One of the big changes we made with C4 was simply to ban, outright, this kind of sanctioned sabotage. Amazingly, it's not even hard. We just don't allow the breaking of existing public contracts, period, unless everyone agrees, in which case no period. As Linus Torvalds famously put it on 23 December 2012, "WE DO NOT BREAK USERSPACE!"
 
@@ -136,7 +142,7 @@ This rule has two effects. The first is that it forces people to make minimal so
 
 For cross-platform projects, it is fair to ask that the patch works on the development box used by the contributor.
 
-> *   A patch commit message MUST consist of a single short (less than 50 characters) line stating the problem ("Problem: ...") being solved, followed by a blank line and then the proposed solution ("Solution: ...").
+> * A patch commit message MUST consist of a single short (less than 50 characters) line stating the problem ("Problem: ...") being solved, followed by a blank line and then the proposed solution ("Solution: ...").
 
 This is a good format for commit messages that fits into email (the first line becomes the subject, and the rest becomes the email body).
 
@@ -144,8 +150,9 @@ This is a good format for commit messages that fits into email (the first line b
 
 Just in case it wasn't clear, we're back to legalese and definitions.
 
-Development Process
--------------------
+## Development Process
+
+---
 
 In this section, we aim to describe the actual development process, step-by-step.
 
@@ -203,7 +210,7 @@ We already said this but it's worth repeating: the role of Maintainer is not to 
 
 > Maintainers SHALL merge correct patches rapidly.
 
-There is a criteria I call _change latency_, which is the round-trip time from identifying a problem to testing a solution. The faster the better. If maintainers cannot respond to pull requests as rapidly as people expect, they're not doing their job (or they need more hands).
+There is a criteria I call *change latency*, which is the round-trip time from identifying a problem to testing a solution. The faster the better. If maintainers cannot respond to pull requests as rapidly as people expect, they're not doing their job (or they need more hands).
 
 > Maintainers MAY merge incorrect patches from other Contributors with the goals of (a) ending fruitless discussions, (b) capturing toxic patches in the historical record, (c) engaging with the Contributor on improving their patch quality.
 
@@ -215,34 +222,33 @@ In the worst case, patches can wait for weeks, or months, to be accepted. Or the
 
 PM is how most projects work, and I believe most projects get it wrong. Let me start by listing the problems PM creates:
 
-*   _It tells new contributors, "guilty until proven innocent,"_ which is a negative message that creates negative emotions. Contributors who feel unwelcome will always look for alternatives. Driving away contributors is bad. Making slow, quiet enemies is worse.
-    
-*   _It gives maintainers power over new contributors_, which many maintainers abuse. This abuse can be subconscious. Yet it is widespread. Maintainers inherently strive to remain important in their project. If they can keep out potential competitors by delaying and blocking their patches, they will.
-    
-*   _It opens the door to discrimination_. One can argue, a project belongs to its maintainers, so they can choose who they want to work with. My response is: projects that are not aggressively inclusive will die, and deserve to die.
-    
-*   _It slows down the learning cycle_. Innovation demands rapid experiment-failure-success cycles. Someone identifies a problem or inefficiency in a product. Someone proposes a fix. The fix is tested and works or fails. We have learned something new. The faster this cycle happens, the faster and more accurately the project can move.
-    
-*   _It gives outsiders the chance to troll the project_. It is a simple as raising an objection to a new patch. "I don't like this code." Discussions over details can use up much more effort than writing code. It is far cheaper to attack a patch than to make one. These economics favor the trolls and punish the honest contributors.
-    
-*   _It puts the burden of work on individual contributors_, which is ironic and sad for open source. We want to work together yet we're told to fix our work alone.
-    
+* *It tells new contributors, "guilty until proven innocent,"* which is a negative message that creates negative emotions. Contributors who feel unwelcome will always look for alternatives. Driving away contributors is bad. Making slow, quiet enemies is worse.
+
+* *It gives maintainers power over new contributors*, which many maintainers abuse. This abuse can be subconscious. Yet it is widespread. Maintainers inherently strive to remain important in their project. If they can keep out potential competitors by delaying and blocking their patches, they will.
+
+* *It opens the door to discrimination*. One can argue, a project belongs to its maintainers, so they can choose who they want to work with. My response is: projects that are not aggressively inclusive will die, and deserve to die.
+
+* *It slows down the learning cycle*. Innovation demands rapid experiment-failure-success cycles. Someone identifies a problem or inefficiency in a product. Someone proposes a fix. The fix is tested and works or fails. We have learned something new. The faster this cycle happens, the faster and more accurately the project can move.
+
+* *It gives outsiders the chance to troll the project*. It is a simple as raising an objection to a new patch. "I don't like this code." Discussions over details can use up much more effort than writing code. It is far cheaper to attack a patch than to make one. These economics favor the trolls and punish the honest contributors.
+
+* *It puts the burden of work on individual contributors*, which is ironic and sad for open source. We want to work together yet we're told to fix our work alone.
 
 Now let's see how this works when we use Optimistic Merging, or OM. To start with, understand that not all patches nor all contributors are the same. We see at least four main cases in our open source projects:
 
-1.  Good contributors who know the rules and write excellent, perfect patches.
-2.  Good contributors who make mistakes, and who write useful yet broken patches.
-3.  Mediocre contributors who make patches that no-one notices or cares about.
-4.  Trollish contributors who ignore the rules, and who write toxic patches.
+1. Good contributors who know the rules and write excellent, perfect patches.
+2. Good contributors who make mistakes, and who write useful yet broken patches.
+3. Mediocre contributors who make patches that no-one notices or cares about.
+4. Trollish contributors who ignore the rules, and who write toxic patches.
 
 PM assumes all patches are toxic until proven good (4). Whereas in reality most patches tend to be useful, and worth improving (2).
 
 Let's see how each scenario works, with PM and OM:
 
-1.  PM: depending on unspecified, arbitrary criteria, patch may be merged rapidly or slowly. At least sometimes, a good contributor will be left with bad feelings. OM: good contributors feel happy and appreciated, and continue to provide excellent patches until they are done using the project.
-2.  PM: contributor retreats, fixes patch, comes back somewhat humiliated. OM: second contributor joins in to help first fix their patch. We get a short, happy patch party. New contributor now has a coach and friend in the project.
-3.  PM: we get a flamewar and everyone wonders why the community is so hostile. OM: the mediocre contributor is largely ignored. If patch needs fixing, it'll happen rapidly. Contributor loses interest and eventually the patch is reverted.
-4.  PM: we get a flamewar which troll wins by sheer force of argument. Community explodes in fight-or-flee emotions. Bad patches get pushed through. OM: existing contributor immediately reverts the patch. There is no discussion. Troll may try again, and eventually may be banned. Toxic patches remain in git history forever.
+1. PM: depending on unspecified, arbitrary criteria, patch may be merged rapidly or slowly. At least sometimes, a good contributor will be left with bad feelings. OM: good contributors feel happy and appreciated, and continue to provide excellent patches until they are done using the project.
+2. PM: contributor retreats, fixes patch, comes back somewhat humiliated. OM: second contributor joins in to help first fix their patch. We get a short, happy patch party. New contributor now has a coach and friend in the project.
+3. PM: we get a flamewar and everyone wonders why the community is so hostile. OM: the mediocre contributor is largely ignored. If patch needs fixing, it'll happen rapidly. Contributor loses interest and eventually the patch is reverted.
+4. PM: we get a flamewar which troll wins by sheer force of argument. Community explodes in fight-or-flee emotions. Bad patches get pushed through. OM: existing contributor immediately reverts the patch. There is no discussion. Troll may try again, and eventually may be banned. Toxic patches remain in git history forever.
 
 In each case, OM has a better outcome than PM.
 
@@ -260,8 +266,9 @@ In essence, the goal here is to allow users to try patches rather than to spend 
 
 Just keep the issue tracker clean.
 
-Branches and Releases
----------------------
+## Branches and Releases
+
+---
 
 When C4 is working, we get two massive simplifications of our delivery process. One, we don't need or use branches. Two, we deliver from master.
 
@@ -277,8 +284,9 @@ I'll come to branches soon. In short (or "tl;dr", as they say on the webs), bran
 
 > To make a stable release a Maintainer shall tag the repository. Stable releases SHALL always be released from the repository master.
 
-Evolution of Public Contracts
------------------------------
+## Evolution of Public Contracts
+
+---
 
 By "public contracts", I mean APIs and protocols. Up until the end of 2011, libzmq's naturally happy state was marred by broken promises and broken contracts. We stopped making promises (aka "road maps") for libzmq completely, and our dominant theory of change is now that it emerges carefully and accurately over time. At a 2012 Chicago meetup, Garrett Smith and Chuck Remes called this the "drunken stumble to greatness", which is how I think of it now.
 
@@ -290,7 +298,7 @@ You'd think this was a given for professional software engineers but no, it's no
 
 > All Public Contracts SHOULD have space for extensibility and experimentation.
 
-Now, the real thing is that public contracts _do change_. It's not about not changing them. It's about changing them safely. This means educating (especially protocol) designers to create that space up-front.
+Now, the real thing is that public contracts *do change*. It's not about not changing them. It's about changing them safely. This means educating (especially protocol) designers to create that space up-front.
 
 > A patch that modifies a stable Public Contract SHOULD not break existing applications unless there is overriding consensus on the value of doing this.
 
@@ -298,16 +306,16 @@ Sometimes the patch is fixing a bad API that no one is using. It's a freedom we 
 
 > A patch that introduces new features SHOULD do so using new names (a new contract).
 
-We had the experience in ZeroMQ once or twice of new features using old names (or worse, using names that were _still in use_ elsewhere). ZeroMQ v3.0 had a newly introduced "ROUTER" socket that was totally different from the existing ROUTER socket in 2.x. Dear lord, you should be face-palming, why? The reason: apparently, even smart people sometimes need regulation to stop them doing silly things.
+We had the experience in ZeroMQ once or twice of new features using old names (or worse, using names that were *still in use* elsewhere). ZeroMQ v3.0 had a newly introduced "ROUTER" socket that was totally different from the existing ROUTER socket in 2.x. Dear lord, you should be face-palming, why? The reason: apparently, even smart people sometimes need regulation to stop them doing silly things.
 
 > New contracts SHOULD be marked as "draft" until they are stable and used by real users.
-> 
+>
 > Old contracts SHOULD be deprecated in a systematic fashion by marking new contracts as "draft" until they are stable, then marking the old contracts as "deprecated".
 
 This life cycle notation has the great benefit of actually telling users what is going on with a consistent direction. "Draft" means "we have introduced this and intend to make it stable if it works". It does not mean, "we have introduced this and will remove it at any time if we feel like it". One assumes that code that survives more than one patch cycle is meant to be there. "Deprecated" means "we have replaced this and intend to remove it".
 
 > Old contracts SHOULD be deprecated in a systematic fashion by marking them as "deprecated" and replacing them with new contracts as needed.
-> 
+>
 > When sufficient time has passed, old deprecated contracts SHOULD be removed.
 
 In theory this gives applications time to move onto stable new contracts without risk. You can upgrade first, make sure things work, and then, over time, fix things up to remove dependencies on deprecated and legacy APIs and protocols.
@@ -316,8 +324,9 @@ In theory this gives applications time to move onto stable new contracts without
 
 Ah, yes, the joy when ZeroMQ v3.x renamed the top-used API functions (`zmq_send\[3\]` and `zmq_recv\[3\]`) and then recycled the old names for new methods that were utterly incompatible (and which I suspect few people actually use). You should be slapping yourself in confusion again, but really, this is what happened and I was as guilty as anyone. After all, we did change the version number! The only benefit of that experience was to get this rule.
 
-Project Administration
-----------------------
+## Project Administration
+
+---
 
 > The project founders SHALL act as Administrators to manage the set of project Maintainers.
 
@@ -339,11 +348,12 @@ This was Ian Barber's suggestion: we need a way to crop inactive maintainers. Or
 
 Now and then, your projects will attract people of the wrong character. You will get better at seeing these people, over time. C4 helps in two ways. One, by setting out strong rules, it discourages the chaos-seekers and bullies, who cannot tolerate others' rules. Two, it gives you the Administrator the power to ban them. I like to give such people time, to show themselves, and get their patches on the public record (a reason to merge bad patches, which of course you can remove after a suitable pause).
 
+## License and Further Reading
 
-License and Further Reading
 =======
+
 The C4, along with this breakdown of it, was created (primarily) by the late Pieter Hintjens. If the C4 interests you it's a very good idea to check out Pieter's blog and watch his videos to get a deep understanding of his research into this field. Here's a good one to start with: [How Conway's law is eating your job.](https://www.youtube.com/watch?v=7HECD3eLoVo)
 
-The text on this page is Copyright (c) 2007-2014 iMatix Corporation and Contributors, 2017-2018 Blockrazor and Contributors and is released under [CC-BY-SA-4](https://creativecommons.org/licenses/by/4.0/)
+The text on this page is Copyright ©️ 2007-2014 iMatix Corporation and Contributors, 2017-2018 Blockrazor and Contributors and is released under [CC-BY-SA-4](https://creativecommons.org/licenses/by/4.0/)
 
-This breakdown and description of the C4 is an excerpt from [chapter 6 of _ØMQ - The Guide_](http://zguide.zeromq.org/page:all#The-ZeroMQ-Process-C), which is maintained at [booksbyus/zguide on github](https://github.com/booksbyus/zguide/blob/master/chapter6.txt).
+This breakdown and description of the C4 is an excerpt from [chapter 6 of _ØMQ ― The Guide_](http://zguide.zeromq.org/page:all#The-ZeroMQ-Process-C), which is maintained at [booksbyus/zguide on github](https://github.com/booksbyus/zguide/blob/master/chapter6.txt).

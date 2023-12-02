@@ -1,1 +1,1 @@
-alter table "public"."link" drop constraint "link_type_fkey";
+ALTER TABLE public.link DROP CONSTRAINT link_type_fkey;
