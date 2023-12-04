@@ -1,4 +1,14 @@
-import { Box, Flex, Image, Spinner, Text, VStack } from '@metafam/ds';
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Image,
+  Spinner,
+  Stack,
+  Text,
+  VStack,
+} from '@metafam/ds';
 import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
@@ -15,9 +25,10 @@ import {
   useUserProgress,
   useUserStatus,
 } from 'lib/hooks/questChains';
+import moment from 'moment';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import React, { useCallback, useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+import { BsArrowRight, BsCheck, BsPinAngle, BsShare } from 'react-icons/bs';
 import { errorHandler } from 'utils/errorHandler';
 import {
   QuestChainPlaybooksDetails,
@@ -69,16 +80,18 @@ const QuestChainPathPage: React.FC<Props> = ({
     userStatus,
   );
 
+  const creator = questChain?.createdBy?.id;
+
   const [selected, setSelected] = useState('introduction');
 
   const bgColor = (questStatus: string) => {
     switch (questStatus) {
       case graphql.Status.Pass:
-        return '#2DF8C7';
+        return 'cyan';
       case graphql.Status.Review:
         return '#EFFF8F';
       default:
-        return 'rgba(0, 0, 0, 0.3);';
+        return 'whiteAlpha.300';
     }
   };
 
@@ -98,25 +111,60 @@ const QuestChainPathPage: React.FC<Props> = ({
         url="https://metagame.wtf/learn/playbooks"
       />
       <VStack spacing={8} w="full" align="stretch">
-        <Box w="100%">
-          <MetaLink href="/learn/playbooks">
-            <FaArrowLeft
-              fontSize="0.875rem"
-              style={{ display: 'inline-block', marginRight: '0.5rem' }}
-            />
-            Back to the Playbooks
-          </MetaLink>
-        </Box>
-        <Text
-          fontSize={{ base: '3xl', lg: '7xl' }}
-          fontWeight="bold"
-          lineHeight="3.5rem"
-          fontFamily="exo2"
-          mb={3}
-          align="center"
-        >
-          {questChain.name}
-        </Text>
+        <Stack>
+          <Box w="100%">
+            <MetaLink
+              href={`https://app.questchains.xyz/profile/${creator}`}
+              target="_blank"
+            >
+              {`${creator?.slice(0, 4)}...${creator?.slice(-2)}`}
+            </MetaLink>
+          </Box>
+          <HStack w="full" justifyContent="space-between" alignItems="center">
+            <Text
+              fontSize={{ base: '3xl', lg: '7xl' }}
+              fontWeight="bold"
+              lineHeight="3.5rem"
+              fontFamily="exo2"
+              mb={3}
+            >
+              {questChain.name}
+            </Text>
+
+            <Box w={338}>
+              <HStack w="full">
+                <Button variant="outline" w="full" leftIcon={<BsPinAngle />}>
+                  Pin
+                </Button>
+                <Button variant="outline" w="full">
+                  Boost
+                </Button>
+                <Button variant="outline" w="full" leftIcon={<BsShare />}>
+                  Share
+                </Button>
+              </HStack>
+            </Box>
+          </HStack>
+          <HStack>
+            <Text fontSize="sm" fontWeight="normal">
+              {questChain.numQuesters && questChain.numCompletedQuesters
+                ? `${Math.round(
+                    (questChain.numCompletedQuesters / questChain.numQuesters) *
+                      100,
+                  )}% of players have finished this`
+                : 'No players have finished this yet'}
+            </Text>
+
+            <Text>•</Text>
+
+            <Text fontSize="sm" fontWeight="normal">
+              Last updated:{' '}
+              {moment(new Date(questChain.updatedAt * 1000)).format(
+                'MMM D YYYY',
+              )}
+            </Text>
+          </HStack>
+        </Stack>
 
         {fetching ? (
           <Spinner my={20} />
@@ -125,75 +173,81 @@ const QuestChainPathPage: React.FC<Props> = ({
             {/* content */}
             <Flex
               direction="column"
-              background="rgba(255, 255, 255, 0.08)"
               height="fit-content"
               mixBlendMode="normal"
-              backdropFilter="blur(44px)"
-              p={3}
               minW={300}
               borderRadius={4}
             >
-              <Text
-                fontSize={24}
-                fontWeight="bold"
-                textTransform="uppercase"
-                mb={3}
+              <Flex
+                borderRadius={4}
+                backgroundColor={
+                  selected === 'introduction'
+                    ? 'rgba(255, 255, 255, 0.08)'
+                    : 'transparent'
+                }
+                cursor="pointer"
+                onClick={() => setSelected('introduction')}
+                gap={3}
+                px={5}
+                py={4}
+                alignItems="center"
+                borderBottom="1px solid var(--white-alpha-300, rgba(255, 255, 255, 0.16))"
               >
-                Content
-              </Text>
-              <Flex direction="column">
-                <Flex
-                  p={2}
-                  borderRadius={4}
-                  backgroundColor={
-                    selected === 'introduction'
-                      ? 'rgba(255, 255, 255, 0.08)'
-                      : 'transparent'
-                  }
-                  cursor="pointer"
-                  onClick={() => setSelected('introduction')}
-                  gap={3}
+                <Box
+                  backgroundColor="cyan"
+                  w={5}
+                  h={5}
+                  borderRadius="full"
+                  display="flex"
                   alignItems="center"
+                  justifyContent="center"
                 >
-                  <Box
-                    backgroundColor="#2DF8C7"
-                    w={4}
-                    h={4}
-                    borderRadius="full"
-                  />
-                  Introduction
-                </Flex>
-                {questChain.quests
-                  .filter((q) => !q.paused)
-                  .map((quest) => (
-                    <Flex
-                      borderRadius={4}
-                      backgroundColor={
-                        selected === quest.id
-                          ? 'rgba(255, 255, 255, 0.08)'
-                          : 'transparent'
-                      }
-                      p={2}
-                      onClick={() => setSelected(quest.id)}
-                      cursor="pointer"
-                      gap={3}
-                      alignItems="center"
-                    >
-                      <Box
-                        backgroundColor={bgColor(userStatus[selected]?.status)}
-                        w={4}
-                        h={4}
-                        borderRadius="full"
-                      />
-                      {quest.name}
-                    </Flex>
-                  ))}
+                  <BsCheck color="black" />
+                </Box>
+                Introduction
               </Flex>
+              {questChain.quests
+                .filter((q) => !q.paused)
+                .map((quest, index) => (
+                  <Flex
+                    backgroundColor={
+                      selected === quest.id
+                        ? 'rgba(255, 255, 255, 0.08)'
+                        : 'transparent'
+                    }
+                    px={5}
+                    py={4}
+                    onClick={() => setSelected(quest.id)}
+                    cursor="pointer"
+                    gap={3}
+                    alignItems="center"
+                    borderBottom="1px solid var(--white-alpha-300, rgba(255, 255, 255, 0.16))"
+                  >
+                    <Box
+                      backgroundColor={bgColor(userStatus[selected]?.status)}
+                      w={5}
+                      h={5}
+                      minW={5}
+                      borderRadius="full"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      {userStatus[quest.id]?.status === graphql.Status.Pass ? (
+                        <BsCheck color="black" />
+                      ) : (
+                        <Text fontSize="xs" fontWeight="bold">
+                          {index + 2}
+                        </Text>
+                      )}
+                    </Box>
+                    <Text>{quest.name}</Text>
+                  </Flex>
+                ))}
             </Flex>
 
             {/* stats */}
             <Flex direction="column" w="full" gap={8} pb={8}>
-              <ChainStats questChain={questChain} progress={progress} />
               <MarkdownViewer>
                 {selected === 'introduction'
                   ? questChain.description
@@ -201,60 +255,76 @@ const QuestChainPathPage: React.FC<Props> = ({
                       ?.description}
               </MarkdownViewer>
               {selected !== 'introduction' && (
-                <Flex justifyContent="center" w="full">
-                  <UploadProofButton
-                    questId={selected}
-                    name={name}
-                    questChain={questChain}
-                    questStatus={userStatus[selected]?.status ?? null}
-                    refresh={refresh}
-                  />
-                </Flex>
+                <UploadProofButton
+                  questId={selected}
+                  name={name}
+                  questChain={questChain}
+                  questStatus={userStatus[selected]?.status ?? null}
+                  refresh={refresh}
+                />
+              )}
+
+              {selected === 'introduction' && (
+                <Box>
+                  <Button
+                    colorScheme="purple"
+                    rightIcon={<BsArrowRight />}
+                    onClick={() => {
+                      setSelected(questChain.quests[0].id);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                </Box>
               )}
             </Flex>
 
             {/* reward */}
-            <Flex
-              direction="column"
-              background="rgba(255, 255, 255, 0.08)"
-              height="fit-content"
-              mixBlendMode="normal"
-              backdropFilter="blur(44px)"
-              p={3}
-              minW={300}
-              borderRadius={4}
-            >
-              <Text
-                fontSize={24}
-                fontWeight="bold"
-                textTransform="uppercase"
-                mb={3}
+            <Stack w={338}>
+              <ChainStats progress={progress} />
+
+              <Flex
+                direction="column"
+                background="rgba(255, 255, 255, 0.08)"
+                height="fit-content"
+                mixBlendMode="normal"
+                backdropFilter="blur(44px)"
+                p={6}
+                minW={300}
+                borderRadius={4}
               >
-                Reward
-              </Text>
-              {canMint ? (
-                <MintNFTTile
-                  {...{
-                    questChain,
-                    name,
-                    onSuccess: refresh,
-                    completed: questChain.quests.filter((q) => !q.paused)
-                      .length,
-                  }}
-                />
-              ) : (
-                <>
-                  <Text>An achievement NFT</Text>
-                  {questChain.token.imageUrl && (
-                    <Image
-                      src={imageLink(questChain.token.imageUrl)}
-                      alt="Quest Chain NFT badge"
-                      maxW={300}
-                    />
-                  )}
-                </>
-              )}
-            </Flex>
+                <Text
+                  fontSize={24}
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  mb={3}
+                >
+                  Reward
+                </Text>
+                {canMint ? (
+                  <MintNFTTile
+                    {...{
+                      questChain,
+                      name,
+                      onSuccess: refresh,
+                      completed: questChain.quests.filter((q) => !q.paused)
+                        .length,
+                    }}
+                  />
+                ) : (
+                  <>
+                    <Text>An achievement NFT</Text>
+                    {questChain.token.imageUrl && (
+                      <Image
+                        src={imageLink(questChain.token.imageUrl)}
+                        alt="Quest Chain NFT badge"
+                        maxW={300}
+                      />
+                    )}
+                  </>
+                )}
+              </Flex>
+            </Stack>
           </Flex>
         )}
       </VStack>
