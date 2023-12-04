@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -11,7 +12,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   StatusedSubmitButton,
+  Text,
   ToastId,
   Tooltip,
   useBreakpointValue,
@@ -176,7 +179,24 @@ export const UploadProof: React.FC<{
   ]);
 
   return (
-    <Box>
+    <Stack
+      w="full"
+      borderTop="1px solid var(--white-alpha-300, rgba(255, 255, 255, 0.16))"
+      background="var(--black-alpha-300, rgba(0, 0, 0, 0.16))"
+      p={10}
+    >
+      <Text>Proof of completion</Text>
+      <MarkdownEditor
+        value={proofDescRef.current}
+        onChange={setProofDescription}
+      />
+      <UploadImageForm
+        {...dropImageProps}
+        imageProps={{ maxH: '12rem' }}
+        formControlProps={{ mb: 4 }}
+      />
+      <UploadFilesForm {...dropFilesProps} />
+
       <Tooltip
         shouldWrapChildren
         label={`Please connect or switch to ${
@@ -185,87 +205,33 @@ export const UploadProof: React.FC<{
         isDisabled={chainId === questChain.chainId}
       >
         <StatusedSubmitButton
-          onClick={() => {
-            setIsSubmittingProof(true);
-            onOpen();
-          }}
-          status={null}
-          isDisabled={chainId !== questChain.chainId || !address}
-          borderWidth={1}
-          border="1px solid green"
-          px={{ base: 3, lg: 5 }}
-          py={{ base: 3, lg: 2 }}
-          size={buttonSize}
+          px={[8, 12]}
           label="Submit Proof"
+          onClick={() => {
+            if (!chainId || chainId !== questChain.chainId || !provider) {
+              addToast({
+                description: `Wrong Chain, please switch to ${
+                  NETWORK_INFO[questChain.chainId].label
+                }`,
+                duration: 2000,
+                isClosable: true,
+              });
+              return;
+            }
+            if (!proofDescRef.current) {
+              addToast({
+                description: 'Proof description cannot be empty',
+                duration: 2000,
+                isClosable: true,
+              });
+              return;
+            }
+
+            onSubmit();
+          }}
+          {...{ status: isSubmitting ? 'Submitting...' : null }}
         />
       </Tooltip>
-
-      <Modal isOpen={isOpen} onClose={onModalClose} size="xl">
-        <ModalOverlay />
-        <ModalContent maxW="40rem">
-          <ModalHeader>{name}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl isRequired>
-              <FormLabel color="main" htmlFor="proofDescRef.current">
-                Description
-              </FormLabel>
-              <Flex w="100%" pb={4}>
-                <MarkdownEditor
-                  value={proofDescRef.current}
-                  onChange={setProofDescription}
-                />
-              </Flex>
-            </FormControl>
-            <UploadImageForm
-              {...dropImageProps}
-              imageProps={{ maxH: '12rem' }}
-              formControlProps={{ mb: 4 }}
-            />
-            <UploadFilesForm {...dropFilesProps} />
-          </ModalBody>
-
-          <ModalFooter alignItems="baseline">
-            <Button
-              variant="ghost"
-              onClick={onModalClose}
-              color="white"
-              _hover={{ bg: '#FFFFFF11' }}
-              _active={{ bg: '#FF000011' }}
-              mr={3}
-            >
-              Close
-            </Button>
-            <StatusedSubmitButton
-              px={[8, 12]}
-              label="Submit Proof"
-              onClick={() => {
-                if (!chainId || chainId !== questChain.chainId || !provider) {
-                  addToast({
-                    description: `Wrong Chain, please switch to ${
-                      NETWORK_INFO[questChain.chainId].label
-                    }`,
-                    duration: 2000,
-                    isClosable: true,
-                  });
-                  return;
-                }
-                if (!proofDescRef.current) {
-                  addToast({
-                    description: 'Proof description cannot be empty',
-                    duration: 2000,
-                    isClosable: true,
-                  });
-                  return;
-                }
-
-                onSubmit();
-              }}
-              {...{ status: isSubmitting ? 'Submitting...' : null }}
-            />
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+    </Stack>
   );
 };

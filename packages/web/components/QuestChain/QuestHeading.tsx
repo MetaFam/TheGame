@@ -2,6 +2,7 @@ import {
   Box,
   ExternalLinkIcon,
   Flex,
+  HStack,
   Image,
   Link,
   Stack,
@@ -49,44 +50,14 @@ export const ChainStat: React.FC<{
 );
 
 export const ChainStats: React.FC<{
-  questChain: graphql.QuestChainInfoFragment;
   progress: Progress;
-}> = ({ questChain, progress }) => (
-  <Flex direction="column" gap={6}>
-    <Flex justifyContent="space-between" gap={2} w="full">
-      <ChainStat
-        label="Total Players"
-        value={questChain.numQuesters.toString()}
-      />
-      <ChainStat
-        label="Players Finished"
-        value={questChain.numCompletedQuesters.toString()}
-      />
-      <ChainStat
-        label="Quests"
-        value={questChain.quests.filter((q) => !q.paused).length.toString()}
-      />
-      <ChainStat
-        label="Updated at"
-        value={moment(new Date(questChain.updatedAt * 1000)).format(
-          'MMM D YYYY',
-        )}
-      />
-      <ChainStat
-        label="Created by"
-        value={
-          <Tooltip label={questChain.createdBy.id} hasArrow>
-            <Link
-              href={`${QUEST_CHAINS_HOST}/profile/${questChain.createdBy.id}`}
-              isExternal
-            >
-              {formatAddress(questChain.createdBy.id)}
-            </Link>
-          </Tooltip>
-        }
-      />
-    </Flex>
-
+}> = ({ progress }) => (
+  <Flex direction="column" gap={1}>
+    <Text>
+      {`${Math.round(
+        (progress.total ? progress.completeCount / progress.total : 0) * 100,
+      )}% completed`}
+    </Text>
     <Flex w="full" justifyContent="space-between" h={6} alignItems="center">
       <Flex
         flex={1}
@@ -95,7 +66,7 @@ export const ChainStats: React.FC<{
         borderRadius={3}
       >
         <Box
-          bg="#2DF8C7"
+          bg="cyan"
           w={`${
             (progress.total ? progress.completeCount / progress.total : 0) * 100
           }%`}
@@ -108,22 +79,19 @@ export const ChainStats: React.FC<{
         />
         <Box h={2} />
       </Flex>
-      <Text pl={4}>
-        {`${Math.round(
-          (progress.total ? progress.completeCount / progress.total : 0) * 100,
-        )}%`}
-      </Text>
     </Flex>
+    <HStack justifyContent="space-between" fontWeight={400} mb={3}>
+      <Text color="cyan">{progress.completeCount} approved</Text>
+      <Text>
+        {`${progress.inReviewCount + progress.completeCount} / ${
+          progress.total
+        } submitted`}
+      </Text>
+    </HStack>
   </Flex>
 );
 
-const Heading: React.FC<Props> = ({
-  name,
-  questChain,
-  progress,
-  canMint,
-  refresh,
-}) => (
+const Heading: React.FC<Props> = ({ name, questChain, canMint, refresh }) => (
   <Flex minW="80%" flexDirection="column">
     <Stack
       spacing={8}
@@ -164,8 +132,6 @@ const Heading: React.FC<Props> = ({
             </Flex>
           </Tooltip>
         </MetaLink>
-
-        <ChainStats questChain={questChain} progress={progress} />
       </VStack>
 
       {questChain.token.imageUrl && (
