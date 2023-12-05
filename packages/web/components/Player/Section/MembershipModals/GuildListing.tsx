@@ -19,7 +19,7 @@ import {
   BsPatchCheckFill,
   BsPatchQuestion,
 } from 'react-icons/bs';
-import { MdDragHandle } from 'react-icons/md';
+import { MdDragHandle, MdOutlineRemoveCircleOutline } from 'react-icons/md';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
 
@@ -109,27 +109,33 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
       >
         <Flex align="center">
           {editing && (
-            <FormLabel
-              display="flex"
-              justifyContent="center"
-              _hover={{ cursor: 'pointer', color: 'purple.200' }}
-            >
-              {visible ? (
-                <BsEyeFill size="1.5rem" />
-              ) : (
-                <BsEyeSlashFill size="1.5rem" />
-              )}
-              <Input
-                type="checkbox"
-                aria-label="hide guild"
-                id={`visible:${id}`}
-                checked={visible}
-                onChange={({ target: { checked } }) => {
-                  updateVisibility?.(checked);
-                }}
-                display="none"
-              />
-            </FormLabel>
+            <>
+              {legitimacy === 'VERIFIED' ?
+                <FormLabel
+                  display="flex"
+                  justifyContent="center"
+                  _hover={{ cursor: 'pointer', color: 'purple.200' }}
+                >
+                  {visible ? (
+                    <BsEyeFill size="1.5rem" />
+                  ) : (
+                    <BsEyeSlashFill size="1.5rem" />
+                  )}
+                  <Input
+                    type="checkbox"
+                    aria-label="hide guild"
+                    id={`visible:${id}`}
+                    checked={visible}
+                    onChange={({ target: { checked } }) => {
+                      updateVisibility?.(checked);
+                    }}
+                    display="none"
+                  />
+                </FormLabel>
+                :
+                <IconButton aria-label='delete guild' icon={<MdOutlineRemoveCircleOutline />}></IconButton>
+              }
+            </>
           )}
           <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
             {logoURL ? (
