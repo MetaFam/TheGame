@@ -12,6 +12,7 @@ import {
   Text,
   Tooltip,
   InfoIcon,
+  Icon,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import SearchIcon from 'assets/search-icon.svg';
@@ -31,88 +32,128 @@ import React, {
 } from 'react';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
+import { MdCheckCircleOutline } from "react-icons/md";
 
 interface OptionProps {
-  text: string;
+  id: string;
   name: string;
-  url?: string;
-  image?: string;
-  onClick: () => void;
-  verified?: Boolean;
+  playerId: string;
+  websiteURL?: string;
+  legitimacy?: string;
+  logo?: string;
 }
 
-const Option = ({ onClick, name, image, text, url, verified }: OptionProps) => (
-  <Box as="li" role="option" sx={{ listStyleType: 'none' }}>
-    <Flex
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{
-        px: 4,
-        py: 2,
-        rounder: 'lg',
-        bg: '#341F47',
-        mt: '1em',
-        pt: 3,
-        pb: 3,
-        w: '50%',
-        ml: '25%',
-        border: '2px solid #FFFFFF25',
-        borderRadius: '8px',
-      }}
-    >
-      <Flex align="center" w="full">
-        <Avatar
-          name={name}
-          src={httpLink(image)}
-          w={12}
-          h={12}
-          borderRadius="8px"
-        />
-        <Stack gap={0}>
-          <Text
-            pt={1}
-            pl={3}
-            color="white"
-            fontFamily="Exo 2"
-            fontWeight={400}
-            textOverflow="ellipsis"
-            overflow="hidden"
-            whiteSpace="nowrap"
-          >
-            {text}
-          </Text>
-          <Text
-            pt={1}
-            pl={3}
-            color="white"
-            fontFamily="Exo 2"
-            fontWeight={400}
-            textOverflow="ellipsis"
-            overflow="hidden"
-            whiteSpace="nowrap"
-          >
-            {url}
-          </Text>
-        </Stack>
+const Option = ({ id, name, logo, websiteURL, legitimacy, playerId }: OptionProps) => {
+  const [addingGuild, setAddingGuild] = useState<boolean>(false);
+  const [addedGuild, setAddedGuild] = useState<boolean>(false);
+
+  const [, addGuildMember] = useAddGuildMemberMutation();
+
+  const handleAddGuildMembership = async (guildId: string) => {
+    try {
+      setAddingGuild(true)
+      const response = await addGuildMember({
+        playerId,
+        guildId,
+      });
+      if (response && response.data) {
+        setAddingGuild(false)
+        setAddedGuild(true)
+        setTimeout(() => {
+          setAddedGuild(false)
+        }, 3000);
+      }
+      // Handle the response if necessary.
+      // For example, you might want to update the UI based on the mutation's result:
+      // if (response && response.data) {
+
+      // }
+    } catch (error) {
+      throw Error(
+        `Error upserting the Dework profile: ${(error as Error).message}`,
+      );
+    }
+  };
+  return (
+    <Box as="li" role="option" sx={{ listStyleType: 'none' }}>
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{
+          px: 4,
+          py: 2,
+          rounder: 'lg',
+          bg: '#341F47',
+          mt: '1em',
+          pt: 3,
+          pb: 3,
+          w: '50%',
+          ml: '25%',
+          border: '2px solid #FFFFFF25',
+          borderRadius: '8px',
+        }}
+      >
+        <Flex align="center" w="full">
+          <Avatar
+            name={name}
+            src={httpLink(logo)}
+            w={12}
+            h={12}
+            borderRadius="8px"
+          />
+          <Stack gap={0}>
+            <Text
+              pt={1}
+              pl={3}
+              color="white"
+              fontFamily="Exo 2"
+              fontWeight={400}
+              textOverflow="ellipsis"
+              overflow="hidden"
+              whiteSpace="nowrap"
+            >
+              {name}
+            </Text>
+            <Text
+              pt={1}
+              pl={3}
+              color="white"
+              fontFamily="Exo 2"
+              fontWeight={400}
+              textOverflow="ellipsis"
+              overflow="hidden"
+              whiteSpace="nowrap"
+            >
+              {websiteURL}
+            </Text>
+          </Stack>
+        </Flex>
+        <Tooltip label={legitimacy ? 'If you are already a member of this verified guild please reach out to us on Discord for help.' : ''}>
+          {addedGuild ?
+            <Icon as={MdCheckCircleOutline} />
+            :
+            <IconButton
+              onClick={async () => {
+                legitimacy === 'VERIFIED' ? {} : await handleAddGuildMembership(id);
+              }}
+              isLoading={addingGuild}
+              size="sm"
+              variant="outline"
+              aria-label="Add guild membership"
+              icon={legitimacy === 'VERIFIED' ? <InfoIcon /> : <AddIcon />}
+              isRound
+              borderColor="white"
+              color="white"
+              _hover={{ bg: 'transparent', color: 'white', borderColor: 'white' }}
+              borderWidth={2}
+            />
+          }
+        </Tooltip>
       </Flex>
-      <Tooltip label={verified ? 'If you are already a member of this verified guild please reach out to us on Discord for help.' : ''}>
-        <IconButton
-          {...{ onClick }}
-          size="sm"
-          variant="outline"
-          aria-label="Add guild membership"
-          icon={verified ? <InfoIcon /> : <AddIcon />}
-          isRound
-          borderColor="white"
-          color="white"
-          _hover={{ bg: 'transparent', color: 'white', borderColor: 'white' }}
-          borderWidth={2}
-        />
-      </Tooltip>
-      
-    </Flex>
-  </Box>
-);
+    </Box>
+  )
+}
+
 
 const ResultsTitle = ({ children }: { children: ReactNode }) => (
   <Text
@@ -164,30 +205,10 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
     guilds: [],
   });
 
-  const [, addGuildMember] = useAddGuildMemberMutation();
-
   const resetResults = () => {
     setSearchResults({
       guilds: [],
     });
-  };
-
-  const handleAddGuildMembership = async (guildId: string) => {
-    try {
-      const response = await addGuildMember({
-        playerId: player?.id,
-        guildId,
-      });
-      // Handle the response if necessary.
-      // For example, you might want to update the UI based on the mutation's result:
-      // if (response && response.data) {
-
-      // }
-    } catch (error) {
-      throw Error(
-        `Error upserting the Dework profile: ${(error as Error).message}`,
-      );
-    }
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -272,14 +293,11 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
               {guilds?.map((guild: GuildFragment) => (
                 <Option
                   key={guild.id}
-                  onClick={async () => {
-                    guild.legitimacy === 'VERIFIED' ? {} : await handleAddGuildMembership(guild.id);
-                  }}
-                  name={guild.name}
-                  image={guild?.logo as string | undefined}
-                  text={guild.name}
-                  verified={guild?.legitimacy === 'VERIFIED'}
-                  url={guild?.websiteURL as string | undefined}
+                  {...guild}
+                  logo={guild.logo || ''}
+                  websiteURL={guild.websiteURL || ''}
+                  legitimacy={guild.legitimacy || ''}
+                  playerId={player.id}
                 />
               ))}
               {guilds.length >= LIMIT && (
