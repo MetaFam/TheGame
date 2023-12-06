@@ -4,15 +4,15 @@ import {
   Box,
   BoxedNextImage as Image,
   Flex,
+  Icon,
   IconButton,
+  InfoIcon,
   Input,
   InputGroup,
   InputLeftElement,
   Stack,
   Text,
   Tooltip,
-  InfoIcon,
-  Icon,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import SearchIcon from 'assets/search-icon.svg';
@@ -30,9 +30,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { MdCheckCircleOutline } from "react-icons/md";
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
-import { MdCheckCircleOutline } from "react-icons/md";
 
 interface OptionProps {
   id: string;
@@ -50,6 +50,7 @@ const Option = ({ id, name, logo, websiteURL, legitimacy, playerId }: OptionProp
   const [, addGuildMember] = useAddGuildMemberMutation();
 
   const handleAddGuildMembership = async (guildId: string) => {
+    if (legitimacy === 'VERIFIED') return;
     try {
       setAddingGuild(true)
       const response = await addGuildMember({
@@ -134,7 +135,7 @@ const Option = ({ id, name, logo, websiteURL, legitimacy, playerId }: OptionProp
             :
             <IconButton
               onClick={async () => {
-                legitimacy === 'VERIFIED' ? {} : await handleAddGuildMembership(id);
+                await handleAddGuildMembership(id);
               }}
               isLoading={addingGuild}
               size="sm"
