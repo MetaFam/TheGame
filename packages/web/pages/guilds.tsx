@@ -35,7 +35,7 @@ const GuildsPage: React.FC<Props> = ({ guilds }) => (
         <Text as="p" textAlign="center">
           Want your project to appear here? Consider{' '}
           <Link
-            href="/join/guild"
+            href="/signup?tab=guild"
             color="pink.300"
             textDecoration="underline"
             whiteSpace="nowrap"

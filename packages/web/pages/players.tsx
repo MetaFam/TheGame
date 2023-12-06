@@ -15,13 +15,12 @@ import {
 import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
-import { SSRData } from 'next-urql';
 import React, { useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async (): Promise<{
-  props: { urqlState?: SSRData };
+  props: { urqlState?: any };
   revalidate: 1;
 }> => {
   const [ssrClient, ssrCache] = getSsrClient();
@@ -92,7 +91,7 @@ const Players: React.FC<Props> = () => {
           <Text as="p" textAlign="center">
             Want to get on this leaderboard and rank high? Why not{' '}
             <Link
-              href="/play/paths/engaged-octos-path"
+              href="/signup?tab=player"
               color="pink.300"
               textDecoration="underline"
               whiteSpace="nowrap"
