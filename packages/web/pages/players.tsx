@@ -91,7 +91,7 @@ const Players: React.FC<Props> = () => {
           <Text as="p" textAlign="center">
             Want to get on this leaderboard and rank high? Why not{' '}
             <Link
-              href="/play/paths/engaged-octos-path"
+              href="/signup?tab=player"
               color="pink.300"
               textDecoration="underline"
               whiteSpace="nowrap"
