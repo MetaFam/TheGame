@@ -137,7 +137,7 @@ export const PathPlaybookTypes = {
 export const QuestChainPathPlaybookPaths = {
   [PathPlaybookTypes.PATH]: '/play/paths/',
   [PathPlaybookTypes.PLAYBOOK]: '/learn/playbooks/',
-  [PathPlaybookTypes.GREAT_HOUSE]: '/learn/great-houses/',
+  [PathPlaybookTypes.GREAT_HOUSE]: '/learn/thegreathouses/',
 };
 
 export type PathPlaybookType = Values<typeof PathPlaybookTypes>;

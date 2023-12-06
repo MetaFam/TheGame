@@ -56,6 +56,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           border={0}
           px={2}
           position="absolute"
+          right={"-4rem"}
         >
           <Icon
             as={MenuArrow}
