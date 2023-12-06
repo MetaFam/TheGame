@@ -26,6 +26,7 @@ import { optimizedImage } from 'utils/imageHelpers';
 export type DAOListingProps = {
   membership: GuildMembership;
   editing?: boolean;
+  draggable?: boolean;
   playerId?: string;
   onClose?: () => void;
   updateVisibility?: (visible: boolean) => void;
@@ -49,11 +50,11 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
         legitimacy,
       },
       editing = false,
+      draggable = true,
       updateVisibility,
     },
     ref,
   ) => {
-    // @to-do ADD A BADGE FOR LEGITIMACY NITEGEIST
     const stake = useMemo(() => {
       if (memberXP != null) {
         return `XP: ${Math.floor(memberXP)}`;
@@ -132,8 +133,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
                     display="none"
                   />
                 </FormLabel>
-                :
-                <IconButton aria-label='delete guild' icon={<MdOutlineRemoveCircleOutline />}></IconButton>
+                : <IconButton aria-label='delete guild' size='lg' variant="unstyled" icon={<MdOutlineRemoveCircleOutline />}></IconButton>
               }
             </>
           )}
@@ -188,7 +188,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
             </Text>
           </Flex>
         </Flex>
-        {editing && (
+        {editing && draggable && (
           <IconButton
             className="guildDragHandle"
             aria-label="drag n drop handle"
