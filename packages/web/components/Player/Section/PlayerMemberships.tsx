@@ -435,22 +435,24 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             margin={[0, 10]}
             draggableHandle=".guildDragHandle"
           >
-            {currentMemberships.map((membership, index) => (
-              <Box key={membership.id} w="100%">
-                <GuildListing
-                  {...{ membership }}
-                  editing={true}
-                  playerId={hydratedPlayer?.id}
-                  onClose={performHasuraHydration}
-                  updateVisibility={(vis) => {
-                    setVisibility((viss) => ({
-                      ...viss,
-                      [membership.id]: vis,
-                    }));
-                  }}
-                />
-              </Box>
-            ))}
+            {currentMemberships
+              .filter((membership) => membership.visible)
+              .map((membership, index) => (
+                <Box key={membership.id} w="100%">
+                  <GuildListing
+                    {...{ membership }}
+                    editing={true}
+                    playerId={hydratedPlayer?.id}
+                    onClose={performHasuraHydration}
+                    updateVisibility={(vis) => {
+                      setVisibility((viss) => ({
+                        ...viss,
+                        [membership.id]: vis,
+                      }));
+                    }}
+                  />
+                </Box>
+              ))}
           </ReactGridLayout>
           {dirty && (
             <Box display="flex" justifyContent="center" mt={4}>
@@ -460,6 +462,28 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
               <MetaButton onClick={saveMemberships}>Save</MetaButton>
             </Box>
           )}
+          {currentMemberships
+            .filter((membership) => !membership.visible).length > 0 ?
+            <Text textTransform='uppercase' fontWeight='bold' mt={8}>Hidden Memberships</Text> : ''
+          }
+          {currentMemberships
+            .filter((membership) => !membership.visible)
+            .map((membership, index) => (
+              <GuildListing
+                key={membership.id}
+                {...{ membership }}
+                editing={true}
+                draggable={false}
+                playerId={hydratedPlayer?.id}
+                onClose={performHasuraHydration}
+                updateVisibility={(vis) => {
+                  setVisibility((viss) => ({
+                    ...viss,
+                    [membership.id]: vis,
+                  }));
+                }}
+              />
+            ))}
           <Button
             variant="unstyled"
             size="md"

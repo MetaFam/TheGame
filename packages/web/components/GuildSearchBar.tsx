@@ -30,7 +30,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { MdCheckCircleOutline } from "react-icons/md";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
 
@@ -131,7 +131,7 @@ const Option = ({ id, name, logo, websiteURL, legitimacy, playerId }: OptionProp
         </Flex>
         <Tooltip label={legitimacy ? 'If you are already a member of this verified guild please reach out to us on Discord for help.' : ''}>
           {addedGuild ?
-            <Icon as={MdCheckCircleOutline} />
+            <Icon boxSize={10} as={IoIosCheckmarkCircleOutline} />
             :
             <IconButton
               onClick={async () => {
@@ -306,7 +306,6 @@ export const GuildSearchBar: React.FC<{ player: Player }> = ({ player }) => {
                   type="Guilds"
                   onClick={() => {
                     router.push(`/search/guilds?q=${encodeURI(query)}`);
-                    // onClose();
                   }}
                 />
               )}
