@@ -30,6 +30,7 @@ export type DAOListingProps = {
   playerId?: string;
   onClose?: () => void;
   updateVisibility?: (visible: boolean) => void;
+  deleteMembership?: () => void;
 };
 
 export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
@@ -52,6 +53,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
       editing = false,
       draggable = true,
       updateVisibility,
+      deleteMembership,
     },
     ref,
   ) => {
@@ -133,7 +135,13 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
                     display="none"
                   />
                 </FormLabel>
-                : <IconButton aria-label='delete guild' size='lg' variant="unstyled" icon={<MdOutlineRemoveCircleOutline />}></IconButton>
+                : <IconButton
+                    aria-label='delete guild'
+                    size='lg'
+                    variant="unstyled"
+                    icon={<MdOutlineRemoveCircleOutline />}
+                    onClick={deleteMembership}
+                  />
               }
             </>
           )}

@@ -31,6 +31,7 @@ import {
   Player,
   useRewriteDaoOrderMutation,
   useRewriteGuildOrderMutation,
+  useDeleteGuildMemberMutation,
 } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -260,6 +261,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   );
   const [, rewriteGuildOrder] = useRewriteGuildOrderMutation();
   const [, rewriteDAOOrder] = useRewriteDaoOrderMutation();
+  const [, deleteGuildMember] = useDeleteGuildMemberMutation();
 
   useEffect(() => {
     setPosition(Object.fromEntries(layout.map(({ i, y }) => [i, y])));
@@ -284,6 +286,19 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
       setLoading(false);
     });
   }, [player, hydratedPlayer, visibility]);
+
+  const deleteMembership = async () => {
+    const membership = memberships.find(
+      ({ id }) => id === memberships[0].id,
+    ) as GuildMembership;
+    const guildId = membership.guildId ?? membership.id;
+    const playerId = hydratedPlayer?.id;
+    if (playerId && guildId) {
+      deleteGuildMember({ guildId, playerId }).then(() => {
+        updateMemberships();
+      });
+    }
+  }
 
   useEffect(updateMemberships, [updateMemberships, editView]);
 
@@ -450,6 +465,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
                         [membership.id]: vis,
                       }));
                     }}
+                    deleteMembership={deleteMembership}
                   />
                 </Box>
               ))}
