@@ -29,9 +29,9 @@ import { ProfileSection } from 'components/Section/ProfileSection';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import {
   Player,
+  useDeleteGuildMemberMutation,
   useRewriteDaoOrderMutation,
   useRewriteGuildOrderMutation,
-  useDeleteGuildMemberMutation,
 } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
