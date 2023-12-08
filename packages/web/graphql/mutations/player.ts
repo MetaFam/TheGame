@@ -33,6 +33,17 @@ export const updatePlayerMutations = /* GraphQL */ `
     }
   }
 
+  mutation DeleteGuildMember(
+    $guildId: uuid!,
+    $playerId: uuid!
+  ) {
+    delete_guild_player(
+      where: { playerId: { _eq: $playerId }, guildId: { _eq: $guildId } }
+    ) {
+      affected_rows
+    }
+  }
+
   mutation UpdatePlayerGuildVisibility(
     $guildId: uuid!
     $playerId: uuid!
