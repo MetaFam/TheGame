@@ -31,8 +31,10 @@ import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
 import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
 import { GuildFragment, Player, PlayerFragment } from 'graphql/autogen/types';
+import { searchPatrons } from 'graphql/getPatrons';
 import { searchPlayers } from 'graphql/getPlayers';
 import { searchGuilds } from 'graphql/queries/guild';
+import { Patron } from 'graphql/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, {
@@ -164,6 +166,7 @@ const LIMIT = 3;
 interface SearchResults {
   players: PlayerFragment[];
   guilds: GuildFragment[];
+  patrons: Patron[];
 }
 
 const SearchModal = ({
@@ -177,15 +180,18 @@ const SearchModal = ({
   const searchInputSubjectRef = useRef(new Subject<string>());
   const searchBarRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState<string>('');
-  const [{ players, guilds }, setSearchResults] = useState<SearchResults>({
-    players: [],
-    guilds: [],
-  });
+  const [{ players, guilds, patrons }, setSearchResults] =
+    useState<SearchResults>({
+      players: [],
+      guilds: [],
+      patrons: [],
+    });
 
   const resetResults = () => {
     setSearchResults({
       players: [],
       guilds: [],
+      patrons: [],
     });
   };
 
@@ -216,15 +222,18 @@ const SearchModal = ({
           forkJoin([
             from(searchPlayers(queryString)),
             from(searchGuilds({ search: queryString, limit: LIMIT })),
+            from(searchPatrons(queryString, LIMIT)),
           ]),
         ),
         shareReplay(1),
       )
-      .subscribe(([{ players: p }, { guilds: g }]) => {
-        setSearchResults({ players: p, guilds: g });
+      .subscribe(([{ players: p }, { guilds: g }, searchPatronsRes]) => {
+        setSearchResults({ players: p, guilds: g, patrons: searchPatronsRes });
       });
     return () => searchSubscription?.unsubscribe();
   }, []);
+
+  console.log('patrons', patrons);
 
   const isBodyEmpty = players.length + guilds.length === 0;
   return (
@@ -351,6 +360,37 @@ const SearchModal = ({
                         type="Guilds"
                         onClick={() => {
                           router.push(`/search/guilds?q=${encodeURI(query)}`);
+                          onClose();
+                        }}
+                      />
+                    )}
+                  </Box>
+                )}
+
+                {patrons.length > 0 && <ResultsTitle>Patrons</ResultsTitle>}
+                {patrons.length > 0 && (
+                  <Box as="ul" role="listbox" mb={2} px={3} color="white">
+                    {patrons?.map((patron: Patron) => (
+                      <Option
+                        key={patron.id}
+                        onClick={() => {
+                          router.push(getPlayerURL(patron) as string);
+                          onClose();
+                        }}
+                        name={getPlayerName(patron) ?? 'Unknown'}
+                        image={getPlayerImage(patron)}
+                        text={
+                          (getPlayerUsername(patron as Maybe<Patron>) ||
+                            getPlayerName(patron)) ??
+                          'Unknown'
+                        }
+                      />
+                    ))}
+                    {patrons.length >= LIMIT && (
+                      <SeeAllOption
+                        type="Patrons"
+                        onClick={() => {
+                          router.push(`/search/patrons?q=${encodeURI(query)}`);
                           onClose();
                         }}
                       />
