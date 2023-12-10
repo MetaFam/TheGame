@@ -12,6 +12,10 @@ const FilterItems = [
     name: GlobalFilters.GUILDS,
     baseUrl: '/search/guilds',
   },
+  {
+    name: GlobalFilters.PATRONS,
+    baseUrl: '/search/patrons',
+  },
 ];
 interface SearchFiltersProps {
   activeFilter: string;
