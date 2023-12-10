@@ -11,6 +11,9 @@ import {
   Order_By,
   QuestStatus_Enum,
   Scalars,
+  SearchQuestsDocument,
+  SearchQuestsQuery,
+  SearchQuestsQueryVariables,
 } from 'graphql/autogen/types';
 import { client as defaultClient } from 'graphql/client';
 import { QuestCompletionFragment, QuestFragment } from 'graphql/fragments';
@@ -31,6 +34,7 @@ import { Client } from 'urql';
     $order: order_by
     $createdByPlayerId: uuid
     $questRoles: [String!]
+    $search: String
   ) {
     quest(
       limit: $limit
@@ -40,11 +44,36 @@ import { Client } from 'urql';
         guildId: { _eq: $guildId }
         createdByPlayerId: { _eq: $createdByPlayerId }
         quest_roles: { role: { _in: $questRoles } }
+        _or: [ 
+           { title : { _ilike: $search }},
+           { description : { _ilike: $search }}
+        ]
+        
       }
     ) {
       ...QuestFragment
     }
   }
+
+   query SearchQuests(
+    $limit: Int = 3
+    $search: String
+  ) {
+    quest(
+      limit: $limit
+       where: {
+         _or: [ 
+           { title : { _ilike: $search }},
+           { description : { _ilike: $search }}
+        ]
+       }
+     )
+    {
+      ...QuestFragment
+    }
+  }
+
+  
 
   query GetCompletedQuestsByPlayer(
     $completedByPlayerId: uuid
@@ -111,6 +140,7 @@ export const defaultQueryVariables: GetQuestsQueryVariables = {
   guildId: undefined,
   order: Order_By.Desc,
   createdByPlayerId: undefined,
+  search: '%%',
 };
 
 export const getQuestIds = async (
@@ -133,6 +163,27 @@ export const getQuests = async (
   const { data, error } = await client
     .query<GetQuestsQuery, GetQuestsQueryVariables>(
       GetQuestsDocument,
+      queryVariables,
+    )
+    .toPromise();
+
+  if (!data) {
+    if (error) {
+      throw error;
+    }
+    return [];
+  }
+
+  return data.quest;
+};
+
+export const searchQuests = async (
+  queryVariables = { search: '%%', limit: 3 },
+  client: Client = defaultClient,
+) => {
+  const { data, error } = await client
+    .query<SearchQuestsQuery, SearchQuestsQueryVariables>(
+      SearchQuestsDocument,
       queryVariables,
     )
     .toPromise();

@@ -14,13 +14,13 @@ import GuildCoverImageFull from 'assets/guild-background-full.jpeg';
 import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { AccountType_Enum, Player } from 'graphql/autogen/types';
-import { GuildPlayer, PlayerProfile } from 'graphql/types';
+import { GuildPlayer, Patron, PlayerProfile } from 'graphql/types';
 import { toSvg } from 'jdenticon';
 
 import { optimizedImage } from './imageHelpers';
 
 export const getPlayerImage = (
-  player?: Maybe<Player | GuildPlayer>,
+  player?: Maybe<Player | GuildPlayer | Patron>,
 ): string => {
   const key = 'profileImageURL';
   const link = optimizedImage(key, player?.profile?.[key]);
@@ -78,7 +78,7 @@ export const getPlayerURL = (
 };
 
 export const getPlayerName = (
-  player?: Maybe<Player | GuildPlayer>,
+  player?: Maybe<Player | GuildPlayer | Patron>,
 ): string | undefined =>
   player?.profile?.name ||
   formatIfAddress(player?.profile?.username ?? undefined) ||
