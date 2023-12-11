@@ -5,6 +5,7 @@ import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { PlayerSection } from 'components/Player/PlayerSection';
 import { ComposeDBPromptModal } from 'components/Player/Profile/ComposeDBPromptModal';
+import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import {
   ALL_BOXES,
   DEFAULT_PLAYER_LAYOUT_DATA,
@@ -217,7 +218,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
       <Flex
         w="full"
         h="min-content"
-        direction="column"
+        direction="row"
         align="center"
         pt={12}
         px={[0, 4, 8]}
@@ -230,6 +231,15 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
             }
           : {})}
       >
+        <Box
+          sx={{
+            marginTop: '-2rem',
+            borderRadius: '16px',
+            bg: 'rgba(255, 255, 255, 0.08)'
+          }}
+        >
+          <PlayerHero   {...{ player, ens }} />
+        </Box>
         {player && <Grid {...{ player, ens, isOwnProfile, user }} />}
       </Flex>
       {isOwnProfile && user?.profile && !user.ceramicProfileId ? (

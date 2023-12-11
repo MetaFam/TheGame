@@ -38,7 +38,7 @@ const PlayerSectionInner: React.FC<
 > = ({ metadata, type, player, isOwnProfile, editing, ens }) => {
   switch (type) {
     case BoxTypes.PLAYER_HERO:
-      return <PlayerHero {...{ player, editing, ens }} />;
+      return;
     case BoxTypes.PLAYER_SKILLS:
       return <PlayerSkills {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_NFT_GALLERY:
