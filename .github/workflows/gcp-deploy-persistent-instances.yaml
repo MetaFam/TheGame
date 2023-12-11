@@ -177,7 +177,7 @@ jobs:
 
     steps:
       - name: Set Up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0.6.0
+        uses: google-github-actions/setup-gcloud@v2.0.0
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
@@ -246,7 +246,7 @@ jobs:
 
     steps:
       - name: Set Up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0.6.0
+        uses: google-github-actions/setup-gcloud@v2.0.0
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
@@ -324,7 +324,7 @@ jobs:
           create_credentials_file: true
 
       - name: Set Up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v1.1.0
+        uses: google-github-actions/setup-gcloud@v2.0.0
 
       - name: "Deploy Container Image: ${{needs.env.outputs.FRONTEND_SERVICE}}"
         # this is running a shell script of unknown provision that's failing
