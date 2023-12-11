@@ -61,6 +61,6 @@ export const MenuSectionLinks: MenuLinkSet[] = [
   {
     label: 'discord',
     type: 'external-link',
-    url: 'https://discord.gg/XGNFdUaxCH',
+    url: 'https://chat.metagame.wtf/',
   },
 ];

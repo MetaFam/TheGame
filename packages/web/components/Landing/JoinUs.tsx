@@ -232,7 +232,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
             <MetaLink href="https://github.com/metafam" isExternal>
               <FaGithub />
             </MetaLink>
-            <MetaLink href="https://discord.com/invite/metagame" isExternal>
+            <MetaLink href="https://chat.metagame.wtf/" isExternal>
               <FaDiscord />
             </MetaLink>
             <MetaLink href="https://twitter.com/metafam" isExternal>

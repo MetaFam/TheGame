@@ -210,7 +210,7 @@ const AcademyPage: React.FC = () => {
                   <Text as="p" fontSize={{ base: 'base', lg: 'xl' }}>
                     No quests found for this category. <br />
                     Why not{' '}
-                    <MetaLink href="https://discord.gg/jDwXsQ6J" isExternal>
+                    <MetaLink href="https://chat.metagame.wtf/" isExternal>
                       join the Discord
                     </MetaLink>{' '}
                     and find out how to create one and get it added!

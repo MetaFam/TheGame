@@ -383,7 +383,7 @@ export const BuyingAndSelling = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="https://discord.com/invite/metagame"
+          href="https://chat.metagame.wtf/"
         >
           ask on Discord
         </Link>
