@@ -51,8 +51,9 @@ export const ChainStat: React.FC<{
 
 export const ChainStats: React.FC<{
   progress: Progress;
-}> = ({ progress }) => (
-  <Flex direction="column" gap={1}>
+  isMobile?: boolean;
+}> = ({ progress, isMobile }) => (
+  <Flex direction="column" gap={1} w="full">
     <Text>
       {`${Math.round(
         (progress.total ? progress.completeCount / progress.total : 0) * 100,
@@ -80,15 +81,39 @@ export const ChainStats: React.FC<{
         <Box h={2} />
       </Flex>
     </Flex>
-    <HStack justifyContent="space-between" fontWeight={400} mb={3}>
-      <Text color="cyan">{progress.completeCount} approved</Text>
-      <Text>
-        {`${progress.inReviewCount + progress.completeCount} / ${
-          progress.total
-        } submitted`}
-      </Text>
-    </HStack>
+    {!isMobile && (
+      <HStack justifyContent="space-between" fontWeight={400} mb={3}>
+        <Text color="cyan">{progress.completeCount} approved</Text>
+        <Text>
+          {`${progress.inReviewCount + progress.completeCount} / ${
+            progress.total
+          } submitted`}
+        </Text>
+      </HStack>
+    )}
   </Flex>
+);
+
+export const PlayersFinished: React.FC<{
+  numQuesters: number;
+  numCompletedQuesters: number;
+  updatedAt: number;
+}> = ({ numQuesters, numCompletedQuesters, updatedAt }) => (
+  <HStack>
+    <Text fontSize="sm" fontWeight="normal">
+      {numQuesters && numCompletedQuesters
+        ? `${Math.round(
+            (numCompletedQuesters / numQuesters) * 100,
+          )}% of players have finished this`
+        : 'No players have finished this yet'}
+    </Text>
+
+    <Text>•</Text>
+
+    <Text fontSize="sm" fontWeight="normal">
+      Last updated: {moment(new Date(updatedAt * 1000)).format('MMM D YYYY')}
+    </Text>
+  </HStack>
 );
 
 const Heading: React.FC<Props> = ({ name, questChain, canMint, refresh }) => (
