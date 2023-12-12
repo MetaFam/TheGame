@@ -7,6 +7,11 @@ const Viewer = dynamic(() => import('./MarkdownViewer'), {
   ssr: false,
 });
 
-export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({ children }) => (
-  <Viewer>{children ?? ''}</Viewer>
-);
+export const MarkdownViewer = React.forwardRef<
+  HTMLDivElement,
+  MarkdownViewerProps
+>(({ children }, ref) => (
+  <div ref={ref}>
+    <Viewer>{children ?? ''}</Viewer>
+  </div>
+));

@@ -3,19 +3,27 @@ import {
   Button,
   Flex,
   HStack,
+  IconButton,
   Image,
   Spinner,
   Stack,
   Text,
+  useBreakpointValue,
   VStack,
 } from '@metafam/ds';
 import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
+import Pin from 'assets/pin.svg';
+import Seed from 'assets/seed.svg';
+import Share from 'assets/share.svg';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import { MintNFTTile } from 'components/QuestChain/MintNFTTile';
-import { ChainStats } from 'components/QuestChain/QuestHeading';
+import {
+  ChainStats,
+  PlayersFinished,
+} from 'components/QuestChain/QuestHeading';
 import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
 import { HeadComponent } from 'components/Seo';
 import { useWeb3 } from 'lib/hooks';
@@ -27,8 +35,8 @@ import {
 } from 'lib/hooks/questChains';
 import moment from 'moment';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
-import React, { useCallback, useState } from 'react';
-import { BsArrowRight, BsCheck, BsPinAngle, BsShare } from 'react-icons/bs';
+import React, { useCallback, useRef, useState } from 'react';
+import { BsArrowRight, BsCheck } from 'react-icons/bs';
 import { errorHandler } from 'utils/errorHandler';
 import {
   QuestChainPlaybooksDetails,
@@ -80,6 +88,17 @@ const QuestChainPathPage: React.FC<Props> = ({
     userStatus,
   );
 
+  const isMobile = useBreakpointValue({ base: true, lg: false });
+  const markdownViewerRef = useRef(null);
+
+  const handleQuestClick = (questId: React.SetStateAction<string>) => {
+    setSelected(questId);
+    // Check if the markdownViewerRef is set and scroll it into view
+    if (markdownViewerRef.current !== null) {
+      (markdownViewerRef.current as any).scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const creator = questChain?.createdBy?.id;
 
   const [selected, setSelected] = useState('introduction');
@@ -110,7 +129,7 @@ const QuestChainPathPage: React.FC<Props> = ({
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://metagame.wtf/learn/playbooks"
       />
-      <VStack spacing={8} w="full" align="stretch">
+      <VStack spacing={8} w="full" align="stretch" px={6} pb={6}>
         <Stack>
           <Box w="100%">
             <MetaLink
@@ -120,50 +139,103 @@ const QuestChainPathPage: React.FC<Props> = ({
               {`${creator?.slice(0, 4)}...${creator?.slice(-2)}`}
             </MetaLink>
           </Box>
-          <HStack w="full" justifyContent="space-between" alignItems="center">
+          <Flex
+            direction={{ base: 'column', lg: 'row' }}
+            w="full"
+            justifyContent="space-between"
+            alignItems={{
+              base: 'flex-start',
+              lg: 'center',
+            }}
+          >
             <Text
               fontSize={{ base: '3xl', lg: '7xl' }}
               fontWeight="bold"
               lineHeight="3.5rem"
               fontFamily="exo2"
-              mb={3}
+              mb={{
+                base: 1,
+                lg: 3,
+              }}
             >
               {questChain.name}
             </Text>
 
-            <Box w={338}>
-              <HStack w="full">
-                <Button variant="outline" w="full" leftIcon={<BsPinAngle />}>
-                  Pin
-                </Button>
-                <Button variant="outline" w="full">
-                  Boost
-                </Button>
-                <Button variant="outline" w="full" leftIcon={<BsShare />}>
-                  Share
-                </Button>
-              </HStack>
-            </Box>
-          </HStack>
-          <HStack>
-            <Text fontSize="sm" fontWeight="normal">
-              {questChain.numQuesters && questChain.numCompletedQuesters
-                ? `${Math.round(
-                    (questChain.numCompletedQuesters / questChain.numQuesters) *
-                      100,
-                  )}% of players have finished this`
-                : 'No players have finished this yet'}
-            </Text>
+            {isMobile && (
+              <PlayersFinished
+                numQuesters={questChain.numQuesters}
+                numCompletedQuesters={questChain.numCompletedQuesters}
+                updatedAt={questChain.updatedAt}
+              />
+            )}
 
-            <Text>•</Text>
-
-            <Text fontSize="sm" fontWeight="normal">
-              Last updated:{' '}
-              {moment(new Date(questChain.updatedAt * 1000)).format(
-                'MMM D YYYY',
+            <Box w={{ base: 'full', lg: 338 }} mt={{ base: 5, lg: 0 }}>
+              {isMobile ? (
+                <HStack w="full">
+                  <ChainStats progress={progress} isMobile={isMobile} />
+                  <IconButton
+                    variant="outline"
+                    aria-label="Pin"
+                    icon={<Image src={Pin.src} alt="Pin" w={5} h={5} />}
+                    isRound
+                    justifyContent="center"
+                    ml={4}
+                  />
+                  <IconButton
+                    variant="outline"
+                    aria-label="Seed"
+                    icon={<Image src={Seed.src} alt="Seed" w={5} h={5} />}
+                    isRound
+                    justifyContent="center"
+                  />
+                  <IconButton
+                    variant="outline"
+                    aria-label="Share"
+                    icon={<Image src={Share.src} alt="Share" w={5} h={5} />}
+                    isRound
+                    justifyContent="center"
+                  />
+                </HStack>
+              ) : (
+                <HStack w="full">
+                  <Button
+                    variant="outline"
+                    w="full"
+                    leftIcon={
+                      <Image src={Pin.src} alt="Pin" w={5} h={5} mr={2} />
+                    }
+                  >
+                    Pin
+                  </Button>
+                  <Button
+                    variant="outline"
+                    w="full"
+                    leftIcon={
+                      <Image src={Seed.src} alt="Seed" w={5} h={5} mr={2} />
+                    }
+                  >
+                    Boost
+                  </Button>
+                  <Button
+                    variant="outline"
+                    w="full"
+                    leftIcon={
+                      <Image src={Share.src} alt="Share" w={5} h={5} mr={2} />
+                    }
+                  >
+                    Share
+                  </Button>
+                </HStack>
               )}
-            </Text>
-          </HStack>
+            </Box>
+          </Flex>
+          {!isMobile && (
+            <PlayersFinished
+              numQuesters={questChain.numQuesters}
+              numCompletedQuesters={questChain.numCompletedQuesters}
+              updatedAt={questChain.updatedAt}
+            />
+          )}
         </Stack>
 
         {fetching ? (
@@ -179,7 +251,7 @@ const QuestChainPathPage: React.FC<Props> = ({
               borderRadius={4}
             >
               <Flex
-                borderRadius={4}
+                borderTopRadius={4}
                 backgroundColor={
                   selected === 'introduction'
                     ? 'rgba(255, 255, 255, 0.08)'
@@ -208,7 +280,7 @@ const QuestChainPathPage: React.FC<Props> = ({
               </Flex>
               {questChain.quests
                 .filter((q) => !q.paused)
-                .map((quest, index) => (
+                .map((quest, index, arr) => (
                   <Flex
                     backgroundColor={
                       selected === quest.id
@@ -217,11 +289,16 @@ const QuestChainPathPage: React.FC<Props> = ({
                     }
                     px={5}
                     py={4}
-                    onClick={() => setSelected(quest.id)}
+                    onClick={() => handleQuestClick(quest.id)}
                     cursor="pointer"
                     gap={3}
                     alignItems="center"
-                    borderBottom="1px solid var(--white-alpha-300, rgba(255, 255, 255, 0.16))"
+                    borderBottom={
+                      index !== arr.length - 1
+                        ? '1px solid var(--white-alpha-300, rgba(255, 255, 255, 0.16))'
+                        : 'none'
+                    }
+                    borderBottomRadius={index === arr.length - 1 ? 4 : 0}
                   >
                     <Box
                       backgroundColor={bgColor(userStatus[selected]?.status)}
@@ -248,7 +325,7 @@ const QuestChainPathPage: React.FC<Props> = ({
 
             {/* stats */}
             <Flex direction="column" w="full" gap={8} pb={8}>
-              <MarkdownViewer>
+              <MarkdownViewer ref={markdownViewerRef}>
                 {selected === 'introduction'
                   ? questChain.description
                   : questChain.quests.find((q) => q.id === selected)
@@ -281,7 +358,7 @@ const QuestChainPathPage: React.FC<Props> = ({
 
             {/* reward */}
             <Stack w={338}>
-              <ChainStats progress={progress} />
+              {!isMobile && <ChainStats progress={progress} />}
 
               <Flex
                 direction="column"
