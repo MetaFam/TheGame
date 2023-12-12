@@ -9,8 +9,10 @@ import {
   Image,
   Input,
   Text,
+  Tooltip,
 } from '@metafam/ds';
 import { LinkGuild } from 'components/Player/PlayerGuild';
+import { Exact, GuildType_Enum, InputMaybe } from 'graphql/autogen/types';
 import { GuildMembership } from 'graphql/getMemberships';
 import React, { useMemo } from 'react';
 import {
@@ -22,6 +24,18 @@ import {
 import { MdDragHandle, MdOutlineRemoveCircleOutline } from 'react-icons/md';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
+
+export type SmallGuild = Exact<{
+  id: string;
+  description?: InputMaybe<string> | undefined;
+  guildname: string;
+  joinURL?: InputMaybe<string> | undefined;
+  logo: string;
+  name: string;
+  websiteURL?: InputMaybe<string> | undefined;
+  type: GuildType_Enum;
+}>
+
 
 export type DAOListingProps = {
   membership: GuildMembership;
@@ -136,12 +150,12 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
                   />
                 </FormLabel>
                 : <IconButton
-                    aria-label='delete guild'
-                    size='lg'
-                    variant="unstyled"
-                    icon={<MdOutlineRemoveCircleOutline />}
-                    onClick={deleteMembership}
-                  />
+                  aria-label='delete guild'
+                  size='lg'
+                  variant="unstyled"
+                  icon={<MdOutlineRemoveCircleOutline />}
+                  onClick={deleteMembership}
+                />
               }
             </>
           )}
@@ -215,4 +229,34 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
       <LinkGuild {...{ daoURL, guildname }}>{inside}</LinkGuild>
     );
   },
+);
+
+export const GuildListingSmall: React.FC<SmallGuild> = ({
+  guildname,
+  logo,
+}) => (
+  <Flex
+    onClick={(e) => {
+      e.preventDefault();
+      if (guildname !== null) {
+        window.location.href = `/guild/${guildname}`;
+      }
+    }}
+    align="center"
+    justifyContent="center"
+    bgColor="rgba(255, 255, 255, 0.06)"
+    minW={8}
+    h={8}
+    borderRadius={8}
+    pointerEvents="all"
+  >
+    <Image
+      src={optimizedImage('logoURL', logo)}
+      w={6}
+      h={6}
+      borderRadius="full"
+      _hover={{ transform: 'scale(4)' }}
+      transition="transform 0.2s"
+    />
+  </Flex>
 );
