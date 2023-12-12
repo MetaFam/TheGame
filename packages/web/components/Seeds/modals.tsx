@@ -193,16 +193,16 @@ export const UsefulnessOfSEEDs = () => (
         </UnorderedList>
         <Box p={2} bgColor="whiteAlpha.300" my={2}>
           💡 If you're interested in spending your Seeds on any of this, ask
-          about it in our Discord channel
+          about it in
           <Link
             ml={1}
-            href="https://discord.gg/cBq5Md6KTU"
+            href="https://chat.metagame.wtf/"
             isExternal
             textColor="gray.500"
             textDecoration="underline"
             mr={1}
           >
-            #💸-spending-seeds
+            our Discord
           </Link>
         </Box>
         <Text fontSize="xs" fontWeight="bold" ml={6} my={2}>
