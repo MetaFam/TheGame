@@ -5,11 +5,11 @@ import {
   Flex,
   FormLabel,
   Heading,
+  Icon,
   IconButton,
   Image,
   Input,
   Text,
-  Tooltip,
 } from '@metafam/ds';
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { Exact, GuildType_Enum, InputMaybe } from 'graphql/autogen/types';
@@ -21,6 +21,7 @@ import {
   BsPatchCheckFill,
   BsPatchQuestion,
 } from 'react-icons/bs';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 import { MdDragHandle, MdOutlineRemoveCircleOutline } from 'react-icons/md';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
@@ -233,7 +234,9 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
 
 export const GuildListingSmall: React.FC<SmallGuild> = ({
   guildname,
+  name,
   logo,
+  websiteURL
 }) => (
   <Flex
     onClick={(e) => {
@@ -243,20 +246,28 @@ export const GuildListingSmall: React.FC<SmallGuild> = ({
       }
     }}
     align="center"
-    justifyContent="center"
+    justifyContent="space-between"
     bgColor="rgba(255, 255, 255, 0.06)"
-    minW={8}
-    h={8}
+    px="4"
+    py="3"
     borderRadius={8}
     pointerEvents="all"
   >
     <Image
       src={optimizedImage('logoURL', logo)}
-      w={6}
-      h={6}
-      borderRadius="full"
-      _hover={{ transform: 'scale(4)' }}
-      transition="transform 0.2s"
+      h="48px"
+      w="48px"
+      borderRadius="8px"
     />
-  </Flex>
+    <Icon color="cyan" boxSize={6} as={BsPatchQuestion} />
+    <Box>
+      <Text fontWeight="bold">
+        {name}
+      </Text>
+      <Text>
+        {websiteURL}
+      </Text>
+    </Box>
+    <Icon boxSize={6} as={IoIosCheckmarkCircleOutline} />
+  </Flex >
 );
