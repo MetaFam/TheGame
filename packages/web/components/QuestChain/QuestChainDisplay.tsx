@@ -298,7 +298,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                   borderBottomRadius={index === arr.length - 1 ? 4 : 0}
                 >
                   <Box
-                    backgroundColor={bgColor(userStatus[selected]?.status)}
+                    backgroundColor={bgColor(userStatus[index]?.status)}
                     w={5}
                     h={5}
                     minW={5}
@@ -307,7 +307,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    {userStatus[quest.id]?.status === graphql.Status.Pass ? (
+                    {userStatus[index]?.status === graphql.Status.Pass ? (
                       <BsCheck color="black" />
                     ) : (
                       <Text fontSize="xs" fontWeight="bold">
