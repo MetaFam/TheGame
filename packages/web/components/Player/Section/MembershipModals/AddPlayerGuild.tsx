@@ -1,6 +1,5 @@
 import {
   AddIcon,
-  ArrowLeftIcon,
   Box,
   Button,
   Modal,
@@ -14,7 +13,7 @@ import {
 } from '@metafam/ds';
 import { UnverifiedGuildForm } from 'components/Guild/UnverifiedGuildForm';
 import { GuildSearchBar } from 'components/GuildSearchBar';
-import { Exact, GuildType_Enum, InputMaybe, Player, useAddUnverifiedGuildMutation } from 'graphql/autogen/types';
+import { Player, useAddUnverifiedGuildMutation } from 'graphql/autogen/types';
 import React, { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 
@@ -69,8 +68,6 @@ export const AddPlayerGuild: React.FC<{
         <ModalBody p={[0, 6]}>
           {!showGuildForm && !showSearchForm && currentGuilds.length > 0 && currentGuilds.map((guild) => (
             <Box w="50%" mx="auto">
-              // Need to somehow get memberships here and use GuildListing component
-              // to get guild legitimacy
               <GuildListingSmall
                 key={guild.id}
                 {...guild}
@@ -85,7 +82,7 @@ export const AddPlayerGuild: React.FC<{
                   setCurrentGuilds([...currentGuilds, { ...ret.operation.variables, id: ret.data.insert_guild?.returning[0].id }]);
                   setShowGuildForm(false)
                 }
-                if (!ret.error) onClose();
+                // if (!ret.error) onClose();
                 return ret;
               }}
               {...{ player, hydratePlayer }}
