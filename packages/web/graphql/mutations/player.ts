@@ -95,6 +95,18 @@ export const updatePlayerMutations = /* GraphQL */ `
     }
   }
 
+  mutation InsertPlayerQuestchainPin($playerId: uuid!, $questchainId: String!) {
+    insert_pinned_questchains_one(
+      object: {
+        player_id: $playerId,
+        questchain_id: $questchainId,
+      }
+    ) {
+      player_id
+      questchain_id
+    }
+  }
+
   mutation GetPlayerLinksNoCache($playerId: uuid!, $updatedAt: timestamptz!) {
     update_player(
       where: { id: { _eq: $playerId } }

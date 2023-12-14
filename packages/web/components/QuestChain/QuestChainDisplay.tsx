@@ -9,8 +9,7 @@ import {
   Stack,
   Text,
   useBreakpointValue,
-  VStack,
-} from '@metafam/ds';
+ useToast,  VStack } from '@metafam/ds';
 import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import Pin from 'assets/pin.svg';
@@ -25,7 +24,8 @@ import {
   PlayersFinished,
 } from 'components/QuestChain/QuestHeading';
 import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
-import { useWeb3 } from 'lib/hooks';
+import { useInsertPlayerQuestchainPinMutation } from 'graphql/autogen/types';
+import { useUser,useWeb3  } from 'lib/hooks';
 import {
   useLatestQuestChainData,
   useLatestQuestStatusesForUserAndChainData,
@@ -43,12 +43,14 @@ type Props = {
 
 const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
   const { address } = useWeb3();
+  const { user } = useUser();
+  const toast = useToast();
+  const [, insertPlayerQuestchainPin] = useInsertPlayerQuestchainPinMutation();
   const {
     questChain,
     fetching: fetchingQuests,
     refresh: refreshQuests,
   } = useLatestQuestChainData(inputQuestChain);
-
   const {
     questStatuses,
     fetching: fetchingStatus,
@@ -89,6 +91,28 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
       (markdownViewerRef.current as any).scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const handlePinPlayerQuestchain = async () => {
+    if (user && questChain) {
+      try {
+        const pin = await insertPlayerQuestchainPin({
+          playerId: user?.id,
+          questchainId: `${questChain.address}-${questChain.name}`,
+        });
+        toast({
+          title: 'Quest Chain pinned!',
+          description: 'You can now see this quest chain on your profile.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      console.error('Player or questChain not found!');
+    }
+  }
 
   const creator = questChain?.createdBy?.id;
 
@@ -174,6 +198,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                   variant="outline"
                   aria-label="Pin"
                   icon={<Image src={Pin.src} alt="Pin" w={5} h={5} />}
+                  onClick={() => handlePinPlayerQuestchain()}
                   isRound
                   justifyContent="center"
                   ml={4}
@@ -201,6 +226,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                   leftIcon={
                     <Image src={Pin.src} alt="Pin" w={5} h={5} mr={2} />
                   }
+                  onClick={() => handlePinPlayerQuestchain()}
                 >
                   Pin
                 </Button>

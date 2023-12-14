@@ -708,6 +708,45 @@
           id:
             _eq: X-Hasura-User-Id
 - table:
+    name: pinned_questchains
+    schema: public
+  insert_permissions:
+    - role: player
+      permission:
+        check:
+          player_id:
+            _eq: X-Hasura-User-Id
+        columns:
+          - player_id
+          - questchain_id
+  select_permissions:
+    - role: player
+      permission:
+        columns:
+          - player_id
+          - questchain_id
+        filter: {}
+    - role: public
+      permission:
+        columns: []
+        filter: {}
+  update_permissions:
+    - role: player
+      permission:
+        columns:
+          - id
+          - questchain_id
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
+        check: null
+  delete_permissions:
+    - role: player
+      permission:
+        filter:
+          player_id:
+            _eq: X-Hasura-User-Id
+- table:
     name: player
     schema: public
   configuration:
