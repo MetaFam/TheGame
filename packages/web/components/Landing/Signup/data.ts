@@ -9,7 +9,7 @@ interface Perk {
   checked: boolean;
 }
 
-interface Role {
+export interface Role {
   tab: string;
   title: string;
   image: string;

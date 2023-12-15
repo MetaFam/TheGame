@@ -39,6 +39,7 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import { useRouter } from 'next/router';
+import { SSRData } from 'next-urql';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React, { useMemo } from 'react';
 import { canCompleteQuest } from 'utils/questHelpers';
@@ -213,7 +214,7 @@ export const getStaticProps = async (
   | {
       props: {
         quest_id?: string;
-        urqlState: any;
+        urqlState: SSRData;
       };
       revalidate: 1;
     }

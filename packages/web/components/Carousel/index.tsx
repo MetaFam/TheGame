@@ -1,5 +1,5 @@
 import { Box, useBreakpointValue, useMediaQuery, useTheme } from '@metafam/ds';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { CarouselContext } from './CarouselContext';
 import { Item } from './Item';

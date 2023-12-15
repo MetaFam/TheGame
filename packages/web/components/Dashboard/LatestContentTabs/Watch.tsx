@@ -9,6 +9,14 @@ interface Video {
   title: string;
 }
 
+type FetchResponse = {
+  items: GoogleApiYouTubePlaylistItemResource[];
+  nextPageToken: string;
+  pageInfo?: {
+    totalResults: number;
+  };
+};
+
 export const Watch: React.FC = () => {
   const [videos, setVideos] = useState<Array<Video> | []>([]);
   const [nextPageToken, setNextPageToken] = useState<string | null>(null);
@@ -24,7 +32,7 @@ export const Watch: React.FC = () => {
     const abortController = new AbortController();
     const load = async () => {
       try {
-        const res: any = await fetch(URL, {
+        const res: FetchResponse = await fetch(URL, {
           signal: abortController.signal,
         }).then((r) => r.json());
         const videosList = res.items
@@ -36,7 +44,7 @@ export const Watch: React.FC = () => {
           : [];
         setNextPageToken(res.nextPageToken);
         setVideos(videosList);
-        setCount(res.pageInfo ? res.pageInfo.totalResults : null);
+        setCount(res.pageInfo ? res.pageInfo.totalResults : 0);
         setLoading(false);
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {

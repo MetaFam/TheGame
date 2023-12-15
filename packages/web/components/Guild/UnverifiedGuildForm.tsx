@@ -28,7 +28,6 @@ import {
   useAddGuildMemberMutation,
 } from 'graphql/autogen/types';
 import { useImageReader } from 'lib/hooks/useImageReader';
-import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { CombinedError } from 'urql';
@@ -115,7 +114,6 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
     isClosable: true,
     duration: 8000,
   });
-  const router = useRouter();
 
   const {
     register,
@@ -134,7 +132,8 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   const [errored, setErrored] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [watchedFormValues, setWatchedFormValues] = useState<CreateGuildFormInputs | null>(null);
+  const [watchedFormValues, setWatchedFormValues] =
+    useState<CreateGuildFormInputs | null>(null);
 
   const onFileChange = useCallback(
     async (file?: File) => {
@@ -260,13 +259,17 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   return (
     <Box w="100%" pl="5%" pr="5%">
       {isSubmitting && (
-        <Box bgColor="#604B8B80" w="50%" h="50%" mx="auto" borderRadius="8px" paddingY="36px" paddingX="96px">
+        <Box
+          bgColor="#604B8B80"
+          w="50%"
+          h="50%"
+          mx="auto"
+          borderRadius="8px"
+          paddingY="36px"
+          paddingX="96px"
+        >
           <VStack gap={6}>
-            <Text
-              textAlign="center"
-              fontSize="2xl"
-              mt={3}
-            >
+            <Text textAlign="center" fontSize="2xl" mt={3}>
               Adding new guild
             </Text>
             <Image
@@ -278,23 +281,13 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
               w="50%"
               opacity={logoURI ? 1 : 0.25}
             />
-            <Text
-              textAlign="center"
-              fontSize="2xl"
-              mt={3}
-            >
+            <Text textAlign="center" fontSize="2xl" mt={3}>
               {watchedFormValues?.name}
             </Text>
-            <Text
-              textAlign="center"
-              fontSize="lg"
-            >
+            <Text textAlign="center" fontSize="lg">
               {watchedFormValues?.websiteURL}
             </Text>
-            <Text
-              textAlign="center"
-              fontSize="lg"
-            >
+            <Text textAlign="center" fontSize="lg">
               {watchedFormValues?.type} GUILD
             </Text>
             <Spinner size="xl" color="white" thickness="4px" />

@@ -118,6 +118,7 @@ const getBorderColor = ({
   tabProps,
 }: {
   isSelected: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tabProps: any;
 }) => {
   let borderColor = 'transparent';
@@ -297,7 +298,7 @@ export const Signup: React.FC = () => {
           variant="unstyled"
           index={selectedIndex}
           defaultIndex={selectedIndex}
-          onChange={(index: any) => {
+          onChange={(index: number) => {
             const tab = tabs.at(index)?.toLowerCase();
             router.replace({ href: '/signup', query: { tab } }, undefined, {
               shallow: true,
