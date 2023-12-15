@@ -15,14 +15,3 @@
   include_in_metadata: true
   payload: {}
   comment: Updates user's XP within guild
-- name: syncSourceCredLedger
-  webhook: '{{ACTION_BASE_ENDPOINT}}/syncSourceCredAccounts'
-  schedule: 0 1 * * *
-  include_in_metadata: true
-  payload: {}
-  retry_conf:
-    num_retries: 0
-    retry_interval_seconds: 10
-    timeout_seconds: 600
-    tolerance_seconds: 21600
-  comment: Reads account data from XP Github and upserts users into the Database
