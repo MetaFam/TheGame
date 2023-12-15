@@ -298,7 +298,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         updateMemberships();
       });
     }
-  }
+  };
 
   useEffect(updateMemberships, [updateMemberships, editView]);
 
@@ -452,7 +452,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
           >
             {currentMemberships
               .filter((membership) => membership.visible)
-              .map((membership, index) => (
+              .map((membership) => (
                 <Box key={membership.id} w="100%">
                   <GuildListing
                     {...{ membership }}
@@ -478,13 +478,17 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
               <MetaButton onClick={saveMemberships}>Save</MetaButton>
             </Box>
           )}
-          {currentMemberships
-            .filter((membership) => !membership.visible).length > 0 ?
-            <Text textTransform='uppercase' fontWeight='bold' mt={8}>Hidden Memberships</Text> : ''
-          }
+          {currentMemberships.filter((membership) => !membership.visible)
+            .length > 0 ? (
+            <Text textTransform="uppercase" fontWeight="bold" mt={8}>
+              Hidden Memberships
+            </Text>
+          ) : (
+            ''
+          )}
           {currentMemberships
             .filter((membership) => !membership.visible)
-            .map((membership, index) => (
+            .map((membership) => (
               <GuildListing
                 key={membership.id}
                 {...{ membership }}

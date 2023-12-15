@@ -107,13 +107,12 @@ const AcademyPage: React.FC = () => {
           const categoryItems = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
           ).filter(
-            ([name, { category: cat }]) =>
-              cat === categoryName && cat !== 'all',
+            ([, { category: cat }]) => cat === categoryName && cat !== 'all',
           );
 
           const allItem = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
-          ).filter(([name, { category: cat }]) => cat === 'all');
+          ).filter(([, { category: cat }]) => cat === 'all');
           if (allItem.length > 0 && category) {
             categoryItems.push(allItem[0]);
           }

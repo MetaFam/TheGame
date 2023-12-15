@@ -28,7 +28,7 @@ export const useUser = ({
   fetching: boolean;
   error?: Error;
 } => {
-  const { authToken, connecting, connected } = useWeb3();
+  const { connecting, connected } = useWeb3();
   const router = useRouter();
   const [{ data, error, fetching }] = useGetMeQuery({
     pause: !connected,

@@ -30,7 +30,6 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
   activeSectionIndex,
 }) => {
   const [onScreen, setOnScreen] = useState(false);
-  const [showQuote, setShowQuote] = useState(false);
   const root = typeof window !== 'undefined' ? document.body : null;
   const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
@@ -41,11 +40,6 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
     '3xl': BackgroundImage4xl,
     '5xl': BackgroundImage5xl,
   });
-
-  const toggleQuote = () => {
-    setShowQuote(!showQuote);
-    return null;
-  };
 
   useEffect(() => {
     setTimeout(() => setOnScreen(activeSectionIndex === 0), 500);

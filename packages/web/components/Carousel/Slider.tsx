@@ -4,7 +4,6 @@ import {
   ChevronRight,
   HStack,
   IconButton,
-  useBreakpointValue,
   VStack,
 } from '@metafam/ds';
 import { useBoundingRect } from 'lib/hooks/useBoundingRect';
