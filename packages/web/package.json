@@ -53,6 +53,7 @@
     "html-react-parser": "2.0.0",
     "isomorphic-dompurify": "^0.19.0",
     "isomorphic-unfetch": "3.1.0",
+    "jdenticon": "3.2.0",
     "jotai": "1.6.0",
     "jsdom": "19.0.0",
     "key-did-resolver": "^2.3.0",

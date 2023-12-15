@@ -15,6 +15,7 @@ import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { GuildPlayer, PlayerProfile } from 'graphql/types';
+import { toSvg } from 'jdenticon';
 
 import { optimizedImage } from './imageHelpers';
 
@@ -27,9 +28,14 @@ export const getPlayerImage = (
   if (link) return link;
 
   const { ethereumAddress } = player ?? {};
-  return ethereumAddress
-    ? `https://avatars.dicebear.com/api/jdenticon/${ethereumAddress}.svg`
-    : ProfileIcon.src;
+
+  if (ethereumAddress) {
+    const svg = toSvg(ethereumAddress, 200);
+    const blob = new Blob([svg], { type: 'image/svg+xml' });
+    return URL.createObjectURL(blob);
+  }
+
+  return ProfileIcon.src;
 };
 
 export const getPlayerBanner = (player: Maybe<Player>): string => {
