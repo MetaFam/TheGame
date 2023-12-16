@@ -69,7 +69,10 @@ import { Client } from 'urql';
        }
      )
     {
-      ...QuestFragment
+      id,
+      description,
+      title,
+      image
     }
   }
 
@@ -178,13 +181,17 @@ export const getQuests = async (
 };
 
 export const searchQuests = async (
-  queryVariables = { search: '%%', limit: 3 },
+  search = '%%',
+  limit = 3,
   client: Client = defaultClient,
 ) => {
   const { data, error } = await client
     .query<SearchQuestsQuery, SearchQuestsQueryVariables>(
       SearchQuestsDocument,
-      queryVariables,
+      {
+        search: `%${search}%`,
+        limit,
+      },
     )
     .toPromise();
 

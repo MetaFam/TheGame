@@ -30,9 +30,15 @@ import SearchIcon from 'assets/search-icon.svg';
 import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
 import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
-import { GuildFragment, Player, PlayerFragment } from 'graphql/autogen/types';
+import {
+  GuildFragment,
+  Player,
+  PlayerFragment,
+  SearchQuestsQuery,
+} from 'graphql/autogen/types';
 import { searchPatrons } from 'graphql/getPatrons';
 import { searchPlayers } from 'graphql/getPlayers';
+import { searchQuests } from 'graphql/getQuests';
 import { searchGuilds } from 'graphql/queries/guild';
 import { Patron } from 'graphql/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
@@ -167,6 +173,7 @@ interface SearchResults {
   players: PlayerFragment[];
   guilds: GuildFragment[];
   patrons: Patron[];
+  quests: SearchQuestsQuery['quest'];
 }
 
 const SearchModal = ({
@@ -180,11 +187,12 @@ const SearchModal = ({
   const searchInputSubjectRef = useRef(new Subject<string>());
   const searchBarRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState<string>('');
-  const [{ players, guilds, patrons }, setSearchResults] =
+  const [{ players, guilds, patrons, quests }, setSearchResults] =
     useState<SearchResults>({
       players: [],
       guilds: [],
       patrons: [],
+      quests: [],
     });
 
   const resetResults = () => {
@@ -192,6 +200,7 @@ const SearchModal = ({
       players: [],
       guilds: [],
       patrons: [],
+      quests: [],
     });
   };
 
@@ -223,17 +232,28 @@ const SearchModal = ({
             from(searchPlayers(queryString)),
             from(searchGuilds({ search: queryString, limit: LIMIT })),
             from(searchPatrons(queryString, LIMIT)),
+            from(searchQuests(queryString, LIMIT)),
           ]),
         ),
         shareReplay(1),
       )
-      .subscribe(([{ players: p }, { guilds: g }, searchPatronsRes]) => {
-        setSearchResults({ players: p, guilds: g, patrons: searchPatronsRes });
-      });
+      .subscribe(
+        ([
+          { players: p },
+          { guilds: g },
+          searchPatronsRes,
+          searchQuestsRes,
+        ]) => {
+          setSearchResults({
+            players: p,
+            guilds: g,
+            patrons: searchPatronsRes,
+            quests: searchQuestsRes,
+          });
+        },
+      );
     return () => searchSubscription?.unsubscribe();
   }, []);
-
-  console.log('patrons', patrons);
 
   const isBodyEmpty = players.length + guilds.length === 0;
   return (
@@ -391,6 +411,33 @@ const SearchModal = ({
                         type="Patrons"
                         onClick={() => {
                           router.push(`/search/patrons?q=${encodeURI(query)}`);
+                          onClose();
+                        }}
+                      />
+                    )}
+                  </Box>
+                )}
+
+                {quests.length > 0 && <ResultsTitle>Quests</ResultsTitle>}
+                {quests.length > 0 && (
+                  <Box as="ul" role="listbox" mb={2} px={3} color="white">
+                    {quests.map((quest: SearchQuestsQuery['quest'][number]) => (
+                      <Option
+                        key={quest.id}
+                        onClick={() => {
+                          router.push(`/quest/${quest.id}`);
+                          onClose();
+                        }}
+                        name={quest.title}
+                        image={quest.image ?? undefined}
+                        text={quest.title}
+                      />
+                    ))}
+                    {quests.length >= LIMIT && (
+                      <SeeAllOption
+                        type="Quests"
+                        onClick={() => {
+                          router.push(`/search/quests?q=${encodeURI(query)}`);
                           onClose();
                         }}
                       />
