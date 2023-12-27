@@ -542,7 +542,7 @@ export const MegaMenuHeader: React.FC = () => {
             align="center"
             justify="center"
             pos="relative"
-            w="100%"
+            w={{ base: '100%', xl: 'auto' }}
             display="flex"
           >
             <HeaderSearchBar
