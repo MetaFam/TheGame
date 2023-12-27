@@ -538,7 +538,13 @@ export const MegaMenuHeader: React.FC = () => {
               )}
             </Box>
           </Flex>
-          <Flex align="center" justify="center" pos="relative" display="flex">
+          <Flex
+            align="center"
+            justify="center"
+            pos="relative"
+            w="100%"
+            display="flex"
+          >
             <HeaderSearchBar
               display={{ base: 'none', sm: 'flex', xl: 'none' }}
               right={5}
