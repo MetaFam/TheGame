@@ -124,7 +124,7 @@ export const Seed = (): ReactElement => {
         return null;
       }
     })();
-  });
+  }, [token]);
 
   return (
     <Flex direction="column" p={6} w="100%">
