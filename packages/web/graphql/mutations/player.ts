@@ -22,6 +22,46 @@ export const updatePlayerMutations = /* GraphQL */ `
     }
   }
 
+  mutation AddGuildMember($guildId: uuid!, $playerId: uuid!) {
+    insert_guild_player(
+      objects: { guildId: $guildId, playerId: $playerId, visible: true }
+    ) {
+      affected_rows
+      returning {
+        playerId
+      }
+    }
+  }
+
+  mutation DeleteGuildMember(
+    $guildId: uuid!,
+    $playerId: uuid!
+  ) {
+    delete_guild_player(
+      where: { playerId: { _eq: $playerId }, guildId: { _eq: $guildId } }
+    ) {
+      affected_rows
+    }
+  }
+
+  mutation UpdatePlayerGuildVisibility(
+    $guildId: uuid!
+    $playerId: uuid!
+    $visible: Boolean!
+  ) {
+    update_guild_player(
+      where: { guildId: { _eq: $guildId }, playerId: { _eq: $playerId } }
+      _set: { visible: $visible }
+    ) {
+      affected_rows
+      returning {
+        guildId
+        playerId
+        visible
+      }
+    }
+  }
+
   mutation AddPlayerLink(
     $playerId: uuid!
     $name: String

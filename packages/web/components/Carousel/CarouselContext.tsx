@@ -1,12 +1,5 @@
 import { createContext, useContext } from 'react';
 
-type AcademySliderType = {
-  hidePositions: boolean;
-  hideNav: boolean;
-  shrinkItems: boolean;
-  itemsToShow: number;
-};
-
 type CarouselContextType = {
   trackIsActive: boolean;
   setTrackIsActive: React.Dispatch<React.SetStateAction<boolean>>;

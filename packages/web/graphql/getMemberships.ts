@@ -25,9 +25,15 @@ const daoMembershipsQuery = /* GraphQL */ `
 
 const guildMembershipsQuery = /* GraphQL */ `
   query GetPlayerGuilds($playerId: uuid!) {
-    guild_player(where: { playerId: { _eq: $playerId } }) {
+    guild_player(
+      order_by: { position: asc }
+      where: { playerId: { _eq: $playerId } }
+    ) {
+      position
+      visible
       guildId
       Guild {
+        legitimacy
         id
         logo
         name
@@ -47,15 +53,22 @@ const guildMembershipsQuery = /* GraphQL */ `
   }
 `;
 
-export const getGuildMemberships = async (playerId: string) => {
-  const response = await client
+export const getGuildMemberships = async (playerId: string, cache = true) => {
+  const ops: Record<string, string> = {};
+  if (!cache) {
+    ops.requestPolicy = 'network-only';
+  }
+  const { error, data } = await client
     .query<GetPlayerGuildsQuery, GetPlayerGuildsQueryVariables>(
       guildMembershipsQuery,
       { playerId },
+      ops,
     )
     .toPromise();
 
-  return response.data?.guild_player;
+  if (error) throw error;
+
+  return data?.guild_player;
 };
 
 export const getDaoMemberships = async (address: string | null) => {
@@ -71,7 +84,7 @@ export const getDaoMemberships = async (address: string | null) => {
 };
 
 export type GuildMembership = {
-  memberId: string;
+  id: string;
   memberShares?: string;
   memberRank?: string;
   memberXP?: number;
@@ -81,10 +94,14 @@ export type GuildMembership = {
   address?: string;
   logoURL?: string;
   guildname?: string;
+  visible?: boolean;
+  guildId?: string;
+  legitimacy?: string | null;
+  type: 'GUILD' | 'DAO';
 };
 
-export const getAllMemberships = async (player: Player) => {
-  const guildPlayers = await getGuildMemberships(player.id);
+export const getAllMemberships = async (player: Player, cache = true) => {
+  const guildPlayers = await getGuildMemberships(player.id, cache);
 
   const daoMemberships =
     player.daohausMemberships ??
@@ -103,22 +120,28 @@ export const getAllMemberships = async (player: Player) => {
   );
 
   const guild = (guildPlayers ?? []).map((gp) => ({
-    memberId: `${gp.guildId}:${player.id}`,
+    id: `${gp.guildId}:${player.id}`,
     title: gp.Guild.name,
     guildname: gp.Guild.guildname,
     memberRank: gp.discordRoles[0]?.name ?? undefined,
     memberXP: gp.Guild.guildname === 'metafam' ? player.totalXP : null,
     logoURL: gp.Guild.logo ?? undefined,
+    visible: gp.visible,
+    guildId: gp.guildId,
+    legitimacy: gp.Guild.legitimacy,
+    position: gp.position,
+    type: 'GUILD' as const,
   }));
 
   const daoHaus = (filteredMemberships || []).map((m) => ({
-    memberId: m.id,
+    id: m.id,
     title: m.moloch.title ?? undefined,
     memberShares: m.shares,
     daoShares: m.moloch.totalShares,
     chain: m.moloch.chain,
     logoURL: m.moloch.avatarURL ?? undefined,
     address: m.molochAddress,
+    type: 'DAO' as const,
   }));
 
   const all: Array<GuildMembership> = [...guild, ...daoHaus];

@@ -16,6 +16,20 @@ const getPlayerLinksQuery = /* GraphQL */ `
   }
 `;
 
+const getPlayerGuildMembershipsQuery = /* GraphQL */ `
+  query getPlayerGuildMemberships($playerId: uuid!) {
+    guild_player(
+      order_by: { position: asc }
+      where: { playerId: { _eq: $playerId } }
+    ) {
+      guildId
+      playerId
+      position
+      visible
+    }
+  }
+`;
+
 export const getPlayerLinks = async (playerId: string) => {
   if (!playerId) throw new Error('Missing Player Id');
   const { data } = await client
@@ -23,6 +37,14 @@ export const getPlayerLinks = async (playerId: string) => {
       getPlayerLinksQuery,
       { playerId },
     )
+    .toPromise();
+  return data;
+};
+
+export const getPlayerGuildMemberships = async (playerId: string) => {
+  if (!playerId) throw new Error('Missing Player Id');
+  const { data } = await client
+    .query(getPlayerGuildMembershipsQuery, { playerId })
     .toPromise();
   return data;
 };

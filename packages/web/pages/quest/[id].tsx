@@ -1,4 +1,8 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Box,
   Flex,
   Grid,
@@ -7,6 +11,7 @@ import {
   HStack,
   LoadingState,
   MetaButton,
+  Text,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
@@ -21,9 +26,10 @@ import { QuestDetailsRequirementsRewards } from 'components/Quest/QuestDetailsRe
 import { HeadComponent } from 'components/Seo';
 import {
   QuestRepetition_Enum,
+  QuestStatus_Enum,
   useGetQuestWithCompletionsQuery,
 } from 'graphql/autogen/types';
-import { getSsrClient } from 'graphql/client';
+import { getSSRClient } from 'graphql/client';
 import { getQuestWithCompletions } from 'graphql/getQuest';
 import { getQuestIds } from 'graphql/getQuests';
 import { useUser } from 'lib/hooks';
@@ -33,7 +39,6 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import { useRouter } from 'next/router';
-import { SSRData } from 'next-urql';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React, { useMemo } from 'react';
 import { canCompleteQuest } from 'utils/questHelpers';
@@ -64,6 +69,39 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
 
   // Quest image is used in QuestDetailsImage and the share image
   const questImage = httpLink(quest.image) ?? DefaultQuestImage.src;
+
+  // 'Quest was archiveed' note
+  // A note is shown if we're viewing a quest that has been archived
+  const isQuestSetAsArchived = quest.status === QuestStatus_Enum.Archived;
+
+  // Here's the content of the Quest was archived note, which is shown if isQuestSetAsArchived = true
+  function showArchivedAlert() {
+    return (
+      <Alert
+        mb={8}
+        p={6}
+        status="warning"
+        variant="subtle"
+        bgColor="whiteAlpha.100"
+      >
+        <AlertIcon boxSize="60px" mr={6} color="blue.50" />
+        <Box>
+          <AlertTitle fontSize="2xl" mb={3}>
+            Heads up!
+          </AlertTitle>
+          <AlertDescription>
+            <Text as="p" mb={2}>
+              This quest was archived by its owner. You can view the quest
+              details, and try out the quest if you feel like it.
+            </Text>
+            <Text as="p" mb={2}>
+              You won’t be able to claim the quest or get any rewards.
+            </Text>
+          </AlertDescription>
+        </Box>
+      </Alert>
+    );
+  }
 
   return (
     <PageContainer sx={questArticleCss}>
@@ -104,7 +142,11 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
               <QuestDetailsRequirementsRewards {...{ quest }} />
             </GridItem>
             <GridItem>
-              <QuestDetailsDescription {...{ quest }} />
+              <>
+                {/* Show a message if the quest has been archived */}
+                {isQuestSetAsArchived && showArchivedAlert()}
+                <QuestDetailsDescription {...{ quest }} />
+              </>
             </GridItem>
           </Grid>
 
@@ -171,13 +213,13 @@ export const getStaticProps = async (
   | {
       props: {
         quest_id?: string;
-        urqlState: SSRData;
+        urqlState: unknown;
       };
       revalidate: 1;
     }
   | { notFound: boolean }
 > => {
-  const [ssrClient, ssrCache] = getSsrClient();
+  const [ssrClient, ssrCache] = getSSRClient();
 
   const id = context.params?.id;
   const quest = await getQuestWithCompletions(id, ssrClient);

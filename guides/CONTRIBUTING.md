@@ -23,7 +23,7 @@ We have two development workflows, depending on if you have joined our [GitHub o
 
 1. Go to the [Issues board](https://github.com/MetaFam/TheGame/issues) here. At the top are a few pinned issues. These are the highest priority. Ideally, work on one of these; otherwise, scroll through to choose another of your fancy.
 1. Clone this repo from the `develop` branch and fire up your editor of choice!
-   - Ask questions in the #🏗-builders-guild in our [Discord](https://discord.gg/63CPM9nQAZ) server
+   - Ask questions in the #🏗-builders-guild in our [Discord](https://chat.metagame.wtf/) server
    - Or, join our [weekly Builder's call](https://calendar.google.com/calendar/u/0/embed?src=nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com&ctz=Europe/Belgrade) on Discord, weekly at 7a PT / 10a ET / 4p CET _(Come half an hour early for a new builders’ meet-and-greet.)_
 1. Once you're done, create a [Pull Request (PR)](https://github.com/MetaFam/TheGame/pulls) via GitHub. _Include the issue number when filling in the description._ This is critical.
    - We use Vercel to automatically deploy the `web` package of PR branches. This is quite useful for pointing folks to a live version of your code, but only works if there are no dependent changes in backend code.

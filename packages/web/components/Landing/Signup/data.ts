@@ -9,7 +9,7 @@ interface Perk {
   checked: boolean;
 }
 
-interface Role {
+export interface Role {
   tab: string;
   title: string;
   image: string;
@@ -199,7 +199,7 @@ export const roles: Role[] = [
     description:
       'Too busy? You can jump straight into action, just say so in the #🏟-metasquare',
     action: "Let's Go!",
-    link: 'https://discord.gg/dMqAW8veKT',
+    link: 'https://chat.metagame.wtf/',
   },
   {
     tab: RoleTitle.Guild,

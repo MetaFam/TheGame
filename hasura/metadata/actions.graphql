@@ -112,12 +112,12 @@ input GuildInfoInput {
   name: String!
   type: GuildType_ActionEnum!
   description: String
-  discordInviteUrl: String
-  joinUrl: String
-  logoUrl: String
-  websiteUrl: String
-  twitterUrl: String
-  githubUrl: String
+  discordInviteURL: String
+  joinURL: String
+  logoURL: String
+  websiteURL: String
+  twitterURL: String
+  githubURL: String
   membershipThroughDiscord: Boolean
   discordAdminRoles: [String]!
   discordMembershipRoles: [String]!

@@ -85,8 +85,8 @@ export const GuildHero: React.FC<Props> = ({ guild, editing }) => {
         <Box>
           <Text>{guild.description}</Text>
         </Box>
-        {guild.joinButtonUrl ? (
-          <MetaButton as="a" href={guild.joinButtonUrl} target="_blank">
+        {guild.joinButtonURL ? (
+          <MetaButton as="a" href={guild.joinButtonURL} target="_blank">
             Join
           </MetaButton>
         ) : null}

@@ -130,7 +130,7 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
             px={0} // Don't double up the padding that comes with Container
             centerContent
           >
-            <GuildList {...{ guilds }} />
+            {guilds && <GuildList {...{ guilds }} />}
 
             <MetaButton
               as="a"

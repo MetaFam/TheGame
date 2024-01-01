@@ -42,12 +42,12 @@ export const handler: (
           throw new Error('No files uploaded.');
         }
 
-        const tmpFiles = files.map(({ field, name }) => ({
+        const toUpload = files.map(({ field, name }) => ({
           name: `${field}/${path.basename(name)}`,
           stream: () =>
             fs.createReadStream(name) as unknown as ReadableStream<string>,
         }));
-        const cid = await storage.put(tmpFiles);
+        const cid = await storage.put(toUpload);
 
         await Promise.all(
           files.map(async ({ name }) => {
@@ -65,7 +65,7 @@ export const handler: (
 
         resolve(uploadedFiles);
       } catch (err) {
-        reject((err as Error).message);
+        reject(err);
       }
     });
 
@@ -76,7 +76,7 @@ export const handler: (
     const uploaded = await upload;
     res.status(201).json(uploaded);
   } catch (err) {
-    console.error('error uploading to web3.storage', err);
+    console.error({ 'error uploading to web3.storage': err });
     res.status(500).json({ error: (err as Error).message });
   }
 };

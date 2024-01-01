@@ -16,10 +16,10 @@ import {
 } from '@metafam/ds';
 import { httpLink, Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
+import { QuestDetailsImage } from 'components/Quest/QuestDetailsImage';
 import { RepetitionColors } from 'components/Quest/QuestTags';
 import { RolesSelect } from 'components/Quest/Roles';
 import { SkillsSelect } from 'components/Quest/Skills';
-import { SquareImage } from 'components/SquareImage';
 import {
   GuildFragment,
   PlayerRole,
@@ -65,7 +65,6 @@ export interface CreateQuestFormInputs {
   repetition: QuestRepetition_Enum;
   status: QuestStatus_Enum;
   guildId: Maybe<string>;
-  externalLink?: Maybe<string>;
   cooldown?: Maybe<number>;
   skills: Array<SkillOption>;
   roles: Array<RoleOption>;
@@ -80,14 +79,17 @@ const getDefaultFormValues = (
   title: base?.title || '',
   repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
   description: base?.description ?? '',
-  externalLink: base?.externalLink ?? '',
   guildId:
     base?.guildId ??
     guilds.find((g) => g.id === MetaFamGuildId)?.id ??
     guilds[0].id ??
     null,
   status: base?.status || QuestStatus_Enum.Open,
-  cooldown: base?.cooldown ?? null,
+  // cooldown is stored as seconds, but form input/edit is expected to be in hours
+  cooldown:
+    base?.cooldown !== undefined && base?.cooldown !== null
+      ? Math.floor(base.cooldown / 3600)
+      : null,
   skills: (base?.quest_skills ?? [])
     .map(({ skill }) => skill)
     .map((s) => ({
@@ -208,20 +210,6 @@ export const QuestForm: React.FC<Props> = ({
             render={({ field: { onChange, value } }) => (
               <Textarea bg="dark" {...{ value, onChange }} />
             )}
-          />
-        </Field>
-
-        <Field label="Link" error={errors.externalLink}>
-          <Input
-            placeholder="External link"
-            {...register('externalLink', {
-              pattern: {
-                value: URIRegexp,
-                message: 'Supply a valid URL.',
-              },
-            })}
-            isInvalid={!!errors.externalLink}
-            bg="dark"
           />
         </Field>
 
@@ -364,10 +352,8 @@ export const QuestForm: React.FC<Props> = ({
           />
           <Center
             as="div"
-            boxSize="sm"
-            rounded="md"
-            border="dashed"
-            borderWidth={6}
+            borderRadius={10}
+            borderWidth={2}
             borderColor="whiteAlpha.500"
             marginTop={2}
             width={'full'}
@@ -377,12 +363,12 @@ export const QuestForm: React.FC<Props> = ({
             backdropBlur="sm"
           >
             {previewImg ? (
-              <Box width={350} padding={2}>
-                <SquareImage src={previewImg} overflow="hidden" />
+              <Box width="full" maxW={480}>
+                <QuestDetailsImage src={previewImg} />
               </Box>
             ) : (
-              <Text color="whiteAlpha.800">
-                See how your image will look on a quest
+              <Text color="whiteAlpha.800" p={4}>
+                Upload an image to see a preview
               </Text>
             )}
           </Center>

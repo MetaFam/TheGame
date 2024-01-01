@@ -6,7 +6,7 @@ import {
   CreateQuestCompletionInput,
   useCreateQuestCompletionMutation,
 } from 'graphql/autogen/types';
-import { getSsrClient } from 'graphql/client';
+import { getSSRClient } from 'graphql/client';
 import { getQuest } from 'graphql/getQuest';
 import { useUser } from 'lib/hooks';
 import {
@@ -118,7 +118,7 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
-  const [ssrClient] = getSsrClient();
+  const [ssrClient] = getSSRClient();
   const id = context.params?.id;
   const quest = await getQuest(id, ssrClient);
 

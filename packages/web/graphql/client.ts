@@ -40,7 +40,7 @@ export const client = createClient({
   exchanges: [cacheExchange, retryExchangeFunc, fetchExchange],
 });
 
-export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
+export const getSSRClient = (): [Client, ReturnType<typeof ssrExchange>] => {
   const ssrCache = ssrExchange({ isClient: false });
 
   const ssrClient = initUrqlClient(

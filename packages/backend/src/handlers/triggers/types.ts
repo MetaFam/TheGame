@@ -30,7 +30,7 @@ export interface TriggerPayload<T> {
 // so that we have compile-time checks if and when these columns / types change.
 export type GuildRow = Omit<
   Guild,
-  'joinButtonUrl' | 'websiteUrl' | 'discordId' | 'membershipThroughDiscord'
+  'joinButtonURL' | 'websiteURL' | 'discordId' | 'membershipThroughDiscord'
 > & {
   join_button_url: string;
   website_url: string;
@@ -41,8 +41,8 @@ export type GuildRow = Omit<
 export function toGuild(guildRow: GuildRow): Guild {
   return {
     ...guildRow,
-    joinButtonUrl: guildRow.join_button_url,
-    websiteUrl: guildRow.website_url,
+    joinButtonURL: guildRow.join_button_url,
+    websiteURL: guildRow.website_url,
     discordId: guildRow.discord_id,
     membershipThroughDiscord: guildRow.membership_through_discord,
   };

@@ -70,7 +70,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
                   as="h2"
                   fontSize="3xl"
                   color="white"
-                  lineHeight={1.1}
+                  lineHeight={1.2}
                   width="full"
                   textAlign="center"
                   fontFamily="body"

@@ -1,4 +1,4 @@
-import { MetaHeading, useToast } from '@metafam/ds';
+import { Heading, useToast } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import { HeadComponent } from 'components/Seo';
@@ -91,15 +91,25 @@ const CreateQuestPage: React.FC<Props> = ({
         description="Create a quest for MetaGame."
         url="https://metagame.wtf/quest/create"
       />
-      <MetaHeading mb={4}>New Quest</MetaHeading>
+      <Heading
+        as="h1"
+        fontFamily="body"
+        fontWeight="600"
+        fontSize={{ base: '4xl', md: '6xl' }}
+        mb={5}
+      >
+        New Quest
+      </Heading>
 
-      <QuestForm
-        {...{ guilds, skillChoices, onSubmit, roleChoices }}
-        success={!!createQuestState.data?.createQuest?.success}
-        fetching={createQuestState.fetching}
-        submitLabel="Create Quest"
-        loadingLabel="Creating Quest…"
-      />
+      {guilds && (
+        <QuestForm
+          {...{ guilds, skillChoices, onSubmit, roleChoices }}
+          success={!!createQuestState.data?.createQuest?.success}
+          fetching={createQuestState.fetching}
+          submitLabel="Create Quest"
+          loadingLabel="Creating Quest…"
+        />
+      )}
     </PageContainer>
   );
 };

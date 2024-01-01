@@ -18,6 +18,33 @@ export const PlayerProfileFragment = /* GraphQL */ `
   }
 `;
 
+export const GuildFragment = /* GraphQL */ `
+  fragment GuildFragment on guild {
+    id
+    guildname
+    profileLayout
+    description
+    joinButtonURL
+    logo
+    legitimacy
+    name
+    type
+    links {
+      name
+      url
+      type
+    }
+    websiteURL
+    showDiscordAnnouncements
+    daos {
+      contractAddress
+      network
+      label
+      url
+    }
+  }
+`;
+
 export const PlayerFragment = /* GraphQL */ `
   fragment PlayerFragment on player {
     id
@@ -60,7 +87,7 @@ export const PlayerFragment = /* GraphQL */ `
 
     guilds {
       Guild {
-        guildname
+        ...GuildFragment
       }
     }
 
@@ -70,32 +97,7 @@ export const PlayerFragment = /* GraphQL */ `
     # }
   }
   ${PlayerProfileFragment}
-`;
-
-export const GuildFragment = /* GraphQL */ `
-  fragment GuildFragment on guild {
-    id
-    guildname
-    profileLayout
-    description
-    joinButtonUrl
-    logo
-    name
-    type
-    links {
-      name
-      url
-      type
-    }
-    websiteUrl
-    showDiscordAnnouncements
-    daos {
-      contractAddress
-      network
-      label
-      url
-    }
-  }
+  ${GuildFragment}
 `;
 
 export const QuestFragment = /* GraphQL */ `

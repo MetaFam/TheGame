@@ -1,7 +1,4 @@
-export {};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-/* GraphQL */ `
+export const UpdateGuildMutations = /* GraphQL */ `
   mutation AuthenticateDiscordGuild($code: String!) {
     authenticateDiscordGuild(code: $code) {
       success
@@ -25,6 +22,32 @@ export {};
     }
   }
 
+  mutation RewriteGuildOrder(
+    $playerId: uuid!
+    $inputs: [guild_player_insert_input!]!
+  ) {
+    delete_guild_player(where: { playerId: { _eq: $playerId } }) {
+      affected_rows
+    }
+
+    insert_guild_player(objects: $inputs) {
+      affected_rows
+    }
+  }
+
+  mutation RewriteDAOOrder(
+    $playerId: uuid!
+    $inputs: [dao_player_insert_input!]!
+  ) {
+    delete_dao_player(where: { playerId: { _eq: $playerId } }) {
+      affected_rows
+    }
+
+    insert_dao_player(objects: $inputs) {
+      affected_rows
+    }
+  }
+
   mutation GetGuildLinksNoCache($guildId: uuid!, $updatedAt: timestamptz!) {
     update_guild(
       where: { id: { _eq: $guildId } }
@@ -39,6 +62,34 @@ export {};
           guildId
         }
       }
+    }
+  }
+
+  mutation AddUnverifiedGuild(
+    $description: String
+    $guildname: String!
+    $joinURL: String
+    $logo: String!
+    $name: String!
+    $websiteURL: String
+    $type: GuildType_enum!
+  ) {
+    insert_guild(
+      objects: {
+        description: $description
+        guildname: $guildname
+        joinButtonURL: $joinURL
+        legitimacy: "UNVERIFIED"
+        logo: $logo
+        name: $name
+        websiteURL: $websiteURL
+        type: $type
+      }
+    ) {
+      returning {
+        id
+      }
+      affected_rows
     }
   }
 

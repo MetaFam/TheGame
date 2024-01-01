@@ -4,12 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"next\" \"yarn generate --watch\"",
+    "dev": "concurrently \"next\" \"yarn generate --watch 'graphql/**/*.ts' --verbose --debug\"",
     "build": "yarn generate:graphql && NODE_OPTIONS='--max-old-space-size=5120' next build",
     "start": "next start",
     "typecheck": "tsc --noEmit --pretty",
     "generate": "yarn generate:graphql",
-    "generate:graphql": "graphql-code-generator",
+    "generate:graphql": "yarn graphql-codegen-esm --verbose --debug",
     "precommit": "yarn typecheck"
   },
   "dependencies": {
@@ -32,7 +32,7 @@
     "@react-three/fiber": "^8.15.11",
     "@react-three/postprocessing": "^2.15.11",
     "@types/luxon": "^3.3.2",
-    "@urql/exchange-retry": "^0.3.2",
+    "@urql/exchange-retry": "^1.2.0",
     "@userback/react": "^0.1.4",
     "@walletconnect/web3-provider": "1.7.3",
     "busboy": "1.6.0",
@@ -56,6 +56,7 @@
     "html-react-parser": "2.0.0",
     "isomorphic-dompurify": "^0.19.0",
     "isomorphic-unfetch": "3.1.0",
+    "jdenticon": "3.2.0",
     "jotai": "1.6.0",
     "jsdom": "19.0.0",
     "key-did-resolver": "^2.3.0",
@@ -68,8 +69,8 @@
     "next-images": "1.8.4",
     "next-plausible": "^3.7.2",
     "next-transpile-modules": "9.0.0",
-    "next-urql": "3.3.2",
-    "node-fetch": "3.2.1",
+    "next-urql": "^5.0.2",
+    "node-fetch": "^3.3.2",
     "opensea-js": "^4.0.12",
     "postprocessing": "^6.33.3",
     "react": "^18.2.0",
@@ -106,5 +107,9 @@
     "@types/react-vis": "1.11.10",
     "@types/three": "^0.158.3",
     "ts-node": "^10.9.1"
+  },
+  "resolutions": {
+    "node-gyp": "10.0.1",
+    "better-sqlite3": "9.0.0"
   }
 }

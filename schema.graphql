@@ -321,6 +321,47 @@ type ExplorerType_variance_fields {
   id: Float
 }
 """
+columns and relationships of "GuildLegitimacy"
+"""
+type GuildLegitimacy {
+  comment: String
+  value: String!
+}
+"""
+aggregated selection of "GuildLegitimacy"
+"""
+type GuildLegitimacy_aggregate {
+  aggregate: GuildLegitimacy_aggregate_fields
+  nodes: [GuildLegitimacy!]!
+}
+"""
+aggregate fields of "GuildLegitimacy"
+"""
+type GuildLegitimacy_aggregate_fields {
+  count(columns: [GuildLegitimacy_select_column!], distinct: Boolean): Int!
+  max: GuildLegitimacy_max_fields
+  min: GuildLegitimacy_min_fields
+}
+"aggregate max on columns"
+type GuildLegitimacy_max_fields {
+  comment: String
+  value: String
+}
+"aggregate min on columns"
+type GuildLegitimacy_min_fields {
+  comment: String
+  value: String
+}
+"""
+response of any mutation on the table "GuildLegitimacy"
+"""
+type GuildLegitimacy_mutation_response {
+  "number of rows affected by the mutation"
+  affected_rows: Int!
+  "data from the rows affected by the mutation"
+  returning: [GuildLegitimacy!]!
+}
+"""
 columns and relationships of "GuildStatus"
 """
 type GuildStatus {
@@ -864,8 +905,8 @@ type TokenReturn {
   added: [BalanceOutput]
   count: Int
   multiplier: Float
-  newOffset: Int
-  oldOffset: Int
+  newHeight: Int
+  oldHeight: Int
   players: [PlayerOutput]
 }
 type UpdateComposeDBProfileResponse {
@@ -1169,7 +1210,8 @@ type guild {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String!
   id: uuid!
-  joinButtonUrl: String
+  joinButtonURL: String
+  legitimacy: String
   "An array relationship"
   links(
     "distinct select on columns"
@@ -1234,7 +1276,7 @@ type guild {
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum!
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 aggregated selection of "guild"
@@ -1270,13 +1312,14 @@ type guild_max_fields {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
+  legitimacy: String
   logo: String
   name: String
   profileLayout: String
   sortPosition: Int
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 "Used to hold private information for guilds"
 type guild_metadata {
@@ -1336,13 +1379,14 @@ type guild_min_fields {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
+  legitimacy: String
   logo: String
   name: String
   profileLayout: String
   sortPosition: Int
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 response of any mutation on the table "guild"
@@ -1364,6 +1408,8 @@ type guild_player {
   discordRoles: [DiscordRole!]!
   guildId: uuid!
   playerId: uuid!
+  position: Int
+  visible: Boolean!
 }
 """
 aggregated selection of "guild_player"
@@ -1376,19 +1422,33 @@ type guild_player_aggregate {
 aggregate fields of "guild_player"
 """
 type guild_player_aggregate_fields {
+  avg: guild_player_avg_fields
   count(columns: [guild_player_select_column!], distinct: Boolean): Int!
   max: guild_player_max_fields
   min: guild_player_min_fields
+  stddev: guild_player_stddev_fields
+  stddev_pop: guild_player_stddev_pop_fields
+  stddev_samp: guild_player_stddev_samp_fields
+  sum: guild_player_sum_fields
+  var_pop: guild_player_var_pop_fields
+  var_samp: guild_player_var_samp_fields
+  variance: guild_player_variance_fields
+}
+"aggregate avg on columns"
+type guild_player_avg_fields {
+  position: Float
 }
 "aggregate max on columns"
 type guild_player_max_fields {
   guildId: uuid
   playerId: uuid
+  position: Int
 }
 "aggregate min on columns"
 type guild_player_min_fields {
   guildId: uuid
   playerId: uuid
+  position: Int
 }
 """
 response of any mutation on the table "guild_player"
@@ -1398,6 +1458,34 @@ type guild_player_mutation_response {
   affected_rows: Int!
   "data from the rows affected by the mutation"
   returning: [guild_player!]!
+}
+"aggregate stddev on columns"
+type guild_player_stddev_fields {
+  position: Float
+}
+"aggregate stddev_pop on columns"
+type guild_player_stddev_pop_fields {
+  position: Float
+}
+"aggregate stddev_samp on columns"
+type guild_player_stddev_samp_fields {
+  position: Float
+}
+"aggregate sum on columns"
+type guild_player_sum_fields {
+  position: Int
+}
+"aggregate var_pop on columns"
+type guild_player_var_pop_fields {
+  position: Float
+}
+"aggregate var_samp on columns"
+type guild_player_var_samp_fields {
+  position: Float
+}
+"aggregate variance on columns"
+type guild_player_variance_fields {
+  position: Float
 }
 "aggregate stddev on columns"
 type guild_stddev_fields {
@@ -1559,6 +1647,17 @@ type mutation_root {
   delete single row from the table: "ExplorerType"
   """
   delete_ExplorerType_by_pk(id: Int!): ExplorerType
+  """
+  delete data from the table: "GuildLegitimacy"
+  """
+  delete_GuildLegitimacy(
+    "filter the rows which have to be deleted"
+    where: GuildLegitimacy_bool_exp!
+  ): GuildLegitimacy_mutation_response
+  """
+  delete single row from the table: "GuildLegitimacy"
+  """
+  delete_GuildLegitimacy_by_pk(value: String!): GuildLegitimacy
   """
   delete data from the table: "GuildStatus"
   """
@@ -1921,6 +2020,24 @@ type mutation_root {
     "upsert condition"
     on_conflict: ExplorerType_on_conflict
   ): ExplorerType
+  """
+  insert data into the table: "GuildLegitimacy"
+  """
+  insert_GuildLegitimacy(
+    "the rows to be inserted"
+    objects: [GuildLegitimacy_insert_input!]!,
+    "upsert condition"
+    on_conflict: GuildLegitimacy_on_conflict
+  ): GuildLegitimacy_mutation_response
+  """
+  insert a single row into the table: "GuildLegitimacy"
+  """
+  insert_GuildLegitimacy_one(
+    "the row to be inserted"
+    object: GuildLegitimacy_insert_input!,
+    "upsert condition"
+    on_conflict: GuildLegitimacy_on_conflict
+  ): GuildLegitimacy
   """
   insert data into the table: "GuildStatus"
   """
@@ -2509,6 +2626,28 @@ type mutation_root {
     updates: [ExplorerType_updates!]!
   ): [ExplorerType_mutation_response]
   """
+  update data of the table: "GuildLegitimacy"
+  """
+  update_GuildLegitimacy(
+    "sets the columns of the filtered rows to the given values"
+    _set: GuildLegitimacy_set_input,
+    "filter the rows which have to be updated"
+    where: GuildLegitimacy_bool_exp!
+  ): GuildLegitimacy_mutation_response
+  """
+  update single row of the table: "GuildLegitimacy"
+  """
+  update_GuildLegitimacy_by_pk(
+    "sets the columns of the filtered rows to the given values"
+    _set: GuildLegitimacy_set_input,pk_columns: GuildLegitimacy_pk_columns_input!  ): GuildLegitimacy
+  """
+  update multiples rows of table: "GuildLegitimacy"
+  """
+  update_GuildLegitimacy_many(
+    "updates to execute, in order"
+    updates: [GuildLegitimacy_updates!]!
+  ): [GuildLegitimacy_mutation_response]
+  """
   update data of the table: "GuildStatus"
   """
   update_GuildStatus(
@@ -2848,6 +2987,8 @@ type mutation_root {
   update data of the table: "guild_player"
   """
   update_guild_player(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: guild_player_inc_input,
     "sets the columns of the filtered rows to the given values"
     _set: guild_player_set_input,
     "filter the rows which have to be updated"
@@ -2857,6 +2998,8 @@ type mutation_root {
   update single row of the table: "guild_player"
   """
   update_guild_player_by_pk(
+    "increments the numeric columns with given value of the filtered values"
+    _inc: guild_player_inc_input,
     "sets the columns of the filtered rows to the given values"
     _set: guild_player_set_input,pk_columns: guild_player_pk_columns_input!  ): guild_player
   """
@@ -2892,8 +3035,18 @@ type mutation_root {
   update data of the table: "player"
   """
   update_player(
+    "append existing jsonb value of filtered columns with new jsonb value"
+    _append: player_append_input,
+    "delete the field or element with specified path (for JSON arrays, negative integers count from the end)"
+    _delete_at_path: player_delete_at_path_input,
+    "delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array"
+    _delete_elem: player_delete_elem_input,
+    "delete key/value pair or string element. key/value pairs are matched based on their key value"
+    _delete_key: player_delete_key_input,
     "increments the numeric columns with given value of the filtered values"
     _inc: player_inc_input,
+    "prepend existing jsonb value of filtered columns with new jsonb value"
+    _prepend: player_prepend_input,
     "sets the columns of the filtered rows to the given values"
     _set: player_set_input,
     "filter the rows which have to be updated"
@@ -2925,8 +3078,18 @@ type mutation_root {
   update single row of the table: "player"
   """
   update_player_by_pk(
+    "append existing jsonb value of filtered columns with new jsonb value"
+    _append: player_append_input,
+    "delete the field or element with specified path (for JSON arrays, negative integers count from the end)"
+    _delete_at_path: player_delete_at_path_input,
+    "delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array"
+    _delete_elem: player_delete_elem_input,
+    "delete key/value pair or string element. key/value pairs are matched based on their key value"
+    _delete_key: player_delete_key_input,
     "increments the numeric columns with given value of the filtered values"
     _inc: player_inc_input,
+    "prepend existing jsonb value of filtered columns with new jsonb value"
+    _prepend: player_prepend_input,
     "sets the columns of the filtered rows to the given values"
     _set: player_set_input,pk_columns: player_pk_columns_input!  ): player
   """
@@ -3301,6 +3464,12 @@ type player {
     "filter the rows returned"
     where: link_bool_exp
   ): link_aggregate!
+  membership_metadata(
+    "JSON select path"
+    path: String
+  ): jsonb
+  "An object relationship"
+  player_guilds: guild_player
   "An object relationship"
   profile: profile
   profileLayout: String
@@ -4009,6 +4178,40 @@ type query_root {
   fetch data from the table: "ExplorerType" using primary key columns
   """
   ExplorerType_by_pk(id: Int!): ExplorerType
+  """
+  fetch data from the table: "GuildLegitimacy"
+  """
+  GuildLegitimacy(
+    "distinct select on columns"
+    distinct_on: [GuildLegitimacy_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [GuildLegitimacy_order_by!],
+    "filter the rows returned"
+    where: GuildLegitimacy_bool_exp
+  ): [GuildLegitimacy!]!
+  """
+  fetch aggregated fields from the table: "GuildLegitimacy"
+  """
+  GuildLegitimacy_aggregate(
+    "distinct select on columns"
+    distinct_on: [GuildLegitimacy_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [GuildLegitimacy_order_by!],
+    "filter the rows returned"
+    where: GuildLegitimacy_bool_exp
+  ): GuildLegitimacy_aggregate!
+  """
+  fetch data from the table: "GuildLegitimacy" using primary key columns
+  """
+  GuildLegitimacy_by_pk(value: String!): GuildLegitimacy
   """
   fetch data from the table: "GuildStatus"
   """
@@ -5623,6 +5826,51 @@ type subscription_root {
     "filter the rows returned"
     where: ExplorerType_bool_exp
   ): [ExplorerType!]!
+  """
+  fetch data from the table: "GuildLegitimacy"
+  """
+  GuildLegitimacy(
+    "distinct select on columns"
+    distinct_on: [GuildLegitimacy_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [GuildLegitimacy_order_by!],
+    "filter the rows returned"
+    where: GuildLegitimacy_bool_exp
+  ): [GuildLegitimacy!]!
+  """
+  fetch aggregated fields from the table: "GuildLegitimacy"
+  """
+  GuildLegitimacy_aggregate(
+    "distinct select on columns"
+    distinct_on: [GuildLegitimacy_select_column!],
+    "limit the number of rows returned"
+    limit: Int,
+    "skip the first n rows. Use only with order_by"
+    offset: Int,
+    "sort the rows by one or more columns"
+    order_by: [GuildLegitimacy_order_by!],
+    "filter the rows returned"
+    where: GuildLegitimacy_bool_exp
+  ): GuildLegitimacy_aggregate!
+  """
+  fetch data from the table: "GuildLegitimacy" using primary key columns
+  """
+  GuildLegitimacy_by_pk(value: String!): GuildLegitimacy
+  """
+  fetch data from the table in a streaming manner: "GuildLegitimacy"
+  """
+  GuildLegitimacy_stream(
+    "maximum number of rows returned in a single batch"
+    batch_size: Int!,
+    "cursor to stream the results returned by the query"
+    cursor: [GuildLegitimacy_stream_cursor_input]!,
+    "filter the rows returned"
+    where: GuildLegitimacy_bool_exp
+  ): [GuildLegitimacy!]!
   """
   fetch data from the table: "GuildStatus"
   """
@@ -7328,6 +7576,33 @@ enum ExplorerType_update_column {
   title
 }
 """
+unique or primary key constraints on table "GuildLegitimacy"
+"""
+enum GuildLegitimacy_constraint {
+  """
+  unique or primary key constraint on columns "value"
+  """
+  GuildLegitimacy_pkey
+}
+"""
+select columns of table "GuildLegitimacy"
+"""
+enum GuildLegitimacy_select_column {
+  "column name"
+  comment
+  "column name"
+  value
+}
+"""
+update columns of table "GuildLegitimacy"
+"""
+enum GuildLegitimacy_update_column {
+  "column name"
+  comment
+  "column name"
+  value
+}
+"""
 unique or primary key constraints on table "GuildStatus"
 """
 enum GuildStatus_constraint {
@@ -7577,6 +7852,7 @@ enum QuestStatus_constraint {
   QuestStatus_pkey
 }
 enum QuestStatus_enum {
+  ARCHIVED
   CLOSED
   OPEN
 }
@@ -7830,6 +8106,10 @@ enum guild_player_constraint {
   """
   unique or primary key constraint on columns "guild_id", "player_id"
   """
+  guild_player_guild_id_player_id_key
+  """
+  unique or primary key constraint on columns "guild_id", "player_id"
+  """
   guild_player_pkey
 }
 """
@@ -7840,6 +8120,24 @@ enum guild_player_select_column {
   guildId
   "column name"
   playerId
+  "column name"
+  position
+  "column name"
+  visible
+}
+"""
+select "guild_player_aggregate_bool_exp_bool_and_arguments_columns" columns of table "guild_player"
+"""
+enum guild_player_select_column_guild_player_aggregate_bool_exp_bool_and_arguments_columns {
+  "column name"
+  visible
+}
+"""
+select "guild_player_aggregate_bool_exp_bool_or_arguments_columns" columns of table "guild_player"
+"""
+enum guild_player_select_column_guild_player_aggregate_bool_exp_bool_or_arguments_columns {
+  "column name"
+  visible
 }
 """
 update columns of table "guild_player"
@@ -7849,6 +8147,10 @@ enum guild_player_update_column {
   guildId
   "column name"
   playerId
+  "column name"
+  position
+  "column name"
+  visible
 }
 """
 select columns of table "guild"
@@ -7863,7 +8165,9 @@ enum guild_select_column {
   "column name"
   id
   "column name"
-  joinButtonUrl
+  joinButtonURL
+  "column name"
+  legitimacy
   "column name"
   logo
   "column name"
@@ -7883,7 +8187,7 @@ enum guild_select_column {
   "column name"
   updatedAt
   "column name"
-  websiteUrl
+  websiteURL
 }
 """
 select "guild_aggregate_bool_exp_bool_and_arguments_columns" columns of table "guild"
@@ -7916,7 +8220,9 @@ enum guild_update_column {
   "column name"
   id
   "column name"
-  joinButtonUrl
+  joinButtonURL
+  "column name"
+  legitimacy
   "column name"
   logo
   "column name"
@@ -7936,7 +8242,7 @@ enum guild_update_column {
   "column name"
   updatedAt
   "column name"
-  websiteUrl
+  websiteURL
 }
 """
 unique or primary key constraints on table "link"
@@ -8107,6 +8413,8 @@ enum player_select_column {
   "column name"
   id
   "column name"
+  membership_metadata
+  "column name"
   profileLayout
   "column name"
   rank
@@ -8174,6 +8482,8 @@ enum player_update_column {
   ethereumAddress
   "column name"
   id
+  "column name"
+  membership_metadata
   "column name"
   profileLayout
   "column name"
@@ -8990,22 +9300,85 @@ input GuildInfoInput {
   daos: [GuildDaoInput!]
   description: String
   discordAdminRoles: [String]!
-  discordInviteUrl: String
+  discordInviteURL: String
   discordMembershipRoles: [String]!
-  githubUrl: String
+  githubURL: String
   guildname: String!
-  joinUrl: String
-  logoUrl: String
+  joinURL: String
+  logoURL: String
   membershipThroughDiscord: Boolean
   name: String!
-  twitterUrl: String
+  twitterURL: String
   type: GuildType_ActionEnum!
   uuid: String!
-  websiteUrl: String
+  websiteURL: String
 }
 input GuildLayoutInfoInput {
   profileLayout: String!
   uuid: String!
+}
+"""
+Boolean expression to filter rows from the table "GuildLegitimacy". All fields are combined with a logical 'AND'.
+"""
+input GuildLegitimacy_bool_exp {
+  _and: [GuildLegitimacy_bool_exp!]
+  _not: GuildLegitimacy_bool_exp
+  _or: [GuildLegitimacy_bool_exp!]
+  comment: String_comparison_exp
+  value: String_comparison_exp
+}
+"""
+input type for inserting data into table "GuildLegitimacy"
+"""
+input GuildLegitimacy_insert_input {
+  comment: String
+  value: String
+}
+"""
+on_conflict condition type for table "GuildLegitimacy"
+"""
+input GuildLegitimacy_on_conflict {
+  constraint: GuildLegitimacy_constraint!
+  update_columns: [GuildLegitimacy_update_column!]! = []
+  where: GuildLegitimacy_bool_exp
+}
+"""
+Ordering options when selecting data from "GuildLegitimacy".
+"""
+input GuildLegitimacy_order_by {
+  comment: order_by
+  value: order_by
+}
+"primary key columns input for table: GuildLegitimacy"
+input GuildLegitimacy_pk_columns_input {
+  value: String!
+}
+"""
+input type for updating data in table "GuildLegitimacy"
+"""
+input GuildLegitimacy_set_input {
+  comment: String
+  value: String
+}
+"""
+Streaming cursor of the table "GuildLegitimacy"
+"""
+input GuildLegitimacy_stream_cursor_input {
+  "Stream column input with initial value"
+  initial_value: GuildLegitimacy_stream_cursor_value_input!
+  "cursor ordering"
+  ordering: cursor_ordering
+}
+"Initial value of the column from where the streaming should start"
+input GuildLegitimacy_stream_cursor_value_input {
+  comment: String
+  value: String
+}
+input GuildLegitimacy_updates {
+  "sets the columns of the filtered rows to the given values"
+  _set: GuildLegitimacy_set_input
+  "filter the rows which have to be updated"
+  where: GuildLegitimacy_bool_exp!
 }
 """
 Boolean expression to filter rows from the table "GuildStatus". All fields are combined with a logical 'AND'.
@@ -10191,7 +10564,8 @@ input guild_bool_exp {
   guild_players_aggregate: guild_player_aggregate_bool_exp
   guildname: String_comparison_exp
   id: uuid_comparison_exp
-  joinButtonUrl: String_comparison_exp
+  joinButtonURL: String_comparison_exp
+  legitimacy: String_comparison_exp
   links: link_bool_exp
   links_aggregate: link_aggregate_bool_exp
   logo: String_comparison_exp
@@ -10206,7 +10580,7 @@ input guild_bool_exp {
   status: GuildStatus_enum_comparison_exp
   type: GuildType_enum_comparison_exp
   updatedAt: timestamptz_comparison_exp
-  websiteUrl: String_comparison_exp
+  websiteURL: String_comparison_exp
 }
 """
 input type for incrementing numeric columns in table "guild"
@@ -10226,7 +10600,8 @@ input guild_insert_input {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
+  legitimacy: String
   links: link_arr_rel_insert_input
   logo: String
   membershipThroughDiscord: Boolean
@@ -10240,7 +10615,7 @@ input guild_insert_input {
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 order by max() on columns of table "guild"
@@ -10251,13 +10626,14 @@ input guild_max_order_by {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: order_by
   id: order_by
-  joinButtonUrl: order_by
+  joinButtonURL: order_by
+  legitimacy: order_by
   logo: order_by
   name: order_by
   profileLayout: order_by
   sortPosition: order_by
   updatedAt: order_by
-  websiteUrl: order_by
+  websiteURL: order_by
 }
 "append existing jsonb value of filtered columns with new jsonb value"
 input guild_metadata_append_input {
@@ -10385,13 +10761,14 @@ input guild_min_order_by {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: order_by
   id: order_by
-  joinButtonUrl: order_by
+  joinButtonURL: order_by
+  legitimacy: order_by
   logo: order_by
   name: order_by
   profileLayout: order_by
   sortPosition: order_by
   updatedAt: order_by
-  websiteUrl: order_by
+  websiteURL: order_by
 }
 """
 input type for inserting object relation for remote table "guild"
@@ -10420,7 +10797,8 @@ input guild_order_by {
   guild_players_aggregate: guild_player_aggregate_order_by
   guildname: order_by
   id: order_by
-  joinButtonUrl: order_by
+  joinButtonURL: order_by
+  legitimacy: order_by
   links_aggregate: link_aggregate_order_by
   logo: order_by
   membershipThroughDiscord: order_by
@@ -10433,14 +10811,28 @@ input guild_order_by {
   status: order_by
   type: order_by
   updatedAt: order_by
-  websiteUrl: order_by
+  websiteURL: order_by
 }
 "primary key columns input for table: guild"
 input guild_pk_columns_input {
   id: uuid!
 }
 input guild_player_aggregate_bool_exp {
+  bool_and: guild_player_aggregate_bool_exp_bool_and
+  bool_or: guild_player_aggregate_bool_exp_bool_or
   count: guild_player_aggregate_bool_exp_count
+}
+input guild_player_aggregate_bool_exp_bool_and {
+  arguments: guild_player_select_column_guild_player_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: guild_player_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+input guild_player_aggregate_bool_exp_bool_or {
+  arguments: guild_player_select_column_guild_player_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: guild_player_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 input guild_player_aggregate_bool_exp_count {
   arguments: [guild_player_select_column!]
@@ -10452,9 +10844,17 @@ input guild_player_aggregate_bool_exp_count {
 order by aggregate values of table "guild_player"
 """
 input guild_player_aggregate_order_by {
+  avg: guild_player_avg_order_by
   count: order_by
   max: guild_player_max_order_by
   min: guild_player_min_order_by
+  stddev: guild_player_stddev_order_by
+  stddev_pop: guild_player_stddev_pop_order_by
+  stddev_samp: guild_player_stddev_samp_order_by
+  sum: guild_player_sum_order_by
+  var_pop: guild_player_var_pop_order_by
+  var_samp: guild_player_var_samp_order_by
+  variance: guild_player_variance_order_by
 }
 """
 input type for inserting array relation for remote table "guild_player"
@@ -10463,6 +10863,12 @@ input guild_player_arr_rel_insert_input {
   data: [guild_player_insert_input!]!
   "upsert condition"
   on_conflict: guild_player_on_conflict
+}
+"""
+order by avg() on columns of table "guild_player"
+"""
+input guild_player_avg_order_by {
+  position: order_by
 }
 """
 Boolean expression to filter rows from the table "guild_player". All fields are combined with a logical 'AND'.
@@ -10475,6 +10881,14 @@ input guild_player_bool_exp {
   _or: [guild_player_bool_exp!]
   guildId: uuid_comparison_exp
   playerId: uuid_comparison_exp
+  position: Int_comparison_exp
+  visible: Boolean_comparison_exp
+}
+"""
+input type for incrementing numeric columns in table "guild_player"
+"""
+input guild_player_inc_input {
+  position: Int
 }
 """
 input type for inserting data into table "guild_player"
@@ -10484,6 +10898,8 @@ input guild_player_insert_input {
   Player: player_obj_rel_insert_input
   guildId: uuid
   playerId: uuid
+  position: Int
+  visible: Boolean
 }
 """
 order by max() on columns of table "guild_player"
@@ -10491,6 +10907,7 @@ order by max() on columns of table "guild_player"
 input guild_player_max_order_by {
   guildId: order_by
   playerId: order_by
+  position: order_by
 }
 """
 order by min() on columns of table "guild_player"
@@ -10498,6 +10915,15 @@ order by min() on columns of table "guild_player"
 input guild_player_min_order_by {
   guildId: order_by
   playerId: order_by
+  position: order_by
+}
+"""
+input type for inserting object relation for remote table "guild_player"
+"""
+input guild_player_obj_rel_insert_input {
+  data: guild_player_insert_input!
+  "upsert condition"
+  on_conflict: guild_player_on_conflict
 }
 """
 on_conflict condition type for table "guild_player"
@@ -10515,6 +10941,8 @@ input guild_player_order_by {
   Player: player_order_by
   guildId: order_by
   playerId: order_by
+  position: order_by
+  visible: order_by
 }
 "primary key columns input for table: guild_player"
 input guild_player_pk_columns_input {
@@ -10527,6 +10955,26 @@ input type for updating data in table "guild_player"
 input guild_player_set_input {
   guildId: uuid
   playerId: uuid
+  position: Int
+  visible: Boolean
+}
+"""
+order by stddev() on columns of table "guild_player"
+"""
+input guild_player_stddev_order_by {
+  position: order_by
+}
+"""
+order by stddev_pop() on columns of table "guild_player"
+"""
+input guild_player_stddev_pop_order_by {
+  position: order_by
+}
+"""
+order by stddev_samp() on columns of table "guild_player"
+"""
+input guild_player_stddev_samp_order_by {
+  position: order_by
 }
 """
 Streaming cursor of the table "guild_player"
@@ -10541,12 +10989,40 @@ input guild_player_stream_cursor_input {
 input guild_player_stream_cursor_value_input {
   guildId: uuid
   playerId: uuid
+  position: Int
+  visible: Boolean
+}
+"""
+order by sum() on columns of table "guild_player"
+"""
+input guild_player_sum_order_by {
+  position: order_by
 }
 input guild_player_updates {
+  "increments the numeric columns with given value of the filtered values"
+  _inc: guild_player_inc_input
   "sets the columns of the filtered rows to the given values"
   _set: guild_player_set_input
   "filter the rows which have to be updated"
   where: guild_player_bool_exp!
+}
+"""
+order by var_pop() on columns of table "guild_player"
+"""
+input guild_player_var_pop_order_by {
+  position: order_by
+}
+"""
+order by var_samp() on columns of table "guild_player"
+"""
+input guild_player_var_samp_order_by {
+  position: order_by
+}
+"""
+order by variance() on columns of table "guild_player"
+"""
+input guild_player_variance_order_by {
+  position: order_by
 }
 """
 input type for updating data in table "guild"
@@ -10557,7 +11033,8 @@ input guild_set_input {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
+  legitimacy: String
   logo: String
   membershipThroughDiscord: Boolean
   name: String
@@ -10568,7 +11045,7 @@ input guild_set_input {
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 order by stddev() on columns of table "guild"
@@ -10604,7 +11081,8 @@ input guild_stream_cursor_value_input {
   "Unique friendly identifier for the Guild (used in URL)"
   guildname: String
   id: uuid
-  joinButtonUrl: String
+  joinButtonURL: String
+  legitimacy: String
   logo: String
   membershipThroughDiscord: Boolean
   name: String
@@ -10615,7 +11093,7 @@ input guild_stream_cursor_value_input {
   "The area of focus for the guild (e.g. funding, project, etc)"
   type: GuildType_enum
   updatedAt: timestamptz
-  websiteUrl: String
+  websiteURL: String
 }
 """
 order by sum() on columns of table "guild"
@@ -10976,6 +11454,10 @@ input player_account_updates {
   "filter the rows which have to be updated"
   where: player_account_bool_exp!
 }
+"append existing jsonb value of filtered columns with new jsonb value"
+input player_append_input {
+  membership_metadata: jsonb
+}
 """
 Boolean expression to filter rows from the table "player". All fields are combined with a logical 'AND'.
 """
@@ -10997,6 +11479,8 @@ input player_bool_exp {
   id: uuid_comparison_exp
   links: link_bool_exp
   links_aggregate: link_aggregate_bool_exp
+  membership_metadata: jsonb_comparison_exp
+  player_guilds: guild_player_bool_exp
   profile: profile_bool_exp
   profileLayout: String_comparison_exp
   quest_completions: quest_completion_bool_exp
@@ -11014,6 +11498,18 @@ input player_bool_exp {
   updatedAt: timestamptz_comparison_exp
   xps: xp_bool_exp
   xps_aggregate: xp_aggregate_bool_exp
+}
+"delete the field or element with specified path (for JSON arrays, negative integers count from the end)"
+input player_delete_at_path_input {
+  membership_metadata: [String!]
+}
+"delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array"
+input player_delete_elem_input {
+  membership_metadata: Int
+}
+"delete key/value pair or string element. key/value pairs are matched based on their key value"
+input player_delete_key_input {
+  membership_metadata: String
 }
 """
 input type for incrementing numeric columns in table "player"
@@ -11036,6 +11532,8 @@ input player_insert_input {
   guilds: guild_player_arr_rel_insert_input
   id: uuid
   links: link_arr_rel_insert_input
+  membership_metadata: jsonb
+  player_guilds: guild_player_obj_rel_insert_input
   profile: profile_obj_rel_insert_input
   profileLayout: String
   quest_completions: quest_completion_arr_rel_insert_input
@@ -11079,6 +11577,8 @@ input player_order_by {
   guilds_aggregate: guild_player_aggregate_order_by
   id: order_by
   links_aggregate: link_aggregate_order_by
+  membership_metadata: order_by
+  player_guilds: guild_player_order_by
   profile: profile_order_by
   profileLayout: order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
@@ -11095,6 +11595,10 @@ input player_order_by {
 "primary key columns input for table: player"
 input player_pk_columns_input {
   id: uuid!
+}
+"prepend existing jsonb value of filtered columns with new jsonb value"
+input player_prepend_input {
+  membership_metadata: jsonb
 }
 input player_role_aggregate_bool_exp {
   count: player_role_aggregate_bool_exp_count
@@ -11283,6 +11787,7 @@ input player_set_input {
   discordId: String
   ethereumAddress: String
   id: uuid
+  membership_metadata: jsonb
   profileLayout: String
   rank: PlayerRank_enum
   role: String
@@ -11490,6 +11995,7 @@ input player_stream_cursor_value_input {
   discordId: String
   ethereumAddress: String
   id: uuid
+  membership_metadata: jsonb
   profileLayout: String
   rank: PlayerRank_enum
   role: String
@@ -11498,8 +12004,18 @@ input player_stream_cursor_value_input {
   updatedAt: timestamptz
 }
 input player_updates {
+  "append existing jsonb value of filtered columns with new jsonb value"
+  _append: player_append_input
+  "delete the field or element with specified path (for JSON arrays, negative integers count from the end)"
+  _delete_at_path: player_delete_at_path_input
+  "delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array"
+  _delete_elem: player_delete_elem_input
+  "delete key/value pair or string element. key/value pairs are matched based on their key value"
+  _delete_key: player_delete_key_input
   "increments the numeric columns with given value of the filtered values"
   _inc: player_inc_input
+  "prepend existing jsonb value of filtered columns with new jsonb value"
+  _prepend: player_prepend_input
   "sets the columns of the filtered rows to the given values"
   _set: player_set_input
   "filter the rows which have to be updated"

@@ -6,7 +6,7 @@ import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
 import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
-import { getSsrClient } from 'graphql/client';
+import { getSSRClient } from 'graphql/client';
 import {
   getPlayerFilters,
   getPlayersWithCount,
@@ -15,16 +15,15 @@ import {
 import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
-import { SSRData } from 'next-urql';
 import React, { useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async (): Promise<{
-  props: { urqlState?: SSRData };
+  props: { urqlState?: unknown };
   revalidate: 1;
 }> => {
-  const [ssrClient, ssrCache] = getSsrClient();
+  const [ssrClient, ssrCache] = getSSRClient();
 
   // This populates the cache server-side
   const { error } = await getPlayersWithCount(undefined, ssrClient);
@@ -92,7 +91,7 @@ const Players: React.FC<Props> = () => {
           <Text as="p" textAlign="center">
             Want to get on this leaderboard and rank high? Why not{' '}
             <Link
-              href="/play/paths/engaged-octos-path"
+              href="/signup?tab=player"
               color="pink.300"
               textDecoration="underline"
               whiteSpace="nowrap"

@@ -21,7 +21,7 @@ export const useComputeComposeDBImageMetadata = (
       fieldKey === 'profileImageURL'
         ? player.profile?.profileImageURL
         : player.profile?.backgroundImageURL;
-    if (field && !imageMetadata && !isComputing) {
+    if (field) {
       const url = optimizedImage(fieldKey, field);
       if (url) {
         setComputing(true);
@@ -34,7 +34,7 @@ export const useComputeComposeDBImageMetadata = (
           });
       }
     }
-  }, [fieldKey, imageMetadata, isComputing, player]);
+  }, [fieldKey, player]);
 
   return {
     isComputing,

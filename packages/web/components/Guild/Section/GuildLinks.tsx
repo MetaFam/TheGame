@@ -288,7 +288,7 @@ type GuildLinkSmall = {
 export const GuildLinksSmall: React.FC<GuildLinkSmall> = ({ guild }) => {
   const mediaLinks = [
     {
-      url: guild.websiteUrl,
+      url: guild.websiteURL,
       label: 'Website',
       icon: <FaGlobe />,
     },
@@ -302,13 +302,13 @@ export const GuildLinksSmall: React.FC<GuildLinkSmall> = ({ guild }) => {
     <Wrap>
       {hasIconLink && (
         <Wrap mb={4}>
-          {guild.websiteUrl ? (
+          {guild.websiteURL ? (
             <MetaTileLinkWrapper>
               <IconButton
                 onClick={(e) => {
                   e.preventDefault();
-                  if (guild.websiteUrl)
-                    window?.open(guild.websiteUrl, '_blank')?.focus();
+                  if (guild.websiteURL)
+                    window?.open(guild.websiteURL, '_blank')?.focus();
                 }}
                 aria-label="Discord Server"
                 icon={<FaGlobe />}

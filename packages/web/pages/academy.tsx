@@ -107,13 +107,12 @@ const AcademyPage: React.FC = () => {
           const categoryItems = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
           ).filter(
-            ([name, { category: cat }]) =>
-              cat === categoryName && cat !== 'all',
+            ([, { category: cat }]) => cat === categoryName && cat !== 'all',
           );
 
           const allItem = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
-          ).filter(([name, { category: cat }]) => cat === 'all');
+          ).filter(([, { category: cat }]) => cat === 'all');
           if (allItem.length > 0 && category) {
             categoryItems.push(allItem[0]);
           }
@@ -210,7 +209,7 @@ const AcademyPage: React.FC = () => {
                   <Text as="p" fontSize={{ base: 'base', lg: 'xl' }}>
                     No quests found for this category. <br />
                     Why not{' '}
-                    <MetaLink href="https://discord.gg/jDwXsQ6J" isExternal>
+                    <MetaLink href="https://chat.metagame.wtf/" isExternal>
                       join the Discord
                     </MetaLink>{' '}
                     and find out how to create one and get it added!
