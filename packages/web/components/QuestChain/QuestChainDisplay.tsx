@@ -9,7 +9,9 @@ import {
   Stack,
   Text,
   useBreakpointValue,
- useToast,  VStack } from '@metafam/ds';
+  useToast,
+  VStack,
+} from '@metafam/ds';
 import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import Pin from 'assets/pin.svg';
@@ -25,14 +27,15 @@ import {
 } from 'components/QuestChain/QuestHeading';
 import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
 import { useInsertPlayerQuestchainPinMutation } from 'graphql/autogen/types';
-import { useUser,useWeb3  } from 'lib/hooks';
+import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
+import { useUser, useWeb3 } from 'lib/hooks';
 import {
   useLatestQuestChainData,
   useLatestQuestStatusesForUserAndChainData,
   useUserProgress,
   useUserStatus,
 } from 'lib/hooks/questChains';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BsArrowRight, BsCheck } from 'react-icons/bs';
 import { QuestChainType } from 'utils/questChains';
 
@@ -60,6 +63,22 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
     inputQuestChain.address,
     address,
   );
+
+  const [isPinned, setIsPinned] = useState(false);
+
+  useEffect(() => {
+    const getIsPinned = async (playerId: string) => {
+      const pinnedQCs = await getPlayerPinnedQuestchains(playerId);
+      // setIsPinned(
+      //   pinnedQCs?.some(
+      //     (qc) =>
+      //       qc.id === `${inputQuestChain.address}-${inputQuestChain.name}`,
+      //   ),
+      // );
+    };
+
+    if (user?.id) getIsPinned(user.id);
+  }, [user, inputQuestChain.address, inputQuestChain.name]);
 
   const fetching = fetchingStatus || fetchingQuests;
 
@@ -105,14 +124,14 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           status: 'success',
           duration: 9000,
           isClosable: true,
-        })
+        });
       } catch (e) {
         console.error(e);
       }
     } else {
       console.error('Player or questChain not found!');
     }
-  }
+  };
 
   const creator = questChain?.createdBy?.id;
 
@@ -311,6 +330,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                       : 'transparent'
                   }
                   px={5}
+                  key={quest.id}
                   py={4}
                   onClick={() => handleQuestClick(quest.id)}
                   cursor="pointer"
