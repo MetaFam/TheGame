@@ -64,3 +64,22 @@
     }
   }
 }
+
+.section-container {
+  background: #1b0d2a !important;
+  color: white !important;
+}
+
+.rc-md-navigation {
+  background: #1b0d2a !important;
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  color: white !important;
+}
+
+.rc-md-editor .rc-md-navigation .button-wrap .button {
+  color: white !important;
+  :hover {
+    color: var(--chakra-colors-pink-500) !important;
+  }
+}
