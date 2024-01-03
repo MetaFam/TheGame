@@ -68,6 +68,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
 
   useEffect(() => {
     const getIsPinned = async (playerId: string) => {
+      console.log('in', playerId)
       const pinnedQCs = await getPlayerPinnedQuestchains(playerId);
       // setIsPinned(
       //   pinnedQCs?.some(
@@ -76,9 +77,8 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
       //   ),
       // );
     };
-
     if (user?.id) getIsPinned(user.id);
-  }, [user, inputQuestChain.address, inputQuestChain.name]);
+  }, [user?.id, inputQuestChain.address, inputQuestChain.name]);
 
   const fetching = fetchingStatus || fetchingQuests;
 
@@ -125,6 +125,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           duration: 9000,
           isClosable: true,
         });
+        console.log(pin);
       } catch (e) {
         console.error(e);
       }

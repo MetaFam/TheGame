@@ -723,12 +723,16 @@
     - role: player
       permission:
         columns:
+          - id
           - player_id
           - questchain_id
         filter: {}
     - role: public
       permission:
-        columns: []
+        columns:
+          - id
+          - player_id
+          - questchain_id
         filter: {}
   update_permissions:
     - role: player
