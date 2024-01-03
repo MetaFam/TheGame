@@ -68,7 +68,6 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
 
   useEffect(() => {
     const getIsPinned = async (playerId: string) => {
-      console.log('in', playerId)
       const pinnedQCs = await getPlayerPinnedQuestchains(playerId);
       // setIsPinned(
       //   pinnedQCs?.some(
