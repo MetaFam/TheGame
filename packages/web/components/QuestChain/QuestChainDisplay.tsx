@@ -124,7 +124,6 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           duration: 9000,
           isClosable: true,
         });
-        console.log(pin);
       } catch (e) {
         console.error(e);
       }
