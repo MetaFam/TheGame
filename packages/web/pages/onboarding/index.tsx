@@ -66,7 +66,7 @@ const Onboarding: React.FC = () => {
   return (
     <>
       <HeadComponent
-        title="MetaGame: Onboarding Game 🐙"
+        title="Onboarding Game 🐙"
         description="Start your journey into MetaGame here! Play the Onboarding Game and follow the purple octo..."
         url={hostName.current}
         img={`${hostName.current}/assets/social.webp`}

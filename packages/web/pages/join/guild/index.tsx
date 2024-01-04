@@ -78,7 +78,7 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
     <PageContainer sx={css}>
       <VStack maxW="6xl" w="100%" spacing={{ base: 8, md: 20 }}>
         <HeadComponent
-          title="Join MetaGame as a Guild"
+          title="Join as a Guild"
           description="We are looking for projects that are either building pieces of the infrastructure for the society of the future, offering tools &amp; services to those that are, or just doing something cool."
           url="https://metagame.wtf/join/guild"
         />

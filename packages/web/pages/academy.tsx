@@ -65,7 +65,7 @@ const AcademyPage: React.FC = () => {
   return (
     <PageContainer>
       <HeadComponent
-        title="MetaGame Academy"
+        title="Academy"
         description="MetaGame is a Massive Online Coordination Game! The Academy is full of Paths and Playbooks to help you find your way and level up in MetaGame & life."
         url="https://metagame.wtf/paths-and-playbooks"
       />
