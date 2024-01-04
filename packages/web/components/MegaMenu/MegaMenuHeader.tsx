@@ -489,7 +489,7 @@ export const MegaMenuHeader: React.FC = () => {
           >
             <HStack w="15%" flexShrink={1}>
               <Logo
-                link={user ? '/dashboard' : '/'}
+                link={'/'}
                 pos={{ base: 'initial', lg: 'relative' }}
                 left={0}
                 top="auto"
