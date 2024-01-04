@@ -172,7 +172,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
                 borderRadius={4}
               />
             ) : (
-              legitimacy === 'VERIFIED' ? <ChainIcon {...{ chain }} boxSize={16} p={2} /> : ""
+              <></>
             )}
           </Box>
           { legitimacy === 'VERIFIED' ?  <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" /> : <></>}
