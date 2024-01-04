@@ -196,7 +196,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
         : {})}
     >
       <HeadComponent
-        title={`MetaGame Profile: ${header}`}
+        title={`Profile: ${header}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
         img={avatarImg}

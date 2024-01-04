@@ -114,7 +114,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
   return (
     <PageContainer>
       <HeadComponent
-        title="MetaGame Patrons"
+        title="Patrons"
         description="MetaGame is a Massive Online Coordination Game! MetaGame’s Patrons enable us to succeed by helping us with funds."
         url="https://my.metagame.wtf/patrons"
       />

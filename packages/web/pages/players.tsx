@@ -76,7 +76,7 @@ const Players: React.FC<Props> = () => {
   return (
     <PageContainer>
       <HeadComponent
-        title="MetaGame Players"
+        title="Players"
         description="See the players of MetaGame."
         url="https://metagame.wtf/players"
       />

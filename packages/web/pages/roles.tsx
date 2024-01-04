@@ -20,7 +20,7 @@ import { Difficulty, QuestChainRolesDetails, Time } from 'utils/questChains';
 const QuestsDashboard: React.FC = () => (
   <PageContainer>
     <HeadComponent
-      title="MetaGame Roles Onboarding"
+      title="Roles Onboarding"
       description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
       url="https://metagame.wtf/quests"
     />

@@ -67,7 +67,6 @@ export const PlayerFilter: React.FC<Props> = ({
   const [sortOption, setSortOption] = useState<ValueType>(
     sortOptionsMap[SortOption.SEASON_XP],
   );
-
   useEffect(() => {
     const resolveName = async () => {
       if (search.includes('.')) {
