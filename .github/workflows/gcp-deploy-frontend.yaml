@@ -177,7 +177,11 @@ jobs:
             --set-env-vars GCAL_PRIVATE_KEY="${{secrets.GCAL_PRIVATE_KEY}}" \
             --set-env-vars GCAL_PROJECT_NUMBER="${{secrets.GCAL_PROJECT_NUMBER}}" \
             --set-env-vars GCAL_CLIENT_EMAIL="${{secrets.GCAL_CLIENT_EMAIL}}" \
-            --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}"
+            --set-env-vars OPENSEA_API_KEY="${{secrets.OPENSEA_API_KEY}}" \
+            --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}" \
+            --set-env-vars NEXT_PUBLIC_GOOGLE_ANALYTICS_ID="${{secrets.GOOGLE_ANALYTICS_ID}}" \
+            --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY="${{secrets.YOUTUBE_API_KEY}}"
+
 
   finish-deployment:
     name: Finish Deployment
