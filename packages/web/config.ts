@@ -37,7 +37,7 @@ export const CONFIG = {
     scopes: ['https://www.googleapis.com/auth/calendar'],
     whitelist: [
       'https://metagame.wtf',
-      'https://metagame.wtf/*',
+      'https://metagame.wtf/dashboard',
       'https://*.metagame.wtf',
       'https://frontend-pr-*-mjhnbmqqna-uk.a.run.app',
     ],

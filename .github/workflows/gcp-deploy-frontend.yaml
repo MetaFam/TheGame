@@ -170,7 +170,7 @@ jobs:
             --region ${{needs.env.outputs.CLOUDRUN_REGION}} \
             --port ${{needs.env.outputs.FRONTEND_PORT}} \
             --cpu 1 \
-            --memory 512Mi \
+            --memory 1Gi \
             --ingress all \
             --min-instances 1 \
             --allow-unauthenticated \
