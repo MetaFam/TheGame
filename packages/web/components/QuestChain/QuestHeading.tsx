@@ -4,7 +4,6 @@ import {
   Flex,
   HStack,
   Image,
-  Link,
   Stack,
   Text,
   Tooltip,
@@ -15,7 +14,6 @@ import { graphql } from '@quest-chains/sdk';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import moment from 'moment';
 import React from 'react';
-import { formatAddress } from 'utils/playerHelpers';
 import { QuestChainType } from 'utils/questChains';
 
 import { MetaLink } from '../Link';
@@ -60,26 +58,33 @@ export const ChainStats: React.FC<{
       )}% completed`}
     </Text>
     <Flex w="full" justifyContent="space-between" h={6} alignItems="center">
-      <Flex
-        flex={1}
-        borderColor="whiteAlpha.200"
-        border="1px solid"
-        borderRadius={3}
+      <Tooltip
+        label="The yellow bar represents quests that are currently being reviewed, while the blue bar indicates completed quests"
+        hasArrow
       >
-        <Box
-          bg="cyan"
-          w={`${
-            (progress.total ? progress.completeCount / progress.total : 0) * 100
-          }%`}
-        />
-        <Box
-          bgColor="#EFFF8F"
-          w={`${
-            (progress.total ? progress.inReviewCount / progress.total : 0) * 100
-          }%`}
-        />
-        <Box h={2} />
-      </Flex>
+        <Flex
+          flex={1}
+          borderColor="whiteAlpha.200"
+          border="1px solid"
+          borderRadius={3}
+        >
+          <Box
+            bg="cyan"
+            w={`${
+              (progress.total ? progress.completeCount / progress.total : 0) *
+              100
+            }%`}
+          />
+          <Box
+            bgColor="#EFFF8F"
+            w={`${
+              (progress.total ? progress.inReviewCount / progress.total : 0) *
+              100
+            }%`}
+          />
+          <Box h={2} />
+        </Flex>
+      </Tooltip>
     </Flex>
     {!isMobile && (
       <HStack justifyContent="space-between" fontWeight={400} mb={3}>

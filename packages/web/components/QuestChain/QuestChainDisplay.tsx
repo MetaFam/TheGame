@@ -8,6 +8,7 @@ import {
   Spinner,
   Stack,
   Text,
+  Tooltip,
   useBreakpointValue,
   useToast,
   VStack,
@@ -69,12 +70,14 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
   useEffect(() => {
     const getIsPinned = async (playerId: string) => {
       const pinnedQCs = await getPlayerPinnedQuestchains(playerId);
-      // setIsPinned(
-      //   pinnedQCs?.some(
-      //     (qc) =>
-      //       qc.id === `${inputQuestChain.address}-${inputQuestChain.name}`,
-      //   ),
-      // );
+      setIsPinned(
+        Boolean(
+          pinnedQCs?.link?.some(
+            (qc) =>
+              qc.id === `${inputQuestChain.address}-${inputQuestChain.name}`,
+          ),
+        ),
+      );
     };
     if (user?.id) getIsPinned(user.id);
   }, [user?.id, inputQuestChain.address, inputQuestChain.name]);
@@ -117,13 +120,24 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           playerId: user?.id,
           questchainId: `${questChain.address}-${questChain.name}`,
         });
-        toast({
-          title: 'Quest Chain pinned!',
-          description: 'You can now see this quest chain on your profile.',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        });
+
+        if (pin.error) {
+          toast({
+            title: 'Error pinning quest chain!',
+            description: pin.error.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: 'Quest Chain pinned!',
+            description: 'You can now see this quest chain on your profile.',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          });
+        }
       } catch (e) {
         console.error(e);
       }
@@ -218,22 +232,36 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                   icon={<Image src={Pin.src} alt="Pin" w={5} h={5} />}
                   onClick={() => handlePinPlayerQuestchain()}
                   isRound
+                  backgroundColor={isPinned ? 'purple.500' : ''}
                   justifyContent="center"
                   ml={4}
                 />
-                <IconButton
-                  variant="outline"
-                  aria-label="Seed"
-                  icon={<Image src={Seed.src} alt="Seed" w={5} h={5} />}
-                  isRound
-                  justifyContent="center"
-                />
+                <Tooltip label="Coming soon">
+                  <IconButton
+                    variant="outline"
+                    aria-label="Seed"
+                    icon={<Image src={Seed.src} alt="Seed" w={5} h={5} />}
+                    isRound
+                    justifyContent="center"
+                    isDisabled
+                  />
+                </Tooltip>
                 <IconButton
                   variant="outline"
                   aria-label="Share"
                   icon={<Image src={Share.src} alt="Share" w={5} h={5} />}
                   isRound
                   justifyContent="center"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.href}`);
+                    toast({
+                      title: 'Copied to clipboard!',
+                      description: 'Share this link with your friends!',
+                      status: 'success',
+                      duration: 4000,
+                      isClosable: true,
+                    });
+                  }}
                 />
               </HStack>
             ) : (
@@ -244,25 +272,39 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                   leftIcon={
                     <Image src={Pin.src} alt="Pin" w={5} h={5} mr={2} />
                   }
+                  backgroundColor={isPinned ? 'purple.600' : ''}
                   onClick={() => handlePinPlayerQuestchain()}
                 >
-                  Pin
+                  {isPinned ? 'Unpin' : 'Pin'}
                 </Button>
-                <Button
-                  variant="outline"
-                  w="full"
-                  leftIcon={
-                    <Image src={Seed.src} alt="Seed" w={5} h={5} mr={2} />
-                  }
-                >
-                  Boost
-                </Button>
+                <Tooltip label="Coming soon">
+                  <Button
+                    variant="outline"
+                    w="full"
+                    leftIcon={
+                      <Image src={Seed.src} alt="Seed" w={5} h={5} mr={2} />
+                    }
+                    isDisabled
+                  >
+                    Boost
+                  </Button>
+                </Tooltip>
                 <Button
                   variant="outline"
                   w="full"
                   leftIcon={
                     <Image src={Share.src} alt="Share" w={5} h={5} mr={2} />
                   }
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.href}`);
+                    toast({
+                      title: 'Copied to clipboard!',
+                      description: 'Share this link with your friends!',
+                      status: 'success',
+                      duration: 4000,
+                      isClosable: true,
+                    });
+                  }}
                 >
                   Share
                 </Button>
