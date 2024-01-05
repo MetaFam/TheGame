@@ -162,7 +162,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
             </>
           )}
           <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
-            {logoURL ? (
+            {logoURL && (
               <Image
                 src={optimizedImage('logoURL', logoURL)}
                 w={14}
@@ -171,12 +171,10 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
                 my={1}
                 borderRadius={4}
               />
-            ) : (
-              <></>
             )}
           </Box>
-          { legitimacy === 'VERIFIED' ?  <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" /> : <></>}
-          <Tooltip label={`This Guild has ${legitimacy === 'VERIFIED' ? 'been verified' : 'not been verified '}`} placement='top' hasArrow>
+          {legitimacy === 'VERIFIED' && <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />}
+          <Tooltip label={`This Guild has ${legitimacy === 'VERIFIED' ? '' : 'not '}been verified.`} placement='top' hasArrow>
             <Box mr={2} ml={2}>
               {legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : <BsPatchQuestion />}
             </Box>
