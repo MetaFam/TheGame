@@ -250,7 +250,7 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
               mt={4}
             >
               <a
-                href={daoURL || ''}
+                href={daoURL || '#'}
                 target="_blank"
                 rel="noreferrer"
                 style={{ width: '100%', flex: 1 }}
