@@ -217,7 +217,7 @@ export const Chiev = ({
                   If you don&apos;t already have a wallet or any gas, a good
                   place to start is the{' '}
                   <MetaLink
-                    href="https://wiki.metagame.wtf/playbooks/how-to-install-wallet-get-gas"
+                    href="https://wiki.metagame.wtf/academy/how-to-install-wallet-get-gas"
                     isExternal
                   >
                     Install MetaMask &amp; get Gas Playbook

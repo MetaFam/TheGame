@@ -41,7 +41,7 @@ const QuestsDashboard: React.FC = () => (
               description,
               difficulty,
               time,
-              link: `/play/paths/${path}`,
+              link: `/academy/${path}`,
               image,
               color: '#AB7C94',
             }}
