@@ -33,7 +33,7 @@ const QuestChainPathPage: React.FC<Props> = ({
   return (
     <PageContainer>
       <HeadComponent
-        title={`${inputQuestChain.name}`}
+        title={`${inputQuestChain.name}` ?? 'Untitled Quest Chain'}
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://my.metagame.wtf/quests/path-of-the-engaged"
       />
