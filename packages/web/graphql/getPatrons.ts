@@ -41,8 +41,10 @@ const searchPatronsQuery = /* GraphQL */ `
         _or: [
           {
             profile: {
-              username: { _ilike: $search }
-              name: { _ilike: $search }
+              _or: [
+                { username: { _ilike: $search } }
+                { name: { _ilike: $search } }
+              ]
             }
           }
           { ethereumAddress: { _ilike: $search } }
@@ -100,11 +102,14 @@ const searchPlayers = async (
   limit: number,
 ): Promise<Array<Player>> => {
   const { data, error } = await client
-    .query<SearchPatronsQuery, SearchPatronsQueryVariables>(searchPatronsQuery, {
-      addresses,
-      limit,
-      search: `%${search}%`,
-    })
+    .query<SearchPatronsQuery, SearchPatronsQueryVariables>(
+      searchPatronsQuery,
+      {
+        addresses,
+        limit,
+        search: `%${search}%`,
+      },
+    )
     .toPromise();
 
   if (!data) {

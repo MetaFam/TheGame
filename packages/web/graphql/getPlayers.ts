@@ -199,9 +199,16 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `
- query SearchPlayers($search: String! ,$forLoginDisplay: Boolean! = false, $limit: Int = 3) {
+ query SearchPlayers($search: String! , $limit: Int = 3) {
   player(where: { _or: [
-    { profile: { username: { _ilike: $search }, name: { _ilike: $search } } },
+    {
+      profile: {
+        _or: [
+          { username: { _ilike: $search } }
+          { name: { _ilike: $search } }
+        ]
+      }
+    }
         { ethereumAddress: { _ilike: $search } }
   ] }, limit: $limit) {
   ...PlayerFragment
