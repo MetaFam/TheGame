@@ -49,6 +49,21 @@ export default {
         destination: '/profile/setup/complete',
         permanent: false,
       },
+      {
+        source: '/play/paths/:path*',
+        destination: '/academy/:path*',
+        permanent: false,
+      },
+      {
+        source: '/learn/playbooks/:path*',
+        destination: '/academy/:path*',
+        permanent: false,
+      },
+      {
+        source: '/learn/great-houses/:path*',
+        destination: '/academy/:path*',
+        permanent: false,
+      },
     ];
   },
   async rewrites() {

@@ -134,16 +134,7 @@ export const PathPlaybookTypes = {
   GREAT_HOUSE: 'greatHouse',
 };
 
-export const QuestChainPathPlaybookPaths = {
-  [PathPlaybookTypes.PATH]: '/play/paths/',
-  [PathPlaybookTypes.PLAYBOOK]: '/learn/playbooks/',
-  [PathPlaybookTypes.GREAT_HOUSE]: '/learn/thegreathouses/',
-};
-
 export type PathPlaybookType = Values<typeof PathPlaybookTypes>;
-export type QuestChainPathPlaybookPathType = Values<
-  typeof QuestChainPathPlaybookPaths
->;
 
 type QuestChainInfo = {
   chainId: string;
@@ -602,6 +593,12 @@ export const QuestChainPathsAndPlaybooksDetails: Record<
   ...QuestChainGreatHousesDetails,
   ...QuestChainPlaybooksDetails,
   ...QuestChainSubmitAPlaybookDetails,
+};
+
+export const QuestChains = {
+  ...QuestChainsRoles,
+  ...QuestChainsGreatHouses,
+  ...QuestChainsPlaybooks,
 };
 
 export const metadataUploader = new metadata.MetadataUploader();

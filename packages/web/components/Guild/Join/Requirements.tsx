@@ -82,7 +82,7 @@ export const Requirements: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="/play/paths/engaged-octos-path"
+                href="/academy/engaged-octos-path"
                 minW="10rem"
                 mt={2}
                 px={6}

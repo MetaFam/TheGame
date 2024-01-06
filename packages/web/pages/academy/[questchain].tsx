@@ -7,8 +7,8 @@ import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import React from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import {
-  QuestChainPlaybooksDetails,
-  QuestChainsPlaybooks,
+  QuestChainPathsAndPlaybooksDetails,
+  QuestChains,
   QuestChainType,
 } from 'utils/questChains';
 
@@ -34,9 +34,9 @@ const QuestChainPathPage: React.FC<Props> = ({
   return (
     <PageContainer maxW="96rem" alignSelf="center">
       <HeadComponent
-      title={inputQuestChain.name ?? 'Untitled Quest Chain'}
+        title={inputQuestChain.name ?? 'Untitled Quest Chain'}
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://metagame.wtf/learn/playbooks"
+        url="https://metagame.wtf/academy"
       />
 
       <QuestChainDisplay inputQuestChain={inputQuestChain} name={name} />
@@ -49,7 +49,7 @@ export default QuestChainPathPage;
 type QueryParams = { questchain: QuestChainType };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
-  paths: Object.values(QuestChainsPlaybooks).map((questchain) => ({
+  paths: Object.values(QuestChains).map((questchain) => ({
     params: { questchain },
   })),
   fallback: false,
@@ -70,7 +70,7 @@ export const getStaticProps = async (
 
   let questChain: graphql.QuestChainInfoFragment | null = null;
   try {
-    const info = QuestChainPlaybooksDetails[questchain];
+    const info = QuestChainPathsAndPlaybooksDetails[questchain];
     if (!info) {
       throw new Error(`Quest chain "${questchain}" not found.`);
     }

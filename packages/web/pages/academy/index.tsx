@@ -12,10 +12,8 @@ import { Carousel } from 'components/Carousel';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
-  PathPlaybookType,
-  QuestChainPathPlaybookPaths,
   QuestChainPathsAndPlaybooksDetails,
   QuestChainsCategoriesDetails,
 } from 'utils/questChains';
@@ -42,32 +40,12 @@ const AcademyPage: React.FC = () => {
     '2xl': 4,
   });
 
-  const makeItemPath = useCallback((type: PathPlaybookType): string => {
-    let urlPath: string;
-
-    switch (type) {
-      case 'path':
-        urlPath = QuestChainPathPlaybookPaths.path;
-        break;
-      case 'playbook':
-        urlPath = QuestChainPathPlaybookPaths.playbook;
-        break;
-      case 'greatHouse':
-        urlPath = QuestChainPathPlaybookPaths.greatHouse;
-        break;
-      default:
-        urlPath = '';
-        break;
-    }
-    return urlPath;
-  }, []);
-
   return (
     <PageContainer>
       <HeadComponent
         title="Academy"
         description="MetaGame is a Massive Online Coordination Game! The Academy is full of Paths and Playbooks to help you find your way and level up in MetaGame & life."
-        url="https://metagame.wtf/paths-and-playbooks"
+        url="https://metagame.wtf/academy"
       />
       <VStack
         pb={{ base: 8, xl: 10, '2xl': 16 }}
@@ -181,7 +159,6 @@ const AcademyPage: React.FC = () => {
                           time,
                           category: cat,
                           seedsEarned,
-                          type: pathType,
                         },
                       ]) => (
                         <Card
@@ -190,7 +167,7 @@ const AcademyPage: React.FC = () => {
                             title,
                             difficulty,
                             time,
-                            link: `${makeItemPath(pathType)}${name}`,
+                            link: `/academy/${name}`,
                             image,
                             color: '#AB7C94',
                             category: cat,
