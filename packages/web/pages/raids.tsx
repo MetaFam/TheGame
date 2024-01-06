@@ -162,7 +162,7 @@ const RaidsPage: React.FC = () => {
     <PageContainer py={8} px={[6, 6, 20, 24]}>
       <VStack maxW="7xl" w="100%" spacing={{ base: 4, md: 8 }}>
         <HeadComponent
-          title="MetaGame Raids Page"
+          title="Raids Page"
           description="See which raids are currently ongoing, learn more about them &amp; get involved"
           url="https://my.metagame.wtf/raids"
         />

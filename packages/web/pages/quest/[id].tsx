@@ -106,7 +106,7 @@ export const QuestPage: React.FC<Props> = ({ quest_id }) => {
   return (
     <PageContainer sx={questArticleCss}>
       <HeadComponent
-        title="MetaGame Quests"
+        title="Quests"
         description={quest.title}
         url={`https://metagame.wtf/quest/${quest_id}`}
         img={questImage}

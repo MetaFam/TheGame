@@ -87,7 +87,7 @@ const CreateQuestPage: React.FC<Props> = ({
   return (
     <PageContainer>
       <HeadComponent
-        title="New Quest | MetaGame"
+        title="New Quest"
         description="Create a quest for MetaGame."
         url="https://metagame.wtf/quest/create"
       />

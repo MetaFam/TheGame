@@ -28,14 +28,13 @@ export const getPlayerImage = (
   if (link) return link;
 
   const { ethereumAddress } = player ?? {};
-
   if (ethereumAddress) {
     const svg = toSvg(ethereumAddress, 200);
     const blob = new Blob([svg], { type: 'image/svg+xml' });
     return URL.createObjectURL(blob);
   }
 
-  return ProfileIcon.src;
+  return ProfileIcon;
 };
 
 export const getPlayerBanner = (player: Maybe<Player>): string => {

@@ -509,14 +509,17 @@ jobs:
             --region ${{needs.env.outputs.CLOUDRUN_REGION}} \
             --port ${{needs.env.outputs.FRONTEND_PORT}} \
             --cpu ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '2' || '1'}} \
-            --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '5Gi' || '512Mi'}} \
+            --memory ${{needs.env.outputs.FRONTEND_TARGET == 'development' && '5Gi' || '1Gi'}} \
             --ingress all \
             --max-instances 1 \
             --allow-unauthenticated \
             --set-env-vars GCAL_PRIVATE_KEY="${{secrets.GCAL_PRIVATE_KEY}}" \
             --set-env-vars GCAL_PROJECT_NUMBER="${{secrets.GCAL_PROJECT_NUMBER}}" \
             --set-env-vars GCAL_CLIENT_EMAIL="${{secrets.GCAL_CLIENT_EMAIL}}" \
-            --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}"
+            --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}" \
+            --set-env-vars OPENSEA_API_KEY="${{secrets.OPENSEA_API_KEY}}" \
+            --set-env-vars NEXT_PUBLIC_GOOGLE_ANALYTICS_ID="${{secrets.GOOGLE_ANALYTICS_ID}}" \
+            --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY="${{secrets.YOUTUBE_API_KEY}}"
 
   seed-db:
     name: Seed Database

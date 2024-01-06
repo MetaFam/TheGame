@@ -6,7 +6,7 @@ type Props = {
   memberships: Array<GuildMembership>;
 };
 
-const SHOW_MEMBERSHIPS = 4;
+const SHOW_MEMBERSHIPS = 3;
 
 export const PlayerTileMemberships: React.FC<Props> = ({ memberships }) =>
   memberships.length > 0 && (

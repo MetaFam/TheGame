@@ -5,7 +5,6 @@ import {
   DeleteIcon,
   EditIcon,
   Flex,
-  Heading,
   IconButton,
   MetaButton,
   MetaTileLinkWrapper,
@@ -13,13 +12,12 @@ import {
   useToast,
   VStack,
   Wrap,
-  WrapItem,
 } from '@metafam/ds';
-import { LinkGuild } from 'components/Player/PlayerGuild';
 import LinkIcon from 'components/Player/Section/LinkIcon';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import {
   GuildFragment,
+  LinkType_Enum,
   useDeleteGuildLinkMutation,
   useGetAdministeredGuildsQuery,
   useGetGuildLinksNoCacheMutation,
@@ -243,37 +241,56 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
             dao.url || getDAOLink(dao.network, dao.contractAddress);
 
           return (
-            <WrapItem key={index}>
-              <LinkGuild {...{ daoURL }} guildname={null}>
-                <Flex align="center" py={2} gap={2}>
-                  <Box bg="purpleBoxLight" minW={12} h={12} borderRadius={8}>
-                    <ChainIcon chain={dao.network} boxSize={12} p={2} />
-                  </Box>
-                  <Heading
-                    fontWeight="bold"
-                    sx={{
-                      textIndent: [0, '-1em'],
-                      fontVariant: 'small-caps',
-                    }}
-                    fontSize="xs"
-                    color={daoURL ? 'cyanText' : 'white'}
-                    ml={[0, '1em']}
-                    textAlign={['center', 'left']}
-                    flexGrow={1}
+            <Flex
+              w="full"
+              justifyContent="start"
+              alignContent="center"
+              gap={4}
+              key={`guild-link-${index}`}
+              mt={4}
+            >
+              <a
+                href={daoURL || '#'}
+                target="_blank"
+                rel="noreferrer"
+                style={{ width: '100%', flex: 1 }}
+                role="group"
+                key={`dao-link-${index}`}
+              >
+                <Flex
+                  justifyContent="start"
+                  alignContent="center"
+                  color={'violet'}
+                  width={'full'}
+                  px={4}
+                  py={3}
+                  background={'blackAlpha.300'}
+                  transition={'ease-in-out'}
+                  transitionDuration={'300'}
+                  _hover={{
+                    background: 'blackAlpha.500',
+                  }}
+                  _active={{
+                    background: 'blackAlpha.700',
+                  }}
+                  rounded={'md'}
+                >
+                  <LinkIcon type={'OTHER' as LinkType_Enum} />
+                  <Text mx="auto" fontWeight={600}>
+                    DAOhaus
+                  </Text>
+                  <Box
+                    my="auto"
+                    mr={1}
+                    opacity={0}
+                    _groupHover={{ opacity: 0.8 }}
+                    _groupActive={{ opacity: 1 }}
                   >
-                    {dao.label ?? (
-                      <Text as="span">
-                        Unknown{' '}
-                        <Text as="span" textTransform="capitalize">
-                          {dao.network}
-                        </Text>{' '}
-                        DAO
-                      </Text>
-                    )}
-                  </Heading>
+                    <FaExternalLinkAlt fill="currentColor" />
+                  </Box>
                 </Flex>
-              </LinkGuild>
-            </WrapItem>
+              </a>
+            </Flex>
           );
         })}
       </Wrap>

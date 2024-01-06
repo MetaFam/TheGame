@@ -38,7 +38,7 @@ const SEEDsPage: React.FC = () => {
     <PageContainer py={8} px={[6, 6, 20, 24]}>
       <VStack maxW="6xl" w="100%" spacing={{ base: 4, md: 20 }}>
         <HeadComponent
-          title="MetaGame Seeds Page"
+          title="Seeds Page"
           description="Seeds are MetaGame’s labor token. People contribute towards creation of MetaGame, meanwhile generating XP &amp; getting paid out in Seeds proportional to their gained XP. Find out more."
           url="https://metagame.wtf/seeds"
         />

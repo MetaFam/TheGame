@@ -10,6 +10,7 @@ import {
   Image,
   Input,
   Text,
+  Tooltip,
 } from '@metafam/ds';
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { Exact, GuildType_Enum, InputMaybe } from 'graphql/autogen/types';
@@ -161,7 +162,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
             </>
           )}
           <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
-            {logoURL ? (
+            {logoURL && (
               <Image
                 src={optimizedImage('logoURL', logoURL)}
                 w={14}
@@ -170,14 +171,14 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
                 my={1}
                 borderRadius={4}
               />
-            ) : (
-              <ChainIcon {...{ chain }} boxSize={16} p={2} />
             )}
           </Box>
-          <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
-          <Box mr={2}>
-            {legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : <BsPatchQuestion />}
-          </Box>
+          {legitimacy === 'VERIFIED' && <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />}
+          <Tooltip label={`This Guild has ${legitimacy === 'VERIFIED' ? '' : 'not '}been verified.`} placement='top' hasArrow>
+            <Box mr={2} ml={2}>
+              {legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : <BsPatchQuestion />}
+            </Box>
+          </Tooltip>
         </Flex>
         <Flex w="full" direction="column" align="start">
           <Heading
