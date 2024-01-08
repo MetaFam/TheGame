@@ -12,12 +12,12 @@ import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
 import { useMounted } from 'lib/hooks';
+import { Analytics } from 'lib/hooks/useGoogleAnalytics';
 import Head from 'next/head';
 import Image from 'next/image';
 import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
-import { Analytics } from 'lib/hooks/useGoogleAnalytics';
 
 const { userbackToken, honeybadgerAPIKey } = CONFIG;
 
