@@ -12,7 +12,9 @@ const { gaId, appEnv } = CONFIG;
 export const Analytics: React.FC = () => {
  
   React.useEffect(() => {
-    if (!gaId || appEnv !== 'production') return;
+    if (!gaId || appEnv !== 'production') {
+      return; // Explicitly return here
+    }
     // Load Google Analytics script dynamically
     const script = document.createElement('script');
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
@@ -36,7 +38,8 @@ export const Analytics: React.FC = () => {
     return () => {
       document.body.removeChild(script);
     };
-  }, [gaId, appEnv]);
+
+  }, []);
 
   return <></>
 };
