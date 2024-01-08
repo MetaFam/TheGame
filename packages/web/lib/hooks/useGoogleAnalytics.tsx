@@ -37,6 +37,7 @@ export const Analytics: React.FC = () => {
     // Cleanup: Remove the script when the component unmounts
     return () => {
       document.body.removeChild(script);
+      return;
     };
 
   }, []);
