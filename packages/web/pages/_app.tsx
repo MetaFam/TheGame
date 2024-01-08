@@ -17,36 +17,9 @@ import Image from 'next/image';
 import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
+import { Analytics } from 'lib/hooks/useGoogleAnalytics';
 
-const { userbackToken, honeybadgerAPIKey, gaId, appEnv } = CONFIG;
-
-const Analytics: React.FC = () => {
-  if (!gaId || appEnv !== 'production') {
-    return null;
-  }
-  return (
-    <>
-      <script
-        async
-        defer
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-      />
-      <script
-        type="text/javascript"
-        async
-        defer
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments) }
-            gtag('js', new Date());
-            gtag('config', '${gaId}');
-          `,
-        }}
-      />
-    </>
-  );
-};
+const { userbackToken, honeybadgerAPIKey } = CONFIG;
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
@@ -54,6 +27,7 @@ const App: React.FC<WithUrqlProps> = ({
   Component,
 }) => {
   const isMounted = useMounted();
+
   if (!isMounted) {
     return (
       <div
@@ -92,12 +66,12 @@ const App: React.FC<WithUrqlProps> = ({
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MetaGame</title>
-        <Analytics />
       </Head>
       <Web3ContextProvider {...{ resetUrqlClient }}>
         <ComposeDBContextProvider>
           <MegaMenu hide={pageProps.hideTopMenu}>
             <Component {...pageProps} />
+            <Analytics />
           </MegaMenu>
         </ComposeDBContextProvider>
       </Web3ContextProvider>
