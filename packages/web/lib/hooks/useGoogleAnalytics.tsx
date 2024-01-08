@@ -10,10 +10,9 @@ declare global {
 const { gaId, appEnv } = CONFIG;
 
 export const Analytics: React.FC = () => {
-  if (!gaId || appEnv !== 'production') {
-    return null;
-  }
+ 
   React.useEffect(() => {
+    if (!gaId || appEnv !== 'production') return;
     // Load Google Analytics script dynamically
     const script = document.createElement('script');
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
@@ -22,8 +21,8 @@ export const Analytics: React.FC = () => {
     script.onload = () => {
       // Initialize Google Analytics
       window.dataLayer = window.dataLayer || [];
-      function gtag(arg: string, arg2: any, arg3?: any) {
-        window.dataLayer.push(arguments);
+      function gtag(...args: any) {
+        window.dataLayer.push(args);
       }
       gtag('js', new Date());
       gtag('config', gaId, {
@@ -37,7 +36,7 @@ export const Analytics: React.FC = () => {
     return () => {
       document.body.removeChild(script);
     };
-  }, [gaId]);
+  }, [gaId, appEnv]);
 
   return <></>
 };
