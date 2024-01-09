@@ -13,7 +13,7 @@ import { MetaLink } from 'components/Link';
 import { useWeb3 } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
-import { POLYGON } from 'utils/networks';
+import { MAINNET,POLYGON } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';
 
 export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
@@ -35,7 +35,7 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
       const networkName = provider.network.name;
       const shortAddress = formatAddress(address);
 
-      if (chainId !== POLYGON) {
+      if (chainId !== POLYGON && chainId !== MAINNET) {
         setWrongNetwork(true);
         toast({
           title: `Wallet Connection`,

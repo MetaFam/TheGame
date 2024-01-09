@@ -176,7 +176,7 @@ export const PlayerFilter: React.FC<Props> = ({
     position: 'sticky',
     px: '2.5em',
     py: '1em',
-    w: '98vw', // If it's higher than 98vw it gets stuck full width and won't unstick, see above 'Hack warning'
+    w: '80vw',
   };
 
   // How it looks when it's not sticky
@@ -186,7 +186,7 @@ export const PlayerFilter: React.FC<Props> = ({
     maxW: '7xl',
     px: '1.5em',
     py: '1em',
-    w: '100%',
+    w: '80vw',
   };
 
   // How it looks when it's a small screen

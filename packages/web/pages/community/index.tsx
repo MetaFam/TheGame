@@ -84,6 +84,7 @@ const UnifiedCommunityPage: React.FC<Props> = ({
             w={{
               lg: '100%',
             }}
+            overflow={{ lg: 'hidden' }}
             index={activeTab.index}
             onChange={handleTabChange}
           >
@@ -95,8 +96,8 @@ const UnifiedCommunityPage: React.FC<Props> = ({
                 <Tab
                   key={`tab-${link}`}
                   _selected={{
-                    color: 'teal.200',
-                    borderBottom: '2px solid #81E6D9',
+                    color: '#a48df3',
+                    borderBottom: '2px solid #a48df3',
                   }}
                   w="100%"
                 >
