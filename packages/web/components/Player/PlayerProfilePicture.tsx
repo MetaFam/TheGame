@@ -2,8 +2,8 @@ import type { AvatarProps } from '@metafam/ds';
 import { SquareImage } from 'components/SquareImage';
 import type { Player } from 'graphql/autogen/types';
 import type { GuildPlayer } from 'graphql/types';
-import React from 'react';
 import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
+import React from 'react';
 
 type PlayerProfilePictureProps = AvatarProps & {
   player?: Player | GuildPlayer;

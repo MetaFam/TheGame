@@ -27,6 +27,7 @@ import { useUser } from 'lib/hooks';
 import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
@@ -46,7 +47,6 @@ import {
   getPlayerDescription,
   getPlayerImage,
 } from 'utils/playerHelpers';
-import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 
 export type PlayerPageProps = {
   player: Maybe<Player>;

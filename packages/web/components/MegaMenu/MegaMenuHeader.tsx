@@ -42,6 +42,7 @@ import { searchQuests } from 'graphql/getQuests';
 import { searchGuilds } from 'graphql/queries/guild';
 import { Patron } from 'graphql/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 import { useRouter } from 'next/router';
 import React, {
   FormEventHandler,
@@ -60,7 +61,6 @@ import {
   getPlayerURL,
   getPlayerUsername,
 } from 'utils/playerHelpers';
-import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 
 type LogoProps = {
   link: string;

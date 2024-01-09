@@ -1,6 +1,6 @@
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useEffect,useMemo, useState } from 'react';
 import { getPlayerImage } from 'utils/playerHelpers';
 
 export const useProfileImageOnload: React.FC<{ player: Player | GuildPlayer | undefined }> = ({ player }): string => {
@@ -20,11 +20,6 @@ export const useProfileImageOnload: React.FC<{ player: Player | GuildPlayer | un
 
     image.onerror = () => {
       console.error('Original image failed to load.');
-    };
-
-    return () => {
-      image.onload = null;
-      image.onerror = null;
     };
   }, [profileImage]);
 
