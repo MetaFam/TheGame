@@ -19,24 +19,6 @@ import { toSvg } from 'jdenticon';
 
 import { optimizedImage } from './imageHelpers';
 
-// export const getPlayerImage = (
-//   player?: Maybe<Player | GuildPlayer | Patron>,
-// ): string => {
-//   const key = 'profileImageURL';
-//   const link = optimizedImage(key, player?.profile?.[key]);
-
-//   if (link) return link;
-
-//   const { ethereumAddress } = player ?? {};
-//   if (ethereumAddress) {
-//     const svg = toSvg(ethereumAddress, 200);
-//     const blob = new Blob([svg], { type: 'image/svg+xml' });
-//     return URL.createObjectURL(blob);
-//   }
-
-//   return ProfileIcon;
-// };
-
 export const getPlayerImage = (
   player?: Maybe<Player | GuildPlayer | Patron>,
 ): { profileIcon: string, link: string | undefined } => {
@@ -48,7 +30,7 @@ export const getPlayerImage = (
   const svg = toSvg(ethereumAddress || '', 200);
   const blob = new Blob([svg], { type: 'image/svg+xml' });
   const profileIcon = URL.createObjectURL(blob);
-  console.log(link, 'link', player?.profile?.[key])
+
   return { profileIcon, link };
 };
 

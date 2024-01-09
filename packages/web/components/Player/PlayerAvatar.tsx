@@ -4,6 +4,7 @@ import { GuildPlayer } from 'graphql/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import React, { useMemo } from 'react';
 import { getPlayerImage, hasImage } from 'utils/playerHelpers';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 
 type PlayerAvatarProps = AvatarProps & {
   player?: Player | GuildPlayer;
@@ -15,12 +16,11 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
 >(({ player: user, src, ...props }, ref) => {
   const player = user as Player;
   const name = usePlayerName(player);
-  const avatarImg = useMemo(() => src ?? getPlayerImage(player), [player, src]);
-
+  const imageUrl = useProfileImageOnload({ player });
   const toast = useToast();
 
   const attrs = {
-    src: avatarImg ?? undefined,
+    src: imageUrl as string ?? undefined,
     name: name ?? undefined,
     color: 'white',
     ...props,
