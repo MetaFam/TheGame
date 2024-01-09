@@ -2,9 +2,9 @@ import { Avatar, AvatarProps, useToast } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 import React, { useMemo } from 'react';
 import { getPlayerImage, hasImage } from 'utils/playerHelpers';
-import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 
 type PlayerAvatarProps = AvatarProps & {
   player?: Player | GuildPlayer;
