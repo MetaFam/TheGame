@@ -46,6 +46,7 @@ import {
   getPlayerDescription,
   getPlayerImage,
 } from 'utils/playerHelpers';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 
 export type PlayerPageProps = {
   player: Maybe<Player>;
@@ -164,7 +165,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     [player],
   );
 
-  const avatarImg = useMemo(() => getPlayerImage(player), [player]);
+  const imageUrl = useProfileImageOnload({ player });
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -199,7 +200,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
         title={`Profile: ${header}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
-        img={avatarImg}
+        img={imageUrl as string ?? undefined}
       />
       {banner != null ? (
         <Box
