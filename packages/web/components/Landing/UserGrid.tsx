@@ -34,6 +34,7 @@ export const UserGrid: React.FC<{
       flexDirection: 'row',
       flexWrap: 'wrap',
     }}
+    mt="15px"
   >
     {players?.length
       ? players?.map((player, i) => (
@@ -54,6 +55,7 @@ export const UserGrid: React.FC<{
               marginBottom: '10px',
               textAlign: 'center',
             }}
+        
           >
             <PlayerProfilePictureRound {...{ player }} size="xxs" />
             <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
@@ -81,7 +83,7 @@ export const UserGrid: React.FC<{
             marginBottom: '10px',
           }}
         >
-          <Box key={`guild-user-${i}`} textAlign="center">
+          <Box key={`guild-user-${i}`} textAlign="center" width="2.8em">
             <RoundImage size="xxs" src={guild.logo || ''} />
             <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
               {guild.guildname}
@@ -106,7 +108,7 @@ export const UserGrid: React.FC<{
           marginBottom: '10px',
         }}
       >
-        <Box key={`elder-user-${i}`} textAlign="center">
+        <Box key={`elder-user-${i}`} textAlign="center" width="2.8em">
           <RoundImage size="xxs" src={elder.img || ''} />
           <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
             {elder.name}
@@ -129,8 +131,8 @@ export const UserGrid: React.FC<{
         href={link}
       >
         <Box
-          height={20}
-          width={20}
+          height="2.8em"
+          width="2.8em"
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -147,13 +149,13 @@ export const UserGrid: React.FC<{
             transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
             px="8px"
             borderRadius="50%"
-            fontSize="14px"
+            fontSize={{ base: "7px", lg: "14px"}}
             fontWeight="semibold"
             borderColor="whiteAlpha.400"
             color="#E839B7"
             bg="#1B0D2A"
           >
-            see all
+            more
           </Box>
         </Box>
       </Link>
