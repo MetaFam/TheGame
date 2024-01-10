@@ -261,17 +261,17 @@ export const guildPerks: PerkList[] = [
   },
 ];
 export const patronPerks: PerkList[] = [
-  {
-    title: 'Visitor',
-    type: 'Free',
-    description: 'FOR BROKE GUILDS',
-    list: patronFreeList,
-    background: '#FFFFFF0A',
-  },
+  // {
+  //   title: 'Visitor',
+  //   type: 'Free',
+  //   description: 'FOR BROKE GUILDS',
+  //   list: patronFreeList,
+  //   background: '#FFFFFF0A',
+  // },
   {
     title: 'Member',
-    type: 'Basic',
-    description: '$100 / YEAR',
+    type: 'Tiered Memberships',
+    description: '',
     list: patronMemberList,
     background: '#00000029',
   },
