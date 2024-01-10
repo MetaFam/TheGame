@@ -86,7 +86,7 @@ export const DesktopFilters: React.FC<Props> = ({
         options={sortOptions}
       />
     </WrapItem>
-    <WrapItem>
+    {/* <WrapItem>
       <MetaFilterSelectSearch
         title="Type Of Player"
         tagLabel={playerTypes.length > 0 ? playerTypes.length.toString() : ''}
@@ -112,7 +112,7 @@ export const DesktopFilters: React.FC<Props> = ({
         options={aggregates.skillChoices as LabeledOptions<string>[]}
         showSearch
       />
-    </WrapItem>
+    </WrapItem> */}
     <WrapItem>
       <MetaFilterSelectSearch
         title="Availability"

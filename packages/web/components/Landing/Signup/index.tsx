@@ -258,43 +258,20 @@ export const Signup: React.FC = () => {
       id={section}
       overflow="clip"
       fontSize={{ base: 'xl', md: '5xl' }}
-      minH="100vh"
     >
       <Container
         display="flex"
         flexDirection="column"
         maxW={{ base: 'full', md: '7xl', '2xl': '8xl' }}
-        height={{ base: 'full', lg: 'auto' }}
+        height={{ base: 'auto', lg: 'auto' }}
         paddingY={{ base: 8, lg: 32 }}
         alignItems="center"
         justifyContent="start"
         gap={{ base: 2, lg: '40px' }}
         zIndex={5}
       >
-        <Text
-          fontSize={{ base: '2xl', lg: '4xl' }}
-          textTransform={{ base: 'uppercase', lg: 'capitalize' }}
-        >
-          Join MetaGame as
-        </Text>
-        {!isMobile && (
-          <Button
-            ml="13%"
-            alignSelf="start"
-            variant="ghost"
-            color="#D59BD5"
-            _hover={{ bg: 'transparent' }}
-            _active={{ bg: 'transparent ' }}
-            onClick={() => router.push('/')}
-          >
-            <FaArrowLeft
-              fontSize="0.875rem"
-              style={{ display: 'inline-block', marginRight: '0.5rem' }}
-            />{' '}
-            Go Back
-          </Button>
-        )}
         <Tabs
+          mt={{ lg: "5em", base: '2em'}}
           variant="unstyled"
           index={selectedIndex}
           defaultIndex={selectedIndex}
@@ -304,6 +281,7 @@ export const Signup: React.FC = () => {
               shallow: true,
             });
           }}
+          p={1}
         >
           <TabList
             display="flex"
