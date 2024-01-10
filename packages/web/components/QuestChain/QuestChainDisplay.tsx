@@ -72,9 +72,10 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
       const pinnedQCs = await getPlayerPinnedQuestchains(playerId);
       setIsPinned(
         Boolean(
-          pinnedQCs?.link?.some(
+          pinnedQCs?.pinned_questchains?.some(
             (qc) =>
-              qc.id === `${inputQuestChain.address}-${inputQuestChain.name}`,
+              qc.questchain_id ===
+              `${inputQuestChain.address}-${inputQuestChain.name}`,
           ),
         ),
       );
@@ -130,6 +131,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
             isClosable: true,
           });
         } else {
+          setIsPinned(true);
           toast({
             title: 'Quest Chain pinned!',
             description: 'You can now see this quest chain on your profile.',
@@ -144,6 +146,11 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
     } else {
       console.error('Player or questChain not found!');
     }
+  };
+
+  const handleUnpinPlayerQuestchain = async () => {
+    // eslint-disable-next-line no-console
+    console.log('needs to be implemented');
   };
 
   const creator = questChain?.createdBy?.id;
@@ -273,7 +280,11 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                     <Image src={Pin.src} alt="Pin" w={5} h={5} mr={2} />
                   }
                   backgroundColor={isPinned ? 'purple.600' : ''}
-                  onClick={() => handlePinPlayerQuestchain()}
+                  onClick={
+                    isPinned
+                      ? handleUnpinPlayerQuestchain
+                      : handlePinPlayerQuestchain
+                  }
                 >
                   {isPinned ? 'Unpin' : 'Pin'}
                 </Button>
