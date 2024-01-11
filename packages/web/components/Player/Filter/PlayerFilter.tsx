@@ -101,19 +101,19 @@ export const PlayerFilter: React.FC<Props> = ({
   const isSearchUsed = queryVariables.search !== '%%';
   const searchText = queryVariables.search?.slice(1, -1) || '';
 
-  useEffect(() => {
-    setQueryVariable(
-      'explorerTypeTitles',
-      playerTypes.length > 0 ? playerTypes.map(({ label }) => label) : null,
-    );
-  }, [setQueryVariable, playerTypes]);
+  // useEffect(() => {
+  //   setQueryVariable(
+  //     'explorerTypeTitles',
+  //     playerTypes.length > 0 ? playerTypes.map(({ label }) => label) : null,
+  //   );
+  // }, [setQueryVariable, playerTypes]);
 
-  useEffect(() => {
-    setQueryVariable(
-      'skillIds',
-      skills.length > 0 ? skills.map((s) => s.id) : null,
-    );
-  }, [setQueryVariable, skills]);
+  // useEffect(() => {
+  //   setQueryVariable(
+  //     'skillIds',
+  //     skills.length > 0 ? skills.map((s) => s.id) : null,
+  //   );
+  // }, [setQueryVariable, skills]);
 
   useEffect(() => {
     setQueryVariable(
