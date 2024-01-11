@@ -1,9 +1,9 @@
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
-import React, { useEffect,useMemo, useState } from 'react';
+import { useEffect,useMemo, useState } from 'react';
 import { getPlayerImage } from 'utils/playerHelpers';
 
-export const useProfileImageOnload: React.FC<{ player: Player | GuildPlayer | undefined }> = ({ player }): string => {
+export const useProfileImageOnload = ({ player }:  { player: Player | GuildPlayer | undefined }) => {
   const avatarImg = useMemo(() => getPlayerImage(player), [player]);
   
   const [imageURL, setImageURL] = useState(avatarImg.profileIcon);
@@ -19,7 +19,7 @@ export const useProfileImageOnload: React.FC<{ player: Player | GuildPlayer | un
     };
 
     image.onerror = () => {
-      console.error('Original image failed to load.');
+      console.error(`Original image, ${profileImage}, failed to load.`);
     };
   }, [profileImage]);
 

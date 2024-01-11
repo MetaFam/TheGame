@@ -34,7 +34,7 @@ export const UserGrid: React.FC<{
       flexDirection: 'row',
       flexWrap: 'wrap',
     }}
-    mt="15px"
+    mt="1rem"
   >
     {players?.length
       ? players?.map((player, i) => (
@@ -149,7 +149,7 @@ export const UserGrid: React.FC<{
             transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
             px="8px"
             borderRadius="50%"
-            fontSize={{ base: "7px", lg: "14px"}}
+            fontSize={{ base: '0.4rem', lg: '1rem'}}
             fontWeight="semibold"
             borderColor="whiteAlpha.400"
             color="#E839B7"

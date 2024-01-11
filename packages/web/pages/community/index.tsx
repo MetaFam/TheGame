@@ -96,8 +96,8 @@ const UnifiedCommunityPage: React.FC<Props> = ({
                 <Tab
                   key={`tab-${link}`}
                   _selected={{
-                    color: '#a48df3',
-                    borderBottom: '2px solid #a48df3',
+                    color: 'pastelPurple',
+                    borderBottom: '2px solid var(--chakra-colors-pastelPurple)',
                   }}
                   w="100%"
                 >

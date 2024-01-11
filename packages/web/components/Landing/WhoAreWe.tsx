@@ -196,7 +196,7 @@ export const WhoAreWe: React.FC<
               },
             }}
           >
-            <ListItem gridArea="first" >
+            <ListItem gridArea="first">
               <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">01</Text>Players (Builders)
               </Text>

@@ -15,13 +15,11 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
   PlayerAvatarProps
 >(({ player: user, src, ...props }, ref) => {
   const player = user as Player;
-  const name = usePlayerName(player);
-  const imageUrl = useProfileImageOnload({ player });
   const toast = useToast();
 
   const attrs = {
-    src: imageUrl as string ?? undefined,
-    name: name ?? undefined,
+    src: useProfileImageOnload({ player }),
+    name: usePlayerName(player),
     color: 'white',
     ...props,
   };

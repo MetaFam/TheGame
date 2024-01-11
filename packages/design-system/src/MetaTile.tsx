@@ -226,7 +226,7 @@ export const MetaTilePathPlaybook = React.forwardRef<
           position={'relative'}
           borderRightRadius={{ base: 'lg', xl: '2xl' }}
           maxW={cardMaxWidth}
-          width={'100%'}
+          width="100%"
           borderLeftRadius={0}
           zIndex={0}
         />

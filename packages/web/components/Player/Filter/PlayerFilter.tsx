@@ -176,7 +176,7 @@ export const PlayerFilter: React.FC<Props> = ({
     position: 'sticky',
     px: '2.5em',
     py: '1em',
-    w: '80vw',
+    w: '98vw',
   };
 
   // How it looks when it's not sticky
@@ -186,7 +186,7 @@ export const PlayerFilter: React.FC<Props> = ({
     maxW: '7xl',
     px: '1.5em',
     py: '1em',
-    w: '80vw',
+    w: '100%',
   };
 
   // How it looks when it's a small screen

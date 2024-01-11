@@ -263,7 +263,7 @@ export const Signup: React.FC = () => {
         display="flex"
         flexDirection="column"
         maxW={{ base: 'full', md: '7xl', '2xl': '8xl' }}
-        height={{ base: 'auto', lg: 'auto' }}
+        height="auto"
         paddingY={{ base: 8, lg: 32 }}
         alignItems="center"
         justifyContent="start"
@@ -673,7 +673,7 @@ export const Signup: React.FC = () => {
                     >
                       Not ready?
                     </Text>
-                    <MetaButton maxW="xs" onClick={() => router.push('/start')}>
+                    <MetaButton maxW="xs" href="/start">
                       THE RABBIT HOLE
                     </MetaButton>
                     <Text
