@@ -3,7 +3,6 @@ import { RoundImage } from 'components/RoundImage';
 import type { Player } from 'graphql/autogen/types';
 import type { GuildPlayer } from 'graphql/types';
 import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
-import React from 'react';
 
 type PlayerProfilePictureProps = AvatarProps & {
   player?: Player | GuildPlayer;
@@ -14,11 +13,11 @@ export const PlayerProfilePictureRound: React.FC<PlayerProfilePictureProps> = ({
   src,
   ...props
 }) => {
-  const imageUrl = useProfileImageOnload({ player });
+  const imageURL = useProfileImageOnload({ player });
 
   return (
     <>
-      <RoundImage src={imageUrl as string ?? undefined} {...props} />
+      <RoundImage src={imageURL} {...props} />
     </>
   );
 };

@@ -165,7 +165,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     [player],
   );
 
-  const imageUrl = useProfileImageOnload({ player });
+  const imageURL = useProfileImageOnload({ player });
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -200,7 +200,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
         title={`Profile: ${header}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
-        img={imageUrl as string ?? undefined}
+        img={imageURL}
       />
       {banner != null ? (
         <Box

@@ -98,7 +98,7 @@ interface OptionProps {
 }
 
 const Option = ({ onClick, name, player, text }: OptionProps) => {
-  const imageUrl = useProfileImageOnload({ player });
+  const imageURL = useProfileImageOnload({ player });
 
   return (
     <Box {...{ onClick }} as="li" role="option" sx={{ listStyleType: 'none' }}>
@@ -113,8 +113,8 @@ const Option = ({ onClick, name, player, text }: OptionProps) => {
         rounded="lg"
       >
         <Avatar
-          name={name}
-          src={imageUrl as string ?? undefined}
+          {...{ name }}
+          src={imageURL}
           w={6}
           h={6}
           sx={{
@@ -125,7 +125,7 @@ const Option = ({ onClick, name, player, text }: OptionProps) => {
         />
         <Text
           px={2}
-          color={'white'}
+          color="white"
           fontFamily="Exo 2"
           fontWeight={400}
           textOverflow="ellipsis"

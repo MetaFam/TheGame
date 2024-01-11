@@ -21,13 +21,10 @@ import { optimizedImage } from './imageHelpers';
 
 export const getPlayerImage = (
   player?: Maybe<Player | GuildPlayer | Patron>,
-): { profileIcon: string, link: string | undefined } => {
+) => {
   const key = 'profileImageURL';
   const link = optimizedImage(key, player?.profile?.[key]);
-
-  const { ethereumAddress } = player ?? {};
-  
-  const svg = toSvg(ethereumAddress || '', 200);
+  const svg = toSvg(getPlayerName(player), 200);
   const blob = new Blob([svg], { type: 'image/svg+xml' });
   const profileIcon = URL.createObjectURL(blob);
 
