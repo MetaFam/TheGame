@@ -55,7 +55,7 @@ import { errorHandler } from 'utils/errorHandler';
 import { getImageDimensions } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
 import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
-import { directUpload } from 'utils/uploadHelpers';
+import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
 import { EditAvatarImage } from './Player/Profile/EditAvatarImage';
@@ -186,7 +186,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       if (Object.keys(pickedFiles).length > 0) {
         setStatus('Uploading images to web3.storage…');
 
-        const rootCID = await directUpload(Object.values(pickedFiles));
+        const rootCID = await uploadFiles(Object.values(pickedFiles));
 
         await Promise.all(
           Object.entries(pickedFileDataURLs).map(async ([key, val]) => {
