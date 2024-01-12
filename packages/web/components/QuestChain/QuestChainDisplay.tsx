@@ -27,7 +27,7 @@ import {
   PlayersFinished,
 } from 'components/QuestChain/QuestHeading';
 import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
-import { useInsertPlayerQuestchainPinMutation, useDeletePlayerQuestchainPinMutation } from 'graphql/autogen/types';
+import { useDeletePlayerQuestchainPinMutation,useInsertPlayerQuestchainPinMutation } from 'graphql/autogen/types';
 import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
 import { useUser, useWeb3 } from 'lib/hooks';
 import {
