@@ -18,21 +18,22 @@ export const parseSkills = (
   skills: Array<PlayerSkillFragment>,
 ): Array<CategoryOption> => {
   const skillsMap: SkillMap = {};
+
   skills.forEach((skill) => {
-    // `??=` miscompiles in webpack
-    skillsMap[skill.category] = skillsMap[skill.category] ?? {
-      label: skill.category,
+    const { category } = skill;
+    const categoryOptions = skillsMap[category] || {
+      label: category,
       options: [],
     };
-    skillsMap[skill.category].options?.push({
-      get value(): string {
-        return this.id;
-      },
-      get label() {
-        return this.name;
-      },
+
+    categoryOptions.options?.push({
       ...skill,
+      value: skill.id,
+      label: skill.name,
     });
+
+    skillsMap[category] = categoryOptions;
   });
+
   return Object.values(skillsMap);
 };
