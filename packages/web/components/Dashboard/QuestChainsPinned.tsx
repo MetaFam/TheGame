@@ -1,8 +1,9 @@
-import { Flex, ListItem, Text, UnorderedList } from '@metafam/ds';
+import { HStack, ListItem, Stack, Text, UnorderedList } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
 import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
+import { GoLinkExternal } from 'react-icons/go';
 
 export const QuestChainsPinned: React.FC = () => {
   const { user } = useUser();
@@ -35,12 +36,12 @@ export const QuestChainsPinned: React.FC = () => {
       .replace(/\s+/g, '-');
 
   return (
-    <Flex direction="column" p={6} w="100%">
+    <Stack p={6} w="100%" gap={4}>
       <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
         Pinned Quest Chains
       </Text>
       {pinnedQuestChains.length > 0 ? (
-        <UnorderedList>
+        <UnorderedList spacing={3}>
           {pinnedQuestChains.map((qc) => (
             <ListItem key={qc.id}>
               <MetaLink
@@ -48,7 +49,10 @@ export const QuestChainsPinned: React.FC = () => {
                   extractQuestChainName(qc.questchain_id),
                 )}`}
               >
-                {extractQuestChainName(qc.questchain_id)}
+                <HStack>
+                  <Text>{extractQuestChainName(qc.questchain_id)}</Text>
+                  <GoLinkExternal />
+                </HStack>
               </MetaLink>
             </ListItem>
           ))}
@@ -59,6 +63,6 @@ export const QuestChainsPinned: React.FC = () => {
           <MetaLink href="/academy">Academy</MetaLink> to get started!
         </Text>
       )}
-    </Flex>
+    </Stack>
   );
 };
