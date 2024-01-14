@@ -74,7 +74,7 @@ const Players: React.FC<Props> = () => {
   );
 
   return (
-    <PageContainer overflow="hidden">
+    <PageContainer overflowX="hidden">
       <HeadComponent
         title="Players"
         description="See the players of MetaGame."
