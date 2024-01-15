@@ -15,10 +15,10 @@ import { useMounted } from 'lib/hooks';
 import { Analytics } from 'lib/hooks/useGoogleAnalytics';
 import Head from 'next/head';
 import Image from 'next/image';
+import Script from 'next/script';
 import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
-import Script from 'next/script';
 
 const { userbackToken, honeybadgerAPIKey } = CONFIG;
 
