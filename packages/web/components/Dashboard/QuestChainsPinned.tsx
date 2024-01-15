@@ -1,12 +1,15 @@
-import { HStack, ListItem, Stack, Text, UnorderedList } from '@metafam/ds';
+import { Flex, HStack, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
-import { useUser } from 'lib/hooks';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { GoLinkExternal } from 'react-icons/go';
 
 export const QuestChainsPinned: React.FC = () => {
   const { user } = useUser();
+  const mounted = useMounted();
+  const { connect, connecting, connected } = useWeb3();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [pinnedQuestChains, setPinnedQuestChains] = useState<
     Array<{
@@ -17,9 +20,15 @@ export const QuestChainsPinned: React.FC = () => {
 
   useEffect(() => {
     const getPinnedQuestChains = async (playerId: string) => {
-      const pinnedQCs = await getPlayerPinnedQuestchains(playerId);
-      if (pinnedQCs) {
-        setPinnedQuestChains(pinnedQCs.pinned_questchains);
+      try {
+        const pinnedQCs = await getPlayerPinnedQuestchains(playerId);
+        if (pinnedQCs) {
+          setPinnedQuestChains(pinnedQCs.pinned_questchains);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        console.error('Failed to get pinned quest chains:', error);
       }
     };
     if (user?.id) getPinnedQuestChains(user.id);
@@ -34,6 +43,28 @@ export const QuestChainsPinned: React.FC = () => {
       .replace(/[^a-z0-9\s]/g, '')
       .trim()
       .replace(/\s+/g, '-');
+
+  if (!mounted || (!connecting && !connected)) {
+    return (
+      <Flex direction="column" align="center" justify="center" h="17rem">
+        <Text textAlign="center">
+          <MetaButton onClick={connect}>Connect</MetaButton>
+          <Text>to see your pinned Quest Chains</Text>
+        </Text>
+      </Flex>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Stack p={6} w="100%" gap={4}>
+        <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
+          Pinned Quest Chains
+        </Text>
+        <Spinner />
+      </Stack>
+    );
+  }
 
   return (
     <Stack p={6} w="100%" gap={4}>
