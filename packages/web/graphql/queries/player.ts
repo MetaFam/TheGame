@@ -1,6 +1,8 @@
 import {
   GetPlayerLinksQuery,
   GetPlayerLinksQueryVariables,
+  GetPlayerPinnedQuestchainsQuery,
+  GetPlayerPinnedQuestchainsQueryVariables,
 } from 'graphql/autogen/types';
 
 import { client } from '../client';
@@ -62,10 +64,10 @@ export const getPlayerGuildMemberships = async (playerId: string) => {
 export const getPlayerPinnedQuestchains = async (playerId: string) => {
   if (!playerId) throw new Error('Missing Player Id');
   const { data } = await client
-    .query<GetPlayerLinksQuery, GetPlayerLinksQueryVariables>(
-      getPlayerPinnedQuestchainsQuery,
-      { playerId },
-    )
+    .query<
+      GetPlayerPinnedQuestchainsQuery,
+      GetPlayerPinnedQuestchainsQueryVariables
+    >(getPlayerPinnedQuestchainsQuery, { playerId })
     .toPromise();
   return data;
 };

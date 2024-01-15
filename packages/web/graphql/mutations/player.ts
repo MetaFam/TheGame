@@ -107,6 +107,21 @@ export const updatePlayerMutations = /* GraphQL */ `
     }
   }
 
+  mutation DeletePlayerQuestchainPin($playerId: uuid!, $questchainId: String!) {
+    delete_pinned_questchains(
+      where: {
+        player_id: {
+          _eq: $playerId,
+        },
+        questchain_id: {
+          _eq: $questchainId,
+        }
+      }
+    ) {
+      affected_rows
+    }
+  }
+
   mutation GetPlayerLinksNoCache($playerId: uuid!, $updatedAt: timestamptz!) {
     update_player(
       where: { id: { _eq: $playerId } }
