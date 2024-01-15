@@ -22,7 +22,6 @@ async function w3sDelegation(did: string) {
   console.debug({ proof });
   const space = await client.addSpace(proof);
   await client.setCurrentSpace(space.did());
-
   console.debug({ space: space.did().toString(), audience: did })
 
   const audience = DID.parse(did);
@@ -31,7 +30,6 @@ async function w3sDelegation(did: string) {
   const delegation = await client.createDelegation(audience, abilities, {
     expiration,
   });
-
   const archive = await delegation.archive();
   console.debug({ archive, ok: archive.ok });
   return archive.ok;
@@ -68,7 +66,8 @@ export const handler: (
       throw new Error(`No UCAN generated for "${did}".`);
     }
     console.debug({ ucan });
-    res.status(201).json({ ucan: ucan.toString() });
+    //@ts-ignore
+    res.status(201).send(ucan);
   } catch (error) {
     console.error({ 'error generating W3S UCAN': error });
     res.status(500).json({ error: (error as Error).message });
