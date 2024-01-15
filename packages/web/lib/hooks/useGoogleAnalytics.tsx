@@ -4,6 +4,7 @@ import React from 'react';
 declare global {
   interface Window {
     dataLayer: any[];
+    gtag: (...args: any) => void;
   }
 }
 
@@ -23,11 +24,11 @@ export const Analytics: React.FC = () => {
     script.onload = () => {
       // Initialize Google Analytics
       window.dataLayer = window.dataLayer || [];
-      function gtag(...args: any) {
+      window.gtag = function (...args: any) {
         window.dataLayer.push(args);
       }
-      gtag('js', new Date());
-      gtag('config', gaId, {
+      window.gtag('js', new Date());
+      window.gtag('config', gaId, {
         page_path: window.location.pathname,
       });
     };
