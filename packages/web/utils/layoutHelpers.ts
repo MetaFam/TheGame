@@ -189,7 +189,7 @@ const DEFAULT_BOX_HEIGHTS: Partial<Record<BoxType, number>> = {
   [BoxTypes.DASHBOARD_CALENDER]: 10,
   [BoxTypes.DASHBOARD_LEADERBOARD]: 15,
   [BoxTypes.DASHBOARD_COMPLETED_QUESTS]: 6,
-  [BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS]: 6,
+  [BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS]: 2,
   [BoxTypes.DASHBOARD_CREATED_QUESTS]: 6,
   // common boxes
   [BoxTypes.ADD_NEW_BOX]: 3,

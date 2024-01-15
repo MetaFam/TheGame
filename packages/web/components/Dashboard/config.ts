@@ -54,6 +54,7 @@ export const DEFAULT_BOXES = [
   BoxTypes.DASHBOARD_SEEDS_INFO,
   BoxTypes.DASHBOARD_CALENDER,
   BoxTypes.DASHBOARD_LEADERBOARD,
+  BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS,
   // Adding default boxes MUST be accompanied by adding default box positions as well
 ];
 
