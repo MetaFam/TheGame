@@ -80,8 +80,8 @@ export const MegaMenuFooter = () => {
             <MenuList
               color="white"
               boxShadow="2xl"
-              bg="red"
               borderRadius="md"
+              bg="linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)"
               border={0}
               px={2}
               position="relative"

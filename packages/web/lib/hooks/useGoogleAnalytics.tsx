@@ -7,12 +7,12 @@ declare global {
   }
 }
 
-const { gaId, appEnv } = CONFIG;
+const { gaId, nodeEnv } = CONFIG;
 
 export const Analytics: React.FC = () => {
  
   React.useEffect(() => {
-    if (!gaId || appEnv !== 'production') {
+    if (!gaId || nodeEnv !== 'production') {
       return; // Explicitly return here
     }
     // Load Google Analytics script dynamically

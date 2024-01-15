@@ -2,6 +2,7 @@ import { Avatar, AvatarProps, useToast } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 import React, { useMemo } from 'react';
 import { getPlayerImage, hasImage } from 'utils/playerHelpers';
 
@@ -14,14 +15,11 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
   PlayerAvatarProps
 >(({ player: user, src, ...props }, ref) => {
   const player = user as Player;
-  const name = usePlayerName(player);
-  const avatarImg = useMemo(() => src ?? getPlayerImage(player), [player, src]);
-
   const toast = useToast();
 
   const attrs = {
-    src: avatarImg ?? undefined,
-    name: name ?? undefined,
+    src: useProfileImageOnload({ player }),
+    name: usePlayerName(player),
     color: 'white',
     ...props,
   };

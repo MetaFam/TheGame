@@ -88,33 +88,6 @@ export const DesktopFilters: React.FC<Props> = ({
     </WrapItem>
     <WrapItem>
       <MetaFilterSelectSearch
-        title="Type Of Player"
-        tagLabel={playerTypes.length > 0 ? playerTypes.length.toString() : ''}
-        styles={styles}
-        value={playerTypes}
-        hasValue={playerTypes.length > 0}
-        onChange={(values) => {
-          setPlayerTypes(values as ValueType[]);
-        }}
-        options={aggregates.playerTypes}
-      />
-    </WrapItem>
-    <WrapItem>
-      <MetaFilterSelectSearch
-        title="Skills"
-        tagLabel={skills.length > 0 ? skills.length.toString() : ''}
-        styles={styles}
-        value={skills}
-        hasValue={skills.length > 0}
-        onChange={(values) => {
-          setSkills(values as SkillOption[]);
-        }}
-        options={aggregates.skillChoices as LabeledOptions<string>[]}
-        showSearch
-      />
-    </WrapItem>
-    <WrapItem>
-      <MetaFilterSelectSearch
         title="Availability"
         tagLabel={availability ? `≥${availability.value}` : ''}
         styles={styles}

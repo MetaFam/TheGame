@@ -42,6 +42,7 @@ import { searchQuests } from 'graphql/getQuests';
 import { searchGuilds } from 'graphql/queries/guild';
 import { Patron } from 'graphql/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 import { useRouter } from 'next/router';
 import React, {
   FormEventHandler,
@@ -91,47 +92,53 @@ const Logo: React.FC<LogoProps> = ({ link, ...props }) => {
 interface OptionProps {
   text: string;
   name: string;
+  player?: Player;
   image?: string;
   onClick: () => void;
 }
 
-const Option = ({ onClick, name, image, text }: OptionProps) => (
-  <Box {...{ onClick }} as="li" role="option" sx={{ listStyleType: 'none' }}>
-    <Flex
-      _hover={{
-        background: 'rgba(0,0,0,0.56)',
-      }}
-      align="center"
-      px={3}
-      py={2}
-      cursor="pointer"
-      rounded="lg"
-    >
-      <Avatar
-        name={name}
-        src={httpLink(image)}
-        w={6}
-        h={6}
-        sx={{
-          '& > div': {
-            fontSize: 'xs',
-          },
+const Option = ({ onClick, name, player, text }: OptionProps) => {
+  const imageURL = useProfileImageOnload({ player });
+
+  return (
+    <Box {...{ onClick }} as="li" role="option" sx={{ listStyleType: 'none' }}>
+      <Flex
+        _hover={{
+          background: 'rgba(0,0,0,0.56)',
         }}
-      />
-      <Text
-        px={2}
-        color={'white'}
-        fontFamily="Exo 2"
-        fontWeight={400}
-        textOverflow="ellipsis"
-        overflow="hidden"
-        whiteSpace="nowrap"
+        align="center"
+        px={3}
+        py={2}
+        cursor="pointer"
+        rounded="lg"
       >
-        {text}
-      </Text>
-    </Flex>
-  </Box>
-);
+        <Avatar
+          {...{ name }}
+          src={imageURL}
+          w={6}
+          h={6}
+          sx={{
+            '& > div': {
+              fontSize: 'xs',
+            },
+          }}
+        />
+        <Text
+          px={2}
+          color="white"
+          fontFamily="Exo 2"
+          fontWeight={400}
+          textOverflow="ellipsis"
+          overflow="hidden"
+          whiteSpace="nowrap"
+        >
+          {text}
+        </Text>
+      </Flex>
+    </Box>
+  )
+  
+};
 
 const ResultsTitle = ({ children }: { children: ReactNode }) => (
   <Text
@@ -340,7 +347,7 @@ const SearchModal = ({
                           onClose();
                         }}
                         name={getPlayerName(player) ?? 'Unknown'}
-                        image={getPlayerImage(player)}
+                        player={player as Player}
                         text={
                           (getPlayerUsername(player as Maybe<Player>) ||
                             getPlayerName(player)) ??
@@ -398,7 +405,7 @@ const SearchModal = ({
                           onClose();
                         }}
                         name={getPlayerName(patron) ?? 'Unknown'}
-                        image={getPlayerImage(patron)}
+                        player={patron as Player}
                         text={
                           (getPlayerUsername(patron as Maybe<Patron>) ||
                             getPlayerName(patron)) ??
