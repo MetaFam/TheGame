@@ -41,22 +41,39 @@ export const QuestChainsPinned: React.FC = () => {
         Pinned Quest Chains
       </Text>
       {pinnedQuestChains.length > 0 ? (
-        <UnorderedList spacing={3}>
+        <Stack spacing={3}>
           {pinnedQuestChains.map((qc) => (
-            <ListItem key={qc.id}>
-              <MetaLink
-                href={`/academy/${formatUrl(
-                  extractQuestChainName(qc.questchain_id),
-                )}`}
+            <MetaLink
+              href={`/academy/${formatUrl(
+                extractQuestChainName(qc.questchain_id),
+              )}`}
+              key={qc.id}
+              w="100%"
+            >
+              <HStack
+                display="flex"
+                width="100%"
+                maxW="100%"
+                px={3}
+                py={2}
+                fontSize={['sm', 'md']}
+                flexFlow="row nowrap"
+                alignItems="center"
+                justifyContent="flex-start"
+                backgroundColor="blackAlpha.500"
+                borderRadius="md"
+                overflow="hidden"
+                _hover={{
+                  boxShadow: 'md',
+                  backgroundColor: 'blackAlpha.600',
+                }}
               >
-                <HStack>
-                  <Text>{extractQuestChainName(qc.questchain_id)}</Text>
-                  <GoLinkExternal />
-                </HStack>
-              </MetaLink>
-            </ListItem>
+                <Text>{extractQuestChainName(qc.questchain_id)}</Text>
+                <GoLinkExternal />
+              </HStack>
+            </MetaLink>
           ))}
-        </UnorderedList>
+        </Stack>
       ) : (
         <Text>
           You haven't started any Quest Chains yet. Visit the{' '}
