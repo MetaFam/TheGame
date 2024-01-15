@@ -18,6 +18,7 @@ import Image from 'next/image';
 import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
+import Script from 'next/script';
 
 const { userbackToken, honeybadgerAPIKey } = CONFIG;
 
@@ -70,8 +71,21 @@ const App: React.FC<WithUrqlProps> = ({
       <Web3ContextProvider {...{ resetUrqlClient }}>
         <ComposeDBContextProvider>
           <MegaMenu hide={pageProps.hideTopMenu}>
+            <Script
+              src="https://www.googletagmanager.com/gtag/js?id=G-B1NKK3Q1BP"
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){window.dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-B1NKK3Q1BP');
+              `}
+            </Script>
             <Component {...pageProps} />
-            <Analytics />
+            {/* <Analytics /> */}
           </MegaMenu>
         </ComposeDBContextProvider>
       </Web3ContextProvider>
