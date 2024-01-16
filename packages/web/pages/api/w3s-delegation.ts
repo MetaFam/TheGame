@@ -23,7 +23,7 @@ async function w3sDelegation(did: string) {
   const space = await client.addSpace(proof);
   await client.setCurrentSpace(space.did());
   console.debug({ space: space.did().toString(), audience: did })
-
+console.debug('proof parse', proof, space.did())
   const audience = DID.parse(did);
   const abilities = ['store/add', 'upload/add'];
   const expiration = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 24 hours from now
