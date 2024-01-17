@@ -27,6 +27,7 @@ export const CONFIG = {
   googleDataAPIKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN,
   web3StorageKey: process.env.WEB3_STORAGE_KEY,
+  web3StorageDID: process.env.NEXT_PUBLIC_WEB3_STORAGE_DID,
   web3StorageProof: process.env.WEB3_STORAGE_PROOF,
   openseaAPIKey: process.env.OPENSEA_API_KEY,
   alchemyAPIKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
