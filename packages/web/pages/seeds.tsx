@@ -1,13 +1,10 @@
 import {
   Accordion,
   AccordionButton,
-  AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  ArrowUpIcon,
   Box,
   Button,
-  Flex,
   Image,
   Link,
   LoadingState,
@@ -29,6 +26,42 @@ import { Water } from 'components/Seeds/Water';
 import { HeadComponent } from 'components/Seo';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
+import { HiOutlineMinusCircle, HiOutlinePlusCircle } from 'react-icons/hi';
+
+const CustomTab = ({ children }: { children: React.ReactNode }) => (
+  <Tab
+    w="full"
+    _selected={{ color: 'white', borderBottom: '2px inset white' }} // Customize selected tab style
+    color="gray.400" // Normal tab text color
+    _focus={{ boxShadow: 'none', backgroundColor: 'transparent' }} // Remove focus border
+    mb={0}
+    fontWeight={600}
+  >
+    {children}
+  </Tab>
+);
+
+const FAQItem = ({
+  question,
+  answer,
+}: {
+  question: string;
+  answer: string;
+}) => (
+  <AccordionItem>
+    {({ isExpanded }) => (
+      <>
+        <AccordionButton>
+          <Box flex="1" textAlign="left">
+            {question}
+          </Box>
+          {isExpanded ? <HiOutlineMinusCircle /> : <HiOutlinePlusCircle />}
+        </AccordionButton>
+        <AccordionPanel>{answer}</AccordionPanel>
+      </>
+    )}
+  </AccordionItem>
+);
 
 const SEEDsPage: React.FC = () => {
   const router = useRouter();
@@ -38,14 +71,14 @@ const SEEDsPage: React.FC = () => {
 
   useEffect(() => {
     if (imageRef.current) {
-      const height = imageRef.current.offsetHeight - 80;
+      const height = imageRef.current.offsetHeight - 100;
       setPaddingTop(height);
     }
   }, [imageRef]);
 
   const updatePaddingTop = () => {
     if (imageRef.current) {
-      const height = imageRef.current.offsetHeight - 80;
+      const height = imageRef.current.offsetHeight - 100;
       setPaddingTop(height);
     }
   };
@@ -59,10 +92,6 @@ const SEEDsPage: React.FC = () => {
 
   if (router.isFallback) {
     return <LoadingState />;
-  }
-
-  function handleBackClick() {
-    topRef?.current?.scrollIntoView({ behavior: 'smooth' });
   }
 
   return (
@@ -119,11 +148,15 @@ const SEEDsPage: React.FC = () => {
             other."
           </Text>
 
-          <Tabs variant="enclosed" align="center">
-            <TabList>
-              <Tab>Water</Tab>
-              <Tab>Plant</Tab>
-              <Tab>Trade</Tab>
+          <Tabs align="center">
+            <TabList
+              borderBottom="1px solid #2D2D2D"
+              justifyContent="space-between"
+              w="full"
+            >
+              <CustomTab>Water</CustomTab>
+              <CustomTab>Plant</CustomTab>
+              <CustomTab>Trade</CustomTab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -152,105 +185,66 @@ const SEEDsPage: React.FC = () => {
           </MetaHeading>
 
           <Accordion allowMultiple defaultIndex={[0]}>
-            <AccordionItem>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  WTF is planting & watering?
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel>
-                You are basically dollar-cost-averaging into a liquidity pool
-                containing 60% Seeds, 20% ETH & 20% RAI. This allows creators of
-                MetaGame to sell their Seeds & pay their bills, without
-                decreasing the value of Seeds. Saplings are the pool token &
-                your funds are used to create more of them by adding your funds
-                as liquidity. Trees are what replaces Seeds in the next phase of
-                MetaGame, when all those who planted & watered Seeds are
-                rewarded. Read more about MetaGame's tokenomics in the
-                Purplepaper.
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  What are Seeds & pSeeds used for?
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel>
-                Seeds are MetaGame’s labor token & pSeeds are the liquidity pool
-                token. All Seeds are retroactive rewards for work that already
-                happened. So far, the main usecase for Seeds has been
-                bootstrapping MetaGame. Even before they were available on the
-                market, we used Seeds to reward contributors. The need for
-                pSeeds came from the need of Seed holders to pay their bills.
-                pSeeds are currently used as the membership token for patrons
-                (passive contributors) and for creating quests on the platform.
-                Soon, they will also be used for: Upvoting playbooks & quests
-                Staking on reputation MetaGame’s services at a discount
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  Are there any perks?
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel>
-                Yes! Besides getting to join the community & use the tokens on
-                the platform - there are many perks to be unlocked by becoming a
-                patron. The patrons leaderboard is split into 5 ranked leagues,
-                with each league having it’s own unique set of perks as well as
-                including perks of the league below. You can go check out the
-                ranked league requirements & perks on the patrons leaderboard.
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  Is there a better way to become a patron?
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel>
-                There are multiple ways to become a patron - which one is better
-                depends on your wallet stats & wants. All ways to become a
-                patron: Subscribe via this page (easiest way for low stake)
-                Apply to buy directly from the multisig ($2k minimum) Manually
-                generate pSeeds & get an NFT (Patron’s Path)
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  Can you give me some token stats?
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel>
-                Sure! Here are some stats: Market cap: $150k Liquidity: $120k
-                Supply cap: 110k Total distributed: 90k
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  What comes after Seeds?
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel>
-                Both Seed & pSeed tokens will be retired once we enter the next
-                phase of MetaGame. All liquidity will be drained, and token
-                holders will receive Tree NFTs. It is said that Trees will be
-                yield bearing tokens, that Mone will grow on Trees. But not much
-                is known about these Tree NFTs, aside that pSeed holders will be
-                much more handsomely rewarded in the transition - their Trees
-                more plentiful & unique.
-              </AccordionPanel>
-            </AccordionItem>
+            <FAQItem
+              question="WTF is planting & watering?"
+              answer="You are basically dollar-cost-averaging into a liquidity
+                    pool containing 60% Seeds, 20% ETH & 20% RAI. This allows
+                    creators of MetaGame to sell their Seeds & pay their bills,
+                    without decreasing the value of Seeds. Saplings are the pool
+                    token & your funds are used to create more of them by adding
+                    your funds as liquidity. Trees are what replaces Seeds in
+                    the next phase of MetaGame, when all those who planted &
+                    watered Seeds are rewarded. Read more about MetaGame’s
+                    tokenomics in the Purplepaper."
+            />
+            <FAQItem
+              question="What are Seeds & pSeeds used for?"
+              answer="Seeds are MetaGame’s labor token & pSeeds are the liquidity
+                    pool token. All Seeds are retroactive rewards for work that
+                    already happened. So far, the main usecase for Seeds has
+                    been bootstrapping MetaGame. Even before they were available
+                    on the market, we used Seeds to reward contributors. The
+                    need for pSeeds came from the need of Seed holders to pay
+                    their bills. pSeeds are currently used as the membership
+                    token for patrons (passive contributors) and for creating
+                    quests on the platform. Soon, they will also be used for:
+                    Upvoting playbooks & quests Staking on reputation MetaGame’s
+                    services at a discount"
+            />
+            <FAQItem
+              question="Are there any perks?"
+              answer="Yes! Besides getting to join the community & use the tokens
+                    on the platform - there are many perks to be unlocked by
+                    becoming a patron. The patrons leaderboard is split into 5
+                    ranked leagues, with each league having it’s own unique set
+                    of perks as well as including perks of the league below. You
+                    can go check out the ranked league requirements & perks on
+                    the patrons leaderboard."
+            />
+            <FAQItem
+              question="Is there a better way to become a patron?"
+              answer="There are multiple ways to become a patron - which one is
+                    better depends on your wallet stats & wants. All ways to
+                    become a patron: Subscribe via this page (easiest way for
+                    low stake) Apply to buy directly from the multisig ($2k
+                    minimum) Manually generate pSeeds & get an NFT (Patron’s
+                    Path)"
+            />
+            <FAQItem
+              question="Can you give me some token stats?"
+              answer="Sure! Here are some stats: Market cap: $150k Liquidity:
+                    $120k Supply cap: 110k Total distributed: 90k"
+            />
+            <FAQItem
+              question="What comes after Seeds?"
+              answer="Both Seed & pSeed tokens will be retired once we enter the
+                    next phase of MetaGame. All liquidity will be drained, and
+                    token holders will receive Tree NFTs. It is said that Trees
+                    will be yield bearing tokens, that Mone will grow on Trees.
+                    But not much is known about these Tree NFTs, aside that
+                    pSeed holders will be much more handsomely rewarded in the
+                    transition - their Trees more plentiful & unique."
+            />
           </Accordion>
 
           <Stack
