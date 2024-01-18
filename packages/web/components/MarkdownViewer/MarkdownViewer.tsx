@@ -82,10 +82,13 @@ const markdownTheme: Components = {
   },
 };
 
-type MarkdownViewerProps = { children: string };
+type MarkdownViewerProps = { children: string; color?: string };
 
-const Viewer: React.FC<MarkdownViewerProps> = ({ children }) => (
-  <Box w="full" color="white">
+const Viewer: React.FC<MarkdownViewerProps> = ({
+  children,
+  color = 'white',
+}) => (
+  <Box w="full" color={color}>
     <ReactMarkdown
       components={{ ...ChakraUIRenderer(), ...markdownTheme }}
       remarkPlugins={[remarkGfm]}
