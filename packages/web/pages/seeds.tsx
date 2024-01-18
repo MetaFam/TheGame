@@ -150,7 +150,7 @@ const SEEDsPage: React.FC = () => {
           >
             Seeds
           </MetaHeading>
-          <Text>
+          <Text textAlign="center">
             Seeds are lifeblood of MetaGame; it’s how contributors get rewarded,
             it’s how patrons contribute, how we curate & how we reward each
             other."
