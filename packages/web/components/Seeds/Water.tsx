@@ -13,6 +13,7 @@ import Droplet1 from 'assets/seeds/droplet1.png';
 import Droplet2 from 'assets/seeds/droplet2.png';
 import SeedsIcon from 'assets/seeds/plant.svg';
 import React, { useState } from 'react';
+import { GoLinkExternal } from 'react-icons/go';
 
 export const Water: React.FC = () => {
   const amounts = [8, 50, 100, 1000, 'Custom amount'];
@@ -117,7 +118,7 @@ export const Water: React.FC = () => {
         )}
       </HStack>
 
-      <Link
+      {/* <Link
         href=""
         color="pink.200"
         textAlign="center"
@@ -129,20 +130,19 @@ export const Water: React.FC = () => {
         textDecoration="underline"
       >
         Enter referral
-      </Link>
+      </Link> */}
 
       <Button
-        onClick={() =>
-          waterWith(
-            selectedAmount === 'Custom amount'
-              ? Number(customAmount)
-              : Number(selectedAmount),
-          )
-        }
+        as={Link}
+        href="https://checkout.superfluid.finance/QmfTXxap8ayojDufpcvSaDHNC43qEYV8Whio6JZ7r8x1PM"
+        target="_blank"
         borderRadius={8}
         colorScheme="purple"
+        rightIcon={<GoLinkExternal />}
       >
-        Water with $8/month *
+        Water with $
+        {selectedAmount === 'Custom amount' ? customAmount : selectedAmount}
+        /month *
       </Button>
 
       <Text>
@@ -160,8 +160,8 @@ export const Water: React.FC = () => {
         fontWeight={400}
         lineHeight="24px"
       >
-        * The first $8 goes to cover the membership fee. The rest of the
-        selected amount will be returned in tokens.
+        * The first $8 goes to cover the membership fee. <br />
+        The rest of the selected amount will be returned in tokens.
       </Text>
     </VStack>
   );
