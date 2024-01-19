@@ -55,7 +55,6 @@ import { errorHandler } from 'utils/errorHandler';
 import { getImageDimensions } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
 import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
-import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
 import { EditAvatarImage } from './Player/Profile/EditAvatarImage';
@@ -63,7 +62,6 @@ import { EditBackgroundImage } from './Player/Profile/EditBackgroundImage';
 import { EditDescription } from './Player/Profile/EditDescription';
 import { Label } from './Player/Profile/Label';
 import MeetWithWalletProfileEdition from './Player/Profile/MeetWithWalletProfileEdition';
-import { useW3upClient } from 'lib/hooks/useW3';
 
 type EditProfileFields = {
   profileImageURL?: Maybe<string>;
@@ -187,7 +185,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       if (Object.keys(pickedFiles).length > 0) {
         setStatus('Uploading images to web3.storage…');
 
-        //const rootCID = await uploadFiles(Object.values(pickedFiles));
         const rootCID = await w3storage?.uploadDirectory(Object.values(pickedFiles))
         await Promise.all(
           Object.entries(pickedFileDataURLs).map(async ([key, val]) => {
@@ -500,50 +497,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              {/* <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.location}>
-                  <Label htmlFor="location">Location</Label>
-                  <Input
-                    id="location"
-                    w="100%"
-                    placeholder="Laniakea Supercluster"
-                    {...register('location', {
-                      maxLength: {
-                        value: 140,
-                        message: 'Maximum length is 140 characters.',
-                      },
-                    })}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.location?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem> */}
-              {/* <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.emoji}>
-                  <Label htmlFor="emoji">Spirit Emoji</Label>
-                  <Input
-                    id="emoji"
-                    placeholder="🗽"
-                    _placeholder={{ opacity: 0.75 }}
-                    minW="inherit"
-                    w="100%"
-                    {...register('emoji', {
-                      maxLength: {
-                        value: 2,
-                        message: 'Maximum length is 2 characters.',
-                      },
-                    })}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.emoji?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem> */}
               <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
                   <Label>Meeting Calendar</Label>
