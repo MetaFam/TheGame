@@ -3,15 +3,16 @@ import { importDAG } from "@ucanto/core/delegation";
 import * as Signer from "@ucanto/principal/ed25519";
 import * as Client from "@web3-storage/w3up-client";
 import { StoreMemory } from "@web3-storage/access/stores/store-memory";
+import { CONFIG } from 'config';
 
-const principal = Signer.parse("pLEASE FIX ME");
+const principal = Signer.parse(CONFIG.web3StorageKey || "Please verify key exists prior to uploading.");
 
 const initClient = async () => {
   // Add proof that this agent has been delegated capabilities on the space
   const client = await Client.create({ principal, store: new StoreMemory() });
   const space = client.spaces().find((space) => space.name === "metagame");
   if (!space) {
-    const proof = parseProof("ahhhhh");
+    const proof = parseProof(CONFIG.web3StorageProof || 'Please verify proof exists prior to uploading.');
     const space = await client.addSpace(proof);
     await client.setCurrentSpace(space.did());
   }

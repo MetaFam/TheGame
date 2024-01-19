@@ -1,6 +1,5 @@
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
 import { did, Maybe } from '@metafam/utils';
-import { Client as W3SClient } from '@web3-storage/w3up-client';
 import {
   clearDIDSessionCache,
   clearToken,
@@ -19,7 +18,6 @@ import React, {
 import { errorHandler } from 'utils/errorHandler';
 import { providerOptions } from 'utils/walletOptions';
 import Web3Modal from 'web3modal';
-import { useW3upClient } from 'lib/hooks/useW3';
 
 export type Web3ContextType = {
   provider: Maybe<Web3Provider>;
@@ -31,7 +29,6 @@ export type Web3ContextType = {
   connecting: boolean;
   connected: boolean;
   isMetaMask: boolean;
-  w3storage: Maybe<W3SClient>;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
@@ -44,7 +41,6 @@ export const Web3Context = createContext<Web3ContextType>({
   connecting: false,
   connected: false,
   isMetaMask: false,
-  w3storage: null,
 });
 
 const web3Modal =
@@ -91,7 +87,6 @@ type Web3State = {
   address: Maybe<string>;
   chainId: Maybe<string>;
   authToken: Maybe<string>;
-  w3storage: Maybe<W3SClient>;
 };
 
 export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
@@ -105,10 +100,9 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       address: null,
       chainId: null,
       authToken: null,
-      w3storage: null,
     });
   const [connecting, setConnecting] = useState(false);
-  const w3storage = useW3upClient();
+
   const connected = useMemo(
     () =>
       !!wallet &&
@@ -133,7 +127,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       address: null,
       chainId: null,
       authToken: null,
-      w3storage: null,
     });
     setConnecting(false);
     resetUrqlClient?.();
@@ -159,7 +152,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         chainId: networkId,
         address: addr,
         authToken: token,
-        w3storage,
       });
 
       resetUrqlClient?.();
@@ -222,7 +214,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         authToken,
         chainId,
         isMetaMask,
-        w3storage,
       }}
     >
       {children}
