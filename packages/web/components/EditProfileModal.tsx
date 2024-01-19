@@ -63,7 +63,6 @@ import { EditBackgroundImage } from './Player/Profile/EditBackgroundImage';
 import { EditDescription } from './Player/Profile/EditDescription';
 import { Label } from './Player/Profile/Label';
 import MeetWithWalletProfileEdition from './Player/Profile/MeetWithWalletProfileEdition';
-import { useW3upClient } from 'lib/hooks/useW3';
 
 type EditProfileFields = {
   profileImageURL?: Maybe<string>;
@@ -107,7 +106,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const { username } = player.profile ?? {};
   const { save } = useSaveToComposeDB();
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
-  //const del = useW3upClient('Please verify space did exists prior to calling')
+
   const initialFormValues = useMemo(
     () => getDefaultFormValues(player),
     [player],
