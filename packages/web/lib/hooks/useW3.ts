@@ -1,7 +1,7 @@
-import { delegate } from "pages/api/w3up-client";
 import { Client } from "@web3-storage/w3up-client";
-import { useState, useEffect } from "react";
 import { CONFIG } from "config";
+import { delegate } from "pages/api/w3up-client";
+import { useEffect,useState } from "react";
 
 export function useW3upClient() {
   const [w3upClient, setW3upClient] = useState<Client | null>(null);
