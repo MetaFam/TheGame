@@ -8,6 +8,7 @@ import {
   getTokenFromStore,
   setTokenInStore,
 } from 'lib/auth';
+import { useW3upClient } from 'lib/hooks/useW3';
 import React, {
   createContext,
   PropsWithChildren,
@@ -19,7 +20,6 @@ import React, {
 import { errorHandler } from 'utils/errorHandler';
 import { providerOptions } from 'utils/walletOptions';
 import Web3Modal from 'web3modal';
-import { useW3upClient } from 'lib/hooks/useW3';
 
 export type Web3ContextType = {
   provider: Maybe<Web3Provider>;
@@ -164,7 +164,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
       resetUrqlClient?.();
     },
-    [resetUrqlClient],
+    [resetUrqlClient, w3storage],
   );
 
   const connect = useCallback(async () => {
