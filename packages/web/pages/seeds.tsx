@@ -5,7 +5,7 @@ import {
   AccordionPanel,
   Box,
   Button,
-  Image,
+  Image as ChakraImage,
   Link,
   LoadingState,
   MetaHeading,
@@ -69,31 +69,16 @@ const FAQItem = ({
 const SEEDsPage: React.FC = () => {
   const router = useRouter();
   const topRef = useRef<HTMLDivElement>(null);
-  const [paddingTop, setPaddingTop] = useState(0);
   const imageRef = useRef<HTMLImageElement | null>(null);
+  const [isImageLoaded, setIsImageLoaded] = useState(true);
 
   useEffect(() => {
-    if (imageRef.current) {
-      const height = imageRef.current.offsetHeight - 100;
-      setPaddingTop(height);
-    }
-  }, [imageRef]);
-
-  const updatePaddingTop = () => {
-    if (imageRef.current) {
-      const height = imageRef.current.offsetHeight - 100;
-      setPaddingTop(height);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', updatePaddingTop);
-    updatePaddingTop();
-
-    return () => window.removeEventListener('resize', updatePaddingTop);
+    const img = new Image();
+    img.src = Background.src;
+    img.onload = () => setIsImageLoaded(true);
   }, []);
 
-  if (router.isFallback) {
+  if (router.isFallback || !isImageLoaded) {
     return <LoadingState />;
   }
 
@@ -102,7 +87,7 @@ const SEEDsPage: React.FC = () => {
       <VStack
         h="full"
         w="full"
-        spacing={{ base: 4, md: 20 }}
+        spacing={{ base: 4 }}
         bg="linear-gradient(to bottom, #080219 80%, transparent 100%)"
       >
         <HeadComponent
@@ -111,28 +96,20 @@ const SEEDsPage: React.FC = () => {
           url="https://metagame.wtf/seeds"
         />
 
-        <Image
+        <ChakraImage
           ref={imageRef}
-          pos="absolute"
           src={Background.src}
           alt="Seeds"
           w="full"
-          mx="auto"
           mb={8}
-          top="-50px"
-          onLoad={() => {
-            if (imageRef.current) {
-              const height = imageRef.current.offsetHeight;
-              setPaddingTop(height);
-            }
-          }}
+          // mt="-150px"
         />
 
         <Stack
           w="full"
           maxW="3xl"
           ref={topRef}
-          pt={`${paddingTop}px`}
+          mt={-10}
           zIndex={1}
           gap={8}
           pb={20}
