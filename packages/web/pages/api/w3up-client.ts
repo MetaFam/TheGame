@@ -1,27 +1,24 @@
-import { CAR,DID } from "@ucanto/core";
+import { DID, CAR } from "@ucanto/core";
 import { importDAG } from "@ucanto/core/delegation";
 import * as Signer from "@ucanto/principal/ed25519";
-import { StoreMemory } from "@web3-storage/access/stores/store-memory";
 import * as Client from "@web3-storage/w3up-client";
+import { StoreMemory } from "@web3-storage/access/stores/store-memory";
 
-const principal = process.env.NEXT_PUBLIC_WEB3_STORAGE_KEY && Signer.parse(process.env.NEXT_PUBLIC_WEB3_STORAGE_KEY);
+const principal = Signer.parse("pLEASE FIX ME");
 
 const initClient = async () => {
-  if (!principal) {
-    throw new Error("WEB3_STORAGE_KEY must be set");
-  }
   // Add proof that this agent has been delegated capabilities on the space
   const client = await Client.create({ principal, store: new StoreMemory() });
-  const space = client.spaces().find((s) => s.name === "metagame");
+  const space = client.spaces().find((space) => space.name === "metagame");
   if (!space) {
-    const proof = parseProof(process.env.NEXT_PUBLIC_WEB3_STORAGE_PROOF || '');
+    const proof = parseProof("ahhhhh");
     const space = await client.addSpace(proof);
     await client.setCurrentSpace(space.did());
   }
   return client;
 };
 
-/** data is a Base64 encoded CAR file */
+/**data is a Base64 encoded CAR file */
 function parseProof(data: string) {
   const car = CAR.decode(Buffer.from(data, "base64"));
   return importDAG(car.blocks.values());

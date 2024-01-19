@@ -27,12 +27,12 @@ import {
   useAddGuildLinkMutation,
   useAddGuildMemberMutation,
 } from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks';
 import { useImageReader } from 'lib/hooks/useImageReader';
 import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { CombinedError } from 'urql';
 import { errorHandler } from 'utils/errorHandler';
+import { uploadFile } from 'utils/uploadHelpers';
 
 export type NewUnverifiedGuild = {
   error?: CombinedError;
@@ -131,7 +131,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
   const [loading, setLoading] = useState(true);
   const [errored, setErrored] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { w3storage } = useWeb3();
+
   const [watchedFormValues, setWatchedFormValues] =
     useState<CreateGuildFormInputs | null>(null);
 
@@ -173,8 +173,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
 
       if (logoFile?.[0]) {
         try {
-
-          const ipfsHash = await w3storage?.uploadFile(logoFile[0])
+          const ipfsHash = await uploadFile(logoFile[0]);
           newLogoURL = `ipfs://${ipfsHash}`;
         } catch (error) {
           toast({
@@ -254,7 +253,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         setIsSubmitting(false);
       }
     },
-    [toast, onSubmit, hydratePlayer, addGuildMember, player?.id, addLink, w3storage],
+    [toast, onSubmit, hydratePlayer, addGuildMember, player?.id, addLink],
   );
 
   return (

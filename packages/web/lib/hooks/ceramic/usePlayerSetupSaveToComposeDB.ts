@@ -11,10 +11,10 @@ import { CeramicError } from 'lib/errors';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { getImageDimensions } from 'utils/imageHelpers';
+import { uploadFile } from 'utils/uploadHelpers';
 
 import { FileReaderData } from '../useImageReader';
 import { useUser } from '../useUser';
-import { useWeb3 } from '../useWeb3';
 import { useSaveToComposeDB } from './useSaveToComposeDB';
 
 export type PlayerSetupSaveToComposeDBProps = {
@@ -32,7 +32,7 @@ export function usePlayerSetupSaveToComposeDB({
   const { user } = useUser();
   const { onNextPress } = useSetupFlow();
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
-  const { w3storage } = useWeb3();
+
   const { save: saveToComposeDB, status: saveStatus } = useSaveToComposeDB();
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
 
@@ -62,7 +62,7 @@ export function usePlayerSetupSaveToComposeDB({
 
             const { file, dataURL } = fileData;
 
-            const ipfsHash = await w3storage?.uploadFile(file);
+            const ipfsHash = await uploadFile(file);
 
             setStatus('Calculating image metadata…');
 
@@ -119,7 +119,6 @@ export function usePlayerSetupSaveToComposeDB({
       saveToComposeDB,
       toast,
       user,
-      w3storage,
     ],
   );
 
