@@ -12,6 +12,7 @@ import {
 import { Maybe, Optional } from '@metafam/utils';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
+import { useW3upClient } from 'lib/hooks/useW3';
 import { forwardRef, useCallback, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
@@ -27,7 +28,7 @@ export const EditAvatarImage = forwardRef<
 >(({ initialURL, onFilePicked }, ref) => {
   const toast = useToast();
   const readFile = useImageReader();
-
+  // const del = useW3upClient('did:key:z6MkgSqgKhSscJfmSWvcBf4DmmRhGHnb5L3E3h4gMbRoA5Cw')
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [url, setURL] = useState<Optional<string>>(

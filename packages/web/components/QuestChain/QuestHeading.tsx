@@ -140,7 +140,7 @@ const Heading: React.FC<Props> = ({ name, questChain, canMint, refresh }) => (
           color="white"
           href={`${QUEST_CHAINS_HOST}/chain/${questChain.chainId}/${questChain.address}`}
         >
-          <Tooltip label="View on Quest Chains">
+          <Tooltip label="View on Playbooks">
             <Flex w="full" gap={4} role="group" position="relative">
               <Text
                 fontSize={{ base: '3xl', lg: '7xl' }}
