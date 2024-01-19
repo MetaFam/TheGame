@@ -55,7 +55,6 @@ import { errorHandler } from 'utils/errorHandler';
 import { getImageDimensions } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
 import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
-import { uploadFiles } from 'utils/uploadHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
 import { EditAvatarImage } from './Player/Profile/EditAvatarImage';
@@ -106,7 +105,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const { username } = player.profile ?? {};
   const { save } = useSaveToComposeDB();
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
-
+  const { w3storage } = useWeb3();
   const initialFormValues = useMemo(
     () => getDefaultFormValues(player),
     [player],
@@ -174,8 +173,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         return null;
       }
 
-      const formData = new FormData();
-
       const changedInputs = Object.fromEntries(
         Object.entries(inputs).filter(([key]) => !isHasuraImageField(key)),
       );
@@ -185,51 +182,31 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         hasuraImageFields.map((field) => [field, null]),
       ) as Record<HasuraImageFieldKey, Maybe<ComposeDBImageMetadata>>;
 
-      const toType = (key: string) => {
-        const match = key.match(/^(.+?)(Image)?(URL)$/i);
-        const [name] = match?.slice(1) ?? ['unknown'];
-        return name;
-      };
-
       if (Object.keys(pickedFiles).length > 0) {
         setStatus('Uploading images to web3.storage…');
 
-        // Upload all the files to /api/storage
-        Object.entries(pickedFiles).forEach(([key, file]) => {
-          formData.append(toType(key), file);
-        });
-        const response = await uploadFiles(formData);
-
+        const rootCID = await w3storage?.uploadDirectory(Object.values(pickedFiles))
         await Promise.all(
           Object.entries(pickedFileDataURLs).map(async ([key, val]) => {
-            const tKey = toType(key);
-            if (!response[tKey]) {
-              toast({
-                title: 'Error Saving Image',
-                description: `Uploaded "${tKey}" & didn't get a response back.`,
-                status: 'warning',
-                isClosable: true,
-                duration: 8000,
-              });
-            } else {
-              setStatus('Calculating image metadata…');
-              const mime = getMimeType(val);
-              const file = pickedFiles[key as HasuraImageFieldKey];
-
-              const imageMetadata = {
-                url: `ipfs://${response[tKey]}`,
-                mimeType: mime,
-                size: file?.size,
-              } as ComposeDBImageMetadata;
-
-              const { width, height } = await getImageDimensions(val);
-              if (width && height) {
-                imageMetadata.width = width;
-                imageMetadata.height = height;
-              }
-
-              profileImages[key as HasuraImageFieldKey] = imageMetadata;
+            setStatus('Calculating image metadata…');
+            const file = pickedFiles[key as HasuraImageFieldKey];
+            if (!file) {
+              throw new Error(`No \`file\` for "${key}".`);
             }
+
+            const imageMetadata = {
+              url: `ipfs://${rootCID}/${file.name}`,
+              mimeType: getMimeType(val),
+              size: file.size,
+            } as ComposeDBImageMetadata;
+
+            const { width, height } = await getImageDimensions(val);
+            if (width && height) {
+              imageMetadata.width = width;
+              imageMetadata.height = height;
+            }
+
+            profileImages[key as HasuraImageFieldKey] = imageMetadata;
           }),
         );
       }
@@ -520,50 +497,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              {/* <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.location}>
-                  <Label htmlFor="location">Location</Label>
-                  <Input
-                    id="location"
-                    w="100%"
-                    placeholder="Laniakea Supercluster"
-                    {...register('location', {
-                      maxLength: {
-                        value: 140,
-                        message: 'Maximum length is 140 characters.',
-                      },
-                    })}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.location?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem> */}
-              {/* <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.emoji}>
-                  <Label htmlFor="emoji">Spirit Emoji</Label>
-                  <Input
-                    id="emoji"
-                    placeholder="🗽"
-                    _placeholder={{ opacity: 0.75 }}
-                    minW="inherit"
-                    w="100%"
-                    {...register('emoji', {
-                      maxLength: {
-                        value: 2,
-                        message: 'Maximum length is 2 characters.',
-                      },
-                    })}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.emoji?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem> */}
               <GridItem gridColumn={'1/-1'} alignItems="center">
                 <FormControl>
                   <Label>Meeting Calendar</Label>
