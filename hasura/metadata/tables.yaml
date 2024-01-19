@@ -447,8 +447,20 @@
     - role: player
       permission:
         columns:
+          - description
+          - guildname
+          - join_button_url
+          - logo
+          - name
+          - profile_layout
+          - sort_position
+          - type
           - updated_at
-        filter: {}
+          - website_url
+        filter:
+          metadata:
+            creator_id:
+              _eq: X-Hasura-User-Id
         check: null
   event_triggers:
     - name: syncDiscordGuildMembers
