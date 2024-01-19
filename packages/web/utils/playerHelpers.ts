@@ -21,21 +21,16 @@ import { optimizedImage } from './imageHelpers';
 
 export const getPlayerImage = (
   player?: Maybe<Player | GuildPlayer | Patron>,
-): string => {
+) => {
   const key = 'profileImageURL';
   const link = optimizedImage(key, player?.profile?.[key]);
+  const svg = toSvg(getPlayerName(player), 200);
+  const blob = new Blob([svg], { type: 'image/svg+xml' });
+  const profileIcon = URL.createObjectURL(blob);
 
-  if (link) return link;
-
-  const { ethereumAddress } = player ?? {};
-  if (ethereumAddress) {
-    const svg = toSvg(ethereumAddress, 200);
-    const blob = new Blob([svg], { type: 'image/svg+xml' });
-    return URL.createObjectURL(blob);
-  }
-
-  return ProfileIcon;
+  return { profileIcon, link };
 };
+
 
 export const getPlayerBanner = (player: Maybe<Player>): string => {
   const key = 'bannerImageURL';

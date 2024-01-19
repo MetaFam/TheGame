@@ -12,14 +12,37 @@ import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
 import { useMounted } from 'lib/hooks';
-import { Analytics } from 'lib/hooks/useGoogleAnalytics';
 import Head from 'next/head';
 import Image from 'next/image';
+import Script from 'next/script';
 import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
 const { userbackToken, honeybadgerAPIKey } = CONFIG;
+
+const Analytics: React.FC = () => {
+  if (!CONFIG.gaId || CONFIG.nodeEnv !== 'production') return <></>
+  return (
+    <>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${CONFIG.gaId}', {
+            page_path: window.location.pathname,
+          });
+        `}
+      </Script>
+    </>
+  );
+}
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
@@ -70,8 +93,8 @@ const App: React.FC<WithUrqlProps> = ({
       <Web3ContextProvider {...{ resetUrqlClient }}>
         <ComposeDBContextProvider>
           <MegaMenu hide={pageProps.hideTopMenu}>
-            <Component {...pageProps} />
             <Analytics />
+            <Component {...pageProps} />
           </MegaMenu>
         </ComposeDBContextProvider>
       </Web3ContextProvider>

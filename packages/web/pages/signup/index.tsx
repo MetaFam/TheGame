@@ -73,7 +73,7 @@ const Onboarding: React.FC = () => {
         cardStyle="summary_large_image"
       />
       <LandingHeader />
-      <PageContainer p={0}>
+      <PageContainer p={0} overflowX="hidden" minHeight={{ base: '120%', lg: '100%' }}>
         <Signup />
         <SocialsDesktop />
       </PageContainer>

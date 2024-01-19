@@ -27,6 +27,7 @@ import { useUser } from 'lib/hooks';
 import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
@@ -164,7 +165,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     [player],
   );
 
-  const avatarImg = useMemo(() => getPlayerImage(player), [player]);
+  const imageURL = useProfileImageOnload({ player });
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -199,7 +200,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
         title={`Profile: ${header}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={linkURL}
-        img={avatarImg}
+        img={imageURL}
       />
       {banner != null ? (
         <Box

@@ -24,7 +24,7 @@ import { UserGrid } from './UserGrid';
 const elders = [
   {
     name: 'Griff Green',
-    img: 'https://pbs.twimg.com/profile_images/1639672195981926401/FecL3AYi_400x400.jpg',
+    img: 'https://i.imgur.com/DIX26Sl.jpg',
     link: 'https://twitter.com/thegrifft',
   },
   {
@@ -34,17 +34,17 @@ const elders = [
   },
   {
     name: 'James Young',
-    img: 'https://pbs.twimg.com/profile_images/1441126892623458304/dxwcOlSg_400x400.jpg',
+    img: 'https://i.imgur.com/HVNMGXC.jpg',
     link: 'https://twitter.com/jamesyoung',
   },
   {
     name: 'Hanzi Freinacht',
-    img: 'https://pbs.twimg.com/profile_images/1339720086261800960/vdrivSWI_400x400.jpg',
+    img: 'https://i.imgur.com/p3mDmJ2.jpg',
     link: 'https://twitter.com/HFreinacht',
   },
   {
     name: 'Jeremy Akers',
-    img: 'https://pbs.twimg.com/profile_images/1661292382032207873/NRDsrDS1_400x400.jpg',
+    img: 'https://i.imgur.com/4dD03FZ.jpg',
     link: 'https://twitter.com/gospelofchange',
   },
   {
@@ -95,6 +95,7 @@ export const WhoAreWe: React.FC<
         height="100%"
         alignItems={{ base: 'flex-start', xl: 'center' }}
         justifyContent="center"
+        padding="2em"
       >
         <Box
           {...{ ref }}
@@ -126,6 +127,7 @@ export const WhoAreWe: React.FC<
           transition={
             'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in'
           }
+          overflow={{ base: 'visible', lg: 'hidden' }}
           sx={{
             h2: {
               position: { base: 'unset', lg: 'absolute' },
@@ -143,6 +145,7 @@ export const WhoAreWe: React.FC<
               },
             },
           }}
+          padding="2em"
         >
           <Text as="h2" fontWeight="700">
             Who we are?

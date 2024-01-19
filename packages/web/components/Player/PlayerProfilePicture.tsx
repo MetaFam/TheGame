@@ -2,8 +2,7 @@ import type { AvatarProps } from '@metafam/ds';
 import { SquareImage } from 'components/SquareImage';
 import type { Player } from 'graphql/autogen/types';
 import type { GuildPlayer } from 'graphql/types';
-import React, { useMemo } from 'react';
-import { getPlayerImage } from 'utils/playerHelpers';
+import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 
 type PlayerProfilePictureProps = AvatarProps & {
   player?: Player | GuildPlayer;
@@ -14,11 +13,11 @@ export const PlayerProfilePicture: React.FC<PlayerProfilePictureProps> = ({
   src,
   ...props
 }) => {
-  const avatarImg = useMemo(() => src ?? getPlayerImage(player), [player, src]);
+  const imageURL = useProfileImageOnload({ player });
 
   return (
     <>
-      <SquareImage src={avatarImg ?? undefined} {...props} />
+      <SquareImage src={imageURL} {...props} />
     </>
   );
 };

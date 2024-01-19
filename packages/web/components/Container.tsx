@@ -59,6 +59,7 @@ export const FullPageContainer: React.FC<
     bgPosition="center"
     bgAttachment="fixed"
     bgSize="cover"
+    overflowX="hidden"
     spacing={0}
     p={{ base: 4, md: 8, lg: 12 }}
     sx={{

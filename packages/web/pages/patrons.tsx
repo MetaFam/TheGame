@@ -112,7 +112,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
   }
 
   return (
-    <PageContainer>
+    <PageContainer overflow="hidden">
       <HeadComponent
         title="Patrons"
         description="MetaGame is a Massive Online Coordination Game! MetaGame’s Patrons enable us to succeed by helping us with funds."
@@ -132,8 +132,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
           fontSize={{ base: 'sm', md: 'md' }}
           fontWeight={{ base: '400', md: '700' }}
           marginTop={{ base: 3, sm: 0 }}
-          w="100%"
-          maxW="4xl"
+          w="80vw"
         >
           <Text as="p" textAlign="center">
             Want to get on this leaderboard and rank high? Why not{' '}

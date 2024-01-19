@@ -34,6 +34,7 @@ export const BoxTypes = {
   DASHBOARD_CALENDER: 'dashboard-calendar',
   DASHBOARD_LEADERBOARD: 'dashboard-leaderboard',
   DASHBOARD_COMPLETED_QUESTS: 'dashboard-completed-quests',
+  DASHBOARD_PINNED_QUEST_CHAINS: 'pinned-quest-chains',
   DASHBOARD_CREATED_QUESTS: 'dashboard-created-quests',
   // Common Boxes
   ADD_NEW_BOX: 'add-new-box',

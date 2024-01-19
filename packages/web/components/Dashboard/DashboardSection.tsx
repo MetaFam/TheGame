@@ -12,6 +12,7 @@ import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 import { isBoxResizable } from 'utils/layoutHelpers';
 
+import { QuestChainsPinned } from './QuestChainsPinned';
 import { DashboardQuestsCompleted } from './QuestsCompleted';
 import { DashboardQuestsCreated } from './QuestsCreated';
 
@@ -41,6 +42,8 @@ const DashboardSectionInner: React.FC<Props> = ({
       return <Leaderboard />;
     case BoxTypes.DASHBOARD_COMPLETED_QUESTS:
       return <DashboardQuestsCompleted />;
+    case BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS:
+      return <QuestChainsPinned />;
     case BoxTypes.DASHBOARD_CREATED_QUESTS:
       return <DashboardQuestsCreated />;
     case BoxTypes.EMBEDDED_URL: {

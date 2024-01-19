@@ -1,5 +1,6 @@
 export const CONFIG = {
   appEnv: process.env.APP_ENV || 'development',
+  nodeEnv: process.env.NODE_ENV || 'development',
   graphqlURL:
     process.env.NEXT_PUBLIC_GRAPHQL_URL || 'http://localhost:8080/v1/graphql',
   infuraId:
