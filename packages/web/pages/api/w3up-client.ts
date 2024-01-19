@@ -15,8 +15,8 @@ const initClient = async () => {
   const space = client.spaces().find((s) => s.name === "metagame");
   if (!space) {
     const proof = parseProof(process.env.NEXT_PUBLIC_WEB3_STORAGE_PROOF || '');
-    const space = await client.addSpace(proof);
-    await client.setCurrentSpace(space.did());
+    const spaceProof = await client.addSpace(proof);
+    await client.setCurrentSpace(spaceProof.did());
   }
   return client;
 };

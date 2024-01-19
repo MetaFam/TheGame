@@ -36,6 +36,7 @@
     "@urql/exchange-retry": "^1.2.0",
     "@userback/react": "^0.1.4",
     "@walletconnect/web3-provider": "1.7.3",
+    "@web3-storage/access": "^18.1.1",
     "@web3-storage/w3up-client": "^12.0.0",
     "busboy": "1.6.0",
     "chakra-ui-markdown-renderer": "^4.1.0",
