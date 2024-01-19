@@ -9,11 +9,11 @@ import {
   useGetGuildQuery,
   useUpdateGuildMutation,
 } from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { useCallback } from 'react';
 import { errorHandler } from 'utils/errorHandler';
+import { uploadFile } from 'utils/uploadHelpers';
 
 const SetupGuild: React.FC = () => {
   const router = useRouter();
@@ -24,7 +24,7 @@ const SetupGuild: React.FC = () => {
   const [updateGuildState, updateGuild] = useUpdateGuildMutation();
   const [res] = useGetGuildQuery({ variables: { guildname: guildNameRouter } });
   const guild = res.data?.guild[0];
-  const { w3storage } = useWeb3();
+
   const onSubmit = useCallback(
     async (editGuildFormInputs: EditGuildFormInputs) => {
       if (!guild) return;
@@ -50,7 +50,7 @@ const SetupGuild: React.FC = () => {
 
       if (logoFile?.[0]) {
         try {
-          const ipfsHash = await w3storage?.uploadFile(logoFile[0]);
+          const ipfsHash = await uploadFile(logoFile[0]);
           newLogoURL = `ipfs://${ipfsHash}`;
         } catch (error) {
           toast({
@@ -130,7 +130,7 @@ const SetupGuild: React.FC = () => {
         });
       }
     },
-    [guild, router, toast, updateGuild, addLink, w3storage],
+    [guild, router, toast, updateGuild, addLink],
   );
 
   if (res.fetching || res.data == null) {
