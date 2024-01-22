@@ -10,7 +10,7 @@ const initClient = async () => {
   if (!principal) {
     throw new Error("WEB3_STORAGE_KEY must be set");
   }
-  // Add proof that this agent has been delegated capabilities on the space
+  // Add proof that this agent has been delegated capabilities on the space, load space if exists
   const client = await Client.create({ principal, store: new StoreMemory() });
   const space = client.spaces().find((s) => s.name === "metagame");
   if (!space) {
