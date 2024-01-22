@@ -156,6 +156,7 @@ export const PlayerFilter: React.FC<Props> = ({
 
   // Adds/removes styles to the search and filters container
   function toggleStickyStyles() {
+    return searchFiltersStickyStyles;
     if (isSticky && !isSmallScreen) {
       return searchFiltersStickyStyles;
     }
@@ -177,6 +178,7 @@ export const PlayerFilter: React.FC<Props> = ({
     px: '2.5em',
     py: '1em',
     w: '98vw',
+    top: '-3rem',
   };
 
   // How it looks when it's not sticky
