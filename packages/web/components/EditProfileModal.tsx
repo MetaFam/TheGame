@@ -266,7 +266,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     <Modal {...{ isOpen, onClose }}>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-        <ModalHeader>Edit Profile</ModalHeader>
+        <ModalHeader>Edit Profile test</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormProvider {...formMethods}>
