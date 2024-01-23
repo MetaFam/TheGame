@@ -148,6 +148,9 @@ jobs:
             GCAL_CLIENT_EMAIL=${{secrets.GCAL_CLIENT_EMAIL}}
             GCAL_PROJECT_NUMBER=${{secrets.GCAL_PROJECT_NUMBER}}
             GCAL_CALENDAR_ID=${{secrets.GCAL_CALENDAR_ID}}
+            WEB3_STORAGE_DID=${{secrets.WEB3_STORAGE_DID}}
+            WEB3_STORAGE_PROOF=${{secrets.WEB3_STORAGE_PROOF}}
+            WEB3_STORAGE_KEY=${{secrets.WEB3_STORAGE_KEY}}
           push: true
 
   deploy-frontend:
@@ -180,7 +183,10 @@ jobs:
             --set-env-vars OPENSEA_API_KEY="${{secrets.OPENSEA_API_KEY}}" \
             --set-env-vars NEXT_PUBLIC_GCAL_CALENDAR_ID="${{secrets.GCAL_CALENDAR_ID}}" \
             --set-env-vars NEXT_PUBLIC_GOOGLE_ANALYTICS_ID="${{secrets.GOOGLE_ANALYTICS_ID}}" \
-            --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY="${{secrets.YOUTUBE_API_KEY}}"
+            --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY="${{secrets.YOUTUBE_API_KEY}}" \
+            --set-env-vars NEXT_PUBLIC_WEB3_STORAGE_DID="${{secrets.WEB3_STORAGE_DID}}" \
+            --set-env-vars NEXT_PUBLIC_WEB3_STORAGE_PROOF="${{secrets.WEB3_STORAGE_PROOF}}" \
+            --set-env-vars NEXT_PUBLIC_WEB3_STORAGE_KEY="${{secrets.WEB3_STORAGE_KEY}}" \
 
 
   finish-deployment:

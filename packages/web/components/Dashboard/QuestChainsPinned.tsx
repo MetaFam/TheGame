@@ -28,7 +28,7 @@ export const QuestChainsPinned: React.FC = () => {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        console.error('Failed to get pinned quest chains:', error);
+        console.error('Failed to get pinned Playbooks:', error);
       }
     };
     if (user?.id) getPinnedQuestChains(user.id);
@@ -49,7 +49,7 @@ export const QuestChainsPinned: React.FC = () => {
       <Flex direction="column" align="center" justify="center" h="17rem">
         <Text textAlign="center">
           <MetaButton onClick={connect}>Connect</MetaButton>
-          <Text>to see your pinned Quest Chains</Text>
+          <Text>to see your pinned Playbooks</Text>
         </Text>
       </Flex>
     );
@@ -59,7 +59,7 @@ export const QuestChainsPinned: React.FC = () => {
     return (
       <Stack p={6} w="100%" gap={4}>
         <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
-          Pinned Quest Chains
+          Pinned Playbooks
         </Text>
         <Spinner />
       </Stack>
@@ -69,7 +69,7 @@ export const QuestChainsPinned: React.FC = () => {
   return (
     <Stack p={6} w="100%" gap={4}>
       <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
-        Pinned Quest Chains
+        Pinned Playbooks
       </Text>
       {pinnedQuestChains.length > 0 ? (
         <Stack spacing={3}>
@@ -107,7 +107,7 @@ export const QuestChainsPinned: React.FC = () => {
         </Stack>
       ) : (
         <Text>
-          You haven't started any Quest Chains yet. Visit the{' '}
+          You haven't started any Playbooks yet. Visit the{' '}
           <MetaLink href="/academy">Academy</MetaLink> to get started!
         </Text>
       )}
