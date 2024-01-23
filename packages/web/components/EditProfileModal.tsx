@@ -105,7 +105,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const { username } = player.profile ?? {};
   const { save } = useSaveToComposeDB();
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
-  const { w3storage } = useWeb3();
+  const { w3storage, chainId } = useWeb3();
   const initialFormValues = useMemo(
     () => getDefaultFormValues(player),
     [player],
@@ -123,7 +123,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     reset,
     formState: { errors, dirtyFields, isDirty },
   } = formMethods;
-  const { chainId } = useWeb3();
   const toast = useToast();
 
   const [pickedFiles, setPickedFiles] = useState<
