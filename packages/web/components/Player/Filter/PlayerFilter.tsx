@@ -177,6 +177,7 @@ export const PlayerFilter: React.FC<Props> = ({
     px: '2.5em',
     py: '1em',
     top: '-3rem',
+    w: '100%',
   };
 
   // How it looks when it's not sticky
