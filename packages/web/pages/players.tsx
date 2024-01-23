@@ -85,7 +85,7 @@ const Players: React.FC<Props> = () => {
           fontSize={{ base: 'sm', md: 'md' }}
           fontWeight={{ base: '400', md: '700' }}
           marginTop={{ base: 3, sm: 0 }}
-          // w="100%"
+          w="100%"
           maxW="4xl"
         >
           <Text as="p" textAlign="center">
