@@ -32,7 +32,7 @@ import { HiOutlineMinusCircle, HiOutlinePlusCircle } from 'react-icons/hi';
 const CustomTab = ({ children }: { children: React.ReactNode }) => (
   <Tab
     w="full"
-    _selected={{ color: 'white', borderBottom: '2px inset white' }}
+    _selected={{ color: 'white', borderBottom: '2px inset #A48DF3' }}
     color="gray.400"
     _focus={{ boxShadow: 'none', backgroundColor: 'transparent' }}
     mb={0}
@@ -69,7 +69,6 @@ const FAQItem = ({
 const SEEDsPage: React.FC = () => {
   const router = useRouter();
   const topRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement | null>(null);
   const [isImageLoaded, setIsImageLoaded] = useState(true);
 
   useEffect(() => {
@@ -84,32 +83,31 @@ const SEEDsPage: React.FC = () => {
 
   return (
     <PageContainer p={0}>
-      <VStack
-        h="full"
-        w="full"
-        spacing={{ base: 4 }}
-        bg="linear-gradient(to bottom, #080219 80%, transparent 100%)"
-      >
+      <VStack h="full" w="full" spacing={{ base: 4 }}>
         <HeadComponent
-          title="Seeds Page"
+          title="Seeds"
           description="Seeds are MetaGame’s labor token. People contribute towards creation of MetaGame, meanwhile generating XP &amp; getting paid out in Seeds proportional to their gained XP. Find out more."
           url="https://metagame.wtf/seeds"
         />
 
-        <ChakraImage
-          ref={imageRef}
-          src={Background.src}
-          alt="Seeds"
-          w="full"
-          mb={8}
-          // mt="-150px"
-        />
-
+        <Box position="relative" w="full">
+          <ChakraImage src={Background.src} alt="Seeds" w="full" />
+          <Box
+            position="absolute"
+            left={0}
+            right={0}
+            height={40}
+            bg="linear-gradient(to bottom, #080219 0%, transparent 100%)"
+          />
+        </Box>
         <Stack
           w="full"
           maxW="3xl"
           ref={topRef}
-          mt={-10}
+          mt={{
+            base: -8,
+            sm: -40,
+          }}
           zIndex={1}
           gap={8}
           pb={20}
@@ -129,8 +127,8 @@ const SEEDsPage: React.FC = () => {
           </MetaHeading>
           <Text textAlign="center">
             Seeds are lifeblood of MetaGame; it’s how contributors get rewarded,
-            it’s how patrons contribute, how we curate & how we reward each
-            other."
+            it’s how patrons contribute, <br /> how we curate and how we reward
+            each other.
           </Text>
 
           <Tabs align="center">
@@ -169,11 +167,7 @@ const SEEDsPage: React.FC = () => {
             Frequently asked questions
           </MetaHeading>
 
-          <Accordion
-            allowMultiple
-            defaultIndex={[0]}
-            borderColor="whiteAlpha.400"
-          >
+          <Accordion allowMultiple borderColor="whiteAlpha.400">
             <FAQItem
               question="WTF is planting & watering?"
               answer={`Planting & watering Seeds means adding Seeds, Ether & RAI into the liquidity pool. By subscribing, you are dollar-cost-averaging into the liquidity pool that’s made up of 60% Seeds, 20% ETH & 20% RAI.  

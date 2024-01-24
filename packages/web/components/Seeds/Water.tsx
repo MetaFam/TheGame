@@ -9,10 +9,13 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import Droplet1 from 'assets/seeds/droplet1.png';
-import Droplet2 from 'assets/seeds/droplet2.png';
 import SeedsIcon from 'assets/seeds/plant.svg';
-import React, { useState } from 'react';
+import WaterDrops1 from 'assets/seeds/WaterDrops1.png';
+import WaterDrops2 from 'assets/seeds/WaterDrops2.png';
+import WaterDrops3 from 'assets/seeds/WaterDrops3.png';
+import WaterDrops4 from 'assets/seeds/WaterDrops4.png';
+import WaterDrops5 from 'assets/seeds/WaterDrops5.png';
+import React, { useEffect, useState } from 'react';
 import { GoLinkExternal } from 'react-icons/go';
 
 export const Water: React.FC = () => {
@@ -40,7 +43,26 @@ export const Water: React.FC = () => {
     },
   ];
 
+  const waterDropsToDisplay = (amount: number) => {
+    if (amount <= 8) {
+      return WaterDrops1;
+    }
+    if (amount <= 50) {
+      return WaterDrops2;
+    }
+    if (amount <= 100) {
+      return WaterDrops3;
+    }
+    if (amount <= 1000) {
+      return WaterDrops4;
+    }
+    return WaterDrops5;
+  };
   const [selectedAmount, setSelectedAmount] = useState<string | number>(8);
+
+  const [imageSrc, setImageSrc] = useState(waterDropsToDisplay(8).src);
+  const [loading, setLoading] = useState(false);
+
   const [customAmount, setCustomAmount] = useState('');
 
   const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,10 +70,6 @@ export const Water: React.FC = () => {
   };
   const handleSelectAmount = (amount: any) => {
     setSelectedAmount(amount as any);
-  };
-
-  const waterWith = (amount: number) => {
-    // console.log(amount);
   };
 
   const calculateHighestReachableLeague = (wateringAmount: number) => {
@@ -72,6 +90,22 @@ export const Water: React.FC = () => {
     return bestLeague;
   };
 
+  useEffect(() => {
+    const newSrc = waterDropsToDisplay(
+      selectedAmount === 'Custom amount'
+        ? Number(customAmount)
+        : Number(selectedAmount),
+    ).src;
+
+    if (newSrc !== imageSrc) {
+      setLoading(true);
+      setTimeout(() => {
+        setImageSrc(newSrc);
+        setLoading(false);
+      }, 300);
+    }
+  }, [selectedAmount, customAmount, imageSrc]);
+
   const selectedWateringAmount =
     selectedAmount === 'Custom amount'
       ? Number(customAmount)
@@ -88,8 +122,17 @@ export const Water: React.FC = () => {
         but they need to be watered regularly if we want healthy Trees to grow.
       </Text>
       <Box>
-        <Image src={Droplet1.src} alt="Droplet1" mx="auto" my={8} />
-        <Image src={Droplet2.src} alt="Droplet2" mx="auto" my={8} mb={16} />
+        <Image
+          src={imageSrc}
+          alt="Droplet"
+          mx="auto"
+          my={8}
+          mb={16}
+          style={{
+            transition: 'opacity 300ms', // Fade-in/out transition
+            opacity: loading ? 0 : 1, // Control opacity
+          }}
+        />
         <Image src={SeedsIcon.src} alt="Seeds" mx="auto" my={8} />
       </Box>
 
