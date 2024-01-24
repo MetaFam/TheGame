@@ -17,6 +17,20 @@ export const Plant: React.FC = () => (
       alt="Droplet1"
       mx="auto"
       my={8}
+      _hover={{
+        cursor: 'pointer',
+        boxShadow: '0px 0px 0px 2px #A48DF3',
+        borderRadius: '12px',
+        border: '8px solid rgba(255, 255, 255, 0.10)',
+        transform: 'scale(1.005)',
+        transition: 'all 0.1s ease-in-out',
+      }}
+      onClick={() => {
+        window.open(
+          'https://app.balancer.fi/#/polygon/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081',
+          '_blank',
+        );
+      }}
     />
 
     <Box>
