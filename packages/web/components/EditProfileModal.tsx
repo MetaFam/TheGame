@@ -450,27 +450,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   </Box>
                 </FormControl>
               </GridItem>
-              {/* <GridItem flex={1} alignItems="center">
-                <FormControl isInvalid={!!errors.pronouns}>
-                  <Label htmlFor="pronouns">Pronouns</Label>
-                  <Input
-                    w="100%"
-                    id="pronouns"
-                    placeholder="He, she, it, they, them, etc."
-                    {...register('pronouns', {
-                      maxLength: {
-                        value: 150,
-                        message: 'Maximum length is 150 characters.',
-                      },
-                    })}
-                  />
-                  <Box minH="3em">
-                    <FormErrorMessage>
-                      {errors.pronouns?.message?.toString()}
-                    </FormErrorMessage>
-                  </Box>
-                </FormControl>
-              </GridItem> */}
               <GridItem flex={1} alignItems="center">
                 <FormControl isInvalid={!!errors.website}>
                   <Label htmlFor="name">Website URL</Label>

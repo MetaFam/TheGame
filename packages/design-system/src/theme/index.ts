@@ -292,11 +292,11 @@ export const theme = extendTheme(
           scrollbarColor: `${colors.whiteAlpha[500]} ${colors.dark}`,
         },
         '#__next': {
-          background: colors.dark,
+          background: colors.octo,
           color: colors.white,
           minHeight: '100vh',
           option: {
-            background: colors.dark,
+            background: colors.octo,
             color: colors.white,
           },
         },

@@ -4,6 +4,7 @@ import React from 'react';
 
 export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
   <Flex
+    className="full-page-container"
     w="100%"
     h="100%"
     p={{ base: 3, sm: 8, lg: 12 }}
@@ -19,7 +20,7 @@ export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
 );
 
 export const FlexContainer: React.FC<StackProps> = ({ children, ...props }) => (
-  <Stack w="full" align="center" justify="center" spacing={[6, 8]} {...props}>
+  <Stack className="flex-container" w="full" align="center" justify="center" spacing={[6, 8]} {...props}>
     {children}
   </Stack>
 );
@@ -53,6 +54,7 @@ export const FullPageContainer: React.FC<
   StackProps & { bgImageUrl?: string }
 > = ({ bgImageUrl, sx, children, ...props }) => (
   <FlexContainer
+    className="full-page-container"
     minH="100vh"
     bg="dark"
     bgImage={bgImageUrl && `url(${bgImageUrl})`}

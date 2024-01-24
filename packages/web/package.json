@@ -30,6 +30,8 @@
     "@orbisclub/orbis-sdk": "^0.4.40",
     "@quest-chains/sdk": "0.2.9",
     "@react-spring/web": "9.4.3",
+    "@react-three/drei": "^9.96.1",
+    "@react-three/fiber": "^8.15.14",
     "@types/luxon": "^3.3.2",
     "@ucanto/core": "^9.0.1",
     "@ucanto/principal": "^9.0.0",
@@ -91,6 +93,7 @@
     "sass": "^1.54.8",
     "sourcecred": "0.11.0",
     "swr": "2.0.3",
+    "three": "^0.160.1",
     "urql": "^4.0.6",
     "web3.storage": "^4.5.5",
     "web3modal": "1.9.5"
