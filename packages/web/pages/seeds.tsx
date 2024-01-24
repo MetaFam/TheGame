@@ -106,7 +106,7 @@ const SEEDsPage: React.FC = () => {
           ref={topRef}
           mt={{
             base: -8,
-            sm: -40,
+            sm: -38,
           }}
           zIndex={1}
           gap={8}
@@ -126,9 +126,9 @@ const SEEDsPage: React.FC = () => {
             Seeds
           </MetaHeading>
           <Text textAlign="center">
-            Seeds are lifeblood of MetaGame; it’s how contributors get rewarded,
-            it’s how patrons contribute, <br /> how we curate and how we reward
-            each other.
+            A memecoin with a purpose - Seeds are how players get rewarded & how
+            patrons contribute. <br /> Seeds will be used for membership fees,
+            staking reputation and upvoting content & quests.
           </Text>
 
           <Tabs align="center">
