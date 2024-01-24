@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   HStack,
+  chakra,
   IconButton,
   Image,
   Spinner,
@@ -135,7 +136,18 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           setIsPinned(true);
           toast({
             title: 'Quest Chain pinned!',
-            description: 'You can now see this quest chain on your profile.',
+            description: (
+             
+                <chakra.a
+                  href={`https://discord.com/channels/629411177947987986/1045714403351339018`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textDecoration: 'underline' }}
+                >
+                 You can now see this quest chain on your Dashboard. Join the conversation on Discord.
+                </chakra.a>
+          
+            ),
             status: 'success',
             duration: 9000,
             isClosable: true,
@@ -169,7 +181,8 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           setIsPinned(false);
           toast({
             title: 'Quest Chain unpinned!',
-            description: 'The quest chain has been removed from your profile.',
+          
+            description: 'The quest chain has been removed from your Dashboard.',
             status: 'success',
             duration: 9000,
             isClosable: true,
