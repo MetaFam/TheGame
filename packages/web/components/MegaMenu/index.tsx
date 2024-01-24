@@ -2,6 +2,7 @@ import { Stack } from '@metafam/ds';
 import { MegaMenuFooter } from 'components/MegaMenu/MegaMenuFooter';
 import { MegaMenuHeader } from 'components/MegaMenu/MegaMenuHeader';
 import type { PropsWithChildren } from 'react';
+import { PageBackground } from 'components/Background/PageBackground';
 import React, { useEffect, useState } from 'react';
 
 type Props = PropsWithChildren<{ hide?: boolean }>;
@@ -59,6 +60,7 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
         }}
       >
         {children}
+        <PageBackground />
       </Stack>
       {!hide && <MegaMenuFooter />}
     </Stack>
