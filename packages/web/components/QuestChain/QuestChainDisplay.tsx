@@ -1,9 +1,9 @@
 import {
   Box,
   Button,
+  chakra,
   Flex,
   HStack,
-  chakra,
   IconButton,
   Image,
   Spinner,
