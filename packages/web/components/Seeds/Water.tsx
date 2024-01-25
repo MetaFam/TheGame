@@ -140,6 +140,10 @@ export const Water: React.FC = () => {
         <ButtonGroup isAttached variant="outline" borderRadius={8}>
           {amounts.map((amount) => (
             <Button
+              size={{
+                base: 'sm',
+                sm: 'md',
+              }}
               key={amount}
               backgroundColor={selectedAmount === amount ? 'cyan.600' : ''}
               color={selectedAmount === amount ? 'blue.900' : 'cyan.500'}
