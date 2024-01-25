@@ -24,7 +24,7 @@ const CreateQuestPage: React.FC<Props> = ({
   skillChoices,
   roleChoices,
 }) => {
-  useUser({ redirectTo: '/quests', redirectIfNotFound: true });
+  // useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const router = useRouter();
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
@@ -36,6 +36,7 @@ const CreateQuestPage: React.FC<Props> = ({
       repetition,
       cooldown,
       status,
+      reward,
       ...createQuestInputs
     } = data;
 

@@ -57,6 +57,11 @@ const validations = {
     valueAsNumber: true,
     min: 1,
   },
+  reward: {
+    valueAsNumber: true,
+    min: 0,
+    max: 200,
+  },
 } as const;
 
 export interface CreateQuestFormInputs {
@@ -69,6 +74,7 @@ export interface CreateQuestFormInputs {
   skills: Array<SkillOption>;
   roles: Array<RoleOption>;
   image: Maybe<FileList>;
+  reward?: number;
 }
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
@@ -340,6 +346,21 @@ export const QuestForm: React.FC<Props> = ({
               )}
             />
           </FlexContainer>
+        </Field>
+
+        <Field label="Reward" error={errors.reward}>
+          <Input
+            placeholder="Reward in $SEED (0-200)"
+            {...register('reward', {
+              required: {
+                value: true,
+                message: 'This is a required field.',
+              },
+            })}
+            isInvalid={!!errors.reward}
+            bg="dark"
+            autoFocus
+          />
         </Field>
 
         <Field label="Image" error={errors.image}>
