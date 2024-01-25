@@ -119,11 +119,11 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
 
       <Flex justifyContent="center" gap={12}>
         <Box fontSize="5xl" fontWeight="600">
-          ?&nbsp;XP
+          {(quest.reward || 0) * 1.5} XP
         </Box>
         <HStack spacing={2}>
           <Box fontSize="5xl" fontWeight="600">
-            ?
+            {quest.reward ?? '?'}
           </Box>
           <Image src={SeedLogoSmol.src} alt="Seed logo" boxSize={46} />
         </HStack>

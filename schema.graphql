@@ -5484,6 +5484,7 @@ type quest {
     where: quest_skill_bool_exp
   ): quest_skill_aggregate!
   repetition: QuestRepetition_enum!
+  reward: Int
   status: QuestStatus_enum!
   title: String!
 }
@@ -5513,6 +5514,7 @@ type quest_aggregate_fields {
 "aggregate avg on columns"
 type quest_avg_fields {
   cooldown: Float
+  reward: Float
 }
 """
 columns and relationships of "quest_completion"
@@ -5586,6 +5588,7 @@ type quest_max_fields {
   guildId: uuid
   id: uuid
   image: String
+  reward: Int
   title: String
 }
 "aggregate min on columns"
@@ -5598,6 +5601,7 @@ type quest_min_fields {
   guildId: uuid
   id: uuid
   image: String
+  reward: Int
   title: String
 }
 """
@@ -5745,30 +5749,37 @@ type quest_skill_mutation_response {
 "aggregate stddev on columns"
 type quest_stddev_fields {
   cooldown: Float
+  reward: Float
 }
 "aggregate stddev_pop on columns"
 type quest_stddev_pop_fields {
   cooldown: Float
+  reward: Float
 }
 "aggregate stddev_samp on columns"
 type quest_stddev_samp_fields {
   cooldown: Float
+  reward: Float
 }
 "aggregate sum on columns"
 type quest_sum_fields {
   cooldown: Int
+  reward: Int
 }
 "aggregate var_pop on columns"
 type quest_var_pop_fields {
   cooldown: Float
+  reward: Float
 }
 "aggregate var_samp on columns"
 type quest_var_samp_fields {
   cooldown: Float
+  reward: Float
 }
 "aggregate variance on columns"
 type quest_variance_fields {
   cooldown: Float
+  reward: Float
 }
 """
 columns and relationships of "skill"
@@ -8392,8 +8403,6 @@ enum guild_select_column {
   "column name"
   legitimacy
   "column name"
-  legitimacy
-  "column name"
   logo
   "column name"
   membershipThroughDiscord
@@ -8446,8 +8455,6 @@ enum guild_update_column {
   id
   "column name"
   joinButtonURL
-  "column name"
-  legitimacy
   "column name"
   legitimacy
   "column name"
@@ -8978,6 +8985,8 @@ enum quest_select_column {
   "column name"
   repetition
   "column name"
+  reward
+  "column name"
   status
   "column name"
   title
@@ -9031,6 +9040,8 @@ enum quest_update_column {
   image
   "column name"
   repetition
+  "column name"
+  reward
   "column name"
   status
   "column name"
@@ -12772,6 +12783,7 @@ order by avg() on columns of table "quest"
 """
 input quest_avg_order_by {
   cooldown: order_by
+  reward: order_by
 }
 """
 Boolean expression to filter rows from the table "quest". All fields are combined with a logical 'AND'.
@@ -12799,6 +12811,7 @@ input quest_bool_exp {
   quest_skills: quest_skill_bool_exp
   quest_skills_aggregate: quest_skill_aggregate_bool_exp
   repetition: QuestRepetition_enum_comparison_exp
+  reward: Int_comparison_exp
   status: QuestStatus_enum_comparison_exp
   title: String_comparison_exp
 }
@@ -12954,6 +12967,7 @@ input type for incrementing numeric columns in table "quest"
 """
 input quest_inc_input {
   cooldown: Int
+  reward: Int
 }
 """
 input type for inserting data into table "quest"
@@ -12975,6 +12989,7 @@ input quest_insert_input {
   quest_roles: quest_role_arr_rel_insert_input
   quest_skills: quest_skill_arr_rel_insert_input
   repetition: QuestRepetition_enum
+  reward: Int
   status: QuestStatus_enum
   title: String
 }
@@ -12990,6 +13005,7 @@ input quest_max_order_by {
   guildId: order_by
   id: order_by
   image: order_by
+  reward: order_by
   title: order_by
 }
 """
@@ -13004,6 +13020,7 @@ input quest_min_order_by {
   guildId: order_by
   id: order_by
   image: order_by
+  reward: order_by
   title: order_by
 }
 """
@@ -13042,6 +13059,7 @@ input quest_order_by {
   quest_roles_aggregate: quest_role_aggregate_order_by
   quest_skills_aggregate: quest_skill_aggregate_order_by
   repetition: order_by
+  reward: order_by
   status: order_by
   title: order_by
 }
@@ -13242,6 +13260,7 @@ input quest_set_input {
   id: uuid
   image: String
   repetition: QuestRepetition_enum
+  reward: Int
   status: QuestStatus_enum
   title: String
 }
@@ -13359,18 +13378,21 @@ order by stddev() on columns of table "quest"
 """
 input quest_stddev_order_by {
   cooldown: order_by
+  reward: order_by
 }
 """
 order by stddev_pop() on columns of table "quest"
 """
 input quest_stddev_pop_order_by {
   cooldown: order_by
+  reward: order_by
 }
 """
 order by stddev_samp() on columns of table "quest"
 """
 input quest_stddev_samp_order_by {
   cooldown: order_by
+  reward: order_by
 }
 """
 Streaming cursor of the table "quest"
@@ -13392,6 +13414,7 @@ input quest_stream_cursor_value_input {
   id: uuid
   image: String
   repetition: QuestRepetition_enum
+  reward: Int
   status: QuestStatus_enum
   title: String
 }
@@ -13400,6 +13423,7 @@ order by sum() on columns of table "quest"
 """
 input quest_sum_order_by {
   cooldown: order_by
+  reward: order_by
 }
 input quest_updates {
   "increments the numeric columns with given value of the filtered values"
@@ -13414,18 +13438,21 @@ order by var_pop() on columns of table "quest"
 """
 input quest_var_pop_order_by {
   cooldown: order_by
+  reward: order_by
 }
 """
 order by var_samp() on columns of table "quest"
 """
 input quest_var_samp_order_by {
   cooldown: order_by
+  reward: order_by
 }
 """
 order by variance() on columns of table "quest"
 """
 input quest_variance_order_by {
   cooldown: order_by
+  reward: order_by
 }
 """
 Boolean expression to filter rows from the table "skill". All fields are combined with a logical 'AND'.
