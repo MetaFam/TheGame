@@ -83,7 +83,7 @@ const SEEDsPage: React.FC = () => {
 
   return (
     <PageContainer p={0}>
-      <VStack h="full" w="full" spacing={{ base: 4 }}>
+      <VStack h="full" w="full" spacing={{ base: 4 }} px={3}>
         <HeadComponent
           title="Seeds"
           description="Seeds are MetaGame’s labor token. People contribute towards creation of MetaGame, meanwhile generating XP &amp; getting paid out in Seeds proportional to their gained XP. Find out more."
