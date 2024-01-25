@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Flex,
   HStack,
   Image,
   Input,
@@ -136,7 +137,14 @@ export const Water: React.FC = () => {
         <Image src={SeedsIcon.src} alt="Seeds" mx="auto" my={8} />
       </Box>
 
-      <HStack spacing={4}>
+      <Flex
+        gap={4}
+        direction={{
+          base: 'column',
+          sm: 'row',
+        }}
+        alignItems="center"
+      >
         <ButtonGroup isAttached variant="outline" borderRadius={8}>
           {amounts.map((amount) => (
             <Button
@@ -157,13 +165,18 @@ export const Water: React.FC = () => {
         {selectedAmount === 'Custom amount' && (
           <Input
             placeholder="Amount"
+            size={{
+              base: 'sm',
+              sm: 'md',
+            }}
+            borderRadius={8}
             type="number"
             value={customAmount}
             onChange={handleCustomAmountChange}
             width="100px"
           />
         )}
-      </HStack>
+      </Flex>
 
       {/* <Link
         href=""
