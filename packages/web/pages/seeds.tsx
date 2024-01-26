@@ -19,15 +19,16 @@ import {
   VStack,
 } from '@metafam/ds';
 import Background from 'assets/seeds/background.png';
-import { PageContainer } from 'components/Container';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import { Plant } from 'components/Seeds/Plant';
 import { Trade } from 'components/Seeds/Trade';
 import { Water } from 'components/Seeds/Water';
 import { HeadComponent } from 'components/Seo';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { lazy,useEffect, useRef, useState } from 'react';
 import { HiOutlineMinusCircle, HiOutlinePlusCircle } from 'react-icons/hi';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const CustomTab = ({ children }: { children: React.ReactNode }) => (
   <Tab

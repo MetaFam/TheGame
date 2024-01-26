@@ -1,5 +1,4 @@
 import { Box, LoadingState, Text, VStack } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
 import { questListDescriptionCss } from 'components/Quest/QuestListDescriptionCss';
@@ -7,10 +6,12 @@ import { HeadComponent } from 'components/Seo';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { useQuestFilter } from 'lib/hooks/quests';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { lazy,useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 
 type RoleChoices = Awaited<Promise<ReturnType<typeof getPlayerRoles>>>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const QuestsSearchPage: React.FC = () => {
   const { query } = useRouter();

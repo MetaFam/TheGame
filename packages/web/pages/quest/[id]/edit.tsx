@@ -1,5 +1,4 @@
 import { Heading, LoadingState, useToast } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import {
   GuildFragment,
@@ -16,7 +15,7 @@ import { useUser , useWeb3 } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
-import React from 'react';
+import React, { lazy } from 'react';
 import { transformCooldownForBackend } from 'utils/questHelpers';
 import { CategoryOption, parseSkills } from 'utils/skillHelpers';
 
@@ -28,6 +27,8 @@ type Props = {
   roleChoices: Array<PlayerRole>;
   reward: number;
 };
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const EditQuestPage: React.FC<Props> = ({
   quest,

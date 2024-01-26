@@ -1,4 +1,3 @@
-import { PageContainer } from 'components/Container';
 import { GuildList } from 'components/Guild/GuildList';
 import { GuildNotFound } from 'components/Guild/GuildNotFound';
 import SearchFilters from 'components/SearchFilters';
@@ -6,8 +5,10 @@ import { HeadComponent } from 'components/Seo';
 import { GuildFragment } from 'graphql/autogen/types';
 import { searchGuilds } from 'graphql/queries/guild';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { lazy,useEffect, useState } from 'react';
 import { GlobalFilters } from 'utils/GlobalSearch';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const GuildSearchPage: React.FC = () => {
   const { query } = useRouter();

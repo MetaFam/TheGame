@@ -1,5 +1,4 @@
 import { Flex, Heading, LoadingState, Stack, useToast } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { CompletionForm } from 'components/Quest/CompletionForm';
 import {
@@ -16,10 +15,12 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React from 'react';
+import React, { lazy } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
   useUser({ redirectTo: '/quests', redirectIfNotFound: true });

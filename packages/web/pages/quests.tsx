@@ -17,7 +17,6 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
-import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
 import { questListDescriptionCss } from 'components/Quest/QuestListDescriptionCss';
@@ -30,10 +29,12 @@ import { usePSeedBalance } from 'lib/hooks/balances';
 import { useQuestFilter } from 'lib/hooks/quests';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
+import React, { lazy,useMemo } from 'react';
 import { isAllowedToCreateQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async (): Promise<{
   props: {
