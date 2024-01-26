@@ -1,6 +1,6 @@
 import { Flex, FlexProps, Stack, StackProps } from '@metafam/ds';
 import { HeadComponent } from 'components/Seo';
-import React from 'react';
+
 
 const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
   <Flex

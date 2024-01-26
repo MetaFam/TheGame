@@ -1,6 +1,5 @@
 import { Box, HStack, Tooltip, VStack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import React from 'react';
 import {
   FaDiscord,
   FaGithub,

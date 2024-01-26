@@ -12,7 +12,7 @@ import { useUser, useWeb3 } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
-import React, { lazy } from 'react';
+import { lazy } from 'react';
 import { transformCooldownForBackend } from 'utils/questHelpers';
 import { parseSkills } from 'utils/skillHelpers';
 

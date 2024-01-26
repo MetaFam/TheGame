@@ -2,7 +2,7 @@ import { LandingHeader } from 'components/Landing/LandingHeader';
 import { Signup } from 'components/Landing/Signup';
 import { HeadComponent } from 'components/Seo';
 import { SocialsDesktop } from 'components/SocialLinks';
-import React, { lazy,useCallback, useEffect, useRef, useState } from 'react';
+import { lazy,useCallback, useEffect, useRef, useState } from 'react';
 
 const PageContainer = lazy(() => import('components/Container'));
 

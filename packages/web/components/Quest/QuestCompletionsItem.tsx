@@ -5,7 +5,7 @@ import { Player, QuestCompletionStatus_Enum } from 'graphql/autogen/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import moment from 'moment';
-import React from 'react';
+
 
 type Props = {
   player: Player;

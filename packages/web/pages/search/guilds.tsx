@@ -5,7 +5,7 @@ import { HeadComponent } from 'components/Seo';
 import { GuildFragment } from 'graphql/autogen/types';
 import { searchGuilds } from 'graphql/queries/guild';
 import { useRouter } from 'next/router';
-import React, { lazy,useEffect, useState } from 'react';
+import { lazy,useEffect, useState } from 'react';
 import { GlobalFilters } from 'utils/GlobalSearch';
 
 const PageContainer = lazy(() => import('components/Container'));

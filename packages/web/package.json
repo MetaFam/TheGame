@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "type": "module",
+  "sideEffects": false,
   "scripts": {
     "dev": "concurrently \"next\" \"yarn generate --watch 'graphql/**/*.ts' --verbose --debug\"",
     "build": "yarn generate:graphql && NODE_OPTIONS='--max-old-space-size=5120' next build",
@@ -66,7 +67,6 @@
     "rss-to-json": "2.0.2",
     "rxjs": "^7.8.1",
     "sass": "^1.54.8",
-    "sourcecred": "0.11.0",
     "swr": "2.0.3",
     "urql": "^4.0.6",
     "web3modal": "1.9.5"

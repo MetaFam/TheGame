@@ -1,5 +1,5 @@
 import { Heading, Text } from '@chakra-ui/react';
-import React from 'react';
+
 
 export type TextProps = {
   children: React.ReactNode;

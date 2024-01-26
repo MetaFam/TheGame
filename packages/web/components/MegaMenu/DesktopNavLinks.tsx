@@ -14,7 +14,6 @@ import {
 } from '@metafam/ds';
 import { DesktopMenuItem } from 'components/MegaMenu/DesktopMenuItem';
 import { useRouter } from 'next/router';
-import React from 'react';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 
 // Nav links on desktop -- text and links from utils/menuLinks.ts

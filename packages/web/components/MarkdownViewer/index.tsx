@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import React from 'react';
+
 
 type MarkdownViewerProps = { children?: string | null; color?: string };
 

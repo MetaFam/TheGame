@@ -2,7 +2,6 @@ import { Box, Link, Text } from '@metafam/ds';
 import { PlayerProfilePictureRound } from 'components/Player/PlayerProfilePictureRound';
 import { RoundImage } from 'components/RoundImage';
 import { GuildFragment, Player } from 'graphql/autogen/types';
-import React from 'react';
 import { formatAddress } from 'utils/playerHelpers';
 
 // this will work with production DB

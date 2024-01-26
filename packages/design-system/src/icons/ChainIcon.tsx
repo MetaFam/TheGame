@@ -1,6 +1,5 @@
 import { IconProps } from '@chakra-ui/icons';
 import { Tooltip } from '@chakra-ui/react';
-import React from 'react';
 
 import { EthereumIcon } from './EthereumIcon';
 import { GnosisIcon } from './GnosisIcon';

@@ -7,7 +7,6 @@ import {
   LoadingState,
   Text,
 } from '@metafam/ds';
-import React from 'react';
 import useSWR from 'swr';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

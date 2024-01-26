@@ -1,5 +1,5 @@
 import { Box, BoxProps, HStack, Text } from '@metafam/ds';
-import React from 'react';
+
 
 type Props = {
   title: string;

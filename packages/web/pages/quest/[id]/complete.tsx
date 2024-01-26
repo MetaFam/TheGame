@@ -15,7 +15,7 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { lazy } from 'react';
+import { lazy } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;

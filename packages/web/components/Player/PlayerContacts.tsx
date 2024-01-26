@@ -1,7 +1,6 @@
 import { IconButton, MetaTileLinkWrapper, Wrap, WrapItem } from '@metafam/ds';
 import { linkButtonProps } from 'components/Guild/Section/GuildLinks';
 import { Player } from 'graphql/autogen/types';
-import React from 'react';
 import { FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { PlayerBrightId } from './Section/PlayerBrightId';
