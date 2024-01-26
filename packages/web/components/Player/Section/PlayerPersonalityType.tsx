@@ -32,7 +32,6 @@ export const PlayerPersonalityType: React.FC<PersonalityTypeProps> = ({
 
   return (
     <ProfileSection
-      title="Personality Type"
       type={BoxTypes.PLAYER_COLOR_DISPOSITION}
       isOwnProfile={user && user.id === player.id}
       {...{ editing }}

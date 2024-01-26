@@ -32,6 +32,7 @@ import React, { useMemo } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
+
 import { PlayerPersonalityType } from './PlayerPersonalityType';
 
 type HeroProps = {
@@ -185,7 +186,7 @@ const Description: React.FC<DisplayComponentProps> = ({
 
   return (
     <Wrapper>
-      <PlayerHeroTile title="Bio" align="flexStart">
+      <PlayerHeroTile align="flexStart">
         <MarkdownViewer>{description}</MarkdownViewer>
       </PlayerHeroTile>
     </Wrapper>

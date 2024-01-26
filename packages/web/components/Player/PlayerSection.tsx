@@ -45,8 +45,8 @@ const PlayerSectionInner: React.FC<
       return <PlayerGallery {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_DAO_MEMBERSHIPS:
       return <PlayerMemberships {...{ player, isOwnProfile, editing }} />;
-    case BoxTypes.PLAYER_COLOR_DISPOSITION:
-      return <PlayerPersonalityType {...{ player, isOwnProfile, editing }} />;
+    // case BoxTypes.PLAYER_COLOR_DISPOSITION:
+    //   return <PlayerPersonalityType {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_TYPE:
       return <PlayerType {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_ROLES:
