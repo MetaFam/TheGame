@@ -32,6 +32,7 @@ import React, { useMemo } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
+import { PlayerPersonalityType } from './PlayerPersonalityType';
 
 type HeroProps = {
   player: Player;
@@ -85,11 +86,13 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
 
         <Description {...{ player }} />
 
-        <HStack mt={2}>
-          <Contacts {...{ player }} />
-        </HStack>
+        <PlayerPersonalityType {... { player }} />
 
-        <Grid
+        {/* <HStack mt={2}>
+          <Contacts {...{ player }} />
+        </HStack> */}
+
+        {/* <Grid
           templateColumns="repeat(auto-fill, minmax(9rem, 1fr))"
           w="full"
           rowGap={5}
@@ -98,7 +101,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
           <Availability {...{ player }} />
           <TimeZone {...{ player }} />
           <Emoji {...{ player }} />
-        </Grid>
+        </Grid> */}
 
         {mwwDomain && mwwDomain !== 'mww_remove' && (
           <MetaButton
