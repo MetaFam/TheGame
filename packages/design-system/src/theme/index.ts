@@ -9,7 +9,7 @@ import { textStyles } from './texts';
 
 const modalContentStyles = isBackdropFilterSupported()
   ? {
-      backgroundColor: 'whiteAlpha.200',
+      backgroundColor: 'whiteAlpha.100',
       backdropFilter: 'blur(7px)',
     }
   : {

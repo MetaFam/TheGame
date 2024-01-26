@@ -26,6 +26,7 @@ type Props = {
   guilds: GuildFragment[];
   skillChoices: Array<CategoryOption>;
   roleChoices: Array<PlayerRole>;
+  reward: number;
 };
 
 const EditQuestPage: React.FC<Props> = ({
@@ -72,6 +73,7 @@ const EditQuestPage: React.FC<Props> = ({
       input: updateQuestInput,
       skills: skillsObjects,
       roles: rolesObjects,
+      reward: data.reward,
     }).then((res) => {
       if (res.data?.update_quest_by_pk && !res.error) {
         router.push(`/quest/${quest.id}`);
@@ -115,7 +117,7 @@ const EditQuestPage: React.FC<Props> = ({
       </Heading>
 
       <QuestForm
-        {...{ roleChoices, onSubmit, guilds, skillChoices }}
+        {...{ roleChoices, onSubmit, guilds, skillChoices, reward: quest.reward }}
         success={!!updateQuestResult.data}
         fetching={updateQuestResult.fetching}
         submitLabel="Update Quest"
