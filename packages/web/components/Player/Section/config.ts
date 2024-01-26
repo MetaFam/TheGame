@@ -31,7 +31,7 @@ export const DEFAULT_BOXES = [
   BoxTypes.PLAYER_SKILLS,
   BoxTypes.PLAYER_NFT_GALLERY,
   BoxTypes.PLAYER_DAO_MEMBERSHIPS,
-  BoxTypes.PLAYER_COLOR_DISPOSITION,
+  // BoxTypes.PLAYER_COLOR_DISPOSITION,
   // Adding default boxes MUST be accompanied by adding default box positions as well
 ];
 
