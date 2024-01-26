@@ -36,7 +36,7 @@ import {
   useUserProgress,
   useUserStatus,
 } from 'lib/hooks/questChains';
-import React, { useCallback, useEffect, useRef, useState, lazy } from 'react';
+import React, { lazy,useCallback, useEffect, useRef, useState } from 'react';
 import { BsArrowRight, BsCheck } from 'react-icons/bs';
 import { QuestChainType } from 'utils/questChains';
 
