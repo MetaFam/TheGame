@@ -308,8 +308,10 @@ export const EditableGridLayout: React.FC<Props> = ({
           {currentLayoutItems.map(({ key, type, metadata }, i) => (
             <Flex
               boxShadow={editing ? 'lg' : 'md'}
-              bg="rgba(255,255,255,0.03)"
+              bg="#FFFFFF0A"
               backdropFilter="blur(7px)"
+              borderTop="1px solid #2B2244"
+              borderLeft="1px solid #2B2244"
               overflow="hidden"
               borderRadius="lg"
               transition="boxShadow 0.2s 0.3s ease"
