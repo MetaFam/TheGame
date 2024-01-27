@@ -18,7 +18,7 @@ import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
 import { MdChevronRight } from 'react-icons/md';
 
-import { RoleTitle } from './data';
+import { PerkList, PlayerPerk, RoleTitle } from './data';
 
 export interface Perk {
   perk: string;
@@ -233,3 +233,11 @@ export const PerksCard: React.FC<CardProps> = ({
     )}
   </Box>
 );
+
+export const PerksList: React.FC<PerkList> = ({ list }) => (
+  <List spacing={3}>
+    {list.map(({ perk }, index) => (
+      <ListItem key={index}>{perk}</ListItem>
+    ))}
+  </List>
+)

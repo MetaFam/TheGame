@@ -4,6 +4,11 @@ import BabyOctopus from 'assets/quests/baby_octo.webp';
 import Octopus from 'assets/quests/octopus.webp';
 import YoungPlant from 'assets/young-plant.webp';
 
+export interface PlayerPerk {
+  title: string;
+  visitor: boolean;
+  member: boolean;
+}
 interface Perk {
   perk: string;
   checked: boolean;
@@ -22,7 +27,7 @@ export interface Role {
   price?: string;
 }
 
-interface PerkList {
+export interface PerkList {
   list: Perk[];
   background: string;
   title?: string;
@@ -37,28 +42,16 @@ export enum RoleTitle {
   Patron = 'patron',
 }
 
-export const playerVisitorList: Perk[] = [
-  { perk: 'Access to educational resources', checked: true },
-  { perk: 'Access to community calls', checked: true },
-  { perk: 'List of MetaAlliance guilds', checked: true },
-  { perk: 'Free newsletter', checked: true },
-  { perk: 'Search & filter people', checked: false },
-  { perk: 'Access to the community', checked: false },
-  { perk: 'Ability to earn reputation', checked: false },
-  { perk: 'Ability to earn Seed tokens', checked: false },
-  { perk: 'Get ranked & unlock perks', checked: false },
-];
-
-export const playerMemberList: Perk[] = [
-  { perk: 'Access to educational resources', checked: true },
-  { perk: 'Access to community calls', checked: true },
-  { perk: 'List of MetaAlliance guilds', checked: true },
-  { perk: 'Free newsletter', checked: true },
-  { perk: 'Search & filter people', checked: true },
-  { perk: 'Access to the community', checked: true },
-  { perk: 'Ability to earn reputation', checked: true },
-  { perk: 'Ability to earn Seed tokens', checked: true },
-  { perk: 'Get ranked & unlock perks', checked: true },
+export const playerPerks: PlayerPerk[] = [
+  { title: 'Access to educational resources', visitor: true, member: true },
+  { title: 'Access to community calls', visitor: true, member: true },
+  { title: 'List of MetaAlliance guilds', visitor: true, member: true },
+  { title: 'Free newsletter', visitor: true, member: true },
+  { title: 'Search & filter people', visitor: false, member: true },
+  { title: 'Access to the community', visitor: false, member: true },
+  { title: 'Ability to earn reputation', visitor: false, member: true },
+  { title: 'Ability to earn Seed tokens', visitor: false, member: true },
+  { title: 'Get ranked & unlock perks', visitor: false, member: true },
 ];
 
 export const guildFreeList: Perk[] = [
@@ -166,20 +159,20 @@ export const patronReasons: string[] = [
   'Membership & platform utility will be paid in Seeds',
 ];
 
-export const playerPerks: PerkList[] = [
-  {
-    title: 'Visitor',
-    type: 'Free',
-    list: playerVisitorList,
-    background: '#FFFFFF0A',
-  },
-  {
-    title: 'Member',
-    type: 'Few contributions / month',
-    list: playerMemberList,
-    background: '#00000029',
-  },
-];
+// export const playerPerks: PerkList[] = [
+//   {
+//     title: 'Visitor',
+//     type: 'Free',
+//     list: playerVisitorList,
+//     background: '#FFFFFF0A',
+//   },
+//   {
+//     title: 'Member',
+//     type: 'Few contributions / month',
+//     list: playerMemberList,
+//     background: '#00000029',
+//   },
+// ];
 
 export const roles: Role[] = [
   {

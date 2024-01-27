@@ -4,6 +4,8 @@ import {
   Container,
   Flex,
   Image,
+  List,
+  ListIcon,
   ListItem,
   MetaButton,
   Stack,
@@ -26,10 +28,10 @@ import { FullPageContainer } from 'components/Container';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaCircle } from 'react-icons/fa';
 
 import { Rain } from '../OnboardingGame/Rain';
-import { PerksCard, RoleCard } from './Cards';
+import { PerksCard, PerksList, RoleCard } from './Cards';
 import {
   guildPerks,
   guildReasons,
@@ -40,6 +42,7 @@ import {
   roles,
   RoleTitle,
 } from './data';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
 
 const tabs = ['Player', 'Guild', 'Patron'];
 const bgColors = ['green.200', '#6A88DF', '#ED61C5'];
@@ -271,7 +274,7 @@ export const Signup: React.FC = () => {
         zIndex={5}
       >
         <Tabs
-          mt={{ lg: "5em", base: '2em'}}
+          mt={{ lg: "5em", base: '2em' }}
           variant="unstyled"
           index={selectedIndex}
           defaultIndex={selectedIndex}
@@ -370,13 +373,51 @@ export const Signup: React.FC = () => {
                     </Tabs>
                   ) : (
                     <Stack direction={['column', 'row']} gap={0}>
-                      {playerPerks.map((perk, index) => (
-                        <PerksCard
-                          key={index}
-                          {...perk}
-                          badgeColor={index === 0 ? 'green' : 'pink'}
-                        />
-                      ))}
+                      <Flex align='center' ml={6} w="full">
+                        <List spacing={3} mr={3}>
+                          {playerPerks.map(({ title }, index) => (
+                            <ListItem key={index}><Text fontSize='lg'>{title}</Text></ListItem>
+                          ))}
+                        </List>
+                        <Box
+                          h="full"
+                          bg="#FFFFFF0A"
+                          display="flex"
+                          flex="0 1 auto"
+                          px={6}
+                          py={3}
+                        >
+                          <List fontSize="md" fontWeight="light" spacing={3}>
+                            {playerPerks?.map((perk, idx) => (
+                              <ListItem key={idx}>
+                                <ListIcon
+                                  as={perk.visitor ? BsFillCheckCircleFill : FaCircle}
+                                  color={perk.visitor ? 'green.500' : 'gray.600'}
+                                />
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Box>
+                        <Box
+                          h="full"
+                          bg="#00000029"
+                          display="flex"
+                          flex="0 1 auto"
+                          px={6}
+                          py={3}
+                        >
+                          <List fontSize="md" fontWeight="light" spacing={3}>
+                            {playerPerks?.map((perk, idx) => (
+                              <ListItem key={idx}>
+                                <ListIcon
+                                  as={perk.visitor ? BsFillCheckCircleFill : FaCircle}
+                                  color={perk.visitor ? 'green.500' : 'gray.600'}
+                                />
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Box>
+                      </Flex>
                     </Stack>
                   )}
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
@@ -396,9 +437,9 @@ export const Signup: React.FC = () => {
                         {role.tab === activeTab && <RoleCard {...role} />}
                         {role.tab === activeTab &&
                           index ===
-                            roles.findIndex(
-                              (r) => r.tab === RoleTitle.Player,
-                            ) && (
+                          roles.findIndex(
+                            (r) => r.tab === RoleTitle.Player,
+                          ) && (
                             <Text
                               fontSize={{ base: 'xl', lg: '2xl' }}
                               fontWeight={{ base: 'bold', lg: 'normal' }}
@@ -473,9 +514,9 @@ export const Signup: React.FC = () => {
                         {role.tab === activeTab && <RoleCard {...role} />}
                         {role.tab === activeTab &&
                           index ===
-                            roles.findIndex(
-                              (r) => r.tab === RoleTitle.Guild,
-                            ) && (
+                          roles.findIndex(
+                            (r) => r.tab === RoleTitle.Guild,
+                          ) && (
                             <Text
                               fontSize={{ base: 'xl', lg: '2xl' }}
                               fontWeight={{ base: 'bold', lg: 'normal' }}
@@ -653,9 +694,9 @@ export const Signup: React.FC = () => {
                         {role.tab === activeTab && <RoleCard {...role} />}
                         {role.tab === activeTab &&
                           index ===
-                            roles.findIndex(
-                              (r) => r.tab === RoleTitle.Patron,
-                            ) && (
+                          roles.findIndex(
+                            (r) => r.tab === RoleTitle.Patron,
+                          ) && (
                             <Text
                               fontSize={{ base: 'xl', lg: '2xl' }}
                               fontWeight={{ base: 'bold', lg: 'normal' }}
