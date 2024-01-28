@@ -5,7 +5,9 @@ import BackgroundImageXl from 'assets/page-bg@2x.webp';
 import BackgroundImage3Xl from 'assets/page-bg@3x.webp';
 import BackgroundImageFallback from 'assets/page-bg-fallback.webp';
 import BackgroundImageBase from 'assets/page-bg-mobile.webp';
+import { CONFIG } from 'config';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 
@@ -14,7 +16,8 @@ import Starfield from './Starfield';
 
 export const PageBackground: FC = () => {
   const [showBg, setShowBg] = useState<boolean>(true);
-
+  const { pathname } = useRouter();
+  const { appEnv } = CONFIG
   const responsiveImage = useBreakpointValue({
     base: BackgroundImageBase,
     xl: BackgroundImage,
@@ -29,11 +32,16 @@ export const PageBackground: FC = () => {
       ? BackgroundImageFallback.src
       : responsiveImage.src;
 
+  const isLandingPage = pathname === '/';
+  const showStats = appEnv === 'development';
+
   const showStarfield = !prefersReducedMotion && showBg;
 
   const handleBgToggle = () => {
     setShowBg(!showBg);
   };
+
+  if (isLandingPage) return <div />;
 
   return (
     <>
@@ -56,7 +64,9 @@ export const PageBackground: FC = () => {
         {showBg ? <FaToggleOn size={30} /> : <FaToggleOff size={30} />}
         </Button>
       </Tooltip>
-      <Stats showPanel={0} className="stats" />
+
+      {showStats ? <Stats showPanel={0} className="stats" /> : null}
+
       <Box
         className="canvas-wrapper"
         position="fixed"
@@ -66,12 +76,9 @@ export const PageBackground: FC = () => {
         overflowY="visible"
         h="100%"
         maxH="100%"
-        zIndex={-1}
+        zIndex={0}
         pointerEvents="none"
         bgColor="octo"
-        bgSize="cover"
-        bgAttachment="fixed"
-        bgImage={bgImage}
         sx={{
           '.three-canvas': {
             position: 'absolute',
@@ -93,20 +100,20 @@ export const PageBackground: FC = () => {
           }
         }}
       >
-        {/* {showStarfield ? (
+        {showStarfield ? (
           <PageCanvas>
             <Starfield />
           </PageCanvas>
-        ) : null} */}
-        <Image
-          src={bgImage}
-          alt="Background image"
-          objectFit="cover"
-          fill={true}
-          objectPosition="center"
-          quality={100}
-          loading='lazy'
-        />
+        ) : null}
+          <Image
+            src={bgImage}
+            alt="Background image"
+            objectFit="cover"
+            fill={true}
+            objectPosition="center"
+            quality={100}
+            loading='lazy'
+          />
       </Box>
     </>
   );

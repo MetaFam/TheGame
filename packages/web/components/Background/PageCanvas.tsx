@@ -1,6 +1,6 @@
 import { useBreakpointValue } from "@metafam/ds";
 import { Canvas } from "@react-three/fiber";
-import { FC, PropsWithChildren, useRef, useState } from "react";
+import { FC, PropsWithChildren, useRef } from "react";
 
 export const PageCanvas: FC<PropsWithChildren> = ({ children }) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });

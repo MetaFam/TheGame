@@ -1,22 +1,18 @@
+import { useBreakpointValue } from '@metafam/ds';
 import {
-  Center,
   PerspectiveCamera,
   Sparkles,
   SpotLight,
-  useDepthBuffer,
+  useDepthBuffer
 } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-// import gsap from 'gsap';
-// import LoadingOrError from './LoadingOrError';
 import StarMaterial from 'assets/materials/star.png';
 import React, {
-  Suspense,
   useCallback,
   useEffect,
   useMemo,
   useRef,
 } from 'react';
-import { Camera, Mesh } from 'three';
 import * as THREE from 'three';
 
 export interface SceneSectionProps {
@@ -50,29 +46,29 @@ export function R3FSceneSection({
 }
 
 function Starfield() {
-  const mesh = useRef<any>(null);
-  const sphereRef = useRef<any>(null);
-  const { size, viewport } = useThree();
-  const aspect = size.width / viewport.width;
   const scrollY = useRef(0);
   const sizes = useRef({ width: 0, height: 0 });
   const cursor = useRef({ x: 0, y: 0 });
   const mousePos = useRef(new THREE.Vector2());
-  const mouse = new THREE.Vector2();
-  const plant1 = useRef<any>(null);
   const camera = useRef<any>(null);
   const cameraGroup = useRef<any>(null);
   const clock = new THREE.Clock();
   let previousTime = 0;
   const currentSection = useRef(0);
+  const scrollContainer =
+  typeof document !== 'undefined'
+    ? document.getElementById('scroll-container')
+    : null;
+  const pageContainer = scrollContainer ? scrollContainer.querySelector('.full-page-container') : null;
+  const starCount = useBreakpointValue({ base: 400, lg: 600, '2xl': 800 })
 
-  const experienceConfig = useMemo(
+  const starfieldConfig = useMemo(
     () => ({
       objectsDistance: 4,
       sparkles: {
         size: 10,
         opacity: 0.3,
-        count: 600,
+        count: starCount,
         scale: new THREE.Vector3(30, 40, 40),
         positionY: 1,
         speed: 0.2,
@@ -80,28 +76,32 @@ function Starfield() {
         color: new THREE.Color(0xf1f1f1),
       },
     }),
-    [],
+    [starCount],
   );
-  const { objectsDistance, sparkles } = experienceConfig;
+  const { objectsDistance, sparkles } = starfieldConfig;
+  const depthBuffer = useDepthBuffer({ frames: 1 })
 
   const resizeHandler = useCallback(() => {
-    const scrollContainer = document.querySelector('.full-page-container > [class*="css"]');
-    const height = scrollContainer ? scrollContainer.scrollHeight : window.innerHeight;
+    if (!scrollContainer) return;
+    const height = typeof window !== 'undefined' ? window.innerHeight : 1;
 
-    sizes.current.width = window.innerWidth;
-    sizes.current.height = height;
-  }, []);
+    sizes.current = {
+      width: window.innerWidth,
+      height
+    }
+  }, [scrollContainer]);
 
-  const scrollHandler = useCallback(() => {
-    const scrollContainer = document.querySelector('.full-page-container > [class*="css"]');
-    scrollY.current = scrollContainer ? scrollContainer.scrollTop : window.scrollY;
-    // console.log('scrollY', scrollY.current, scrollContainer);
+  const handleScroll = useCallback(() => {
+    if (!pageContainer) return;
+    const { scrollTop } = pageContainer;
+    scrollY.current = scrollTop ?? window.scrollY;
 
     const newSection = Math.round(scrollY.current / sizes.current.height);
     if (newSection !== currentSection.current) {
       currentSection.current = newSection;
     }
-  }, []);
+
+  }, [pageContainer]);
 
   const mousemoveHandler = useCallback((event: MouseEvent) => {
     cursor.current.x = event.clientX / sizes.current.width - 0.3;
@@ -113,31 +113,27 @@ function Starfield() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Set initial sizes based on the display
-      // console.log(window.innerWidth, window.innerHeight);
-      const scrollContainer = document.querySelector('.full-page-container > [class*="css"]');
-      const height = scrollContainer ? scrollContainer.scrollHeight : window.innerHeight;
 
+      // Set initial sizes based on the display
       sizes.current = {
         width: window.innerWidth,
-        height,
+        height: window.innerHeight,
       };
 
       // Set initial scroll position
-      scrollY.current = scrollContainer ? scrollContainer.scrollTop : window.scrollY;
-      // console.log(sizes.current, scrollY.current, scrollContainer);
+      scrollY.current = pageContainer ? pageContainer.scrollTop : window.scrollY;
 
-      window.addEventListener('scroll', scrollHandler);
+      pageContainer?.addEventListener('scroll', handleScroll);
       window.addEventListener('resize', resizeHandler);
       window.addEventListener('mousemove', mousemoveHandler);
     }
 
     return () => {
-      window.removeEventListener('scroll', scrollHandler);
+      pageContainer?.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', resizeHandler);
       window.removeEventListener('mousemove', mousemoveHandler);
     };
-  }, [scrollHandler, resizeHandler, mousemoveHandler]);
+  }, [pageContainer, scrollContainer, handleScroll, resizeHandler, mousemoveHandler]);
 
   useFrame(() => {
     const elapsedTime = clock.getElapsedTime();
@@ -150,7 +146,6 @@ function Starfield() {
     if (camera.current && cameraGroup.current) {
       camera.current.position.y =
         (-scrollY.current / sizes.current.height) * objectsDistance;
-      // console.log('camera pos:', scrollY.current, sizes.current, camera.current.position, cameraGroup.current.position);
 
       cameraGroup.current.position.x +=
         (parallaxX - cameraGroup.current.position.x) * 5 * deltaTime;
@@ -161,7 +156,6 @@ function Starfield() {
 
   return (
     <>
-      {/* <Suspense fallback={<LoadingOrError message="Loading atmosphere..." />}> */}
       <group ref={cameraGroup}>
         <PerspectiveCamera
           ref={camera}
@@ -171,18 +165,21 @@ function Starfield() {
           far={400}
           filmGauge={53}
         />
+                <MovingSpot depthBuffer={depthBuffer} color="#500A7C" position={[3, 3, 0]} />
+        <MovingSpot depthBuffer={depthBuffer} color="#2A0D7D" position={[1, 3, 0]} />
       </group>
 
-      <R3FSceneSection name="SectionOne" config={experienceConfig} count={0}>
-        <directionalLight position={[1, 2, 3]} intensity={1} />
+      <R3FSceneSection name="SectionOne" config={starfieldConfig} count={0}>
+        {/* <directionalLight position={[1, 2, 3]} intensity={1} /> */}
         <ambientLight intensity={0.5} />
-        <SpotLight
+        {/* <SpotLight
           distance={5}
           angle={0.15}
           attenuation={5}
           anglePower={5} // Diffuse-cone anglePower (default: 5)
-        />
-        {/* <BlurSpotlight /> */}
+        /> */}
+        <fog attach="fog" args={['#202020', 5, 20]} />
+
         <Sparkles
           size={sparkles.size}
           count={sparkles.count}
@@ -193,9 +190,19 @@ function Starfield() {
           opacity={sparkles.opacity}
         />
       </R3FSceneSection>
-      {/* </Suspense> */}
     </>
   );
+}
+function MovingSpot({ vec = new THREE.Vector3(), ...props }) {
+  const light = useRef()
+  const viewport = useThree((state: any) => state.viewport)
+  useFrame((state) => {
+    if (light.current) {
+      light.current.target.position.lerp(vec.set((state.mouse.x * viewport.width) / 2, (state.mouse.y * viewport.height) / 2, 0), 0.1)
+      light.current.target.updateMatrixWorld()
+    }
+  })
+  return <SpotLight castShadow ref={light} penumbra={1} distance={6} angle={0.35} attenuation={5} anglePower={4} intensity={2} {...props} />
 }
 
 export default Starfield;

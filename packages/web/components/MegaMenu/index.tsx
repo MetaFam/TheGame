@@ -1,9 +1,9 @@
 import { Stack } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
+import { PageBackground } from 'components/Background/PageBackground';
 import { MegaMenuFooter } from 'components/MegaMenu/MegaMenuFooter';
 import { MegaMenuHeader } from 'components/MegaMenu/MegaMenuHeader';
 import type { PropsWithChildren } from 'react';
-import { PageBackground } from 'components/Background/PageBackground';
 import React, { useEffect, useState } from 'react';
 
 type Props = PropsWithChildren<{ hide?: boolean }>;
@@ -52,6 +52,7 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
         spacing={0}
         overflowY="auto"
         overflowX="hidden"
+        zIndex={1}
         sx={{
           scrollSnapType: noMotion
             ? 'none'
@@ -60,7 +61,7 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
         }}
       >
         {children}
-        <PageBackground />
+        {/* <PageBackground /> */}
       </Stack>
       {!hide && <MegaMenuFooter />}
     </Stack>

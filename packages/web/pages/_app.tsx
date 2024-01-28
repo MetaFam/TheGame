@@ -6,8 +6,9 @@ import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import Animocto from 'assets/animocto.svg';
-import { MegaMenu } from 'components/MegaMenu';
 import BackgroundImage from 'assets/page-bg.png';
+import { PageBackground } from 'components/Background/PageBackground';
+import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
 import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
 import { Web3ContextProvider } from 'contexts/Web3Context';
@@ -57,7 +58,7 @@ const App: React.FC<WithUrqlProps> = ({
       <div
         style={{
           height: '100vh',
-          backgroundColor: '#130032',
+          backgroundColor: 'octo',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -101,6 +102,7 @@ const App: React.FC<WithUrqlProps> = ({
             <Analytics />
             <Component {...pageProps} />
           </MegaMenu>
+          <PageBackground />
         </ComposeDBContextProvider>
       </Web3ContextProvider>
     </ChakraProvider>

@@ -63,6 +63,7 @@ export const FullPageContainer: React.FC<
     bgSize="cover"
     overflowX="hidden"
     spacing={0}
+    zIndex={1}
     p={{ base: 4, md: 8, lg: 12 }}
     sx={{
       scrollSnapAlign: 'start',
