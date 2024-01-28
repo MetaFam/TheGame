@@ -16,6 +16,8 @@ export const PageBackground: FC = () => {
 
   if (isLandingPage) return <div />;
 
+  if (isLandingPage) return <div />;
+
   return (
     <>
       <Box
@@ -62,4 +64,3 @@ export const PageBackground: FC = () => {
     </>
   );
 };
-

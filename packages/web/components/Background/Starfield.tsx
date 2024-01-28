@@ -169,6 +169,8 @@ function Starfield({ animateStars = true }: StarfieldProps) {
           far={400}
           filmGauge={53}
         />
+                <MovingSpot depthBuffer={depthBuffer} color="#500A7C" position={[3, 3, 0]} />
+        <MovingSpot depthBuffer={depthBuffer} color="#2A0D7D" position={[1, 3, 0]} />
       </group>
 
       <R3FSceneSection name="SectionOne" config={starfieldConfig} count={0}>
@@ -185,6 +187,17 @@ function Starfield({ animateStars = true }: StarfieldProps) {
       </R3FSceneSection>
     </>
   );
+}
+function MovingSpot({ vec = new THREE.Vector3(), ...props }) {
+  const light = useRef()
+  const viewport = useThree((state: any) => state.viewport)
+  useFrame((state) => {
+    if (light.current) {
+      light.current.target.position.lerp(vec.set((state.mouse.x * viewport.width) / 2, (state.mouse.y * viewport.height) / 2, 0), 0.1)
+      light.current.target.updateMatrixWorld()
+    }
+  })
+  return <SpotLight castShadow ref={light} penumbra={1} distance={6} angle={0.35} attenuation={5} anglePower={4} intensity={2} {...props} />
 }
 
 export default Starfield;
