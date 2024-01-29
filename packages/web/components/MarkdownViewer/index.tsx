@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 
-type MarkdownViewerProps = { children?: string | null };
+type MarkdownViewerProps = { children?: string | null; color?: string };
 
 const Viewer = dynamic(() => import('./MarkdownViewer'), {
   ssr: false,
@@ -10,8 +10,8 @@ const Viewer = dynamic(() => import('./MarkdownViewer'), {
 export const MarkdownViewer = React.forwardRef<
   HTMLDivElement,
   MarkdownViewerProps
->(({ children }, ref) => (
+>(({ children, color }, ref) => (
   <div ref={ref}>
-    <Viewer>{children ?? ''}</Viewer>
+    <Viewer color={color}>{children ?? ''}</Viewer>
   </div>
 ));

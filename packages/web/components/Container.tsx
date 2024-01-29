@@ -11,7 +11,6 @@ export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
     direction="column"
     align="center"
     pos="relative"
-    overflowY="scroll"
     bgImage={''}
     {...props}
   >

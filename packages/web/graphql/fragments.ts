@@ -112,6 +112,7 @@ export const QuestFragment = /* GraphQL */ `
     title
     repetition
     image
+    reward
 
     guild {
       name
@@ -181,6 +182,7 @@ export const QuestWithCompletionFragment = /* GraphQL */ `
     title
     repetition
     image
+    reward
 
     guild {
       name
