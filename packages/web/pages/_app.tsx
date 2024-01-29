@@ -6,7 +6,6 @@ import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import Animocto from 'assets/animocto.svg';
-import BackgroundImage from 'assets/page-bg.png';
 import { PageBackground } from 'components/Background/PageBackground';
 import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
@@ -63,9 +62,6 @@ const App: React.FC<WithUrqlProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 2,
-          backgroundImage: BackgroundImage.src,
-          backgroundAttachment: 'fixed',
-          backgroundSize: 'cover',
         }}
       >
         <Image src={Animocto.src} alt="Loading…" height={250} width={250} />

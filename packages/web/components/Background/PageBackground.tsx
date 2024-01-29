@@ -1,54 +1,33 @@
-import { Box, Button, Tooltip, useBreakpointValue, useMediaQuery } from '@metafam/ds';
+import { Box, Button, Icon, Tooltip  } from '@metafam/ds';
 import { Stats } from '@react-three/drei';
-import BackgroundImage from 'assets/page-bg.webp';
-import BackgroundImageXl from 'assets/page-bg@2x.webp';
-import BackgroundImage3Xl from 'assets/page-bg@3x.webp';
-import BackgroundImageFallback from 'assets/page-bg-fallback.webp';
-import BackgroundImageBase from 'assets/page-bg-mobile.webp';
 import { CONFIG } from 'config';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 
+import PageBackgroundSvg from './BackgroundSvg';
 import { PageCanvas } from './PageCanvas';
 import Starfield from './Starfield';
 
 export const PageBackground: FC = () => {
-  const [showBg, setShowBg] = useState<boolean>(true);
+  const [animateCanvas, setAnimateCanvas] = useState<boolean>(true);
   const { pathname } = useRouter();
-  const { appEnv } = CONFIG
-  const responsiveImage = useBreakpointValue({
-    base: BackgroundImageBase,
-    xl: BackgroundImage,
-    '2xl': BackgroundImageXl,
-    '3xl': BackgroundImage3Xl,
-  });
-  const [prefersReducedMotion] = useMediaQuery(
-    '(prefers-reduced-motion: reduce)',
-  );
-  const bgImage =
-    prefersReducedMotion || !showBg || !responsiveImage
-      ? BackgroundImageFallback.src
-      : responsiveImage.src;
-
   const isLandingPage = pathname === '/';
+  const { appEnv } = CONFIG
   const showStats = appEnv === 'development';
 
-  const showStarfield = !prefersReducedMotion && showBg;
-
-  const handleBgToggle = () => {
-    setShowBg(!showBg);
+  const toggleAnimation = () => {
+    setAnimateCanvas(!animateCanvas);
   };
-
+  const toggleIcon = animateCanvas ? FaToggleOn : FaToggleOff;
   if (isLandingPage) return <div />;
 
   return (
     <>
-      <Tooltip label={showBg ? 'Hide background' : 'Show background'} hasArrow>
+      <Tooltip label={animateCanvas ? 'Background Effects: Off' : 'Background Effects: On'} hasArrow>
       <Button
         className="toggle-bg"
-        onClick={handleBgToggle}
+        onClick={toggleAnimation}
         variant="ghost"
         position="absolute"
         pointerEvents="all"
@@ -61,7 +40,7 @@ export const PageBackground: FC = () => {
         transition="all 0.2s ease-in-out"
         zIndex={100}
       >
-        {showBg ? <FaToggleOn size={30} /> : <FaToggleOff size={30} />}
+        <Icon as={toggleIcon}  h={{ base: 8, '2xl': 10 }} w="auto" />
         </Button>
       </Tooltip>
 
@@ -92,29 +71,23 @@ export const PageBackground: FC = () => {
             bgColor: 'transparent',
             zIndex: 1,
           },
-          img: {
+          'img': {
             position: 'absolute',
             top: 0,
             left: 0,
+            maxWidth: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
             zIndex: 0,
           }
         }}
       >
-        {showStarfield ? (
           <PageCanvas>
-            <Starfield />
+          <Starfield animateStars={animateCanvas} />
           </PageCanvas>
-        ) : null}
-          <Image
-            src={bgImage}
-            alt="Background image"
-            objectFit="cover"
-            fill={true}
-            objectPosition="center"
-            quality={100}
-            loading='lazy'
-          />
+        <PageBackgroundSvg />
       </Box>
     </>
   );
 };
+

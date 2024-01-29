@@ -14,8 +14,6 @@ export const PageCanvas: FC<PropsWithChildren> = ({ children }) => {
       dpr={Math.min(2, isMobile && typeof window !== 'undefined' ? window.devicePixelRatio : 1)}
     >
       {children}
-      {/* <Effect /> */}
-      {/* <Environment preset="night" background={false} /> */}
     </Canvas>
   );
 };

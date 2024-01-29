@@ -1,11 +1,9 @@
-import { useBreakpointValue } from '@metafam/ds';
+import { useBreakpointValue, useMediaQuery } from '@metafam/ds';
 import {
   PerspectiveCamera,
   Sparkles,
-  SpotLight,
-  useDepthBuffer
 } from '@react-three/drei';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import StarMaterial from 'assets/materials/star.png';
 import React, {
   useCallback,
@@ -45,7 +43,11 @@ export function R3FSceneSection({
   );
 }
 
-function Starfield() {
+interface StarfieldProps {
+  animateStars?: boolean;
+}
+
+function Starfield({ animateStars = true }: StarfieldProps) {
   const scrollY = useRef(0);
   const sizes = useRef({ width: 0, height: 0 });
   const cursor = useRef({ x: 0, y: 0 });
@@ -61,25 +63,31 @@ function Starfield() {
     : null;
   const pageContainer = scrollContainer ? scrollContainer.querySelector('.full-page-container') : null;
   const starCount = useBreakpointValue({ base: 400, lg: 600, '2xl': 800 })
+  const [prefersReducedMotion] = useMediaQuery(
+    '(prefers-reduced-motion: reduce)',
+  );
+
+  const isAnimating = !prefersReducedMotion && animateStars;
 
   const starfieldConfig = useMemo(
     () => ({
       objectsDistance: 4,
+      animate: isAnimating,
       sparkles: {
         size: 10,
         opacity: 0.3,
         count: starCount,
         scale: new THREE.Vector3(30, 40, 40),
         positionY: 1,
-        speed: 0.2,
+        speed: isAnimating ? 0.2 : 0,
         material: StarMaterial,
         color: new THREE.Color(0xf1f1f1),
       },
     }),
-    [starCount],
+    [starCount, isAnimating],
   );
-  const { objectsDistance, sparkles } = starfieldConfig;
-  const depthBuffer = useDepthBuffer({ frames: 1 })
+  const { objectsDistance, sparkles, animate } = starfieldConfig;
+
 
   const resizeHandler = useCallback(() => {
     if (!scrollContainer) return;
@@ -136,6 +144,8 @@ function Starfield() {
   }, [pageContainer, scrollContainer, handleScroll, resizeHandler, mousemoveHandler]);
 
   useFrame(() => {
+    if (!animate) return;
+
     const elapsedTime = clock.getElapsedTime();
     const deltaTime = elapsedTime - previousTime;
     previousTime = elapsedTime;
@@ -165,21 +175,10 @@ function Starfield() {
           far={400}
           filmGauge={53}
         />
-                <MovingSpot depthBuffer={depthBuffer} color="#500A7C" position={[3, 3, 0]} />
-        <MovingSpot depthBuffer={depthBuffer} color="#2A0D7D" position={[1, 3, 0]} />
       </group>
 
       <R3FSceneSection name="SectionOne" config={starfieldConfig} count={0}>
-        {/* <directionalLight position={[1, 2, 3]} intensity={1} /> */}
         <ambientLight intensity={0.5} />
-        {/* <SpotLight
-          distance={5}
-          angle={0.15}
-          attenuation={5}
-          anglePower={5} // Diffuse-cone anglePower (default: 5)
-        /> */}
-        <fog attach="fog" args={['#202020', 5, 20]} />
-
         <Sparkles
           size={sparkles.size}
           count={sparkles.count}
@@ -192,17 +191,6 @@ function Starfield() {
       </R3FSceneSection>
     </>
   );
-}
-function MovingSpot({ vec = new THREE.Vector3(), ...props }) {
-  const light = useRef()
-  const viewport = useThree((state: any) => state.viewport)
-  useFrame((state) => {
-    if (light.current) {
-      light.current.target.position.lerp(vec.set((state.mouse.x * viewport.width) / 2, (state.mouse.y * viewport.height) / 2, 0), 0.1)
-      light.current.target.updateMatrixWorld()
-    }
-  })
-  return <SpotLight castShadow ref={light} penumbra={1} distance={6} angle={0.35} attenuation={5} anglePower={4} intensity={2} {...props} />
 }
 
 export default Starfield;
