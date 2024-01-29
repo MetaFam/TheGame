@@ -6,7 +6,6 @@ import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import Animocto from 'assets/animocto.svg';
-import BackgroundImage from 'assets/page-bg.png';
 import { PageBackground } from 'components/Background/PageBackground';
 import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
