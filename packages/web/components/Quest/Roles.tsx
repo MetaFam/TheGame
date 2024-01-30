@@ -1,6 +1,5 @@
 import { MetaTag, SelectSearch, Tooltip, Wrap, WrapItem } from '@metafam/ds';
 import { PlayerRole } from 'graphql/autogen/types';
-import React from 'react';
 import { RoleOption } from 'utils/roleHelpers';
 
 export type SetupRolesProps = {

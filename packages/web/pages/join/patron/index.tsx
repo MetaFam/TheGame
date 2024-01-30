@@ -11,7 +11,6 @@ import {
 // images
 import Octopus from 'assets/octopus.png';
 // components
-import { PageContainer } from 'components/Container';
 import { BecomePatron } from 'components/Patron/Join/BecomePatron';
 import { RankedLeagues } from 'components/Patron/Join/RankedLeagues';
 import { WateringSeeds } from 'components/Patron/Join/WateringSeeds';
@@ -21,10 +20,12 @@ import { PatronList } from 'components/Patron/PatronList';
 import { HeadComponent } from 'components/Seo';
 import { getPatrons, getPSeedHolders, getPSeedPrice } from 'graphql/getPatrons';
 import { InferGetStaticPropsType } from 'next';
-import React, { useRef } from 'react';
+import React, { lazy,useRef } from 'react';
 import { PATRONS_PER_RANK } from 'utils/patronHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async () => {
   const patrons = await getPatrons();

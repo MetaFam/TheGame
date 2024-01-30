@@ -1,7 +1,7 @@
 import { SimpleGrid } from '@metafam/ds';
 import { PlayerTile } from 'components/Player/PlayerTile';
 import { Player } from 'graphql/autogen/types';
-import React from 'react';
+
 
 type Props = {
   players: Player[];

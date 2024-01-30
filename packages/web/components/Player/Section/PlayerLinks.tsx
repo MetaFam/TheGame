@@ -1,6 +1,5 @@
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { LinkType_Enum, Player } from 'graphql/autogen/types';
-import React from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 import { Links } from './Links';

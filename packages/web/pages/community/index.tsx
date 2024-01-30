@@ -8,7 +8,6 @@ import {
   Tabs,
   VStack,
 } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { getPatrons, getPSeedPrice } from 'graphql/getPatrons';
 import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
@@ -16,9 +15,11 @@ import { useRouter } from 'next/router';
 import GuildsPage from 'pages/guilds';
 import PatronsPage from 'pages/patrons';
 import Players from 'pages/players';
-import React, { useEffect, useState } from 'react';
+import React, { lazy,useEffect, useState } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async () => {
   const patronsLimit = 150;

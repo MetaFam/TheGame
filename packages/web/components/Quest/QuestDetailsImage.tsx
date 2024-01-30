@@ -1,5 +1,5 @@
 import { AspectRatio, Image } from '@metafam/ds';
-import React from 'react';
+
 
 type Props = {
   src: string;

@@ -12,7 +12,6 @@ import {
 } from '@metafam/ds';
 import { SquareImage } from 'components/SquareImage';
 import { GuildFragment } from 'graphql/autogen/types';
-import React from 'react';
 import { optimizedImage } from 'utils/imageHelpers';
 
 import { GuildLinksSmall } from './Section/GuildLinks';

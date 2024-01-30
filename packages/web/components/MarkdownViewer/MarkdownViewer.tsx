@@ -12,7 +12,6 @@ import {
 } from '@metafam/ds';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import { MetaLink } from 'components/Link';
-import React from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 

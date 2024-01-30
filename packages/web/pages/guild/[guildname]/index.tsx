@@ -1,5 +1,4 @@
 import { Flex, LoadingState } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { GuildSection } from 'components/Guild/GuildSection';
 import {
@@ -20,10 +19,12 @@ import { useUser } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { ReactElement, useCallback, useMemo } from 'react';
+import React, { lazy,ReactElement, useCallback, useMemo } from 'react';
 import { BoxTypes, DisplayOutput, LayoutData } from 'utils/boxTypes';
 
 type Props = { guild: GuildFragment };
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const GuildPage: React.FC<Props> = ({ guild }) => {
   const router = useRouter();

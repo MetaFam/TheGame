@@ -1,13 +1,14 @@
 import { Text, VStack } from '@metafam/ds';
 import { getPSeedPrice, searchPatrons } from '@metafam/web/graphql/getPatrons';
-import { PageContainer } from 'components/Container';
 import { PatronList } from 'components/Patron/PatronList';
 import SearchFilters from 'components/SearchFilters';
 import { HeadComponent } from 'components/Seo';
 import { Patron } from 'graphql/types';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { lazy,useEffect, useState } from 'react';
 import { GlobalFilters } from 'utils/GlobalSearch';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const PatronSearchPage: React.FC = () => {
   const { query } = useRouter();

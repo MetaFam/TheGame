@@ -19,7 +19,6 @@ import { MetaLink as Link } from 'components/Link';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useOpenSeaCollectibles } from 'lib/hooks/opensea';
-import React from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 import { Collectible } from 'utils/openseaHelpers';
 

@@ -3,7 +3,7 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { GuildPlayer } from 'graphql/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
-import React from 'react';
+
 
 type GuildPlayerProps = {
   player: GuildPlayer;

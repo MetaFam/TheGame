@@ -1,7 +1,6 @@
 import { Input, Text, VStack } from '@metafam/ds';
 import { MarkdownEditor } from 'components/MarkdownEditor';
 import { MarkdownViewer } from 'components/MarkdownViewer';
-import React from 'react';
 import { BoxMetadata } from 'utils/boxTypes';
 
 type CustomTextSectionProps = {

@@ -1,5 +1,5 @@
 import { AvatarProps, Flex, Image } from '@metafam/ds';
-import React from 'react';
+
 
 type SquareImageProps = AvatarProps & {
   src?: string;

@@ -14,7 +14,6 @@ import {
   Text,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
-import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { questArticleCss } from 'components/Quest/QuestArticleCss';
 import { QuestCompletions } from 'components/Quest/QuestCompletions';
@@ -40,10 +39,12 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
-import React, { useMemo } from 'react';
+import { lazy,useMemo } from 'react';
 import { canCompleteQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const router = useRouter();

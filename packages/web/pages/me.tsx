@@ -1,7 +1,7 @@
 import { ConnectedPage } from 'components/ConnectedPage';
 import { InferGetStaticPropsType } from 'next';
 import { PlayerPage } from 'pages/player/[username]';
-import React from 'react';
+
 
 export const getStaticProps = async () => ({
   props: {},

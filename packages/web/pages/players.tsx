@@ -1,5 +1,4 @@
 import { Center, Link, Text, VStack } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { AdjascentTimeZonePlayers } from 'components/Player/Filter/AdjascentTimeZonePlayers';
 import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
 import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
@@ -15,9 +14,11 @@ import {
 import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { lazy,useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async (): Promise<{
   props: { urqlState?: unknown };

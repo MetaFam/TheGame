@@ -8,7 +8,7 @@ import {
   SkeletonText,
   VStack,
 } from '@metafam/ds';
-import React from 'react';
+
 
 export const PlayerTileSkeleton: React.FC<FlexProps> = (props) => (
   <MetaTile flex={1} {...props}>

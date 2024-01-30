@@ -121,7 +121,7 @@ You can actually review all queries and mutations available in Hasura on `http:/
 In order to integrate the GraphQL query you need to use the `useQuery` function in the `urql` package. You will also need to import the GraphQL query created. The following showcases how to use the query with a React functional component.
 
 ```typescript
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useQuery } from 'urql';
 import { GetMapQuery } from '/path/to/query';
 

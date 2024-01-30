@@ -10,7 +10,7 @@ import {
 } from '@metafam/ds';
 import { DropImageType } from 'lib/hooks/useDropFiles';
 import { ImageProps } from 'next/legacy/image';
-import React from 'react';
+
 
 export const UploadImageForm = ({
   dropzoneProps,

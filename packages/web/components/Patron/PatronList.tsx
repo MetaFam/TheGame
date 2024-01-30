@@ -3,7 +3,7 @@ import { Maybe } from '@metafam/utils';
 import { PlayerTile } from 'components/Player/PlayerTile';
 import { Player } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
-import React from 'react';
+
 
 type Props = {
   patrons: Array<Patron>;

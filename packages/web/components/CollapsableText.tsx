@@ -1,6 +1,6 @@
 import { Box, useBoolean } from '@metafam/ds';
 import type { PropsWithChildren } from 'react';
-import React from 'react';
+
 
 type CollapsableTextProps = PropsWithChildren<{ title: string }>;
 

@@ -1,7 +1,6 @@
 import { Flex, MetaTag, TagLabel, Text } from '@metafam/ds';
 import { getSeasonNum } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
-import React from 'react';
 import { convertToRoman } from 'utils/formatHelpers';
 
 type PlayerRankProps = {

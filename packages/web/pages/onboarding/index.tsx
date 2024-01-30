@@ -1,15 +1,16 @@
-import { PageContainer } from 'components/Container';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import { Onboard } from 'components/Landing/Onboard';
 import { HeadComponent } from 'components/Seo';
 import { SocialsDesktop } from 'components/SocialLinks';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { lazy,useCallback, useEffect, useRef, useState } from 'react';
 
 export const getStaticProps = async () => ({
   props: {
     hideTopMenu: true,
   },
 });
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const Onboarding: React.FC = () => {
   const scrollContainer =

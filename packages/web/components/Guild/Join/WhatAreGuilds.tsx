@@ -1,6 +1,6 @@
 import { Box, Container, Heading, Image, Text, VStack } from '@metafam/ds';
 import GuildsSunlessImg from 'assets/guilds-sunless_384x449.webp';
-import React from 'react';
+
 
 export const WhatAreGuilds: React.FC = () => (
   <Container
