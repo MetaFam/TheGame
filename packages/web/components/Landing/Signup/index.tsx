@@ -28,6 +28,7 @@ import { FullPageContainer } from 'components/Container';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useState } from 'react';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { FaArrowLeft, FaCircle } from 'react-icons/fa';
 
 import { Rain } from '../OnboardingGame/Rain';
@@ -42,7 +43,6 @@ import {
   roles,
   RoleTitle,
 } from './data';
-import { BsFillCheckCircleFill } from 'react-icons/bs';
 
 const tabs = ['Player', 'Guild', 'Patron'];
 const bgColors = ['green.200', '#6A88DF', '#ED61C5'];
