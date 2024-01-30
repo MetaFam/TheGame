@@ -62,6 +62,8 @@ import {
   getPlayerUsername,
 } from 'utils/playerHelpers';
 
+import ToggleEffectsButton from './ToggleEffectsButton';
+
 type LogoProps = {
   link: string;
 } & BoxProps;
@@ -136,8 +138,7 @@ const Option = ({ onClick, name, player, text }: OptionProps) => {
         </Text>
       </Flex>
     </Box>
-  )
-  
+  );
 };
 
 const ResultsTitle = ({ children }: { children: ReactNode }) => (
@@ -601,6 +602,8 @@ export const MegaMenuHeader: React.FC = () => {
               <DesktopNavLinks />
 
               <HeaderSearchBar onOpen={onSearchOpen} />
+
+              <ToggleEffectsButton />
             </HStack>
             <Box
               textAlign="right"
@@ -723,6 +726,7 @@ export const MegaMenuHeader: React.FC = () => {
               </SimpleGrid>
             </Stack>
           ))}
+          <ToggleEffectsButton hasLabel />
         </Stack>
       </Stack>
     </>

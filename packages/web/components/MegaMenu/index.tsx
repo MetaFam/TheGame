@@ -1,6 +1,4 @@
 import { Stack } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
-import { PageBackground } from 'components/Background/PageBackground';
 import { MegaMenuFooter } from 'components/MegaMenu/MegaMenuFooter';
 import { MegaMenuHeader } from 'components/MegaMenu/MegaMenuHeader';
 import type { PropsWithChildren } from 'react';
@@ -61,7 +59,6 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
         }}
       >
         {children}
-        {/* <PageBackground /> */}
       </Stack>
       {!hide && <MegaMenuFooter />}
     </Stack>

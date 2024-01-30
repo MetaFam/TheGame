@@ -1,44 +1,23 @@
-import { Box, Button, Icon, Tooltip  } from '@metafam/ds';
+import { Box } from '@metafam/ds';
+import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
-import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
+import { FC } from 'react';
 
 import PageBackgroundSvg from './BackgroundSvg';
 import { PageCanvas } from './PageCanvas';
 import Starfield from './Starfield';
 
+
 export const PageBackground: FC = () => {
-  const [animateCanvas, setAnimateCanvas] = useState<boolean>(true);
   const { pathname } = useRouter();
   const isLandingPage = pathname === '/';
-  const toggleAnimation = () => {
-    setAnimateCanvas(!animateCanvas);
-  };
-  const toggleIcon = animateCanvas ? FaToggleOn : FaToggleOff;
+  const root = typeof window !== 'undefined' ? document.body : null;
+  const noMotion = useMotionDetector(root)
+
   if (isLandingPage) return <div />;
 
   return (
     <>
-      <Tooltip label={animateCanvas ? 'Background Effects: Off' : 'Background Effects: On'} hasArrow>
-      <Button
-        className="toggle-bg"
-        onClick={toggleAnimation}
-        variant="ghost"
-        position="absolute"
-        pointerEvents="all"
-        bottom={4}
-        right={4}
-        opacity={0.3}
-        _hover={{
-          opacity: 1,
-        }}
-        transition="all 0.2s ease-in-out"
-        zIndex={100}
-      >
-        <Icon as={toggleIcon}  h={{ base: 8, '2xl': 10 }} w="auto" />
-        </Button>
-      </Tooltip>
-
       <Box
         className="canvas-wrapper"
         position="fixed"
@@ -75,9 +54,9 @@ export const PageBackground: FC = () => {
           }
         }}
       >
-        <PageCanvas>
-          <Starfield animateStars={animateCanvas} />
-        </PageCanvas>
+          <PageCanvas>
+          <Starfield animateStars={!noMotion} />
+          </PageCanvas>
         <PageBackgroundSvg />
       </Box>
     </>
