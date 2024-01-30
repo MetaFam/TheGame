@@ -1,7 +1,6 @@
 import { ComposeClient } from '@composedb/client';
 import { Box, Flex, LoadingState, useDisclosure } from '@metafam/ds';
 import { composeDBDefinition, Maybe } from '@metafam/utils';
-import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { PlayerSection } from 'components/Player/PlayerSection';
 import { ComposeDBPromptModal } from 'components/Player/Profile/ComposeDBPromptModal';
@@ -32,12 +31,12 @@ import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, {
+  lazy,
   ReactElement,
   useCallback,
   useEffect,
   useMemo,
-  useState,
-} from 'react';
+  useState} from 'react';
 import useSWR from 'swr';
 import { DisplayOutput, LayoutData } from 'utils/boxTypes';
 import { getENSAndPlayer } from 'utils/ensHelpers';
@@ -45,13 +44,14 @@ import {
   getPlayerBackgroundFull,
   getPlayerBannerFull,
   getPlayerDescription,
-  getPlayerImage,
 } from 'utils/playerHelpers';
 
 export type PlayerPageProps = {
   player: Maybe<Player>;
   isHydratedFromComposeDB?: boolean;
 };
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const PlayerPage: React.FC<PlayerPageProps> = ({
   player: playerFromProps,

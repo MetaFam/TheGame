@@ -1,5 +1,5 @@
 import { Container, Heading, ListItem, Text, UnorderedList } from '@metafam/ds';
-import React from 'react';
+
 
 export const WhyJoin: React.FC = () => (
   <Container

@@ -16,7 +16,7 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
-import React from 'react';
+
 
 type PlayerStatsProps = {
   player: Player;

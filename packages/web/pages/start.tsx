@@ -1,12 +1,13 @@
-import { PageContainer } from 'components/Container';
 import { PlayerStart } from 'components/Player/PlayerStart';
-import React from 'react';
+import React, { lazy } from 'react';
 
 export const getStaticProps = async () => ({
   props: {
     hideTopMenu: true,
   },
 });
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const SetupComplete: React.FC = () => (
   <PageContainer>

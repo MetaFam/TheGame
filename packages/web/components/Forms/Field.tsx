@@ -1,6 +1,5 @@
 import { Flex, Text } from '@metafam/ds';
 import type { PropsWithChildren } from 'react';
-import React from 'react';
 import { FieldError } from 'react-hook-form';
 
 type FieldProps = PropsWithChildren<{

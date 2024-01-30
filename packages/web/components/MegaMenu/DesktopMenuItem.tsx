@@ -1,6 +1,5 @@
 import { Avatar, Box, Link, MenuItem, Text } from '@metafam/ds';
 import { Values } from '@metafam/utils';
-import React from 'react';
 import { menuIcons } from 'utils/menuIcons';
 
 type MenuItemProps = {

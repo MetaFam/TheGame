@@ -8,14 +8,15 @@ import {
   UnorderedList,
 } from '@metafam/ds';
 import { Constants, generateUUID } from '@metafam/utils';
-import { PageContainer } from 'components/Container';
 import { CONFIG } from 'config';
 import { useUser } from 'lib/hooks';
 import { get, set } from 'lib/store';
-import React, { useEffect, useState } from 'react';
+import React, { lazy,useEffect, useState } from 'react';
 
 const discordOAuthCallbackURL = `${CONFIG.publicURL}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
 export const discordAuthStateGuidKey = 'metagame-add-guild';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const GuildSetupAuthCallback: React.FC = () => {
   const { user } = useUser();

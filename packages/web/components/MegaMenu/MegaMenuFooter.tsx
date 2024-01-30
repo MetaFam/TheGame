@@ -18,7 +18,6 @@ import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
-import React from 'react';
 
 import { XPSeedsBalance } from './XPSeedsBalance';
 

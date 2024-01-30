@@ -1,6 +1,6 @@
 import { Link, LinkProps } from '@metafam/ds';
 import type { PropsWithChildren } from 'react';
-import React from 'react';
+
 
 type LinkGuildProps = PropsWithChildren<{
   daoURL: string | null;

@@ -7,7 +7,6 @@ import {
   Tabs,
   Text,
 } from '@metafam/ds';
-import React from 'react';
 
 import { Listen } from './LatestContentTabs/Listen';
 import { Read } from './LatestContentTabs/Read';
