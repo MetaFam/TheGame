@@ -1,4 +1,3 @@
-import { useBreakpointValue, useMediaQuery } from '@metafam/ds';
 import {
   PerspectiveCamera,
   Sparkles,
@@ -63,28 +62,23 @@ function Starfield({ animateStars = true }: StarfieldProps) {
     : null;
   const pageContainer = scrollContainer ? scrollContainer.querySelector('.full-page-container') : null;
   const starCount = 600
-  const [prefersReducedMotion] = useMediaQuery(
-    '(prefers-reduced-motion: reduce)',
-  );
-
-  const isAnimating = !prefersReducedMotion && animateStars;
 
   const starfieldConfig = useMemo(
     () => ({
       objectsDistance: 4,
-      animate: isAnimating,
+      animate: animateStars,
       sparkles: {
         size: 10,
         opacity: 0.3,
         count: starCount,
         scale: new THREE.Vector3(30, 40, 40),
         positionY: 1,
-        speed: isAnimating ? 0.2 : 0,
+        speed: animateStars ? 0.2 : 0,
         material: StarMaterial,
         color: new THREE.Color(0xf1f1f1),
       },
     }),
-    [starCount, isAnimating],
+    [starCount, animateStars],
   );
   const { objectsDistance, sparkles, animate } = starfieldConfig;
 
@@ -100,8 +94,9 @@ function Starfield({ animateStars = true }: StarfieldProps) {
   }, [scrollContainer]);
 
   const handleScroll = useCallback(() => {
-    if (!pageContainer) return;
-    const { scrollTop } = pageContainer;
+    if (!pageContainer || !scrollContainer) return;
+
+    const { scrollTop } = scrollContainer;
     scrollY.current = scrollTop ?? window.scrollY;
 
     const newSection = Math.round(scrollY.current / sizes.current.height);
@@ -109,7 +104,7 @@ function Starfield({ animateStars = true }: StarfieldProps) {
       currentSection.current = newSection;
     }
 
-  }, [pageContainer]);
+  }, [pageContainer, scrollContainer]);
 
   const mousemoveHandler = useCallback((event: MouseEvent) => {
     cursor.current.x = event.clientX / sizes.current.width - 0.3;
@@ -121,7 +116,6 @@ function Starfield({ animateStars = true }: StarfieldProps) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-
       // Set initial sizes based on the display
       sizes.current = {
         width: window.innerWidth,
@@ -131,13 +125,13 @@ function Starfield({ animateStars = true }: StarfieldProps) {
       // Set initial scroll position
       scrollY.current = pageContainer ? pageContainer.scrollTop : window.scrollY;
 
-      pageContainer?.addEventListener('scroll', handleScroll);
+      scrollContainer?.addEventListener('scroll', handleScroll);
       window.addEventListener('resize', resizeHandler);
       window.addEventListener('mousemove', mousemoveHandler);
     }
 
     return () => {
-      pageContainer?.removeEventListener('scroll', handleScroll);
+      scrollContainer?.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', resizeHandler);
       window.removeEventListener('mousemove', mousemoveHandler);
     };

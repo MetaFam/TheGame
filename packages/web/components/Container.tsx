@@ -12,6 +12,7 @@ const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
     align="center"
     pos="relative"
     bgImage={''}
+    {...props}
   >
     {children}
   </Flex>
@@ -20,7 +21,7 @@ const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
 export default PageContainer;
 
 export const FlexContainer: React.FC<StackProps> = ({ children, ...props }) => (
-  <Stack className="flex-container" w="full" align="center" justify="center" spacing={[6, 8]}>
+  <Stack className="flex-container" w="full" align="center" justify="center" spacing={[6, 8]} {...props}>
     {children}
   </Stack>
 );
@@ -37,7 +38,7 @@ export const EmbedContainer: React.FC<EmbedProps> = ({
   url,
   ...props
 }) => (
-  <Flex w="100%" h="100%" direction="column">
+  <Flex w="100%" h="100%" direction="column" {...props} >
     <HeadComponent title={title} description={description} url={url} />
     <iframe
       title={title}
