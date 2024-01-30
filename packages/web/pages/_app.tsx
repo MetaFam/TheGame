@@ -18,7 +18,7 @@ import Image from 'next/image';
 import Script from 'next/script';
 import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
-import React from 'react';
+
 
 const { userbackToken, honeybadgerAPIKey } = CONFIG;
 

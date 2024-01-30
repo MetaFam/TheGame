@@ -13,7 +13,6 @@ import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import moment from 'moment';
-import React from 'react';
 import { QuestChainType } from 'utils/questChains';
 
 import { MetaLink } from '../Link';

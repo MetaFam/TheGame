@@ -1,6 +1,6 @@
 import { Container, Heading, Image } from '@metafam/ds';
 import DecentralizedFactoryImg from 'assets/decentralized-factory_1100x1079.webp';
-import React from 'react';
+
 
 export const DecentralizedFactory: React.FC = () => (
   <Container

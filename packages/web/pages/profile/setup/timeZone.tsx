@@ -2,7 +2,6 @@ import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupTimeZone } from 'components/Setup/SetupTimeZone';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import { InferGetStaticPropsType } from 'next';
-import React from 'react';
 
 export const getStaticProps = async () => ({
   props: {

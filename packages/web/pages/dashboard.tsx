@@ -1,4 +1,3 @@
-import { PageContainer } from 'components/Container';
 import {
   ALL_BOXES,
   DEFAULT_DASHBOARD_LAYOUT_DATA,
@@ -10,8 +9,10 @@ import {
   useUpdatePlayerDashboardLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { useCallback, useMemo } from 'react';
+import React, { lazy,useCallback, useMemo } from 'react';
 import { DisplayOutput, LayoutData } from 'utils/boxTypes';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const DashboardPage: React.FC = () => {
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();

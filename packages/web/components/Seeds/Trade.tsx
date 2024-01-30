@@ -1,6 +1,5 @@
 import { Box, Button, Image, Link, Text, VStack } from '@metafam/ds';
 import Balancer from 'assets/seeds/balancer-trade.png';
-import React from 'react';
 import { GoLinkExternal } from 'react-icons/go';
 
 export const Trade: React.FC = () => (

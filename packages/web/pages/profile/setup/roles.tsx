@@ -3,7 +3,6 @@ import { SetupRoles } from 'components/Setup/SetupRoles';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { InferGetStaticPropsType } from 'next';
-import React from 'react';
 
 export const getStaticProps = async () => {
   const roleChoices = await getPlayerRoles();

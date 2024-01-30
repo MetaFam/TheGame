@@ -1,5 +1,4 @@
 import { Box, Button, Text, VStack } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
 import { Intro } from 'components/Landing/Intro';
@@ -19,9 +18,11 @@ import { getPatrons } from 'graphql/getPatrons';
 import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { lazy,useCallback, useEffect, useState } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async () => {
   const patrons = await getPatrons(11);

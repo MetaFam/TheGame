@@ -1,8 +1,8 @@
 import { Flex, FlexProps, Stack, StackProps } from '@metafam/ds';
 import { HeadComponent } from 'components/Seo';
-import React from 'react';
 
-export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
+
+const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
   <Flex
     className="full-page-container"
     w="100%"
@@ -17,6 +17,8 @@ export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
     {children}
   </Flex>
 );
+
+export default PageContainer;
 
 export const FlexContainer: React.FC<StackProps> = ({ children, ...props }) => (
   <Stack className="flex-container" w="full" align="center" justify="center" spacing={[6, 8]} {...props}>

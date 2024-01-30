@@ -1,6 +1,5 @@
 import { Box, Button, Image, Link, Text, VStack } from '@metafam/ds';
 import Balancer from 'assets/seeds/balancer-plant.png';
-import React from 'react';
 import { GoLinkExternal } from 'react-icons/go';
 
 export const Plant: React.FC = () => (

@@ -26,15 +26,16 @@ import Loader from 'assets/Loader.svg';
 import Inkeeping from 'assets/raids/Inkeeping.png';
 import MetaMedia from 'assets/raids/MetaMedia.png';
 import MetaOS from 'assets/raids/MetaOS.png';
-import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { SquareImage } from 'components/SquareImage';
 import { PlayerSkillFragment, SkillCategory_Enum } from 'graphql/autogen/types';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { lazy,useEffect, useRef, useState } from 'react';
 import { convertToRoman } from 'utils/formatHelpers';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const RaidsPage: React.FC = () => {
   const router = useRouter();

@@ -19,7 +19,6 @@ import { graphql } from '@quest-chains/sdk';
 import Pin from 'assets/pin.svg';
 import Seed from 'assets/seed.svg';
 import Share from 'assets/share.svg';
-import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import { MintNFTTile } from 'components/QuestChain/MintNFTTile';
@@ -37,7 +36,7 @@ import {
   useUserProgress,
   useUserStatus,
 } from 'lib/hooks/questChains';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { lazy,useCallback, useEffect, useRef, useState } from 'react';
 import { BsArrowRight, BsCheck } from 'react-icons/bs';
 import { QuestChainType } from 'utils/questChains';
 
@@ -45,6 +44,8 @@ type Props = {
   inputQuestChain: graphql.QuestChainInfoFragment;
   name: QuestChainType;
 };
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
   const { address } = useWeb3();

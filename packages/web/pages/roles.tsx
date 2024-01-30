@@ -11,11 +11,12 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { SquareImage } from 'components/SquareImage';
-import React from 'react';
+import React, { lazy } from 'react';
 import { Difficulty, QuestChainRolesDetails, Time } from 'utils/questChains';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const QuestsDashboard: React.FC = () => (
   <PageContainer>

@@ -1,12 +1,14 @@
 import { useDisclosure, useToast } from '@metafam/ds';
-import { FlexContainer, PageContainer } from 'components/Container';
+import { FlexContainer } from 'components/Container';
 import { ComposeDBPromptModal } from 'components/Player/Profile/ComposeDBPromptModal';
 import { SetupHeader } from 'components/Setup/SetupHeader';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUser } from 'lib/hooks';
 import { useRouter } from 'next/router';
-import React, { PropsWithChildren, useCallback, useEffect } from 'react';
+import React, { lazy,PropsWithChildren, useCallback, useEffect } from 'react';
 import { errorHandler } from 'utils/errorHandler';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const SetupProfile: React.FC<PropsWithChildren> = ({ children }) => {
   const { options, stepIndex } = useSetupFlow();

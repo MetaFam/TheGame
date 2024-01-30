@@ -25,7 +25,6 @@ import {
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import moment from 'moment';
-import React from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 import { RepetitionTag, StatusTag } from './QuestTags';

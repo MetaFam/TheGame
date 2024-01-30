@@ -1,5 +1,5 @@
 import { Flex, LoadingState, MetaHeading, useToast } from '@metafam/ds';
-import { FlexContainer, PageContainer } from 'components/Container';
+import { FlexContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import {
   GuildInfoInput,
@@ -12,8 +12,10 @@ import {
 import { useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { useCallback } from 'react';
+import React, { lazy,useCallback } from 'react';
 import { errorHandler } from 'utils/errorHandler';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const SetupGuild: React.FC = () => {
   const router = useRouter();

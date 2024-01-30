@@ -15,7 +15,6 @@ import {
   SortOption,
   sortOptions,
 } from 'lib/hooks/player/players';
-import React from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 type ValueType = { value: string; label: string };

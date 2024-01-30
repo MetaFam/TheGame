@@ -10,7 +10,6 @@ import {
   VStack,
 } from '@metafam/ds';
 import Octopus from 'assets/octopus.png'; // in the footer
-import { PageContainer } from 'components/Container';
 import { GuildList } from 'components/Guild/GuildList';
 import { DecentralizedFactory } from 'components/Guild/Join/DecentralizedFactory';
 import { DecideJoin } from 'components/Guild/Join/DecideJoin';
@@ -22,13 +21,16 @@ import { HeadComponent } from 'components/Seo';
 import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import React, { useRef } from 'react';
+import React, { lazy,useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 /* 
   Get a list of guilds to show in the Other guilds include... section
 */
+
+const PageContainer = lazy(() => import('components/Container'));
+
 export const getStaticProps = async () => {
   const guildsLimit = 6; // How many guilds to show on the page?
   const guilds = await getGuilds(guildsLimit);
