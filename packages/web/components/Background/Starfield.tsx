@@ -62,7 +62,7 @@ function Starfield({ animateStars = true }: StarfieldProps) {
     ? document.getElementById('scroll-container')
     : null;
   const pageContainer = scrollContainer ? scrollContainer.querySelector('.full-page-container') : null;
-  const starCount = useBreakpointValue({ base: 400, lg: 600, '2xl': 800 })
+  const starCount = 600
   const [prefersReducedMotion] = useMediaQuery(
     '(prefers-reduced-motion: reduce)',
   );

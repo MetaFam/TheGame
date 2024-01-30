@@ -1,6 +1,4 @@
 import { Box, Button, Icon, Tooltip  } from '@metafam/ds';
-import { Stats } from '@react-three/drei';
-import { CONFIG } from 'config';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
@@ -13,9 +11,6 @@ export const PageBackground: FC = () => {
   const [animateCanvas, setAnimateCanvas] = useState<boolean>(true);
   const { pathname } = useRouter();
   const isLandingPage = pathname === '/';
-  const { appEnv } = CONFIG
-  const showStats = appEnv === 'development';
-
   const toggleAnimation = () => {
     setAnimateCanvas(!animateCanvas);
   };
@@ -43,8 +38,6 @@ export const PageBackground: FC = () => {
         <Icon as={toggleIcon}  h={{ base: 8, '2xl': 10 }} w="auto" />
         </Button>
       </Tooltip>
-
-      {showStats ? <Stats showPanel={0} className="stats" /> : null}
 
       <Box
         className="canvas-wrapper"
@@ -82,9 +75,9 @@ export const PageBackground: FC = () => {
           }
         }}
       >
-          <PageCanvas>
+        <PageCanvas>
           <Starfield animateStars={animateCanvas} />
-          </PageCanvas>
+        </PageCanvas>
         <PageBackgroundSvg />
       </Box>
     </>
