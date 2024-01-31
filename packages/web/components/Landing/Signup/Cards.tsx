@@ -233,10 +233,32 @@ export const PerksCard: React.FC<CardProps> = ({
   </Box>
 );
 
-export const PerksList: React.FC<PerkList> = ({ list }) => (
-  <List spacing={3}>
-    {list.map(({ perk }, index) => (
-      <ListItem key={index}>{perk}</ListItem>
-    ))}
-  </List>
+export const PerksChecklist: React.FC<{ perks: PlayerPerk[], isMember?: boolean, isVisitor?: boolean }> = ({ perks, isMember, isVisitor }) => (
+  <Box
+    h="full"
+    bg={isVisitor ? "#FFFFFF0A" : "#00000029"}
+    display="flex"
+    flex="0 1 auto"
+    px={6}
+    py={3}
+  >
+    <List fontSize="md" fontWeight="light" spacing={3}>
+      {perks?.map((perk, idx) => (
+        <ListItem key={idx}>
+          {isVisitor && (
+            <ListIcon
+              as={perk.visitor ? BsFillCheckCircleFill : FaCircle}
+              color={perk.visitor ? 'green.500' : 'gray.600'}
+            />
+          )}
+          {isMember && (
+            <ListIcon
+              as={perk.member ? BsFillCheckCircleFill : FaCircle}
+              color={perk.member ? 'green.500' : 'gray.600'}
+            />
+          )}
+        </ListItem>
+      ))}
+    </List>
+  </Box>
 )

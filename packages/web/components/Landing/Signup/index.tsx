@@ -28,11 +28,9 @@ import { FullPageContainer } from 'components/Container';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useState } from 'react';
-import { BsFillCheckCircleFill } from 'react-icons/bs';
-import { FaArrowLeft, FaCircle } from 'react-icons/fa';
 
 import { Rain } from '../OnboardingGame/Rain';
-import { PerksCard, PerksList, RoleCard } from './Cards';
+import { PerksCard, PerksChecklist, RoleCard } from './Cards';
 import {
   guildPerks,
   guildReasons,
@@ -379,44 +377,8 @@ export const Signup: React.FC = () => {
                             <ListItem key={index}><Text fontSize='lg'>{title}</Text></ListItem>
                           ))}
                         </List>
-                        <Box
-                          h="full"
-                          bg="#FFFFFF0A"
-                          display="flex"
-                          flex="0 1 auto"
-                          px={6}
-                          py={3}
-                        >
-                          <List fontSize="md" fontWeight="light" spacing={3}>
-                            {playerPerks?.map((perk, idx) => (
-                              <ListItem key={idx}>
-                                <ListIcon
-                                  as={perk.visitor ? BsFillCheckCircleFill : FaCircle}
-                                  color={perk.visitor ? 'green.500' : 'gray.600'}
-                                />
-                              </ListItem>
-                            ))}
-                          </List>
-                        </Box>
-                        <Box
-                          h="full"
-                          bg="#00000029"
-                          display="flex"
-                          flex="0 1 auto"
-                          px={6}
-                          py={3}
-                        >
-                          <List fontSize="md" fontWeight="light" spacing={3}>
-                            {playerPerks?.map((perk, idx) => (
-                              <ListItem key={idx}>
-                                <ListIcon
-                                  as={perk.visitor ? BsFillCheckCircleFill : FaCircle}
-                                  color={perk.visitor ? 'green.500' : 'gray.600'}
-                                />
-                              </ListItem>
-                            ))}
-                          </List>
-                        </Box>
+                        <PerksChecklist perks={playerPerks} isVisitor />
+                        <PerksChecklist perks={playerPerks} isMember />
                       </Flex>
                     </Stack>
                   )}
