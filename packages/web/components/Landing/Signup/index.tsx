@@ -32,7 +32,7 @@ import React, { Ref, RefObject, useState } from 'react';
 import { Rain } from '../OnboardingGame/Rain';
 import { PerksCard, PerksChecklist, RoleCard } from './Cards';
 import {
-  guildPerks,
+  guildPerksList,
   guildReasons,
   patronPerks,
   patronReasons,
@@ -339,49 +339,26 @@ export const Signup: React.FC = () => {
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Perks of Joining
                   </Text>
-                  {isMobile ? (
-                    <Tabs variant="soft-rounded" isFitted>
-                      <TabList
-                        bg="blackAlpha.500"
-                        borderRadius="full"
-                        paddingY={2}
-                        paddingX={4}
-                      >
-                        {playerPerks.map((perk, index) => (
-                          <Tab
-                            key={index}
-                            _selected={{
-                              bg: index === 0 ? 'green.200' : 'pink.200',
-                              color: index === 0 ? 'green.900' : 'pink.900',
-                            }}
-                            _active={{ bg: 'transparent' }}
-                            textTransform="uppercase"
-                          >
-                            {perk.title}
-                          </Tab>
-                        ))}
-                      </TabList>
-                      <TabPanels>
-                        {playerPerks.map((perk, index) => (
-                          <TabPanel key={index}>
-                            <PerksCard {...perk} />
-                          </TabPanel>
-                        ))}
-                      </TabPanels>
-                    </Tabs>
-                  ) : (
-                    <Stack direction={['column', 'row']} gap={0}>
-                      <Flex align='center' ml={6} w="full">
-                        <List spacing={3} mr={3}>
-                          {playerPerks.map(({ title }, index) => (
-                            <ListItem key={index}><Text fontSize='lg'>{title}</Text></ListItem>
-                          ))}
-                        </List>
-                        <PerksChecklist perks={playerPerks} isVisitor />
-                        <PerksChecklist perks={playerPerks} isMember />
-                      </Flex>
-                    </Stack>
-                  )}
+                  <Stack direction={['column', 'row']} gap={0}>
+                    <Flex align='center' ml={6} w="full">
+                      {playerPerks.map(({ list }, index) => {
+                        return <>
+                          {index === 0 && (
+                            <React.Fragment key={index}>
+                              <List spacing={3} mr={3}>
+                                {list.map(({ title }, perkIndex) => (
+                                  <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
+                                ))}
+                              </List>
+                              <PerksChecklist perks={list} key="visitor" />
+                              <PerksChecklist perks={list} altBackground key="member" />
+                            </React.Fragment>
+                          )}
+                        </>
+                      }
+                      )}
+                    </Flex>
+                  </Stack>
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     How to become a player?
                   </Text>
@@ -493,7 +470,18 @@ export const Signup: React.FC = () => {
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Tiers & Perks
                   </Text>
-                  {isMobile ? (
+                  <Flex align='center' ml={6} w="full">
+
+                    <List spacing={3} mr={3}>
+                      {guildPerksList.map(({ title }, perkIndex) => (
+                        <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
+                      ))}
+                    </List>
+                    <PerksChecklist perks={guildPerksList} key="free" />
+                    <PerksChecklist perks={guildPerksList} altBackground key="basic" />
+                    <PerksChecklist perks={guildPerksList} key="pro" />
+                  </Flex>
+                  {/* {isMobile ? (
                     <Tabs variant="soft-rounded" isFitted>
                       <TabList
                         bg="blackAlpha.500"
@@ -533,7 +521,7 @@ export const Signup: React.FC = () => {
                         />
                       ))}
                     </Stack>
-                  )}
+                  )} */}
                   <VStack align="center" spacing={4}>
                     <Text
                       fontSize={{ base: '2xl', lg: '4xl' }}

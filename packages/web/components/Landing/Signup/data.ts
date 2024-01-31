@@ -3,15 +3,15 @@ import PlayerImg from 'assets/players-sun_800x822.webp';
 import BabyOctopus from 'assets/quests/baby_octo.webp';
 import Octopus from 'assets/quests/octopus.webp';
 import YoungPlant from 'assets/young-plant.webp';
-
-export interface PlayerPerk {
+export interface Perk {
   title: string;
-  visitor: boolean;
-  member: boolean;
-}
-interface Perk {
-  perk: string;
-  checked: boolean;
+  type: 'Player' | 'Guild' | 'Patron';
+  visitor?: boolean;
+  member?: boolean;
+  free?: boolean;
+  basic?: boolean;
+  pro?: boolean;
+  checked?: boolean;
 }
 
 export interface Role {
@@ -42,97 +42,194 @@ export enum RoleTitle {
   Patron = 'patron',
 }
 
-export const playerPerks: PlayerPerk[] = [
-  { title: 'Access to educational resources', visitor: true, member: true },
-  { title: 'Access to community calls', visitor: true, member: true },
-  { title: 'List of MetaAlliance guilds', visitor: true, member: true },
-  { title: 'Free newsletter', visitor: true, member: true },
-  { title: 'Search & filter people', visitor: false, member: true },
-  { title: 'Access to the community', visitor: false, member: true },
-  { title: 'Ability to earn reputation', visitor: false, member: true },
-  { title: 'Ability to earn Seed tokens', visitor: false, member: true },
-  { title: 'Get ranked & unlock perks', visitor: false, member: true },
+export const playerPerksList: Perk[] = [
+  {
+    title: 'Access to educational resources',
+    type: 'Player',
+    visitor: true,
+    member: true,
+  },
+  {
+    title: 'Access to community calls',
+    type: 'Player',
+    visitor: true,
+    member: true,
+  },
+  {
+    title: 'List of MetaAlliance guilds',
+    type: 'Player',
+    visitor: true,
+    member: true,
+  },
+  { title: 'Free newsletter', type: 'Player', visitor: true, member: true },
+  {
+    title: 'Search & filter people',
+    type: 'Player',
+    visitor: false,
+    member: true,
+  },
+  {
+    title: 'Access to the community',
+    type: 'Player',
+    visitor: false,
+    member: true,
+  },
+  {
+    title: 'Ability to earn reputation',
+    type: 'Player',
+    visitor: false,
+    member: true,
+  },
+  {
+    title: 'Ability to earn Seed tokens',
+    type: 'Player',
+    visitor: false,
+    member: true,
+  },
+  {
+    title: 'Get ranked & unlock perks',
+    type: 'Player',
+    visitor: false,
+    member: true,
+  },
 ];
-
-export const guildFreeList: Perk[] = [
-  { perk: 'Guild page in MG', checked: true },
-  { perk: 'Members directory', checked: true },
-  { perk: 'Your leaderboard', checked: true },
-  { perk: 'Onboarding paths', checked: true },
-  { perk: 'A guild2guild meetup', checked: true },
-  { perk: 'Your news inside MG', checked: true },
-  { perk: 'Post calls to action', checked: false },
-  { perk: 'Search & filter people', checked: false },
-  { perk: 'We shill your grant', checked: false },
-  { perk: 'X thread about you', checked: false },
-  { perk: 'In the follow list on X', checked: false },
-  { perk: 'Your news in the newsletter', checked: false },
-  { perk: 'A podcast interview', checked: false },
-  { perk: 'Part of MetaAlliance', checked: false },
-  { perk: 'A post about you', checked: false },
-  { perk: 'Branch in The Onboarding Game', checked: false },
-];
-
-export const guildBasicList: Perk[] = [
-  { perk: 'Guild page in MG', checked: true },
-  { perk: 'Members directory', checked: true },
-  { perk: 'Your leaderboard', checked: true },
-  { perk: 'Onboarding paths', checked: true },
-  { perk: 'A guild2guild meetup', checked: true },
-  { perk: 'Your news inside MG', checked: true },
-  { perk: 'Post calls to action', checked: true },
-  { perk: 'Search & filter people', checked: true },
-  { perk: 'We shill your grant', checked: true },
-  { perk: 'X thread about you', checked: true },
-  { perk: 'In the follow list on X', checked: true },
-  { perk: 'Your news in the newsletter', checked: true },
-  { perk: 'A podcast interview', checked: true },
-  { perk: 'Part of MetaAlliance', checked: false },
-  { perk: 'A post about you', checked: false },
-  { perk: 'Branch in The Onboarding Game', checked: false },
-];
-
-export const guildProList: Perk[] = [
-  { perk: 'Guild page in MG', checked: true },
-  { perk: 'Members directory', checked: true },
-  { perk: 'Your leaderboard', checked: true },
-  { perk: 'Onboarding paths', checked: true },
-  { perk: 'A guild2guild meetup', checked: true },
-  { perk: 'Your news inside MG', checked: true },
-  { perk: 'Post calls to action', checked: true },
-  { perk: 'Search & filter people', checked: true },
-  { perk: 'We shill your grant', checked: true },
-  { perk: 'X thread about you', checked: true },
-  { perk: 'In the follow list on X', checked: true },
-  { perk: 'Your news in the newsletter', checked: true },
-  { perk: 'A podcast interview', checked: true },
-  { perk: 'Part of MetaAlliance', checked: true },
-  { perk: 'A post about you', checked: true },
-  { perk: 'Branch in The Onboarding Game', checked: true },
+export const guildPerksList: Perk[] = [
+  {
+    title: 'Guild page in MG',
+    type: 'Guild',
+    free: true,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'Members directory',
+    type: 'Guild',
+    free: true,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'Your leaderboard',
+    type: 'Guild',
+    free: true,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'Onboarding paths',
+    type: 'Guild',
+    free: true,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'A guild2guild meetup',
+    type: 'Guild',
+    free: true,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'Your news inside MG',
+    type: 'Guild',
+    free: true,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'Post calls to action',
+    type: 'Guild',
+    free: false,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'Search & filter people',
+    type: 'Guild',
+    free: false,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'We shill your grant',
+    type: 'Guild',
+    free: false,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'X thread about you',
+    type: 'Guild',
+    free: false,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'In the follow list on X',
+    type: 'Guild',
+    free: false,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'Your news in the newsletter',
+    type: 'Guild',
+    free: false,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'A podcast interview',
+    type: 'Guild',
+    free: false,
+    basic: true,
+    pro: true,
+  },
+  {
+    title: 'Part of MetaAlliance',
+    type: 'Guild',
+    free: false,
+    basic: false,
+    pro: true,
+  },
+  {
+    title: 'A post about you',
+    type: 'Guild',
+    free: false,
+    basic: false,
+    pro: true,
+  },
+  {
+    title: 'Branch in The Onboarding Game',
+    type: 'Guild',
+    free: false,
+    basic: false,
+    pro: true,
+  },
 ];
 
 export const patronFreeList: Perk[] = [
-  { perk: 'Access to educational resources', checked: true },
-  { perk: 'Access to community calls', checked: true },
-  { perk: 'List of MetaAlliance guilds', checked: true },
-  { perk: 'Free newsletter', checked: true },
-  { perk: 'Search & filter people', checked: false },
-  { perk: 'Access to the community', checked: false },
-  { perk: 'Ability to earn reputation', checked: false },
-  { perk: 'Ability to earn Seed tokens', checked: false },
-  { perk: 'Get ranked & unlock perks', checked: false },
+  { title: 'Access to educational resources', checked: true, type: 'Patron' },
+  { title: 'Access to community calls', checked: true, type: 'Patron' },
+  { title: 'List of MetaAlliance guilds', checked: true, type: 'Patron' },
+  { title: 'Free newsletter', checked: true, type: 'Patron' },
+  { title: 'Search & filter people', checked: false, type: 'Patron' },
+  { title: 'Access to the community', checked: false, type: 'Patron' },
+  { title: 'Ability to earn reputation', checked: false, type: 'Patron' },
+  { title: 'Ability to earn Seed tokens', checked: false, type: 'Patron' },
+  { title: 'Get ranked & unlock perks', checked: false, type: 'Patron' },
 ];
 
 export const patronMemberList: Perk[] = [
-  { perk: 'Access to educational resources', checked: true },
-  { perk: 'Access to community calls', checked: true },
-  { perk: 'List of MetaAlliance guilds', checked: true },
-  { perk: 'Free newsletter', checked: true },
-  { perk: 'Search & filter people', checked: true },
-  { perk: 'Access to the community', checked: true },
-  { perk: 'Ability to earn reputation', checked: true },
-  { perk: 'Ability to earn Seed tokens', checked: true },
-  { perk: 'Get ranked & unlock perks', checked: true },
+  { title: 'Access to educational resources', checked: true, type: 'Patron' },
+  { title: 'Access to community calls', checked: true, type: 'Patron' },
+  { title: 'List of MetaAlliance guilds', checked: true, type: 'Patron' },
+  { title: 'Free newsletter', checked: true, type: 'Patron' },
+  { title: 'Search & filter people', checked: true, type: 'Patron' },
+  { title: 'Access to the community', checked: true, type: 'Patron' },
+  { title: 'Ability to earn reputation', checked: true, type: 'Patron' },
+  { title: 'Ability to earn Seed tokens', checked: true, type: 'Patron' },
+  { title: 'Get ranked & unlock perks', checked: true, type: 'Patron' },
 ];
 
 export const playerReasons: string[] = [
@@ -159,18 +256,42 @@ export const patronReasons: string[] = [
   'Membership & platform utility will be paid in Seeds',
 ];
 
-// export const playerPerks: PerkList[] = [
+export const playerPerks: PerkList[] = [
+  {
+    title: 'Visitor',
+    type: 'Free',
+    list: playerPerksList,
+    background: '#FFFFFF0A',
+  },
+  {
+    title: 'Member',
+    type: 'Few contributions / month',
+    list: playerPerksList,
+    background: '#00000029',
+  },
+];
+
+// export const guildPerks: PerkList[] = [
 //   {
-//     title: 'Visitor',
 //     type: 'Free',
-//     list: playerVisitorList,
+//     price: '$0',
+//     description: 'FOR BROKE GUILDS',
+//     list: guildFreeList,
 //     background: '#FFFFFF0A',
 //   },
 //   {
-//     title: 'Member',
-//     type: 'Few contributions / month',
-//     list: playerMemberList,
+//     type: 'Basic',
+//     price: '$800 / year',
+//     description: 'FOR ESTABLISHED GUILDS',
+//     list: guildBasicList,
 //     background: '#00000029',
+//   },
+//   {
+//     type: 'Pro',
+//     price: 'Inquire',
+//     description: 'FOR WELL-OFF GUILDS',
+//     list: guildProList,
+//     background: '#FFFFFF0A',
 //   },
 // ];
 
@@ -230,29 +351,6 @@ export const roles: Role[] = [
   },
 ];
 
-export const guildPerks: PerkList[] = [
-  {
-    type: 'Free',
-    price: '$0',
-    description: 'FOR BROKE GUILDS',
-    list: guildFreeList,
-    background: '#FFFFFF0A',
-  },
-  {
-    type: 'Basic',
-    price: '$800 / year',
-    description: 'FOR ESTABLISHED GUILDS',
-    list: guildBasicList,
-    background: '#00000029',
-  },
-  {
-    type: 'Pro',
-    price: 'Inquire',
-    description: 'FOR WELL-OFF GUILDS',
-    list: guildProList,
-    background: '#FFFFFF0A',
-  },
-];
 export const patronPerks: PerkList[] = [
   // {
   //   title: 'Visitor',

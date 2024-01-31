@@ -17,12 +17,7 @@ import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
 import { MdChevronRight } from 'react-icons/md';
 
-import { PerkList, PlayerPerk, RoleTitle } from './data';
-
-export interface Perk {
-  perk: string;
-  checked: boolean;
-}
+import { Perk, RoleTitle } from './data';
 
 type CardProps = {
   title?: string;
@@ -233,32 +228,38 @@ export const PerksCard: React.FC<CardProps> = ({
   </Box>
 );
 
-export const PerksChecklist: React.FC<{ perks: PlayerPerk[], isMember?: boolean, isVisitor?: boolean }> = ({ perks, isMember, isVisitor }) => (
-  <Box
-    h="full"
-    bg={isVisitor ? "#FFFFFF0A" : "#00000029"}
-    display="flex"
-    flex="0 1 auto"
-    px={6}
-    py={3}
-  >
-    <List fontSize="md" fontWeight="light" spacing={3}>
-      {perks?.map((perk, idx) => (
-        <ListItem key={idx}>
-          {isVisitor && (
+export const PerksChecklist: React.FC<{ perks: Perk[], key: keyof Perk, altBackground?: boolean }> = ({ perks, key, altBackground }) => {
+  console.log({ key })
+  return (
+    <Box
+      h="full"
+      bg={altBackground ? "#FFFFFF0A" : "#00000029"}
+      display="flex"
+      flex="0 1 auto"
+      px={6}
+      py={3}
+    >
+      <List fontSize="md" fontWeight="light" spacing={{ base: 2, lg: 4 }}>
+        {perks?.map((perk, idx) => (
+          <ListItem key={idx}>
             <ListIcon
-              as={perk.visitor ? BsFillCheckCircleFill : FaCircle}
-              color={perk.visitor ? 'green.500' : 'gray.600'}
+              as={
+                (perk.type === 'Player' && perk[key]) ||
+                  (perk.type === 'Guild' && perk[key]) || perk.checked
+                  ? BsFillCheckCircleFill
+                  : FaCircle
+              }
+              color={
+                (perk.type === 'Player' && perk[key]) ||
+                  (perk.type === 'Guild' && perk[key]) || perk.checked
+                  ? 'green.500'
+                  : 'gray.600'
+              }
             />
-          )}
-          {isMember && (
-            <ListIcon
-              as={perk.member ? BsFillCheckCircleFill : FaCircle}
-              color={perk.member ? 'green.500' : 'gray.600'}
-            />
-          )}
-        </ListItem>
-      ))}
-    </List>
-  </Box>
-)
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  )
+}
+
