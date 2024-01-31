@@ -341,8 +341,7 @@ export const Signup: React.FC = () => {
                   </Text>
                   <Stack direction={['column', 'row']} gap={0}>
                     <Flex align='center' ml={6} w="full">
-                      {playerPerks.map(({ list }, index) => {
-                        return <>
+                      {playerPerks.map(({ list }, index) => <>
                           {index === 0 && (
                             <React.Fragment key={index}>
                               <List spacing={3} mr={3}>
@@ -355,7 +354,6 @@ export const Signup: React.FC = () => {
                             </React.Fragment>
                           )}
                         </>
-                      }
                       )}
                     </Flex>
                   </Stack>

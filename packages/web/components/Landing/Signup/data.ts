@@ -3,6 +3,7 @@ import PlayerImg from 'assets/players-sun_800x822.webp';
 import BabyOctopus from 'assets/quests/baby_octo.webp';
 import Octopus from 'assets/quests/octopus.webp';
 import YoungPlant from 'assets/young-plant.webp';
+
 export interface Perk {
   title: string;
   type: 'Player' | 'Guild' | 'Patron';

@@ -228,9 +228,7 @@ export const PerksCard: React.FC<CardProps> = ({
   </Box>
 );
 
-export const PerksChecklist: React.FC<{ perks: Perk[], key: keyof Perk, altBackground?: boolean }> = ({ perks, key, altBackground }) => {
-  console.log({ key })
-  return (
+export const PerksChecklist: React.FC<{ perks: Perk[], key: keyof Perk, altBackground?: boolean }> = ({ perks, key, altBackground }) => (
     <Box
       h="full"
       bg={altBackground ? "#FFFFFF0A" : "#00000029"}
@@ -261,5 +259,4 @@ export const PerksChecklist: React.FC<{ perks: Perk[], key: keyof Perk, altBackg
       </List>
     </Box>
   )
-}
 
