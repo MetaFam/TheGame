@@ -84,8 +84,10 @@ export const MetaTile = React.forwardRef<
     >
       <Flex
         direction="column"
-        bgColor="whiteAlpha.200"
+        bgColor="#FFFFFF0A"
         backdropFilter="blur(7px)"
+        borderTop="1px solid #2B2244"
+        borderLeft="1px solid #2B2244"
         rounded="lg"
         p={6}
         maxW="26rem" // (2 / 3.5) = ~0.571 aspect ratio desired
