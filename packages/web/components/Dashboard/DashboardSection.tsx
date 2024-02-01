@@ -3,7 +3,6 @@ import { Calendar } from 'components/Dashboard/Calendar';
 import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
 import { Seed } from 'components/Dashboard/Seed';
-// import { XP } from 'components/Dashboard/XP';
 import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
@@ -32,8 +31,6 @@ const DashboardSectionInner: React.FC<Props> = ({
   switch (type) {
     case BoxTypes.DASHBOARD_LASTEST_CONTENT:
       return <LatestContent />;
-    // case BoxTypes.DASHBOARD_XP_INFO:
-    //   return <XP />;
     case BoxTypes.DASHBOARD_SEEDS_INFO:
       return <Seed />;
     case BoxTypes.DASHBOARD_CALENDER:
