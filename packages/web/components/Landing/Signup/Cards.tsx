@@ -223,7 +223,7 @@ export const PerksChecklist: React.FC<{ perks: Perk[], id: keyof Perk, badgeColo
     bg={altBackground ? "#00000029" : "#FFFFFF0A"}
     display="flex"
     flexDir="column"
-    align="center"
+    alignItems="center"
     gap="20px"
     p="20px 20px 10px 20px"
   >
