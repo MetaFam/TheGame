@@ -5,7 +5,6 @@ import {
   Flex,
   Image,
   List,
-  ListIcon,
   ListItem,
   MetaButton,
   Stack,
@@ -32,11 +31,14 @@ import React, { Ref, RefObject, useState } from 'react';
 import { Rain } from '../OnboardingGame/Rain';
 import { PerksCard, PerksChecklist, RoleCard } from './Cards';
 import {
+  guildPerks,
   guildPerksList,
   guildReasons,
   patronPerks,
+  patronPerksList,
   patronReasons,
   playerPerks,
+  playerPerksList,
   playerReasons,
   roles,
   RoleTitle,
@@ -45,7 +47,6 @@ import {
 const tabs = ['Player', 'Guild', 'Patron'];
 const bgColors = ['green.200', '#6A88DF', '#ED61C5'];
 const textColors = ['green.900', 'purple.900', 'pink.900'];
-const badgeColors = ['green', 'purple', 'pink'];
 
 const TabImg = ({
   type,
@@ -340,22 +341,47 @@ export const Signup: React.FC = () => {
                     Perks of Joining
                   </Text>
                   <Stack direction={['column', 'row']} gap={0}>
-                    <Flex align='center' ml={6} w="full">
-                      {playerPerks.map(({ list }, index) => <>
-                          {index === 0 && (
-                            <React.Fragment key={index}>
-                              <List spacing={3} mr={3}>
-                                {list.map(({ title }, perkIndex) => (
-                                  <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
-                                ))}
-                              </List>
-                              <PerksChecklist perks={list} key="visitor" />
-                              <PerksChecklist perks={list} altBackground key="member" />
-                            </React.Fragment>
-                          )}
-                        </>
-                      )}
-                    </Flex>
+                    {isMobile ? (
+                      <Tabs variant="soft-rounded" isFitted>
+                        <TabList
+                          bg="blackAlpha.500"
+                          borderRadius="full"
+                          paddingY={2}
+                          paddingX={4}
+                        >
+                          {playerPerks.map((perk, index) => (
+                            <Tab
+                              key={index}
+                              _selected={{
+                                bg: bgColors[index] || 'defaultColor',
+                                color: textColors[index] || 'defaultColor',
+                              }}
+                              _active={{ bg: 'transparent' }}
+                              textTransform="uppercase"
+                            >
+                              {perk.title}
+                            </Tab>
+                          ))}
+                        </TabList>
+                        <TabPanels>
+                          {playerPerks.map((perk, index) => (
+                            <TabPanel key={index}>
+                              <PerksCard {...perk} id={index === 0 ? 'visitor' : 'member'} />
+                            </TabPanel>
+                          ))}
+                        </TabPanels>
+                      </Tabs>
+                    ) : (
+                      <Flex align='end' w="full">
+                        <List spacing="10px" p="0px 24px 0px 24px">
+                          {playerPerksList.map(({ title }, perkIndex) => (
+                            <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
+                          ))}
+                        </List>
+                        <PerksChecklist perks={playerPerksList} id="visitor" badgeColor="green" />
+                        <PerksChecklist perks={playerPerksList} id="member" altBackground badgeColor="pink" />
+                      </Flex>
+                    )}
                   </Stack>
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     How to become a player?
@@ -468,18 +494,7 @@ export const Signup: React.FC = () => {
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     Tiers & Perks
                   </Text>
-                  <Flex align='center' ml={6} w="full">
-
-                    <List spacing={3} mr={3}>
-                      {guildPerksList.map(({ title }, perkIndex) => (
-                        <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
-                      ))}
-                    </List>
-                    <PerksChecklist perks={guildPerksList} key="free" />
-                    <PerksChecklist perks={guildPerksList} altBackground key="basic" />
-                    <PerksChecklist perks={guildPerksList} key="pro" />
-                  </Flex>
-                  {/* {isMobile ? (
+                  {isMobile ? (
                     <Tabs variant="soft-rounded" isFitted>
                       <TabList
                         bg="blackAlpha.500"
@@ -504,22 +519,23 @@ export const Signup: React.FC = () => {
                       <TabPanels>
                         {guildPerks.map((perk, index) => (
                           <TabPanel key={index}>
-                            <PerksCard {...perk} />
+                            <PerksCard {...perk} id={['free', 'basic', 'pro'][index] as 'free' | 'basic' | 'pro'} />
                           </TabPanel>
                         ))}
                       </TabPanels>
                     </Tabs>
                   ) : (
-                    <Stack direction={['column', 'row']} gap={0}>
-                      {guildPerks.map((perk, index) => (
-                        <PerksCard
-                          key={index}
-                          {...perk}
-                          badgeColor={badgeColors[index]}
-                        />
-                      ))}
-                    </Stack>
-                  )} */}
+                    <Flex align='end' w="full">
+                      <List spacing="10px" p="0px 24px 0px 24px">
+                        {guildPerksList.map(({ title }, perkIndex) => (
+                          <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
+                        ))}
+                      </List>
+                      <PerksChecklist perks={guildPerksList} id="free" badgeColor="green" />
+                      <PerksChecklist perks={guildPerksList} id="basic" badgeColor="purple" altBackground />
+                      <PerksChecklist perks={guildPerksList} id="pro" badgeColor="pink" />
+                    </Flex>
+                  )}
                   <VStack align="center" spacing={4}>
                     <Text
                       fontSize={{ base: '2xl', lg: '4xl' }}
@@ -609,21 +625,21 @@ export const Signup: React.FC = () => {
                       <TabPanels>
                         {patronPerks.map((perk, index) => (
                           <TabPanel key={index}>
-                            <PerksCard {...perk} />
+                            <PerksCard {...perk} id="member" />
                           </TabPanel>
                         ))}
                       </TabPanels>
                     </Tabs>
                   ) : (
-                    <Stack direction={['column', 'row']} gap={0}>
-                      {patronPerks.map((perk, index) => (
-                        <PerksCard
-                          key={index}
-                          {...perk}
-                          badgeColor={index === 0 ? 'green' : 'pink'}
-                        />
-                      ))}
-                    </Stack>
+                    <Flex align='end' w="full">
+                      <List spacing="10px" p="0px 24px 0px 24px">
+                        {patronPerksList.map(({ title }, perkIndex) => (
+                          <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
+                        ))}
+                      </List>
+                      <PerksChecklist perks={patronPerksList} id="free" badgeColor="green" />
+                      <PerksChecklist perks={patronPerksList} id="member" badgeColor="purple" altBackground />
+                    </Flex>
                   )}
                   <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
                     How to become a patron?

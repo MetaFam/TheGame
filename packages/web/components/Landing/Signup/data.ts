@@ -209,28 +209,56 @@ export const guildPerksList: Perk[] = [
   },
 ];
 
-export const patronFreeList: Perk[] = [
-  { title: 'Access to educational resources', checked: true, type: 'Patron' },
-  { title: 'Access to community calls', checked: true, type: 'Patron' },
-  { title: 'List of MetaAlliance guilds', checked: true, type: 'Patron' },
-  { title: 'Free newsletter', checked: true, type: 'Patron' },
-  { title: 'Search & filter people', checked: false, type: 'Patron' },
-  { title: 'Access to the community', checked: false, type: 'Patron' },
-  { title: 'Ability to earn reputation', checked: false, type: 'Patron' },
-  { title: 'Ability to earn Seed tokens', checked: false, type: 'Patron' },
-  { title: 'Get ranked & unlock perks', checked: false, type: 'Patron' },
-];
-
-export const patronMemberList: Perk[] = [
-  { title: 'Access to educational resources', checked: true, type: 'Patron' },
-  { title: 'Access to community calls', checked: true, type: 'Patron' },
-  { title: 'List of MetaAlliance guilds', checked: true, type: 'Patron' },
-  { title: 'Free newsletter', checked: true, type: 'Patron' },
-  { title: 'Search & filter people', checked: true, type: 'Patron' },
-  { title: 'Access to the community', checked: true, type: 'Patron' },
-  { title: 'Ability to earn reputation', checked: true, type: 'Patron' },
-  { title: 'Ability to earn Seed tokens', checked: true, type: 'Patron' },
-  { title: 'Get ranked & unlock perks', checked: true, type: 'Patron' },
+export const patronPerksList: Perk[] = [
+  {
+    title: 'Access to educational resources',
+    free: true,
+    member: true,
+    type: 'Patron',
+  },
+  {
+    title: 'Access to community calls',
+    free: true,
+    member: true,
+    type: 'Patron',
+  },
+  {
+    title: 'List of MetaAlliance guilds',
+    free: true,
+    member: true,
+    type: 'Patron',
+  },
+  { title: 'Free newsletter', free: true, member: true, type: 'Patron' },
+  {
+    title: 'Search & filter people',
+    free: false,
+    member: true,
+    type: 'Patron',
+  },
+  {
+    title: 'Access to the community',
+    free: false,
+    member: true,
+    type: 'Patron',
+  },
+  {
+    title: 'Ability to earn reputation',
+    free: false,
+    member: true,
+    type: 'Patron',
+  },
+  {
+    title: 'Ability to earn Seed tokens',
+    free: false,
+    member: true,
+    type: 'Patron',
+  },
+  {
+    title: 'Get ranked & unlock perks',
+    free: false,
+    member: true,
+    type: 'Patron',
+  },
 ];
 
 export const playerReasons: string[] = [
@@ -272,29 +300,29 @@ export const playerPerks: PerkList[] = [
   },
 ];
 
-// export const guildPerks: PerkList[] = [
-//   {
-//     type: 'Free',
-//     price: '$0',
-//     description: 'FOR BROKE GUILDS',
-//     list: guildFreeList,
-//     background: '#FFFFFF0A',
-//   },
-//   {
-//     type: 'Basic',
-//     price: '$800 / year',
-//     description: 'FOR ESTABLISHED GUILDS',
-//     list: guildBasicList,
-//     background: '#00000029',
-//   },
-//   {
-//     type: 'Pro',
-//     price: 'Inquire',
-//     description: 'FOR WELL-OFF GUILDS',
-//     list: guildProList,
-//     background: '#FFFFFF0A',
-//   },
-// ];
+export const guildPerks: PerkList[] = [
+  {
+    type: 'Free',
+    price: '$0',
+    description: 'FOR BROKE GUILDS',
+    list: guildPerksList,
+    background: '#FFFFFF0A',
+  },
+  {
+    type: 'Basic',
+    price: '$800 / year',
+    description: 'FOR ESTABLISHED GUILDS',
+    list: guildPerksList,
+    background: '#00000029',
+  },
+  {
+    type: 'Pro',
+    price: 'Inquire',
+    description: 'FOR WELL-OFF GUILDS',
+    list: guildPerksList,
+    background: '#FFFFFF0A',
+  },
+];
 
 export const roles: Role[] = [
   {
@@ -357,14 +385,14 @@ export const patronPerks: PerkList[] = [
   //   title: 'Visitor',
   //   type: 'Free',
   //   description: 'FOR BROKE GUILDS',
-  //   list: patronFreeList,
+  //   list: patronPerksList,
   //   background: '#FFFFFF0A',
   // },
   {
     title: 'Member',
     type: 'Tiered Memberships',
     description: '',
-    list: patronMemberList,
+    list: patronPerksList,
     background: '#00000029',
   },
 ];

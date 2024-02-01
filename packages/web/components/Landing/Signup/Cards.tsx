@@ -24,6 +24,7 @@ type CardProps = {
   type?: string;
   image?: string;
   price?: string;
+  id?: keyof Perk;
   description?: string;
   action?: string;
   list?: Perk[];
@@ -166,14 +167,13 @@ export const RoleCard: React.FC<CardProps> = ({
 };
 
 export const PerksCard: React.FC<CardProps> = ({
-  title,
   type,
   list,
   price,
+  id,
   width = 'md',
   description,
   background,
-  badgeColor,
 }) => (
   <Box
     h={list && list.length > 10 ? '620px' : 'full'}
@@ -185,18 +185,6 @@ export const PerksCard: React.FC<CardProps> = ({
     gap={3}
     p={6}
   >
-    {title && (
-      <Badge
-        borderRadius="full"
-        variant="subtle"
-        textTransform="uppercase"
-        colorScheme={badgeColor}
-        p={2}
-        fontSize="0.4em"
-      >
-        {title}
-      </Badge>
-    )}
     {price && (
       <Text fontSize="xl" fontWeight="semibold">
         {price}
@@ -217,10 +205,10 @@ export const PerksCard: React.FC<CardProps> = ({
         {list?.map((item, idx) => (
           <ListItem key={idx}>
             <ListIcon
-              as={item?.checked ? BsFillCheckCircleFill : FaCircle}
-              color={item?.checked ? 'green.500' : 'gray.600'}
+              as={!!id && item?.[id] ? BsFillCheckCircleFill : FaCircle}
+              color={!!id && item?.[id] ? 'green.500' : 'gray.600'}
             />
-            {item.perk}
+            {item.title}
           </ListItem>
         ))}
       </List>
@@ -228,35 +216,53 @@ export const PerksCard: React.FC<CardProps> = ({
   </Box>
 );
 
-export const PerksChecklist: React.FC<{ perks: Perk[], key: keyof Perk, altBackground?: boolean }> = ({ perks, key, altBackground }) => (
-    <Box
-      h="full"
-      bg={altBackground ? "#FFFFFF0A" : "#00000029"}
-      display="flex"
-      flex="0 1 auto"
-      px={6}
-      py={3}
-    >
-      <List fontSize="md" fontWeight="light" spacing={{ base: 2, lg: 4 }}>
-        {perks?.map((perk, idx) => (
-          <ListItem key={idx}>
-            <ListIcon
-              as={
-                (perk.type === 'Player' && perk[key]) ||
-                  (perk.type === 'Guild' && perk[key]) || perk.checked
-                  ? BsFillCheckCircleFill
-                  : FaCircle
-              }
-              color={
-                (perk.type === 'Player' && perk[key]) ||
-                  (perk.type === 'Guild' && perk[key]) || perk.checked
-                  ? 'green.500'
-                  : 'gray.600'
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  )
+export const PerksChecklist: React.FC<{ perks: Perk[], id: keyof Perk, badgeColor: string, altBackground?: boolean }> = ({ perks, id, badgeColor, altBackground }) => (
+  <Box
+    h="full"
+    w="129px"
+    bg={altBackground ? "#00000029" : "#FFFFFF0A"}
+    display="flex"
+    flexDir="column"
+    align="center"
+    gap="20px"
+    p="20px 20px 10px 20px"
+  >
+    {id && (
+      <Badge
+        borderRadius="full"
+        variant="subtle"
+        textTransform="uppercase"
+        colorScheme={badgeColor}
+        p={2}
+        fontSize="0.4em"
+      >
+        {id}
+      </Badge>
+    )}
+    <List fontSize="md" fontWeight="light" spacing="14px">
+      {perks?.map((perk, idx) => (
+        <ListItem key={idx}>
+          <ListIcon
+            as={
+              (perk.type === 'Player' && perk[id]) ||
+                (perk.type === 'Guild' && perk[id]) ||
+                (perk.type === 'Patron' && perk[id])
+                ? BsFillCheckCircleFill
+                : FaCircle
+            }
+            color={
+              (perk.type === 'Player' && perk[id]) ||
+                (perk.type === 'Guild' && perk[id]) ||
+                (perk.type === 'Patron' && perk[id])
+                ? 'green.500'
+                : 'gray.600'
+            }
+          />
+        </ListItem>
+      ))}
+    </List>
+  </Box>
+)
+
+
 
