@@ -49,6 +49,7 @@ export const getQuestChainContract = (
   throw new Error('Unsupported Quest Chain version');
 };
 
+// Playbook Categories
 export const QuestChainsCategories = {
   FOR_METAGAME: 'for-metagame',
   WEB3_BASICS: 'web3-basics',
@@ -62,6 +63,7 @@ export const QuestChainsCategories = {
   ALL: 'all',
 };
 
+// Playbook Roles
 export const QuestChainsRoles = {
   ENGAGED_OCTOS_PATH: 'engaged-octos-path',
   BUILDERS_PATH: 'builders-path',
@@ -71,6 +73,7 @@ export const QuestChainsRoles = {
   ROGUES_PATH: 'rogues-path',
 };
 
+// Playbook Great Houses
 export const QuestChainsGreatHouses = {
   HOUSE_OF_ETHEREUM: 'house-of-ethereum',
   HOUSE_OF_DAOS: 'house-of-daos',
@@ -79,6 +82,7 @@ export const QuestChainsGreatHouses = {
   HOUSE_OF_DEFINANCE: 'house-of-definance',
 };
 
+// Playbook Playbooks
 export const QuestChainsPlaybooks = {
   MEME_DRIVEN_ORGANIZATIONS: 'meme-driven-organizations',
   INSTALL_A_WEB3_WALLET_AND_GET_GAS: 'install-a-web3-wallet-and-get-gas',
@@ -102,11 +106,14 @@ export const QuestChainsPlaybooks = {
   SUBMIT_A_PLAYBOOK: 'submit-a-playbook-fyfcrr',
 };
 
+// Playbook Difficulty
 export const Difficulty = {
   EASY: 'Easy',
   MEDIUM: 'Medium',
   HARD: 'Hard',
 };
+
+// Playbook Time
 export const Time = {
   SHORT: 'Short',
   MEDIUM: 'Medium',
@@ -411,6 +418,17 @@ export const QuestChainPlaybooksDetails: Record<
   QuestChainType,
   QuestChainInfo
 > = {
+  // [QuestChainsPlaybooks.MGXP_METAGAME_EXPERIENCE_POINTS]: {
+  //   address: '0x11041f6Bb7a987E3B363A712bEBC2e9bd72dcB59',
+  //   chainId: '0xa',
+  //   title: 'example 1',
+  //   description:
+  //     'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+  //   image: P1.src,
+  //   category: QuestChainsCategories.HOW_TO_DAO,
+  //   seedsEarned: 42069,
+  //   type: PathPlaybookTypes.PLAYBOOK,
+  // },
   [QuestChainsPlaybooks.MEME_DRIVEN_ORGANIZATIONS]: {
     address: '0xd39a3d0eb714a2f62dd57f95af7fadc216f64e8e',
     chainId: '0x89',
