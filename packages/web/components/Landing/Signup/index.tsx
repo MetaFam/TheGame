@@ -24,21 +24,18 @@ import GuildsImg from 'assets/guilds-sun_800x800.webp';
 import PatronsImg from 'assets/patrons-sun_800x820.webp';
 import PlayerImg from 'assets/players-sun_800x822.webp';
 import { FullPageContainer } from 'components/Container';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useState } from 'react';
 
 import { Rain } from '../OnboardingGame/Rain';
-import { PerksCard, PerksChecklist, RoleCard } from './Cards';
+import { PerksCard, PerksChecklist, PerksTable, RoleCard } from './Cards';
 import {
   guildPerks,
   guildPerksList,
   guildReasons,
   patronPerks,
-  patronPerksList,
   patronReasons,
   playerPerks,
-  playerPerksList,
   playerReasons,
   roles,
   RoleTitle,
@@ -317,30 +314,31 @@ export const Signup: React.FC = () => {
                 color="white"
                 overflowY="auto"
               >
-                <VStack spacing={{ base: 2, lg: 4 }} align="stretch">
-                  <Text
-                    fontSize={{ base: '2xl', lg: '4xl' }}
-                    color="#B6A4F4"
-                    align={{ base: 'start', lg: 'center' }}
-                  >
-                    Players are here to learn, get experience, contribute labor
-                    and help build MetaGame.
-                  </Text>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
-                    Why become a player?
-                  </Text>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }}>
-                    A few reasons!
-                  </Text>
-                  <UnorderedList fontSize="md" fontWeight="light">
-                    {playerReasons.map((reason, idx) => (
-                      <ListItem key={idx}>{reason}</ListItem>
-                    ))}
-                  </UnorderedList>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
-                    Perks of Joining
-                  </Text>
-                  <Stack direction={['column', 'row']} gap={0}>
+                <VStack spacing="56px" align="stretch">
+                  <VStack spacing="16px" align="start">
+                    <Text
+                      fontSize={{ base: '2xl', lg: '4xl' }}
+                      color="#B6A4F4"
+                      alignSelf={{ base: 'start', lg: 'center' }}
+                    >
+                      Learn, earn, grow & build MetaGame.
+                    </Text>
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                      Why become a player?
+                    </Text>
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }}>
+                      A few reasons!
+                    </Text>
+                    <UnorderedList fontSize="md" fontWeight="light" spacing={2}>
+                      {playerReasons.map((reason, idx) => (
+                        <ListItem key={idx}>{reason}</ListItem>
+                      ))}
+                    </UnorderedList>
+                  </VStack>
+                  <VStack spacing="24px" align="start">
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                      Perks of Joining
+                    </Text>
                     {isMobile ? (
                       <Tabs variant="soft-rounded" isFitted>
                         <TabList
@@ -372,47 +370,29 @@ export const Signup: React.FC = () => {
                         </TabPanels>
                       </Tabs>
                     ) : (
-                      <Flex align='end' w="full">
-                        <List spacing="10px" p="0px 24px 0px 24px">
-                          {playerPerksList.map(({ title }, perkIndex) => (
-                            <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
-                          ))}
-                        </List>
-                        <PerksChecklist perks={playerPerksList} id="visitor" badgeColor="green" />
-                        <PerksChecklist perks={playerPerksList} id="member" altBackground badgeColor="pink" />
-                      </Flex>
+                      <Stack direction={['column', 'row']} gap={0}>
+                        {playerPerks.map((perk, index) => (
+                          <PerksCard
+                            key={index}
+                            {...perk}
+                            id={index === 0 ? 'visitor' : 'member'}
+                            badgeColor={index === 0 ? 'green' : 'pink'}
+                          />
+                        ))}
+                      </Stack>
                     )}
-                  </Stack>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
-                    How to become a player?
-                  </Text>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }}>
-                    Ready to rise & become one of the founders of MetaGame?
-                  </Text>
-                  <Stack
-                    direction={['column', 'row']}
-                    spacing={{ base: 2, lg: 10 }}
-                    align="center"
-                    justify="center"
-                  >
-                    {roles.map((role, index) => (
-                      <React.Fragment key={index}>
-                        {role.tab === activeTab && <RoleCard {...role} />}
-                        {role.tab === activeTab &&
-                          index ===
-                          roles.findIndex(
-                            (r) => r.tab === RoleTitle.Player,
-                          ) && (
-                            <Text
-                              fontSize={{ base: 'xl', lg: '2xl' }}
-                              fontWeight={{ base: 'bold', lg: 'normal' }}
-                            >
-                              OR
-                            </Text>
-                          )}
-                      </React.Fragment>
-                    ))}
-                  </Stack>
+                  </VStack>
+                  <VStack spacing="34px" align="start">
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                      How to become a player?
+                    </Text>
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }}>
+                      Ready to rise & become one of the founders of MetaGame?
+                    </Text>
+                    <MetaButton textTransform="uppercase" onClick={() => router.push("/onboarding")} alignSelf="center">
+                      Go
+                    </MetaButton>
+                  </VStack>
                 </VStack>
               </Box>
             </TabPanel>
@@ -436,36 +416,39 @@ export const Signup: React.FC = () => {
                 color="white"
                 overflowY="auto"
               >
-                <VStack spacing={4} align="stretch">
-                  <Text
-                    fontSize={{ base: '2xl', lg: '4xl' }}
-                    color="#7DCDDF"
-                    align={{ base: 'start', lg: 'center' }}
-                  >
-                    Guilds are groups of people offering tools or services &
-                    building projects.
-                  </Text>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
-                    Why join as a guild?
-                  </Text>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }}>
-                    A bunch of reasons, actually!
-                  </Text>
-                  <UnorderedList fontSize="md" fontWeight="light">
-                    {guildReasons.map((reason, idx) => (
-                      <ListItem key={idx}>{reason}</ListItem>
-                    ))}
-                  </UnorderedList>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
-                    Before joining as a guild...
-                  </Text>
-                  <Text
-                    fontSize={{ base: 'xl', lg: '2xl' }}
-                    fontWeight="normal"
-                  >
-                    Before trying to join as a guild, we recommend you join as a
-                    person.
-                  </Text>
+                <VStack spacing="56px" align="stretch">
+                  <VStack spacing="16px" align="start">
+                    <Text
+                      fontSize={{ base: '2xl', lg: '4xl' }}
+                      color="#7DCDDF"
+                      alignSelf={{ base: 'start', lg: 'center' }}
+                    >
+                      Get help, contributors & users to grow.
+                    </Text>
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                      Why join as a guild?
+                    </Text>
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }}>
+                      A bunch of reasons, actually!
+                    </Text>
+                    <UnorderedList fontSize="md" fontWeight="light" spacing={2}>
+                      {guildReasons.map((reason, idx) => (
+                        <ListItem key={idx}>{reason}</ListItem>
+                      ))}
+                    </UnorderedList>
+                  </VStack>
+                  <VStack spacing="16px" align="start">
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                      Before joining as a guild...
+                    </Text>
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="normal"
+                    >
+                      Before trying to join as a guild, we recommend you join as a
+                      person.
+                    </Text>
+                  </VStack>
                   <Stack
                     direction={['column', 'row']}
                     spacing={{ base: 2, lg: 10 }}
@@ -525,6 +508,7 @@ export const Signup: React.FC = () => {
                       </TabPanels>
                     </Tabs>
                   ) : (
+                    // <PerksTable perkList={guildPerks} perks={guildPerksList} />
                     <Flex align='end' w="full">
                       <List spacing="10px" p="0px 24px 0px 24px">
                         {guildPerksList.map(({ title }, perkIndex) => (
@@ -545,14 +529,12 @@ export const Signup: React.FC = () => {
                     </Text>
                     <Text
                       fontSize={{ base: 'xl', lg: '2xl' }}
+                      color="#A5B9F6"
                       fontWeight="light"
                     >
-                      Ready to become one of the Founding Guilds of MetaGame?
-                      Apply now 👇
+                      Ready to become one of the founding guilds?
                     </Text>
-                    <Link href="https://tally.so/r/3EdORl">
-                      <MetaButton maxW="xs">APPLY AS GUILD</MetaButton>
-                    </Link>
+                    <MetaButton maxW="xs" href="https://tally.so/r/3EdORl">APPLY AS GUILD</MetaButton>
                   </VStack>
                 </VStack>
               </Box>
@@ -577,76 +559,82 @@ export const Signup: React.FC = () => {
                 color="white"
                 overflowY="auto"
               >
-                <VStack spacing={4} align="stretch">
-                  <Text
-                    fontSize={{ base: '2xl', lg: '4xl' }}
-                    color="#E190E1"
-                    align={{ base: 'start', lg: 'center' }}
-                  >
-                    Patrons are here to teach, contribute liquidity & support
-                    MetaGame.
-                  </Text>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
-                    Why join as a patron?
-                  </Text>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }}>
-                    Here are a few reasons:
-                  </Text>
-                  <UnorderedList fontSize="md" fontWeight="light">
-                    {patronReasons.map((reason, idx) => (
-                      <ListItem key={idx}>{reason}</ListItem>
-                    ))}
-                  </UnorderedList>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
-                    Perks of joining
-                  </Text>
-                  {isMobile ? (
-                    <Tabs variant="soft-rounded" isFitted>
-                      <TabList
-                        bg="blackAlpha.500"
-                        borderRadius="full"
-                        paddingY={2}
-                        paddingX={4}
-                      >
+                <VStack spacing="56px" align="stretch">
+                  <VStack spacing="16px" align="start">
+                    <Text
+                      fontSize={{ base: '2xl', lg: '4xl' }}
+                      color="#E190E1"
+                      alignSelf={{ base: 'start', lg: 'center' }}
+                    >
+                      Buy, hodl & support passively.
+                    </Text>
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                      Why join as a patron?
+                    </Text>
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }}>
+                      Here are a few reasons:
+                    </Text>
+                    <UnorderedList fontSize="md" fontWeight="light" spacing={2}>
+                      {patronReasons.map((reason, idx) => (
+                        <ListItem key={idx}>{reason}</ListItem>
+                      ))}
+                    </UnorderedList>
+                  </VStack>
+                  <VStack spacing="24px" align="start">
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                      Perks of joining
+                    </Text>
+                    {isMobile ? (
+                      <Tabs variant="soft-rounded" isFitted>
+                        <TabList
+                          bg="blackAlpha.500"
+                          borderRadius="full"
+                          paddingY={2}
+                          paddingX={4}
+                        >
+                          {patronPerks.map((perk, index) => (
+                            <Tab
+                              key={index}
+                              _selected={{
+                                bg: index === 0 ? 'green.200' : 'pink.200',
+                                color: index === 0 ? 'green.900' : 'pink.900',
+                              }}
+                              _active={{ bg: 'transparent' }}
+                              textTransform="uppercase"
+                            >
+                              {perk.title}
+                            </Tab>
+                          ))}
+                        </TabList>
+                        <TabPanels>
+                          {patronPerks.map((perk, index) => (
+                            <TabPanel key={index}>
+                              <PerksCard {...perk} id="member" />
+                            </TabPanel>
+                          ))}
+                        </TabPanels>
+                      </Tabs>
+                    ) : (
+                      <Stack direction={['column', 'row']} gap={0}>
                         {patronPerks.map((perk, index) => (
-                          <Tab
+                          <PerksCard
                             key={index}
-                            _selected={{
-                              bg: index === 0 ? 'green.200' : 'pink.200',
-                              color: index === 0 ? 'green.900' : 'pink.900',
-                            }}
-                            _active={{ bg: 'transparent' }}
-                            textTransform="uppercase"
-                          >
-                            {perk.title}
-                          </Tab>
+                            {...perk}
+                            id={index === 0 ? 'free' : 'member'}
+                            badgeColor={index === 0 ? 'green' : 'pink'}
+                          />
                         ))}
-                      </TabList>
-                      <TabPanels>
-                        {patronPerks.map((perk, index) => (
-                          <TabPanel key={index}>
-                            <PerksCard {...perk} id="member" />
-                          </TabPanel>
-                        ))}
-                      </TabPanels>
-                    </Tabs>
-                  ) : (
-                    <Flex align='end' w="full">
-                      <List spacing="10px" p="0px 24px 0px 24px">
-                        {patronPerksList.map(({ title }, perkIndex) => (
-                          <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
-                        ))}
-                      </List>
-                      <PerksChecklist perks={patronPerksList} id="free" badgeColor="green" />
-                      <PerksChecklist perks={patronPerksList} id="member" badgeColor="purple" altBackground />
-                    </Flex>
-                  )}
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
-                    How to become a patron?
-                  </Text>
-                  <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="light">
-                    Ready to become one of the founding patrons of MetaGame?
-                  </Text>
+                      </Stack>
+                    )}
+                  </VStack>
+                  <VStack spacing="16px" align="start">
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                      How to become a patron?
+                    </Text>
+                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="light">
+                      Ready to become one of the founding patrons of MetaGame?
+                    </Text>
+                  </VStack>
                   <Stack
                     direction={['column', 'row']}
                     spacing={{ base: 2, lg: 10 }}
@@ -671,26 +659,6 @@ export const Signup: React.FC = () => {
                       </React.Fragment>
                     ))}
                   </Stack>
-                  <VStack align="center" spacing={{ base: 2, lg: 4 }}>
-                    <Text
-                      fontSize={{ base: '2xl', lg: '4xl' }}
-                      fontWeight="semibold"
-                    >
-                      Not ready?
-                    </Text>
-                    <MetaButton maxW="xs" href="/start">
-                      THE RABBIT HOLE
-                    </MetaButton>
-                    <Text
-                      fontSize={{ base: 'xl', lg: '2xl' }}
-                      fontWeight="light"
-                    >
-                      & / OR
-                    </Text>
-                    <Link href="https://docs.google.com/document/d/1RoOaW8CR0puEanY0VGtcMbDYH77djkzOPgRSd1nCFJ4/edit#">
-                      <MetaButton maxW="xs">THE PURPLEPAPER</MetaButton>
-                    </Link>
-                  </VStack>
                 </VStack>
               </Box>
             </TabPanel>

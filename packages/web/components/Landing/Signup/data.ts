@@ -31,8 +31,8 @@ export interface Role {
 export interface PerkList {
   list: Perk[];
   background: string;
+  type: string;
   title?: string;
-  type?: string;
   price?: string;
   description?: string;
 }
@@ -262,9 +262,9 @@ export const patronPerksList: Perk[] = [
 ];
 
 export const playerReasons: string[] = [
-  'Learn about Web3, DAOs, ReFi & the Metacrisis',
-  'Join the ecosystem & start making friends',
-  'Start accruing reputation (XP) & tokens (Seeds)',
+  'Learn about DAOs, Web3 & the bigger picture',
+  'Join the ecosystem & make friends',
+  'Start accruing XP (reputation) & earning',
   'Gain experience & increase chances of landing gigs',
   'Get help for starting your own project',
 ];
@@ -279,9 +279,9 @@ export const guildReasons: string[] = [
 
 export const patronReasons: string[] = [
   'Because you love the idea of MetaGame',
-  'You want to help fix the onboarding problem for the DAO space',
-  'You want to see building DAOs become 10x easier & better',
-  "Besides Web3 & DAOs, you're into ReFi, Game B & Network States",
+  'You want the onboarding to the DAO space to improve',
+  'You want to see building DAOs become 10x easier',
+  "Besides Web3, you're into Game B & the bigger picture",
   'Membership & platform utility will be paid in Seeds',
 ];
 
@@ -348,7 +348,7 @@ export const roles: Role[] = [
     tab: RoleTitle.Guild,
     title: 'Player',
     image: PlayerImg.src,
-    description: 'Join MetaGame as an active member.',
+    description: 'An active contributor.',
     action: "Let's Go!",
     route: '/start',
   },
@@ -356,7 +356,7 @@ export const roles: Role[] = [
     tab: RoleTitle.Guild,
     title: 'Patron',
     image: PatronsImg.src,
-    description: 'Join MetaGame as a passive player.',
+    description: 'A passive contributor.',
     action: "Let's Go!",
     route: '/join/patron',
   },
@@ -364,33 +364,31 @@ export const roles: Role[] = [
     tab: RoleTitle.Patron,
     title: 'Do it yourself',
     image: YoungPlant.src,
-    description:
-      'You’ll need some Ether & RAI ready on Polygon. Detailed instructions',
-    action: 'Yes Pls!',
+    description: 'Proceed to joining the regular way.',
+    action: 'Alright!',
     route: '/join/patron',
   },
   {
     tab: RoleTitle.Patron,
     title: 'Buy it & forget it',
     image: PlayerImg.src,
-    description: 'Too busy to do it manually? We got you!',
-    info: 'For amounts over $1k only.',
+    description: 'Too busy to do it manually? $1k minimum!',
     action: 'Perfect!',
     link: 'https://tally.so/r/w4Jb6r',
   },
 ];
 
 export const patronPerks: PerkList[] = [
-  // {
-  //   title: 'Visitor',
-  //   type: 'Free',
-  //   description: 'FOR BROKE GUILDS',
-  //   list: patronPerksList,
-  //   background: '#FFFFFF0A',
-  // },
+  {
+    title: 'Visitor',
+    type: 'Free',
+    description: '',
+    list: patronPerksList,
+    background: '#FFFFFF0A',
+  },
   {
     title: 'Member',
-    type: 'Tiered Memberships',
+    type: '$100/year',
     description: '',
     list: patronPerksList,
     background: '#00000029',
