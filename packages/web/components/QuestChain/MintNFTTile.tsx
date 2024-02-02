@@ -13,9 +13,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import {
   getQuestChainContract,
-  QuestChainGreatHousesDetails,
   QuestChainPlaybooksDetails,
-  QuestChainRolesDetails,
   QuestChainType,
 } from 'utils/questChains';
 
@@ -102,8 +100,6 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
   }, [onSuccess, questChain, address, chainId, provider, addToast]);
 
   const details =
-    QuestChainRolesDetails[name] ||
-    QuestChainGreatHousesDetails[name] ||
     QuestChainPlaybooksDetails[name];
   const image = details?.image;
 
