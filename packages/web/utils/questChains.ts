@@ -1,32 +1,37 @@
 import { Values } from '@metafam/utils';
 import { contracts, metadata } from '@quest-chains/sdk';
-import submitPlaybook from 'assets/academy/submit-playbook.png';
-import daos from 'assets/houses/daos.png';
-import dapps from 'assets/houses/dapps.png';
-import definance from 'assets/houses/definance.png';
-import ethereum from 'assets/houses/ethereum.png';
-import nfts from 'assets/houses/nfts.png';
-import P1 from 'assets/playbooks/P1.png';
-import P2 from 'assets/playbooks/P2.png';
-import P3 from 'assets/playbooks/P3.png';
-import P4 from 'assets/playbooks/P4.png';
-import P5 from 'assets/playbooks/P5.png';
-import P6 from 'assets/playbooks/P6.png';
-import P7 from 'assets/playbooks/P7.png';
-import P8 from 'assets/playbooks/P8.png';
-import P9 from 'assets/playbooks/P9.png';
-import P11 from 'assets/playbooks/P11.png';
-import P12 from 'assets/playbooks/P12.png';
-import P13 from 'assets/playbooks/P13.png';
-import P14 from 'assets/playbooks/P14.png';
-import P15 from 'assets/playbooks/P15.png';
-import P16 from 'assets/playbooks/P16.png';
-import bridge from 'assets/quests/bridge.png';
-import builders from 'assets/quests/builders.png';
-import design from 'assets/quests/design.png';
-import octopus from 'assets/quests/octopus.png';
-import patron from 'assets/quests/patron.png';
-import rogue from 'assets/quests/rogue.png';
+import ethereum from 'assets/academy/ethereum.png';
+import daos from 'assets/academy/daos.png';
+import dapps from 'assets/academy/dapps.png';
+import defi from 'assets/academy/defi.png';
+import nfts from 'assets/academy/nfts.png';
+import web3builder from 'assets/academy/web3builder.png';
+import riteofpassage from 'assets/academy/riteofpassage.png';
+import bridgebuilder from 'assets/academy/bridgebuilder.png';
+import builder from 'assets/academy/builder.png';
+import designer from 'assets/academy/designer.png';
+import guilder from 'assets/academy/guilder.png';
+import patron from 'assets/academy/patron.png';
+import player from 'assets/academy/player.png';
+import moloch from 'assets/academy/moloch.png';
+import metacrisis from 'assets/academy/metacrisis.png';
+import gameb from 'assets/academy/gameb.png';
+import goodquests from 'assets/academy/goodquests.png';
+import memedriven from 'assets/academy/memedriven.png';
+import biases from 'assets/academy/biases.png';
+import imposter from 'assets/academy/imposter.png';
+import journaling from 'assets/academy/journaling.png';
+import time from 'assets/academy/time.png';
+import playbookwriter from 'assets/academy/playbook-writer.png';
+import daosummoner from 'assets/academy/daosummoner.png';
+import web3builder from 'assets/academy/web3builder.png';
+import coordinape from 'assets/academy/coordinape.png';
+import daowriter from 'assets/academy/daowriter.png';
+import playtwitter from 'assets/academy/play-twitter.png';
+import mastertabs from 'assets/academy/master-tabs.png';
+import bestdaocontributor from 'assets/academy/best-dao-contributor.png';
+import impactnetworks from 'assets/academy/impact-networks.png';
+import effectivemeetingrunner from 'assets/academy/effective-meeting-runner.png';
 import { Signer } from 'ethers';
 
 export const getQuestChainContract = (
@@ -52,58 +57,52 @@ export const getQuestChainContract = (
 // Playbook Categories
 export const QuestChainsCategories = {
   FOR_METAGAME: 'for-metagame',
+  META: 'meta',
   WEB3_BASICS: 'web3-basics',
   HOW_TO_DAO: 'how-to-dao',
-  METAALLIANCE: 'metaalliance',
-  WELLBEING_SELF_IMPROVEMENT: 'wellbeing-self-improvement',
-  REGENERATION: 'regeneration',
-  USING_AI: 'using-ai',
-  META: 'meta',
+//  METAALLIANCE: 'metaalliance',
+  SELF_ACTUALIZATION: 'self-actualization',
+//  REGENERATION: 'regeneration',
+//  USING_AI: 'using-ai',
   RANDOM: 'random',
   ALL: 'all',
 };
 
-// Playbook Roles
-export const QuestChainsRoles = {
-  ENGAGED_OCTOS_PATH: 'engaged-octos-path',
-  BUILDERS_PATH: 'builders-path',
-  DESIGNERS_PATH: 'designers-path',
-  PATRONS_PATH: 'patrons-path',
-  BRIDGEBUILDERS_PATH: 'bridgebuilders-path',
-  ROGUES_PATH: 'rogues-path',
-};
-
-// Playbook Great Houses
-export const QuestChainsGreatHouses = {
-  HOUSE_OF_ETHEREUM: 'house-of-ethereum',
-  HOUSE_OF_DAOS: 'house-of-daos',
-  HOUSE_OF_DAPPS: 'house-of-dapps',
-  HOUSE_OF_NFTS: 'house-of-nfts',
-  HOUSE_OF_DEFINANCE: 'house-of-definance',
-};
-
 // Playbook Playbooks
 export const QuestChainsPlaybooks = {
+  SUBMIT_A_PLAYBOOK: 'submit-a-playbook',
+  RITE_OF_PASSAGE: 'rite-of-passage',
+  PLAYERS_PATH: 'rogues-path',
+  PATRONS_PATH: 'patrons-path',
+  GUILDERS_PATH: 'guilders-path',
+  BUILDERS_PATH: 'builders-path',
+  BRIDGEBUILDERS_PATH: 'bridgebuilders-path',
+  DESIGNERS_PATH: 'designers-path',
+  WTF_IS_ETHEREUM: 'wtf-is-ethereum',
+  WTF_ARE_DAOS: 'wtf-are-das',
+  WTF_IS_DEFI: 'wtf-is-defi',
+  WTF_ARE_NFTS: 'wtf-are-nfts',
+  WTF_ARE_DAPPS: 'wtf-are-dapps',
+  BECOME_A_WEB3_DEVELOPER: 'become-a-web3-developer',
+  WTF_IS_GAMEB: 'wtf-is-gameb',
+  WTF_IS_METACRISIS: 'wtf-is-metacrisis',
+  MEDITATIONS_ON_MOLOCH: 'meditations-on-moloch',
+  CHOOSE_GOOD_QUESTS: 'choose-good-quests',
   MEME_DRIVEN_ORGANIZATIONS: 'meme-driven-organizations',
-  INSTALL_A_WEB3_WALLET_AND_GET_GAS: 'install-a-web3-wallet-and-get-gas',
-  BUILDING_A_STRONG_DAO_FOUNDATION_ESSENTIAL_QUESTIONS_FROM_DAO_CANVAS:
-    'building-a-strong-dao-foundation-essential-questions-from-dao-canvas',
-  GUILDING_101_A_STARTER_KIT_FOR_SUCCESSFUL_TEAMS:
-    'guilding-101-a-starter-kit-for-successful-teams',
-  BUILDING_SUCCESSFUL_TEAMS: 'building-successful-teams',
-  ADDING_VALUE_TO_A_DAO_WITHOUT_TECHNICAL_SKILLS_UNLOCK_YOUR_POTENTIAL:
-    'adding-value-to-a-dao-without-technical-skills-unlock-your-potential',
-  HOW_TO_COACH_ETH: 'how-to-coach-eth',
-  ENTERING_DAOS_AS_A_WRITER: 'entering-daos-as-a-writer',
-  HOW_TO_BECOME_AN_ETHEREUM_DEVELOPER: 'how-to-become-an-ethereum-developer',
-  BECOME_A_BUIDLER_ON_ETHEREUM: 'become-a-buidler-on-ethereum',
-  HOW_TO_PLAY_TWITTER: 'how-to-play-twitter',
-  UNDERSTANDING_IMPOSTER_SYNDROME: 'understanding-imposter-syndrome',
-  HOW_TO_JOIN_A_DAO_COMMUNITY: 'how-to-join-a-dao-community',
+  BECOME_THE_BEST_DAO_CONTRIBUTOR: 'become-the-best-dao-contributor',
+  STARTING_DAOS_101: 'starting-daos-101',
   HOW_TO_BUILD_A_NETWORK_FOR_IMPACT: 'how-to-build-a-network-for-impact',
-  HANDLING_FOMO_IN_WEB3: 'handling-fomo-in-web3',
-  MGXP_METAGAME_EXPERIENCE_POINTS: 'mgxp-metagame-experience-points',
-  SUBMIT_A_PLAYBOOK: 'submit-a-playbook-fyfcrr',
+  USING_COORDINAPE_TO_REWARD_CONTRIBUTORS: 'using-coordinape-to-reward-contributors',
+  EFFECTIVE_MEETINGS_WITH_HOLACRACY: 'effective-meetings-with-holacracy',
+  ENTERING_DAOS_AS_A_WRITER: 'entering-daos-as-a-writer',
+  BUILDING_SUCCESSFUL_TEAMS: 'using-successful-teams',
+  EMBRACE_THE_TICKING_CLOCK: 'embrace-the-ticking-clock',
+  KNOW_YOUR_BIASES: 'know-your-biases',
+  UNDERSTANDING_IMPOSTER_SYNDROME: 'understanding-imposter-syndrome',
+  JOURNALING_LIKE_DICKIE_BUSH: 'journaling-like-dickie-bush',
+  HOW_TO_PLAY_TWITTER: 'how-to-play-twitter',
+  MASTER_YOUR_BROWSER_TABS: 'master-your-browser-tabs',
+  
 };
 
 // Playbook Difficulty
@@ -121,8 +120,6 @@ export const Time = {
 };
 
 export type QuestChainType =
-  | Values<typeof QuestChainsRoles>
-  | Values<typeof QuestChainsGreatHouses>
   | Values<typeof QuestChainsPlaybooks>
   | Values<typeof QuestChainsCategories>;
 
@@ -136,9 +133,7 @@ type QuestChainCategoryInfo = {
 };
 
 export const PathPlaybookTypes = {
-  PATH: 'path',
   PLAYBOOK: 'playbook',
-  GREAT_HOUSE: 'greatHouse',
 };
 
 export type PathPlaybookType = Values<typeof PathPlaybookTypes>;
@@ -157,18 +152,10 @@ type QuestChainInfo = {
 };
 
 export type QuestChainDetailsType =
-  | Values<typeof QuestChainsRoles>
-  | Values<typeof QuestChainsGreatHouses>
   | Values<typeof QuestChainsPlaybooks>;
 
 export type QuestChainDetails = QuestChainInfo;
 
-export const QuestChainRoles = Object.keys(
-  QuestChainsRoles,
-) as QuestChainType[];
-export const QuestChainGreatHouses = Object.keys(
-  QuestChainsGreatHouses,
-) as QuestChainType[];
 export const QuestChainPlaybooks = Object.keys(
   QuestChainsPlaybooks,
 ) as QuestChainType[];
@@ -185,6 +172,13 @@ export const QuestChainsCategoriesDetails: Record<
     title: 'For MetaGame',
     description:
       'Quests that are specific to MetaGame, its culture & its community.',
+    image: '',
+  },
+  [QuestChainsCategories.META]: {
+    name: QuestChainsCategories.META,
+    title: 'Meta',
+    description:
+      'This section is about the bigger picture, state of the world & global philosophies.',
     image: '',
   },
   [QuestChainsCategories.WEB3_BASICS]: {
@@ -229,188 +223,12 @@ export const QuestChainsCategoriesDetails: Record<
       "This is the section we're currently weakest in, but recognize the potential as great as Web3.",
     image: '',
   },
-  [QuestChainsCategories.META]: {
-    name: QuestChainsCategories.META,
-    title: 'Meta',
-    description:
-      'This section is about the bigger picture, state of the world & global philosophies.',
-    image: '',
-  },
   [QuestChainsCategories.RANDOM]: {
     name: QuestChainsCategories.RANDOM,
     title: 'Random Game META',
     description:
-      'Most effective tactics available for using different platforms & games of life..',
+      'Most effective tactics available for using different platforms & games of life.',
     image: '',
-  },
-};
-
-export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
-  // Engaged Octo's path: https://questchains.xyz/chain/0x89/0xea512722CC047bfDbe90a1a2750491e89a818CA7
-  [QuestChainsRoles.ENGAGED_OCTOS_PATH]: {
-    chainId: '0x89',
-    address: '0xea512722cc047bfdbe90a1a2750491e89a818ca7',
-    title: `Engaged Octo's Path`,
-    description:
-      'This is a general questline for anyone who is interested in joining & contributing to MetaGame.',
-    image: octopus.src,
-    difficulty: Difficulty.EASY,
-    time: Time.LONG,
-    category: QuestChainsCategories.FOR_METAGAME,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PATH,
-  },
-  // Builder's path: https://questchains.xyz/chain/0x89/0x8d23ef86e502b4c24d1ae4bf96249721903cbc71
-  [QuestChainsRoles.BUILDERS_PATH]: {
-    chainId: '0x89',
-    address: '0x8d23ef86e502b4c24d1ae4bf96249721903cbc71',
-    title: "Builder's path",
-    description:
-      'This is a questline for getting onboarded to MetaGame as a builder, it requires knowledge of TypeScript.',
-    image: builders.src,
-    difficulty: Difficulty.EASY,
-    time: Time.LONG,
-    category: QuestChainsCategories.FOR_METAGAME,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PATH,
-  },
-  // Designer's path: https://questchains.xyz/chain/0x89/0x32079721deef91dae71fc8ebcfabc73702f7b137
-  [QuestChainsRoles.DESIGNERS_PATH]: {
-    chainId: '0x89',
-    address: '0x32079721deef91dae71fc8ebcfabc73702f7b137',
-    title: "Designer's path",
-    description:
-      'This is a questline for getting onboarded into MetaGame as a designer of experiences & interfaces.',
-    image: design.src,
-    difficulty: Difficulty.EASY,
-    time: Time.MEDIUM,
-    category: QuestChainsCategories.FOR_METAGAME,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PATH,
-  },
-  // Rogue's path: https://questchains.xyz/chain/0x89/0xF0a2E8e05555F187E1d2b5ACabA925598477F173
-  [QuestChainsRoles.ROGUES_PATH]: {
-    chainId: '0x89',
-    address: '0xF0a2E8e05555F187E1d2b5ACabA925598477F173',
-    title: "Rogue's path",
-    description:
-      'This is a questline for those who like to chart their own path or just aren’t sure how to contribute.',
-    image: rogue.src,
-    difficulty: Difficulty.EASY,
-    time: Time.MEDIUM,
-    category: QuestChainsCategories.FOR_METAGAME,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PATH,
-  },
-  // Bridgebuilder's path: https://questchains.xyz/chain/0x89/0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7
-  [QuestChainsRoles.BRIDGEBUILDERS_PATH]: {
-    chainId: '0x89',
-    address: '0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7',
-    title: "Bridgebuilder's path",
-    description:
-      'This is a questline for those who are interested in building bridges between MetaGame & other communities.',
-    image: bridge.src,
-    difficulty: Difficulty.HARD,
-    time: Time.LONG,
-    category: QuestChainsCategories.FOR_METAGAME,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PATH,
-  },
-  // Patron's path: https://questchains.xyz/chain/0x89/0x372C28C97fcb2600d025Bf536C9738A08fF8022b
-  [QuestChainsRoles.PATRONS_PATH]: {
-    chainId: '0x89',
-    address: '0x372C28C97fcb2600d025Bf536C9738A08fF8022b',
-    title: "Patron's path",
-    description:
-      'This is a questline for those too busy to actively contribute to MetaGame; those interested in watering Trees.',
-    image: patron.src,
-    difficulty: Difficulty.EASY,
-    time: Time.SHORT,
-    category: QuestChainsCategories.FOR_METAGAME,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PATH,
-  },
-};
-
-export const QuestChainSubmitAPlaybookDetails: Record<
-  QuestChainType,
-  QuestChainInfo
-> = {
-  [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
-    chainId: '0x89',
-    address: '0xd9ff2e738b32bc78125e1a7c73ba721258ff555d',
-    title: 'Submit a Playbook',
-    description:
-      'This is a questline for those interested in filling up The Academy with more useful content.',
-    image: submitPlaybook.src,
-    difficulty: Difficulty.EASY,
-    time: Time.SHORT,
-    category: QuestChainsCategories.ALL,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PLAYBOOK,
-  },
-};
-
-export const QuestChainGreatHousesDetails: Record<
-  QuestChainType,
-  QuestChainInfo
-> = {
-  // Builder's path: https://questchains.xyz/chain/0x89/0x8d23ef86e502b4c24d1ae4bf96249721903cbc71
-  [QuestChainsGreatHouses.HOUSE_OF_ETHEREUM]: {
-    chainId: '0x89',
-    address: '0xa5c36c62ead5d3551aaf7765ee68e6f0ea3b3e1c',
-    title: 'House of Ethereum',
-    description:
-      'House of Ethereum is about helping you understand the significance of this technology we keep on talking about.',
-    image: ethereum.src,
-    category: QuestChainsCategories.WEB3_BASICS,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.GREAT_HOUSE,
-  },
-  // Engaged Octo's path: https://questchains.xyz/chain/0x89/0xea512722CC047bfDbe90a1a2750491e89a818CA7
-  [QuestChainsGreatHouses.HOUSE_OF_DAOS]: {
-    chainId: '0x89',
-    address: '0x4742ebadaf69aff1b16909a691af4bcd30db0b4a',
-    title: `House of DAOs`,
-    description:
-      'House of DAOs gives you an understanding of Decentralized Autonomous Organizations & how to build them.',
-    image: daos.src,
-    category: QuestChainsCategories.WEB3_BASICS,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.GREAT_HOUSE,
-  },
-  [QuestChainsGreatHouses.HOUSE_OF_DAPPS]: {
-    chainId: '0x89',
-    address: '0x67bd46a611d044ee947286b7c4d93c64d4c1a6d0',
-    title: `House of dApps`,
-    description:
-      'House of dApps is about making you see the endless possibilities of decentralized composable applications.',
-    image: dapps.src,
-    category: QuestChainsCategories.WEB3_BASICS,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.GREAT_HOUSE,
-  },
-  [QuestChainsGreatHouses.HOUSE_OF_NFTS]: {
-    chainId: '0x89',
-    address: '0xd58ffe9a24f76eeb63e1b44bc95766e2253e4d92',
-    title: `House of NFTs`,
-    description:
-      'House of NFTs shows you what the fuss is about & lists all the different NFT usecases beyond overpriced art pieces.',
-    image: nfts.src,
-    category: QuestChainsCategories.WEB3_BASICS,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.GREAT_HOUSE,
-  },
-  [QuestChainsGreatHouses.HOUSE_OF_DEFINANCE]: {
-    chainId: '0x89',
-    address: '0x26b49ceeb0dfdc5c619c4e853bd51d8e1e02d18c',
-    title: 'House of DeFinance',
-    description:
-      'House of DeFinance is here to help you see how a new financial system is being built & how banks will be made obsolete.',
-    image: definance.src,
-    category: QuestChainsCategories.WEB3_BASICS,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.GREAT_HOUSE,
   },
 };
 
@@ -418,183 +236,398 @@ export const QuestChainPlaybooksDetails: Record<
   QuestChainType,
   QuestChainInfo
 > = {
-  // [QuestChainsPlaybooks.MGXP_METAGAME_EXPERIENCE_POINTS]: {
-  //   address: '0x11041f6Bb7a987E3B363A712bEBC2e9bd72dcB59',
-  //   chainId: '0xa',
-  //   title: 'example 1',
-  //   description:
-  //     'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-  //   image: P1.src,
-  //   category: QuestChainsCategories.HOW_TO_DAO,
-  //   seedsEarned: 42069,
-  //   type: PathPlaybookTypes.PLAYBOOK,
-  // },
+// https://app.questchains.xyz/optimism/rite-of-passage
+  [QuestChainsPlaybooks.RITE_OF_PASSAGE]: {
+    address: '0xc5893dcab9ad32fa47923febde89883c62bffbd6',
+    chainId: '0xa',
+    title: 'Rite of Passage',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: riteofpassage.src,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  // https://app.questchains.xyz/optimism/players-path 
+  [QuestChainsPlaybooks.PLAYERS_PATH]: {
+    address: '0x11041f6bb7a987e3b363a712bebc2e9bd72dcb59',
+    chainId: '0xa',
+    title: 'Player's Path',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: player.src,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  // https://app.questchains.xyz/optimism/patrons-path 
+  [QuestChainsPlaybooks.PATRONS_PATH]:
+    {
+      address: '0xf005bb889af89e174cc155e1126ee5420812ae38',
+      chainId: '0xa',
+      title: 'Patron's Path',
+      description:
+        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      image: patron.src,
+      category: QuestChainsCategories.FOR_METAGAME,
+      seedsEarned: 42069,
+      type: PathPlaybookTypes.PLAYBOOK,
+    },
+  // https://app.questchains.xyz/optimism/guilders-path 
+  [QuestChainsPlaybooks.GUILDERS_PATH]: {
+    address: '0xd03a9f1e2b172b94622e49a3d51d79c46147299d',
+    chainId: '0xa',
+    title: 'Guilder's Path',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: guilder.src,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  // https://app.questchains.xyz/optimism/builders-path 
+  [QuestChainsPlaybooks.BUILDERS_PATH]: {
+    address: '0x00c489697f5cd76109768e7d16c2e8b625c26db0',
+    chainId: '0xa',
+    title: 'Builder's Path',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: builder.src,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  // https://app.questchains.xyz/optimism/bridgebuilders-path 
+  [QuestChainsPlaybooks.BRIDGEBUILDERS_PATH]:
+    {
+      address: '0x4c4f6d4975fc6e021cdede5b9df3e0bbaa30a9ef',
+      chainId: '0xa',
+      title:
+        'Bridgebuilder's Path',
+      description:
+        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      image: bridgebuilder.src,
+      category: QuestChainsCategories.FOR_METAGAME,
+      seedsEarned: 42069,
+      type: PathPlaybookTypes.PLAYBOOK,
+    },
+//  https://app.questchains.xyz/optimism/designers-path 
+  [QuestChainsPlaybooks.DESIGNERS_PATH]: {
+    address: '0x91d7e81859e2ac05f9491199c7accedb3a203fcd',
+    chainId: '0xa',
+    title: 'Designer's Path',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: designer.src,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  // https://app.questchains.xyz/optimism/wtf-is-ethereum 
+  [QuestChainsPlaybooks.WTF_IS_ETHEREUM]: {
+    address: '0x5aad789c5181fa3068518d59e60817ca3c3e7754',
+    chainId: '0xa',
+    title: 'WTF is Ethereum?',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: ethereum.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+//  https://app.questchains.xyz/optimism/wtf-are-daos 
+  [QuestChainsPlaybooks.WTF_ARE_DAOS]: {
+    address: '0xb3e25ceabd9df7c3745f1b1f086cf0d4ff084eae',
+    chainId: '0xa',
+    title: 'WTF are DAOs?',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: daos.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+//  https://app.questchains.xyz/optimism/wtf-is-defi 
+  [QuestChainsPlaybooks.WTF_IS_DEFI]: {
+    address: '0xd09b96bd31c1d98b752d09f425ed14507c8498c7',
+    chainId: '0xa',
+    title: 'WTF is DeFi?',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: defi.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/wtf-are-nfts 
+  [QuestChainsPlaybooks.WTF_ARE_NFTS]: {
+    address: '0x74c866082a74c029938da9031dd55c3786ae1caa',
+    chainId: '0xa',
+    title: 'WTF are NFTs?',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: nfts.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/wtf-are-dapps 
+  [QuestChainsPlaybooks.WTF_ARE_DAPPS]: {
+    address: '0xb98742ca54f919e244255dfccec5ef753b3db560',
+    chainId: '0xa',
+    title: 'WTF are DApps?',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: dapps.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/become-a-web3-developer 
+  [QuestChainsPlaybooks.BECOME_A_WEB3_DEVELOPER]: {
+    address: '0xba78a1e0fbdb23e6af3f1191066e1a14a717cafd',
+    chainId: '0xa',
+    title: 'Become a Web3 Developer',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: web3builder.src,
+    category: QuestChainsCategories.WEB3_BASICS,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/wtf-is-game-b 
+  [QuestChainsPlaybooks.WTF_IS_GAMEB]: {
+    address: '0x848b32e47185ea6fa2296c257fc58b9afd879eeb',
+    chainId: '0xa',
+    title: 'WTF is Game B?',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: gameb.src,
+    category: QuestChainsCategories.META,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  // https://app.questchains.xyz/optimism/wtf-is-metacrisis 
+  [QuestChainsPlaybooks.WTF_IS_METACRISIS]: {
+    address: '0x4799184e21e179a245196ee8d59fda63757364d9',
+    chainId: '0xa',
+    title: 'WTF is Metacrisis?',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: metacrisis.src,
+    category: QuestChainsCategories.META,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //     https://app.questchains.xyz/optimism/meditations-on-moloch 
+  [QuestChainsPlaybooks.MEDITATIONS_ON_MOLOCH]: {
+    address: '0x729c7f915b016e48aef4495b230f275b9cb95677',
+    chainId: '0xa',
+    title: 'Meditations on Moloch',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: moloch.src,
+    category: QuestChainsCategories.META,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/choose-good-quests 
+  [QuestChainsPlaybooks.CHOOSE_GOOD_QUESTS]:
+    {
+      address: '0xa392184dd8079e19e02b020cf08850096ade7436',
+      chainId: '0xa',
+      title:
+        'Choose Good Quests',
+      description:
+        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      image: goodquests.src,
+      category: QuestChainsCategories.META,
+      seedsEarned: 42069,
+      type: PathPlaybookTypes.PLAYBOOK,
+    },
+  //  https://app.questchains.xyz/optimism/meme-driven-organizations 
   [QuestChainsPlaybooks.MEME_DRIVEN_ORGANIZATIONS]: {
-    address: '0xd39a3d0eb714a2f62dd57f95af7fadc216f64e8e',
-    chainId: '0x89',
+    address: '0xc02573e396d4a203f7bb713ec7f2f33ec38489ed',
+    chainId: '0xa',
     title: 'Meme Driven Organizations',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P1.src,
+    image: memedriven.src,
+    category: QuestChainsCategories.META,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/become-the-best-contributor-in-any-dao 
+  [QuestChainsPlaybooks.BECOME_THE_BEST_DAO_CONTRIBUTOR]: {
+    address: '0xfe50114d4bb41faa1639f8020c2d9fa8dd9455bb',
+    chainId: '0xa',
+    title: 'Become The Best Contributor In Any DAO',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: bestdaocontributor.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  [QuestChainsPlaybooks.INSTALL_A_WEB3_WALLET_AND_GET_GAS]: {
-    address: '0xa1e05963535a060bfc2e9332c3fa7467c1ed607b',
-    chainId: '0x89',
-    title: 'Install a Web3 Wallet and get gas',
-    description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P2.src,
-    category: QuestChainsCategories.WEB3_BASICS,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PLAYBOOK,
-  },
-  [QuestChainsPlaybooks.BUILDING_A_STRONG_DAO_FOUNDATION_ESSENTIAL_QUESTIONS_FROM_DAO_CANVAS]:
+  //  https://app.questchains.xyz/optimism/starting-daos-101 
+  [QuestChainsPlaybooks.STARTING_DAOS_101]:
     {
-      address: '0x29fca34daa48dcf2ba63c4a417ad4ef95a952e46',
-      chainId: '0x89',
+      address: '0xdeac1ddb999a509b214c4181e160eb8afb915081',
+      chainId: '0xa',
       title:
-        'Building a strong DAO foundation: Essential questions from DAO Canvas',
+        'Starting DAOs 101',
       description:
         'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-      image: P3.src,
+      image: daosummoner.src,
       category: QuestChainsCategories.HOW_TO_DAO,
       seedsEarned: 42069,
       type: PathPlaybookTypes.PLAYBOOK,
     },
-  [QuestChainsPlaybooks.GUILDING_101_A_STARTER_KIT_FOR_SUCCESSFUL_TEAMS]: {
-    address: '0x340804f8ea5d5d660b7f3fa8f2c37408920bf7fe',
-    chainId: '0x89',
-    title: 'Guilding 101: A starter-kit for successful teams',
+  //   https://app.questchains.xyz/optimism/how-to-build-a-network-for-impact 
+  [QuestChainsPlaybooks.HOW_TO_BUILD_A_NETWORK_FOR_IMPACT]: {
+    address: '0x506baa6e4eecdc9372f4ac4fb05f687a99c17398',
+    chainId: '0xa',
+    title: ' ',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P4.src,
+    image: impactnetworks.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  [QuestChainsPlaybooks.BUILDING_SUCCESSFUL_TEAMS]: {
-    address: '0xd52fdc2ce552c73cdbbc6dbdc6ff739d3ad919ca',
-    chainId: '0x89',
-    title: 'Building Successful Teams',
+  // https://app.questchains.xyz/optimism/using-coordinape-to-reward-contributors 
+  [QuestChainsPlaybooks.USING_COORDINAPE_TO_REWARD_CONTRIBUTORS]: {
+    address: '0x771584d816543feb8aafd6b1654d0c854c1317fc',
+    chainId: '0xa',
+    title: 'Using Coordinape To Reward Contributors',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P5.src,
+    image: coordinape.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  [QuestChainsPlaybooks.ADDING_VALUE_TO_A_DAO_WITHOUT_TECHNICAL_SKILLS_UNLOCK_YOUR_POTENTIAL]:
-    {
-      address: '0x90a44808a7b4efc4e5ef09747c60c530551c47cf',
-      chainId: '0x89',
-      title:
-        'Adding Value to a DAO Without Technical Skills: Unlock Your Potential',
-      description:
-        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-      image: P6.src,
-      category: QuestChainsCategories.HOW_TO_DAO,
-      seedsEarned: 42069,
-      type: PathPlaybookTypes.PLAYBOOK,
-    },
-  [QuestChainsPlaybooks.HOW_TO_COACH_ETH]: {
-    address: '0xba480bc74150fa05e9d1c815e7f4dd03bab82e85',
-    chainId: '0x89',
-    title: 'How to Coach Eth',
+  //   https://app.questchains.xyz/optimism/effective-meetings-with-holacracy 
+  [QuestChainsPlaybooks.EFFECTIVE_MEETINGS_WITH_HOLACRACY]: {
+    address: '0xaaa8f39bce8abe1c2993b4e9f0f9a376583ef48f',
+    chainId: '0xa',
+    title: 'Effective Meetings With Holacracy',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P7.src,
-    category: QuestChainsCategories.WEB3_BASICS,
+    image: effectivemeetingrunner.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
+  //     https://app.questchains.xyz/optimism/entering-daos-as-a-writer 
   [QuestChainsPlaybooks.ENTERING_DAOS_AS_A_WRITER]: {
-    address: '0xa5b4578b954e75287a409974ba15b9a7e5e47ab3',
-    chainId: '0x89',
+    address: '0xeacd78de315757ba9fc7ddcc1d016f67249ad86b',
+    chainId: '0xa',
     title: 'Entering DAOs as a Writer',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P8.src,
+    image: daowriter.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  [QuestChainsPlaybooks.HOW_TO_BECOME_AN_ETHEREUM_DEVELOPER]: {
-    address: '0x64baec377babbbb62419af890e459d0a26b11074',
-    chainId: '0x89',
-    title: 'How to become an Ethereum Developer',
+  //   https://app.questchains.xyz/optimism/building-successful-teams 
+  [QuestChainsPlaybooks.BUILDING_SUCCESSFUL_TEAMS]: {
+    address: '0xe186c31013f0c1d09734fc5c084305e4913c6fae',
+    chainId: '0xa',
+    title: 'Building Successful Teams',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P9.src,
-    category: QuestChainsCategories.WEB3_BASICS,
+    image: team.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  [QuestChainsPlaybooks.BECOME_A_BUIDLER_ON_ETHEREUM]: {
-    address: '0xe62bda16bc819840e6369fd3b5db528929932b01',
-    chainId: '0x89',
-    title: 'Become a buidler on Ethereum',
+  //  https://app.questchains.xyz/optimism/embrace-the-ticking-clock 
+  [QuestChainsPlaybooks.EMBRACE_THE_TICKING_CLOCK]: {
+    address: '0xce7020ea7b3cf61ab1c1a3e9fd804fa5487ba87c',
+    chainId: '0xa',
+    title: 'Embrace The Ticking Clock',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P13.src,
-    category: QuestChainsCategories.WEB3_BASICS,
+    image: time.src,
+    category: QuestChainsCategories.SELF_ACTUALIZATION,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
+  //   : 'know-your-biases',     https://app.questchains.xyz/optimism/know-your-biases 
+  [QuestChainsPlaybooks.KNOW_YOUR_BIASES]: {
+    address: '0x40996f71f0250e9a59e404a35d2800318f96bcc9',
+    chainId: '0xa',
+    title: 'Know Your Biases',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: biases.src,
+    category: QuestChainsCategories.SELF_ACTUALIZATION,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //   https://app.questchains.xyz/optimism/understanding-imposter-syndrome 
+  [QuestChainsPlaybooks.UNDERSTANDING_IMPOSTER_SYNDROME]: {
+    address: '0xe769e5a126715780e90aba9ea8df89eb1a828d18',
+    chainId: '0xa',
+    title: 'Understanding Imposter Syndrome',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: imposter.src,
+    category: QuestChainsCategories.SELF_ACTUALIZATION,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //   https://app.questchains.xyz/optimism/journal-like-dickie-bush 
+  [QuestChainsPlaybooks.JOURNALING_LIKE_DICKIE_BUSH]: {
+    address: '0xe1f5c080e9060faec0476bfa910160ff1c532ac0',
+    chainId: '0xa',
+    title: 'Journaling Like Dickie Bush',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: journaling.src,
+    category: QuestChainsCategories.SELF_ACTUALIZATION,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //   https://app.questchains.xyz/optimism/how-to-play-twitter 
   [QuestChainsPlaybooks.HOW_TO_PLAY_TWITTER]: {
-    address: '0xd14c9ca6ebd0d8941340b5b57ca3640b0196a61d',
-    chainId: '0x89',
+    address: '0xb324e5a5b72c3cd25c2515e44d3e6e06e1b3ed32',
+    chainId: '0xa',
     title: 'How to Play Twitter',
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P16.src,
+    image: playtwitter.src,
     category: QuestChainsCategories.RANDOM,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  [QuestChainsPlaybooks.UNDERSTANDING_IMPOSTER_SYNDROME]: {
-    address: '0xed2c1ed50438379770c0a7e21150810786ebdfd8',
-    chainId: '0x89',
-    title: 'Understanding Imposter Syndrome',
+  //  https://app.questchains.xyz/optimism/master-your-browser-tabs 
+  [QuestChainsPlaybooks.MASTER_YOUR_BROWSER_TABS]:
+    {
+      address: '0x6725a0d903d74589f66c97b2836744bdab25c06a',
+      chainId: '0xa',
+      title:
+        'Master Your Browser Tabs',
+      description:
+        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      image: mastertabs.src,
+      category: QuestChainsCategories.RANDOM,
+      seedsEarned: 42069,
+      type: PathPlaybookTypes.PLAYBOOK,
+    },
+  //  https://app.questchains.xyz/optimism/submit-a-playbook 
+  [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
+    chainId: '0xa',
+    address: '0x90e19287d453a7a7125f399e23dadf95b21f1efa',
+    title: 'Submit a Playbook',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P12.src,
-    category: QuestChainsCategories.WELLBEING_SELF_IMPROVEMENT,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PLAYBOOK,
-  },
-  [QuestChainsPlaybooks.HOW_TO_JOIN_A_DAO_COMMUNITY]: {
-    address: '0x7e5a92f7f440e4d29558913bbea7343f5593b6d3',
-    chainId: '0x89',
-    title: 'How to join a DAO community',
-    description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P15.src,
-    category: QuestChainsCategories.HOW_TO_DAO,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PLAYBOOK,
-  },
-  [QuestChainsPlaybooks.HOW_TO_BUILD_A_NETWORK_FOR_IMPACT]: {
-    address: '0xe388d673dcb58b6216d869801710e498fe37f24c',
-    chainId: '0x89',
-    title: 'How to build a network for impact',
-    description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P14.src,
-    category: QuestChainsCategories.HOW_TO_DAO,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PLAYBOOK,
-  },
-  [QuestChainsPlaybooks.HANDLING_FOMO_IN_WEB3]: {
-    address: '0xad8b64dc695b676e03d49e819d2153ad9465db83',
-    chainId: '0x89',
-    title: 'Handling FOMO in Web3',
-    description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-    image: P11.src,
-    category: QuestChainsCategories.WEB3_BASICS,
+      'This is a questline for those interested in filling up The Academy with more useful content.',
+    image: playbookwriter.src,
+    difficulty: Difficulty.EASY,
+    time: Time.SHORT,
+    category: QuestChainsCategories.ALL,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
@@ -607,15 +640,11 @@ export const QuestChainPathsAndPlaybooksDetails: Record<
   QuestChainDetailsType,
   QuestChainDetails
 > = {
-  ...QuestChainRolesDetails,
-  ...QuestChainGreatHousesDetails,
   ...QuestChainPlaybooksDetails,
   ...QuestChainSubmitAPlaybookDetails,
 };
 
 export const QuestChains = {
-  ...QuestChainsRoles,
-  ...QuestChainsGreatHouses,
   ...QuestChainsPlaybooks,
 };
 
