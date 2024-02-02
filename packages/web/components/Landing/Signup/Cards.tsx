@@ -31,7 +31,6 @@ import { Perk, PerkList } from './data';
 interface PerksChecklistProps {
   perks: Perk[];
   id: keyof Perk;
-  badgeColor: string;
   altBackground?: boolean;
 }
 
@@ -237,7 +236,7 @@ export const PerksCard: React.FC<CardProps> = ({
   )
 };
 
-export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, badgeColor, altBackground }) => (
+export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, altBackground }) => (
   <Box
     h="full"
     w="129px"
@@ -253,7 +252,14 @@ export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, badge
         borderRadius="full"
         variant="subtle"
         textTransform="uppercase"
-        colorScheme={badgeColor}
+        colorScheme={
+          (() => {
+            if (id === 'free') return 'green';
+            if (id === 'basic') return 'purple';
+            if (id === 'pro') return 'pink';
+            return 'gray';
+          })()
+        }
         p={2}
         fontSize="0.4em"
       >
@@ -284,77 +290,9 @@ export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, badge
         </ListItem>
       ))}
     </List>
-  </Box>
+  </Box >
 )
 
-export const PerksTable: React.FC<{ perkList: PerkList[], perks: Perk[] }> = ({ perkList, perks }) => (
-  <TableContainer>
-    <Table variant='striped' colorScheme='purple' size="sm">
-      <Thead>
-        <Tr>
-          <Th></Th>
-          {perkList.map(({ type }, index) =>
-            <Th key={index}>
-              <Badge
-                borderRadius="full"
-                variant="subtle"
-                textTransform="uppercase"
-                colorScheme={
-                  (() => {
-                    if (type === 'Free') return 'green';
-                    if (type === 'Basic') return 'purple';
-                    if (type === 'Pro') return 'pink';
-                    return 'gray';
-                  })()
-                }
-                p={2}
-                fontSize="0.4em"
-              >
-                {type}
-              </Badge>
-            </Th>
-          )}
-        </Tr>
-      </Thead>
-      <Tbody>
-        {perks.map((perk, index) =>
-          <Tr key={index}>
-            <Td>{perk.title}</Td>
-            <Td>
-              <Icon as={(perk.type === 'Player' && perk.free)
-                ? BsFillCheckCircleFill
-                : FaCircle} color={
-                  (perk.type === 'Guild' && perk.free)
-                    ? 'green.500'
-                    : 'gray.600'
-                } />
-            </Td>
-            <Td>
-              <Icon as={
-                (perk.type === 'Guild' && perk.basic)
-                  ? BsFillCheckCircleFill
-                  : FaCircle} color={
-                    (perk.type === 'Guild' && perk.basic)
-                      ? 'green.500'
-                      : 'gray.600'
-                  } />
-            </Td>
-            <Td>
-              <Icon as={
-                (perk.type === 'Patron' && perk.pro)
-                  ? BsFillCheckCircleFill
-                  : FaCircle} color={
-                    (perk.type === 'Guild' && perk.pro)
-                      ? 'green.500'
-                      : 'gray.600'
-                  } />
-            </Td>
-          </Tr>
-        )}
-      </Tbody>
-    </Table>
-  </TableContainer>
-)
 
 
 

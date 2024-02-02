@@ -28,13 +28,14 @@ import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useState } from 'react';
 
 import { Rain } from '../OnboardingGame/Rain';
-import { PerksCard, PerksChecklist, PerksTable, RoleCard } from './Cards';
+import { PerksCard, PerksChecklist, RoleCard } from './Cards';
 import {
   guildPerks,
   guildPerksList,
   guildReasons,
   patronPerks,
   patronReasons,
+  PerkType,
   playerPerks,
   playerReasons,
   roles,
@@ -508,16 +509,15 @@ export const Signup: React.FC = () => {
                       </TabPanels>
                     </Tabs>
                   ) : (
-                    // <PerksTable perkList={guildPerks} perks={guildPerksList} />
                     <Flex align='end' w="full">
                       <List spacing="10px" p="0px 24px 0px 24px">
                         {guildPerksList.map(({ title }, perkIndex) => (
                           <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
                         ))}
                       </List>
-                      <PerksChecklist perks={guildPerksList} id="free" badgeColor="green" />
-                      <PerksChecklist perks={guildPerksList} id="basic" badgeColor="purple" altBackground />
-                      <PerksChecklist perks={guildPerksList} id="pro" badgeColor="pink" />
+                      <PerksChecklist perks={guildPerksList} id={PerkType.Free} />
+                      <PerksChecklist perks={guildPerksList} id={PerkType.Basic} altBackground />
+                      <PerksChecklist perks={guildPerksList} id={PerkType.Pro} />
                     </Flex>
                   )}
                   <VStack align="center" spacing={4}>
