@@ -13,21 +13,19 @@ export const podcastRSSURL = 'https://anchor.fm/s/57a641c/podcast/rss';
 const DEFAULT_BOX_POSITIONS: Record<ChakraSize, Positions> = {
   lg: {
     [BoxTypes.DASHBOARD_LASTEST_CONTENT]: { x: 1, y: 0 },
-    [BoxTypes.DASHBOARD_XP_INFO]: { x: 2, y: 0 },
-    [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 0, y: 0 },
-    [BoxTypes.DASHBOARD_CALENDER]: { x: 0, y: 2 },
+    [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 0, y:1 },
+    [BoxTypes.DASHBOARD_CALENDER]: { x: 0, y: 0 },
     [BoxTypes.DASHBOARD_LEADERBOARD]: { x: 2, y: 2 },
+    [BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS]: { x: 2, y: 1 }
   },
   md: {
     [BoxTypes.DASHBOARD_LASTEST_CONTENT]: { x: 0, y: 0 },
-    [BoxTypes.DASHBOARD_XP_INFO]: { x: 1, y: 2 },
     [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 1, y: 0 },
     [BoxTypes.DASHBOARD_CALENDER]: { x: 1, y: 4 },
     [BoxTypes.DASHBOARD_LEADERBOARD]: { x: 0, y: 4 },
   },
   sm: {
     [BoxTypes.DASHBOARD_LASTEST_CONTENT]: { x: 0, y: 4 },
-    [BoxTypes.DASHBOARD_XP_INFO]: { x: 0, y: 0 },
     [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 0, y: 2 },
     [BoxTypes.DASHBOARD_CALENDER]: { x: 0, y: 7 },
     [BoxTypes.DASHBOARD_LEADERBOARD]: { x: 0, y: 11 },
@@ -50,7 +48,6 @@ export const ALL_BOXES = [
 
 export const DEFAULT_BOXES = [
   BoxTypes.DASHBOARD_LASTEST_CONTENT,
-  BoxTypes.DASHBOARD_XP_INFO,
   BoxTypes.DASHBOARD_SEEDS_INFO,
   BoxTypes.DASHBOARD_CALENDER,
   BoxTypes.DASHBOARD_LEADERBOARD,

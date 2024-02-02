@@ -90,16 +90,17 @@ const UnifiedCommunityPage: React.FC<Props> = ({
             onChange={handleTabChange}
           >
             <TabList
+              borderBottom="1px solid #2D2D2D"
+              justifyContent="space-between"
+              w="full"
               ml={{ sm: '0em', lg: '4em' }}
               mr={{ sm: '0em', lg: '4em' }}
             >
               {communityTabs.map(({ link }) => (
                 <Tab
                   key={`tab-${link}`}
-                  _selected={{
-                    color: 'pastelPurple',
-                    borderBottom: '2px solid var(--chakra-colors-pastelPurple)',
-                  }}
+                  _selected={{ color: 'white', borderBottom: '2px inset #A48DF3' }}
+                  color="gray.400"
                   w="100%"
                 >
                   {link}

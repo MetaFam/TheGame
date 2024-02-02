@@ -61,7 +61,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
                 px={4}
                 py={3}
                 borderRadius={10}
-                bgColor="whiteAlpha.100"
+                bgColor="whiteA0"
                 backdropFilter="blur(10px)"
               >
                 <Heading
