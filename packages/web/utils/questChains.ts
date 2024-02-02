@@ -22,15 +22,16 @@ import biases from 'assets/academy/biases.png';
 import imposter from 'assets/academy/imposter.png';
 import journaling from 'assets/academy/journaling.png';
 import time from 'assets/academy/time.png';
+import team from 'assets/academy/team.png';
 import playbookwriter from 'assets/academy/playbook-writer.png';
 import daosummoner from 'assets/academy/daosummoner.png';
-import web3builder from 'assets/academy/web3builder.png';
 import coordinape from 'assets/academy/coordinape.png';
 import daowriter from 'assets/academy/daowriter.png';
 import playtwitter from 'assets/academy/play-twitter.png';
 import mastertabs from 'assets/academy/master-tabs.png';
 import bestdaocontributor from 'assets/academy/best-dao-contributor.png';
 import impactnetworks from 'assets/academy/impact-networks.png';
+import submitPlaybook from 'assets/academy/submit-playbook.png';
 import effectivemeetingrunner from 'assets/academy/effective-meeting-runner.png';
 import { Signer } from 'ethers';
 
@@ -60,10 +61,11 @@ export const QuestChainsCategories = {
   META: 'meta',
   WEB3_BASICS: 'web3-basics',
   HOW_TO_DAO: 'how-to-dao',
-//  METAALLIANCE: 'metaalliance',
+  METAALLIANCE: 'metaalliance',
   SELF_ACTUALIZATION: 'self-actualization',
-//  REGENERATION: 'regeneration',
-//  USING_AI: 'using-ai',
+ REGENERATION: 'regeneration',
+ USING_AI: 'using-ai',
+ WELLBEING_SELF_IMPROVEMENT: 'wellbeing-self-improvement',
   RANDOM: 'random',
   ALL: 'all',
 };
@@ -232,6 +234,24 @@ export const QuestChainsCategoriesDetails: Record<
   },
 };
 
+export const QuestChainSubmitAPlaybookDetails: Record<
+  QuestChainType,
+  QuestChainInfo
+> = {
+  [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
+    chainId: '0x89',
+    address: '0xd9ff2e738b32bc78125e1a7c73ba721258ff555d',
+    title: 'Submit a Playbook',
+    description:
+    'This is a questline for those interested in filling up The Academy with more useful content.',
+    image: submitPlaybook.src,
+    difficulty: Difficulty.EASY,
+    time: Time.SHORT,
+    category: QuestChainsCategories.ALL,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+}
 export const QuestChainPlaybooksDetails: Record<
   QuestChainType,
   QuestChainInfo
@@ -252,7 +272,7 @@ export const QuestChainPlaybooksDetails: Record<
   [QuestChainsPlaybooks.PLAYERS_PATH]: {
     address: '0x11041f6bb7a987e3b363a712bebc2e9bd72dcb59',
     chainId: '0xa',
-    title: 'Player's Path',
+    title: "Player's Path",
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: player.src,
@@ -265,7 +285,7 @@ export const QuestChainPlaybooksDetails: Record<
     {
       address: '0xf005bb889af89e174cc155e1126ee5420812ae38',
       chainId: '0xa',
-      title: 'Patron's Path',
+      title: "Patron's Path",
       description:
         'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
       image: patron.src,
@@ -277,7 +297,7 @@ export const QuestChainPlaybooksDetails: Record<
   [QuestChainsPlaybooks.GUILDERS_PATH]: {
     address: '0xd03a9f1e2b172b94622e49a3d51d79c46147299d',
     chainId: '0xa',
-    title: 'Guilder's Path',
+    title: "Guilder's Path",
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: guilder.src,
@@ -289,7 +309,7 @@ export const QuestChainPlaybooksDetails: Record<
   [QuestChainsPlaybooks.BUILDERS_PATH]: {
     address: '0x00c489697f5cd76109768e7d16c2e8b625c26db0',
     chainId: '0xa',
-    title: 'Builder's Path',
+    title: "Builder's Path",
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: builder.src,
@@ -303,7 +323,7 @@ export const QuestChainPlaybooksDetails: Record<
       address: '0x4c4f6d4975fc6e021cdede5b9df3e0bbaa30a9ef',
       chainId: '0xa',
       title:
-        'Bridgebuilder's Path',
+        "Bridgebuilder's Path",
       description:
         'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
       image: bridgebuilder.src,
@@ -315,7 +335,7 @@ export const QuestChainPlaybooksDetails: Record<
   [QuestChainsPlaybooks.DESIGNERS_PATH]: {
     address: '0x91d7e81859e2ac05f9491199c7accedb3a203fcd',
     chainId: '0xa',
-    title: 'Designer's Path',
+    title: "Designer's Path",
     description:
       'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
     image: designer.src,
@@ -641,7 +661,7 @@ export const QuestChainPathsAndPlaybooksDetails: Record<
   QuestChainDetails
 > = {
   ...QuestChainPlaybooksDetails,
-  ...QuestChainSubmitAPlaybookDetails,
+  ...QuestChainPlaybooksDetails,
 };
 
 export const QuestChains = {
