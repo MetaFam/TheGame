@@ -61,11 +61,8 @@ export const QuestChainsCategories = {
   META: 'meta',
   WEB3_BASICS: 'web3-basics',
   HOW_TO_DAO: 'how-to-dao',
-  METAALLIANCE: 'metaalliance',
   SELF_ACTUALIZATION: 'self-actualization',
- REGENERATION: 'regeneration',
- USING_AI: 'using-ai',
- WELLBEING_SELF_IMPROVEMENT: 'wellbeing-self-improvement',
+  WELLBEING_SELF_IMPROVEMENT: 'wellbeing-self-improvement',
   RANDOM: 'random',
   ALL: 'all',
 };
@@ -104,7 +101,6 @@ export const QuestChainsPlaybooks = {
   JOURNALING_LIKE_DICKIE_BUSH: 'journaling-like-dickie-bush',
   HOW_TO_PLAY_TWITTER: 'how-to-play-twitter',
   MASTER_YOUR_BROWSER_TABS: 'master-your-browser-tabs',
-  
 };
 
 // Playbook Difficulty
@@ -197,32 +193,11 @@ export const QuestChainsCategoriesDetails: Record<
       'This section is all things regarding DAOs & coordination - from tooling to methods',
     image: '',
   },
-  [QuestChainsCategories.METAALLIANCE]: {
-    name: QuestChainsCategories.METAALLIANCE,
-    title: 'MetaAlliance',
-    description:
-      'Quests that are about building bridges between MetaGame & other communities.',
-    image: '',
-  },
-  [QuestChainsCategories.WELLBEING_SELF_IMPROVEMENT]: {
-    name: QuestChainsCategories.WELLBEING_SELF_IMPROVEMENT,
+  [QuestChainsCategories.SELF_ACTUALIZATION]: {
+    name: QuestChainsCategories.SELF_ACTUALIZATION,
     title: 'Self-actualization & Wellbeing',
     description:
       'Another one we are weak in; open to anything regarding personal wellbeing & self-improvement.',
-    image: '',
-  },
-  [QuestChainsCategories.REGENERATION]: {
-    name: QuestChainsCategories.REGENERATION,
-    title: 'Regeneration',
-    description:
-      'MetaGame is very much about regeneration - yet failing at it! Consider submitting regen playbooks.',
-    image: '',
-  },
-  [QuestChainsCategories.USING_AI]: {
-    name: QuestChainsCategories.USING_AI,
-    title: 'AI Playbooks',
-    description:
-      "This is the section we're currently weakest in, but recognize the potential as great as Web3.",
     image: '',
   },
   [QuestChainsCategories.RANDOM]: {
@@ -660,7 +635,6 @@ export const QuestChainPathsAndPlaybooksDetails: Record<
   QuestChainDetailsType,
   QuestChainDetails
 > = {
-  ...QuestChainPlaybooksDetails,
   ...QuestChainPlaybooksDetails,
 };
 
