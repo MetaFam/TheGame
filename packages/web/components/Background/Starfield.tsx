@@ -1,15 +1,7 @@
-import {
-  PerspectiveCamera,
-  Sparkles,
-} from '@react-three/drei';
+import { PerspectiveCamera, Sparkles } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import StarMaterial from 'assets/materials/star.png';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
 export interface SceneSectionProps {
@@ -27,12 +19,12 @@ export function R3FSceneSection({
   children,
   ...props
 }: SceneSectionProps) {
-  const group = useRef(null);
+  const groupRef = useRef(null);
   const { objectsDistance } = config;
 
   return (
     <group
-      ref={group}
+      ref={groupRef}
       name={name}
       position={[0, -objectsDistance * count, 0]}
       {...props}
@@ -57,11 +49,13 @@ function Starfield({ animateStars = true }: StarfieldProps) {
   let previousTime = 0;
   const currentSection = useRef(0);
   const scrollContainer =
-  typeof document !== 'undefined'
-    ? document.getElementById('scroll-container')
+    typeof document !== 'undefined'
+      ? document.getElementById('scroll-container')
+      : null;
+  const pageContainer = scrollContainer
+    ? scrollContainer.querySelector('.full-page-container')
     : null;
-  const pageContainer = scrollContainer ? scrollContainer.querySelector('.full-page-container') : null;
-  const starCount = 600
+  const starCount = 600;
 
   const starfieldConfig = useMemo(
     () => ({
@@ -82,15 +76,14 @@ function Starfield({ animateStars = true }: StarfieldProps) {
   );
   const { objectsDistance, sparkles, animate } = starfieldConfig;
 
-
   const resizeHandler = useCallback(() => {
     if (!scrollContainer) return;
     const height = typeof window !== 'undefined' ? window.innerHeight : 1;
 
     sizes.current = {
       width: window.innerWidth,
-      height
-    }
+      height,
+    };
   }, [scrollContainer]);
 
   const handleScroll = useCallback(() => {
@@ -103,7 +96,6 @@ function Starfield({ animateStars = true }: StarfieldProps) {
     if (newSection !== currentSection.current) {
       currentSection.current = newSection;
     }
-
   }, [pageContainer, scrollContainer]);
 
   const mousemoveHandler = useCallback((event: MouseEvent) => {
@@ -123,7 +115,9 @@ function Starfield({ animateStars = true }: StarfieldProps) {
       };
 
       // Set initial scroll position
-      scrollY.current = pageContainer ? pageContainer.scrollTop : window.scrollY;
+      scrollY.current = pageContainer
+        ? pageContainer.scrollTop
+        : window.scrollY;
 
       scrollContainer?.addEventListener('scroll', handleScroll);
       window.addEventListener('resize', resizeHandler);
@@ -135,7 +129,13 @@ function Starfield({ animateStars = true }: StarfieldProps) {
       window.removeEventListener('resize', resizeHandler);
       window.removeEventListener('mousemove', mousemoveHandler);
     };
-  }, [pageContainer, scrollContainer, handleScroll, resizeHandler, mousemoveHandler]);
+  }, [
+    pageContainer,
+    scrollContainer,
+    handleScroll,
+    resizeHandler,
+    mousemoveHandler,
+  ]);
 
   useFrame(() => {
     if (!animate) return;

@@ -1,6 +1,7 @@
 import {
   ArrowBackIcon,
   ArrowForwardIcon,
+  Box,
   Button,
   CheckIcon,
   CloseIcon,
@@ -118,7 +119,7 @@ export const MobileFilters: React.FC<Props> = ({
   }, [selected]);
 
   return (
-    <Drawer isOpen={isOpen} onClose={onClose} {...props}>
+    <Box as={Drawer} isOpen={isOpen} onClose={onClose} {...props}>
       <DrawerContent maxW="100%" bg="black" color="white">
         <DrawerHeader
           display="flex"
@@ -270,7 +271,7 @@ export const MobileFilters: React.FC<Props> = ({
           />
         )}
       </DrawerContent>
-    </Drawer>
+    </Box>
   );
 };
 
@@ -282,7 +283,8 @@ type FilterItemProps = {
 const FilterItem: React.FC<FilterItemProps> = ({ title, value, ...props }) => {
   const lastIndex = value.length - 1;
   return (
-    <Flex
+    <Box
+      as={Flex}
       justify="space-between"
       align="center"
       p="1rem"
@@ -322,7 +324,7 @@ const FilterItem: React.FC<FilterItemProps> = ({ title, value, ...props }) => {
         )}
       </Flex>
       <ArrowForwardIcon boxSize="2rem" color="white" />
-    </Flex>
+    </Box>
   );
 };
 

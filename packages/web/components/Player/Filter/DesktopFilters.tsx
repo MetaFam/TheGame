@@ -1,4 +1,5 @@
 import {
+  Box,
   LabeledOptions,
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
@@ -65,7 +66,8 @@ export const DesktopFilters: React.FC<Props> = ({
   setSortOption,
   ...props
 }) => (
-  <Wrap
+  <Box
+    as={Wrap}
     justify="center"
     overflow="visible" // Wrap defaults to hidden
     {...props}
@@ -150,5 +152,5 @@ export const DesktopFilters: React.FC<Props> = ({
         isTimeZone
       />
     </WrapItem>
-  </Wrap>
+  </Box>
 );

@@ -12,7 +12,6 @@ import {
 import { Maybe, Optional } from '@metafam/utils';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
-import { useW3upClient } from 'lib/hooks/useW3';
 import { forwardRef, useCallback, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
