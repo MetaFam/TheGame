@@ -74,12 +74,6 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
     }
   }, [connected, chainId, address, provider, toast]);
 
-  useEffect(() => {
-    if (!connected) {
-      setWrongNetwork(false);
-    }
-  }, [connected]);
-
   return (
     <Tooltip
       label={
