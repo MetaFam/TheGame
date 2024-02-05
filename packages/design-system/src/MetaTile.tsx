@@ -236,7 +236,6 @@ export const MetaTilePathPlaybook = React.forwardRef<
           direction="column"
           position="absolute"
           zIndex={2}
-          bgColor="whiteAlpha.200"
           border={{
             base: '1px solid rgba(255, 255, 255, 0.12)',
             xl: '2px solid rgba(255, 255, 255, 0.12)',
@@ -317,7 +316,7 @@ export const MetaTilePathCosmetics: React.FC<MetaTilePathCosmeticsProps> = ({
         width="full"
         maxW={width}
         background={
-          'linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0.34%, rgba(0, 0, 0, 0.00) 34.08%, rgba(13, 0, 19, 0.35) 59.18%, rgba(20, 0, 28, 0.85) 100%)'
+          'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0.34%, rgba(0, 0, 0, 0.00) 34.08%, rgba(13, 0, 19, 0.35) 59.18%, rgba(20, 0, 28, 0.3) 100%)'
         }
         borderRightRadius={{ base: 'lg', xl: '2xl' }}
         zIndex={1}
