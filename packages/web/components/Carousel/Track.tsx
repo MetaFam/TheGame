@@ -1,5 +1,6 @@
 import type { PanInfo } from '@metafam/ds';
 import {
+  Box,
   Flex,
   motion,
   useAnimation,
@@ -12,7 +13,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCarouselContext } from './CarouselContext';
 
-const MotionFlex = motion(Flex);
+const MotionBox = motion(Box);
 
 const transitionProps = {
   stiffness: 400,
@@ -151,7 +152,8 @@ export const Track: React.FC<PropsWithChildren> = ({ children }) => {
     <>
       {itemWidth && (
         <VStack ref={node} spacing={5} alignItems="stretch">
-          <MotionFlex
+          <MotionBox
+            as={Flex}
             dragConstraints={node}
             onDragStart={isMobile ? undefined : handleDragStart}
             onDragEnd={isMobile ? undefined : handleDragEnd}
@@ -164,7 +166,7 @@ export const Track: React.FC<PropsWithChildren> = ({ children }) => {
             cursor="grab"
           >
             {children}
-          </MotionFlex>
+          </MotionBox>
         </VStack>
       )}
     </>
