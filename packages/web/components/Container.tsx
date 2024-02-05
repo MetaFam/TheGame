@@ -1,9 +1,9 @@
-import { Flex, FlexProps, Stack, StackProps } from '@metafam/ds';
+import { Box, Flex, FlexProps, Stack, StackProps } from '@metafam/ds';
 import { HeadComponent } from 'components/Seo';
 
-
 const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
-  <Flex
+  <Box
+    as={Flex}
     className="full-page-container"
     w="100%"
     h="100%"
@@ -15,15 +15,23 @@ const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
     {...props}
   >
     {children}
-  </Flex>
+  </Box>
 );
 
 export default PageContainer;
 
 export const FlexContainer: React.FC<StackProps> = ({ children, ...props }) => (
-  <Stack className="flex-container" w="full" align="center" justify="center" spacing={[6, 8]} {...props}>
+  <Box
+    as={Stack}
+    className="flex-container"
+    w="full"
+    align="center"
+    justify="center"
+    spacing={[6, 8]}
+    {...props}
+  >
     {children}
-  </Stack>
+  </Box>
 );
 
 type EmbedProps = {
@@ -38,7 +46,7 @@ export const EmbedContainer: React.FC<EmbedProps> = ({
   url,
   ...props
 }) => (
-  <Flex w="100%" h="100%" direction="column" {...props} >
+  <Box as={Flex} w="100%" h="100%" direction="column" {...props}>
     <HeadComponent title={title} description={description} url={url} />
     <iframe
       title={title}
@@ -48,7 +56,7 @@ export const EmbedContainer: React.FC<EmbedProps> = ({
         height: '100%',
       }}
     />
-  </Flex>
+  </Box>
 );
 
 export const FullPageContainer: React.FC<

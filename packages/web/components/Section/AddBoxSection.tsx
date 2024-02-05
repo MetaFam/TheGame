@@ -80,7 +80,8 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
         pos="relative"
         {...{ ref }}
       >
-        <Flex
+        <Box
+          as={Flex}
           bg="whiteAlpha.200"
           border="dashed 1px rgba(255, 255, 255, 0.3)"
           borderRadius="lg"
@@ -207,7 +208,7 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
               </ModalFooter>
             </ModalContent>
           </Modal>
-        </Flex>
+        </Box>
       </Flex>
     );
   },

@@ -1974,12 +1974,6 @@
   dependencies:
     tslib "^2.3.1"
 
-"@emnapi/runtime@^0.45.0":
-  version "0.45.0"
-  resolved "https://registry.yarnpkg.com/@emnapi/runtime/-/runtime-0.45.0.tgz#e754de04c683263f34fd0c7f32adfe718bbe4ddd"
-  dependencies:
-    tslib "^2.4.0"
-
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.11.0.tgz#c2d872b6a7767a9d176d007f5b31f7d504bb5d6c"
@@ -5940,6 +5934,20 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-reconciler@^0.26.7":
+  version "0.26.7"
+  resolved "https://registry.yarnpkg.com/@types/react-reconciler/-/react-reconciler-0.26.7.tgz#0c4643f30821ae057e401b0d9037e03e8e9b2a36"
+  integrity sha512-mBDYl8x+oyPX/VBb3E638N0B7xG+SPk/EAMcVPeexqus/5aTpTphQi0curhhshOqRrc9t6OPoJfEUkbymse/lQ==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-reconciler@^0.28.0":
+  version "0.28.8"
+  resolved "https://registry.yarnpkg.com/@types/react-reconciler/-/react-reconciler-0.28.8.tgz#e51710572bcccf214306833c2438575d310b3e98"
+  integrity sha512-SN9c4kxXZonFhbX4hJrZy37yw9e7EIxcpHCxQv5JUS18wDE5ovkQKlqQEkufdJCCMfuI9BnjUJvhYeJ9x5Ra7g==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^7.1.20":
   version "7.1.26"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.26.tgz#84149f5614e40274bb70fcbe8f7cae6267d548b1"
@@ -8330,27 +8338,13 @@ color-name@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
 
-color-name@^1.0.0, color-name@~1.1.4:
+color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
-
-color-string@^1.9.0:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/color-string/-/color-string-1.9.1.tgz#4467f9146f036f855b764dfb5bf8582bf342c7a4"
-  dependencies:
-    color-name "^1.0.0"
-    simple-swizzle "^0.2.2"
 
 color2k@^2.0.0, color2k@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/color2k/-/color2k-2.0.2.tgz#ac2b4aea11c822a6bcb70c768b5a289f4fffcebb"
-
-color@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/color/-/color-4.2.3.tgz#d781ecb5e57224ee43ea9627560107c0e0c6463a"
-  dependencies:
-    color-convert "^2.0.1"
-    color-string "^1.9.0"
 
 colorette@^2.0.16:
   version "2.0.20"
@@ -9350,7 +9344,7 @@ detect-libc@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
 
-detect-libc@^2.0.0, detect-libc@^2.0.2:
+detect-libc@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-2.0.2.tgz#8ccf2ba9315350e1241b88d0ac3b0e1fbd99605d"
 
@@ -9624,6 +9618,11 @@ downshift@3.2.7:
     compute-scroll-into-view "^1.0.9"
     prop-types "^15.6.0"
     react-is "^16.5.2"
+
+draco3d@^1.4.1:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/draco3d/-/draco3d-1.5.7.tgz#94f9bce293eb8920c159dc91a4ce9124a9e899e0"
+  integrity sha512-m6WCKt/erDXcw+70IJXnG7M3awwQPAsZvJGX5zY7beBqpELw6RDGkYVU0W43AFxye4pDZ5i2Lbyc/NNGqwjUVQ==
 
 dset@^3.1.1, dset@^3.1.2:
   version "3.1.2"
@@ -11011,6 +11010,11 @@ fetch-blob@^3.1.2, fetch-blob@^3.1.4, fetch-blob@^3.2.0:
     node-domexception "^1.0.0"
     web-streams-polyfill "^3.0.3"
 
+fflate@^0.6.9, fflate@~0.6.10:
+  version "0.6.10"
+  resolved "https://registry.yarnpkg.com/fflate/-/fflate-0.6.10.tgz#5f40f9659205936a2d18abf88b2e7781662b6d43"
+  integrity sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==
+
 figures@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-1.7.0.tgz#cbe1e3affcf1cd44b80cadfed28dc793a9701d2e"
@@ -12397,10 +12401,6 @@ is-array-buffer@^3.0.1, is-array-buffer@^3.0.2:
 is-arrayish@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
-
-is-arrayish@^0.3.1:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
 
 is-async-function@^2.0.0:
   version "2.0.0"
@@ -14044,6 +14044,16 @@ lodash.merge@^4.6.2:
 lodash.mergewith@4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
+
+lodash.omit@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
+  integrity sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==
+
+lodash.pick@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
+  integrity sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==
 
 lodash.set@^4.3.2:
   version "4.3.2"
@@ -17636,34 +17646,6 @@ shallowequal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
 
-sharp@^0.33.2:
-  version "0.33.2"
-  resolved "https://registry.yarnpkg.com/sharp/-/sharp-0.33.2.tgz#fcd52f2c70effa8a02160b1bfd989a3de55f2dfb"
-  dependencies:
-    color "^4.2.3"
-    detect-libc "^2.0.2"
-    semver "^7.5.4"
-  optionalDependencies:
-    "@img/sharp-darwin-arm64" "0.33.2"
-    "@img/sharp-darwin-x64" "0.33.2"
-    "@img/sharp-libvips-darwin-arm64" "1.0.1"
-    "@img/sharp-libvips-darwin-x64" "1.0.1"
-    "@img/sharp-libvips-linux-arm" "1.0.1"
-    "@img/sharp-libvips-linux-arm64" "1.0.1"
-    "@img/sharp-libvips-linux-s390x" "1.0.1"
-    "@img/sharp-libvips-linux-x64" "1.0.1"
-    "@img/sharp-libvips-linuxmusl-arm64" "1.0.1"
-    "@img/sharp-libvips-linuxmusl-x64" "1.0.1"
-    "@img/sharp-linux-arm" "0.33.2"
-    "@img/sharp-linux-arm64" "0.33.2"
-    "@img/sharp-linux-s390x" "0.33.2"
-    "@img/sharp-linux-x64" "0.33.2"
-    "@img/sharp-linuxmusl-arm64" "0.33.2"
-    "@img/sharp-linuxmusl-x64" "0.33.2"
-    "@img/sharp-wasm32" "0.33.2"
-    "@img/sharp-win32-ia32" "0.33.2"
-    "@img/sharp-win32-x64" "0.33.2"
-
 shebang-command@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-2.0.0.tgz#ccd0af4f8835fbdc265b82461aaf0c36663f34ea"
@@ -17723,12 +17705,6 @@ simple-get@^4.0.0:
     decompress-response "^6.0.0"
     once "^1.3.1"
     simple-concat "^1.0.0"
-
-simple-swizzle@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
-  dependencies:
-    is-arrayish "^0.3.1"
 
 simple-update-notifier@^1.0.7:
   version "1.1.0"
@@ -18552,6 +18528,28 @@ text-extensions@^1.0.0:
 text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
+
+three-mesh-bvh@^0.7.0:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.7.1.tgz#c11461b73e71c143717f95e0a8e6c9721ad0de77"
+  integrity sha512-63xvjnmK3FpA41klHfVvTMi2JRFdKeu3b4STBcLvGyDMYRpkBIyJ2d77CnNvKBZl9bed4sdEyrqE3AOsGorjUA==
+
+three-stdlib@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.29.4.tgz#6e8741f6a2d435d15ed73f3a14dd149660d4ce51"
+  integrity sha512-XNzGCrz/uAk9XoLwd35eN7dQyI4ggXZTeqjcN034YdYBpBlNO9kmLHehl/0Nw9jCelblB7jla+unHAOIyLyV6Q==
+  dependencies:
+    "@types/draco3d" "^1.4.0"
+    "@types/offscreencanvas" "^2019.6.4"
+    "@types/webxr" "^0.5.2"
+    draco3d "^1.4.1"
+    fflate "^0.6.9"
+    potpack "^1.0.1"
+
+three@^0.160.1:
+  version "0.160.1"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.160.1.tgz#61fe2907312e8604b1f64187f58e047503847413"
+  integrity sha512-Bgl2wPJypDOZ1stAxwfWAcJ0WQf7QzlptsxkjYiURPz+n5k4RBDLsq+6f9Y75TYxn6aHLcWz+JNmwTOXWrQTBQ==
 
 through2@^2.0.0:
   version "2.0.5"

@@ -1,5 +1,6 @@
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import {
+  Box,
   Button,
   Flex,
   FlexProps,
@@ -28,7 +29,8 @@ import { SelectSearch } from './SelectSearch';
 import { LabeledValue, timeZonesFilter, TimeZoneType } from './SelectTimeZone';
 
 export const MetaSelect: React.FC<SelectProps> = (props) => (
-  <Select
+  <Box
+    as={Select}
     textTransform="uppercase"
     maxW="48"
     bg="dark"
