@@ -9,10 +9,9 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Carousel } from 'components/Carousel';
-import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
-import React from 'react';
+import React, { lazy } from 'react';
 import {
   QuestChainPathsAndPlaybooksDetails,
   QuestChainsCategoriesDetails,
@@ -22,6 +21,9 @@ import {
  * This page merges Paths & Playbooks into one page.
  * @returns All of the paths, playbooks, and great houses categorised in a single page.
  */
+
+const PageContainer = lazy(() => import('components/Container'));
+
 const AcademyPage: React.FC = () => {
   const carouselGap =
     useBreakpointValue({ base: 8, md: 8, xl: 24, '2xl': 32 }) || 32;

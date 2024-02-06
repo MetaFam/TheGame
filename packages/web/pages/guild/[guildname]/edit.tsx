@@ -1,5 +1,5 @@
 import { Flex, LoadingState, MetaHeading, useToast } from '@metafam/ds';
-import { FlexContainer, PageContainer } from 'components/Container';
+import { FlexContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import {
   GuildFragment,
@@ -10,12 +10,14 @@ import {
   useUpdateGuildMutation,
 } from 'graphql/autogen/types';
 import { getGuild } from 'graphql/queries/guild';
+import { useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { lazy,useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { errorHandler } from 'utils/errorHandler';
-import { uploadFile } from 'utils/uploadHelpers';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const EditGuild: React.FC = () => {
   const router = useRouter();
@@ -25,7 +27,7 @@ const EditGuild: React.FC = () => {
   const toast = useToast();
 
   const guildNameRouter = router.query.guildname as string;
-
+  const { w3storage } = useWeb3();
   const { data: fetchedGuild, isValidating } = useSWR(
     guildNameRouter,
     getGuild,
@@ -63,7 +65,7 @@ const EditGuild: React.FC = () => {
 
       if (logoFile?.[0]) {
         try {
-          const ipfsHash = await uploadFile(logoFile[0]);
+          const ipfsHash = await w3storage?.uploadFile(logoFile[0]);
           newLogoURL = `ipfs://${ipfsHash}`;
         } catch (error) {
           toast({
@@ -142,7 +144,7 @@ const EditGuild: React.FC = () => {
         });
       }
     },
-    [guild, router, toast, updateGuild, addLink],
+    [guild, router, toast, updateGuild, addLink, w3storage],
   );
 
   if (

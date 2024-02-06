@@ -13,7 +13,6 @@ import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import moment from 'moment';
-import React from 'react';
 import { QuestChainType } from 'utils/questChains';
 
 import { MetaLink } from '../Link';
@@ -140,7 +139,7 @@ const Heading: React.FC<Props> = ({ name, questChain, canMint, refresh }) => (
           color="white"
           href={`${QUEST_CHAINS_HOST}/chain/${questChain.chainId}/${questChain.address}`}
         >
-          <Tooltip label="View on Quest Chains">
+          <Tooltip label="View on Playbooks">
             <Flex w="full" gap={4} role="group" position="relative">
               <Text
                 fontSize={{ base: '3xl', lg: '7xl' }}

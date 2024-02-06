@@ -1301,6 +1301,7 @@
           - id
           - image
           - repetition
+          - reward
           - status
           - title
         filter: {}
@@ -1317,6 +1318,7 @@
           - id
           - image
           - repetition
+          - reward
           - status
           - title
         filter: {}
@@ -1331,6 +1333,7 @@
           - guild_id
           - image
           - repetition
+          - reward
           - status
           - title
         filter:

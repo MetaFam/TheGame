@@ -1,5 +1,4 @@
 import { Heading, useToast } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import { HeadComponent } from 'components/Seo';
 import {
@@ -9,16 +8,17 @@ import {
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { getGuilds } from 'graphql/queries/guild';
-import { useUser } from 'lib/hooks';
+import { useUser, useWeb3 } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
-import React from 'react';
+import { lazy } from 'react';
 import { transformCooldownForBackend } from 'utils/questHelpers';
 import { parseSkills } from 'utils/skillHelpers';
-import { uploadFile } from 'utils/uploadHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const CreateQuestPage: React.FC<Props> = ({
   guilds,
@@ -29,7 +29,7 @@ const CreateQuestPage: React.FC<Props> = ({
   const router = useRouter();
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
-
+  const { w3storage } = useWeb3();
   const onSubmit = async (data: CreateQuestFormInputs) => {
     const {
       skills,
@@ -37,13 +37,14 @@ const CreateQuestPage: React.FC<Props> = ({
       repetition,
       cooldown,
       status,
+      reward,
       ...createQuestInputs
     } = data;
 
     let imageURL = DefaultQuestImage.src;
 
     if (data?.image?.[0]) {
-      const ipfsHash = await uploadFile(data.image[0]);
+      const ipfsHash = await w3storage?.uploadFile(data.image[0]);
       imageURL = `ipfs://${ipfsHash}`;
     }
 

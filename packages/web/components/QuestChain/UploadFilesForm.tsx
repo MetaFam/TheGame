@@ -9,7 +9,7 @@ import {
   Text,
 } from '@metafam/ds';
 import { DropFilesType } from 'lib/hooks/useDropFiles';
-import React from 'react';
+
 
 export const UploadFilesForm = ({
   dropzoneProps,

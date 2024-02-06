@@ -2,7 +2,7 @@ import { ListItem, MetaTag } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import moment from 'moment';
-import React from 'react';
+
 
 type Props = {
   player: Player;

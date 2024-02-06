@@ -10,7 +10,6 @@ import {
 } from '@metafam/ds';
 import { Skill, SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import React from 'react';
 import type { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {

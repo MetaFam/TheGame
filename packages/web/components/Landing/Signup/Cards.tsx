@@ -13,7 +13,6 @@ import {
   useBreakpointValue,
 } from '@metafam/ds';
 import { useRouter } from 'next/router';
-import React from 'react';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
 import { MdChevronRight } from 'react-icons/md';

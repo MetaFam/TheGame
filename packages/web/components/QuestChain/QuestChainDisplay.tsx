@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  chakra,
   Flex,
   HStack,
   IconButton,
@@ -18,7 +19,6 @@ import { graphql } from '@quest-chains/sdk';
 import Pin from 'assets/pin.svg';
 import Seed from 'assets/seed.svg';
 import Share from 'assets/share.svg';
-import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import { MintNFTTile } from 'components/QuestChain/MintNFTTile';
@@ -27,7 +27,7 @@ import {
   PlayersFinished,
 } from 'components/QuestChain/QuestHeading';
 import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
-import { useInsertPlayerQuestchainPinMutation } from 'graphql/autogen/types';
+import { useDeletePlayerQuestchainPinMutation,useInsertPlayerQuestchainPinMutation } from 'graphql/autogen/types';
 import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
 import { useUser, useWeb3 } from 'lib/hooks';
 import {
@@ -36,7 +36,7 @@ import {
   useUserProgress,
   useUserStatus,
 } from 'lib/hooks/questChains';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { lazy,useCallback, useEffect, useRef, useState } from 'react';
 import { BsArrowRight, BsCheck } from 'react-icons/bs';
 import { QuestChainType } from 'utils/questChains';
 
@@ -45,11 +45,14 @@ type Props = {
   name: QuestChainType;
 };
 
+const PageContainer = lazy(() => import('components/Container'));
+
 const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
   const { address } = useWeb3();
   const { user } = useUser();
   const toast = useToast();
   const [, insertPlayerQuestchainPin] = useInsertPlayerQuestchainPinMutation();
+  const [, deletePlayerQuestchainPin] = useDeletePlayerQuestchainPinMutation();
   const {
     questChain,
     fetching: fetchingQuests,
@@ -72,9 +75,10 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
       const pinnedQCs = await getPlayerPinnedQuestchains(playerId);
       setIsPinned(
         Boolean(
-          pinnedQCs?.link?.some(
+          pinnedQCs?.pinned_questchains?.some(
             (qc) =>
-              qc.id === `${inputQuestChain.address}-${inputQuestChain.name}`,
+              qc.questchain_id ===
+              `${inputQuestChain.address}-${inputQuestChain.name}`,
           ),
         ),
       );
@@ -130,9 +134,56 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
             isClosable: true,
           });
         } else {
+          setIsPinned(true);
           toast({
             title: 'Quest Chain pinned!',
-            description: 'You can now see this quest chain on your profile.',
+            description: (
+             
+                <chakra.a
+                  href={`https://discord.com/channels/629411177947987986/1045714403351339018`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textDecoration: 'underline' }}
+                >
+                 You can now see this quest chain on your Dashboard. Join the conversation on Discord.
+                </chakra.a>
+          
+            ),
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      console.error('Player or questChain not found!');
+    }
+  };
+
+  const handleUnpinPlayerQuestchain = async () => {
+    if (user && questChain) {
+      try {
+        const pin = await deletePlayerQuestchainPin({
+          playerId: user?.id,
+          questchainId: `${questChain.address}-${questChain.name}`,
+        });
+
+        if (pin.error) {
+          toast({
+            title: 'Error unpinning quest chain!',
+            description: pin.error.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          setIsPinned(false);
+          toast({
+            title: 'Quest Chain unpinned!',
+          
+            description: 'The quest chain has been removed from your Dashboard.',
             status: 'success',
             duration: 9000,
             isClosable: true,
@@ -273,7 +324,11 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                     <Image src={Pin.src} alt="Pin" w={5} h={5} mr={2} />
                   }
                   backgroundColor={isPinned ? 'purple.600' : ''}
-                  onClick={() => handlePinPlayerQuestchain()}
+                  onClick={
+                    isPinned
+                      ? handleUnpinPlayerQuestchain
+                      : handlePinPlayerQuestchain
+                  }
                 >
                   {isPinned ? 'Unpin' : 'Pin'}
                 </Button>

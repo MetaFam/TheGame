@@ -2,7 +2,6 @@ import { Box, Prose } from '@metafam/ds';
 import { isSGML } from '@metafam/utils';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { QuestFragment } from 'graphql/autogen/types';
-import React from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 type Props = {

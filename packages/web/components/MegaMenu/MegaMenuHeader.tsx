@@ -24,7 +24,7 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from '@metafam/ds';
-import { httpLink, Maybe } from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
 import LogoImage from 'assets/logo.webp';
 import SearchIcon from 'assets/search-icon.svg';
 import { MetaLink } from 'components/Link';
@@ -56,7 +56,6 @@ import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
 import { menuIcons } from 'utils/menuIcons';
 import { MenuSectionLinks } from 'utils/menuLinks';
 import {
-  getPlayerImage,
   getPlayerName,
   getPlayerURL,
   getPlayerUsername,

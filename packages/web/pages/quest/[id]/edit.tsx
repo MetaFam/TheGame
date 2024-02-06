@@ -1,5 +1,4 @@
 import { Heading, LoadingState, useToast } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import {
   GuildFragment,
@@ -12,14 +11,13 @@ import { getQuest } from 'graphql/getQuest';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { getGuilds } from 'graphql/queries/guild';
-import { useUser } from 'lib/hooks';
+import { useUser , useWeb3 } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
-import React from 'react';
+import { lazy } from 'react';
 import { transformCooldownForBackend } from 'utils/questHelpers';
 import { CategoryOption, parseSkills } from 'utils/skillHelpers';
-import { uploadFile } from 'utils/uploadHelpers';
 
 type Props = {
   image: string;
@@ -27,7 +25,10 @@ type Props = {
   guilds: GuildFragment[];
   skillChoices: Array<CategoryOption>;
   roleChoices: Array<PlayerRole>;
+  reward: number;
 };
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const EditQuestPage: React.FC<Props> = ({
   quest,
@@ -38,13 +39,14 @@ const EditQuestPage: React.FC<Props> = ({
   useUser({ redirectTo: '/quests' });
   const router = useRouter();
   const toast = useToast();
+  const { w3storage } = useWeb3();
   const [updateQuestResult, updateQuest] = useUpdateQuestMutation();
 
   const onSubmit = async (data: CreateQuestFormInputs) => {
     let imageURL = DefaultQuestImage.src;
 
     if (data?.image?.[0]) {
-      const ipfsHash = await uploadFile(data.image[0]);
+      const ipfsHash = await w3storage?.uploadFile(data.image[0]);
       imageURL = `ipfs://${ipfsHash}`;
     }
 
@@ -72,6 +74,7 @@ const EditQuestPage: React.FC<Props> = ({
       input: updateQuestInput,
       skills: skillsObjects,
       roles: rolesObjects,
+      reward: data.reward,
     }).then((res) => {
       if (res.data?.update_quest_by_pk && !res.error) {
         router.push(`/quest/${quest.id}`);
@@ -115,7 +118,7 @@ const EditQuestPage: React.FC<Props> = ({
       </Heading>
 
       <QuestForm
-        {...{ roleChoices, onSubmit, guilds, skillChoices }}
+        {...{ roleChoices, onSubmit, guilds, skillChoices, reward: quest.reward }}
         success={!!updateQuestResult.data}
         fetching={updateQuestResult.fetching}
         submitLabel="Update Quest"

@@ -11,7 +11,6 @@ import {
 import type { Maybe } from '@metafam/utils';
 import BlueArrow from 'assets/patron/blue-arrow.webp';
 import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
-import React from 'react';
 import {
   getLeagueCount,
   getLeagueCutoff,

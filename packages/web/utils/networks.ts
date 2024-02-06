@@ -16,6 +16,7 @@ export const GOERLI = '0x5';
 export const GNOSIS = '0x64';
 export const POLYGON = '0x89';
 export const MUMBAI = '0x013881';
+export const OPTIMISM = '0xa';
 
 export const NETWORK_INFO: NetworkInfo = {
   [MAINNET]: {
@@ -57,6 +58,14 @@ export const NETWORK_INFO: NetworkInfo = {
     symbol: 'MATIC',
     explorer: 'https://mumbai.polygonscan.com',
     rpc: 'https://matic-mumbai.chainstacklabs.com',
+  },
+  [OPTIMISM]: {
+    chainId: OPTIMISM,
+    name: 'Optimism',
+    label: 'Optimism',
+    symbol: 'ETH',
+    explorer: 'https://optimistic.etherscan.io/',
+    rpc: 'https://op-pokt.nodies.app',
   },
 };
 

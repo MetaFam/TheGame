@@ -12,7 +12,7 @@ import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTagsAll } from 'components/Quest/Skills';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import SeedLogoSmol from 'public/assets/seed-logo-smol_46x46.png';
-import React from 'react';
+
 
 type Props = {
   quest: QuestFragment;
@@ -119,11 +119,11 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
 
       <Flex justifyContent="center" gap={12}>
         <Box fontSize="5xl" fontWeight="600">
-          ?&nbsp;XP
+          {(quest.reward || 0) * 1.5} XP
         </Box>
         <HStack spacing={2}>
           <Box fontSize="5xl" fontWeight="600">
-            ?
+            {quest.reward ?? '?'}
           </Box>
           <Image src={SeedLogoSmol.src} alt="Seed logo" boxSize={46} />
         </HStack>

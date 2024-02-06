@@ -146,6 +146,7 @@ export const isBoxResizable = (type: BoxType): boolean => {
     case BoxTypes.DASHBOARD_LASTEST_CONTENT:
     case BoxTypes.DASHBOARD_CALENDER:
     case BoxTypes.DASHBOARD_COMPLETED_QUESTS:
+    case BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS:
     case BoxTypes.DASHBOARD_CREATED_QUESTS:
       return true;
     default:
@@ -188,6 +189,7 @@ const DEFAULT_BOX_HEIGHTS: Partial<Record<BoxType, number>> = {
   [BoxTypes.DASHBOARD_CALENDER]: 10,
   [BoxTypes.DASHBOARD_LEADERBOARD]: 15,
   [BoxTypes.DASHBOARD_COMPLETED_QUESTS]: 6,
+  [BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS]: 3,
   [BoxTypes.DASHBOARD_CREATED_QUESTS]: 6,
   // common boxes
   [BoxTypes.ADD_NEW_BOX]: 3,

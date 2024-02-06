@@ -1,6 +1,6 @@
 import { Box, Container, Heading, Image, Text, VStack } from '@metafam/ds';
 import PatronMage from 'assets/patron/patron-mage.webp';
-import React from 'react';
+
 
 export const WhoArePatrons: React.FC = () => (
   <Container as="section" className="mg-patron-join-section">

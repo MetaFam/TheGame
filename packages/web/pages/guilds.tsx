@@ -1,12 +1,13 @@
 import { Center, Link, Text, VStack } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { GuildList } from 'components/Guild/GuildList';
 import { HeadComponent } from 'components/Seo';
 import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
-import React from 'react';
+import React, { lazy } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async () => ({
   props: {

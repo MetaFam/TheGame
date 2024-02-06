@@ -1,5 +1,4 @@
 import { Center, Link, Text, VStack } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { AdjascentTimeZonePlayers } from 'components/Player/Filter/AdjascentTimeZonePlayers';
 import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
 import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
@@ -15,9 +14,11 @@ import {
 import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { lazy,useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async (): Promise<{
   props: { urqlState?: unknown };
@@ -74,7 +75,7 @@ const Players: React.FC<Props> = () => {
   );
 
   return (
-    <PageContainer overflow="hidden">
+    <PageContainer overflowX="hidden">
       <HeadComponent
         title="Players"
         description="See the players of MetaGame."
@@ -85,7 +86,7 @@ const Players: React.FC<Props> = () => {
           fontSize={{ base: 'sm', md: 'md' }}
           fontWeight={{ base: '400', md: '700' }}
           marginTop={{ base: 3, sm: 0 }}
-          // w="100%"
+          w="100%"
           maxW="4xl"
         >
           <Text as="p" textAlign="center">

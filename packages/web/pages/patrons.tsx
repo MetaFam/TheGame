@@ -12,12 +12,13 @@ import {
   VStack,
 } from '@metafam/ds';
 import Octopus from 'assets/octopus.png';
-import { PageContainer } from 'components/Container';
 import { PatronList } from 'components/Patron/PatronList';
 import { HeadComponent } from 'components/Seo';
 import { getPatrons, getPSeedPrice } from 'graphql/getPatrons';
 import { InferGetStaticPropsType } from 'next';
-import React, { useRef, useState } from 'react';
+import React, { lazy,useRef, useState } from 'react';
+
+const PageContainer = lazy(() => import('components/Container'));
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

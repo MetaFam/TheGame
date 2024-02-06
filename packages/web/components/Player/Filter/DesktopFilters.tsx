@@ -15,7 +15,6 @@ import {
   SortOption,
   sortOptions,
 } from 'lib/hooks/player/players';
-import React from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 type ValueType = { value: string; label: string };
@@ -103,6 +102,39 @@ export const DesktopFilters: React.FC<Props> = ({
         }))}
       />
     </WrapItem>
+
+    {aggregates.skillChoices.length > 0 && (
+      <WrapItem>
+        <MetaFilterSelectSearch
+          title="Skills"
+          tagLabel={skills.length > 0 ? skills.length.toString() : ''}
+          styles={styles}
+          value={skills}
+          hasValue={skills.length > 0}
+          onChange={(values) => {
+            setSkills(values as SkillOption[]);
+          }}
+          options={(aggregates.skillChoices ?? []) as LabeledOptions<string>[]}
+          showSearch
+        />
+      </WrapItem>
+    )}
+
+    {aggregates.playerTypes.length > 0 && (
+      <WrapItem>
+        <MetaFilterSelectSearch
+          title="Type Of Player"
+          tagLabel={playerTypes.length > 0 ? playerTypes.length.toString() : ''}
+          styles={styles}
+          value={playerTypes}
+          hasValue={playerTypes.length > 0}
+          onChange={(values) => {
+            setPlayerTypes(values as ValueType[]);
+          }}
+          options={aggregates.playerTypes ?? []}
+        />
+      </WrapItem>
+    )}
     <WrapItem>
       <MetaFilterSelectSearch
         title="Time Zone"

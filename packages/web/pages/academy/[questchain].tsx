@@ -1,10 +1,9 @@
 import { Text } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
-import { PageContainer } from 'components/Container';
 import QuestChainDisplay from 'components/QuestChain/QuestChainDisplay';
 import { HeadComponent } from 'components/Seo';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
-import React from 'react';
+import React, { lazy } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import {
   QuestChainPathsAndPlaybooksDetails,
@@ -18,6 +17,8 @@ type Props = {
   questChain: graphql.QuestChainInfoFragment;
   name: QuestChainType;
 };
+
+const PageContainer = lazy(() => import('components/Container'));
 
 const QuestChainPathPage: React.FC<Props> = ({
   questChain: inputQuestChain,

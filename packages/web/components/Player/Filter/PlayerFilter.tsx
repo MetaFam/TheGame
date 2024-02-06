@@ -101,19 +101,19 @@ export const PlayerFilter: React.FC<Props> = ({
   const isSearchUsed = queryVariables.search !== '%%';
   const searchText = queryVariables.search?.slice(1, -1) || '';
 
-  // useEffect(() => {
-  //   setQueryVariable(
-  //     'explorerTypeTitles',
-  //     playerTypes.length > 0 ? playerTypes.map(({ label }) => label) : null,
-  //   );
-  // }, [setQueryVariable, playerTypes]);
+  useEffect(() => {
+    setQueryVariable(
+      'explorerTypeTitles',
+      playerTypes.length > 0 ? playerTypes.map(({ label }) => label) : null,
+    );
+  }, [setQueryVariable, playerTypes]);
 
-  // useEffect(() => {
-  //   setQueryVariable(
-  //     'skillIds',
-  //     skills.length > 0 ? skills.map((s) => s.id) : null,
-  //   );
-  // }, [setQueryVariable, skills]);
+  useEffect(() => {
+    setQueryVariable(
+      'skillIds',
+      skills.length > 0 ? skills.map((s) => s.id) : null,
+    );
+  }, [setQueryVariable, skills]);
 
   useEffect(() => {
     setQueryVariable(
@@ -176,7 +176,8 @@ export const PlayerFilter: React.FC<Props> = ({
     position: 'sticky',
     px: '2.5em',
     py: '1em',
-    w: '98vw',
+    top: '-3rem',
+    w: '100%',
   };
 
   // How it looks when it's not sticky

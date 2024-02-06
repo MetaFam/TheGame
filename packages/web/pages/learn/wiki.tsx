@@ -1,5 +1,4 @@
 import { EmbedContainer } from 'components/Container';
-import React from 'react';
 import { descriptions } from 'utils/menuLinks';
 
 const WikiEmbedPage: React.FC = () => (

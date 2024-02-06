@@ -3,7 +3,6 @@ import { Calendar } from 'components/Dashboard/Calendar';
 import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
 import { Seed } from 'components/Dashboard/Seed';
-import { XP } from 'components/Dashboard/XP';
 import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
@@ -12,6 +11,7 @@ import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 import { isBoxResizable } from 'utils/layoutHelpers';
 
+import { QuestChainsPinned } from './QuestChainsPinned';
 import { DashboardQuestsCompleted } from './QuestsCompleted';
 import { DashboardQuestsCreated } from './QuestsCreated';
 
@@ -31,8 +31,6 @@ const DashboardSectionInner: React.FC<Props> = ({
   switch (type) {
     case BoxTypes.DASHBOARD_LASTEST_CONTENT:
       return <LatestContent />;
-    case BoxTypes.DASHBOARD_XP_INFO:
-      return <XP />;
     case BoxTypes.DASHBOARD_SEEDS_INFO:
       return <Seed />;
     case BoxTypes.DASHBOARD_CALENDER:
@@ -41,6 +39,8 @@ const DashboardSectionInner: React.FC<Props> = ({
       return <Leaderboard />;
     case BoxTypes.DASHBOARD_COMPLETED_QUESTS:
       return <DashboardQuestsCompleted />;
+    case BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS:
+      return <QuestChainsPinned />;
     case BoxTypes.DASHBOARD_CREATED_QUESTS:
       return <DashboardQuestsCreated />;
     case BoxTypes.EMBEDDED_URL: {

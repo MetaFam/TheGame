@@ -5,15 +5,24 @@ export const useIsSticky = (ref: RefObject<HTMLDivElement>): boolean => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => setIsSticky(entry.intersectionRatio < 1),
+      ([entry]) => {
+        if (entry.intersectionRatio < 1 !== isSticky) {
+          setIsSticky(entry.intersectionRatio < 1);
+        }
+      },
       { threshold: [1] },
     );
-    if (ref.current) {
-      observer.observe(ref.current);
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
     return () => {
       observer.disconnect();
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref]);
 
   return isSticky;
