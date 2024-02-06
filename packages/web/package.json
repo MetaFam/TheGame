@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit --pretty",
     "generate": "yarn generate:graphql",
     "generate:graphql": "yarn graphql-codegen-esm --verbose --debug",
-    "precommit": "yarn typecheck"
+    "precommit": "yarn typecheck",
+    "bundle-analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@3id/connect": "^0.4.1",
@@ -91,6 +92,7 @@
   },
   "devDependencies": {
     "@composedb/types": "^0.4.0",
+    "@next/bundle-analyzer": "^14.1.0",
     "@next/eslint-plugin-next": "^12.3.1",
     "@types/busboy": "1.5.0",
     "@types/deep-equal": "1.0.1",
