@@ -11,7 +11,7 @@
     "generate": "yarn generate:graphql",
     "generate:graphql": "yarn graphql-codegen-esm --verbose --debug",
     "precommit": "yarn typecheck",
-    "bundle-analyze": "ANALYZE=true next build"
+    "analyze-bundle": "ANALYZE=true next build"
   },
   "dependencies": {
     "@3id/connect": "^0.4.1",
