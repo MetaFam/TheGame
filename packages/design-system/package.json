@@ -4,6 +4,7 @@
   "type": "module",
   "main": "dist/ds.js",
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/ds.js"

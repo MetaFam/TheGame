@@ -19,7 +19,6 @@ export * from './networkHelpers.js';
 export * as numbers from './numbers.js';
 export * from './promiseHelpers.js';
 export * from './rankHelpers.js';
-export * from './sourceCredHelpers.js';
 export * from './xpHelpers.js';
 
 export { uuidv4 as generateUUID };
