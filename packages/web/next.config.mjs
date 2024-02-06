@@ -1,3 +1,4 @@
+import createBundleAnalyzerConfig from '@next/bundle-analyzer';
 // import HoneybadgerSourceMapPlugin from '@honeybadger-io/webpack';
 
 /**
@@ -6,7 +7,11 @@
  */
 // const HONEYBADGER_REVISION = execSync('git rev-parse HEAD').toString().trim();
 
-export default {
+const withBundleAnalyzer = createBundleAnalyzerConfig({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+export default withBundleAnalyzer({
   async redirects() {
     return [
       {
@@ -133,4 +138,4 @@ export default {
 
     return config;
   },
-};
+});
