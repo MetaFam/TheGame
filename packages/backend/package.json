@@ -36,7 +36,6 @@
     "graphql-request": "4.0.0",
     "graphql-tag": "2.12.6",
     "showdown": "^2.1.0",
-    "sourcecred": "0.11.0",
     "uuid": "8.3.2"
   },
   "devDependencies": {
