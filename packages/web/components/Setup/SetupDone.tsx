@@ -1,10 +1,9 @@
-import { HStack, MetaButton, MetaHeading, Stack, Text } from '@metafam/ds';
+import { HStack, MetaButton, MetaHeading, Stack, Text , useToast } from '@metafam/ds';
 import { ConnectToProgress, MetaGameLogo } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { PlayerTile } from 'components/Player/PlayerTile';
 import { useUser, useWeb3 } from 'lib/hooks';
-import { useToast } from '@metafam/ds';
 
 export const SetupDone: React.FC = () => {
   const { user } = useUser();
