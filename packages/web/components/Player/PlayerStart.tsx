@@ -9,6 +9,7 @@ export const PlayerStart: React.FC = () => {
   const router = useRouter();
   const { connected, chainId } = useWeb3();
   const { user, fetching } = useUser();
+  
   const newUser = useMemo(() => {
     if (connected && !fetching && !!user) {
       const timeSinceCreation =
