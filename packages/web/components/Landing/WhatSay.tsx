@@ -52,14 +52,14 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
           flexDirection="column"
           justifyContent={{ base: 'flex-start', xl: 'center' }}
           maxWidth={{
-            base: '90%',
+            base: '100%',
             md: '3xl',
             xl: '5xl',
             '2xl': '8xl',
             '4xl': '100%',
           }}
-          maxH={{ base: '60%', md: '90%', lg: 'initial' }}
-          overflowY={{ base: 'auto', xl: 'visible' }}
+          maxH={{ base: '100%', md: '90%', lg: 'initial' }}
+          overflowY={{ base: 'hidden', xl: 'visible' }}
           pl={{ base: 0, md: 0 }}
           transform={`translate3d(0, ${displayElement ? '0' : '50px'}, 0)`}
           opacity={displayElement ? 1 : 0}
@@ -98,7 +98,7 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
                 username="kyle-stargarden"
               />
             </Flex>
-            <Flex flex="1" direction="column" gap={8}>
+            <Flex flex="1" direction="column" gap={8} display={{ base: 'none', lg: 'flex', xl: 'flex' }}>
               <WhatSayCard
                 player="Yalor"
                 testimony={
@@ -119,7 +119,7 @@ export const WhatSay: React.FC<LandingPageSectionProps> = ({
                 username="geleeroyale"
               />
             </Flex>
-            <Flex flex="1" direction="column" gap={8}>
+            <Flex flex="1" direction="column" gap={8} display={{ base: 'none', lg: 'flex', xl: 'flex' }}>
               <WhatSayCard
                 player="Griff Green"
                 testimony="MetaGame embodies the actual fucking point of crypto. Its vision is the world I want to live in."
