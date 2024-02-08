@@ -1,4 +1,4 @@
-import { MetaHeading, Stack, Text } from '@metafam/ds';
+import { HStack, MetaButton, MetaHeading, Stack, Text , useToast } from '@metafam/ds';
 import { ConnectToProgress, MetaGameLogo } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
@@ -8,6 +8,7 @@ import { useUser, useWeb3 } from 'lib/hooks';
 export const SetupDone: React.FC = () => {
   const { user } = useUser();
   const { connected } = useWeb3();
+  const toast = useToast();
 
   if (!user || !connected) {
     return (
@@ -29,24 +30,39 @@ export const SetupDone: React.FC = () => {
       >
         <PlayerTile player={user} />
         <Stack spacing={4} p={4} maxW="25rem" fontSize="md" h="100%">
-          <Text fontSize="lg">Congrats on making yourself a profile! 🎉</Text>
+          <Text fontSize="lg">Congrats on your MyMeta, you'll love the customization options!</Text>
           <Text fontSize="md">
-            It should come in handy for you to present yourself to the rest of
-            the DAO ecosystem & collaborate with others 🙃{' '}
+            But for now - plug yourself into MetaGame, we look forward to meeting you! 🤗
           </Text>
-          <Text fontSize="md">
-            Next, you should take the {''}
-            <MetaLink
-              textDecor="underline"
-              color="pink.400"
-              href="/play/paths/engaged-octos-path"
-              fontWeight="bold"
+          <HStack>
+            <MetaButton
+              bg="#00000000"
+              border="1px solid #5A32E6"
+              onClick={() => {
+                if (!navigator.clipboard) {
+                  return;
+                }
+                navigator.clipboard.writeText(`${window.location.href}`);
+                toast({
+                  title: 'Copied to clipboard!',
+                  description: 'Share this link with your friends!',
+                  status: 'success',
+                  duration: 4000,
+                  isClosable: true,
+                });
+              }}
             >
-              Path of The Engaged Octopi
-            </MetaLink>{' '}
-            to get yourself properly onboarded into MetaGame.
-          </Text>
-          <Text fontSize="md">We're excited to have you! 🐙</Text>
+              Share
+            </MetaButton>
+       
+            <MetaLink href="/academy/rite-of-passage">
+              <MetaButton>
+                Proceed 
+              </MetaButton>
+            </MetaLink>
+           
+          </HStack>
+          
         </Stack>
       </Stack>
     </FlexContainer>

@@ -72,7 +72,7 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
         });
       }
     }
-  }, [connected, chainId, address, provider, toast]);
+  }, [chainId, address, provider, toast]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Tooltip

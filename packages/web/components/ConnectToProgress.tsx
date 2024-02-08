@@ -59,36 +59,13 @@ export const ConnectToProgress: React.FC<{
         {header && <MetaHeading> {header} </MetaHeading>}
         {showNote && (
           <Stack spacing={4} align="flex-start" w="100%" px={2}>
-            <Text>First things first, you should make yourself a profile.</Text>
             <Text>
-              From there, you'll be able to show the world what you're about,
-              what you're working on & more.
-            </Text>
-            <Text>
-              Unlike profiles in the Web2 world, MyMeta profiles reside on a
-              decentralized service; they are controlled & owned by you alone.
-            </Text>
-            <Text>
-              Read more about MyMeta profiles{' '}
-              <Link
-                href="//wiki.metagame.wtf/docs/what-we-do/mymeta"
-                isExternal
-                color="pink.400"
-                textDecor="underline"
-                fontWeight="bold"
-              >
-                here
-              </Link>
-              .
+                First things first, make yourself a profile. You’ll need it to present yourself & your work to the rest of the world.
+                Unlike Web2 profiles, MyMeta profiles are controlled & owned by you alone, residing on the <MetaLink href="https://ceramic.network/" target="_blank">Ceramic network.</MetaLink>
             </Text>
           </Stack>
         )}
         <Stack w="100%" spacing={4} pt={2}>
-          {showNote && (
-            <Text textAlign="center">
-              Connect your wallet on Ethereum Mainnet to start
-            </Text>
-          )}
           <Button
             w="100%"
             size="lg"
@@ -101,21 +78,6 @@ export const ConnectToProgress: React.FC<{
           >
             {showNote ? 'Connect Wallet' : 'Connect to continue'}
           </Button>
-          {showNote && (
-            <Link href="/dashboard" _hover={{}} w="100%">
-              <Button
-                w="100%"
-                size="lg"
-                fontSize="1.25rem"
-                fontWeight="600"
-                textTransform="uppercase"
-                colorScheme="blackAlpha"
-                color="whiteAlpha.700"
-              >
-                Explore First
-              </Button>
-            </Link>
-          )}
         </Stack>
         {showNote && (
           <>

@@ -6,6 +6,7 @@ import { guildRoutes } from './guild/routes.js';
 import { syncAllGuildDiscordMembers } from './guild/sync.js';
 import syncBalances from './player/syncBalances.js';
 import { questsRoutes } from './quests/routes.js';
+
 export const actionRoutes = express.Router();
 
 actionRoutes.post('/syncBalances', asyncHandlerWrapper(syncBalances));

@@ -151,6 +151,7 @@ export const WhoAreWe: React.FC<
             Who we are?
           </Text>
           <UnorderedList
+          overflow="hidden" 
             display={{ base: 'flex', lg: 'grid' }}
             flexFlow={{ base: 'row', lg: 'unset' }}
             gap={{ base: 12, lg: 0 }}
@@ -196,7 +197,7 @@ export const WhoAreWe: React.FC<
               },
             }}
           >
-            <ListItem gridArea="first">
+            <ListItem gridArea="first" overflow="hidden" height={{ base: "40vh", lg: '100%', xl: '100%'}}>
               <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">01</Text>Players (Builders)
               </Text>
