@@ -17,7 +17,7 @@ import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
 import { Rain } from './OnboardingGame/Rain';
 
-export const WhatDo: React.FC<LandingPageSectionProps> = ({
+const WhatDo: React.FC<LandingPageSectionProps> = ({
   section,
   nextSection,
 }) => {
@@ -206,3 +206,5 @@ export const WhatDo: React.FC<LandingPageSectionProps> = ({
     </FullPageContainer>
   );
 };
+
+export default WhatDo;

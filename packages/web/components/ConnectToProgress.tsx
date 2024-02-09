@@ -3,7 +3,6 @@ import {
   Collapse,
   Flex,
   Image,
-  Link,
   MetaHeading,
   MetaMaskIcon,
   Stack,

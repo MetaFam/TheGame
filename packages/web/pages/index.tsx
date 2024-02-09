@@ -1,16 +1,9 @@
-import { Box, Button, Text, VStack } from '@metafam/ds';
-import { Build } from 'components/Landing/Build';
-import { Game } from 'components/Landing/Game';
-import { Intro } from 'components/Landing/Intro';
-import { JoinUs } from 'components/Landing/JoinUs';
+import { Box, Button, LoadingState,Text, VStack  } from '@metafam/ds';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import { sections } from 'components/Landing/landingSection';
-import { WhatDo } from 'components/Landing/WhatDo';
-import { WhatSay } from 'components/Landing/WhatSay';
-import { WhoAreWe } from 'components/Landing/WhoAreWe';
 import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
-import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
+import RenderOnViewportEntry from 'components/RenderOnViewportEntry';
 import { HeadComponent } from 'components/Seo';
 import { SocialsDesktop } from 'components/SocialLinks';
 import { CONFIG } from 'config';
@@ -20,8 +13,18 @@ import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React, { lazy,useCallback, useEffect, useState } from 'react';
 
+
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
+const JoinUs = lazy(() => import('components/Landing/JoinUs'));
+const Intro = lazy(() => import('components/Landing/Intro'));
+const Build = lazy(() => import('components/Landing/Build'));
+const Game = lazy(() => import('components/Landing/Game'));
+const WhatDo = lazy(() => import('components/Landing/WhatDo'));
+const WhatSay = lazy(() => import('components/Landing/WhatSay'));
+const WildWeb = lazy(() => import('components/Landing/WildWeb'));
+const WhoAreWe = lazy(() => import('components/Landing/WhoAreWe'));
 const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async () => {
@@ -124,51 +127,74 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
       />
       <LandingHeader />
       <PageContainer p={0}>
-        <Intro
-          section={sections[0]}
-          nextSection={sections[1]}
-          activeSectionIndex={section}
-        />
-        <Game
-          section={sections[1]}
-          nextSection={sections[2]}
-          activeSectionIndex={section}
-        />
-        <Build
-          section={sections[2]}
-          nextSection={sections[3]}
-          activeSectionIndex={section}
-        />
-        <WildWeb
-          section={sections[3]}
-          nextSection={sections[4]}
-          activeSectionIndex={section}
-        />
-        <WhyAreWeHere
-          section={sections[4]}
-          nextSection={sections[5]}
-          activeSectionIndex={section}
-        />
-        <WhatDo
-          section={sections[5]}
-          nextSection={sections[6]}
-          activeSectionIndex={section}
-        />
-        {guilds && patrons && (
-          <WhoAreWe
-            guilds={guilds}
-            patrons={patrons}
-            section={sections[6]}
-            nextSection={sections[7]}
+        <RenderOnViewportEntry threshold={0.25}>
+          <Intro
+            section={sections[0]}
+            nextSection={sections[1]}
             activeSectionIndex={section}
           />
+        </RenderOnViewportEntry>
+        <RenderOnViewportEntry threshold={0.25}>
+          <Game
+            section={sections[1]}
+            nextSection={sections[2]}
+            activeSectionIndex={section}
+          />
+        </RenderOnViewportEntry>
+        <RenderOnViewportEntry threshold={0.25}>
+          <Build
+            section={sections[2]}
+            nextSection={sections[3]}
+            activeSectionIndex={section}
+          />
+        </RenderOnViewportEntry>
+        <RenderOnViewportEntry threshold={0.25}>
+          <WildWeb
+            section={sections[3]}
+            nextSection={sections[4]}
+            activeSectionIndex={section}
+          />
+        </RenderOnViewportEntry>  
+        <RenderOnViewportEntry threshold={0.25}>
+          <WhyAreWeHere
+            section={sections[4]}
+            nextSection={sections[5]}
+            activeSectionIndex={section}
+          />
+        </RenderOnViewportEntry>
+        <RenderOnViewportEntry threshold={0.25}>
+          <WhatDo
+            section={sections[5]}
+            nextSection={sections[6]}
+            activeSectionIndex={section}
+          />
+        </RenderOnViewportEntry>
+        
+        {guilds && patrons && (
+          <RenderOnViewportEntry threshold={0.25}>
+            <WhoAreWe
+              guilds={guilds}
+              patrons={patrons}
+              section={sections[6]}
+              nextSection={sections[7]}
+              activeSectionIndex={section}
+            />
+          </RenderOnViewportEntry>
         )}
-        <WhatSay
-          section={sections[7]}
-          nextSection={sections[8]}
-          activeSectionIndex={section}
-        />
-        <JoinUs section={sections[8]} activeSectionIndex={section} />
+        
+        <RenderOnViewportEntry threshold={0.25}>
+          <WhatSay
+            section={sections[7]}
+            nextSection={sections[8]}
+            activeSectionIndex={section}
+          />
+        </RenderOnViewportEntry>
+        <RenderOnViewportEntry threshold={0.25}>
+          <JoinUs
+            section={sections[8]}
+            activeSectionIndex={section}
+          />
+        </RenderOnViewportEntry>
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
       <SocialsDesktop />

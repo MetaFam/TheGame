@@ -26,7 +26,6 @@ import { FullPageContainer } from 'components/Container';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
 
 import { Rain } from '../OnboardingGame/Rain';
 import { PerksCard, RoleCard } from './Cards';
