@@ -119,7 +119,7 @@ export const MobileFilters: React.FC<Props> = ({
   }, [selected]);
 
   return (
-    <Box as={Drawer} isOpen={isOpen} onClose={onClose} {...props}>
+    <Drawer isOpen={isOpen} onClose={onClose} {...props}>
       <DrawerContent maxW="100%" bg="black" color="white">
         <DrawerHeader
           display="flex"
@@ -271,7 +271,7 @@ export const MobileFilters: React.FC<Props> = ({
           />
         )}
       </DrawerContent>
-    </Box>
+    </Drawer>
   );
 };
 
@@ -283,8 +283,7 @@ type FilterItemProps = {
 const FilterItem: React.FC<FilterItemProps> = ({ title, value, ...props }) => {
   const lastIndex = value.length - 1;
   return (
-    <Box
-      as={Flex}
+    <Flex
       justify="space-between"
       align="center"
       p="1rem"
@@ -324,7 +323,7 @@ const FilterItem: React.FC<FilterItemProps> = ({ title, value, ...props }) => {
         )}
       </Flex>
       <ArrowForwardIcon boxSize="2rem" color="white" />
-    </Box>
+    </Flex>
   );
 };
 

@@ -5,8 +5,7 @@ type SquareImageProps = AvatarProps & {
 };
 
 export const SquareImage: React.FC<SquareImageProps> = ({ src, ...props }) => (
-  <Box
-    as={Flex}
+  <Flex
     position="relative"
     mt="0 !important"
     _after={{
@@ -25,5 +24,5 @@ export const SquareImage: React.FC<SquareImageProps> = ({ src, ...props }) => (
       objectFit="cover"
       {...{ src }}
     />
-  </Box>
+  </Flex>
 );

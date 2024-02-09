@@ -5,8 +5,7 @@ type RoundImageProps = AvatarProps & {
 };
 
 export const RoundImage: React.FC<RoundImageProps> = ({ src, ...props }) => (
-  <Box
-    as={Flex}
+  <Flex
     position="relative"
     mt="0 !important"
     _after={{
@@ -29,5 +28,5 @@ export const RoundImage: React.FC<RoundImageProps> = ({ src, ...props }) => (
       objectFit="cover"
       {...{ src }}
     />
-  </Box>
+  </Flex>
 );

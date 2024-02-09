@@ -110,8 +110,7 @@ export const ColorBar: React.FC<ColorBarProps> = ({
       tabIndex={1}
       pb={2}
     >
-      <Box
-        as={Stack}
+      <Stack
         direction={['column-reverse', 'column']}
         w="100%"
         maxW="100%"
@@ -154,7 +153,7 @@ export const ColorBar: React.FC<ColorBarProps> = ({
         <FlexContainer mb={2} minH="1.5rem">
           <Text color="white">{types[mask].name}</Text>
         </FlexContainer>
-      </Box>
+      </Stack>
     </Link>
   );
 };

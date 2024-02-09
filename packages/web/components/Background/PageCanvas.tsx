@@ -1,4 +1,4 @@
-import { Box, useBreakpointValue } from '@metafam/ds';
+import { useBreakpointValue } from '@metafam/ds';
 import { Canvas as R3FCanvas } from '@react-three/fiber';
 import { FC, PropsWithChildren, useRef } from 'react';
 
@@ -7,8 +7,7 @@ export const PageCanvas: FC<PropsWithChildren> = ({ children }) => {
   const canvas = useRef<HTMLCanvasElement>(null);
 
   return (
-    <Box
-      as={R3FCanvas}
+    <R3FCanvas
       className="three-canvas"
       ref={canvas}
       shadows="soft"
@@ -18,6 +17,6 @@ export const PageCanvas: FC<PropsWithChildren> = ({ children }) => {
       )}
     >
       {children}
-    </Box>
+    </R3FCanvas>
   );
 };

@@ -59,8 +59,7 @@ export const ProfileSection: React.FC<
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box
-      as={Flex}
+    <Flex
       minW="min(var(--chakra-sizes-72), calc(100vw - 3rem), 100%)"
       pos="relative"
       w="100%"
@@ -179,7 +178,7 @@ export const ProfileSection: React.FC<
           </ModalContent>
         </Modal>
       )}
-    </Box>
+    </Flex>
   );
 };
 
