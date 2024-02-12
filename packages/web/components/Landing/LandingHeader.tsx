@@ -16,7 +16,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import OctoBg from 'assets/baby_octo.webp';
-import MetaGameLogo from 'assets/logo.webp';
+import MetaGameLogo from 'assets/new_logo_svg.svg';
 import { MetaLink } from 'components/Link';
 import { Socials } from 'components/SocialLinks';
 import { SetStateAction } from 'jotai';
