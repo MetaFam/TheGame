@@ -1,15 +1,10 @@
 import { LoadingState } from '@metafam/ds';
 import useFirstViewportEntry from 'lib/hooks/useFirstViewportEntry';
-import React, { Suspense, useEffect, useRef } from 'react';
+import React, { Suspense, useRef } from 'react';
 
 const RenderOnViewportEntry: React.FC<any> = ({ children, threshold = 0, root = null, rootMargin = "0px 0px 0px 0px", ...wrapperDivProps }) => {
   const ref = useRef<HTMLDivElement>()
   const entered = useFirstViewportEntry(ref, { threshold, root, rootMargin, });
-
-  // useEffect(() => {
-  //   if (!ref.current) return
-  //   ref.current.style.width = `${(ref.current?.parentNode as HTMLElement).clientWidth}`
-  // }, [])
 
   return (
     <div {...wrapperDivProps} ref={ref} style={{width: "100%"}}>
