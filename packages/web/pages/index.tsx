@@ -127,28 +127,26 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
       />
       <LandingHeader />
       <PageContainer p={0}>
-        <RenderOnViewportEntry threshold={0.25}>
           <Intro
             section={sections[0]}
             nextSection={sections[1]}
             activeSectionIndex={section}
           />
-        </RenderOnViewportEntry>
-        <RenderOnViewportEntry threshold={0.25}>
+        <RenderOnViewportEntry threshold={0.5}>
           <Game
             section={sections[1]}
             nextSection={sections[2]}
             activeSectionIndex={section}
           />
         </RenderOnViewportEntry>
-        <RenderOnViewportEntry threshold={0.25}>
+        <RenderOnViewportEntry threshold={0.5}>
           <Build
             section={sections[2]}
             nextSection={sections[3]}
             activeSectionIndex={section}
           />
         </RenderOnViewportEntry>
-        <RenderOnViewportEntry threshold={0.25}>
+        <RenderOnViewportEntry threshold={0.5}>
           <WildWeb
             section={sections[3]}
             nextSection={sections[4]}
