@@ -1,5 +1,5 @@
 import { BoxedNextImage, Flex, HStack } from '@metafam/ds';
-import MetaGameLogo from 'assets/logo.webp';
+import MetaGameLogo from 'assets/new_logo_svg.svg';
 import { MetaLink } from 'components/Link';
 
 
