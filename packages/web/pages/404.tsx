@@ -6,7 +6,7 @@ import {
   MetaSecondaryButton,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/404-bg.svg';
-import LogoImage from 'assets/logo.png';
+import LogoImage from 'assets/new_logo_svg.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
