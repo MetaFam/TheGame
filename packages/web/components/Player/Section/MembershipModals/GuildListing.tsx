@@ -128,7 +128,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
         {...{ ref }}
       >
         <Flex align="center">
-          {/* {editing && (
+          {editing && (
             <>
               {legitimacy === 'VERIFIED' ?
                 <FormLabel
@@ -161,7 +161,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
                 />
               }
             </>
-          )} */}
+          )}
           <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
             {logoURL && (
               <Image
@@ -177,7 +177,8 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
           {legitimacy === 'VERIFIED' && <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />}
           <Tooltip label={`This Guild has ${legitimacy === 'VERIFIED' ? '' : 'not '}been verified.`} placement='top' hasArrow>
             <Box mr={2} ml={2}>
-              {legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : type === 'GUILD' ? <BsPatchQuestion /> : <BsPatchCheckFill /> }
+              {type === 'DAO' ? <BsPatchCheckFill /> : <></>}
+              { type === 'GUILD' && legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : <></>}
             </Box>
           </Tooltip>
         </Flex>
