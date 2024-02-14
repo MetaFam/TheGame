@@ -48,11 +48,6 @@ const GalleryItem: React.FC<{ nft: Collectible }> = ({ nft }) => (
             wordBreak: 'break-word',
             fontVariant: 'small-caps',
           }}
-
-          // ellipses look nice, but only allow one line, I think
-          // whiteSpace="nowrap"
-          // textOverflow="ellipsis"
-          // overflowX="hidden"
         >
           {nft.title}
         </Heading>

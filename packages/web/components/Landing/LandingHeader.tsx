@@ -78,19 +78,6 @@ export const LandingHeader: React.FC = () => {
     });
   }, [effectsToggle, noMotion, toast]);
 
-  /** set noMotion so we can turn off animations if preferred
-   * Check for window to make sure we know window.matchMedia is available if supported
-   */
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     if (noMotion && !reducedNoticeDismissed) {
-  //       setNoticeOpen(true);
-  //     } else {
-  //       setNoticeOpen(false);
-  //     }
-  //   }
-  // }, [noMotion, reducedNoticeDismissed]);
-
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
       if (noMotion) {
