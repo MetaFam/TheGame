@@ -788,6 +788,7 @@
 "@ceramicnetwork/common@2.31.1", "@ceramicnetwork/common@^2.24.0", "@ceramicnetwork/common@^2.32.0":
   version "2.31.1"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/common/-/common-2.31.1.tgz#617e1eda721d416b18e97b4bd52612021ab529e3"
+  integrity sha512-AkwFVWoxaswQ0pvzuwWJMX8rN1y+lPUfrXMUhva7UGUlWpYtTwGeI+DmyvRe4CrrVk3uFxVcfH5kTDJ+C+NtJA==
   dependencies:
     "@ceramicnetwork/codecs" "^1.6.1"
     "@ceramicnetwork/streamid" "^2.17.0"
@@ -6051,9 +6052,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/three@^0.158.3":
-  version "0.158.3"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.158.3.tgz#f53e26c50709c7f972934e4e8c1ca51add0cfa9f"
+"@types/three@^0.160":
+  version "0.160.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.160.0.tgz#7915a97e0a14ccaa9ccbb9f190c5730b04a23075"
+  integrity sha512-jWlbUBovicUKaOYxzgkLlhkiEQJkhCVvg4W2IYD2trqD2om3VK4DGLpHH5zQHNr7RweZK/5re/4IVhbhvxbV9w==
   dependencies:
     "@types/stats.js" "*"
     "@types/webxr" "*"
@@ -9432,6 +9434,7 @@ did-jwt@^7.2.0:
 did-resolver@4.1.0, did-resolver@^4.0.0, did-resolver@^4.0.1, did-resolver@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-4.1.0.tgz#740852083c4fd5bf9729d528eca5d105aff45eb6"
+  integrity sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==
 
 did-session@^1.0.0:
   version "1.0.0"
@@ -9458,6 +9461,7 @@ did-session@^2.0.0:
 dids@4.0.4, dids@^3.0.0, dids@^3.2.0, dids@^4.0.0, dids@^4.0.1, dids@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/dids/-/dids-4.0.4.tgz#b84e10f0d41554c91cfe9f06f731bfc1f70cfe60"
+  integrity sha512-PKxQP0QFqgeMe0dbL7LCRdPJVhZU2ejj8RWCfJ6vro3a+o5o32cWNM1X6YXpdIWq6G5fTJw9KO2dHj2ZzYDc7w==
   dependencies:
     "@didtools/cacao" "^2.1.0"
     "@didtools/codecs" "^1.0.1"
@@ -15179,6 +15183,7 @@ multihashes-sync@^1.1.1:
 multihashes@4.0.3, multihashes@^0.4.15, multihashes@^4.0.1, multihashes@^4.0.3, multihashes@~0.4.15:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-4.0.3.tgz#426610539cd2551edbf533adeac4c06b3b90fb05"
+  integrity sha512-0AhMH7Iu95XjDLxIeuCOOE4t9+vQZsACyKZ9Fxw2pcsRmlX4iCn1mby0hS0bb+nQOVpdQYWPpnyusw4da5RPhA==
   dependencies:
     multibase "^4.0.1"
     uint8arrays "^3.0.0"
@@ -16189,6 +16194,11 @@ postcss@^8.4.18:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+postprocessing@^6.34.3:
+  version "6.34.3"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.34.3.tgz#3d51bace743ddfe12ab5befac0f63f8a66be9a7c"
+  integrity sha512-AjsxAGWeHMKlCTuWLeahNnPyFwR0c/pEmveq5mBz767lFBc1+HHYzk0aRGBCE9PZIjiA27oRL7lATd+fVOscRA==
 
 potpack@^1.0.1:
   version "1.0.2"

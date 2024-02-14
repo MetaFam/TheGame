@@ -73,7 +73,33 @@ export const FullPageContainer: React.FC<
     zIndex={1}
     p={{ base: 4, md: 8, lg: 12 }}
     sx={{
-      scrollSnapAlign: 'start',
+      scrollSnapAlign: { base: 'unset', xl: 'start' },
+      scrollSnapStop: 'normal',
+      ...sx,
+    }}
+    {...props}
+  >
+    {children}
+  </FlexContainer>
+);
+
+export const LandingPageContainer: React.FC<
+  StackProps & { bgImageUrl?: string }
+> = ({ bgImageUrl, sx, children, ...props }) => (
+  <FlexContainer
+    className="full-page-container"
+    minH={{ base: '100%', lg: '100vh' }}
+    bg="dark"
+    bgImage={bgImageUrl && `url(${bgImageUrl})`}
+    bgPosition="center"
+    bgAttachment="fixed"
+    bgSize="cover"
+    overflowX="hidden"
+    spacing={0}
+    zIndex={1}
+    p={{ base: 4, md: 8, lg: 12 }}
+    sx={{
+      scrollSnapAlign: { base: 'unset', xl: 'start' },
       scrollSnapStop: 'normal',
       ...sx,
     }}
