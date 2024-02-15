@@ -1,6 +1,6 @@
 
-import { Alchemy, Network } from "alchemy-sdk";
 import { isAddress } from "@ethersproject/address";
+import { Alchemy, Network } from "alchemy-sdk";
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const config = {
@@ -18,8 +18,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       return res.json({ nfts });
     } catch (err) {
-      let status = 500;
-      let msg = (err as Error).message;
+      const status = 500;
+      const msg = (err as Error).message;
       return res.status(status).json({ error: msg });
     }
   } else if (!isAddress(owner as string)) {

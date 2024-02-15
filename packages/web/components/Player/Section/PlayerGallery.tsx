@@ -17,8 +17,8 @@ import {
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
-import { BoxTypes } from 'utils/boxTypes';
 import { useNFTCollectibles } from 'lib/hooks/alchemy';
+import { BoxTypes } from 'utils/boxTypes';
 
 const GalleryItem: React.FC<{ nft: any }> = ({ nft }) => (
   <Box display="flex">
@@ -96,7 +96,6 @@ export const PlayerGallery: React.FC<Props> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {loading, error, data: nfts} = useNFTCollectibles({ player }); 
-  console.log(nfts)
   return (
     <ProfileSection
       title="NFT Gallery"
