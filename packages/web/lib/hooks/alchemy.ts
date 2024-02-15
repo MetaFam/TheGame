@@ -30,7 +30,7 @@ export const useNFTCollectibles = ({
         setLoading(false);
       }
     };
-    if (owner && !data.length) {
+    if (owner) {
       load();
     }
 
