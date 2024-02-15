@@ -65,6 +65,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
         visible,
         guildname,
         legitimacy,
+        type,
       },
       editing = false,
       draggable = true,
@@ -176,7 +177,8 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
           {legitimacy === 'VERIFIED' && <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />}
           <Tooltip label={`This Guild has ${legitimacy === 'VERIFIED' ? '' : 'not '}been verified.`} placement='top' hasArrow>
             <Box mr={2} ml={2}>
-              {legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : <BsPatchQuestion />}
+              {type === 'DAO' ? <BsPatchCheckFill /> : <></>}
+              { type === 'GUILD' && legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : <></>}
             </Box>
           </Tooltip>
         </Flex>

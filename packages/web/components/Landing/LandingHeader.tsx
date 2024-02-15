@@ -16,7 +16,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import OctoBg from 'assets/baby_octo.webp';
-import MetaGameLogo from 'assets/logo.webp';
+import MetaGameLogo from 'assets/new_logo_svg.svg';
 import { MetaLink } from 'components/Link';
 import { Socials } from 'components/SocialLinks';
 import { SetStateAction } from 'jotai';
@@ -77,19 +77,6 @@ export const LandingHeader: React.FC = () => {
       isClosable: true,
     });
   }, [effectsToggle, noMotion, toast]);
-
-  /** set noMotion so we can turn off animations if preferred
-   * Check for window to make sure we know window.matchMedia is available if supported
-   */
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     if (noMotion && !reducedNoticeDismissed) {
-  //       setNoticeOpen(true);
-  //     } else {
-  //       setNoticeOpen(false);
-  //     }
-  //   }
-  // }, [noMotion, reducedNoticeDismissed]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
