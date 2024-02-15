@@ -26,7 +26,6 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import LogoImage from 'assets/logo.webp';
-
 import SearchIcon from 'assets/search-icon.svg';
 import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
