@@ -1,9 +1,9 @@
 import { Flex, FlexProps, Stack, StackProps } from '@metafam/ds';
 import { HeadComponent } from 'components/Seo';
 
-
 const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
   <Flex
+    className="full-page-container"
     w="100%"
     h="100%"
     p={{ base: 3, sm: 8, lg: 12 }}
@@ -20,7 +20,14 @@ const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
 export default PageContainer;
 
 export const FlexContainer: React.FC<StackProps> = ({ children, ...props }) => (
-  <Stack w="full" align="center" justify="center" spacing={[6, 8]} {...props}>
+  <Stack
+    className="flex-container"
+    w="full"
+    align="center"
+    justify="center"
+    spacing={[6, 8]}
+    {...props}
+  >
     {children}
   </Stack>
 );
@@ -54,6 +61,7 @@ export const FullPageContainer: React.FC<
   StackProps & { bgImageUrl?: string }
 > = ({ bgImageUrl, sx, children, ...props }) => (
   <FlexContainer
+    className="full-page-container"
     minH="100vh"
     bg="dark"
     bgImage={bgImageUrl && `url(${bgImageUrl})`}
@@ -62,9 +70,36 @@ export const FullPageContainer: React.FC<
     bgSize="cover"
     overflowX="hidden"
     spacing={0}
+    zIndex={1}
     p={{ base: 4, md: 8, lg: 12 }}
     sx={{
-      scrollSnapAlign: 'start',
+      scrollSnapAlign: { base: 'unset', xl: 'start' },
+      scrollSnapStop: 'normal',
+      ...sx,
+    }}
+    {...props}
+  >
+    {children}
+  </FlexContainer>
+);
+
+export const LandingPageContainer: React.FC<
+  StackProps & { bgImageUrl?: string }
+> = ({ bgImageUrl, sx, children, ...props }) => (
+  <FlexContainer
+    className="full-page-container"
+    minH={{ base: '100%', lg: '100vh' }}
+    bg="dark"
+    bgImage={bgImageUrl && `url(${bgImageUrl})`}
+    bgPosition="center"
+    bgAttachment="fixed"
+    bgSize="cover"
+    overflowX="hidden"
+    spacing={0}
+    zIndex={1}
+    p={{ base: 4, md: 8, lg: 12 }}
+    sx={{
+      scrollSnapAlign: { base: 'unset', xl: 'start' },
       scrollSnapStop: 'normal',
       ...sx,
     }}

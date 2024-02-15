@@ -6,6 +6,7 @@ import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { UserbackProvider } from '@userback/react';
 import Animocto from 'assets/animocto.svg';
+import { PageBackground } from 'components/Background/PageBackground';
 import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
 import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
@@ -56,10 +57,11 @@ const App: React.FC<WithUrqlProps> = ({
       <div
         style={{
           height: '100vh',
-          backgroundColor: '#130032',
+          backgroundColor: 'octo',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          zIndex: 2,
         }}
       >
         <Image src={Animocto.src} alt="Loading…" height={250} width={250} />
@@ -96,6 +98,7 @@ const App: React.FC<WithUrqlProps> = ({
             <Analytics />
             <Component {...pageProps} />
           </MegaMenu>
+          <PageBackground />
         </ComposeDBContextProvider>
       </Web3ContextProvider>
     </ChakraProvider>

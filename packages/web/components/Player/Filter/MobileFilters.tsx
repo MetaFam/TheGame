@@ -1,6 +1,7 @@
 import {
   ArrowBackIcon,
   ArrowForwardIcon,
+  Box,
   Button,
   CheckIcon,
   CloseIcon,

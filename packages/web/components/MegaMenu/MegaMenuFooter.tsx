@@ -44,6 +44,7 @@ export const MegaMenuFooter = () => {
       borderColor="#2B2244"
       px={4}
       backdropFilter="blur(10px)"
+      zIndex={20}
     >
       {connected && !!user && !fetching && !connecting ? (
         <>

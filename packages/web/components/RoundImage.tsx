@@ -1,5 +1,4 @@
-import { AvatarProps, Flex, Image } from '@metafam/ds';
-
+import { AvatarProps, Box, Flex, Image } from '@metafam/ds';
 
 type RoundImageProps = AvatarProps & {
   src?: string;
@@ -7,7 +6,6 @@ type RoundImageProps = AvatarProps & {
 
 export const RoundImage: React.FC<RoundImageProps> = ({ src, ...props }) => (
   <Flex
-    {...props}
     position="relative"
     mt="0 !important"
     _after={{
@@ -19,6 +17,7 @@ export const RoundImage: React.FC<RoundImageProps> = ({ src, ...props }) => (
     borderRadius="50%"
     borderColor="whiteAlpha.400"
     _hover={{ bgGradient: 'linear(to-r, #7900FD, #FC01FC)' }}
+    {...props}
   >
     <Image
       position="absolute"

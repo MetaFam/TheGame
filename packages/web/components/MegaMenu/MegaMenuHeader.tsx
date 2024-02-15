@@ -25,7 +25,7 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import LogoImage from 'assets/new_logo_svg.svg';
+import LogoImage from 'assets/logo.webp';
 import SearchIcon from 'assets/search-icon.svg';
 import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
@@ -60,6 +60,8 @@ import {
   getPlayerURL,
   getPlayerUsername,
 } from 'utils/playerHelpers';
+
+import ToggleEffectsButton from './ToggleEffectsButton';
 
 type LogoProps = {
   link: string;
@@ -135,8 +137,7 @@ const Option = ({ onClick, name, player, text }: OptionProps) => {
         </Text>
       </Flex>
     </Box>
-  )
-  
+  );
 };
 
 const ResultsTitle = ({ children }: { children: ReactNode }) => (
@@ -600,6 +601,8 @@ export const MegaMenuHeader: React.FC = () => {
               <DesktopNavLinks />
 
               <HeaderSearchBar onOpen={onSearchOpen} />
+
+              <ToggleEffectsButton />
             </HStack>
             <Box
               textAlign="right"
@@ -722,6 +725,7 @@ export const MegaMenuHeader: React.FC = () => {
               </SimpleGrid>
             </Stack>
           ))}
+          <ToggleEffectsButton hasLabel />
         </Stack>
       </Stack>
     </>

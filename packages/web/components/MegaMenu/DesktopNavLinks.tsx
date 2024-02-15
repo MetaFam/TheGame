@@ -20,7 +20,8 @@ import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 export const DesktopNavLinks: React.FC<FlexProps> = (props) => {
   const router = useRouter();
   return (
-    <Flex
+    <Box
+      as={Flex}
       justify="center"
       h="100%"
       display={{ base: 'none', lg: 'flex' }}
@@ -143,7 +144,11 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => {
                       textTransform="uppercase"
                       mx={{ lg: 3, xl: 6 }}
                       _expanded={{ color: 'cyan.300' }}
-                      _focus={{ outline: 'none', border: 'none', textDecor: 'none' }}
+                      _focus={{
+                        outline: 'none',
+                        border: 'none',
+                        textDecor: 'none',
+                      }}
                       rightIcon={
                         section.type === 'external-link' ? (
                           <ExternalLinkIcon color="white" />
@@ -176,6 +181,6 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => {
           )}
         </Menu>
       ))}
-    </Flex>
+    </Box>
   );
 };
