@@ -1,15 +1,18 @@
 import { Box } from '@metafam/ds';
-import StarMaterial from 'assets/materials/9.png';
+import StarMaterial from 'assets/materials/particle.png';
 import {
   useAnimationFrame,
   useMousePosition,
   useScrollPosition,
   useWindowSize,
 } from 'lib/hooks/background';
-import { StaticImageData } from 'next/image';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { generateStars, initializeScene } from 'utils/starfield';
+import {
+  generateStars,
+  initializeScene,
+  StarfieldConfig,
+} from 'utils/starfield';
 
 export interface SceneSectionProps {
   name: string;
@@ -19,39 +22,9 @@ export interface SceneSectionProps {
   config: Record<string, any>;
 }
 
-export function R3FSceneSection({
-  name,
-  count,
-  config,
-  children,
-  ...props
-}: SceneSectionProps) {
-  const groupRef = useRef(null);
-  const { objectsDistance } = config;
-
-  return <></>;
-}
-
 interface StarfieldProps {
   animateStars?: boolean;
 }
-
-export type StarfieldConfig = {
-  objectsDistance: number;
-  animate: boolean;
-  stars: {
-    size: number;
-    opacity: number;
-    count: number;
-    scale: any;
-    positionY: number;
-    speed: number;
-    material: StaticImageData;
-    insideColor: any;
-    outsideColor: any;
-    radius: number;
-  };
-};
 
 type SizesProps = {
   width: number;
@@ -66,6 +39,7 @@ function Starfield({ animateStars = true }: StarfieldProps) {
   const clock = useRef<any>(new THREE.Clock());
   const previousTime = useRef<any>(0);
   const sceneRef = useRef<any>(null);
+  const starfieldGenerated = useRef<any>(false);
 
   useEffect(() => {
     if (!mountRef.current) {
@@ -100,7 +74,7 @@ function Starfield({ animateStars = true }: StarfieldProps) {
       stars: {
         size: 0.01,
         opacity: 0.3,
-        count: 600,
+        count: 300,
         scale: new THREE.Vector3(30, 40, 40),
         positionY: 1,
         speed: animateStars ? 0.02 : 0,
@@ -133,14 +107,15 @@ function Starfield({ animateStars = true }: StarfieldProps) {
       particlesRef.current = generateStars(starfieldConfig);
       sceneRef.current.starfieldRef.add(particlesRef.current);
       sceneRef.current.scene.add(sceneRef.current.starfieldRef);
+      starfieldGenerated.current = true;
     }
   }, [starfieldConfig]);
 
   const frameId = useRef<any>(null);
   const directionScale = 1;
   const tick = useCallback(() => {
+    if (!animate) return;
     if (
-      !animate ||
       !sceneRef.current.renderer ||
       !sceneRef.current.scene ||
       !sceneRef.current.camera
@@ -169,10 +144,10 @@ function Starfield({ animateStars = true }: StarfieldProps) {
 
     for (let i = 0; i < animatePositions.length; i += 3) {
       const { speed } = stars;
-      animatePositions[i] +=
-        (Math.random() - directionScale) * speed * deltaTime * 0.8; // X
-      animatePositions[i + 1] -=
-        (Math.random() - directionScale) * speed * deltaTime * 0.8; // Y
+      // animatePositions[i] +=
+      //   Math.sin((Math.random() - directionScale) * speed * (deltaTime * 0.08)) * Math.PI * 0.05; // X
+      // animatePositions[i + 1] -=
+      // Math.sin((Math.random() - directionScale) * speed * (deltaTime * 0.08)) * Math.PI * 0.05; // Y
       animatePositions[i + 2] +=
         (Math.random() - directionScale) * speed * deltaTime; // Z
     }

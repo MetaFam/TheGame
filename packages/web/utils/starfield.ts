@@ -1,4 +1,4 @@
-import { StarfieldConfig } from 'components/Background/Starfield';
+import { StaticImageData } from 'next/image';
 import {
   BloomEffect,
   EffectComposer,
@@ -11,14 +11,29 @@ import { Group } from 'three/src/objects/Group';
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
 import { Scene } from 'three/src/scenes/Scene';
 
+export type StarfieldConfig = {
+  objectsDistance: number;
+  animate: boolean;
+  stars: {
+    size: number;
+    opacity: number;
+    count: number;
+    scale: any;
+    positionY: number;
+    speed: number;
+    material: StaticImageData;
+    insideColor: any;
+    outsideColor: any;
+    radius: number;
+  };
+};
+
 export const generateStars = (starConfig: StarfieldConfig) => {
   const { stars, objectsDistance } = starConfig;
   const floatNum = stars.count * 3;
   const positions = new Float32Array(floatNum);
   const colors = new Float32Array(floatNum);
   const particleSizes = new Float32Array(floatNum);
-
-  const starfieldCreated = false;
 
   // Plot the star positions
   for (let i = 0; i < stars.count; i++) {
@@ -45,17 +60,19 @@ export const generateStars = (starConfig: StarfieldConfig) => {
     new THREE.BufferAttribute(positions, 3),
   );
   const textureLoader = new THREE.TextureLoader();
+  const particleTexture = textureLoader.load(stars.material.src);
+  particleTexture.center.set(0.5, 0.5);
+  particleTexture.generateMipmaps = true;
 
   // Apply the material/color
   const particlesMaterial = new THREE.PointsMaterial({
-    // map: particleTexture,
+    alphaMap: particleTexture,
     color: stars.insideColor,
     transparent: true,
     size: stars.size,
-    depthWrite: false,
+    depthWrite: true,
     vertexColors: true,
   });
-  // particlesMaterial.alphaTest = 0.5;
 
   const particles = new THREE.Points(particlesGeometry, particlesMaterial);
   particles.geometry.setAttribute(
@@ -100,13 +117,16 @@ export function initializeScene(
 
   // Set up the camera
   const cameraGroup = new THREE.Group();
-  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
   camera.position.set(0, 0, 0);
   cameraGroup.add(camera);
 
   // Set up the renderer
   const renderer = new THREE.WebGLRenderer({
     powerPreference: 'high-performance',
+    antialias: false,
+    stencil: false,
+    depth: false,
     alpha: true,
   });
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -115,15 +135,24 @@ export function initializeScene(
   // set up composer
   const composer = new EffectComposer(renderer);
 
-  // const bloomParams = {
-  //   exposure: 5,
-  //   bloomStrength: 5,
-  //   bloomThreshold: 0.71,
-  //   bloomRadius: 0.2,
-  // };
+  const bloomParams = {
+    exposure: 1,
+    bloomStrength: 0.3,
+    bloomThreshold: 0.41,
+    bloomRadius: 0.8,
+  };
 
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new EffectPass(camera, new BloomEffect()));
+  composer.addPass(
+    new EffectPass(
+      camera,
+      new BloomEffect({
+        intensity: bloomParams.bloomStrength,
+        luminanceThreshold: bloomParams.bloomThreshold,
+        luminanceSmoothing: 0.02,
+      }),
+    ),
+  );
   scene.add(cameraGroup);
   scene.add(starfieldRef);
 
