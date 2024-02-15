@@ -14,10 +14,8 @@ const useFirstViewportEntry: any = (ref: any, observerOptions: any) => {
     const ob = observer. current;
     if (entered) {
       ob.disconnect();
-      return {} as any;
     }
     if (element && !entered) ob. observe(element);
-    return () => ob.disconnect();
 
   },[entered, ref]); 
 
