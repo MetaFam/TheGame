@@ -43,7 +43,6 @@ import { Client } from 'urql';
         status: { _eq: $status }
         guildId: { _eq: $guildId }
         createdByPlayerId: { _eq: $createdByPlayerId }
-        quest_roles: { role: { _in: $questRoles } }
         _or: [ 
            { title : { _ilike: $search }},
            { description : { _ilike: $search }}
