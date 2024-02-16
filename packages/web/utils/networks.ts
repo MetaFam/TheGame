@@ -25,7 +25,7 @@ export const NETWORK_INFO: NetworkInfo = {
     label: 'Ethereum',
     symbol: 'ETH',
     explorer: 'https://etherscan.io',
-    rpc: `https://mainnet.infura.io/v3/${CONFIG.infuraId}`,
+    rpc: `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MAINNET}`,
   },
   [GOERLI]: {
     chainId: GOERLI,
@@ -49,7 +49,7 @@ export const NETWORK_INFO: NetworkInfo = {
     label: 'Polygon',
     symbol: 'MATIC',
     explorer: 'https://polygonscan.com',
-    rpc: 'https://polygon-rpc.com',
+    rpc: `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MATIC}`,
   },
   [MUMBAI]: {
     chainId: MUMBAI,
