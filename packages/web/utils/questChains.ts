@@ -39,8 +39,7 @@ export const getQuestChainContract = (
   address: string,
   version: string,
   signer: Signer,
-): contracts.V1.QuestChain | contracts.V0.QuestChain => {
-  console.log(version, 'version')
+): contracts.V1.QuestChain | contracts.V0.QuestChain | contracts.V2.QuestChain => {
   if (version === '0') {
     return contracts.V0.QuestChain__factory.connect(
       address,
@@ -53,8 +52,7 @@ export const getQuestChainContract = (
       signer,
     ) as contracts.V1.QuestChain;
   }
-  else if (version === '2') {
-    //@ts-ignore
+  if (version === '2') {
     return contracts.V2.QuestChain__factory.connect(
       address,
       signer,
