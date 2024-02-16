@@ -484,6 +484,9 @@ jobs:
             WEB3_STORAGE_DID=${{secrets.WEB3_STORAGE_DID}}
             WEB3_STORAGE_PROOF=${{secrets.WEB3_STORAGE_PROOF}}
             WEB3_STORAGE_KEY=${{secrets.WEB3_STORAGE_KEY}}
+            ALCHEMY_MAINNET=${{secrets.ALCHEMY_MAINNET}}
+            ALCHEMY_OPTIMISM=${{secrets.ALCHEMY_OPTIMISM}}
+            ALCHEMY_POLYGON=${{secrets.ALCHEMY_POLYGON}}
           push: true
 
   deploy-frontend:
@@ -526,6 +529,10 @@ jobs:
             --set-env-vars NEXT_PUBLIC_WEB3_STORAGE_DID="${{secrets.WEB3_STORAGE_DID}}" \
             --set-env-vars NEXT_PUBLIC_WEB3_STORAGE_PROOF="${{secrets.WEB3_STORAGE_PROOF}}" \
             --set-env-vars NEXT_PUBLIC_WEB3_STORAGE_KEY="${{secrets.WEB3_STORAGE_KEY}}" \
+            --set-env-vars NEXT_PUBLIC_ALCHEMY_MAINNET="${{secrets.ALCHEMY_MAINNET}}" \
+            --set-env-vars NEXT_PUBLIC_ALCHEMY_OPTIMISM="${{secrets.ALCHEMY_OPTIMISM}}" \
+            --set-env-vars NEXT_PUBLIC_ALCHEMY_POLYGON="${{secrets.ALCHEMY_POLYGON}}" \
+
 
   seed-db:
     name: Seed Database

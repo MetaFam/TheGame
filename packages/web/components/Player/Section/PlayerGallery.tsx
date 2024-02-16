@@ -23,14 +23,14 @@ import { BoxTypes } from 'utils/boxTypes';
 const GalleryItem: React.FC<{ nft: any }> = ({ nft }) => (
   <Box display="flex">
     <Box
-      bgImage={`url(${nft.image.cachedUrl})`}
+      bgImage={`url(${nft?.image?.cachedUrl})`}
       backgroundSize="contain"
       backgroundRepeat="no-repeat"
       backgroundPosition="center"
       minW={28}
       minH={28}
     />
-    <Tooltip label={nft.title} hasArrow>
+    <Tooltip label={nft?.title} hasArrow>
       <Flex
         display="inline-grid"
         direction="column"
@@ -49,7 +49,7 @@ const GalleryItem: React.FC<{ nft: any }> = ({ nft }) => (
         >
           {nft?.collection?.name || nft?.contract?.name || 'Unknown'}
         </Heading>
-        <Text fontSize="sm">Floor Price: {nft.contract.openSeaMetadata.floorPrice || '0' } ETH</Text>
+        <Text fontSize="sm">Floor Price: {nft?.contract?.openSeaMetadata?.floorPrice || '0' } ETH</Text>
       </Flex>
     </Tooltip>
   </Box>
@@ -96,6 +96,17 @@ export const PlayerGallery: React.FC<Props> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {loading, error, data: nfts} = useNFTCollectibles({ player }); 
+
+  const processAllNfts = () => {
+    let nftData: any = []
+    if (!nfts[0]) return []
+    if (nfts[0]?.maticNfts?.ownedNfts) nftData = [...nftData, ...nfts[0].maticNfts.ownedNfts]
+    if (nfts[0]?.mainnetNfts?.ownedNfts) nftData = [...nftData, ...nfts[0].mainnetNfts.ownedNfts]
+    if (nfts[0]?.optimismNfts?.ownedNfts) nftData = [...nftData, ...nfts[0].optimismNfts.ownedNfts]
+    return nftData
+  }
+  const allNfts = processAllNfts().filter((nft: any) => nft.tokenType !== "ERC1155")
+
   return (
     <ProfileSection
       title="NFT Gallery"
@@ -123,14 +134,14 @@ export const PlayerGallery: React.FC<Props> = ({
         return (
           <>
             <SimpleGrid columns={1} gap={4} px={2}>
-              {nfts[0]?.nfts?.ownedNfts?.map((nft: any) => (
+              {allNfts?.slice(0, 4).map((nft: any) => (
                 <GalleryItem {...{ nft }} key={nft.tokenId} />
               ))}
             </SimpleGrid>
-            {nfts[0]?.nfts?.ownedNfts.length > 3 && (
+            {allNfts?.length > 3 && (
               <Box textAlign="end">
-                <GalleryModal {...{ isOpen, onClose, nfts }} />
-                <ViewAllButton onClick={onOpen} size={nfts[0]?.nfts?.ownedNfts.length} />
+                <GalleryModal {...{ isOpen, onClose, nfts: allNfts }} />
+                <ViewAllButton onClick={onOpen} size={allNfts.length} />
               </Box>
             )}
           </>
