@@ -17,6 +17,7 @@ const PageContainer = lazy(() => import('components/Container'));
 const DashboardPage: React.FC = () => {
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
   const { user: player } = useUser();
+
   const savedLayoutData = useMemo<LayoutData>(
     () =>
       player?.dashboardLayout
@@ -28,7 +29,7 @@ const DashboardPage: React.FC = () => {
   const persistLayoutData = useCallback(
     async (layoutData: LayoutData) => {
       if (player) {
-        const { error } = await saveLayoutData({
+        const { error, data } = await saveLayoutData({
           playerId: player.id,
           dashboardLayout: JSON.stringify(layoutData),
         });
