@@ -55,6 +55,7 @@ import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
 import { menuIcons } from 'utils/menuIcons';
 import { MenuSectionLinks } from 'utils/menuLinks';
+import { ConnectKitButton } from "connectkit";
 import {
   getPlayerName,
   getPlayerURL,
@@ -619,14 +620,7 @@ export const MegaMenuHeader: React.FC = () => {
                   fontFamily="Exo 2, san-serif"
                   align="flex-end"
                 >
-                  <MetaButton
-                    h={10}
-                    px={12}
-                    onClick={connect}
-                    isLoading={!mounted || connecting || fetching}
-                  >
-                    Connect
-                  </MetaButton>
+                  <ConnectKitButton />
                 </Stack>
               )}
             </Box>

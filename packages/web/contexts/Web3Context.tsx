@@ -20,6 +20,51 @@ import React, {
 import { errorHandler } from 'utils/errorHandler';
 import { providerOptions } from 'utils/walletOptions';
 import Web3Modal from 'web3modal';
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { mainnet, optimism, polygon } from "wagmi/chains";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+
+const config = createConfig(
+  getDefaultConfig({
+    // Your dApps chains
+    chains: [mainnet],
+    transports: {
+      // RPC URL for each chain
+      [mainnet.id]: http(
+        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MAINNET}`,
+      ),
+      [polygon.id]: http(
+        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MATIC}`,
+      ),
+      [optimism.id]: http("https://op-pokt.nodies.app"),
+
+    },
+
+    // Required API Keys
+    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '',
+
+    // Required App Info
+    appName: "MetaGame",
+
+    // Optional App Info
+    appDescription: "DAOs connection tissue",
+    appUrl: "https://metagame.wtf", // your app's url
+    appIcon: "https://metagame.wtf", // your app's icon, no bigger than 1024x1024px (max. 1MB)
+  }),
+);
+
+const queryClient = new QueryClient();
+
+const Provider = ({ children }: any) => {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <ConnectKitProvider>{children}</ConnectKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
 
 export type Web3ContextType = {
   provider: Maybe<Web3Provider>;
@@ -225,7 +270,9 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         w3storage,
       }}
     >
-      {children}
+      <Provider>
+        {children}
+      </Provider>
     </Web3Context.Provider>
   );
 };

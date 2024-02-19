@@ -35,6 +35,7 @@ import { AnimatedWaves, upDownAnimation } from './animations';
 import { LandingConnectButton } from './LandingConnectButton';
 import { sections } from './landingSection';
 
+
 export const LandingHeader: React.FC = () => {
   const [menuToggle, setMenuToggle] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
