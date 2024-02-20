@@ -1,20 +1,13 @@
 import {
-  Box,
   Button,
-  Icon,
+  MetaButton,
   Spinner,
-  Text,
   Tooltip,
   useBreakpointValue,
   useToast,
-  VStack,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
 import { useWeb3 } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
-import { GoSignIn, GoSignOut } from 'react-icons/go';
-import { MAINNET,POLYGON } from 'utils/networks';
-import { formatAddress } from 'utils/playerHelpers';
+import React from 'react';
 
 export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
   const {
@@ -23,61 +16,14 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
     connected,
     connecting,
     address,
-    chainId,
-    provider,
   } = useWeb3();
-  const [wrongNetwork, setWrongNetwork] = useState(false);
   const spinnerSize = useBreakpointValue({ base: 'sm', '2xl': 'md' });
   const toast = useToast();
-
-  useEffect(() => {
-    if (connected && address && provider) {
-      const networkName = provider.network.name;
-      const shortAddress = formatAddress(address);
-
-      if (chainId !== POLYGON && chainId !== MAINNET) {
-        setWrongNetwork(true);
-        toast({
-          title: `Wallet Connection`,
-          description: (
-            <VStack spacing={2} alignItems="baseline" justifyItems="start">
-              <Text>
-                <Box as="strong" textTransform="capitalize">
-                  {networkName ?? ''} ({chainId})
-                </Box>{' '}
-                network is not supported. This area of the website requires{' '}
-                <strong>Polygon</strong> network. Please switch networks.
-              </Text>
-              <Text>
-                You can visit{' '}
-                <MetaLink href="https://chainlist.org/chain/137" isExternal>
-                  chainlist.org
-                </MetaLink>{' '}
-                to add Polygon to your wallet.
-              </Text>
-            </VStack>
-          ),
-          status: 'warning',
-          isClosable: true,
-          duration: 5000,
-        });
-      } else {
-        setWrongNetwork(false);
-        toast({
-          title: 'Wallet Connection',
-          description: `Successfully connected to ${networkName} with ${shortAddress}. 🥳`,
-          status: 'success',
-          isClosable: true,
-          duration: 5000,
-        });
-      }
-    }
-  }, [chainId, address, provider, toast]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Tooltip
       label={
-        connected && wrongNetwork
+        connected
           ? 'Change to Polygon network 👆'
           : `${connected ? 'Disconnect' : 'Connect'} wallet`
       }
@@ -89,16 +35,6 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
           onClick={connected ? disconnect : connect}
           variant="ghost"
           aria-label="Connect to Web3 wallet"
-          color={
-            wrongNetwork
-              ? 'brightIdOrange.600'
-              : 'var(--chakra-colors-landing550)'
-          }
-          textShadow={
-            wrongNetwork
-              ? 'brightIdOrange.400'
-              : 'var(--chakra-colors-landing500)'
-          }
           isDisabled={connecting}
           size={'xl'}
         >
@@ -112,15 +48,10 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
           display="inline-flex"
           alignItems="center"
           fontWeight="normal"
-          color={wrongNetwork ? 'brightIdOrange.600' : 'white'}
-          // textShadow={`0 0 8px var(--chakra-colors-landing500)`}
           borderRadius="inherit inherit 0 0"
           opacity={0.3}
           px={{ base: 1, xl: 2 }}
           sx={{
-            // svg: {
-            //   filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
-            // },
             '&:hover': {
               backgroundColor: 'transparent',
               color: 'var(--chakra-colors-landing300)',
@@ -135,11 +66,11 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
           {connecting ? (
             <Spinner size={spinnerSize} />
           ) : (
-            <Icon
-              as={connected ? GoSignOut : GoSignIn}
-              h={{ base: 6, '2xl': 8 }}
-              w={{ base: 6, '2xl': 8 }}
-            />
+            <MetaButton backgroundColor={'#0000000'}>
+              {
+                address ? `${address.slice(0, 4)}...${address.slice(address.length - 4, address.length)}` : "connect"
+              }
+            </MetaButton>
           )}
         </Button>
       )}
