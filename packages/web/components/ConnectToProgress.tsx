@@ -12,8 +12,9 @@ import {
 import LogoImage from 'assets/new_logo_svg.svg';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useUser, useWeb3 } from 'lib/hooks';
-
+import { useAccount } from 'wagmi';
 import { MetaLink } from './Link';
+import { ConnectKitButton } from 'connectkit';
 
 export const MetaGameLogo = () => (
   <Flex justify="center" align="center">
@@ -30,12 +31,13 @@ export const ConnectToProgress: React.FC<{
   showSwitchButton = true,
   header = 'Welcome to MetaGame!',
 }) => {
-  const { connect, connecting, connected, chainId } = useWeb3();
+
+  const { address, isConnected, isConnecting, chainId } = useAccount();
   const [open, { toggle }] = useBoolean();
   const { fetching } = useUser();
 
-  if (connected && !fetching) {
-    if (chainId !== '0x1' && showSwitchButton) {
+  if (isConnected && !fetching) {
+    if (chainId !== 1 && showSwitchButton) {
       return (
         <Stack w="100%" align="center">
           <Stack color="white" spacing={8} w="100%" maxW="30rem">
@@ -65,18 +67,7 @@ export const ConnectToProgress: React.FC<{
           </Stack>
         )}
         <Stack w="100%" spacing={4} pt={2}>
-          <Button
-            w="100%"
-            size="lg"
-            textTransform="uppercase"
-            fontWeight="600"
-            onClick={connect}
-            isLoading={connecting || fetching}
-            colorScheme="pink"
-            fontSize="1.25rem"
-          >
-            {showNote ? 'Connect Wallet' : 'Connect to continue'}
-          </Button>
+          <ConnectKitButton />
         </Stack>
         {showNote && (
           <>

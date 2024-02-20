@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import { Maybe } from '@metafam/utils';
 import { Player, useGetMeQuery } from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks/useWeb3';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { RequestPolicy } from 'urql';
@@ -10,6 +9,7 @@ import {
   hydratePlayerProfile,
   useGetPlayerProfileFromComposeDB,
 } from './ceramic/useGetPlayerProfileFromComposeDB';
+import { useAccount } from 'wagmi';
 
 type UseUserOpts = {
   redirectTo?: string;
@@ -28,10 +28,10 @@ export const useUser = ({
   fetching: boolean;
   error?: Error;
 } => {
-  const { connecting, connected } = useWeb3();
+  const { isConnected, isConnecting } = useAccount();
   const router = useRouter();
   const [{ data, error, fetching }] = useGetMeQuery({
-    pause: !connected,
+    pause: !isConnected,
     requestPolicy,
   });
   const [me] = data?.me ?? [];
@@ -40,8 +40,8 @@ export const useUser = ({
 
   const hasuraUser = useMemo(
     () =>
-      !error && !fetching && me && connected ? (me.record as Player) : null,
-    [error, me, connected, fetching],
+      !error && !fetching && me && isConnected ? (me.record as Player) : null,
+    [error, me, isConnected, fetching],
   );
 
   const {
@@ -61,7 +61,7 @@ export const useUser = ({
   }, [result, hasuraUser, composeDBError]);
 
   useEffect(() => {
-    if (fetching || connecting) return;
+    if (fetching || isConnecting) return;
 
     if (!hasuraUser && redirectIfNotFound && redirectTo) {
       router.push(redirectTo);
@@ -70,7 +70,7 @@ export const useUser = ({
     router,
     hasuraUser,
     fetching,
-    connecting,
+    isConnecting,
     redirectIfNotFound,
     redirectTo,
   ]);
@@ -79,8 +79,8 @@ export const useUser = ({
   if (composeDBError) console.error({ composeDBError });
 
   return {
-    connecting,
-    connected,
+    connecting: isConnecting,
+    connected: isConnected,
     user: hydratedPlayer,
     fetching: fetching || composeDBFetching,
     error,

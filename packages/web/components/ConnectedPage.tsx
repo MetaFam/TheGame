@@ -1,8 +1,10 @@
-import { Center, Link, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
+import { Center, Link, Spinner, Stack, Text } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
+import { useAccount } from 'wagmi';
 import { errorHandler } from 'utils/errorHandler';
+import { ConnectKitButton } from 'connectkit';
 
 type PlayerPageType = React.FC<{ player: Maybe<Player> }>;
 
@@ -10,25 +12,25 @@ export const ConnectedPage: React.FC<{
   page: PlayerPageType;
   pageLabel?: string;
 }> = ({ page: Page, pageLabel = 'this page' }) => {
-  const { connect, connecting, connected } = useWeb3();
+  const { address, isConnected, isConnecting } = useAccount();
   const { user, fetching, error } = useUser();
   const mounted = useMounted();
 
-  if (!mounted || (!connecting && !connected)) {
+  if (!mounted || (!isConnecting && !isConnected)) {
     return (
       <Text textAlign="center" mt="25vh">
-        Please <MetaButton onClick={connect}>connect</MetaButton> to access{' '}
+        Please <ConnectKitButton /> to access{' '}
         {pageLabel}.
       </Text>
     );
   }
 
-  if (connecting || fetching) {
+  if (isConnecting || fetching) {
     return (
       <Center h="100vh">
         <Stack align="center">
           <Text fontSize="xl">
-            {connecting ? 'Connecting…' : 'Fetching User…'}
+            {isConnecting ? 'Connecting…' : 'Fetching User…'}
           </Text>
           <Spinner thickness="6px" color="whiteAlpha" size="xl" />
         </Stack>
@@ -48,7 +50,7 @@ export const ConnectedPage: React.FC<{
           <Text>
             Error Loading User: <q>{error.message}</q>
           </Text>
-          <MetaButton onClick={connect}>Try Again</MetaButton>
+          <ConnectKitButton />
         </Stack>
       </Center>
     );

@@ -1,32 +1,19 @@
 import {
-  Button,
-  MetaButton,
-  Spinner,
   Tooltip,
-  useBreakpointValue,
-  useToast,
 } from '@metafam/ds';
-import { useWeb3 } from 'lib/hooks';
 import React from 'react';
 import { ConnectKitButton } from "connectkit";
+import { useAccount } from 'wagmi';
 
 export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
-  const {
-    connect,
-    disconnect,
-    connected,
-    connecting,
-    address,
-  } = useWeb3();
-  const spinnerSize = useBreakpointValue({ base: 'sm', '2xl': 'md' });
-  const toast = useToast();
+  const { isConnected } = useAccount();
 
   return (
     <Tooltip
       label={
-        connected
+        isConnected
           ? 'Change to Polygon network 👆'
-          : `${connected ? 'Disconnect' : 'Connect'} wallet`
+          : `${isConnected ? 'Disconnect' : 'Connect'} wallet`
       }
       hasArrow
       placement="bottom"
