@@ -5,6 +5,8 @@ import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { useAccount } from 'wagmi';
 import { errorHandler } from 'utils/errorHandler';
 import { ConnectKitButton } from 'connectkit';
+import { useEffect, useState } from 'react';
+import { getPlayer } from 'graphql/getPlayer';
 
 type PlayerPageType = React.FC<{ player: Maybe<Player> }>;
 
@@ -13,9 +15,19 @@ export const ConnectedPage: React.FC<{
   pageLabel?: string;
 }> = ({ page: Page, pageLabel = 'this page' }) => {
   const { address, isConnected, isConnecting } = useAccount();
+  const [player, setPlayer] = useState<Maybe<Player>>(null);
   const { user, fetching, error } = useUser();
   const mounted = useMounted();
-
+  useEffect(() => {
+    if (!address) return;
+    async function getPeople() {
+      if (address) {
+        const player = await getPlayer(address);
+        return player
+      }
+    }
+    getPeople().then(player => setPlayer(player!))
+  }, [address])
   if (!mounted || (!isConnecting && !isConnected)) {
     return (
       <Text textAlign="center" mt="25vh">
@@ -38,8 +50,8 @@ export const ConnectedPage: React.FC<{
     );
   }
 
-  if (user) {
-    return <Page player={user} />;
+  if (address && player) {
+    return <Page player={player} />;
   }
 
   if (error) {

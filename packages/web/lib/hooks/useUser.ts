@@ -34,6 +34,7 @@ export const useUser = ({
     pause: !isConnected,
     requestPolicy,
   });
+  
   const [me] = data?.me ?? [];
 
   const [hydratedPlayer, setHydratedPlayer] = useState<Player | null>(null);
