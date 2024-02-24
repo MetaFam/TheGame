@@ -3,8 +3,8 @@ import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
-import React, { useMemo } from 'react';
-import { getPlayerImage, hasImage } from 'utils/playerHelpers';
+import React from 'react';
+import { hasImage } from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & {
   player?: Player | GuildPlayer;
