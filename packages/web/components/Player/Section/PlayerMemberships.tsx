@@ -262,7 +262,6 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const [, rewriteGuildOrder] = useRewriteGuildOrderMutation();
   const [, rewriteDAOOrder] = useRewriteDaoOrderMutation();
   const [, deleteGuildMember] = useDeleteGuildMemberMutation();
-
   useEffect(() => {
     setPosition(Object.fromEntries(layout.map(({ i, y }) => [i, y])));
   }, [layout]);
@@ -356,9 +355,9 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     rewriteGuildOrder,
   ]);
 
-  const visibleMemberships = currentMemberships
-    .filter(({ visible: v }) => v)
-    .sort((a, b) => position[a.id] - position[b.id]);
+  // const visibleMemberships = currentMemberships
+  //   .filter(({ visible: v }) => v)
+  //   .sort((a, b) => position[a.id] - position[b.id]);
   const dirty =
     memberships.length >= 0 &&
     (memberships.some(
@@ -397,7 +396,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         (loading ? (
           <LoadingState mb={6} />
         ) : (
-          visibleMemberships.length === 0 && (
+          memberships.length === 0 && (
             <Text fontStyle="italic" textAlign="center" mb={4}>
               No Guild member&shy;ships{' '}
               {memberships.length === 0 ? 'found' : 'visible'} for{' '}
@@ -408,7 +407,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
       <VStack align="stretch">
         {!editView &&
-          visibleMemberships
+          memberships
             .slice(0, 4)
             .map((membership) => (
               <GuildListing
@@ -419,13 +418,13 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             ))}
       </VStack>
 
-      {!editView && visibleMemberships.length > 4 && (
+      {!editView && memberships.length > 4 && (
         <Box textAlign="end">
           <MembershipListModal
-            memberships={visibleMemberships}
+            memberships={memberships}
             {...{ isOpen, onClose }}
           />
-          <ViewAllButton onClick={onOpen} size={visibleMemberships.length} />
+          <ViewAllButton onClick={onOpen} size={memberships.length} />
         </Box>
       )}
 
