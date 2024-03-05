@@ -3,39 +3,49 @@ import {
   Box,
   Button,
   Flex,
+  Icon,
   IconButton,
   Image,
   Link,
   List,
   ListIcon,
   ListItem,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
   Text,
+  Th,
+  Thead,
+  Tr,
   useBreakpointValue,
 } from '@metafam/ds';
 import { useRouter } from 'next/router';
+import React from 'react';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
 import { MdChevronRight } from 'react-icons/md';
 
-import { RoleTitle } from './data';
+import { Perk, PerkList } from './data';
 
-export interface Perk {
-  perk: string;
-  checked: boolean;
+interface PerksChecklistProps {
+  perks: Perk[];
+  id: keyof Perk;
+  altBackground?: boolean;
 }
 
-type CardProps = {
+interface CardProps {
   title?: string;
   type?: string;
   image?: string;
   price?: string;
+  id?: keyof Perk;
   description?: string;
   action?: string;
   list?: Perk[];
   width?: string;
   background?: string;
   badgeColor?: string;
-  info?: string;
   route?: string;
   link?: string;
   recommended?: boolean;
@@ -47,19 +57,17 @@ export const RoleCard: React.FC<CardProps> = ({
   description,
   recommended,
   action,
-  info,
   route,
   link,
 }) => {
   const router = useRouter();
-  const activeTab = router.query.tab ?? RoleTitle.Player;
   const isMobile = useBreakpointValue({
     base: true,
     lg: false,
   });
   return (
     <Box
-      h={{ sm: 'full', lg: '494px' }}
+      h="full"
       w={{ sm: 'full', lg: '320px' }}
       border={{ base: '1px solid #FF00FF', lg: '4px solid #FF00FF' }}
       borderRadius={18}
@@ -131,38 +139,24 @@ export const RoleCard: React.FC<CardProps> = ({
           fontSize={{ base: 'md', lg: '2xl' }}
           align={{ base: 'start', lg: 'center' }}
         >
-          {description}{' '}
-          {description.includes('Detailed instructions') &&
-            activeTab === RoleTitle.Patron &&
-            (isMobile ? '👉' : '👇')}
-        </Text>
-      )}
-      {info && (
-        <Text
-          fontSize={{ base: 'md', lg: '2xl' }}
-          align={{ base: 'start', lg: 'center' }}
-          fontWeight="bold"
-        >
-          {info}
+          {description}
         </Text>
       )}
       {!isMobile && (
         <>
           {route && (
             <Button
-              colorScheme="pink"
               textTransform="uppercase"
+              colorScheme="pink"
               onClick={() => router.push(route)}
             >
               {action}
             </Button>
           )}
           {link && (
-            <Link href={link}>
-              <Button textTransform="uppercase" colorScheme="pink">
-                {action}
-              </Button>
-            </Link>
+            <Button textTransform="uppercase" colorScheme="pink" onClick={() => { window.location.href = link; }} >
+              {action}
+            </Button>
           )}
         </>
       )}
@@ -173,62 +167,132 @@ export const RoleCard: React.FC<CardProps> = ({
 export const PerksCard: React.FC<CardProps> = ({
   title,
   type,
+  id,
   list,
   price,
   width = 'md',
   description,
   background,
   badgeColor,
-}) => (
+}) => {
+  const isMobile = useBreakpointValue({
+    base: true,
+    lg: false,
+  });
+  return (
+    <Box
+      h="full"
+      w={{ base: 'full', lg: width }}
+      bg={background}
+      display="flex"
+      flexDir="column"
+      alignItems="center"
+      gap={3}
+      p={6}
+    >
+      {title && !isMobile && (
+        <Badge
+          borderRadius="full"
+          variant="subtle"
+          textTransform="uppercase"
+          colorScheme={badgeColor}
+          p={2}
+          fontSize="0.4em"
+        >
+          {title}
+        </Badge>
+      )}
+      {price && (
+        <Text fontSize="xl" fontWeight="semibold">
+          {price}
+        </Text>
+      )}
+      {description && (
+        <Text fontSize="xl" fontWeight="light">
+          {description}
+        </Text>
+      )}
+      {type && (
+        <Text fontSize="xl" textTransform="uppercase">
+          {type}
+        </Text>
+      )}
+      {list && list.length > 0 && (
+        <List fontSize="md" fontWeight="light" justifyContent='center' spacing="12px">
+          {list?.map((item, idx) => (
+            <ListItem key={idx} color={!!id && item?.[id] ? 'white' : 'gray.400'}>
+              <ListIcon
+                as={!!id && item?.[id] ? BsFillCheckCircleFill : FaCircle}
+                color={!!id && item?.[id] ? 'green.500' : 'gray.600'}
+                h={!!id && item?.[id] ? 4 : 3}
+                w={!!id && item?.[id] ? 4 : 3}
+              />
+              {item.title}
+            </ListItem>
+          ))}
+        </List>
+      )}
+    </Box>
+  )
+};
+
+export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, altBackground }) => (
   <Box
-    h={list && list.length > 10 ? '620px' : 'full'}
-    w={{ base: 'full', lg: width }}
-    bg={background}
+    h="full"
+    w="129px"
+    bg={altBackground ? "#00000029" : "#FFFFFF0A"}
     display="flex"
     flexDir="column"
     alignItems="center"
-    gap={3}
-    p={6}
+    gap="20px"
+    p="20px 20px 10px 20px"
   >
-    {title && (
+    {id && (
       <Badge
         borderRadius="full"
         variant="subtle"
         textTransform="uppercase"
-        colorScheme={badgeColor}
+        colorScheme={
+          (() => {
+            if (id === 'free') return 'green';
+            if (id === 'basic') return 'purple';
+            if (id === 'pro') return 'pink';
+            return 'gray';
+          })()
+        }
         p={2}
         fontSize="0.4em"
       >
-        {title}
+        {id}
       </Badge>
     )}
-    {price && (
-      <Text fontSize="xl" fontWeight="semibold">
-        {price}
-      </Text>
-    )}
-    {description && (
-      <Text fontSize="xl" fontWeight="light">
-        {description}
-      </Text>
-    )}
-    {type && (
-      <Text fontSize="xl" textTransform="uppercase">
-        {type}
-      </Text>
-    )}
-    {list && list.length > 0 && (
-      <List fontSize="md" fontWeight="light">
-        {list?.map((item, idx) => (
-          <ListItem key={idx}>
-            <ListIcon
-              as={item?.checked ? BsFillCheckCircleFill : FaCircle}
-              color={item?.checked ? 'green.500' : 'gray.600'}
-            />
-            {item.perk}
-          </ListItem>
-        ))}
-      </List>
-    )}
-  </Box>
-);
+    <List fontSize="md" fontWeight="light" spacing="14px">
+      {perks?.map((perk, idx) => (
+        <ListItem key={idx}>
+          <ListIcon
+            as={
+              (perk.type === 'Player' && perk[id]) ||
+                (perk.type === 'Guild' && perk[id]) ||
+                (perk.type === 'Patron' && perk[id])
+                ? BsFillCheckCircleFill
+                : FaCircle
+            }
+            color={
+              (perk.type === 'Player' && perk[id]) ||
+                (perk.type === 'Guild' && perk[id]) ||
+                (perk.type === 'Patron' && perk[id])
+                ? 'green.500'
+                : 'gray.600'
+            }
+            h={perk[id] ? 4 : 3}
+            w={perk[id] ? 4 : 3}
+          />
+        </ListItem>
+      ))}
+    </List>
+  </Box >
+)
+
+
+
+
