@@ -1,17 +1,4 @@
 import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Stack,
   StatusedSubmitButton,
   Text,
@@ -103,6 +90,13 @@ export const UploadProof: React.FC<{
         files.length ? await metadataUploader.uploadFiles(files) : '',
         imageFile ? await metadataUploader.uploadFiles([imageFile]) : '',
       ]);
+
+      const quest = questChain.quests.find((q) => q.id === questId);
+
+      if (!quest) {
+        throw new Error('Quest not found');
+      }
+
       const metadata: Metadata = {
         name: `Submission - QuestChain - ${questChain.name} - Quest - ${questId}. ${name} User - ${address}`,
         description: proofDescRef.current,
@@ -124,9 +118,10 @@ export const UploadProof: React.FC<{
         questChain.version,
         provider.getSigner(),
       );
+
       const tx = await (questChain.version === '0'
-        ? (contract as contracts.V0.QuestChain).submitProof(questId, details)
-        : (contract as contracts.V1.QuestChain).submitProofs([0], [details]));
+        ? (contract as contracts.V0.QuestChain).submitProof(quest.questId, details)
+        : (contract as contracts.V1.QuestChain).submitProofs([quest.questId], [details]));
       addToast({
         description: 'Transaction submitted. Waiting for 1 block confirmation',
         duration: null,

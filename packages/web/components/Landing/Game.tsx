@@ -13,7 +13,7 @@ import React, { useRef } from 'react';
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
 
-export const Game: React.FC<LandingPageSectionProps> = ({
+const Game: React.FC<LandingPageSectionProps> = ({
   section,
   nextSection,
 }) => {
@@ -94,3 +94,5 @@ export const Game: React.FC<LandingPageSectionProps> = ({
     </FullPageContainer>
   );
 };
+
+export default Game;

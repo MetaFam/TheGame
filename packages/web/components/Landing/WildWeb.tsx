@@ -9,7 +9,7 @@ import React, { useRef } from 'react';
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
 
-export const WildWeb: React.FC<LandingPageSectionProps> = ({
+const WildWeb: React.FC<LandingPageSectionProps> = ({
   section,
   nextSection,
 }) => {
@@ -100,3 +100,5 @@ export const WildWeb: React.FC<LandingPageSectionProps> = ({
     </FullPageContainer>
   );
 };
+
+export default WildWeb;

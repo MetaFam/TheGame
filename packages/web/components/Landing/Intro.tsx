@@ -25,7 +25,7 @@ import React, { useEffect, useState } from 'react';
 import { upDownAnimation, upDownAnimationLong } from './animations';
 import { LandingPageSectionProps } from './landingSection';
 
-export const Intro: React.FC<LandingPageSectionProps> = ({
+const Intro: React.FC<LandingPageSectionProps> = ({
   section,
   activeSectionIndex,
 }) => {
@@ -152,6 +152,8 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
     </FullPageContainer>
   );
 };
+
+export default Intro;
 
 export const ScrollLink = ({
   showQuote,

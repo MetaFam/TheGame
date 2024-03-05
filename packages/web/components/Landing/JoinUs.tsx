@@ -22,7 +22,7 @@ import { LandingFooter } from './LandingFooter';
 import { LandingPageSectionProps } from './landingSection';
 import { Rain } from './OnboardingGame/Rain';
 
-export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
+const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const root = typeof window !== 'undefined' ? document.body : null;
@@ -261,3 +261,5 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
     </FullPageContainer>
   );
 };
+
+export default JoinUs;

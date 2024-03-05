@@ -9,7 +9,7 @@ import React, { useRef } from 'react';
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
 
-export const Build: React.FC<LandingPageSectionProps> = ({
+const Build: React.FC<LandingPageSectionProps> = ({
   section,
   nextSection,
 }) => {
@@ -99,3 +99,5 @@ export const Build: React.FC<LandingPageSectionProps> = ({
     </FullPageContainer>
   );
 };
+
+export default Build;
