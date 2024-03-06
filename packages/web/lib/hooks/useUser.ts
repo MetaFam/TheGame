@@ -4,7 +4,7 @@ import { Player, useGetMeQuery } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { RequestPolicy } from 'urql';
-
+import { getPlayer } from 'graphql/getPlayer';
 import {
   hydratePlayerProfile,
   useGetPlayerProfileFromComposeDB,
@@ -28,21 +28,27 @@ export const useUser = ({
   fetching: boolean;
   error?: Error;
 } => {
-  const { isConnected, isConnecting } = useAccount();
+  const { isConnected, isConnecting, address } = useAccount();
   const router = useRouter();
-  const [{ data, error, fetching }] = useGetMeQuery({
-    pause: !isConnected,
-    requestPolicy,
-  });
-  
-  const [me] = data?.me ?? [];
+  const [player, setPlayer] = useState<Maybe<Player>>(null);
+
+  useEffect(() => {
+    if (!address) return;
+    async function getPeople() {
+      if (address) {
+        const player = await getPlayer(address);
+        return player
+      }
+    }
+    getPeople().then(player => setPlayer(player!))
+  }, [address]);
 
   const [hydratedPlayer, setHydratedPlayer] = useState<Player | null>(null);
 
   const hasuraUser = useMemo(
     () =>
-      !error && !fetching && me && isConnected ? (me.record as Player) : null,
-    [error, me, isConnected, fetching],
+      player && isConnected ? (player as Player) : null,
+    [isConnected, player],
   );
 
   const {
@@ -62,7 +68,7 @@ export const useUser = ({
   }, [result, hasuraUser, composeDBError]);
 
   useEffect(() => {
-    if (fetching || isConnecting) return;
+    if (isConnecting) return;
 
     if (!hasuraUser && redirectIfNotFound && redirectTo) {
       router.push(redirectTo);
@@ -70,20 +76,18 @@ export const useUser = ({
   }, [
     router,
     hasuraUser,
-    fetching,
     isConnecting,
     redirectIfNotFound,
     redirectTo,
   ]);
 
-  if (error) console.error({ error });
   if (composeDBError) console.error({ composeDBError });
 
   return {
     connecting: isConnecting,
     connected: isConnected,
     user: hydratedPlayer,
-    fetching: fetching || composeDBFetching,
-    error,
+    fetching: false,
+    error: undefined,
   };
 };

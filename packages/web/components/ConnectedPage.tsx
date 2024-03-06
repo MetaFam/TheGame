@@ -7,7 +7,6 @@ import { errorHandler } from 'utils/errorHandler';
 import { ConnectKitButton } from 'connectkit';
 import { useEffect, useState } from 'react';
 import { getPlayer } from 'graphql/getPlayer';
-
 type PlayerPageType = React.FC<{ player: Maybe<Player> }>;
 
 export const ConnectedPage: React.FC<{
@@ -18,6 +17,7 @@ export const ConnectedPage: React.FC<{
   const [player, setPlayer] = useState<Maybe<Player>>(null);
   const { user, fetching, error } = useUser();
   const mounted = useMounted();
+ 
   useEffect(() => {
     if (!address) return;
     async function getPeople() {
@@ -27,7 +27,7 @@ export const ConnectedPage: React.FC<{
       }
     }
     getPeople().then(player => setPlayer(player!))
-  }, [address])
+  }, [address]);
   if (!mounted || (!isConnecting && !isConnected)) {
     return (
       <Text textAlign="center" mt="25vh">

@@ -77,6 +77,7 @@ export type Web3ContextType = {
   connected: boolean;
   isMetaMask: boolean;
   w3storage: Maybe<W3SClient>;
+  updateWeb3State: (prov: ExternalProvider) => Promise<void>; 
 };
 
 export const Web3Context = createContext<Web3ContextType>({
@@ -90,6 +91,7 @@ export const Web3Context = createContext<Web3ContextType>({
   connected: false,
   isMetaMask: false,
   w3storage: null,
+  updateWeb3State: async () => undefined,
 });
 
 const web3Modal =
@@ -268,6 +270,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         chainId,
         isMetaMask,
         w3storage,
+        updateWeb3State,
       }}
     >
       <Provider>

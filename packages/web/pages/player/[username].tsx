@@ -147,6 +147,8 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     [user, fetching, player.id],
   );
 
+  console.log('isOwnProfile', isOwnProfile, user, player)
+
   const handleMigrationCompleted = useCallback(
     (streamID: string) => {
       hydrateFromComposeDB(streamID);
