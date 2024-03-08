@@ -1,17 +1,4 @@
 import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Stack,
   StatusedSubmitButton,
   Text,
@@ -39,6 +26,7 @@ import {
 import { MarkdownEditor } from '../MarkdownEditor';
 import { UploadFilesForm } from './UploadFilesForm';
 import { UploadImageForm } from './UploadImageForm';
+import { useAccount } from 'wagmi';
 
 export const UploadProof: React.FC<{
   refresh: () => void;
@@ -46,9 +34,9 @@ export const UploadProof: React.FC<{
   name: string;
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
-  const { chainId, provider, address } = useWeb3();
+  const { provider } = useWeb3();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
 
   const toast = useToast();
@@ -86,7 +74,7 @@ export const UploadProof: React.FC<{
   const onSubmit = useCallback(async () => {
     if (
       !chainId ||
-      chainId !== questChain.chainId ||
+      `${chainId}` !== questChain.chainId ||
       !provider ||
       !proofDescRef.current
     )
@@ -139,7 +127,7 @@ export const UploadProof: React.FC<{
         duration: null,
         isClosable: true,
       });
-      await helpers.waitUntilSubgraphIndexed(chainId, receipt.blockNumber);
+      await helpers.waitUntilSubgraphIndexed(`${chainId}`, receipt.blockNumber);
       addToast({
         description: `Successfully submitted proof`,
         duration: 5000,
@@ -202,13 +190,14 @@ export const UploadProof: React.FC<{
         label={`Please connect or switch to ${
           NETWORK_INFO[questChain.chainId].label
         }`}
-        isDisabled={chainId === questChain.chainId}
+        isDisabled={`${chainId}` === questChain.chainId}
       >
         <StatusedSubmitButton
           px={[8, 12]}
           label="Submit Proof"
           onClick={() => {
-            if (!chainId || chainId !== questChain.chainId || !provider) {
+            console.log('chainId', chainId, questChain.chainId.charCodeAt(0), chain, questChain);
+            if (!chainId || `${chainId}` !== questChain.chainId) {
               addToast({
                 description: `Wrong Chain, please switch to ${
                   NETWORK_INFO[questChain.chainId].label

@@ -1,5 +1,5 @@
 import {
-  Button,
+  
   Collapse,
   Flex,
   Image,
@@ -11,7 +11,7 @@ import {
 } from '@metafam/ds';
 import LogoImage from 'assets/new_logo_svg.svg';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useUser } from 'lib/hooks';
 import { useAccount } from 'wagmi';
 import { MetaLink } from './Link';
 import { ConnectKitButton } from 'connectkit';
@@ -32,7 +32,7 @@ export const ConnectToProgress: React.FC<{
   header = 'Welcome to MetaGame!',
 }) => {
 
-  const { address, isConnected, isConnecting, chainId } = useAccount();
+  const { isConnected, chainId } = useAccount();
   const [open, { toggle }] = useBoolean();
   const { fetching } = useUser();
 

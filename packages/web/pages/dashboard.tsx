@@ -32,7 +32,7 @@ const DashboardPage: React.FC = () => {
           playerId: player.id,
           dashboardLayout: JSON.stringify(layoutData),
         });
-
+        console.log(error,  'error')
         if (error) throw error;
       }
     },
