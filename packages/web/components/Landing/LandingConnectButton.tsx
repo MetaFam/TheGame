@@ -1,9 +1,7 @@
 
-import React from 'react';
 import { ConnectKitButton } from "connectkit";
+import React from 'react';
 
-export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
-  return (
+export const LandingConnectButton = ({ isIconStyle = false, ...props }) => (
     <ConnectKitButton />
   );
-};

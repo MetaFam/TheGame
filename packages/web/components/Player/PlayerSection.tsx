@@ -18,7 +18,6 @@ import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
 import { PlayerDework } from './Section/PlayerDework';
 import { PlayerLinks } from './Section/PlayerLinks';
-import { PlayerMeTokens } from './Section/PlayerMeToken';
 
 type Props = {
   type: BoxType;
@@ -59,8 +58,6 @@ const PlayerSectionInner: React.FC<
       return <PlayerAchievements {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_COMPLETED_QUESTS:
       return <PlayerCompletedQuests {...{ player, isOwnProfile, editing }} />;
-    case BoxTypes.PLAYER_METOKENS:
-      return <PlayerMeTokens {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;

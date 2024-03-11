@@ -13,14 +13,14 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
+import { ConnectKitButton } from 'connectkit';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+import { useAccount } from 'wagmi';
 
 import { XPSeedsBalance } from './XPSeedsBalance';
-import { useAccount } from 'wagmi';
-import { ConnectKitButton } from 'connectkit';
 
 // Display player XP and Seed
 export const MegaMenuFooter = () => {

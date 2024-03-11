@@ -1,5 +1,4 @@
 import {
-  
   Collapse,
   Flex,
   Image,
@@ -11,10 +10,11 @@ import {
 } from '@metafam/ds';
 import LogoImage from 'assets/new_logo_svg.svg';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
+import { ConnectKitButton } from 'connectkit';
 import { useUser } from 'lib/hooks';
 import { useAccount } from 'wagmi';
+
 import { MetaLink } from './Link';
-import { ConnectKitButton } from 'connectkit';
 
 export const MetaGameLogo = () => (
   <Flex justify="center" align="center">

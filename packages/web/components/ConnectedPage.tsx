@@ -1,12 +1,13 @@
 import { Center, Link, Spinner, Stack, Text } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
-import { useMounted, useUser, useWeb3 } from 'lib/hooks';
-import { useAccount } from 'wagmi';
-import { errorHandler } from 'utils/errorHandler';
 import { ConnectKitButton } from 'connectkit';
-import { useEffect, useState } from 'react';
+import { Player } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
+import { useEffect, useState } from 'react';
+import { errorHandler } from 'utils/errorHandler';
+import { useAccount } from 'wagmi';
+
 type PlayerPageType = React.FC<{ player: Maybe<Player> }>;
 
 export const ConnectedPage: React.FC<{
@@ -20,13 +21,13 @@ export const ConnectedPage: React.FC<{
  
   useEffect(() => {
     if (!address) return;
-    async function getPeople() {
+    function getPeople() {
       if (address) {
-        const player = await getPlayer(address);
-        return player
+       return getPlayer(address);
       }
+      throw new Error('No address');
     }
-    getPeople().then(player => setPlayer(player!))
+    getPeople().then(setPlayer)
   }, [address]);
   if (!mounted || (!isConnecting && !isConnected)) {
     return (

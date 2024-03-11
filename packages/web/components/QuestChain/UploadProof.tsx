@@ -22,11 +22,11 @@ import {
   Metadata,
   metadataUploader,
 } from 'utils/questChains';
+import { useAccount } from 'wagmi';
 
 import { MarkdownEditor } from '../MarkdownEditor';
 import { UploadFilesForm } from './UploadFilesForm';
 import { UploadImageForm } from './UploadImageForm';
-import { useAccount } from 'wagmi';
 
 export const UploadProof: React.FC<{
   refresh: () => void;
@@ -196,7 +196,6 @@ export const UploadProof: React.FC<{
           px={[8, 12]}
           label="Submit Proof"
           onClick={() => {
-            console.log('chainId', chainId, questChain.chainId.charCodeAt(0), chain, questChain);
             if (!chainId || `${chainId}` !== questChain.chainId) {
               addToast({
                 description: `Wrong Chain, please switch to ${

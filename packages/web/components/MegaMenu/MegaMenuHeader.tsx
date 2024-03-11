@@ -30,6 +30,7 @@ import SearchIcon from 'assets/search-icon.svg';
 import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
 import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
+import { ConnectKitButton } from "connectkit";
 import {
   GuildFragment,
   Player,
@@ -55,7 +56,6 @@ import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
 import { menuIcons } from 'utils/menuIcons';
 import { MenuSectionLinks } from 'utils/menuLinks';
-import { ConnectKitButton } from "connectkit";
 import {
   getPlayerName,
   getPlayerURL,

@@ -1,15 +1,16 @@
 /* eslint-disable no-console */
 import { Maybe } from '@metafam/utils';
-import { Player, useGetMeQuery } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
+import { getPlayer } from 'graphql/getPlayer';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { RequestPolicy } from 'urql';
-import { getPlayer } from 'graphql/getPlayer';
+import { useAccount } from 'wagmi';
+
 import {
   hydratePlayerProfile,
   useGetPlayerProfileFromComposeDB,
 } from './ceramic/useGetPlayerProfileFromComposeDB';
-import { useAccount } from 'wagmi';
 
 type UseUserOpts = {
   redirectTo?: string;
@@ -34,13 +35,13 @@ export const useUser = ({
 
   useEffect(() => {
     if (!address) return;
-    async function getPeople() {
+    function getPeople() {
       if (address) {
-        const player = await getPlayer(address);
-        return player
+        return getPlayer(address);
       }
+      throw new Error('No address');
     }
-    getPeople().then(player => setPlayer(player!))
+    getPeople().then(setPlayer)
   }, [address]);
 
   const [hydratedPlayer, setHydratedPlayer] = useState<Player | null>(null);
@@ -56,7 +57,6 @@ export const useUser = ({
     fetching: composeDBFetching,
     error: composeDBError,
   } = useGetPlayerProfileFromComposeDB(hasuraUser?.ceramicProfileId);
-  console.log({ result, composeDBFetching, composeDBError });
   useEffect(() => {
     if (hasuraUser) {
       if (hasuraUser.ceramicProfileId == null || !!composeDBError) {
