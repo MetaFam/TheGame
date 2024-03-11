@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ChainIcon,
   DeleteIcon,
   EditIcon,
   Flex,

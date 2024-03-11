@@ -65,7 +65,7 @@ interface LandingPageSectionPropsWithPatronsGuildsAndElders
   guilds: GuildFragment[];
 }
 
-export const WhoAreWe: React.FC<
+const WhoAreWe: React.FC<
   LandingPageSectionPropsWithPatronsGuildsAndElders
 > = ({ section, nextSection, patrons, guilds }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -258,3 +258,5 @@ export const WhoAreWe: React.FC<
     </FullPageContainer>
   );
 };
+
+export default WhoAreWe;

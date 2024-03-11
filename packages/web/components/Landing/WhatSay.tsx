@@ -10,7 +10,7 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
 
-export const WhatSay: React.FC<LandingPageSectionProps> = ({
+const WhatSay: React.FC<LandingPageSectionProps> = ({
   section,
   nextSection,
 }) => {
@@ -181,3 +181,5 @@ const WhatSayCard: React.FC<{
     </Box>
   );
 };
+
+export default WhatSay;
