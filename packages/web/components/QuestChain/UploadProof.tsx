@@ -161,6 +161,7 @@ export const UploadProof: React.FC<{
     questChain.name,
     questChain.address,
     questChain.version,
+    questChain.quests,
     provider,
     proofDescRef,
     addToast,
