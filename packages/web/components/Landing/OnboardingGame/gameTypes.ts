@@ -22,7 +22,6 @@ export interface IGameContext {
   resetGame: () => boolean;
   visitedElements: (increment?: boolean) => string;
   mintChiev: (tokenId: bigint) => Promise<any>;
-  connect: Web3ContextType['connect'];
   disconnect: Web3ContextType['disconnect'];
   txLoading: boolean;
   account: string;
