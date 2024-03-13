@@ -3,7 +3,7 @@ import { Maybe } from '@metafam/utils';
 import { ConnectKitButton } from 'connectkit';
 import { Player } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
-import { useMounted, useUser, useWeb3 } from 'lib/hooks';
+import { useMounted, useUser } from 'lib/hooks';
 import { useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { useAccount } from 'wagmi';

@@ -40,7 +40,6 @@ export const GameContext = React.createContext<IGameContext>({
   resetGame: () => false,
   visitedElements: () => '0',
   mintChiev: async () => '',
-  connect: async () => undefined,
   disconnect: async () => undefined,
   txLoading: false,
   account: '',
@@ -57,7 +56,6 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   const {
     address,
     provider,
-    connect,
     connecting,
     connected,
     chainId,
@@ -160,7 +158,6 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   const mintChiev = useCallback(
     async (tokenId: bigint) => {
       try {
-        if (address === undefined) await connect();
         if (provider == null) throw new Error('Provider not set.');
         setTxLoading(true);
 
@@ -251,7 +248,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
         setTxLoading(false);
       }
     },
-    [address, connect, provider, toast],
+    [address, provider, toast],
   );
 
   return (
@@ -263,7 +260,6 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
         resetGame,
         visitedElements,
         mintChiev,
-        connect,
         disconnect,
         txLoading,
         account,

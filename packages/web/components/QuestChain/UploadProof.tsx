@@ -35,8 +35,8 @@ export const UploadProof: React.FC<{
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
   const { provider } = useWeb3();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { chainId, address, chain } = useAccount();
+  const { onOpen, onClose } = useDisclosure();
+  const { chainId, address } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
 
   const toast = useToast();

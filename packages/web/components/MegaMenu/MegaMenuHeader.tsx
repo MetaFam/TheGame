@@ -493,7 +493,7 @@ const HeaderSearchBar = (props: HeaderSearchBarProps) => {
 };
 
 export const MegaMenuHeader: React.FC = () => {
-  const { connected, connect, connecting } = useWeb3();
+  const { connected, connecting } = useWeb3();
   const router = useRouter();
   const { user, fetching } = useUser();
   const mounted = useMounted();
