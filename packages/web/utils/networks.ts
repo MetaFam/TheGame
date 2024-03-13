@@ -70,12 +70,16 @@ export const NETWORK_INFO: NetworkInfo = {
 };
 
 export function getHexChainId(chain?: string): string {
+  console.log('CHAIN:', chain)
   switch (chain?.toLowerCase()) {
     case 'xdai':
       return GNOSIS;
     case 'polygon':
       return POLYGON;
     case 'ethereum':
+      return MAINNET;
+    case 'op mainnet': 
+      return OPTIMISM;
     default:
       return MAINNET;
   }

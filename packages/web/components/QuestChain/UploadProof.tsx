@@ -4,7 +4,6 @@ import {
   Text,
   ToastId,
   Tooltip,
-  useBreakpointValue,
   useDisclosure,
   useToast,
   UseToastOptions,
@@ -16,7 +15,7 @@ import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
 import { useInputText } from 'lib/hooks/useInputText';
 import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { NETWORK_INFO } from 'utils/networks';
+import { getHexChainId, NETWORK_INFO } from 'utils/networks';
 import {
   getQuestChainContract,
   Metadata,
@@ -25,8 +24,6 @@ import {
 import { useAccount } from 'wagmi';
 
 import { MarkdownEditor } from '../MarkdownEditor';
-import { UploadFilesForm } from './UploadFilesForm';
-import { UploadImageForm } from './UploadImageForm';
 
 export const UploadProof: React.FC<{
   refresh: () => void;
@@ -35,8 +32,8 @@ export const UploadProof: React.FC<{
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
   const { provider } = useWeb3();
-  const { onOpen, onClose } = useDisclosure();
-  const { chainId, address } = useAccount();
+  const { onClose } = useDisclosure();
+  const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
 
   const toast = useToast();
@@ -62,7 +59,6 @@ export const UploadProof: React.FC<{
 
   const dropImageProps = useDropImage();
 
-  const buttonSize = useBreakpointValue({ base: 'sm', lg: 'md' });
 
   const { imageFile } = dropImageProps;
 
@@ -74,7 +70,6 @@ export const UploadProof: React.FC<{
   const onSubmit = useCallback(async () => {
     if (
       !chainId ||
-      `${chainId}` !== questChain.chainId ||
       !provider ||
       !proofDescRef.current
     )
@@ -174,7 +169,7 @@ export const UploadProof: React.FC<{
     onModalClose,
     refresh,
   ]);
-
+  console.log(chain, getHexChainId(chain?.name));
   return (
     <Stack
       w="full"
@@ -187,13 +182,6 @@ export const UploadProof: React.FC<{
         value={proofDescRef.current}
         onChange={setProofDescription}
       />
-      <UploadImageForm
-        {...dropImageProps}
-        imageProps={{ maxH: '12rem' }}
-        formControlProps={{ mb: 4 }}
-      />
-      <UploadFilesForm {...dropFilesProps} />
-
       <Tooltip
         shouldWrapChildren
         label={`Please connect or switch to ${
@@ -201,11 +189,13 @@ export const UploadProof: React.FC<{
         }`}
         isDisabled={`${chainId}` === questChain.chainId}
       >
+        
         <StatusedSubmitButton
           px={[8, 12]}
           label="Submit Proof"
           onClick={() => {
-            if (!chainId || `${chainId}` !== questChain.chainId) {
+            console.log(!chainId || getHexChainId(chain?.name) !== questChain.chainId, chainId, getHexChainId(chain?.name), questChain?.chainId)
+            if (!chainId || getHexChainId(chain?.name) !== questChain.chainId) {
               addToast({
                 description: `Wrong Chain, please switch to ${
                   NETWORK_INFO[questChain.chainId].label
@@ -223,7 +213,7 @@ export const UploadProof: React.FC<{
               });
               return;
             }
-
+            console.log('submitting')
             onSubmit();
           }}
           {...{ status: isSubmitting ? 'Submitting...' : null }}

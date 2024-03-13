@@ -11,31 +11,31 @@ export const switchChain = async (chainId: string): Promise<boolean> => {
   const { name, symbol, explorer, rpc } = NETWORK_INFO[chainId];
 
   try {
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId }],
-    });
+    // await window.ethereum.request({
+    //   method: 'wallet_switchEthereumChain',
+    //   params: [{ chainId }],
+    // });
     return true;
   } catch (switchError) {
     // This error code indicates that the chain has not been added to MetaMask.
     if ((switchError as { code?: number }).code === 4902) {
       try {
-        await window.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [
-            {
-              chainId,
-              chainName: name,
-              nativeCurrency: {
-                name: symbol,
-                symbol,
-                decimals: 18,
-              },
-              rpcUrls: [rpc],
-              blockExplorerUrls: [explorer],
-            },
-          ],
-        });
+        // await window.ethereum.request({
+        //   method: 'wallet_addEthereumChain',
+        //   params: [
+        //     {
+        //       chainId,
+        //       chainName: name,
+        //       nativeCurrency: {
+        //         name: symbol,
+        //         symbol,
+        //         decimals: 18,
+        //       },
+        //       rpcUrls: [rpc],
+        //       blockExplorerUrls: [explorer],
+        //     },
+        //   ],
+        // });
         return true;
       } catch (addError) {
         console.error(`Unable to add chainId: ${chainId}.`, addError);
@@ -59,22 +59,22 @@ export const addTokenToMetamask = async ({
   symbol: string;
   decimals: number;
 }): Promise<boolean> => {
-  try {
-    await window.ethereum.request({
-      method: 'wallet_watchAsset',
-      params: {
-        type: 'ERC20',
-        options: {
-          address,
-          symbol,
-          decimals,
-        },
-      },
-    });
-    return true;
-  } catch (addError) {
-    console.error(`Unable to add token: ${symbol}.`, addError);
-    errorHandler(addError as Error);
-  }
+  // try {
+  //   await window.ethereum.request({
+  //     method: 'wallet_watchAsset',
+  //     params: {
+  //       type: 'ERC20',
+  //       options: {
+  //         address,
+  //         symbol,
+  //         decimals,
+  //       },
+  //     },
+  //   });
+  //   return true;
+  // } catch (addError) {
+  //   console.error(`Unable to add token: ${symbol}.`, addError);
+  //   errorHandler(addError as Error);
+  // }
   return false;
 };
