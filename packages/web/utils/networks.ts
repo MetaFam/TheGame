@@ -70,7 +70,6 @@ export const NETWORK_INFO: NetworkInfo = {
 };
 
 export function getHexChainId(chain?: string): string {
-  console.log('CHAIN:', chain)
   switch (chain?.toLowerCase()) {
     case 'xdai':
       return GNOSIS;

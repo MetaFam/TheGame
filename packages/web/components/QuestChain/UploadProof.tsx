@@ -153,7 +153,6 @@ export const UploadProof: React.FC<{
     setSubmitting(false);
   }, [
     chainId,
-    questChain.chainId,
     questChain.name,
     questChain.address,
     questChain.version,
@@ -169,7 +168,6 @@ export const UploadProof: React.FC<{
     onModalClose,
     refresh,
   ]);
-  console.log(chain, getHexChainId(chain?.name));
   return (
     <Stack
       w="full"
@@ -194,7 +192,6 @@ export const UploadProof: React.FC<{
           px={[8, 12]}
           label="Submit Proof"
           onClick={() => {
-            console.log(!chainId || getHexChainId(chain?.name) !== questChain.chainId, chainId, getHexChainId(chain?.name), questChain?.chainId)
             if (!chainId || getHexChainId(chain?.name) !== questChain.chainId) {
               addToast({
                 description: `Wrong Chain, please switch to ${
@@ -213,7 +210,6 @@ export const UploadProof: React.FC<{
               });
               return;
             }
-            console.log('submitting')
             onSubmit();
           }}
           {...{ status: isSubmitting ? 'Submitting...' : null }}
