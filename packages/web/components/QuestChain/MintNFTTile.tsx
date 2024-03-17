@@ -99,8 +99,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
     }
   }, [onSuccess, questChain, address, chainId, provider, addToast]);
 
-  const details =
-    QuestChainPlaybooksDetails[name];
+  const details = QuestChainPlaybooksDetails[name];
   const image = details?.image;
 
   return (

@@ -1,7 +1,6 @@
 import { Image, Text, VStack } from '@metafam/ds';
 import PlayersNotFoundImage from 'assets/no-players-found.svg';
 
-
 export const GuildNotFound: React.FC = () => (
   <VStack
     w="100%"

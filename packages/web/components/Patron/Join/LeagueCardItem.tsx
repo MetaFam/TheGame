@@ -1,7 +1,6 @@
 import { Flex, Image, Text } from '@metafam/ds';
 import CheckMark from 'assets/patron/checkmark.webp';
 
-
 type ItemProps = {
   text: string;
 };

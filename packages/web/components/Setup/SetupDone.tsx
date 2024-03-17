@@ -1,4 +1,11 @@
-import { HStack, MetaButton, MetaHeading, Stack, Text , useToast } from '@metafam/ds';
+import {
+  HStack,
+  MetaButton,
+  MetaHeading,
+  Stack,
+  Text,
+  useToast,
+} from '@metafam/ds';
 import { ConnectToProgress, MetaGameLogo } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
@@ -30,9 +37,12 @@ export const SetupDone: React.FC = () => {
       >
         <PlayerTile player={user} />
         <Stack spacing={4} p={4} maxW="25rem" fontSize="md" h="100%">
-          <Text fontSize="lg">Congrats on your MyMeta, you'll love the customization options!</Text>
+          <Text fontSize="lg">
+            Congrats on your MyMeta, you'll love the customization options!
+          </Text>
           <Text fontSize="md">
-            But for now - plug yourself into MetaGame, we look forward to meeting you! 🤗
+            But for now - plug yourself into MetaGame, we look forward to
+            meeting you! 🤗
           </Text>
           <HStack>
             <MetaButton
@@ -54,15 +64,11 @@ export const SetupDone: React.FC = () => {
             >
               Share
             </MetaButton>
-       
+
             <MetaLink href="/academy/rite-of-passage">
-              <MetaButton>
-                Proceed 
-              </MetaButton>
+              <MetaButton>Proceed</MetaButton>
             </MetaLink>
-           
           </HStack>
-          
         </Stack>
       </Stack>
     </FlexContainer>

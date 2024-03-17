@@ -11,7 +11,7 @@ import { getQuest } from 'graphql/getQuest';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { getGuilds } from 'graphql/queries/guild';
-import { useUser , useWeb3 } from 'lib/hooks';
+import { useUser, useWeb3 } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
@@ -118,7 +118,13 @@ const EditQuestPage: React.FC<Props> = ({
       </Heading>
 
       <QuestForm
-        {...{ roleChoices, onSubmit, guilds, skillChoices, reward: quest.reward }}
+        {...{
+          roleChoices,
+          onSubmit,
+          guilds,
+          skillChoices,
+          reward: quest.reward,
+        }}
         success={!!updateQuestResult.data}
         fetching={updateQuestResult.fetching}
         submitLabel="Update Quest"

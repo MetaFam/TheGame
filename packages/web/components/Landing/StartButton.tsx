@@ -1,7 +1,6 @@
 import { Button, Text, useBreakpointValue } from '@metafam/ds';
 import { useRouter } from 'next/router';
 
-
 export const StartButton: React.FC<{ text: string }> = ({
   text = 'Start Playing',
 }) => {

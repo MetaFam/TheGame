@@ -98,7 +98,12 @@ const WhatSay: React.FC<LandingPageSectionProps> = ({
                 username="kyle-stargarden"
               />
             </Flex>
-            <Flex flex="1" direction="column" gap={8} display={{ base: 'none', lg: 'flex', xl: 'flex' }}>
+            <Flex
+              flex="1"
+              direction="column"
+              gap={8}
+              display={{ base: 'none', lg: 'flex', xl: 'flex' }}
+            >
               <WhatSayCard
                 player="Yalor"
                 testimony={
@@ -119,7 +124,12 @@ const WhatSay: React.FC<LandingPageSectionProps> = ({
                 username="geleeroyale"
               />
             </Flex>
-            <Flex flex="1" direction="column" gap={8} display={{ base: 'none', lg: 'flex', xl: 'flex' }}>
+            <Flex
+              flex="1"
+              direction="column"
+              gap={8}
+              display={{ base: 'none', lg: 'flex', xl: 'flex' }}
+            >
               <WhatSayCard
                 player="Griff Green"
                 testimony="MetaGame embodies the actual fucking point of crypto. Its vision is the world I want to live in."

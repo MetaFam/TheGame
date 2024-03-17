@@ -33,10 +33,7 @@ export const updatePlayerMutations = /* GraphQL */ `
     }
   }
 
-  mutation DeleteGuildMember(
-    $guildId: uuid!,
-    $playerId: uuid!
-  ) {
+  mutation DeleteGuildMember($guildId: uuid!, $playerId: uuid!) {
     delete_guild_player(
       where: { playerId: { _eq: $playerId }, guildId: { _eq: $guildId } }
     ) {
@@ -97,10 +94,7 @@ export const updatePlayerMutations = /* GraphQL */ `
 
   mutation InsertPlayerQuestchainPin($playerId: uuid!, $questchainId: String!) {
     insert_pinned_questchains_one(
-      object: {
-        player_id: $playerId,
-        questchain_id: $questchainId,
-      }
+      object: { player_id: $playerId, questchain_id: $questchainId }
     ) {
       player_id
       questchain_id
@@ -110,12 +104,8 @@ export const updatePlayerMutations = /* GraphQL */ `
   mutation DeletePlayerQuestchainPin($playerId: uuid!, $questchainId: String!) {
     delete_pinned_questchains(
       where: {
-        player_id: {
-          _eq: $playerId,
-        },
-        questchain_id: {
-          _eq: $questchainId,
-        }
+        player_id: { _eq: $playerId }
+        questchain_id: { _eq: $questchainId }
       }
     ) {
       affected_rows

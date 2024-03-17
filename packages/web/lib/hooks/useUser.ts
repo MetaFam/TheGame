@@ -41,14 +41,13 @@ export const useUser = ({
       }
       throw new Error('No address');
     }
-    getPeople().then(setPlayer)
+    getPeople().then(setPlayer);
   }, [address]);
 
   const [hydratedPlayer, setHydratedPlayer] = useState<Player | null>(null);
 
   const hasuraUser = useMemo(
-    () =>
-      player && isConnected ? (player as Player) : null,
+    () => (player && isConnected ? (player as Player) : null),
     [isConnected, player],
   );
 
@@ -73,13 +72,7 @@ export const useUser = ({
     if (!hasuraUser && redirectIfNotFound && redirectTo) {
       router.push(redirectTo);
     }
-  }, [
-    router,
-    hasuraUser,
-    isConnecting,
-    redirectIfNotFound,
-    redirectTo,
-  ]);
+  }, [router, hasuraUser, isConnecting, redirectIfNotFound, redirectTo]);
 
   if (composeDBError) console.error({ composeDBError });
 

@@ -9,7 +9,7 @@ import {
   useUpdatePlayerDashboardLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { lazy,useCallback, useMemo } from 'react';
+import React, { lazy, useCallback, useMemo } from 'react';
 import { DisplayOutput, LayoutData } from 'utils/boxTypes';
 
 const PageContainer = lazy(() => import('components/Container'));

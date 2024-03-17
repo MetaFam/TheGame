@@ -1,6 +1,5 @@
 import { AvatarProps, Flex, Image } from '@metafam/ds';
 
-
 type RoundImageProps = AvatarProps & {
   src?: string;
 };

@@ -271,7 +271,7 @@ export const Signup: React.FC = () => {
         zIndex={5}
       >
         <Tabs
-          mt={{ lg: "5em", base: '2em' }}
+          mt={{ lg: '5em', base: '2em' }}
           variant="unstyled"
           index={selectedIndex}
           defaultIndex={selectedIndex}
@@ -324,7 +324,10 @@ export const Signup: React.FC = () => {
                     >
                       Learn, earn, grow & build MetaGame.
                     </Text>
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="bold"
+                    >
                       Why become a player?
                     </Text>
                     <Text fontSize={{ base: 'xl', lg: '2xl' }}>
@@ -337,7 +340,10 @@ export const Signup: React.FC = () => {
                     </UnorderedList>
                   </VStack>
                   <VStack spacing="24px" align="start">
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="bold"
+                    >
                       Perks of Joining
                     </Text>
                     {isMobile ? (
@@ -365,7 +371,10 @@ export const Signup: React.FC = () => {
                         <TabPanels>
                           {playerPerks.map((perk, index) => (
                             <TabPanel key={index}>
-                              <PerksCard {...perk} id={index === 0 ? 'visitor' : 'member'} />
+                              <PerksCard
+                                {...perk}
+                                id={index === 0 ? 'visitor' : 'member'}
+                              />
                             </TabPanel>
                           ))}
                         </TabPanels>
@@ -384,13 +393,20 @@ export const Signup: React.FC = () => {
                     )}
                   </VStack>
                   <VStack spacing="34px" align="start">
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="bold"
+                    >
                       How to become a player?
                     </Text>
                     <Text fontSize={{ base: 'xl', lg: '2xl' }}>
                       Ready to rise & become one of the founders of MetaGame?
                     </Text>
-                    <MetaButton textTransform="uppercase" onClick={() => router.push("/onboarding")} alignSelf="center">
+                    <MetaButton
+                      textTransform="uppercase"
+                      onClick={() => router.push('/onboarding')}
+                      alignSelf="center"
+                    >
                       Go
                     </MetaButton>
                   </VStack>
@@ -426,7 +442,10 @@ export const Signup: React.FC = () => {
                     >
                       Get help, contributors & users to grow.
                     </Text>
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="bold"
+                    >
                       Why join as a guild?
                     </Text>
                     <Text fontSize={{ base: 'xl', lg: '2xl' }}>
@@ -439,15 +458,18 @@ export const Signup: React.FC = () => {
                     </UnorderedList>
                   </VStack>
                   <VStack spacing="16px" align="start">
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="bold"
+                    >
                       Before joining as a guild...
                     </Text>
                     <Text
                       fontSize={{ base: 'xl', lg: '2xl' }}
                       fontWeight="normal"
                     >
-                      Before trying to join as a guild, we recommend you join as a
-                      person.
+                      Before trying to join as a guild, we recommend you join as
+                      a person.
                     </Text>
                   </VStack>
                   <Stack
@@ -461,9 +483,9 @@ export const Signup: React.FC = () => {
                         {role.tab === activeTab && <RoleCard {...role} />}
                         {role.tab === activeTab &&
                           index ===
-                          roles.findIndex(
-                            (r) => r.tab === RoleTitle.Guild,
-                          ) && (
+                            roles.findIndex(
+                              (r) => r.tab === RoleTitle.Guild,
+                            ) && (
                             <Text
                               fontSize={{ base: 'xl', lg: '2xl' }}
                               fontWeight={{ base: 'bold', lg: 'normal' }}
@@ -503,21 +525,43 @@ export const Signup: React.FC = () => {
                       <TabPanels>
                         {guildPerks.map((perk, index) => (
                           <TabPanel key={index}>
-                            <PerksCard {...perk} id={['free', 'basic', 'pro'][index] as 'free' | 'basic' | 'pro'} />
+                            <PerksCard
+                              {...perk}
+                              id={
+                                ['free', 'basic', 'pro'][index] as
+                                  | 'free'
+                                  | 'basic'
+                                  | 'pro'
+                              }
+                            />
                           </TabPanel>
                         ))}
                       </TabPanels>
                     </Tabs>
                   ) : (
-                    <Flex align='end' w="full">
+                    <Flex align="end" w="full">
                       <List spacing="10px" p="0px 24px 0px 24px">
                         {guildPerksList.map(({ title }, perkIndex) => (
-                          <ListItem key={perkIndex}><Text fontSize={{ base: 'sm', lg: 'lg' }}>{title}</Text></ListItem>
+                          <ListItem key={perkIndex}>
+                            <Text fontSize={{ base: 'sm', lg: 'lg' }}>
+                              {title}
+                            </Text>
+                          </ListItem>
                         ))}
                       </List>
-                      <PerksChecklist perks={guildPerksList} id={PerkType.Free} />
-                      <PerksChecklist perks={guildPerksList} id={PerkType.Basic} altBackground />
-                      <PerksChecklist perks={guildPerksList} id={PerkType.Pro} />
+                      <PerksChecklist
+                        perks={guildPerksList}
+                        id={PerkType.Free}
+                      />
+                      <PerksChecklist
+                        perks={guildPerksList}
+                        id={PerkType.Basic}
+                        altBackground
+                      />
+                      <PerksChecklist
+                        perks={guildPerksList}
+                        id={PerkType.Pro}
+                      />
                     </Flex>
                   )}
                   <VStack align="center" spacing={4}>
@@ -534,7 +578,9 @@ export const Signup: React.FC = () => {
                     >
                       Ready to become one of the founding guilds?
                     </Text>
-                    <MetaButton maxW="xs" href="https://tally.so/r/3EdORl">APPLY AS GUILD</MetaButton>
+                    <MetaButton maxW="xs" href="https://tally.so/r/3EdORl">
+                      APPLY AS GUILD
+                    </MetaButton>
                   </VStack>
                 </VStack>
               </Box>
@@ -568,7 +614,10 @@ export const Signup: React.FC = () => {
                     >
                       Buy, hodl & support passively.
                     </Text>
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="bold"
+                    >
                       Why join as a patron?
                     </Text>
                     <Text fontSize={{ base: 'xl', lg: '2xl' }}>
@@ -581,7 +630,10 @@ export const Signup: React.FC = () => {
                     </UnorderedList>
                   </VStack>
                   <VStack spacing="24px" align="start">
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="bold"
+                    >
                       Perks of joining
                     </Text>
                     {isMobile ? (
@@ -628,10 +680,16 @@ export const Signup: React.FC = () => {
                     )}
                   </VStack>
                   <VStack spacing="16px" align="start">
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="bold">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="bold"
+                    >
                       How to become a patron?
                     </Text>
-                    <Text fontSize={{ base: 'xl', lg: '2xl' }} fontWeight="light">
+                    <Text
+                      fontSize={{ base: 'xl', lg: '2xl' }}
+                      fontWeight="light"
+                    >
                       Ready to become one of the founding patrons of MetaGame?
                     </Text>
                   </VStack>
@@ -646,9 +704,9 @@ export const Signup: React.FC = () => {
                         {role.tab === activeTab && <RoleCard {...role} />}
                         {role.tab === activeTab &&
                           index ===
-                          roles.findIndex(
-                            (r) => r.tab === RoleTitle.Patron,
-                          ) && (
+                            roles.findIndex(
+                              (r) => r.tab === RoleTitle.Patron,
+                            ) && (
                             <Text
                               fontSize={{ base: 'xl', lg: '2xl' }}
                               fontWeight={{ base: 'bold', lg: 'normal' }}

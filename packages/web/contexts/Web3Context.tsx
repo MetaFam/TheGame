@@ -19,7 +19,7 @@ import React, {
   useState,
 } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { useAccount } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 
 export type Web3ContextType = {
   provider: Maybe<Web3Provider>;
@@ -30,7 +30,7 @@ export type Web3ContextType = {
   connecting: boolean;
   connected: boolean;
   w3storage: Maybe<W3SClient>;
-  updateWeb3State: (prov: Web3Provider) => Promise<void>; 
+  updateWeb3State: (prov: Web3Provider) => Promise<void>;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
@@ -64,7 +64,7 @@ export async function getExistingAuth(
 
 export async function authenticateWallet(
   ethersProvider: Web3Provider,
-  addr: string
+  addr: string,
 ): Promise<string> {
   const token = await did.createToken(ethersProvider, addr);
   setTokenInStore(token);
@@ -96,22 +96,20 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       w3storage: null,
     });
   const [connecting, setConnecting] = useState(false);
-  
+
   const wagmiProvider = useEthersSigner();
-  const { chain, address: userAddress, } = useAccount();
+  const { chain, address: userAddress } = useAccount();
+  const { disconnect: disconnectWagmi } = useDisconnect();
+
   const w3storage = useW3upClient();
 
   const connected = useMemo(
-    () =>
-      !!provider &&
-      !!address &&
-      !!chainId &&
-      !!authToken &&
-      !connecting,
+    () => !!provider && !!address && !!chainId && !!authToken && !connecting,
     [provider, address, authToken, chainId, connecting],
   );
 
   const disconnect = useCallback(() => {
+    disconnectWagmi();
     clearWalletConnect();
     clearToken();
     clearDIDSessionCache();
@@ -124,14 +122,14 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     });
     setConnecting(false);
     resetUrqlClient?.();
-  }, [resetUrqlClient]);
+  }, [resetUrqlClient, disconnectWagmi]);
 
   const updateWeb3State = useCallback(
     async (web3Provider: Web3Provider) => {
-      const network = chain?.id
-      if (!web3Provider || !userAddress || !network) return;    
+      const network = chain?.id;
+      if (!web3Provider || !userAddress || !network) return;
       let token = await getExistingAuth(web3Provider, userAddress);
- 
+
       if (!token) {
         token = await authenticateWallet(web3Provider, userAddress);
       }
@@ -145,17 +143,15 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         authToken: token,
         w3storage,
       });
-
     },
     [w3storage, userAddress, chain?.id],
   );
 
   useEffect(() => {
     const update = async () => {
-
       if (!wagmiProvider) return;
       updateWeb3State(wagmiProvider);
-    }
+    };
     update();
   }, [chain, userAddress, wagmiProvider, updateWeb3State]);
 
@@ -176,7 +172,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         updateWeb3State,
       }}
     >
-        {children}
+      {children}
     </Web3Context.Provider>
   );
 };

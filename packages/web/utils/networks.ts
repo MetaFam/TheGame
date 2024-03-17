@@ -77,7 +77,7 @@ export function getHexChainId(chain?: string): string {
       return POLYGON;
     case 'ethereum':
       return MAINNET;
-    case 'op mainnet': 
+    case 'op mainnet':
       return OPTIMISM;
     default:
       return MAINNET;

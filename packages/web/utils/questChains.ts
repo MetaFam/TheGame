@@ -39,7 +39,10 @@ export const getQuestChainContract = (
   address: string,
   version: string,
   signer: Signer,
-): contracts.V1.QuestChain | contracts.V0.QuestChain | contracts.V2.QuestChain => {
+):
+  | contracts.V1.QuestChain
+  | contracts.V0.QuestChain
+  | contracts.V2.QuestChain => {
   if (version === '0') {
     return contracts.V0.QuestChain__factory.connect(
       address,
@@ -97,7 +100,8 @@ export const QuestChainsPlaybooks = {
   BECOME_THE_BEST_DAO_CONTRIBUTOR: 'become-the-best-dao-contributor',
   STARTING_DAOS_101: 'starting-daos-101',
   HOW_TO_BUILD_A_NETWORK_FOR_IMPACT: 'how-to-build-a-network-for-impact',
-  USING_COORDINAPE_TO_REWARD_CONTRIBUTORS: 'using-coordinape-to-reward-contributors',
+  USING_COORDINAPE_TO_REWARD_CONTRIBUTORS:
+    'using-coordinape-to-reward-contributors',
   EFFECTIVE_MEETINGS_WITH_HOLACRACY: 'effective-meetings-with-holacracy',
   ENTERING_DAOS_AS_A_WRITER: 'entering-daos-as-a-writer',
   BUILDING_SUCCESSFUL_TEAMS: 'using-successful-teams',
@@ -155,8 +159,7 @@ type QuestChainInfo = {
   type: PathPlaybookType;
 };
 
-export type QuestChainDetailsType =
-  | Values<typeof QuestChainsPlaybooks>;
+export type QuestChainDetailsType = Values<typeof QuestChainsPlaybooks>;
 
 export type QuestChainDetails = QuestChainInfo;
 
@@ -224,7 +227,7 @@ export const QuestChainSubmitAPlaybookDetails: Record<
     address: '0xd9ff2e738b32bc78125e1a7c73ba721258ff555d',
     title: 'Submit a Playbook',
     description:
-    'This is a questline for those interested in filling up The Academy with more useful content.',
+      'This is a questline for those interested in filling up The Academy with more useful content.',
     image: submitPlaybook.src,
     difficulty: Difficulty.EASY,
     time: Time.SHORT,
@@ -232,12 +235,12 @@ export const QuestChainSubmitAPlaybookDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-}
+};
 export const QuestChainPlaybooksDetails: Record<
   QuestChainType,
   QuestChainInfo
 > = {
-// https://app.questchains.xyz/optimism/rite-of-passage
+  // https://app.questchains.xyz/optimism/rite-of-passage
   [QuestChainsPlaybooks.RITE_OF_PASSAGE]: {
     address: '0xc5893dcab9ad32fa47923febde89883c62bffbd6',
     chainId: '0xa',
@@ -249,7 +252,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  // https://app.questchains.xyz/optimism/players-path 
+  // https://app.questchains.xyz/optimism/players-path
   [QuestChainsPlaybooks.PLAYERS_PATH]: {
     address: '0x11041f6bb7a987e3b363a712bebc2e9bd72dcb59',
     chainId: '0xa',
@@ -261,20 +264,19 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  // https://app.questchains.xyz/optimism/patrons-path 
-  [QuestChainsPlaybooks.PATRONS_PATH]:
-    {
-      address: '0xf005bb889af89e174cc155e1126ee5420812ae38',
-      chainId: '0xa',
-      title: "Patron's Path",
-      description:
-        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-      image: patron.src,
-      category: QuestChainsCategories.FOR_METAGAME,
-      seedsEarned: 42069,
-      type: PathPlaybookTypes.PLAYBOOK,
-    },
-  // https://app.questchains.xyz/optimism/guilders-path 
+  // https://app.questchains.xyz/optimism/patrons-path
+  [QuestChainsPlaybooks.PATRONS_PATH]: {
+    address: '0xf005bb889af89e174cc155e1126ee5420812ae38',
+    chainId: '0xa',
+    title: "Patron's Path",
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: patron.src,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  // https://app.questchains.xyz/optimism/guilders-path
   [QuestChainsPlaybooks.GUILDERS_PATH]: {
     address: '0xd03a9f1e2b172b94622e49a3d51d79c46147299d',
     chainId: '0xa',
@@ -286,7 +288,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  // https://app.questchains.xyz/optimism/builders-path 
+  // https://app.questchains.xyz/optimism/builders-path
   [QuestChainsPlaybooks.BUILDERS_PATH]: {
     address: '0x00c489697f5cd76109768e7d16c2e8b625c26db0',
     chainId: '0xa',
@@ -298,21 +300,19 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  // https://app.questchains.xyz/optimism/bridgebuilders-path 
-  [QuestChainsPlaybooks.BRIDGEBUILDERS_PATH]:
-    {
-      address: '0x4c4f6d4975fc6e021cdede5b9df3e0bbaa30a9ef',
-      chainId: '0xa',
-      title:
-        "Bridgebuilder's Path",
-      description:
-        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-      image: bridgebuilder.src,
-      category: QuestChainsCategories.FOR_METAGAME,
-      seedsEarned: 42069,
-      type: PathPlaybookTypes.PLAYBOOK,
-    },
-//  https://app.questchains.xyz/optimism/designers-path 
+  // https://app.questchains.xyz/optimism/bridgebuilders-path
+  [QuestChainsPlaybooks.BRIDGEBUILDERS_PATH]: {
+    address: '0x4c4f6d4975fc6e021cdede5b9df3e0bbaa30a9ef',
+    chainId: '0xa',
+    title: "Bridgebuilder's Path",
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: bridgebuilder.src,
+    category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/designers-path
   [QuestChainsPlaybooks.DESIGNERS_PATH]: {
     address: '0x91d7e81859e2ac05f9491199c7accedb3a203fcd',
     chainId: '0xa',
@@ -324,7 +324,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  // https://app.questchains.xyz/optimism/wtf-is-ethereum 
+  // https://app.questchains.xyz/optimism/wtf-is-ethereum
   [QuestChainsPlaybooks.WTF_IS_ETHEREUM]: {
     address: '0x5aad789c5181fa3068518d59e60817ca3c3e7754',
     chainId: '0xa',
@@ -336,7 +336,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-//  https://app.questchains.xyz/optimism/wtf-are-daos 
+  //  https://app.questchains.xyz/optimism/wtf-are-daos
   [QuestChainsPlaybooks.WTF_ARE_DAOS]: {
     address: '0xb3e25ceabd9df7c3745f1b1f086cf0d4ff084eae',
     chainId: '0xa',
@@ -348,7 +348,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-//  https://app.questchains.xyz/optimism/wtf-is-defi 
+  //  https://app.questchains.xyz/optimism/wtf-is-defi
   [QuestChainsPlaybooks.WTF_IS_DEFI]: {
     address: '0xd09b96bd31c1d98b752d09f425ed14507c8498c7',
     chainId: '0xa',
@@ -360,7 +360,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/wtf-are-nfts 
+  //  https://app.questchains.xyz/optimism/wtf-are-nfts
   [QuestChainsPlaybooks.WTF_ARE_NFTS]: {
     address: '0x74c866082a74c029938da9031dd55c3786ae1caa',
     chainId: '0xa',
@@ -372,7 +372,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/wtf-are-dapps 
+  //  https://app.questchains.xyz/optimism/wtf-are-dapps
   [QuestChainsPlaybooks.WTF_ARE_DAPPS]: {
     address: '0xb98742ca54f919e244255dfccec5ef753b3db560',
     chainId: '0xa',
@@ -384,7 +384,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/become-a-web3-developer 
+  //  https://app.questchains.xyz/optimism/become-a-web3-developer
   [QuestChainsPlaybooks.BECOME_A_WEB3_DEVELOPER]: {
     address: '0xba78a1e0fbdb23e6af3f1191066e1a14a717cafd',
     chainId: '0xa',
@@ -396,7 +396,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/wtf-is-game-b 
+  //  https://app.questchains.xyz/optimism/wtf-is-game-b
   [QuestChainsPlaybooks.WTF_IS_GAMEB]: {
     address: '0x848b32e47185ea6fa2296c257fc58b9afd879eeb',
     chainId: '0xa',
@@ -408,7 +408,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  // https://app.questchains.xyz/optimism/wtf-is-metacrisis 
+  // https://app.questchains.xyz/optimism/wtf-is-metacrisis
   [QuestChainsPlaybooks.WTF_IS_METACRISIS]: {
     address: '0x4799184e21e179a245196ee8d59fda63757364d9',
     chainId: '0xa',
@@ -420,7 +420,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //     https://app.questchains.xyz/optimism/meditations-on-moloch 
+  //     https://app.questchains.xyz/optimism/meditations-on-moloch
   [QuestChainsPlaybooks.MEDITATIONS_ON_MOLOCH]: {
     address: '0x729c7f915b016e48aef4495b230f275b9cb95677',
     chainId: '0xa',
@@ -432,21 +432,19 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/choose-good-quests 
-  [QuestChainsPlaybooks.CHOOSE_GOOD_QUESTS]:
-    {
-      address: '0xa392184dd8079e19e02b020cf08850096ade7436',
-      chainId: '0xa',
-      title:
-        'Choose Good Quests',
-      description:
-        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-      image: goodquests.src,
-      category: QuestChainsCategories.META,
-      seedsEarned: 42069,
-      type: PathPlaybookTypes.PLAYBOOK,
-    },
-  //  https://app.questchains.xyz/optimism/meme-driven-organizations 
+  //  https://app.questchains.xyz/optimism/choose-good-quests
+  [QuestChainsPlaybooks.CHOOSE_GOOD_QUESTS]: {
+    address: '0xa392184dd8079e19e02b020cf08850096ade7436',
+    chainId: '0xa',
+    title: 'Choose Good Quests',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: goodquests.src,
+    category: QuestChainsCategories.META,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/meme-driven-organizations
   [QuestChainsPlaybooks.MEME_DRIVEN_ORGANIZATIONS]: {
     address: '0xc02573e396d4a203f7bb713ec7f2f33ec38489ed',
     chainId: '0xa',
@@ -458,7 +456,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/become-the-best-contributor-in-any-dao 
+  //  https://app.questchains.xyz/optimism/become-the-best-contributor-in-any-dao
   [QuestChainsPlaybooks.BECOME_THE_BEST_DAO_CONTRIBUTOR]: {
     address: '0xfe50114d4bb41faa1639f8020c2d9fa8dd9455bb',
     chainId: '0xa',
@@ -470,21 +468,19 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/starting-daos-101 
-  [QuestChainsPlaybooks.STARTING_DAOS_101]:
-    {
-      address: '0xdeac1ddb999a509b214c4181e160eb8afb915081',
-      chainId: '0xa',
-      title:
-        'Starting DAOs 101',
-      description:
-        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-      image: daosummoner.src,
-      category: QuestChainsCategories.HOW_TO_DAO,
-      seedsEarned: 42069,
-      type: PathPlaybookTypes.PLAYBOOK,
-    },
-  //   https://app.questchains.xyz/optimism/how-to-build-a-network-for-impact 
+  //  https://app.questchains.xyz/optimism/starting-daos-101
+  [QuestChainsPlaybooks.STARTING_DAOS_101]: {
+    address: '0xdeac1ddb999a509b214c4181e160eb8afb915081',
+    chainId: '0xa',
+    title: 'Starting DAOs 101',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: daosummoner.src,
+    category: QuestChainsCategories.HOW_TO_DAO,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //   https://app.questchains.xyz/optimism/how-to-build-a-network-for-impact
   [QuestChainsPlaybooks.HOW_TO_BUILD_A_NETWORK_FOR_IMPACT]: {
     address: '0x506baa6e4eecdc9372f4ac4fb05f687a99c17398',
     chainId: '0xa',
@@ -496,7 +492,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  // https://app.questchains.xyz/optimism/using-coordinape-to-reward-contributors 
+  // https://app.questchains.xyz/optimism/using-coordinape-to-reward-contributors
   [QuestChainsPlaybooks.USING_COORDINAPE_TO_REWARD_CONTRIBUTORS]: {
     address: '0x771584d816543feb8aafd6b1654d0c854c1317fc',
     chainId: '0xa',
@@ -508,7 +504,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //   https://app.questchains.xyz/optimism/effective-meetings-with-holacracy 
+  //   https://app.questchains.xyz/optimism/effective-meetings-with-holacracy
   [QuestChainsPlaybooks.EFFECTIVE_MEETINGS_WITH_HOLACRACY]: {
     address: '0xaaa8f39bce8abe1c2993b4e9f0f9a376583ef48f',
     chainId: '0xa',
@@ -520,7 +516,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //     https://app.questchains.xyz/optimism/entering-daos-as-a-writer 
+  //     https://app.questchains.xyz/optimism/entering-daos-as-a-writer
   [QuestChainsPlaybooks.ENTERING_DAOS_AS_A_WRITER]: {
     address: '0xeacd78de315757ba9fc7ddcc1d016f67249ad86b',
     chainId: '0xa',
@@ -532,7 +528,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //   https://app.questchains.xyz/optimism/building-successful-teams 
+  //   https://app.questchains.xyz/optimism/building-successful-teams
   [QuestChainsPlaybooks.BUILDING_SUCCESSFUL_TEAMS]: {
     address: '0xe186c31013f0c1d09734fc5c084305e4913c6fae',
     chainId: '0xa',
@@ -544,7 +540,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/embrace-the-ticking-clock 
+  //  https://app.questchains.xyz/optimism/embrace-the-ticking-clock
   [QuestChainsPlaybooks.EMBRACE_THE_TICKING_CLOCK]: {
     address: '0xce7020ea7b3cf61ab1c1a3e9fd804fa5487ba87c',
     chainId: '0xa',
@@ -556,7 +552,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //   : 'know-your-biases',     https://app.questchains.xyz/optimism/know-your-biases 
+  //   : 'know-your-biases',     https://app.questchains.xyz/optimism/know-your-biases
   [QuestChainsPlaybooks.KNOW_YOUR_BIASES]: {
     address: '0x40996f71f0250e9a59e404a35d2800318f96bcc9',
     chainId: '0xa',
@@ -568,7 +564,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //   https://app.questchains.xyz/optimism/understanding-imposter-syndrome 
+  //   https://app.questchains.xyz/optimism/understanding-imposter-syndrome
   [QuestChainsPlaybooks.UNDERSTANDING_IMPOSTER_SYNDROME]: {
     address: '0xe769e5a126715780e90aba9ea8df89eb1a828d18',
     chainId: '0xa',
@@ -580,7 +576,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //   https://app.questchains.xyz/optimism/journal-like-dickie-bush 
+  //   https://app.questchains.xyz/optimism/journal-like-dickie-bush
   [QuestChainsPlaybooks.JOURNALING_LIKE_DICKIE_BUSH]: {
     address: '0xe1f5c080e9060faec0476bfa910160ff1c532ac0',
     chainId: '0xa',
@@ -592,7 +588,7 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //   https://app.questchains.xyz/optimism/how-to-play-twitter 
+  //   https://app.questchains.xyz/optimism/how-to-play-twitter
   [QuestChainsPlaybooks.HOW_TO_PLAY_TWITTER]: {
     address: '0xb324e5a5b72c3cd25c2515e44d3e6e06e1b3ed32',
     chainId: '0xa',
@@ -604,21 +600,19 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  //  https://app.questchains.xyz/optimism/master-your-browser-tabs 
-  [QuestChainsPlaybooks.MASTER_YOUR_BROWSER_TABS]:
-    {
-      address: '0x6725a0d903d74589f66c97b2836744bdab25c06a',
-      chainId: '0xa',
-      title:
-        'Master Your Browser Tabs',
-      description:
-        'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
-      image: mastertabs.src,
-      category: QuestChainsCategories.RANDOM,
-      seedsEarned: 42069,
-      type: PathPlaybookTypes.PLAYBOOK,
-    },
-  //  https://app.questchains.xyz/optimism/submit-a-playbook 
+  //  https://app.questchains.xyz/optimism/master-your-browser-tabs
+  [QuestChainsPlaybooks.MASTER_YOUR_BROWSER_TABS]: {
+    address: '0x6725a0d903d74589f66c97b2836744bdab25c06a',
+    chainId: '0xa',
+    title: 'Master Your Browser Tabs',
+    description:
+      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+    image: mastertabs.src,
+    category: QuestChainsCategories.RANDOM,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //  https://app.questchains.xyz/optimism/submit-a-playbook
   [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
     chainId: '0xa',
     address: '0x90e19287d453a7a7125f399e23dadf95b21f1efa',

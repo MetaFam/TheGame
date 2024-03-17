@@ -1,6 +1,5 @@
 import { AvatarProps, Flex, Image } from '@metafam/ds';
 
-
 type SquareImageProps = AvatarProps & {
   src?: string;
 };

@@ -18,22 +18,21 @@ export const ConnectedPage: React.FC<{
   const [player, setPlayer] = useState<Maybe<Player>>(null);
   const { user, fetching, error } = useUser();
   const mounted = useMounted();
- 
+
   useEffect(() => {
     if (!address) return;
     function getPeople() {
       if (address) {
-       return getPlayer(address);
+        return getPlayer(address);
       }
       throw new Error('No address');
     }
-    getPeople().then(setPlayer)
+    getPeople().then(setPlayer);
   }, [address]);
   if (!mounted || (!isConnecting && !isConnected)) {
     return (
       <Text textAlign="center" mt="25vh">
-        Please <ConnectKitButton /> to access{' '}
-        {pageLabel}.
+        Please <ConnectKitButton /> to access {pageLabel}.
       </Text>
     );
   }

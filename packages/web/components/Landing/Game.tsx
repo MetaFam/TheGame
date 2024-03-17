@@ -13,10 +13,7 @@ import React, { useRef } from 'react';
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
 
-const Game: React.FC<LandingPageSectionProps> = ({
-  section,
-  nextSection,
-}) => {
+const Game: React.FC<LandingPageSectionProps> = ({ section, nextSection }) => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const root = typeof window !== 'undefined' ? document.body : null;

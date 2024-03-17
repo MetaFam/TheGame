@@ -17,7 +17,6 @@ import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 
-
 type PlayerStatsProps = {
   player: Player;
 };
@@ -56,7 +55,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           border={0}
           px={2}
           position="absolute"
-          right={"-4rem"}
+          right={'-4rem'}
         >
           <Icon
             as={MenuArrow}

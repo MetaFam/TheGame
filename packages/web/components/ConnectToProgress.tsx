@@ -31,7 +31,6 @@ export const ConnectToProgress: React.FC<{
   showSwitchButton = true,
   header = 'Welcome to MetaGame!',
 }) => {
-
   const { isConnected, chainId } = useAccount();
   const [open, { toggle }] = useBoolean();
   const { fetching } = useUser();
@@ -61,8 +60,13 @@ export const ConnectToProgress: React.FC<{
         {showNote && (
           <Stack spacing={4} align="flex-start" w="100%" px={2}>
             <Text>
-                First things first, make yourself a profile. You’ll need it to present yourself & your work to the rest of the world.
-                Unlike Web2 profiles, MyMeta profiles are controlled & owned by you alone, residing on the <MetaLink href="https://ceramic.network/" target="_blank">Ceramic network.</MetaLink>
+              First things first, make yourself a profile. You’ll need it to
+              present yourself & your work to the rest of the world. Unlike Web2
+              profiles, MyMeta profiles are controlled & owned by you alone,
+              residing on the{' '}
+              <MetaLink href="https://ceramic.network/" target="_blank">
+                Ceramic network.
+              </MetaLink>
             </Text>
           </Stack>
         )}

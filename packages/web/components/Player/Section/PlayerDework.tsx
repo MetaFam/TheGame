@@ -265,9 +265,7 @@ const DeworkProfile: React.FC<{
                     if (i < 3) {
                       return (
                         <React.Fragment key={`${org.name}-${i}`}>
-                          <Text
-                            fontSize={{ base: 'sm', xl: 'md' }}
-                          >
+                          <Text fontSize={{ base: 'sm', xl: 'md' }}>
                             {org.name}
                           </Text>
                           {i === 2 && <Box as="i">{`+${total - 3} other`}</Box>}

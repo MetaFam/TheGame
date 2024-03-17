@@ -535,7 +535,6 @@ jobs:
             --set-env-vars NEXT_PUBLIC_ALCHEMY_POLYGON="${{secrets.ALCHEMY_POLYGON}}" \
             --set-env-vars NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID="${{secrets.WALLET_CONNECT_V2_KEY}}"
 
-
   seed-db:
     name: Seed Database
     runs-on: ubuntu-latest

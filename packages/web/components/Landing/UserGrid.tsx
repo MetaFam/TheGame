@@ -54,7 +54,6 @@ export const UserGrid: React.FC<{
               marginBottom: '10px',
               textAlign: 'center',
             }}
-        
           >
             <PlayerProfilePictureRound {...{ player }} size="xxs" />
             <Text sx={{ fontSize: 'xs' }} noOfLines={1}>
@@ -148,7 +147,7 @@ export const UserGrid: React.FC<{
             transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
             px="8px"
             borderRadius="50%"
-            fontSize={{ base: '0.4rem', lg: '1rem'}}
+            fontSize={{ base: '0.4rem', lg: '1rem' }}
             fontWeight="semibold"
             borderColor="whiteAlpha.400"
             color="#E839B7"

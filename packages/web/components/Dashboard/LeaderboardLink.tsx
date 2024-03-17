@@ -5,7 +5,6 @@ import { Player } from 'graphql/autogen/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 
-
 type Props = {
   position: number;
   player: Player;

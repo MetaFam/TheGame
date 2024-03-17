@@ -25,7 +25,7 @@ import { Trade } from 'components/Seeds/Trade';
 import { Water } from 'components/Seeds/Water';
 import { HeadComponent } from 'components/Seo';
 import { useRouter } from 'next/router';
-import React, { lazy,useEffect, useRef, useState } from 'react';
+import React, { lazy, useEffect, useRef, useState } from 'react';
 import { HiOutlineMinusCircle, HiOutlinePlusCircle } from 'react-icons/hi';
 
 const PageContainer = lazy(() => import('components/Container'));

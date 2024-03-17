@@ -53,14 +53,8 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
 }) => {
   const [txLoading, setTxLoading] = useState(false);
   const gameDataState = gameJson as GameProperties;
-  const {
-    address,
-    provider,
-    connecting,
-    connected,
-    chainId,
-    disconnect,
-  } = useWeb3();
+  const { address, provider, connecting, connected, chainId, disconnect } =
+    useWeb3();
   const [account, setAccount] = useState(address ?? '');
   const toast = useToast();
 

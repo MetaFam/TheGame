@@ -1,9 +1,8 @@
-
-import { isAddress } from "@ethersproject/address";
-import { Alchemy, Network } from "alchemy-sdk";
+import { isAddress } from '@ethersproject/address';
+import { Alchemy, Network } from 'alchemy-sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { AlchemyMultichainClient } from "./alchemy-multichain-client";
+import { AlchemyMultichainClient } from './alchemy-multichain-client';
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_ALCHEMY_MAINNET,
@@ -14,10 +13,10 @@ const overrides = {
   [Network.MATIC_MAINNET]: {
     apiKey: process.env.NEXT_PUBLIC_ALCHEMY_MATIC,
   },
-  [Network.OPT_MAINNET]: {  
+  [Network.OPT_MAINNET]: {
     apiKey: process.env.NEXT_PUBLIC_ALCHEMY_OPTIMISM,
   },
-}
+};
 
 const alchemy = new AlchemyMultichainClient(config, overrides);
 
@@ -28,16 +27,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET' && isAddress(owner as string)) {
     try {
       const mainnetNfts = await alchemy
-      .forNetwork(Network.ETH_MAINNET)
-      .nft.getNftsForOwner(owner as string, { pageSize: 5 })
-    
+        .forNetwork(Network.ETH_MAINNET)
+        .nft.getNftsForOwner(owner as string, { pageSize: 5 });
+
       const maticNfts = await alchemy
-      .forNetwork(Network.MATIC_MAINNET)
-      .nft.getNftsForOwner(owner as string, { pageSize: 5 });
-  
+        .forNetwork(Network.MATIC_MAINNET)
+        .nft.getNftsForOwner(owner as string, { pageSize: 5 });
+
       const optimismNfts = await alchemy
-      .forNetwork(Network.OPT_MAINNET)
-      .nft.getNftsForOwner(owner as string, { pageSize: 5 });
+        .forNetwork(Network.OPT_MAINNET)
+        .nft.getNftsForOwner(owner as string, { pageSize: 5 });
 
       return res.json({ mainnetNfts, maticNfts, optimismNfts });
     } catch (err) {

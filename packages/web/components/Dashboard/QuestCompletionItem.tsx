@@ -3,7 +3,6 @@ import { Player } from 'graphql/autogen/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import moment from 'moment';
 
-
 type Props = {
   player: Player;
   submittedAt: string;

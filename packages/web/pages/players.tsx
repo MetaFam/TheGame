@@ -14,7 +14,7 @@ import {
 import { usePlayerFilter } from 'lib/hooks/player/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
-import React, { lazy,useEffect, useMemo, useRef } from 'react';
+import React, { lazy, useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

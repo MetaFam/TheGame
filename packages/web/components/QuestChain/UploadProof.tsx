@@ -59,7 +59,6 @@ export const UploadProof: React.FC<{
 
   const dropImageProps = useDropImage();
 
-
   const { imageFile } = dropImageProps;
 
   const onModalClose = useCallback(() => {
@@ -68,12 +67,7 @@ export const UploadProof: React.FC<{
   }, [onClose, setIsSubmittingProof]);
 
   const onSubmit = useCallback(async () => {
-    if (
-      !chainId ||
-      !provider ||
-      !proofDescRef.current
-    )
-      return;
+    if (!chainId || !provider || !proofDescRef.current) return;
 
     setSubmitting(true);
     addToast({
@@ -116,8 +110,14 @@ export const UploadProof: React.FC<{
       );
 
       const tx = await (questChain.version === '0'
-        ? (contract as contracts.V0.QuestChain).submitProof(quest.questId, details)
-        : (contract as contracts.V1.QuestChain).submitProofs([quest.questId], [details]));
+        ? (contract as contracts.V0.QuestChain).submitProof(
+            quest.questId,
+            details,
+          )
+        : (contract as contracts.V1.QuestChain).submitProofs(
+            [quest.questId],
+            [details],
+          ));
       addToast({
         description: 'Transaction submitted. Waiting for 1 block confirmation',
         duration: null,
@@ -187,7 +187,6 @@ export const UploadProof: React.FC<{
         }`}
         isDisabled={`${chainId}` === questChain.chainId}
       >
-        
         <StatusedSubmitButton
           px={[8, 12]}
           label="Submit Proof"

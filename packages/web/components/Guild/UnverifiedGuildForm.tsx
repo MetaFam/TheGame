@@ -173,8 +173,7 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
 
       if (logoFile?.[0]) {
         try {
-
-          const ipfsHash = await w3storage?.uploadFile(logoFile[0])
+          const ipfsHash = await w3storage?.uploadFile(logoFile[0]);
           newLogoURL = `ipfs://${ipfsHash}`;
         } catch (error) {
           toast({
@@ -254,7 +253,15 @@ export const UnverifiedGuildForm: React.FC<Props> = ({
         setIsSubmitting(false);
       }
     },
-    [toast, onSubmit, hydratePlayer, addGuildMember, player?.id, addLink, w3storage],
+    [
+      toast,
+      onSubmit,
+      hydratePlayer,
+      addGuildMember,
+      player?.id,
+      addLink,
+      w3storage,
+    ],
   );
 
   return (

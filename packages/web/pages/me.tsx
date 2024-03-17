@@ -2,7 +2,6 @@ import { ConnectedPage } from 'components/ConnectedPage';
 import { InferGetStaticPropsType } from 'next';
 import { PlayerPage } from 'pages/player/[username]';
 
-
 export const getStaticProps = async () => ({
   props: {},
   revalidate: 1,
