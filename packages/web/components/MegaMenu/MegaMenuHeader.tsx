@@ -3,6 +3,7 @@ import {
   Box,
   BoxedNextImage as Image,
   BoxProps,
+  Button,
   CloseIcon,
   ExternalLinkIcon,
   Flex,
@@ -12,7 +13,6 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
-  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -612,8 +612,8 @@ export const MegaMenuHeader: React.FC = () => {
               w="15%"
             >
               <ConnectKitButton.Custom>
-                {({ isConnected, isConnecting, show }) => {
-                  return isConnected && !isConnecting && !!user ? (
+                {({ isConnected, isConnecting, show }) =>
+                  isConnected && !isConnecting && !!user ? (
                     <DesktopPlayerStats player={user} />
                   ) : (
                     <Button
@@ -628,8 +628,8 @@ export const MegaMenuHeader: React.FC = () => {
                     >
                       Connect Wallet
                     </Button>
-                  );
-                }}
+                  )
+                }
               </ConnectKitButton.Custom>
             </Box>
           </Flex>
