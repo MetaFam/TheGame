@@ -36,7 +36,7 @@ export const ConnectToProgress: React.FC<{
   const { fetching } = useUser();
 
   if (isConnected && !fetching) {
-    if (chainId !== 10 && showSwitchButton) {
+    if (chainId !== 1 && showSwitchButton) {
       return (
         <Stack w="100%" align="center">
           <Stack color="white" spacing={8} w="100%" maxW="30rem">

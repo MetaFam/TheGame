@@ -83,3 +83,7 @@ export function getHexChainId(chain?: string): string {
       return MAINNET;
   }
 }
+
+export const getNumberId = (chainId: string): number => {
+  return parseInt(chainId, 16);
+}

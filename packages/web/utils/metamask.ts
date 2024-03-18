@@ -7,7 +7,7 @@ export const switchChain = async (chainId: string): Promise<boolean> => {
     console.error(`No network configuration found for chainId: ${chainId}.`);
     return false;
   }
-
+  
   const { name, symbol, explorer, rpc } = NETWORK_INFO[chainId];
 
   try {

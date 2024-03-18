@@ -12,6 +12,7 @@ import ABI from 'contracts/BulkDisbursableNFTs.abi';
 import { Contract } from 'ethers';
 import { ContractError } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
+import { useEthersSigner } from 'lib/hooks/userEthersSigner';
 import { get, remove, set } from 'lib/store';
 import type { PropsWithChildren } from 'react';
 import React, {
@@ -53,8 +54,9 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
 }) => {
   const [txLoading, setTxLoading] = useState(false);
   const gameDataState = gameJson as GameProperties;
-  const { address, provider, connecting, connected, chainId, disconnect } =
+  const { address, connecting, connected, chainId, disconnect } =
     useWeb3();
+  const provider = useEthersSigner();
   const [account, setAccount] = useState(address ?? '');
   const toast = useToast();
 
@@ -149,6 +151,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
     return false;
   }, []);
 
+  // @TODO
   const mintChiev = useCallback(
     async (tokenId: bigint) => {
       try {

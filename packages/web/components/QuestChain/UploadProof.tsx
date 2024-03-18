@@ -15,7 +15,7 @@ import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
 import { useInputText } from 'lib/hooks/useInputText';
 import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { getHexChainId, NETWORK_INFO } from 'utils/networks';
+import { getHexChainId, getNumberId, NETWORK_INFO } from 'utils/networks';
 import {
   getQuestChainContract,
   Metadata,
@@ -24,6 +24,8 @@ import {
 import { useAccount } from 'wagmi';
 
 import { MarkdownEditor } from '../MarkdownEditor';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
+import { useEthersSigner } from 'lib/hooks/userEthersSigner';
 
 export const UploadProof: React.FC<{
   refresh: () => void;
@@ -31,7 +33,7 @@ export const UploadProof: React.FC<{
   name: string;
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
-  const { provider } = useWeb3();
+  const provider = useEthersSigner()
   const { onClose } = useDisclosure();
   const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
@@ -168,6 +170,7 @@ export const UploadProof: React.FC<{
     onModalClose,
     refresh,
   ]);
+
   return (
     <Stack
       w="full"
@@ -180,14 +183,11 @@ export const UploadProof: React.FC<{
         value={proofDescRef.current}
         onChange={setProofDescription}
       />
-      <Tooltip
-        shouldWrapChildren
-        label={`Please connect or switch to ${
-          NETWORK_INFO[questChain.chainId].label
-        }`}
-        isDisabled={`${chainId}` === questChain.chainId}
-      >
-        <StatusedSubmitButton
+      {
+        getNumberId(questChain.chainId) !== chainId ? (
+          <SwitchNetworkButton chainId={questChain.chainId} />
+        ) : (
+          <StatusedSubmitButton
           px={[8, 12]}
           label="Submit Proof"
           onClick={() => {
@@ -213,7 +213,8 @@ export const UploadProof: React.FC<{
           }}
           {...{ status: isSubmitting ? 'Submitting...' : null }}
         />
-      </Tooltip>
+        )
+      }
     </Stack>
   );
 };
