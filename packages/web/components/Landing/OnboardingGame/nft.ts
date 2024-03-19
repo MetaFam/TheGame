@@ -6,14 +6,14 @@ import { errorHandler } from 'utils/errorHandler';
 import ABI from '../../../contracts/BulkDisbursableNFTs.abi';
 
 export const chievContractAddress =
-  '0x85fCaAFc0dA050FCE685DcB8965F0C1Aa1Ba466b';
+  '0xb77b8eDB779Cda90dBF651F8109857C97193CF9F';
 const { alchemyAPIKey } = CONFIG;
 
 export const chievId = BigInt(
   '0x480000000000000000000000000000000000000000000000000000000002',
 );
 
-export interface IChievMetadata {
+export interface ChievMetadata {
   name: string;
   description: string;
   image: string;
@@ -21,7 +21,7 @@ export interface IChievMetadata {
 }
 
 /** function to get the token image url from the nft metadata */
-export const getTokenImage = async (): Promise<IChievMetadata | void> => {
+export const getTokenImage = async (): Promise<ChievMetadata | void> => {
   try {
     const provider = new providers.AlchemyProvider('matic', alchemyAPIKey);
     const token = new Contract(chievContractAddress, ABI, provider);
@@ -33,11 +33,11 @@ export const getTokenImage = async (): Promise<IChievMetadata | void> => {
     if (fetchLink != null) {
       const response = await fetch(fetchLink);
       const metadata = await response.json();
-      return metadata as IChievMetadata;
+      return metadata as ChievMetadata;
     }
   } catch (error) {
     errorHandler(error as Error);
-    console.error('getTokenImageError', error);
+    console.error({ getTokenImageError: error });
   }
   return undefined;
 };

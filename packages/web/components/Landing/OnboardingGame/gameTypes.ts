@@ -18,14 +18,14 @@ export type GamePropertiesType = GameProperties;
 export interface IGameContext {
   game: GameProperties;
   gameState: (place?: string, reset?: boolean) => IGameState['state'];
-  handleChoice: (choice: string) => Promise<string | undefined>;
+  handleChoice: (choice: string) => Promise<string | void>;
   resetGame: () => boolean;
   visitedElements: (increment?: boolean) => string;
   mintChiev: (tokenId: bigint) => Promise<any>;
   disconnect: Web3ContextType['disconnect'];
   txLoading: boolean;
   account: string;
-  network: Maybe<string>;
+  network?: number;
   connected: Web3ContextType['connected'];
   connecting: Web3ContextType['connecting'];
 }

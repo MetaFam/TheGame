@@ -20,17 +20,17 @@ import { mainnet, optimism, polygon } from 'wagmi/chains';
 
 const config = createConfig(
   getDefaultConfig({
-    // Your dApps chains
     chains: [mainnet, optimism, polygon],
     transports: {
-      // RPC URL for each chain
       [mainnet.id]: http(
-        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MAINNET}`,
+        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
       ),
       [polygon.id]: http(
-        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MATIC}`,
+        `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
       ),
-      [optimism.id]: http('https://op-pokt.nodies.app'),
+      [optimism.id]: http(
+        `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      ),
     },
 
     // Required API Keys

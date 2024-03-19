@@ -16,7 +16,6 @@ import OctoBg from 'assets/baby_octo.webp';
 import { LandingConnectButton } from 'components/Landing/LandingConnectButton';
 import { MetaLink } from 'components/Link';
 import { useGame } from 'contexts/GameContext';
-import { useWeb3 } from 'lib/hooks';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { get } from 'lib/store';
 import React, {
@@ -27,10 +26,11 @@ import React, {
   useState,
 } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { POLYGON } from 'utils/networks';
+import { OPTIMISM } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';
+import { useAccount } from 'wagmi';
 
-import { chievId, getTokenImage, IChievMetadata } from './nft';
+import { chievId, ChievMetadata, getTokenImage } from './nft';
 
 export const Chiev = ({
   won,
@@ -45,10 +45,10 @@ export const Chiev = ({
   const [noMotion, setNoMotion] = useState(motionDisabled);
   const { mintChiev, txLoading } = useGame();
   const [claiming, setClaiming] = useState(false);
-  const { address: account, chainId, connected } = useWeb3();
+  const { address: account, chainId, isConnected: connected } = useAccount();
   const [wrongNetwork, setWrongNetwork] = useState(false);
   const claimed = get('ChievClaimed') === 'true' ?? false;
-  const [chievData, setChievData] = useState<IChievMetadata>();
+  const [chievData, setChievData] = useState<ChievMetadata>();
   const babyOctoSize = useBreakpointValue({
     base: '33%',
     xl: '40%',
@@ -120,10 +120,8 @@ export const Chiev = ({
   }, []);
 
   useEffect(() => {
-    if (connected && chainId !== POLYGON) {
-      setWrongNetwork(true);
-    } else if (connected && chainId === POLYGON) {
-      setWrongNetwork(false);
+    if (connected) {
+      setWrongNetwork(chainId === Number(OPTIMISM));
     }
   }, [connected, chainId]);
 
@@ -274,7 +272,10 @@ export const Chiev = ({
               fontSize={{ base: 'sm', xl: 'md' }}
               color="brightIdOrange.600"
             >
-              Change network to <strong>Polygon (0x89)</strong>
+              Change network to{' '}
+              <strong>
+                Optimism <em>(id #10)</em>
+              </strong>
             </Text>
           )}
         </VStack>

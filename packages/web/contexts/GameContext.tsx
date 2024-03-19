@@ -1,19 +1,23 @@
 import { Text, useToast, VStack } from '@metafam/ds';
-import { httpLink } from '@metafam/utils';
+import { httpLink, Maybe } from '@metafam/utils';
+import { uri } from '@ucanto/core/schema/uri';
 import type {
   GameProperties,
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
 import gameJson from 'components/Landing/OnboardingGame/metagame-onboarding-game.json';
-import { chievContractAddress } from 'components/Landing/OnboardingGame/nft';
+import {
+  chievContractAddress,
+  chievId,
+} from 'components/Landing/OnboardingGame/nft';
 import { MetaLink } from 'components/Link';
 import ABI from 'contracts/BulkDisbursableNFTs.abi';
 import { Contract } from 'ethers';
 import { ContractError } from 'graphql/types';
-import { useWeb3 } from 'lib/hooks';
 import { useEthersSigner } from 'lib/hooks/userEthersSigner';
 import { get, remove, set } from 'lib/store';
+import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
 import React, {
   useCallback,
@@ -23,7 +27,15 @@ import React, {
   useState,
 } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { NETWORK_INFO, POLYGON } from 'utils/networks';
+import { NETWORK_INFO, OPTIMISM } from 'utils/networks';
+import { optimism } from 'viem/chains';
+import {
+  useAccount,
+  useDisconnect,
+  useReadContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from 'wagmi';
 
 export const GameContext = React.createContext<IGameContext>({
   game: {
@@ -37,14 +49,14 @@ export const GameContext = React.createContext<IGameContext>({
     components: {},
   },
   gameState: () => null,
-  handleChoice: async () => undefined,
+  handleChoice: async () => {},
   resetGame: () => false,
   visitedElements: () => '0',
   mintChiev: async () => '',
-  disconnect: async () => undefined,
+  disconnect: async () => {},
   txLoading: false,
   account: '',
-  network: '0x013881',
+  network: 0x013881,
   connected: false,
   connecting: false,
 });
@@ -54,11 +66,18 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
 }) => {
   const [txLoading, setTxLoading] = useState(false);
   const gameDataState = gameJson as GameProperties;
-  const { address, connecting, connected, chainId, disconnect } =
-    useWeb3();
+  const {
+    address,
+    isConnecting: connecting,
+    isConnected: connected,
+    chainId,
+  } = useAccount();
+  const { disconnect } = useDisconnect();
   const provider = useEthersSigner();
   const [account, setAccount] = useState(address ?? '');
+  const debug = !!useRouter().query.debug;
   const toast = useToast();
+  const confirmations = 2;
 
   useEffect(() => {
     if (address) {
@@ -106,19 +125,18 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
    *  Takes the connected element id from the element's output and routes to the next step
    */
   const handleChoice = useCallback(
-    async (target: string): Promise<string | undefined> => {
+    async (target: string): Promise<string | void> => {
       try {
         if (target) gameState(target);
-        const success = gameState() === target;
-        if (success) {
+        if (gameState() === target) {
           return target;
         }
-        throw new Error('Game progression failed');
+        throw new Error('Game progression failed.');
       } catch (error) {
         errorHandler(error as Error);
         console.error(error);
-        return undefined;
       }
+      return undefined;
     },
     [],
   );
@@ -151,102 +169,140 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
     return false;
   }, []);
 
-  // @TODO
-  const mintChiev = useCallback(
-    async (tokenId: bigint) => {
-      try {
-        if (provider == null) throw new Error('Provider not set.');
-        setTxLoading(true);
+  const {
+    data: metadataURI,
+    error: uriError,
+  }: {
+    data?: string;
+    error: Maybe<Error>;
+  } = useReadContract({
+    abi: ABI,
+    address: chievContractAddress,
+    functionName: 'uri',
+    args: [chievId],
+    chainId: optimism.id,
+  });
+  if (uriError) throw uriError;
+  const {
+    writeContract,
+    data: hash,
+    isPending: pending,
+    error: mintError,
+  } = useWriteContract();
+  if (mintError) throw mintError as Error;
+  const {
+    isLoading: confirming,
+    isSuccess: confirmed,
+    data: receipt,
+  } = useWaitForTransactionReceipt({
+    hash,
+    confirmations,
+  });
 
-        const token = new Contract(
-          chievContractAddress,
-          ABI,
-          provider.getSigner(),
-        );
-        const confirmationsWait = 2;
-        const metadataURI = await token.uri(tokenId);
-        if (!metadataURI || metadataURI === '') {
-          throw new Error(`No metadata for token ${tokenId}.`);
-        }
-        toast({
-          title: 'Claim in progress',
-          description: 'Please sign the transaction in your wallet.',
-          status: 'info',
-          isClosable: true,
-        });
-        const response = await fetch(httpLink(metadataURI) ?? '');
-        const metadata = await response.json();
-        const tx = await token['mint(address[],uint256,bytes)'](
-          [address],
-          tokenId,
-          [],
-        );
+  const mintChiev = useCallback(async () => {
+    try {
+      if (provider == null) throw new Error('Provider not set.');
+      setTxLoading(true);
 
-        toast({
-          title: 'Chiev claim',
-          description: (
-            <>
-              <Text>Transaction hash: {tx.hash}</Text>
-              <Text>Waiting for {confirmationsWait} confirmations&hellip;</Text>
-            </>
-          ),
-          status: 'info',
-          isClosable: true,
-          duration: 5000,
-        });
-
-        const receipt = await tx.wait(confirmationsWait);
-        const receiptUrl = `${NETWORK_INFO[POLYGON].explorer}/tx/${tx.hash}`;
-        const nftURL = httpLink(metadata.external_url);
-
-        set('ChievClaimed', 'true');
-
-        toast({
-          title: 'Chiev claimed 🎉',
-          description: (
-            <VStack spacing={2} textAlign="left" justifyItems="start">
-              <Text textAlign="left">
-                <MetaLink href={receiptUrl} isExternal>
-                  View your receipt
-                </MetaLink>{' '}
-                👀
-              </Text>
-              {nftURL !== undefined && (
-                <Text textAlign="left">
-                  Check it out on{' '}
-                  <MetaLink href={nftURL} isExternal>
-                    chiev.es
-                  </MetaLink>{' '}
-                  🐙
-                </Text>
-              )}
-            </VStack>
-          ),
-          status: 'success',
-          isClosable: true,
-          duration: 5000,
-        });
-
-        return receipt;
-      } catch (err) {
-        const error = err as ContractError;
-        console.error('mintChiev error', { error });
-        const msg = error.reason ?? error.message ?? 'Unknown error.';
-        toast({
-          title: 'Claim Failed',
-          description: msg,
-          status: 'error',
-          isClosable: true,
-          duration: 5000,
-        });
-        errorHandler(error);
-        return msg;
-      } finally {
-        setTxLoading(false);
+      if (!metadataURI || metadataURI === '') {
+        throw new Error(`No metadata for token ${chievId}.`);
       }
-    },
-    [address, provider, toast],
-  );
+      toast({
+        title: 'Claim In Progress',
+        description: 'Please sign the transaction in your wallet.',
+        status: 'info',
+        isClosable: true,
+      });
+      // eslint-disable-next-line no-console
+      if (debug) console.debug({ metadataURI });
+      const response = await fetch(httpLink(metadataURI) ?? '');
+      const metadata = await response.json();
+      writeContract(
+        {
+          abi: ABI,
+          address: chievContractAddress,
+          functionName: 'mint',
+          args: [[address], chievId, ''],
+          chainId: optimism.id,
+        },
+        {
+          onSuccess: () => {
+            set('ChievClaimed', 'true');
+
+            const receiptUrl = `${NETWORK_INFO[OPTIMISM].explorer}/tx/${hash}`;
+            const nftURL = httpLink(metadata.external_url);
+
+            toast({
+              title: 'Chiev Claimed 🎉',
+              description: (
+                <VStack spacing={2} textAlign="left" justifyItems="start">
+                  <Text textAlign="left">
+                    <MetaLink href={receiptUrl} isExternal>
+                      View your receipt.
+                    </MetaLink>{' '}
+                    👀
+                  </Text>
+                  {nftURL && (
+                    <Text textAlign="left">
+                      Check it out on{' '}
+                      <MetaLink href={nftURL} isExternal>
+                        op.chiev.es.
+                      </MetaLink>{' '}
+                      🐙
+                    </Text>
+                  )}
+                </VStack>
+              ),
+              status: 'success',
+              isClosable: true,
+              duration: 7500,
+            });
+          },
+          onError: (error: Error) => {
+            throw error;
+          },
+        },
+      );
+      // toast({
+      //   title: 'Chiev Claim',
+      //   description: (
+      //     <>
+      //       <Text>Transaction hash: {tx.hash}</Text>
+      //       <Text>Waiting for {confirmationsWait} confirmations&hellip;</Text>
+      //     </>
+      //   ),
+      //   status: 'info',
+      //   isClosable: true,
+      //   duration: 5000,
+      // });
+
+      return receipt;
+    } catch (err) {
+      const error = err as ContractError;
+      console.error({ 'mintChiev error': error });
+      const msg = error.reason ?? error.message ?? 'Unknown error.';
+      toast({
+        title: 'Claim Failed',
+        description: msg,
+        status: 'error',
+        isClosable: true,
+        duration: 5000,
+      });
+      errorHandler(error);
+      return msg;
+    } finally {
+      setTxLoading(false);
+    }
+  }, [
+    address,
+    debug,
+    hash,
+    metadataURI,
+    provider,
+    receipt,
+    toast,
+    writeContract,
+  ]);
 
   return (
     <GameContext.Provider

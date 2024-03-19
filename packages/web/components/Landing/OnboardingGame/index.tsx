@@ -15,6 +15,7 @@ import externalLinkIcon from 'assets/landing/external-link-icon.webp';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { get } from 'lib/store';
+import { useRouter } from 'next/router';
 import React, {
   ReactElement,
   useCallback,
@@ -72,24 +73,17 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   );
   const [welcomeBack, setWelcomeBack] = useState<boolean | undefined>();
   const blink = keyframes`
-    0% {
-      opacity: 0;
-    }
-
-    50% {
-      opacity: 1;
-
-    }
-
-    100% {
-      opacity: 0;
-    }
+    0% { opacity: 0 }
+    50% { opacity: 1 }
+    100% { opacity: 0 }
   `;
   const typingAnimation = `${blink} 0.5s steps(2, start) infinite`;
   // const pulseAnimation = `${blink} 2s infinite`;
   const visits = visitedElements();
   const [chievFound, setChievFound] = useState(false);
   const { debugErrorReports } = useDebugErrorReports();
+  const debug = !!useRouter().query.debug;
+
   /**
    * Sanitizes & splits the element content into dialogue and
    * choices, adds them to state & returns the values if you want to use it that way */
@@ -432,11 +426,11 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       alignItems="center"
       py={32}
     >
+      {debug && <Button onClick={triggerChiev}>Trigger Mint</Button>}
       {/* this enables finer control of when `'onScreen` is updated */}
       <Box
         ref={ref}
         position="absolute"
-        // border="1px solid"
         top="25vh"
         right={0}
         width={1}
@@ -578,7 +572,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 >
                   <span>Welcome back Anon!</span>
                 </Box>
-                {/* {currentElement?.elementId && <Box as="p" fontSize="sm">Current element { currentElement.elementId}</Box>} */}
                 {currentElement &&
                   currentDialogue !== undefined &&
                   currentDialogue.map((dialogue) => dialogue)}
@@ -715,25 +708,13 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                                 ? btnText.props.children
                                 : 'What else?'}
                             </Button>
-                            {/* {connection.targetType === 'jumpers' ? <Box as="p"
-                            sx={{
-                            fontSize: 'sm',
-                            color: 'cyan',
-                            }}>Jumper: {connection.targetid} <br />
-                            ConnectionId: {connection.connectionId} <br />
-                            Target Element: {targetId}</Box> : <Box as="p"
-                            sx={{
-                            fontSize: 'sm',
-                            color: 'white',
-                            }}>ConnectionId: {connection.connectionId} <br />
-                            Target Element: {targetId}</Box>} */}
                           </ListItem>
                         );
                       },
                     )
                   ) : (
                     <Box>
-                      <Text mb={5}>The End...</Text>
+                      <Text mb={5}>The End…</Text>
                     </Box>
                   )}
                 </UnorderedList>
@@ -798,7 +779,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           textAlign="center"
         >
           <Box
-            as="p"
             fontSize={{ base: 'sm', md: 'xl' }}
             mt={6}
             color="var(--chakra-colors-landing550)"
