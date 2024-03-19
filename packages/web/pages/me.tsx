@@ -10,7 +10,7 @@ export const getStaticProps = async () => ({
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const CurrentUserPage: React.FC<Props> = () => (
-  <ConnectedPage page={PlayerPage} pageLabel="Your Profile" />
+  <ConnectedPage page={PlayerPage} label="your profile" />
 );
 
 export default CurrentUserPage;

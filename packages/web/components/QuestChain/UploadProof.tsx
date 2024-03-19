@@ -10,9 +10,11 @@ import {
 } from '@metafam/ds';
 import { contracts, graphql, helpers } from '@quest-chains/sdk';
 import { useCarouselContext } from 'components/Carousel/CarouselContext';
-import { useWeb3 } from 'lib/hooks';
+import { MarkdownEditor } from 'components/MarkdownEditor';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
 import { useInputText } from 'lib/hooks/useInputText';
+import { useEthersSigner } from 'lib/hooks/userEthersSigner';
 import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { getHexChainId, getNumberId, NETWORK_INFO } from 'utils/networks';
@@ -23,17 +25,13 @@ import {
 } from 'utils/questChains';
 import { useAccount } from 'wagmi';
 
-import { MarkdownEditor } from '../MarkdownEditor';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
-import { useEthersSigner } from 'lib/hooks/userEthersSigner';
-
 export const UploadProof: React.FC<{
   refresh: () => void;
   questId: string;
   name: string;
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
-  const provider = useEthersSigner()
+  const provider = useEthersSigner();
   const { onClose } = useDisclosure();
   const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
@@ -183,11 +181,10 @@ export const UploadProof: React.FC<{
         value={proofDescRef.current}
         onChange={setProofDescription}
       />
-      {
-        getNumberId(questChain.chainId) !== chainId ? (
-          <SwitchNetworkButton chainId={questChain.chainId} />
-        ) : (
-          <StatusedSubmitButton
+      {getNumberId(questChain.chainId) !== chainId ? (
+        <SwitchNetworkButton chainId={questChain.chainId} />
+      ) : (
+        <StatusedSubmitButton
           px={[8, 12]}
           label="Submit Proof"
           onClick={() => {
@@ -213,8 +210,7 @@ export const UploadProof: React.FC<{
           }}
           {...{ status: isSubmitting ? 'Submitting...' : null }}
         />
-        )
-      }
+      )}
     </Stack>
   );
 };

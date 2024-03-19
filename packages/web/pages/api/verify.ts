@@ -1,37 +1,40 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { SiweMessage } from 'siwe'
-import { TODO } from 'utils/types'
- 
-const handler = async (req: TODO, res: NextApiResponse) => {
-  const { method } = req
+import { getSession } from 'lib/ironSession';
+import {
+  NextApiRequest as NextAPIRequest,
+  NextApiResponse as NextAPIResponse,
+} from 'next';
+import { SiweMessage } from 'siwe';
+
+const handler = async (
+  req: NextAPIRequest,
+  res: NextAPIResponse,
+): Promise<void> => {
+  const { method } = req;
   switch (method) {
-    case 'POST':
+    case 'POST': {
       try {
-        const { message, signature } = req.body
-        const siweMessage = new SiweMessage(message)
-        const fields = await siweMessage.verify({signature})
- 
-        if (fields.data.nonce !== req.session.nonce)
-          return res.status(422).json({ message: 'Invalid nonce.' })
- 
-        req.session.siwe = fields
-        await req.session.save()
-        res.json({ ok: true })
+        const { message, signature } = req.body;
+        const siweMessage = new SiweMessage(message);
+        const fields = await siweMessage.verify({ signature });
+
+        const session = await getSession(req, res);
+        if (fields.data.nonce !== session.nonce)
+          return res.status(422).json({ message: 'Invalid nonce.' });
+
+        session.siwe = fields;
+        await session.save();
+        res.json({ ok: true });
       } catch (_error) {
-        res.json({ ok: false })
+        res.json({ ok: false });
       }
-      break
-    default:
-      res.setHeader('Allow', ['POST'])
-      res.status(405).end(`Method ${method} Not Allowed`)
+      break;
+    }
+    default: {
+      res.setHeader('Allow', ['POST']);
+      res.status(405).end(`Method ${method} Not Allowed`);
+    }
   }
-}
- 
-export default withIronSessionApiRoute(handler, {
-  cookieName: 'siwe',
-  password: 'complex_password_at_least_32_characters_long',
-  cookieOptions: {
-    secure: process.env.NODE_ENV === 'production',
-  },
-})
+  return undefined;
+};
+
+export default handler;
