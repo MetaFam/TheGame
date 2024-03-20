@@ -50,9 +50,9 @@ export const GameContext = React.createContext<IGameContext>({
   },
   gameState: () => null,
   handleChoice: async () => {},
-  resetGame: () => false,
-  visitedElements: () => '0',
-  mintChiev: async () => '',
+  reset: () => false,
+  visited: () => '0',
+  mint: async () => '',
   disconnect: async () => {},
   txLoading: false,
   account: '',
@@ -144,29 +144,21 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
   /** Increment number of elements a user has visited & store in localStorage
    * This is used to trigger an achievement after so many elements have been visited
    */
-  const visitedElements = (increment?: boolean): string => {
-    const visited: string | null = get('OnboardingGameVisitedElements');
+  const visited = (increment?: boolean): string => {
+    const count: string | number = get('OnboardingGameVisitedElements') ?? 0;
 
     if (increment) {
-      const incrementVisits = parseInt(visited ?? '0', 10) + 1;
-      set(
-        'OnboardingGameVisitedElements',
-        visited ? incrementVisits.toString() : `1`,
-      );
-      return incrementVisits.toLocaleString();
+      const incremented = Number(count) + 1;
+      set('OnboardingGameVisitedElements', String(incremented));
+      return incremented.toLocaleString();
     }
 
-    return visited ?? '0';
+    return String(count);
   };
 
-  const resetGame = useCallback((): boolean => {
+  const reset = useCallback((): boolean => {
     gameState(undefined, true);
-    const success = gameState() === null;
-
-    if (success) {
-      return true;
-    }
-    return false;
+    return gameState() === null;
   }, []);
 
   const {
@@ -199,7 +191,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
     confirmations,
   });
 
-  const mintChiev = useCallback(async () => {
+  const mint = useCallback(async () => {
     try {
       if (provider == null) throw new Error('Provider not set.');
       setTxLoading(true);
@@ -310,9 +302,9 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
         game,
         gameState,
         handleChoice,
-        resetGame,
-        visitedElements,
-        mintChiev,
+        reset,
+        visited,
+        mint,
         disconnect,
         txLoading,
         account,

@@ -26,11 +26,11 @@ import React, {
   useState,
 } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { OPTIMISM } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';
+import { optimism } from 'viem/chains';
 import { useAccount } from 'wagmi';
 
-import { chievId, ChievMetadata, getTokenImage } from './nft';
+import { ChievMetadata, useMetadata } from './nft';
 
 export const Chiev = ({
   won,
@@ -43,7 +43,7 @@ export const Chiev = ({
   const root = typeof window !== 'undefined' ? document.body : null;
   const motionDisabled = useMotionDetector(root);
   const [noMotion, setNoMotion] = useState(motionDisabled);
-  const { mintChiev, txLoading } = useGame();
+  const { mint, txLoading } = useGame();
   const [claiming, setClaiming] = useState(false);
   const { address: account, chainId, isConnected: connected } = useAccount();
   const [wrongNetwork, setWrongNetwork] = useState(false);
@@ -96,32 +96,32 @@ export const Chiev = ({
   const handleMinting = useCallback(async () => {
     try {
       setClaiming(true);
-      await mintChiev(chievId);
+      await mint();
     } catch (error) {
       errorHandler(error as Error);
-      console.error('handleMintingError', error);
+      console.error({ handleMintingError: error });
     } finally {
       setClaiming(false);
     }
-  }, [mintChiev]);
+  }, [mint]);
 
+  const metadata = useMetadata();
   useEffect(() => {
-    getTokenImage().then((res) => {
-      if (res) {
-        const metadata = {
-          name: res.name ?? '',
-          description: res.description ?? '',
-          image: httpLink(res.image) ?? '',
-          animation_url: httpLink(res.animation_url) ?? '',
-        };
-        setChievData(metadata);
-      }
-    });
-  }, []);
+    if (metadata) {
+      const keys: Array<keyof ChievMetadata> = ['image', 'animation_url'];
+      keys.forEach((key: keyof ChievMetadata) => {
+        const value = metadata[key];
+        if (typeof value === 'string') {
+          metadata[key] = httpLink(value);
+        }
+      });
+      setChievData(metadata);
+    }
+  }, [metadata]);
 
   useEffect(() => {
     if (connected) {
-      setWrongNetwork(chainId === Number(OPTIMISM));
+      setWrongNetwork(chainId !== optimism.id);
     }
   }, [connected, chainId]);
 

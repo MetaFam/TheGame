@@ -19,9 +19,9 @@ export interface IGameContext {
   game: GameProperties;
   gameState: (place?: string, reset?: boolean) => IGameState['state'];
   handleChoice: (choice: string) => Promise<string | void>;
-  resetGame: () => boolean;
-  visitedElements: (increment?: boolean) => string;
-  mintChiev: (tokenId: bigint) => Promise<any>;
+  reset: () => boolean;
+  visited: (increment?: boolean) => string;
+  mint: () => Promise<any>;
   disconnect: Web3ContextType['disconnect'];
   txLoading: boolean;
   account: string;

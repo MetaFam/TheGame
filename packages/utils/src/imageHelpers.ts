@@ -32,16 +32,13 @@ export const imageLink = (
   if (url?.startsWith('data:')) return url;
 
   let http = httpLink(url);
-
   if (http?.endsWith('/')) http = http.slice(0, -1);
-
   if (!IMGIX_TOKEN || !http) return http;
 
   return client.buildURL(http, opts);
 };
 
 export const getMimeType = (dataURI: string) => {
-  let [, mime] = dataURI?.match(/^data:([^;]+);/) ?? [];
-  mime ??= 'image/*';
-  return mime;
+  const [, mime] = dataURI?.match(/^data:([^;]+);/) ?? [];
+  return mime ?? 'image/*';
 };

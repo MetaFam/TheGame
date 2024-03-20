@@ -4,7 +4,10 @@ import CID from 'cids';
 import { IPFS_LINK_PATTERN } from './constants.js';
 import { Maybe } from './extendedProfileTypes.js';
 
-export const httpLink = (uri?: Maybe<string>) => {
+export function httpLink(uri: string): string;
+export function httpLink(uri?: null): undefined;
+export function httpLink(uri?: Maybe<string>): string | undefined;
+export function httpLink(uri?: Maybe<string>) {
   const [, origCID, path] =
     uri?.match(/^(?:ipfs|dweb):(?:\/\/)?([^/]+)(?:\/(.*))?$/) ?? [];
 
@@ -32,7 +35,7 @@ export const httpLink = (uri?: Maybe<string>) => {
   } catch {}
 
   return uri ?? undefined; // Image.src won't take null
-};
+}
 
 export const isSGML = (str: string) =>
   /<([a-z]+).*(\/>|[^/]>.*<\/\1>)/is.test(str);

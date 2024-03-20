@@ -56,7 +56,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const noMotion = usePrefersReducedMotion();
   const onScreen = useOnScreen(ref);
-  const { gameState, handleChoice, resetGame, visitedElements } = useGame();
+  const { gameState, handleChoice, reset, visited } = useGame();
   const [currentElement, setCurrentElement] = useState<CurrentElementState>();
   const [currentConnections, setCurrentConnections] =
     useState<ConnectionStateItem[]>();
@@ -79,15 +79,12 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   `;
   const typingAnimation = `${blink} 0.5s steps(2, start) infinite`;
   // const pulseAnimation = `${blink} 2s infinite`;
-  const visits = visitedElements();
+  const visits = visited();
   const [chievFound, setChievFound] = useState(false);
   const { debugErrorReports } = useDebugErrorReports();
   const debug = !!useRouter().query.debug;
 
-  /**
-   * Sanitizes & splits the element content into dialogue and
-   * choices, adds them to state & returns the values if you want to use it that way */
-  const makeCurrentSectionDialogue = useCallback(
+  const constructDialogue = useCallback(
     (section: CurrentElementState): CurrentSectionDialogueChoices => {
       const { content, title } = section;
       const string = `${title ? '<p></p>' : '<p></p>'}${content ?? '<p></p>'}`;
@@ -121,7 +118,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           };
         }
         if (dialogue.length === 0 && choices.length === 0) {
-          throw new Error('No dialogue or choices found');
+          throw new Error('No dialogue or choices found.');
         }
 
         return {
@@ -129,7 +126,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           currentChoices: [],
         };
       } catch (err) {
-        console.error('makeCurrentSectionDialogue error', err);
+        console.error({ 'constructDialogue error': err });
         errorHandler(err as Error);
         return {
           currentDialogue: [],
@@ -159,20 +156,19 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       };
 
       setCurrentElement(elementData);
-      const visited = parseInt(visits, 10);
-      if (visited === 0 || visited === null) {
-        visitedElements(true);
+      const count = Number(visits);
+      if (count === 0 || count == null) {
+        visited(true);
       }
-      makeCurrentSectionDialogue(elementData);
+      constructDialogue(elementData);
       setIsLoading(false);
     } else {
       setHasError(true);
     }
-  }, [gameState, makeCurrentSectionDialogue, visitedElements, visits]);
+  }, [gameState, visits, constructDialogue, visited]);
 
   const handleReset = () => {
-    const isReset = resetGame();
-    if (isReset) {
+    if (reset()) {
       initGame();
       setChievFound(false);
     }
@@ -217,7 +213,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           return elementConnections;
         }
 
-        throw new Error('No connections found');
+        throw new Error('No connections found.');
       } catch (error) {
         setCurrentConnections([]);
         errorHandler(error as Error);
@@ -229,9 +225,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
     }
   }, [currentElement, gameDataState?.connections]);
 
-  /** Call to get jumpers when the currentConnections change */
   useEffect(() => {
-    /** Get the jumpers, if any, for the current element */
     const getJumpers = (jumperIds: string[]) => {
       try {
         if (jumperIds.length > 0) {
@@ -251,8 +245,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         throw new Error('No jumpers found');
       } catch (err) {
         errorHandler(err as Error);
-        return undefined;
       }
+      return undefined;
     };
     if (currentConnections !== undefined && currentConnections.length > 0) {
       const jumpers = currentConnections.filter(
@@ -380,28 +374,26 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             : undefined;
         if (nextElement !== undefined) {
           setCurrentElement(nextElement);
-          makeCurrentSectionDialogue(nextElement);
-          visitedElements(true);
+          constructDialogue(nextElement);
+          visited(true);
         }
-        setIsLoading(false);
       })
       .catch((err) => {
         console.error('handleProgress error', err);
         errorHandler(err as Error);
-        setIsLoading(false);
       });
+    setIsLoading(false);
   };
 
   useEffect(() => {
     const number = parseInt(visits, 10);
     const triggerOn = 20;
-    const triggerElements = ['1357573e-5f79-420e-9e61-6da47f341546'];
-    const currentElementId: string = currentElement?.elementId ?? '';
+    const triggers = ['1357573e-5f79-420e-9e61-6da47f341546'];
+    const currentId: string = currentElement?.elementId ?? '';
     const claimed = get('ChievClaimed');
     if (
       (number === triggerOn ||
-        (currentElementId &&
-          triggerElements.find((el) => el === currentElementId))) &&
+        (currentId && triggers.find((el) => el === currentId))) &&
       claimed !== 'true'
     ) {
       triggerChiev();
