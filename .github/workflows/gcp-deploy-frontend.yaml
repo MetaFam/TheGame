@@ -154,6 +154,7 @@ jobs:
             ALCHEMY_MAINNET=${{secrets.ALCHEMY_MAINNET}}
             ALCHEMY_OPTIMISM=${{secrets.ALCHEMY_OPTIMISM}}
             ALCHEMY_POLYGON=${{secrets.ALCHEMY_POLYGON}}
+            ALCHEMY_API_KEY=${{secrets.ALCHEMY_API_KEY}}
             WALLET_CONNECT_V2_KEY=${{secrets.WALLET_CONNECT_V2_KEY}}
           push: true
 
@@ -194,6 +195,7 @@ jobs:
             --set-env-vars NEXT_PUBLIC_ALCHEMY_MAINNET="${{secrets.ALCHEMY_MAINNET}}" \
             --set-env-vars NEXT_PUBLIC_ALCHEMY_OPTIMISM="${{secrets.ALCHEMY_OPTIMISM}}" \
             --set-env-vars NEXT_PUBLIC_ALCHEMY_POLYGON="${{secrets.ALCHEMY_POLYGON}}" \
+            --set-env-vars NEXT_PUBLIC_ALCHEMY_API_KEY="${{secrets.ALCHEMY_API_KEY}}" \
             --set-env-vars NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID="${{secrets.WALLET_CONNECT_V2_KEY}}" \
 
   finish-deployment:
