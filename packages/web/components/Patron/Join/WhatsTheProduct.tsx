@@ -1,6 +1,5 @@
 import { Container, Heading, ListItem, Text, UnorderedList } from '@metafam/ds';
 
-
 export const WhatsTheProduct: React.FC = () => (
   <Container as="section" className="mg-patron-join-section">
     <Heading as="h2" fontFamily="mono" fontWeight={700} mb={[4, 4, 4, 12]}>

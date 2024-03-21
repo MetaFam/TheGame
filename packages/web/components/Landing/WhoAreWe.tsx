@@ -65,9 +65,12 @@ interface LandingPageSectionPropsWithPatronsGuildsAndElders
   guilds: GuildFragment[];
 }
 
-const WhoAreWe: React.FC<
-  LandingPageSectionPropsWithPatronsGuildsAndElders
-> = ({ section, nextSection, patrons, guilds }) => {
+const WhoAreWe: React.FC<LandingPageSectionPropsWithPatronsGuildsAndElders> = ({
+  section,
+  nextSection,
+  patrons,
+  guilds,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const root = typeof window !== 'undefined' ? document.body : null;
@@ -151,7 +154,7 @@ const WhoAreWe: React.FC<
             Who we are?
           </Text>
           <UnorderedList
-          overflow="hidden" 
+            overflow="hidden"
             display={{ base: 'flex', lg: 'grid' }}
             flexFlow={{ base: 'row', lg: 'unset' }}
             gap={{ base: 12, lg: 0 }}
@@ -197,7 +200,11 @@ const WhoAreWe: React.FC<
               },
             }}
           >
-            <ListItem gridArea="first" overflow="hidden" height={{ base: "40vh", lg: '100%', xl: '100%'}}>
+            <ListItem
+              gridArea="first"
+              overflow="hidden"
+              height={{ base: '40vh', lg: '100%', xl: '100%' }}
+            >
               <Text as="h3" pb={{ base: 4, lg: 0 }}>
                 <Text as="span">01</Text>Players (Builders)
               </Text>

@@ -2,7 +2,7 @@ import { LandingHeader } from 'components/Landing/LandingHeader';
 import { Signup } from 'components/Landing/Signup';
 import { HeadComponent } from 'components/Seo';
 import { SocialsDesktop } from 'components/SocialLinks';
-import { lazy,useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, useCallback, useEffect, useRef, useState } from 'react';
 
 const PageContainer = lazy(() => import('components/Container'));
 
@@ -74,7 +74,11 @@ const Onboarding: React.FC = () => {
         cardStyle="summary_large_image"
       />
       <LandingHeader />
-      <PageContainer p={0} overflowX="hidden" minHeight={{ base: '120%', lg: '100%' }}>
+      <PageContainer
+        p={0}
+        overflowX="hidden"
+        minHeight={{ base: '120%', lg: '100%' }}
+      >
         <Signup />
         <SocialsDesktop />
       </PageContainer>

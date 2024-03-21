@@ -4,28 +4,26 @@ import {
   Text,
   ToastId,
   Tooltip,
-  useBreakpointValue,
   useDisclosure,
   useToast,
   UseToastOptions,
 } from '@metafam/ds';
 import { contracts, graphql, helpers } from '@quest-chains/sdk';
 import { useCarouselContext } from 'components/Carousel/CarouselContext';
-import { useWeb3 } from 'lib/hooks';
+import { MarkdownEditor } from 'components/MarkdownEditor';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
 import { useInputText } from 'lib/hooks/useInputText';
+import { useEthersSigner } from 'lib/hooks/userEthersSigner';
 import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { NETWORK_INFO } from 'utils/networks';
+import { getHexChainId, getNumberId, NETWORK_INFO } from 'utils/networks';
 import {
   getQuestChainContract,
   Metadata,
   metadataUploader,
 } from 'utils/questChains';
-
-import { MarkdownEditor } from '../MarkdownEditor';
-import { UploadFilesForm } from './UploadFilesForm';
-import { UploadImageForm } from './UploadImageForm';
+import { useAccount } from 'wagmi';
 
 export const UploadProof: React.FC<{
   refresh: () => void;
@@ -33,9 +31,9 @@ export const UploadProof: React.FC<{
   name: string;
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
-  const { chainId, provider, address } = useWeb3();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const provider = useEthersSigner();
+  const { onClose } = useDisclosure();
+  const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
 
   const toast = useToast();
@@ -61,8 +59,6 @@ export const UploadProof: React.FC<{
 
   const dropImageProps = useDropImage();
 
-  const buttonSize = useBreakpointValue({ base: 'sm', lg: 'md' });
-
   const { imageFile } = dropImageProps;
 
   const onModalClose = useCallback(() => {
@@ -71,13 +67,7 @@ export const UploadProof: React.FC<{
   }, [onClose, setIsSubmittingProof]);
 
   const onSubmit = useCallback(async () => {
-    if (
-      !chainId ||
-      chainId !== questChain.chainId ||
-      !provider ||
-      !proofDescRef.current
-    )
-      return;
+    if (!chainId || !provider || !proofDescRef.current) return;
 
     setSubmitting(true);
     addToast({
@@ -120,8 +110,14 @@ export const UploadProof: React.FC<{
       );
 
       const tx = await (questChain.version === '0'
-        ? (contract as contracts.V0.QuestChain).submitProof(quest.questId, details)
-        : (contract as contracts.V1.QuestChain).submitProofs([quest.questId], [details]));
+        ? (contract as contracts.V0.QuestChain).submitProof(
+            quest.questId,
+            details,
+          )
+        : (contract as contracts.V1.QuestChain).submitProofs(
+            [quest.questId],
+            [details],
+          ));
       addToast({
         description: 'Transaction submitted. Waiting for 1 block confirmation',
         duration: null,
@@ -134,7 +130,7 @@ export const UploadProof: React.FC<{
         duration: null,
         isClosable: true,
       });
-      await helpers.waitUntilSubgraphIndexed(chainId, receipt.blockNumber);
+      await helpers.waitUntilSubgraphIndexed(`${chainId}`, receipt.blockNumber);
       addToast({
         description: `Successfully submitted proof`,
         duration: 5000,
@@ -157,7 +153,6 @@ export const UploadProof: React.FC<{
     setSubmitting(false);
   }, [
     chainId,
-    questChain.chainId,
     questChain.name,
     questChain.address,
     questChain.version,
@@ -186,25 +181,14 @@ export const UploadProof: React.FC<{
         value={proofDescRef.current}
         onChange={setProofDescription}
       />
-      <UploadImageForm
-        {...dropImageProps}
-        imageProps={{ maxH: '12rem' }}
-        formControlProps={{ mb: 4 }}
-      />
-      <UploadFilesForm {...dropFilesProps} />
-
-      <Tooltip
-        shouldWrapChildren
-        label={`Please connect or switch to ${
-          NETWORK_INFO[questChain.chainId].label
-        }`}
-        isDisabled={chainId === questChain.chainId}
-      >
+      {getNumberId(questChain.chainId) !== chainId ? (
+        <SwitchNetworkButton chainId={questChain.chainId} />
+      ) : (
         <StatusedSubmitButton
           px={[8, 12]}
           label="Submit Proof"
           onClick={() => {
-            if (!chainId || chainId !== questChain.chainId || !provider) {
+            if (!chainId || getHexChainId(chain?.name) !== questChain.chainId) {
               addToast({
                 description: `Wrong Chain, please switch to ${
                   NETWORK_INFO[questChain.chainId].label
@@ -222,12 +206,11 @@ export const UploadProof: React.FC<{
               });
               return;
             }
-
             onSubmit();
           }}
           {...{ status: isSubmitting ? 'Submitting...' : null }}
         />
-      </Tooltip>
+      )}
     </Stack>
   );
 };

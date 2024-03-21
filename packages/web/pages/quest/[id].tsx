@@ -39,7 +39,7 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
-import { lazy,useMemo } from 'react';
+import { lazy, useMemo } from 'react';
 import { canCompleteQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;

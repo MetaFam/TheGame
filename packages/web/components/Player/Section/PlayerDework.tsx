@@ -230,9 +230,8 @@ const DeworkProfile: React.FC<{
                     const total: number = processedData?.tagGrouping.length;
                     if (i < 3) {
                       return (
-                        <>
+                        <React.Fragment key={`${tag.name}-${i}`}>
                           <Text
-                            key={generateUUID()}
                             textTransform="capitalize"
                             fontSize={{ base: 'sm', xl: 'md' }}
                           >
@@ -246,7 +245,7 @@ const DeworkProfile: React.FC<{
                               total - 3
                             } other`}</Box>
                           )}
-                        </>
+                        </React.Fragment>
                       );
                     }
                     return undefined;
@@ -265,15 +264,12 @@ const DeworkProfile: React.FC<{
                       processedData?.uniqueOrganisations.length;
                     if (i < 3) {
                       return (
-                        <>
-                          <Text
-                            key={generateUUID()}
-                            fontSize={{ base: 'sm', xl: 'md' }}
-                          >
+                        <React.Fragment key={`${org.name}-${i}`}>
+                          <Text fontSize={{ base: 'sm', xl: 'md' }}>
                             {org.name}
                           </Text>
                           {i === 2 && <Box as="i">{`+${total - 3} other`}</Box>}
-                        </>
+                        </React.Fragment>
                       );
                     }
                     return undefined;

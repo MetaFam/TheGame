@@ -19,15 +19,14 @@ type Claim = {
 
 export async function createToken(
   provider: providers.Web3Provider,
+  userAddress: string,
 ): Promise<string> {
-  const signer = provider.getSigner();
-  const address = await signer.getAddress();
   const iat = +new Date();
 
   const claim = {
     iat,
     exp: iat + tokenDuration,
-    iss: address,
+    iss: userAddress,
     aud: 'the-game',
     tid: uuidv4(),
   };

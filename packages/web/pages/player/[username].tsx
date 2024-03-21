@@ -36,7 +36,8 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState} from 'react';
+  useState,
+} from 'react';
 import useSWR from 'swr';
 import { DisplayOutput, LayoutData } from 'utils/boxTypes';
 import { getENSAndPlayer } from 'utils/ensHelpers';

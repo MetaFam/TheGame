@@ -15,6 +15,11 @@ export default withBundleAnalyzer({
   async redirects() {
     return [
       {
+        source: '/',
+        destination: 'https://enter.metagame.wtf',
+        permanent: false,
+      },
+      {
         source: '/community/join/patrons',
         destination: '/join/patron',
         permanent: false,

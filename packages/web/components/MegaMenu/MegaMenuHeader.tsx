@@ -3,6 +3,7 @@ import {
   Box,
   BoxedNextImage as Image,
   BoxProps,
+  Button,
   CloseIcon,
   ExternalLinkIcon,
   Flex,
@@ -12,7 +13,6 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
-  MetaButton,
   Modal,
   ModalBody,
   ModalContent,
@@ -30,6 +30,7 @@ import SearchIcon from 'assets/search-icon.svg';
 import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
 import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
+import { ConnectKitButton } from 'connectkit';
 import {
   GuildFragment,
   Player,
@@ -135,8 +136,7 @@ const Option = ({ onClick, name, player, text }: OptionProps) => {
         </Text>
       </Flex>
     </Box>
-  )
-  
+  );
 };
 
 const ResultsTitle = ({ children }: { children: ReactNode }) => (
@@ -492,7 +492,7 @@ const HeaderSearchBar = (props: HeaderSearchBarProps) => {
 };
 
 export const MegaMenuHeader: React.FC = () => {
-  const { connected, connect, connecting } = useWeb3();
+  const { connected, connecting } = useWeb3();
   const router = useRouter();
   const { user, fetching } = useUser();
   const mounted = useMounted();
@@ -611,24 +611,26 @@ export const MegaMenuHeader: React.FC = () => {
               bottom="auto"
               w="15%"
             >
-              {connected && !!user && !fetching && !connecting ? (
-                <DesktopPlayerStats player={user} />
-              ) : (
-                <Stack
-                  fontWeight="bold"
-                  fontFamily="Exo 2, san-serif"
-                  align="flex-end"
-                >
-                  <MetaButton
-                    h={10}
-                    px={12}
-                    onClick={connect}
-                    isLoading={!mounted || connecting || fetching}
-                  >
-                    Connect
-                  </MetaButton>
-                </Stack>
-              )}
+              <ConnectKitButton.Custom>
+                {({ isConnected, isConnecting, show }) =>
+                  isConnected && !isConnecting && !!user ? (
+                    <DesktopPlayerStats player={user} />
+                  ) : (
+                    <Button
+                      w="100%"
+                      size="md"
+                      textTransform="uppercase"
+                      fontWeight="600"
+                      onClick={show}
+                      isLoading={connecting || fetching}
+                      colorScheme="pink"
+                      fontSize="1rem"
+                    >
+                      Connect Wallet
+                    </Button>
+                  )
+                }
+              </ConnectKitButton.Custom>
             </Box>
           </Flex>
           <Flex

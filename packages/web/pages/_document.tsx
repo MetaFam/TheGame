@@ -7,7 +7,6 @@ import Document, {
   NextScript,
 } from 'next/document';
 
-
 class MetaDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext,

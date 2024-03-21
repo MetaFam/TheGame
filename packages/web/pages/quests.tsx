@@ -29,7 +29,7 @@ import { usePSeedBalance } from 'lib/hooks/balances';
 import { useQuestFilter } from 'lib/hooks/quests';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import React, { lazy,useMemo } from 'react';
+import React, { lazy, useMemo } from 'react';
 import { isAllowedToCreateQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;

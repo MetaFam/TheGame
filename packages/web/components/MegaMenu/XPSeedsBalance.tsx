@@ -4,7 +4,6 @@ import SeedMarket from 'assets/seed-icon.svg';
 import XPStar from 'assets/xp-star.svg';
 import { usePSeedBalance } from 'lib/hooks/balances';
 
-
 const { amountToDecimal } = numbers;
 
 // Display player XP and Seed

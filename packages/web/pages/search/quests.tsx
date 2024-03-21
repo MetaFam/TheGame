@@ -6,7 +6,7 @@ import { HeadComponent } from 'components/Seo';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { useQuestFilter } from 'lib/hooks/quests';
 import { useRouter } from 'next/router';
-import { lazy,useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 
 type RoleChoices = Awaited<Promise<ReturnType<typeof getPlayerRoles>>>;

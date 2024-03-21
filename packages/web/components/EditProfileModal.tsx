@@ -184,7 +184,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       if (Object.keys(pickedFiles).length > 0) {
         setStatus('Uploading images to web3.storage…');
 
-        const rootCID = await w3storage?.uploadDirectory(Object.values(pickedFiles))
+        const rootCID = await w3storage?.uploadDirectory(
+          Object.values(pickedFiles),
+        );
         await Promise.all(
           Object.entries(pickedFileDataURLs).map(async ([key, val]) => {
             setStatus('Calculating image metadata…');

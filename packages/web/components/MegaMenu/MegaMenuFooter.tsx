@@ -7,23 +7,24 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  MetaButton,
   Profile,
   Stack,
   Text,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
+import { ConnectKitButton } from 'connectkit';
 import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+import { useAccount } from 'wagmi';
 
 import { XPSeedsBalance } from './XPSeedsBalance';
 
 // Display player XP and Seed
 export const MegaMenuFooter = () => {
-  const { connecting, connected, connect, disconnect } = useWeb3();
+  const { isConnected, isConnecting } = useAccount();
   const { fetching, user } = useUser();
   const name = usePlayerName(user);
   const linkURL = usePlayerURL(user);
@@ -45,7 +46,7 @@ export const MegaMenuFooter = () => {
       px={4}
       backdropFilter="blur(10px)"
     >
-      {connected && !!user && !fetching && !connecting ? (
+      {isConnected && !!user && !fetching && !isConnecting ? (
         <>
           <Menu>
             <MenuButton
@@ -138,7 +139,7 @@ export const MegaMenuFooter = () => {
                   Dashboard
                 </MenuItem>
               </MetaLink>
-              <MenuItem
+              {/* <MenuItem
                 onClick={disconnect}
                 sx={{
                   '&:hover, &:active, &:focus': {
@@ -150,7 +151,7 @@ export const MegaMenuFooter = () => {
               >
                 <LogOut w={4} h={4} mr={4} fill="white" />
                 Disconnect
-              </MenuItem>
+              </MenuItem> */}
             </MenuList>
           </Menu>
           <HStack justify="flex-end">
@@ -158,15 +159,7 @@ export const MegaMenuFooter = () => {
           </HStack>
         </>
       ) : (
-        <MetaButton
-          mx={4}
-          my={3.5}
-          px={8}
-          onClick={connect}
-          isLoading={!mounted || connecting || fetching}
-        >
-          Connect Wallet
-        </MetaButton>
+        <ConnectKitButton />
       )}
     </Flex>
   );

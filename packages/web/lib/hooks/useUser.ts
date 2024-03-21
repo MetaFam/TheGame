@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
 import { Maybe } from '@metafam/utils';
-import { Player, useGetMeQuery } from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks/useWeb3';
+import { Player } from 'graphql/autogen/types';
+import { getPlayer } from 'graphql/getPlayer';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { RequestPolicy } from 'urql';
+import { useAccount } from 'wagmi';
 
 import {
   hydratePlayerProfile,
@@ -28,20 +29,26 @@ export const useUser = ({
   fetching: boolean;
   error?: Error;
 } => {
-  const { connecting, connected } = useWeb3();
+  const { isConnected, isConnecting, address } = useAccount();
   const router = useRouter();
-  const [{ data, error, fetching }] = useGetMeQuery({
-    pause: !connected,
-    requestPolicy,
-  });
-  const [me] = data?.me ?? [];
+  const [player, setPlayer] = useState<Maybe<Player>>(null);
+
+  useEffect(() => {
+    if (!address) return;
+    function getPeople() {
+      if (address) {
+        return getPlayer(address);
+      }
+      throw new Error('No address');
+    }
+    getPeople().then(setPlayer);
+  }, [address]);
 
   const [hydratedPlayer, setHydratedPlayer] = useState<Player | null>(null);
 
   const hasuraUser = useMemo(
-    () =>
-      !error && !fetching && me && connected ? (me.record as Player) : null,
-    [error, me, connected, fetching],
+    () => (player && isConnected ? (player as Player) : null),
+    [isConnected, player],
   );
 
   const {
@@ -49,7 +56,6 @@ export const useUser = ({
     fetching: composeDBFetching,
     error: composeDBError,
   } = useGetPlayerProfileFromComposeDB(hasuraUser?.ceramicProfileId);
-
   useEffect(() => {
     if (hasuraUser) {
       if (hasuraUser.ceramicProfileId == null || !!composeDBError) {
@@ -61,28 +67,20 @@ export const useUser = ({
   }, [result, hasuraUser, composeDBError]);
 
   useEffect(() => {
-    if (fetching || connecting) return;
+    if (isConnecting) return;
 
     if (!hasuraUser && redirectIfNotFound && redirectTo) {
       router.push(redirectTo);
     }
-  }, [
-    router,
-    hasuraUser,
-    fetching,
-    connecting,
-    redirectIfNotFound,
-    redirectTo,
-  ]);
+  }, [router, hasuraUser, isConnecting, redirectIfNotFound, redirectTo]);
 
-  if (error) console.error({ error });
   if (composeDBError) console.error({ composeDBError });
 
   return {
-    connecting,
-    connected,
+    connecting: isConnecting,
+    connected: isConnected,
     user: hydratedPlayer,
-    fetching: fetching || composeDBFetching,
-    error,
+    fetching: false,
+    error: undefined,
   };
 };

@@ -9,7 +9,6 @@ import {
   VStack,
 } from '@metafam/ds';
 
-
 export const PlayerTileSkeleton: React.FC<FlexProps> = (props) => (
   <MetaTile flex={1} {...props}>
     <MetaTileHeader>

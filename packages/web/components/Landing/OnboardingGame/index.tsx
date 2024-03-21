@@ -15,6 +15,7 @@ import externalLinkIcon from 'assets/landing/external-link-icon.webp';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { get } from 'lib/store';
+import { useRouter } from 'next/router';
 import React, {
   ReactElement,
   useCallback,
@@ -55,7 +56,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const noMotion = usePrefersReducedMotion();
   const onScreen = useOnScreen(ref);
-  const { gameState, handleChoice, resetGame, visitedElements } = useGame();
+  const { gameState, handleChoice, reset, visited } = useGame();
   const [currentElement, setCurrentElement] = useState<CurrentElementState>();
   const [currentConnections, setCurrentConnections] =
     useState<ConnectionStateItem[]>();
@@ -72,28 +73,18 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   );
   const [welcomeBack, setWelcomeBack] = useState<boolean | undefined>();
   const blink = keyframes`
-    0% {
-      opacity: 0;
-    }
-
-    50% {
-      opacity: 1;
-
-    }
-
-    100% {
-      opacity: 0;
-    }
+    0% { opacity: 0 }
+    50% { opacity: 1 }
+    100% { opacity: 0 }
   `;
   const typingAnimation = `${blink} 0.5s steps(2, start) infinite`;
   // const pulseAnimation = `${blink} 2s infinite`;
-  const visits = visitedElements();
+  const visits = visited();
   const [chievFound, setChievFound] = useState(false);
   const { debugErrorReports } = useDebugErrorReports();
-  /**
-   * Sanitizes & splits the element content into dialogue and
-   * choices, adds them to state & returns the values if you want to use it that way */
-  const makeCurrentSectionDialogue = useCallback(
+  const debug = !!useRouter().query.debug;
+
+  const constructDialogue = useCallback(
     (section: CurrentElementState): CurrentSectionDialogueChoices => {
       const { content, title } = section;
       const string = `${title ? '<p></p>' : '<p></p>'}${content ?? '<p></p>'}`;
@@ -127,7 +118,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           };
         }
         if (dialogue.length === 0 && choices.length === 0) {
-          throw new Error('No dialogue or choices found');
+          throw new Error('No dialogue or choices found.');
         }
 
         return {
@@ -135,7 +126,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           currentChoices: [],
         };
       } catch (err) {
-        console.error('makeCurrentSectionDialogue error', err);
+        console.error({ 'constructDialogue error': err });
         errorHandler(err as Error);
         return {
           currentDialogue: [],
@@ -165,20 +156,19 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       };
 
       setCurrentElement(elementData);
-      const visited = parseInt(visits, 10);
-      if (visited === 0 || visited === null) {
-        visitedElements(true);
+      const count = Number(visits);
+      if (count === 0 || count == null) {
+        visited(true);
       }
-      makeCurrentSectionDialogue(elementData);
+      constructDialogue(elementData);
       setIsLoading(false);
     } else {
       setHasError(true);
     }
-  }, [gameState, makeCurrentSectionDialogue, visitedElements, visits]);
+  }, [gameState, visits, constructDialogue, visited]);
 
   const handleReset = () => {
-    const isReset = resetGame();
-    if (isReset) {
+    if (reset()) {
       initGame();
       setChievFound(false);
     }
@@ -223,7 +213,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           return elementConnections;
         }
 
-        throw new Error('No connections found');
+        throw new Error('No connections found.');
       } catch (error) {
         setCurrentConnections([]);
         errorHandler(error as Error);
@@ -235,9 +225,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
     }
   }, [currentElement, gameDataState?.connections]);
 
-  /** Call to get jumpers when the currentConnections change */
   useEffect(() => {
-    /** Get the jumpers, if any, for the current element */
     const getJumpers = (jumperIds: string[]) => {
       try {
         if (jumperIds.length > 0) {
@@ -257,8 +245,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         throw new Error('No jumpers found');
       } catch (err) {
         errorHandler(err as Error);
-        return undefined;
       }
+      return undefined;
     };
     if (currentConnections !== undefined && currentConnections.length > 0) {
       const jumpers = currentConnections.filter(
@@ -386,28 +374,26 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             : undefined;
         if (nextElement !== undefined) {
           setCurrentElement(nextElement);
-          makeCurrentSectionDialogue(nextElement);
-          visitedElements(true);
+          constructDialogue(nextElement);
+          visited(true);
         }
-        setIsLoading(false);
       })
       .catch((err) => {
         console.error('handleProgress error', err);
         errorHandler(err as Error);
-        setIsLoading(false);
       });
+    setIsLoading(false);
   };
 
   useEffect(() => {
     const number = parseInt(visits, 10);
     const triggerOn = 20;
-    const triggerElements = ['1357573e-5f79-420e-9e61-6da47f341546'];
-    const currentElementId: string = currentElement?.elementId ?? '';
+    const triggers = ['1357573e-5f79-420e-9e61-6da47f341546'];
+    const currentId: string = currentElement?.elementId ?? '';
     const claimed = get('ChievClaimed');
     if (
       (number === triggerOn ||
-        (currentElementId &&
-          triggerElements.find((el) => el === currentElementId))) &&
+        (currentId && triggers.find((el) => el === currentId))) &&
       claimed !== 'true'
     ) {
       triggerChiev();
@@ -432,11 +418,11 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       alignItems="center"
       py={32}
     >
+      {debug && <Button onClick={triggerChiev}>Trigger Mint</Button>}
       {/* this enables finer control of when `'onScreen` is updated */}
       <Box
         ref={ref}
         position="absolute"
-        // border="1px solid"
         top="25vh"
         right={0}
         width={1}
@@ -578,7 +564,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 >
                   <span>Welcome back Anon!</span>
                 </Box>
-                {/* {currentElement?.elementId && <Box as="p" fontSize="sm">Current element { currentElement.elementId}</Box>} */}
                 {currentElement &&
                   currentDialogue !== undefined &&
                   currentDialogue.map((dialogue) => dialogue)}
@@ -715,25 +700,13 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                                 ? btnText.props.children
                                 : 'What else?'}
                             </Button>
-                            {/* {connection.targetType === 'jumpers' ? <Box as="p"
-                            sx={{
-                            fontSize: 'sm',
-                            color: 'cyan',
-                            }}>Jumper: {connection.targetid} <br />
-                            ConnectionId: {connection.connectionId} <br />
-                            Target Element: {targetId}</Box> : <Box as="p"
-                            sx={{
-                            fontSize: 'sm',
-                            color: 'white',
-                            }}>ConnectionId: {connection.connectionId} <br />
-                            Target Element: {targetId}</Box>} */}
                           </ListItem>
                         );
                       },
                     )
                   ) : (
                     <Box>
-                      <Text mb={5}>The End...</Text>
+                      <Text mb={5}>The End…</Text>
                     </Box>
                   )}
                 </UnorderedList>
@@ -798,7 +771,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           textAlign="center"
         >
           <Box
-            as="p"
             fontSize={{ base: 'sm', md: 'xl' }}
             mt={6}
             color="var(--chakra-colors-landing550)"

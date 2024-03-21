@@ -1,5 +1,4 @@
 import {
-  Button,
   Collapse,
   Flex,
   Image,
@@ -11,7 +10,9 @@ import {
 } from '@metafam/ds';
 import LogoImage from 'assets/new_logo_svg.svg';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { ConnectKitButton } from 'connectkit';
+import { useUser } from 'lib/hooks';
+import { useAccount } from 'wagmi';
 
 import { MetaLink } from './Link';
 
@@ -30,12 +31,12 @@ export const ConnectToProgress: React.FC<{
   showSwitchButton = true,
   header = 'Welcome to MetaGame!',
 }) => {
-  const { connect, connecting, connected, chainId } = useWeb3();
+  const { isConnected, chainId } = useAccount();
   const [open, { toggle }] = useBoolean();
   const { fetching } = useUser();
 
-  if (connected && !fetching) {
-    if (chainId !== '0x1' && showSwitchButton) {
+  if (isConnected && !fetching) {
+    if (chainId !== 1 && showSwitchButton) {
       return (
         <Stack w="100%" align="center">
           <Stack color="white" spacing={8} w="100%" maxW="30rem">
@@ -59,24 +60,18 @@ export const ConnectToProgress: React.FC<{
         {showNote && (
           <Stack spacing={4} align="flex-start" w="100%" px={2}>
             <Text>
-                First things first, make yourself a profile. You’ll need it to present yourself & your work to the rest of the world.
-                Unlike Web2 profiles, MyMeta profiles are controlled & owned by you alone, residing on the <MetaLink href="https://ceramic.network/" target="_blank">Ceramic network.</MetaLink>
+              First things first, make yourself a profile. You’ll need it to
+              present yourself & your work to the rest of the world. Unlike Web2
+              profiles, MyMeta profiles are controlled & owned by you alone,
+              residing on the{' '}
+              <MetaLink href="https://ceramic.network/" target="_blank">
+                Ceramic network.
+              </MetaLink>
             </Text>
           </Stack>
         )}
         <Stack w="100%" spacing={4} pt={2}>
-          <Button
-            w="100%"
-            size="lg"
-            textTransform="uppercase"
-            fontWeight="600"
-            onClick={connect}
-            isLoading={connecting || fetching}
-            colorScheme="pink"
-            fontSize="1.25rem"
-          >
-            {showNote ? 'Connect Wallet' : 'Connect to continue'}
-          </Button>
+          <ConnectKitButton />
         </Stack>
         {showNote && (
           <>

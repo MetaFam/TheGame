@@ -16,7 +16,6 @@ import OctoBg from 'assets/baby_octo.webp';
 import { LandingConnectButton } from 'components/Landing/LandingConnectButton';
 import { MetaLink } from 'components/Link';
 import { useGame } from 'contexts/GameContext';
-import { useWeb3 } from 'lib/hooks';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { get } from 'lib/store';
 import React, {
@@ -27,10 +26,11 @@ import React, {
   useState,
 } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { POLYGON } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';
+import { optimism } from 'viem/chains';
+import { useAccount } from 'wagmi';
 
-import { chievId, getTokenImage, IChievMetadata } from './nft';
+import { ChievMetadata, useMetadata } from './nft';
 
 export const Chiev = ({
   won,
@@ -43,12 +43,12 @@ export const Chiev = ({
   const root = typeof window !== 'undefined' ? document.body : null;
   const motionDisabled = useMotionDetector(root);
   const [noMotion, setNoMotion] = useState(motionDisabled);
-  const { mintChiev, txLoading } = useGame();
+  const { mint, txLoading } = useGame();
   const [claiming, setClaiming] = useState(false);
-  const { address: account, chainId, connected } = useWeb3();
+  const { address: account, chainId, isConnected: connected } = useAccount();
   const [wrongNetwork, setWrongNetwork] = useState(false);
   const claimed = get('ChievClaimed') === 'true' ?? false;
-  const [chievData, setChievData] = useState<IChievMetadata>();
+  const [chievData, setChievData] = useState<ChievMetadata>();
   const babyOctoSize = useBreakpointValue({
     base: '33%',
     xl: '40%',
@@ -96,34 +96,32 @@ export const Chiev = ({
   const handleMinting = useCallback(async () => {
     try {
       setClaiming(true);
-      await mintChiev(chievId);
+      await mint();
     } catch (error) {
       errorHandler(error as Error);
-      console.error('handleMintingError', error);
+      console.error({ handleMintingError: error });
     } finally {
       setClaiming(false);
     }
-  }, [mintChiev]);
+  }, [mint]);
+
+  const metadata = useMetadata();
+  useEffect(() => {
+    if (metadata) {
+      const keys: Array<keyof ChievMetadata> = ['image', 'animation_url'];
+      keys.forEach((key: keyof ChievMetadata) => {
+        const value = metadata[key];
+        if (typeof value === 'string') {
+          metadata[key] = httpLink(value);
+        }
+      });
+      setChievData(metadata);
+    }
+  }, [metadata]);
 
   useEffect(() => {
-    getTokenImage().then((res) => {
-      if (res) {
-        const metadata = {
-          name: res.name ?? '',
-          description: res.description ?? '',
-          image: httpLink(res.image) ?? '',
-          animation_url: httpLink(res.animation_url) ?? '',
-        };
-        setChievData(metadata);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (connected && chainId !== POLYGON) {
-      setWrongNetwork(true);
-    } else if (connected && chainId === POLYGON) {
-      setWrongNetwork(false);
+    if (connected) {
+      setWrongNetwork(chainId !== optimism.id);
     }
   }, [connected, chainId]);
 
@@ -274,7 +272,10 @@ export const Chiev = ({
               fontSize={{ base: 'sm', xl: 'md' }}
               color="brightIdOrange.600"
             >
-              Change network to <strong>Polygon (0x89)</strong>
+              Change network to{' '}
+              <strong>
+                Optimism <em>(id #10)</em>
+              </strong>
             </Text>
           )}
         </VStack>

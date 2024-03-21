@@ -27,7 +27,10 @@ import {
   PlayersFinished,
 } from 'components/QuestChain/QuestHeading';
 import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
-import { useDeletePlayerQuestchainPinMutation,useInsertPlayerQuestchainPinMutation } from 'graphql/autogen/types';
+import {
+  useDeletePlayerQuestchainPinMutation,
+  useInsertPlayerQuestchainPinMutation,
+} from 'graphql/autogen/types';
 import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
 import { useUser, useWeb3 } from 'lib/hooks';
 import {
@@ -36,7 +39,7 @@ import {
   useUserProgress,
   useUserStatus,
 } from 'lib/hooks/questChains';
-import React, { lazy,useCallback, useEffect, useRef, useState } from 'react';
+import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { BsArrowRight, BsCheck } from 'react-icons/bs';
 import { QuestChainType } from 'utils/questChains';
 
@@ -138,16 +141,15 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           toast({
             title: 'Quest Chain pinned!',
             description: (
-             
-                <chakra.a
-                  href={`https://discord.com/channels/629411177947987986/1045714403351339018`}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ textDecoration: 'underline' }}
-                >
-                 You can now see this quest chain on your Dashboard. Join the conversation on Discord.
-                </chakra.a>
-          
+              <chakra.a
+                href={`https://discord.com/channels/629411177947987986/1045714403351339018`}
+                target="_blank"
+                rel="noreferrer"
+                style={{ textDecoration: 'underline' }}
+              >
+                You can now see this quest chain on your Dashboard. Join the
+                conversation on Discord.
+              </chakra.a>
             ),
             status: 'success',
             duration: 9000,
@@ -182,8 +184,9 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           setIsPinned(false);
           toast({
             title: 'Quest Chain unpinned!',
-          
-            description: 'The quest chain has been removed from your Dashboard.',
+
+            description:
+              'The quest chain has been removed from your Dashboard.',
             status: 'success',
             duration: 9000,
             isClosable: true,

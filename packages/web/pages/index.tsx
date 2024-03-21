@@ -1,4 +1,4 @@
-import { Box, Button, LoadingState,Text, VStack  } from '@metafam/ds';
+import { Box, Button, LoadingState, Text, VStack } from '@metafam/ds';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import { sections } from 'components/Landing/landingSection';
 import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
@@ -11,9 +11,7 @@ import { getPatrons } from 'graphql/getPatrons';
 import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import React, { lazy,useCallback, useEffect, useState } from 'react';
-
-
+import React, { lazy, useCallback, useEffect, useState } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -127,11 +125,11 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
       />
       <LandingHeader />
       <PageContainer p={0}>
-          <Intro
-            section={sections[0]}
-            nextSection={sections[1]}
-            activeSectionIndex={section}
-          />
+        <Intro
+          section={sections[0]}
+          nextSection={sections[1]}
+          activeSectionIndex={section}
+        />
         <RenderOnViewportEntry threshold={0.5}>
           <Game
             section={sections[1]}
@@ -152,7 +150,7 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
             nextSection={sections[4]}
             activeSectionIndex={section}
           />
-        </RenderOnViewportEntry>  
+        </RenderOnViewportEntry>
         <RenderOnViewportEntry threshold={0.25}>
           <WhyAreWeHere
             section={sections[4]}
@@ -167,7 +165,7 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
             activeSectionIndex={section}
           />
         </RenderOnViewportEntry>
-        
+
         {guilds && patrons && (
           <RenderOnViewportEntry threshold={0.25}>
             <WhoAreWe
@@ -179,7 +177,7 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
             />
           </RenderOnViewportEntry>
         )}
-        
+
         <RenderOnViewportEntry threshold={0.25}>
           <WhatSay
             section={sections[7]}
@@ -188,10 +186,7 @@ const Landing: React.FC<Props> = ({ patrons, guilds }) => {
           />
         </RenderOnViewportEntry>
         <RenderOnViewportEntry threshold={0.25}>
-          <JoinUs
-            section={sections[8]}
-            activeSectionIndex={section}
-          />
+          <JoinUs section={sections[8]} activeSectionIndex={section} />
         </RenderOnViewportEntry>
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />

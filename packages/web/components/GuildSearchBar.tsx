@@ -30,7 +30,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
 
@@ -43,7 +43,14 @@ interface OptionProps {
   logo?: string;
 }
 
-const Option = ({ id, name, logo, websiteURL, legitimacy, playerId }: OptionProps) => {
+const Option = ({
+  id,
+  name,
+  logo,
+  websiteURL,
+  legitimacy,
+  playerId,
+}: OptionProps) => {
   const [addingGuild, setAddingGuild] = useState<boolean>(false);
   const [addedGuild, setAddedGuild] = useState<boolean>(false);
 
@@ -52,16 +59,16 @@ const Option = ({ id, name, logo, websiteURL, legitimacy, playerId }: OptionProp
   const handleAddGuildMembership = async (guildId: string) => {
     if (legitimacy === 'VERIFIED') return;
     try {
-      setAddingGuild(true)
+      setAddingGuild(true);
       const response = await addGuildMember({
         playerId,
         guildId,
       });
       if (response && response.data) {
-        setAddingGuild(false)
-        setAddedGuild(true)
+        setAddingGuild(false);
+        setAddedGuild(true);
         setTimeout(() => {
-          setAddedGuild(false)
+          setAddedGuild(false);
         }, 3000);
       }
       // Handle the response if necessary.
@@ -129,10 +136,16 @@ const Option = ({ id, name, logo, websiteURL, legitimacy, playerId }: OptionProp
             </Text>
           </Stack>
         </Flex>
-        <Tooltip label={legitimacy ? 'If you are already a member of this verified guild please reach out to us on Discord for help.' : ''}>
-          {addedGuild ?
+        <Tooltip
+          label={
+            legitimacy
+              ? 'If you are already a member of this verified guild please reach out to us on Discord for help.'
+              : ''
+          }
+        >
+          {addedGuild ? (
             <Icon boxSize={10} as={IoIosCheckmarkCircleOutline} />
-            :
+          ) : (
             <IconButton
               onClick={async () => {
                 await handleAddGuildMembership(id);
@@ -145,16 +158,19 @@ const Option = ({ id, name, logo, websiteURL, legitimacy, playerId }: OptionProp
               isRound
               borderColor="white"
               color="white"
-              _hover={{ bg: 'transparent', color: 'white', borderColor: 'white' }}
+              _hover={{
+                bg: 'transparent',
+                color: 'white',
+                borderColor: 'white',
+              }}
               borderWidth={2}
             />
-          }
+          )}
         </Tooltip>
       </Flex>
     </Box>
-  )
-}
-
+  );
+};
 
 const ResultsTitle = ({ children }: { children: ReactNode }) => (
   <Text
