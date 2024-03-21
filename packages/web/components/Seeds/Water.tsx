@@ -177,23 +177,9 @@ export const Water: React.FC = () => {
         )}
       </Flex>
 
-      {/* <Link
-        href=""
-        color="pink.200"
-        textAlign="center"
-        fontFamily="Exo 2"
-        fontSize="16px"
-        fontStyle="normal"
-        fontWeight="400"
-        lineHeight="24px"
-        textDecoration="underline"
-      >
-        Enter referral
-      </Link> */}
-
       <Button
         as={Link}
-        href="https://checkout.superfluid.finance/QmfTXxap8ayojDufpcvSaDHNC43qEYV8Whio6JZ7r8x1PM"
+        href="https://checkout.superfluid.finance/QmdqTLVi5gbuN4Xwcvi8JCmAU5DyH5gtP2QshaNhT4b9bv"
         target="_blank"
         borderRadius={8}
         colorScheme="purple"
