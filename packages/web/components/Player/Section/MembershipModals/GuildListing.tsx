@@ -36,8 +36,7 @@ export type SmallGuild = Exact<{
   name: string;
   websiteURL?: InputMaybe<string> | undefined;
   type: GuildType_Enum;
-}>
-
+}>;
 
 export type DAOListingProps = {
   membership: GuildMembership;
@@ -130,7 +129,7 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
         <Flex align="center">
           {editing && (
             <>
-              {legitimacy === 'VERIFIED' ?
+              {legitimacy === 'VERIFIED' ? (
                 <FormLabel
                   display="flex"
                   justifyContent="center"
@@ -152,14 +151,15 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
                     display="none"
                   />
                 </FormLabel>
-                : <IconButton
-                  aria-label='delete guild'
-                  size='lg'
+              ) : (
+                <IconButton
+                  aria-label="delete guild"
+                  size="lg"
                   variant="unstyled"
                   icon={<MdOutlineRemoveCircleOutline />}
                   onClick={deleteMembership}
                 />
-              }
+              )}
             </>
           )}
           <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
@@ -174,11 +174,23 @@ export const GuildListing = React.forwardRef<HTMLDivElement, DAOListingProps>(
               />
             )}
           </Box>
-          {legitimacy === 'VERIFIED' && <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />}
-          <Tooltip label={`This Guild has ${legitimacy === 'VERIFIED' ? '' : 'not '}been verified.`} placement='top' hasArrow>
+          {legitimacy === 'VERIFIED' && (
+            <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
+          )}
+          <Tooltip
+            label={`This Guild has ${
+              legitimacy === 'VERIFIED' ? '' : 'not '
+            }been verified.`}
+            placement="top"
+            hasArrow
+          >
             <Box mr={2} ml={2}>
               {type === 'DAO' ? <BsPatchCheckFill /> : <></>}
-              { type === 'GUILD' && legitimacy === 'VERIFIED' ? <BsPatchCheckFill /> : <></>}
+              {type === 'GUILD' && legitimacy === 'VERIFIED' ? (
+                <BsPatchCheckFill />
+              ) : (
+                <></>
+              )}
             </Box>
           </Tooltip>
         </Flex>
@@ -239,7 +251,7 @@ export const GuildListingSmall: React.FC<SmallGuild> = ({
   guildname,
   name,
   logo,
-  websiteURL
+  websiteURL,
 }) => (
   <Flex
     onClick={(e) => {
@@ -264,13 +276,9 @@ export const GuildListingSmall: React.FC<SmallGuild> = ({
     />
     <Icon color="cyan" boxSize={6} as={BsPatchQuestion} />
     <Box>
-      <Text fontWeight="bold">
-        {name}
-      </Text>
-      <Text>
-        {websiteURL}
-      </Text>
+      <Text fontWeight="bold">{name}</Text>
+      <Text>{websiteURL}</Text>
     </Box>
     <Icon boxSize={6} as={IoIosCheckmarkCircleOutline} />
-  </Flex >
+  </Flex>
 );

@@ -33,15 +33,12 @@ export const useNFTCollectibles = ({
     if (owner) {
       load();
     }
-
   }, [owner]);
 
   return { data, loading, error };
 };
 
-const fetchAlchemyAllData = async (
-  owner: string,
-): Promise<Array<any>> => {
+const fetchAlchemyAllData = async (owner: string): Promise<Array<any>> => {
   let offset = 0;
   let data: Array<any> = [];
   let lastData: Array<any> = [];
@@ -55,12 +52,8 @@ const fetchAlchemyAllData = async (
   return data;
 };
 
-const fetchAlchemyData = async (
-  owner: string,
-): Promise<Array<any>> => {
-  const res = await fetch(
-    `/api/alchemy?owner=${owner}`,
-  );
+const fetchAlchemyData = async (owner: string): Promise<Array<any>> => {
+  const res = await fetch(`/api/alchemy?owner=${owner}`);
   const body = await res.text();
   const NFTs = JSON.parse(body);
   if (!NFTs) throw new Error(`Received ${NFTs} assets`);

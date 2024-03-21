@@ -1,13 +1,12 @@
 import 'assets/custom-markdown-editor.scss';
 import 'react-markdown-editor-lite/lib/index.css';
 
-import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
-import { Constants } from '@metafam/utils';
-import { UserbackProvider } from '@userback/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Animocto from 'assets/animocto.svg';
 import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
+import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
 import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
@@ -15,14 +14,42 @@ import { useMounted } from 'lib/hooks';
 import Head from 'next/head';
 import Image from 'next/image';
 import Script from 'next/script';
-import PlausibleProvider from 'next-plausible';
 import { WithUrqlProps } from 'next-urql';
+import { createConfig, http, WagmiProvider } from 'wagmi';
+import { mainnet, optimism, polygon } from 'wagmi/chains';
 
+const config = createConfig(
+  getDefaultConfig({
+    chains: [mainnet, optimism, polygon],
+    transports: {
+      [mainnet.id]: http(
+        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      ),
+      [polygon.id]: http(
+        `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      ),
+      [optimism.id]: http(
+        `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      ),
+    },
 
-const { userbackToken, honeybadgerAPIKey } = CONFIG;
+    // Required API Keys
+    walletConnectProjectId:
+      process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '',
+
+    // Required App Info
+    appName: 'MetaGame',
+
+    // Optional App Info
+    appDescription: 'DAOs connection tissue',
+    appUrl: 'https://metagame.wtf', // your app's url
+    appIcon: 'https://metagame.wtf', // your app's icon, no bigger than 1024x1024px (max. 1MB)
+  }),
+);
+const queryClient = new QueryClient();
 
 const Analytics: React.FC = () => {
-  if (!CONFIG.gaId || CONFIG.nodeEnv !== 'production') return <></>
+  if (!CONFIG.gaId || CONFIG.nodeEnv !== 'production') return <></>;
   return (
     <>
       <Script
@@ -42,7 +69,7 @@ const Analytics: React.FC = () => {
       </Script>
     </>
   );
-}
+};
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
@@ -50,7 +77,6 @@ const App: React.FC<WithUrqlProps> = ({
   Component,
 }) => {
   const isMounted = useMounted();
-
   if (!isMounted) {
     return (
       <div
@@ -85,44 +111,30 @@ const App: React.FC<WithUrqlProps> = ({
   }
   return (
     <ChakraProvider theme={MetaTheme} resetCSS={true}>
-      <CSSReset />
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>MetaGame</title>
-      </Head>
-      <Web3ContextProvider {...{ resetUrqlClient }}>
-        <ComposeDBContextProvider>
-          <MegaMenu hide={pageProps.hideTopMenu}>
-            <Analytics />
-            <Component {...pageProps} />
-          </MegaMenu>
-        </ComposeDBContextProvider>
-      </Web3ContextProvider>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <ConnectKitProvider>
+            <CSSReset />
+            <Head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0"
+              />
+              <title>MetaGame</title>
+            </Head>
+            <Web3ContextProvider {...{ resetUrqlClient }}>
+              <ComposeDBContextProvider>
+                <MegaMenu hide={pageProps.hideTopMenu}>
+                  <Analytics />
+                  <Component {...pageProps} />
+                </MegaMenu>
+              </ComposeDBContextProvider>
+            </Web3ContextProvider>
+          </ConnectKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </ChakraProvider>
   );
 };
 
-const DeployedApp: React.FC<WithUrqlProps> = (props) => {
-  const honeybadgerConfig = {
-    apiKey: honeybadgerAPIKey,
-    environment: CONFIG.appEnv,
-    enableUncaught: true,
-    reportData: CONFIG.useHoneybadger,
-    // TODO include git SHA in github action deployment
-    // revision: 'git SHA/project version'
-  };
-  const honeybadger = Honeybadger.configure(honeybadgerConfig);
-
-  return (
-    <PlausibleProvider domain={Constants.PLAUSIBLE_DATA_DOMAIN}>
-      <HoneybadgerErrorBoundary {...{ honeybadger }}>
-        <>
-          {userbackToken && <UserbackProvider token={userbackToken} />}
-          <App {...props} />
-        </>
-      </HoneybadgerErrorBoundary>
-    </PlausibleProvider>
-  );
-};
-
-export default wrapUrqlClient(CONFIG.useHoneybadger ? DeployedApp : App);
+export default wrapUrqlClient(App);

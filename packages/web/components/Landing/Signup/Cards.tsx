@@ -49,7 +49,7 @@ interface CardProps {
   route?: string;
   link?: string;
   recommended?: boolean;
-};
+}
 
 export const RoleCard: React.FC<CardProps> = ({
   title,
@@ -154,7 +154,13 @@ export const RoleCard: React.FC<CardProps> = ({
             </Button>
           )}
           {link && (
-            <Button textTransform="uppercase" colorScheme="pink" onClick={() => { window.location.href = link; }} >
+            <Button
+              textTransform="uppercase"
+              colorScheme="pink"
+              onClick={() => {
+                window.location.href = link;
+              }}
+            >
               {action}
             </Button>
           )}
@@ -218,9 +224,17 @@ export const PerksCard: React.FC<CardProps> = ({
         </Text>
       )}
       {list && list.length > 0 && (
-        <List fontSize="md" fontWeight="light" justifyContent='center' spacing="12px">
+        <List
+          fontSize="md"
+          fontWeight="light"
+          justifyContent="center"
+          spacing="12px"
+        >
           {list?.map((item, idx) => (
-            <ListItem key={idx} color={!!id && item?.[id] ? 'white' : 'gray.400'}>
+            <ListItem
+              key={idx}
+              color={!!id && item?.[id] ? 'white' : 'gray.400'}
+            >
               <ListIcon
                 as={!!id && item?.[id] ? BsFillCheckCircleFill : FaCircle}
                 color={!!id && item?.[id] ? 'green.500' : 'gray.600'}
@@ -233,14 +247,18 @@ export const PerksCard: React.FC<CardProps> = ({
         </List>
       )}
     </Box>
-  )
+  );
 };
 
-export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, altBackground }) => (
+export const PerksChecklist: React.FC<PerksChecklistProps> = ({
+  perks,
+  id,
+  altBackground,
+}) => (
   <Box
     h="full"
     w="129px"
-    bg={altBackground ? "#00000029" : "#FFFFFF0A"}
+    bg={altBackground ? '#00000029' : '#FFFFFF0A'}
     display="flex"
     flexDir="column"
     alignItems="center"
@@ -252,14 +270,12 @@ export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, altBa
         borderRadius="full"
         variant="subtle"
         textTransform="uppercase"
-        colorScheme={
-          (() => {
-            if (id === 'free') return 'green';
-            if (id === 'basic') return 'purple';
-            if (id === 'pro') return 'pink';
-            return 'gray';
-          })()
-        }
+        colorScheme={(() => {
+          if (id === 'free') return 'green';
+          if (id === 'basic') return 'purple';
+          if (id === 'pro') return 'pink';
+          return 'gray';
+        })()}
         p={2}
         fontSize="0.4em"
       >
@@ -272,15 +288,15 @@ export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, altBa
           <ListIcon
             as={
               (perk.type === 'Player' && perk[id]) ||
-                (perk.type === 'Guild' && perk[id]) ||
-                (perk.type === 'Patron' && perk[id])
+              (perk.type === 'Guild' && perk[id]) ||
+              (perk.type === 'Patron' && perk[id])
                 ? BsFillCheckCircleFill
                 : FaCircle
             }
             color={
               (perk.type === 'Player' && perk[id]) ||
-                (perk.type === 'Guild' && perk[id]) ||
-                (perk.type === 'Patron' && perk[id])
+              (perk.type === 'Guild' && perk[id]) ||
+              (perk.type === 'Patron' && perk[id])
                 ? 'green.500'
                 : 'gray.600'
             }
@@ -290,9 +306,5 @@ export const PerksChecklist: React.FC<PerksChecklistProps> = ({ perks, id, altBa
         </ListItem>
       ))}
     </List>
-  </Box >
-)
-
-
-
-
+  </Box>
+);

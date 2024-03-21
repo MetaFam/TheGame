@@ -1,14 +1,16 @@
 import { Flex, HStack, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import { ConnectKitButton } from 'connectkit';
 import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
-import { useMounted, useUser, useWeb3 } from 'lib/hooks';
+import { useMounted, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { GoLinkExternal } from 'react-icons/go';
+import { useAccount } from 'wagmi';
 
 export const QuestChainsPinned: React.FC = () => {
   const { user } = useUser();
   const mounted = useMounted();
-  const { connect, connecting, connected } = useWeb3();
+  const { isConnected, isConnecting } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
 
   const [pinnedQuestChains, setPinnedQuestChains] = useState<
@@ -44,11 +46,11 @@ export const QuestChainsPinned: React.FC = () => {
       .trim()
       .replace(/\s+/g, '-');
 
-  if (!mounted || (!connecting && !connected)) {
+  if (!mounted || (!isConnecting && !isConnected)) {
     return (
       <Flex direction="column" align="center" justify="center" h="17rem">
         <Text textAlign="center">
-          <MetaButton onClick={connect}>Connect</MetaButton>
+          <ConnectKitButton />
           <Text>to see your pinned Playbooks</Text>
         </Text>
       </Flex>

@@ -28,7 +28,7 @@ export class AlchemyMultichainClient {
    */
   constructor(
     settings: AlchemyMultichainSettings,
-    overrides: Partial<Record<Network, AlchemyMultichainSettings>>
+    overrides: Partial<Record<Network, AlchemyMultichainSettings>>,
   ) {
     this.settings = settings;
     this.overrides = overrides;

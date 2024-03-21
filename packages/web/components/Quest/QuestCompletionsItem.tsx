@@ -6,7 +6,6 @@ import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import moment from 'moment';
 
-
 type Props = {
   player: Player;
   submittedAt: string;

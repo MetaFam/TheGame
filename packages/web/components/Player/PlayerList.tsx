@@ -2,7 +2,6 @@ import { SimpleGrid } from '@metafam/ds';
 import { PlayerTile } from 'components/Player/PlayerTile';
 import { Player } from 'graphql/autogen/types';
 
-
 type Props = {
   players: Player[];
   showSeasonalXP?: boolean;

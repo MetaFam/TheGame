@@ -4,7 +4,6 @@ import { PlayerTile } from 'components/Player/PlayerTile';
 import { Player } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
 
-
 type Props = {
   patrons: Array<Patron>;
   pSeedPrice: Maybe<number>;

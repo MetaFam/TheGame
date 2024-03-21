@@ -1,24 +1,24 @@
 import { Button, MetaMaskIcon, Tooltip } from '@metafam/ds';
 import { useWeb3 } from 'lib/hooks';
 import React, { useCallback, useState } from 'react';
-import { switchChain } from 'utils/metamask';
 import { NETWORK_INFO } from 'utils/networks';
+import { useSwitchChain } from 'wagmi';
 
 export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
   chainId = '0x1',
 }) => {
   const { connected } = useWeb3();
   const networkInfo = NETWORK_INFO[chainId];
-
+  const { switchChain } = useSwitchChain();
   const [isLoading, setLoading] = useState(false);
 
   const onClick = useCallback(async () => {
     if (connected) {
       setLoading(true);
-      await switchChain(chainId);
+      await switchChain({ chainId: Number(chainId) });
       setLoading(false);
     }
-  }, [connected, chainId]);
+  }, [connected, switchChain, chainId]);
 
   if (!connected || !networkInfo) return null;
 
@@ -34,7 +34,7 @@ export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
         leftIcon={<MetaMaskIcon />}
         {...{ isLoading, onClick }}
       >
-        {name}
+        Switch to {name}
       </Button>
     </Tooltip>
   );

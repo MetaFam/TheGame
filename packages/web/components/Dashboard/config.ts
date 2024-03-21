@@ -13,10 +13,10 @@ export const podcastRSSURL = 'https://anchor.fm/s/57a641c/podcast/rss';
 const DEFAULT_BOX_POSITIONS: Record<ChakraSize, Positions> = {
   lg: {
     [BoxTypes.DASHBOARD_LASTEST_CONTENT]: { x: 1, y: 0 },
-    [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 0, y:1 },
+    [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 0, y: 1 },
     [BoxTypes.DASHBOARD_CALENDER]: { x: 0, y: 0 },
     [BoxTypes.DASHBOARD_LEADERBOARD]: { x: 2, y: 2 },
-    [BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS]: { x: 2, y: 1 }
+    [BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS]: { x: 2, y: 1 },
   },
   md: {
     [BoxTypes.DASHBOARD_LASTEST_CONTENT]: { x: 0, y: 0 },

@@ -1,7 +1,6 @@
 import { Flex, SimpleGrid } from '@metafam/ds';
 import { PlayerTileSkeleton } from 'components/Player/Filter/PlayerTileSkeleton';
 
-
 export const PlayersLoading: React.FC = () => (
   <SimpleGrid
     columns={[1, null, 2, 3]}

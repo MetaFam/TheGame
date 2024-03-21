@@ -1,6 +1,5 @@
 import Head from 'next/head';
 
-
 export type HeadMetaProps = {
   title?: string;
   description?: string;

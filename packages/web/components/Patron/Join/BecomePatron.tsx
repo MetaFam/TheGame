@@ -11,7 +11,6 @@ import {
 import PatronCircle from 'assets/patron/patron-circle.webp';
 import Seed from 'assets/patron/seed.webp';
 
-
 export const BecomePatron: React.FC = () => (
   <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
     <Heading as="h2" fontFamily="mono" fontWeight={700} mb={[8, 8, 8, 12]}>

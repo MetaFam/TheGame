@@ -2,7 +2,6 @@ import { Box, SimpleGrid, Text } from '@metafam/ds';
 import { QuestTile } from 'components/Quest/QuestTile';
 import { QuestFragment } from 'graphql/autogen/types';
 
-
 type Props = {
   quests: QuestFragment[];
 };

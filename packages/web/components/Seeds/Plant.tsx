@@ -41,7 +41,7 @@ export const Plant: React.FC = () => (
         w="full"
         colorScheme="purple"
       >
-        <Text mr={2}>Plan Seeds (Balancer)</Text>
+        <Text mr={2}>Plant Seeds (Balancer)</Text>
         <GoLinkExternal />
       </Button>
     </Box>

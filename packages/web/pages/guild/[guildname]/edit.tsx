@@ -13,7 +13,7 @@ import { getGuild } from 'graphql/queries/guild';
 import { useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { lazy,useCallback, useEffect, useState } from 'react';
+import React, { lazy, useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { errorHandler } from 'utils/errorHandler';
 

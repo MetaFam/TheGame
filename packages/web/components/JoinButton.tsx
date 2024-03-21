@@ -1,7 +1,6 @@
 import { Button } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 
-
 export const JoinButton: React.FC<{ text: string }> = ({
   text = 'Join Us',
 }) => (

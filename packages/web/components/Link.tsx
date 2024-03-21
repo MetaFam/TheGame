@@ -1,7 +1,6 @@
 import { Link } from '@metafam/ds';
 import NextLink, { LinkProps } from 'next/link';
 
-
 type Props = Omit<React.ComponentProps<typeof Link>, keyof LinkProps> &
   LinkProps;
 

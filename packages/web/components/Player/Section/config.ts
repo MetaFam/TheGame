@@ -20,7 +20,6 @@ export const ALL_BOXES = [
   BoxTypes.PLAYER_LINKS,
   BoxTypes.PLAYER_COMPLETED_QUESTS,
   BoxTypes.CUSTOM_TEXT,
-  BoxTypes.PLAYER_METOKENS,
   BoxTypes.DEWORK,
   // BoxTypes.PLAYER_ACHIEVEMENTS,
   // TODO: Add more types of sections

@@ -76,7 +76,14 @@ export function getHexChainId(chain?: string): string {
     case 'polygon':
       return POLYGON;
     case 'ethereum':
+      return MAINNET;
+    case 'op mainnet':
+      return OPTIMISM;
     default:
       return MAINNET;
   }
+}
+
+export const getNumberId = (chainId: string): number => {
+  return parseInt(chainId, 16);
 }

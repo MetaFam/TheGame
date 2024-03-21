@@ -20,7 +20,7 @@ import { PatronList } from 'components/Patron/PatronList';
 import { HeadComponent } from 'components/Seo';
 import { getPatrons, getPSeedHolders, getPSeedPrice } from 'graphql/getPatrons';
 import { InferGetStaticPropsType } from 'next';
-import React, { lazy,useRef } from 'react';
+import React, { lazy, useRef } from 'react';
 import { PATRONS_PER_RANK } from 'utils/patronHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;

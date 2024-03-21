@@ -55,13 +55,8 @@ export const getPlayer = async (
 
   const { data, error } = response;
 
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-    return null;
-  }
+  if (error) throw error;
 
-  const [player] = data.player ?? [];
+  const [player] = data?.player ?? [];
   return (player as Player) ?? null;
 };

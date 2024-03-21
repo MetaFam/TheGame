@@ -4,7 +4,6 @@ import { GuildPlayer } from 'graphql/types';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 
-
 type GuildPlayerProps = {
   player: GuildPlayer;
 };

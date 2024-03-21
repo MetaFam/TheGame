@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import GuildsPage from 'pages/guilds';
 import PatronsPage from 'pages/patrons';
 import Players from 'pages/players';
-import React, { lazy,useEffect, useState } from 'react';
+import React, { lazy, useEffect, useState } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -99,7 +99,10 @@ const UnifiedCommunityPage: React.FC<Props> = ({
               {communityTabs.map(({ link }) => (
                 <Tab
                   key={`tab-${link}`}
-                  _selected={{ color: 'white', borderBottom: '2px inset #A48DF3' }}
+                  _selected={{
+                    color: 'white',
+                    borderBottom: '2px inset #A48DF3',
+                  }}
                   color="gray.400"
                   w="100%"
                 >

@@ -49,7 +49,9 @@ const GalleryItem: React.FC<{ nft: any }> = ({ nft }) => (
         >
           {nft?.collection?.name || nft?.contract?.name || 'Unknown'}
         </Heading>
-        <Text fontSize="sm">Floor Price: {nft?.contract?.openSeaMetadata?.floorPrice || '0' } ETH</Text>
+        <Text fontSize="sm">
+          Floor Price: {nft?.contract?.openSeaMetadata?.floorPrice || '0'} ETH
+        </Text>
       </Flex>
     </Tooltip>
   </Box>
@@ -95,17 +97,22 @@ export const PlayerGallery: React.FC<Props> = ({
   editing,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {loading, error, data: nfts} = useNFTCollectibles({ player }); 
+  const { loading, error, data: nfts } = useNFTCollectibles({ player });
 
   const processAllNfts = () => {
-    let nftData: any = []
-    if (!nfts[0]) return []
-    if (nfts[0]?.maticNfts?.ownedNfts) nftData = [...nftData, ...nfts[0].maticNfts.ownedNfts]
-    if (nfts[0]?.mainnetNfts?.ownedNfts) nftData = [...nftData, ...nfts[0].mainnetNfts.ownedNfts]
-    if (nfts[0]?.optimismNfts?.ownedNfts) nftData = [...nftData, ...nfts[0].optimismNfts.ownedNfts]
-    return nftData
-  }
-  const allNfts = processAllNfts().filter((nft: any) => nft.tokenType !== "ERC1155")
+    let nftData: any = [];
+    if (!nfts[0]) return [];
+    if (nfts[0]?.maticNfts?.ownedNfts)
+      nftData = [...nftData, ...nfts[0].maticNfts.ownedNfts];
+    if (nfts[0]?.mainnetNfts?.ownedNfts)
+      nftData = [...nftData, ...nfts[0].mainnetNfts.ownedNfts];
+    if (nfts[0]?.optimismNfts?.ownedNfts)
+      nftData = [...nftData, ...nfts[0].optimismNfts.ownedNfts];
+    return nftData;
+  };
+  const allNfts = processAllNfts().filter(
+    (nft: any) => nft.tokenType !== 'ERC1155',
+  );
 
   return (
     <ProfileSection

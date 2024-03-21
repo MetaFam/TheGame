@@ -2,7 +2,6 @@ import { BoxedNextImage, Flex, HStack } from '@metafam/ds';
 import MetaGameLogo from 'assets/new_logo_svg.svg';
 import { MetaLink } from 'components/Link';
 
-
 export const LandingFooter: React.FC = () => (
   <Flex
     as="footer"

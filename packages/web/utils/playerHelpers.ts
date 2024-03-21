@@ -31,7 +31,6 @@ export const getPlayerImage = (
   return { profileIcon, link };
 };
 
-
 export const getPlayerBanner = (player: Maybe<Player>): string => {
   const key = 'bannerImageURL';
   return (

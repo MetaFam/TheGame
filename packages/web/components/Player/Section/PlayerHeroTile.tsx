@@ -1,6 +1,5 @@
 import { Box, BoxProps, HStack, Text } from '@metafam/ds';
 
-
 type Props = {
   title: string;
   // shim b/c I'm getting an error I don't understand

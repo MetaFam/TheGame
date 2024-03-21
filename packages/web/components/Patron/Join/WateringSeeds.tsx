@@ -1,7 +1,6 @@
 import { Box, Container, Flex, Heading, Image, MetaButton } from '@metafam/ds';
 import SeedsDiagram from 'assets/patron/seed-diagram.webp';
 
-
 export const WateringSeeds: React.FC = () => (
   <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
     {/* Watering Seeds */}
