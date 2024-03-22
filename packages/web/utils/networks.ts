@@ -84,6 +84,4 @@ export function getHexChainId(chain?: string): string {
   }
 }
 
-export const getNumberId = (chainId: string): number => {
-  return parseInt(chainId, 16);
-}
+export const getNumberId = (chainId: string): number => parseInt(chainId, 16)

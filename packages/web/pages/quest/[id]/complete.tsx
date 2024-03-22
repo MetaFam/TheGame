@@ -23,7 +23,6 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const PageContainer = lazy(() => import('components/Container'));
 
 const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
-  useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const toast = useToast();
   const router = useRouter();
   const [createQuestCompletionState, createQuestCompletion] =

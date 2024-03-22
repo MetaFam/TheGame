@@ -25,6 +25,7 @@ import { XPSeedsBalance } from './XPSeedsBalance';
 // Display player XP and Seed
 export const MegaMenuFooter = () => {
   const { isConnected, isConnecting } = useAccount();
+  const { disconnect } = useWeb3(); 
   const { fetching, user } = useUser();
   const name = usePlayerName(user);
   const linkURL = usePlayerURL(user);
@@ -139,7 +140,7 @@ export const MegaMenuFooter = () => {
                   Dashboard
                 </MenuItem>
               </MetaLink>
-              {/* <MenuItem
+              <MenuItem
                 onClick={disconnect}
                 sx={{
                   '&:hover, &:active, &:focus': {
@@ -151,7 +152,7 @@ export const MegaMenuFooter = () => {
               >
                 <LogOut w={4} h={4} mr={4} fill="white" />
                 Disconnect
-              </MenuItem> */}
+              </MenuItem>
             </MenuList>
           </Menu>
           <HStack justify="flex-end">
