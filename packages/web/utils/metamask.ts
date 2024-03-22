@@ -58,7 +58,7 @@ export const addTokenToMetamask = async ({
   address: string;
   symbol: string;
   decimals: number;
-}): Promise<boolean> => {
+}): Promise<boolean> => 
   // try {
   //   await window.ethereum.request({
   //     method: 'wallet_watchAsset',
@@ -76,5 +76,5 @@ export const addTokenToMetamask = async ({
   //   console.error(`Unable to add token: ${symbol}.`, addError);
   //   errorHandler(addError as Error);
   // }
-  return false;
-};
+   false
+;
