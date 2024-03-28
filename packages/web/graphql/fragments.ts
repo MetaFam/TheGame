@@ -53,6 +53,7 @@ export const PlayerFragment = /* GraphQL */ `
     rank
     ethereumAddress
     profileLayout
+    dashboardLayout
     ceramicProfileId
 
     profile {
