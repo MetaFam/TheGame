@@ -5,7 +5,7 @@ import { NETWORK_INFO } from 'utils/networks';
 import { useSwitchChain } from 'wagmi';
 
 export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
-  chainId = '0x1',
+  chainId = '0xa',
 }) => {
   const { connected } = useWeb3();
   const networkInfo = NETWORK_INFO[chainId];
