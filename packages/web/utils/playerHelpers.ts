@@ -9,7 +9,6 @@ import {
   Maybe,
   profileMapping,
 } from '@metafam/utils';
-import ProfileIcon from 'assets/generic-user-icon.svg';
 import GuildCoverImageFull from 'assets/guild-background-full.jpeg';
 import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';

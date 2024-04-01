@@ -200,13 +200,13 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
           </Center>
         </ModalBody>
         <ModalFooter justifyContent="center">
-          {chainId === '0x1' ? (
+          {chainId === '0xa' ? (
             <MetaButton disabled={!areImagesLoaded} {...{ onClick }}>
               {status}
             </MetaButton>
           ) : (
             <Text fontSize="md" w="100%" textAlign="center">
-              Please switch to <SwitchNetworkButton chainId="0x1" /> to
+              Please switch to <SwitchNetworkButton chainId="0xa" /> to
               progress.
             </Text>
           )}

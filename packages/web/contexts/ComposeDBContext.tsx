@@ -35,7 +35,6 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const { chainId, provider } = useWeb3();
-
   const [connecting, setConnecting] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -67,8 +66,8 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
 
   const connect = useCallback(async () => {
     if (provider == null || connecting) return;
-    if (chainId !== '0x1') {
-      throw new CeramicError('ComposeDB should be used on mainnet only');
+    if (chainId !== '0xa') {
+      throw new CeramicError('ComposeDB should be used on Optimism only');
     }
 
     setConnecting(true);

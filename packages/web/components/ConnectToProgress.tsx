@@ -36,14 +36,14 @@ export const ConnectToProgress: React.FC<{
   const { fetching } = useUser();
 
   if (isConnected && !fetching) {
-    if (chainId !== 1 && showSwitchButton) {
+    if (chainId !== 10 && showSwitchButton) {
       return (
         <Stack w="100%" align="center">
           <Stack color="white" spacing={8} w="100%" maxW="30rem">
             <MetaGameLogo />
             {header && <MetaHeading>{header}</MetaHeading>}
             <Text fontSize="md" w="100%" textAlign="center">
-              Please switch to <SwitchNetworkButton chainId="0x1" /> to progress
+              Please switch to <SwitchNetworkButton chainId="0xa" /> to progress
             </Text>
           </Stack>
         </Stack>
