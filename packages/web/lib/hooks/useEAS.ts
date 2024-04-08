@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const easContractAddress = "0x4200000000000000000000000000000000000021";
 const schemaUID = "0x081fc803f607b291b727b885a203d53b8cbb1488f6db1242327cca81db5f17ed";
-const eas = new EAS(easContractAddress, "https://optimism.easscan.org");
+const eas = new EAS(easContractAddress);
 
 export const useEAS = () => {
   const [connectedEAS, setConnectedEAS] = useState<EAS | null>(null);
