@@ -60,8 +60,8 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
   isHydratedFromComposeDB = false,
 }): ReactElement => {
   const router = useRouter();
-  const eas = useEAS();
-  console.log("EAS", eas)
+  const { connectedEAS, attest } = useEAS();
+
   const username = router.query.username as string;
 
   // if the given player is not known and the username contains a dot,
