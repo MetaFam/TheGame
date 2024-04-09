@@ -13,7 +13,6 @@ import {
 } from 'components/Landing/OnboardingGame/nft';
 import { MetaLink } from 'components/Link';
 import ABI from 'contracts/BulkDisbursableNFTs.abi';
-import { Contract } from 'ethers';
 import { ContractError } from 'graphql/types';
 import { useEthersSigner } from 'lib/hooks/userEthersSigner';
 import { get, remove, set } from 'lib/store';

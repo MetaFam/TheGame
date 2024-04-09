@@ -1,5 +1,4 @@
 import  { EAS, SchemaEncoder }  from "@ethereum-attestation-service/eas-sdk";
-import { TransactionSigner } from "@ethereum-attestation-service/eas-sdk";
 import { useEthersSigner } from "./userEthersSigner";
 import { useEffect, useState } from "react";
 
@@ -14,33 +13,33 @@ export const useEAS = () => {
   const provider = useEthersSigner({ chainId: 10 });
 
   useEffect(() => {
-    const connectEAS = async () => {
-      if (provider) {
-        eas.connect(provider);
-      }
-      setConnectedEAS(eas);
-    }
-    connectEAS();
+    // const connectEAS = async () => {
+    //   if (provider) {
+    //     eas.connect(provider.getSigner() as unknown as TransactionSigner);
+    //   }
+    //   setConnectedEAS(eas);
+    // }
+    // connectEAS();
   }, [provider])
 
   const attest = async (message: string, context: string) => {
-     // Initialize SchemaEncoder with the schema string
-  const schemaEncoder = new SchemaEncoder("string message,string context");
-    const encodedData = schemaEncoder.encodeData([
-      { name: "message", value: message, type: "string" },
-      { name: "context", value: context, type: "string" }
-    ]);
-    const tx = await eas.attest({
-      schema: schemaUID,
-      data: {
-        recipient: "0x0000000000000000000000000000000000000000",
-        expirationTime: 0 as unknown as bigint,
-        revocable: true, // Be aware that if your schema is not revocable, this MUST be false
-        data: encodedData,
-      },
-    });
-    const newAttestationUID = await tx.wait();
-    console.log("New attestation UID:", newAttestationUID);
+  //    // Initialize SchemaEncoder with the schema string
+  // const schemaEncoder = new SchemaEncoder("string message,string context");
+  //   const encodedData = schemaEncoder.encodeData([
+  //     { name: "message", value: message, type: "string" },
+  //     { name: "context", value: context, type: "string" }
+  //   ]);
+  //   const tx = await eas.attest({
+  //     schema: schemaUID,
+  //     data: {
+  //       recipient: "0x0000000000000000000000000000000000000000",
+  //       expirationTime: 0 as unknown as bigint,
+  //       revocable: true, // Be aware that if your schema is not revocable, this MUST be false
+  //       data: encodedData,
+  //     },
+  //   });
+  //   const newAttestationUID = await tx.wait();
+    console.log("New attestation UID:", );
   }
 
   return { connectedEAS, attest };
