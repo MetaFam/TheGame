@@ -15,7 +15,7 @@ export function clientToProvider(client: Client<Transport, Chain, Account>) {
 }
 
 /** Hook to convert a Viem Client to an ethers.js Signer. */
-export function useEthersSigner({ chainId }: { chainId?: number } = {}) {
+export function useEthersProvider({ chainId }: { chainId?: number } = {}) {
   const { data: client } = useConnectorClient<Config>({ chainId });
   const [provider, setProvider] = useState<BrowserProvider | undefined>(
     undefined,

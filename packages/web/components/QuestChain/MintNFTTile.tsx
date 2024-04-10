@@ -60,7 +60,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
       const contract = getQuestChainContract(
         questChain.address,
         questChain.version,
-        provider.getSigner(),
+        await provider.getSigner(),
       );
 
       const tx = await (questChain.version === '0'

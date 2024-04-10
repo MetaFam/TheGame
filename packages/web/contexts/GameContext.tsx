@@ -14,7 +14,7 @@ import {
 import { MetaLink } from 'components/Link';
 import ABI from 'contracts/BulkDisbursableNFTs.abi';
 import { ContractError } from 'graphql/types';
-import { useEthersSigner } from 'lib/hooks/userEthersSigner';
+import { useEthersProvider } from 'lib/hooks/useEthersProvider';
 import { get, remove, set } from 'lib/store';
 import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
@@ -72,7 +72,7 @@ export const GameContextProvider: React.FC<PropsWithChildren> = ({
     chainId,
   } = useAccount();
   const { disconnect } = useDisconnect();
-  const provider = useEthersSigner();
+  const provider = useEthersProvider();
   const [account, setAccount] = useState(address ?? '');
   const debug = !!useRouter().query.debug;
   const toast = useToast();

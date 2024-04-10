@@ -1,4 +1,3 @@
-import { isAddress } from '@ethersproject/address';
 import {
   ComposeDBField,
   ComposeDBImageMetadata,
@@ -12,6 +11,7 @@ import {
 import GuildCoverImageFull from 'assets/guild-background-full.jpeg';
 import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
+import { isAddress } from 'ethers';
 import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { GuildPlayer, Patron, PlayerProfile } from 'graphql/types';
 import { toSvg } from 'jdenticon';
