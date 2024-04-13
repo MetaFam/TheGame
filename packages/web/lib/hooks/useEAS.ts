@@ -15,13 +15,15 @@ export const useEAS = () => {
   const provider = useEthersProvider({ chainId: 10 });
 
   useEffect(() => {
-    // const connectEAS = async () => {
-    //   if (provider) {
-    //     eas.connect(provider.getSigner() as unknown as TransactionSigner);
-    //   }
-    //   setConnectedEAS(eas);
-    // }
-    // connectEAS();
+    console.log("Provider", provider?.getSigner());
+    const connectEAS = async () => {
+      const signer = await provider?.getSigner();
+      if (signer) {
+        eas.connect(signer);
+      }
+      setConnectedEAS(eas);
+    }
+    connectEAS();
   }, [provider]);
 
   const attest = async (message: string, context: string) => {
