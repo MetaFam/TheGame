@@ -15,7 +15,6 @@ export const useEAS = () => {
   const provider = useEthersProvider({ chainId: 10 });
 
   useEffect(() => {
-    console.log("Provider", provider?.getSigner());
     const connectEAS = async () => {
       const signer = await provider?.getSigner();
       if (signer) {
@@ -27,23 +26,29 @@ export const useEAS = () => {
   }, [provider]);
 
   const attest = async (message: string, context: string) => {
-    //    // Initialize SchemaEncoder with the schema string
-    // const schemaEncoder = new SchemaEncoder("string message,string context");
-    //   const encodedData = schemaEncoder.encodeData([
-    //     { name: "message", value: message, type: "string" },
-    //     { name: "context", value: context, type: "string" }
-    //   ]);
-    //   const tx = await eas.attest({
-    //     schema: schemaUID,
-    //     data: {
-    //       recipient: "0x0000000000000000000000000000000000000000",
-    //       expirationTime: 0 as unknown as bigint,
-    //       revocable: true, // Be aware that if your schema is not revocable, this MUST be false
-    //       data: encodedData,
-    //     },
-    //   });
-    //   const newAttestationUID = await tx.wait();
+    // Initialize SchemaEncoder with the schema string
+    const schemaEncoder = new SchemaEncoder("string message,string context");
+    const encodedData = schemaEncoder.encodeData([
+      { name: "message", value: message, type: "string" },
+      { name: "context", value: context, type: "string" }
+    ]);
+    const tx = await eas.attest({
+      schema: schemaUID,
+      data: {
+        recipient: "0x0000000000000000000000000000000000000000",
+        expirationTime: BigInt(0),
+        revocable: true, // Be aware that if your schema is not revocable, this MUST be false
+        data: encodedData,
+      },
+    });
+    const newAttestationUID = await tx.wait();
+    console.log(newAttestationUID);
   };
 
-  return { connectedEAS, attest };
+  const getAttestation = async () => {
+    const attestation = await eas.getAttestation(schemaUID);
+    console.log(attestation);
+  }
+
+  return { connectedEAS, attest, getAttestation };
 };
