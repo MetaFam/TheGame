@@ -3,7 +3,7 @@ import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements
 import { PlayerCompletedQuests } from 'components/Player/Section/PlayerCompletedQuests';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
-import { PlayerMemberships } from 'components/Player/Section/PlayerMemberships';
+import { PlayerMemberships } from 'components/Player/Section/PlayerLinks/PlayerMemberships';
 import { PlayerPersonalityType } from 'components/Player/Section/PlayerPersonalityType';
 import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
 import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
@@ -17,8 +17,8 @@ import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
 import { PlayerDework } from './Section/PlayerDework';
-import { PlayerLinks } from './Section/PlayerLinks';
 import { PlayerEAS } from './Section/PlayerEAS';
+import { PlayerLinks } from './Section/PlayerLinks';
 
 type Props = {
   type: BoxType;

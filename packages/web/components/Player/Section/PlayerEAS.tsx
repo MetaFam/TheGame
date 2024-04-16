@@ -1,6 +1,7 @@
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { LinkType_Enum, Player } from 'graphql/autogen/types';
 import { BoxTypes } from 'utils/boxTypes';
+
 import { Attestations } from './Attestations';
 
 
@@ -12,7 +13,7 @@ type Props = {
   onClose?: () => void;
 };
 
-export interface PlayerEAS {
+export interface PlayerEASInterface {
   name: string;
   url: string;
   type: LinkType_Enum;
@@ -30,6 +31,8 @@ export const PlayerEAS: React.FC<Props> = ({
     type={BoxTypes.PLAYER_ATTESTATIONS}
     {...{ isOwnProfile, editing }}
   >
-    <Attestations />
+    {
+      isOwnProfile ? 'Players can Attest to you.' : <Attestations player={player} />
+    }
   </ProfileSection>
 );

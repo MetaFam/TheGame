@@ -1,18 +1,19 @@
-import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
+import { EAS, SchemaEncoder, SchemaRegistry } from '@ethereum-attestation-service/eas-sdk';
 import { useEffect, useState } from 'react';
 
 import { useEthersProvider } from './useEthersProvider';
+import { useWeb3 } from './useWeb3';
 
 // EAS Schema https://optimism.easscan.org/schema/view/0x081fc803f607b291b727b885a203d53b8cbb1488f6db1242327cca81db5f17ed
 
-const easContractAddress = '0x4200000000000000000000000000000000000021';
-const schemaUID =
-  '0x081fc803f607b291b727b885a203d53b8cbb1488f6db1242327cca81db5f17ed';
+const easContractAddress = "0x4200000000000000000000000000000000000021";
+const schemaUID = "0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e";
 const eas = new EAS(easContractAddress);
 
 export const useEAS = () => {
   const [connectedEAS, setConnectedEAS] = useState<EAS | null>(null);
   const provider = useEthersProvider({ chainId: 10 });
+  const { address } = useWeb3();
 
   useEffect(() => {
     const connectEAS = async () => {
@@ -25,12 +26,15 @@ export const useEAS = () => {
     connectEAS();
   }, [provider]);
 
-  const attest = async (message: string, context: string) => {
+  const attest = async (message: string, attestee: string, xp?: number) => {
+    if (!address) return;
     // Initialize SchemaEncoder with the schema string
-    const schemaEncoder = new SchemaEncoder("string message,string context");
+    const schemaEncoder = new SchemaEncoder("address attestee,address attestor,string attestation,uint256 xp");
     const encodedData = schemaEncoder.encodeData([
-      { name: "message", value: message, type: "string" },
-      { name: "context", value: context, type: "string" }
+      { name: "attestee", value: attestee, type: "address" },
+      { name: "attestor", value: address, type: "address" },
+      { name: "attestation", value: message, type: "string" },
+      { name: "xp", value: BigInt(xp ?? 0), type: "uint256" }
     ]);
     const tx = await eas.attest({
       schema: schemaUID,
@@ -42,13 +46,7 @@ export const useEAS = () => {
       },
     });
     const newAttestationUID = await tx.wait();
-    console.log(newAttestationUID);
   };
 
-  const getAttestation = async () => {
-    const attestation = await eas.getAttestation(schemaUID);
-    console.log(attestation);
-  }
-
-  return { connectedEAS, attest, getAttestation };
+  return { connectedEAS, attest };
 };

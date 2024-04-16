@@ -1,25 +1,32 @@
-import { Button } from '@metafam/ds'
+import { MetaButton,Textarea } from '@metafam/ds'
+import { Player } from 'graphql/autogen/types'
 import { useEAS } from 'lib/hooks/useEAS'
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 
-export const Attestations: React.FC<{}> = ({}) => {
-  const { attest, getAttestation } = useEAS();
+const MAX_DESC_LEN = 420; // characters
 
-  useEffect(() => {
-    const getAttestationData = async () => {
-      const a = await getAttestation();
-      console.log(a);
-      return a;
-    }
-    getAttestationData().then((a) => console.log(a)); 
-  }, [getAttestation])
+export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
+  const { attest } = useEAS();
+  const [attestation, setAttestion] = useState<string>('')
 
   return (
     <div>
-      Attestations
-      <Button onClick={() => attest('message', 'connext')}>
+      <Textarea
+        placeholder="Attest."
+        minW="min(18em, calc(100vw - 2rem))"
+        color="white"
+        bg="dark"
+        onChange={(e) => {
+          if (e.target.value.length > MAX_DESC_LEN) {
+            return;
+          }
+          setAttestion(e.target.value)
+        }}
+        value={attestation}
+      />
+      <MetaButton onClick={() => attest(attestation, player?.ethereumAddress)} style={{ marginTop: '1em' }}>
         Attest
-      </Button>
+      </MetaButton>
     </div>
   ) 
 }
