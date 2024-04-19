@@ -1,6 +1,6 @@
 import { EAS, SchemaEncoder, SchemaRegistry } from '@ethereum-attestation-service/eas-sdk';
 import { useEffect, useState } from 'react';
-
+import { ethers } from 'ethers';
 import { useEthersProvider } from './useEthersProvider';
 import { useWeb3 } from './useWeb3';
 
@@ -39,38 +39,43 @@ export const useEAS = () => {
     const tx = await eas.attest({
       schema: schemaUID,
       data: {
-        recipient: "0x0000000000000000000000000000000000000000",
+        recipient: attestee,
         expirationTime: BigInt(0),
         revocable: true, // Be aware that if your schema is not revocable, this MUST be false
         data: encodedData,
       },
     });
+    const decode  = schemaEncoder.decodeData(encodedData);
     const newAttestationUID = await tx.wait();
     return newAttestationUID;
   };
 
-  const getAttestations = async () => {
+  const getAttestationsForRecipient = async (recipient: string) => {
     async function fetchData() {
       // Define the GraphQL query
       const query = `
-        query Attestations {
-          attestations(
-            where: { schemaId: { equals: "0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e" } }
-            take: 25
-          ) {
-            id
-            attester
-            recipient
-            refUID
-            revocable
-            revocationTime
-            expirationTime
-            data
-            schemaId
+      query Attestations($recipient: String!) {
+        attestations(
+          where: {
+            schemaId: { equals: "0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e" }
+            attester: { equals: $recipient }
           }
+          take: 25
+        ) {
+          id
+          attester
+          recipient
+          refUID
+          revocable
+          revocationTime
+          expirationTime
+          data
+          schemaId
         }
-      `;
-    
+      }
+    `;
+      const checkSumAddress = ethers.getAddress(recipient);
+
       // Define the GraphQL endpoint
       const endpoint = 'https://optimism.easscan.org/graphql';
     
@@ -81,14 +86,20 @@ export const useEAS = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ query }),
+          body: JSON.stringify({
+            query,
+            variables: { recipient: checkSumAddress }
+          }),
         });
-    
+     
         // Parse response JSON
         const responseData = await response.json();
-    
-        // Output the received data
-        console.log(responseData);
+        const schemaEncoder = new SchemaEncoder("address attestee,address attestor,string attestation,uint256 xp");
+        const decodedData = responseData?.data?.attestations.map((attestation: any) => {
+          return schemaEncoder.decodeData(attestation.data);
+        });
+        console.log(decodedData);
+        return decodedData;
       } catch (error) {
         // Handle any errors
         console.error('Error fetching data:', error);
@@ -96,9 +107,9 @@ export const useEAS = () => {
     }
     
     // Call the function to fetch data
-    fetchData();
-    
+    const data = fetchData();
+    return data;
   }
 
-  return { connectedEAS, attest, getAttestations };
+  return { connectedEAS, attest, getAttestationsForRecipient };
 };
