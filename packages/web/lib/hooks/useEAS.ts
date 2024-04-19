@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useEthersProvider } from './useEthersProvider';
 import { useWeb3 } from './useWeb3';
 
-// EAS Schema https://optimism.easscan.org/schema/view/0x081fc803f607b291b727b885a203d53b8cbb1488f6db1242327cca81db5f17ed
+// EAS Schema https://optimism.easscan.org/schema/view/0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e
 
 const easContractAddress = "0x4200000000000000000000000000000000000021";
 const schemaUID = "0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e";
@@ -46,7 +46,59 @@ export const useEAS = () => {
       },
     });
     const newAttestationUID = await tx.wait();
+    return newAttestationUID;
   };
 
-  return { connectedEAS, attest };
+  const getAttestations = async () => {
+    async function fetchData() {
+      // Define the GraphQL query
+      const query = `
+        query Attestations {
+          attestations(
+            where: { schemaId: { equals: "0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e" } }
+            take: 25
+          ) {
+            id
+            attester
+            recipient
+            refUID
+            revocable
+            revocationTime
+            expirationTime
+            data
+            schemaId
+          }
+        }
+      `;
+    
+      // Define the GraphQL endpoint
+      const endpoint = 'https://optimism.easscan.org/graphql';
+    
+      try {
+        // Send POST request with fetch
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query }),
+        });
+    
+        // Parse response JSON
+        const responseData = await response.json();
+    
+        // Output the received data
+        console.log(responseData);
+      } catch (error) {
+        // Handle any errors
+        console.error('Error fetching data:', error);
+      }
+    }
+    
+    // Call the function to fetch data
+    fetchData();
+    
+  }
+
+  return { connectedEAS, attest, getAttestations };
 };

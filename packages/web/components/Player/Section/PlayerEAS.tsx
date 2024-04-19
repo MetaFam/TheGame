@@ -32,7 +32,7 @@ export const PlayerEAS: React.FC<Props> = ({
     {...{ isOwnProfile, editing }}
   >
     {
-      isOwnProfile ? 'Players can Attest to you.' : <Attestations player={player} />
+      isOwnProfile ? <Attestations player={player} /> : <Attestations player={player} />
     }
   </ProfileSection>
 );

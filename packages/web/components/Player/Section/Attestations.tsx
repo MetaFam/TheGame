@@ -1,13 +1,17 @@
 import { MetaButton,Textarea } from '@metafam/ds'
 import { Player } from 'graphql/autogen/types'
 import { useEAS } from 'lib/hooks/useEAS'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const MAX_DESC_LEN = 420; // characters
 
 export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
-  const { attest } = useEAS();
+  const { attest, getAttestations } = useEAS();
   const [attestation, setAttestion] = useState<string>('')
+
+  useEffect(() => {
+    getAttestations()
+  }, [])
 
   return (
     <div>
