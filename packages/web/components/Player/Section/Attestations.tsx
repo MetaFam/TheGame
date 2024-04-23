@@ -59,7 +59,7 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
                   borderTopWidth={1}
                   dropShadow={`0 4 4px rgba(0,0,0,0.25)`}
                 >
-                  <Text fontSize="md" color="white" fontWeight={600}>
+                  <Text fontSize="sm" color="white" fontWeight={700}>
                     {attestor.value}
                   </Text>
                   <Text fontSize="sm" noOfLines={4} my={2} color="white">
