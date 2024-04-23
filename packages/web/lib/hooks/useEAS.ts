@@ -1,13 +1,19 @@
-import { EAS, SchemaEncoder, SchemaRegistry } from '@ethereum-attestation-service/eas-sdk';
-import { useEffect, useState } from 'react';
+import {
+  EAS,
+  SchemaEncoder,
+  SchemaRegistry,
+} from '@ethereum-attestation-service/eas-sdk';
 import { ethers } from 'ethers';
+import { useEffect, useState } from 'react';
+
 import { useEthersProvider } from './useEthersProvider';
 import { useWeb3 } from './useWeb3';
 
 // EAS Schema https://optimism.easscan.org/schema/view/0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e
 
-const easContractAddress = "0x4200000000000000000000000000000000000021";
-const schemaUID = "0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e";
+const easContractAddress = '0x4200000000000000000000000000000000000021';
+const schemaUID =
+  '0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e';
 const eas = new EAS(easContractAddress);
 
 export const useEAS = () => {
@@ -22,19 +28,21 @@ export const useEAS = () => {
         eas.connect(signer);
       }
       setConnectedEAS(eas);
-    }
+    };
     connectEAS();
   }, [provider]);
 
   const attest = async (message: string, attestee: string, xp?: number) => {
     if (!address) return;
     // Initialize SchemaEncoder with the schema string
-    const schemaEncoder = new SchemaEncoder("address attestee,address attestor,string attestation,uint256 xp");
+    const schemaEncoder = new SchemaEncoder(
+      'address attestee,address attestor,string attestation,uint256 xp',
+    );
     const encodedData = schemaEncoder.encodeData([
-      { name: "attestee", value: attestee, type: "address" },
-      { name: "attestor", value: address, type: "address" },
-      { name: "attestation", value: message, type: "string" },
-      { name: "xp", value: BigInt(xp ?? 0), type: "uint256" }
+      { name: 'attestee', value: attestee, type: 'address' },
+      { name: 'attestor', value: address, type: 'address' },
+      { name: 'attestation', value: message, type: 'string' },
+      { name: 'xp', value: BigInt(xp ?? 0), type: 'uint256' },
     ]);
     const tx = await eas.attest({
       schema: schemaUID,
@@ -45,7 +53,7 @@ export const useEAS = () => {
         data: encodedData,
       },
     });
-    const decode  = schemaEncoder.decodeData(encodedData);
+    const decode = schemaEncoder.decodeData(encodedData);
     const newAttestationUID = await tx.wait();
     return newAttestationUID;
   };
@@ -71,6 +79,7 @@ export const useEAS = () => {
           expirationTime
           data
           schemaId
+          timeCreated
         }
       }
     `;
@@ -78,7 +87,7 @@ export const useEAS = () => {
 
       // Define the GraphQL endpoint
       const endpoint = 'https://optimism.easscan.org/graphql';
-    
+
       try {
         // Send POST request with fetch
         const response = await fetch(endpoint, {
@@ -88,28 +97,29 @@ export const useEAS = () => {
           },
           body: JSON.stringify({
             query,
-            variables: { recipient: checkSumAddress }
+            variables: { recipient: checkSumAddress },
           }),
         });
-     
+
         // Parse response JSON
         const responseData = await response.json();
-        const schemaEncoder = new SchemaEncoder("address attestee,address attestor,string attestation,uint256 xp");
-        const decodedData = responseData?.data?.attestations.map((attestation: any) => {
-          return schemaEncoder.decodeData(attestation.data);
-        });
-        console.log(decodedData);
+        const schemaEncoder = new SchemaEncoder(
+          'address attestee,address attestor,string attestation,uint256 xp,int timeCreated',
+        );
+        const decodedData = responseData?.data?.attestations.map(
+          (attestation: any) => schemaEncoder.decodeData(attestation.data),
+        );
         return decodedData;
       } catch (error) {
         // Handle any errors
         console.error('Error fetching data:', error);
       }
     }
-    
+
     // Call the function to fetch data
     const data = fetchData();
     return data;
-  }
+  };
 
   return { connectedEAS, attest, getAttestationsForRecipient };
 };
