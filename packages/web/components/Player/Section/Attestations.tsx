@@ -1,4 +1,11 @@
-import { Flex, MetaButton, Text, Textarea, VStack } from '@metafam/ds';
+import {
+  Flex,
+  MetaButton,
+  Text,
+  Textarea,
+  useToast,
+  VStack,
+} from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
 import { useEAS } from 'lib/hooks/useEAS';
@@ -11,6 +18,8 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
   const [attestation, setAttestion] = useState<string>('');
   const [attestations, setAttestations] = useState<any[]>([]);
   const { address } = useWeb3();
+  const [isAttesting, setIsAttesting] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     const getAttestationData = async () => {
@@ -20,7 +29,25 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
       setAttestations(attestationData);
     };
     getAttestationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player?.ethereumAddress]);
+
+  const handleAttest = async () => {
+    try {
+      setIsAttesting(true);
+      await attest(attestation, player?.ethereumAddress);
+      setAttestion('');
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: `Unable to save layout. Error: ${(err as Error).message}`,
+        status: 'error',
+        isClosable: true,
+      });
+    } finally {
+      setIsAttesting(false);
+    }
+  };
 
   return (
     <div>
@@ -28,12 +55,11 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
         <div>
           <h3>Your Attestations: ({attestations?.length})</h3>
           <VStack mt={4} mb={4} w="full">
-            {attestations?.map((attestation, i) => {
-              const attestee = attestation[0].value;
-              const attestor = attestation[1].value;
+            {attestations?.map((att, i) => {
+              const attestor = att[3].value;
+              const timeCreated = att[1].value.value;
 
-              const attestationVal = attestation[2].value;
-              const xp = attestation[3].value;
+              const attestationVal = att[0].value;
               return (
                 <Flex
                   direction="column"
@@ -69,10 +95,9 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
                     {attestationVal.value}
                   </Text>
                   <Text fontSize="sm" color="white">
-                    {attestor.value}
+                    By {attestor}
                   </Text>
-                  {/* <p>xp {xp.value}</p> */}
-                  <Text fontSize="sm">10min ago</Text>
+                  <Text fontSize="sm">{timeCreated}</Text>
                 </Flex>
               );
             })}
@@ -95,7 +120,8 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
             value={attestation}
           />
           <MetaButton
-            onClick={() => attest(attestation, player?.ethereumAddress)}
+            onClick={handleAttest}
+            disabled={isAttesting}
             style={{ marginTop: '1em' }}
           >
             Attest

@@ -9,11 +9,11 @@ import { useEffect, useState } from 'react';
 import { useEthersProvider } from './useEthersProvider';
 import { useWeb3 } from './useWeb3';
 
-// EAS Schema https://optimism.easscan.org/schema/view/0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e
+// EAS Schema https://optimism.easscan.org/schema/view/0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1
 
 const easContractAddress = '0x4200000000000000000000000000000000000021';
 const schemaUID =
-  '0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e';
+  '0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1';
 const eas = new EAS(easContractAddress);
 
 export const useEAS = () => {
@@ -32,17 +32,17 @@ export const useEAS = () => {
     connectEAS();
   }, [provider]);
 
-  const attest = async (message: string, attestee: string, xp?: number) => {
-    if (!address) return;
+  const attest = async (message: string, attestee: string, xp?: string) => {
+    if (!address) return undefined;
     // Initialize SchemaEncoder with the schema string
     const schemaEncoder = new SchemaEncoder(
-      'address attestee,address attestor,string attestation,uint256 xp',
+      'string attestation,string timeCreated,string xp',
     );
+    const timeRightNow = new Date().toDateString();
     const encodedData = schemaEncoder.encodeData([
-      { name: 'attestee', value: attestee, type: 'address' },
-      { name: 'attestor', value: address, type: 'address' },
       { name: 'attestation', value: message, type: 'string' },
-      { name: 'xp', value: BigInt(xp ?? 0), type: 'uint256' },
+      { name: 'timeCreated', value: timeRightNow, type: 'string' },
+      { name: 'xp', value: xp ?? '0', type: 'string' },
     ]);
     const tx = await eas.attest({
       schema: schemaUID,
@@ -53,7 +53,6 @@ export const useEAS = () => {
         data: encodedData,
       },
     });
-    const decode = schemaEncoder.decodeData(encodedData);
     const newAttestationUID = await tx.wait();
     return newAttestationUID;
   };
@@ -65,8 +64,8 @@ export const useEAS = () => {
       query Attestations($recipient: String!) {
         attestations(
           where: {
-            schemaId: { equals: "0x944254bc2b52a25515e74ee1c0c17bc8aca8af100b07f8484c48fff90334585e" }
-            attester: { equals: $recipient }
+            schemaId: { equals: "0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1" }
+            recipient: { equals: $recipient }
           }
           take: 25
         ) {
@@ -104,15 +103,25 @@ export const useEAS = () => {
         // Parse response JSON
         const responseData = await response.json();
         const schemaEncoder = new SchemaEncoder(
-          'address attestee,address attestor,string attestation,uint256 xp,int timeCreated',
+          'string attestation,string timeCreated,string xp',
         );
+
         const decodedData = responseData?.data?.attestations.map(
-          (attestation: any) => schemaEncoder.decodeData(attestation.data),
+          (attestation: any) =>
+            schemaEncoder.decodeData(attestation.data).concat([
+              {
+                name: 'attester',
+                value: attestation.attester,
+                signature: '',
+                type: 'string',
+              },
+            ]),
         );
         return decodedData;
       } catch (error) {
         // Handle any errors
         console.error('Error fetching data:', error);
+        return undefined;
       }
     }
 
