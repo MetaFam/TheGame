@@ -30,7 +30,7 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
     };
     getAttestationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player?.ethereumAddress]);
+  }, [player?.ethereumAddress, isAttesting]);
 
   const handleAttest = async () => {
     try {
