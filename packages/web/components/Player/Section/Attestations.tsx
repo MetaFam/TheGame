@@ -49,11 +49,9 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
     }
   };
 
-  console.log(player?.ethereumAddress, address, player?.ethereumAddress.toLocaleLowerCase() != address?.toLocaleLowerCase())
-
   return (
     <div>
-      {player?.ethereumAddress.toLocaleLowerCase == address?.toLocaleLowerCase && (
+      {player?.ethereumAddress.toLocaleLowerCase === address?.toLocaleLowerCase && (
         <div>
           <h3>Your Attestations: ({attestations?.length})</h3>
           <VStack mt={4} mb={4} w="full">
