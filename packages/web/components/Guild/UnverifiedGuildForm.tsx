@@ -1,4 +1,3 @@
-import { isAddress } from '@ethersproject/address';
 import {
   Box,
   chakra,
@@ -16,6 +15,7 @@ import {
 } from '@metafam/ds';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Field, FieldDescription } from 'components/Forms/Field';
+import { isAddress } from 'ethers';
 import {
   AddUnverifiedGuildMutation,
   AddUnverifiedGuildMutationVariables,

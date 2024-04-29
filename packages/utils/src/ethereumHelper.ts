@@ -1,25 +1,11 @@
-import { Contract, providers, utils } from 'ethers';
+import { BrowserProvider, Contract, ethers, Provider } from 'ethers';
 
 export async function getSignature(
-  provider: providers.Web3Provider,
+  provider: BrowserProvider,
   msg: string,
-  extraParams?: string[] | undefined,
 ): Promise<string> {
-  const ethereum = provider.provider;
-  const signer = provider.getSigner();
-  const address = await signer.getAddress();
-  if (!ethereum.request) throw new Error('No `request` On Ethereum Provider');
-  let params = [msg, address];
-
-  if (extraParams) {
-    params = [...params, ...extraParams];
-  }
-
-  const signature = await ethereum.request({
-    method: 'personal_sign',
-    params,
-  });
-  return signature;
+  const signer = await provider.getSigner();
+  return signer.signMessage(msg);
 }
 
 const smartWalletABI = [
@@ -33,7 +19,7 @@ enum WalletType {
 
 async function getWalletType(
   address: string,
-  provider: providers.BaseProvider,
+  provider: Provider,
 ): Promise<WalletType> {
   const code = await new Promise((resolve, reject) => {
     const seconds = 45;
@@ -58,24 +44,24 @@ export async function verifySignature(
   address: string,
   message: string,
   signature: string,
-  provider: providers.BaseProvider,
+  provider: Provider,
 ): Promise<boolean> {
   const walletType = await getWalletType(address, provider);
 
   if (walletType === WalletType.EOA) {
-    const recoveredAddress = utils.verifyMessage(message, signature);
+    const recoveredAddress = ethers.verifyMessage(message, signature);
     return address === recoveredAddress;
   }
 
   // Smart wallet
-  const msgBytes = utils.toUtf8Bytes(message);
-  const hexMsg = utils.hexlify(msgBytes);
-  const hexArray = utils.arrayify(hexMsg);
-  const hashMsg = utils.hashMessage(hexArray);
+  const msgBytes = ethers.toUtf8Bytes(message);
+  const hexMsg = ethers.hexlify(msgBytes);
+  const hexArray = ethers.getBytes(hexMsg);
+  const hashMsg = ethers.hashMessage(hexArray);
 
   const contract = new Contract(address, smartWalletABI, provider);
   try {
-    return contract.isValidSignature(hashMsg, signature);
+    return await contract.isValidSignature(hashMsg, signature);
   } catch (error) {
     throw new Error(`Unsupported Smart Wallet: ${(error as Error).message}`);
   }

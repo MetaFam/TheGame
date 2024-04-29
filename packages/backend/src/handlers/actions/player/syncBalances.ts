@@ -1,5 +1,5 @@
 import { getCurrentSeasonStart, Maybe } from '@metafam/utils';
-import ethers from 'ethers';
+import { ethers } from 'ethers';
 import { Request, Response } from 'express';
 
 import { client } from '../../../lib/hasuraClient.js';
@@ -65,9 +65,7 @@ const setBalances = async ({
         uniqueDrops[executionDate] ??= {};
         uniqueDrops[executionDate][to] ??= 0;
         if (tokenAddress === guildTokenAddress) {
-          uniqueDrops[executionDate][to] += Number(
-            ethers.utils.formatEther(value),
-          );
+          uniqueDrops[executionDate][to] += Number(ethers.formatEther(value));
         }
       });
     });

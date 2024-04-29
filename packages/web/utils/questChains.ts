@@ -33,12 +33,12 @@ import submitPlaybook from 'assets/academy/submit-playbook.png';
 import team from 'assets/academy/team.png';
 import time from 'assets/academy/time.png';
 import web3builder from 'assets/academy/web3builder.png';
-import { Signer } from 'ethers';
+import { Provider, Signer } from 'ethers';
 
 export const getQuestChainContract = (
   address: string,
   version: string,
-  signer: Signer,
+  signer: Provider | Signer,
 ):
   | contracts.V1.QuestChain
   | contracts.V0.QuestChain
@@ -46,18 +46,24 @@ export const getQuestChainContract = (
   if (version === '0') {
     return contracts.V0.QuestChain__factory.connect(
       address,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       signer,
     ) as contracts.V0.QuestChain;
   }
   if (version === '1') {
     return contracts.V1.QuestChain__factory.connect(
       address,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       signer,
     ) as contracts.V1.QuestChain;
   }
   if (version === '2') {
     return contracts.V2.QuestChain__factory.connect(
       address,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       signer,
     ) as contracts.V2.QuestChain;
   }

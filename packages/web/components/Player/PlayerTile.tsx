@@ -27,7 +27,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { getPlayerDescription } from 'utils/playerHelpers';
 
 import { PlayerRank } from './PlayerRank';
-import { DAOMembershipSmall } from './Section/PlayerMemberships';
+import { DAOMembershipSmall } from './Section/PlayerLinks/PlayerMemberships';
 
 type Props = {
   player: Player;

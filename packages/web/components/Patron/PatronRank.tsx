@@ -1,6 +1,6 @@
 import { Flex, MetaTag, Text } from '@metafam/ds';
 import { computeRank, Constants, Maybe } from '@metafam/utils';
-import { utils } from 'ethers';
+import { ethers } from 'ethers';
 import { Player } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
 import React, { useMemo } from 'react';
@@ -22,7 +22,7 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
 
   const displayBalance = useMemo(() => {
     const pSeedAmount = parseFloat(
-      utils.formatUnits(patron.pSeedBalance, Constants.PSEED_DECIMALS),
+      ethers.formatUnits(patron.pSeedBalance, Constants.PSEED_DECIMALS),
     );
     const pSeedBalance = `${Math.floor(pSeedAmount).toLocaleString()} pSEED`;
     return pSeedPrice == null

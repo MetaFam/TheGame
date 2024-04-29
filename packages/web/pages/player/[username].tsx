@@ -26,6 +26,7 @@ import { useUser } from 'lib/hooks';
 import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+import { useEAS } from 'lib/hooks/useEAS';
 import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';

@@ -1,9 +1,9 @@
 import { ComposeClient } from '@composedb/client';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
-import { Web3Provider } from '@ethersproject/providers';
 import { composeDBDefinition, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
+import { BrowserProvider } from 'ethers';
 import { cacheDIDSession, getCachedDIDSession } from 'lib/auth';
 import { CeramicError } from 'lib/errors';
 import { useWeb3 } from 'lib/hooks/useWeb3';
@@ -45,8 +45,8 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     setAuthenticated(false);
   }, []);
 
-  const createSession = useCallback(async (prov: Web3Provider) => {
-    const addr = await prov.getSigner().getAddress();
+  const createSession = useCallback(async (prov: BrowserProvider) => {
+    const addr = await (await prov.getSigner()).getAddress();
 
     // use did:pkh
     let session = await getCachedDIDSession();

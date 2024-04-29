@@ -13,8 +13,8 @@ import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { MarkdownEditor } from 'components/MarkdownEditor';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
+import { useEthersProvider } from 'lib/hooks/useEthersProvider';
 import { useInputText } from 'lib/hooks/useInputText';
-import { useEthersSigner } from 'lib/hooks/userEthersSigner';
 import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { getHexChainId, getNumberId, NETWORK_INFO } from 'utils/networks';
@@ -31,7 +31,7 @@ export const UploadProof: React.FC<{
   name: string;
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
-  const provider = useEthersSigner();
+  const provider = useEthersProvider();
   const { onClose } = useDisclosure();
   const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
@@ -106,7 +106,7 @@ export const UploadProof: React.FC<{
       const contract = getQuestChainContract(
         questChain.address,
         questChain.version,
-        provider.getSigner(),
+        await provider.getSigner(),
       );
 
       const tx = await (questChain.version === '0'

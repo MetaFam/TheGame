@@ -2,8 +2,9 @@
   "name": "@metafam/the-game",
   "version": "0.2.0",
   "license": "GPL-3.0",
+  "type": "module",
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "private": true,
   "scripts": {
@@ -99,11 +100,11 @@
     "@ceramicnetwork/common": "2.31.1",
     "did-resolver": "4.1.0",
     "dids": "4.0.4",
-    "ethers": "5.7.0",
-    "graphql": "16.8.0",
+    "graphql": "16.5.0",
     "multihashes": "4.0.3",
     "node-gyp": "10.0.1",
-    "better-sqlite3": "9.0.0"
+    "better-sqlite3": "9.4.5",
+    "nan": "2.18.0"
   },
   "browserslist": [
     "defaults",

@@ -93,7 +93,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
         const signature = await ethereumHelper.getSignature(
           provider,
           sigMessageResult.message,
-          ['meetwithwallet.xyz'],
+          // ['meetwithwallet.xyz'],
         );
         const accountRequest = {
           address,

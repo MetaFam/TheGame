@@ -1,5 +1,5 @@
-import { isAddress } from '@ethersproject/address';
 import { Alchemy, Network } from 'alchemy-sdk';
+import { isAddress } from 'ethers';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { AlchemyMultichainClient } from './alchemy-multichain-client';
