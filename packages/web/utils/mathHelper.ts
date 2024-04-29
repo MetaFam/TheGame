@@ -7,12 +7,12 @@ export const weiToEth = (amount?: BigNumberish) => {
   if (amount === undefined) {
     throw new Error('`amount` is `undefined` in `weiToEth`.');
   }
-  return Number(ethers.utils.formatEther(amount || 0));
+  return Number(ethers.formatEther(amount || 0));
 };
 
 export const ethToWei = (amount?: BigNumberish) => {
   if (amount === undefined) {
     throw new Error('`amount` is `undefined` in `ethToWei`.');
   }
-  return ethers.utils.parseEther((amount || 0).toString());
+  return ethers.parseEther((amount || 0).toString());
 };

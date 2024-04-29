@@ -40,8 +40,8 @@ import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 import { optimizedImage } from 'utils/imageHelpers';
 
-import { AddPlayerGuild } from './MembershipModals/AddPlayerGuild';
-import { DAOListingProps, GuildListing } from './MembershipModals/GuildListing';
+import { AddPlayerGuild } from '../MembershipModals/AddPlayerGuild';
+import { DAOListingProps, GuildListing } from '../MembershipModals/GuildListing';
 
 const ReactGridLayout = WidthProvider(RGL);
 
