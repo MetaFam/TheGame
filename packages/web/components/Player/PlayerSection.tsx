@@ -17,7 +17,7 @@ import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
 import { PlayerDework } from './Section/PlayerDework';
-import { PlayerEAS } from './Section/PlayerEAS';
+// import { PlayerEAS } from './Section/PlayerEAS';
 import { PlayerLinks } from './Section/PlayerLinks';
 
 type Props = {
@@ -59,8 +59,8 @@ const PlayerSectionInner: React.FC<
       return <PlayerAchievements {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_COMPLETED_QUESTS:
       return <PlayerCompletedQuests {...{ player, isOwnProfile, editing }} />;
-    case BoxTypes.PLAYER_ATTESTATIONS:
-      return <PlayerEAS {...{ player, isOwnProfile, editing }} />
+    // case BoxTypes.PLAYER_ATTESTATIONS:
+    //   return <PlayerEAS {...{ player, isOwnProfile, editing }} />
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
