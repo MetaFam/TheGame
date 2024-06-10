@@ -208,7 +208,7 @@ export const UploadProof: React.FC<{
             }
             onSubmit();
           }}
-          {...{ status: isSubmitting ? 'Submitting...' : null }}
+          {...{ status: isSubmitting ? 'Submitting…' : null }}
         />
       )}
     </Stack>

@@ -229,8 +229,8 @@ export const QuestChainSubmitAPlaybookDetails: Record<
   QuestChainInfo
 > = {
   [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
-    chainId: '0x89',
-    address: '0xd9ff2e738b32bc78125e1a7c73ba721258ff555d',
+    chainId: '0xa',
+    address: '0x90e19287d453a7a7125f399e23dadf95b21f1efa',
     title: 'Submit a Playbook',
     description:
       'This is a questline for those interested in filling up The Academy with more useful content.',
