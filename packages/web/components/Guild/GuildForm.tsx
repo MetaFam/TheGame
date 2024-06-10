@@ -18,7 +18,7 @@ import { SelectOption } from '@metafam/ds/src/MultiSelect';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Field, FieldDescription } from 'components/Forms/Field';
 import { MetaLink } from 'components/Link';
-import { isAddress } from 'ethers';
+import { ethers } from 'ethers';
 import {
   DiscordRole,
   GuildDaoInput,
@@ -59,7 +59,7 @@ const validations = {
   },
   daoAddress: {
     required: true,
-    validate: (address: string) => isAddress(address),
+    validate: (address: string) => ethers.utils.isAddress(address),
   },
   daoNetwork: {
     required: true,

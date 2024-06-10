@@ -11,7 +11,7 @@ import {
 import GuildCoverImageFull from 'assets/guild-background-full.jpeg';
 import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
-import { isAddress } from 'ethers';
+import { ethers } from 'ethers';
 import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { GuildPlayer, Patron, PlayerProfile } from 'graphql/types';
 import { toSvg } from 'jdenticon';
@@ -90,7 +90,7 @@ export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;
 
 export const formatIfAddress = (username = ''): string =>
-  isAddress(username) ? formatAddress(username) : username;
+  ethers.utils.isAddress(username) ? formatAddress(username) : username;
 
 export const hasImage = (player?: Maybe<Player | GuildPlayer>): boolean =>
   !!player?.profile?.profileImageURL;

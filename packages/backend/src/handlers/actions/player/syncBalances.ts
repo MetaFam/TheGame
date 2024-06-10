@@ -65,7 +65,9 @@ const setBalances = async ({
         uniqueDrops[executionDate] ??= {};
         uniqueDrops[executionDate][to] ??= 0;
         if (tokenAddress === guildTokenAddress) {
-          uniqueDrops[executionDate][to] += Number(ethers.formatEther(value));
+          uniqueDrops[executionDate][to] += Number(
+            ethers.utils.formatEther(value),
+          );
         }
       });
     });

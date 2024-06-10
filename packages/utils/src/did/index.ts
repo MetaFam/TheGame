@@ -1,4 +1,4 @@
-import { BrowserProvider, Provider } from 'ethers';
+import { ethers } from 'ethers';
 import { Base64 } from 'js-base64';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,7 +18,7 @@ type Claim = {
 };
 
 export async function createToken(
-  provider: BrowserProvider,
+  provider: ethers.providers.Web3Provider,
   userAddress: string,
 ): Promise<string> {
   const iat = +new Date();
@@ -40,7 +40,7 @@ export async function createToken(
 
 export async function verifyToken(
   token: string,
-  provider: Provider,
+  provider: ethers.providers.Web3Provider,
   connectedAddress?: string,
 ): Promise<Maybe<Claim>> {
   const rawToken = Base64.decode(token);
