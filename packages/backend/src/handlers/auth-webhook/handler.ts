@@ -1,4 +1,5 @@
 import { did, Maybe } from '@metafam/utils';
+import { ethers } from 'ethers';
 import { Request, Response } from 'express';
 
 import { mainnetProvider } from '../../lib/ethereum.js';
@@ -30,7 +31,10 @@ export const authHandler = async (
       res.json(unauthorizedVariables);
       return;
     }
-    const claim = await did.verifyToken(token, mainnetProvider);
+    const claim = await did.verifyToken(
+      token,
+      mainnetProvider as unknown as ethers.providers.Web3Provider,
+    );
     if (!claim) {
       throw new Error('Invalid token');
     }

@@ -15,7 +15,7 @@ import {
 } from '@metafam/ds';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Field, FieldDescription } from 'components/Forms/Field';
-import { isAddress } from 'ethers';
+import { ethers } from 'ethers';
 import {
   AddUnverifiedGuildMutation,
   AddUnverifiedGuildMutationVariables,
@@ -54,7 +54,7 @@ const validations = {
   },
   daoAddress: {
     required: true,
-    validate: (address: string) => isAddress(address),
+    validate: (address: string) => ethers.utils.isAddress(address),
   },
   daoNetwork: {
     required: true,

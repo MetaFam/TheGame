@@ -4,9 +4,7 @@ import { getPlayer } from 'graphql/getPlayer';
 
 const { mainnetRPC } = CONFIG;
 
-const mainnetProvider = new ethers.JsonRpcProvider(mainnetRPC, 1, {
-  staticNetwork: true,
-});
+const mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetRPC, 1);
 
 export const getAddressForENS = async (ens: string) => {
   if (!ens) return null;

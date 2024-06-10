@@ -22,7 +22,7 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
 
   const displayBalance = useMemo(() => {
     const pSeedAmount = parseFloat(
-      ethers.formatUnits(patron.pSeedBalance, Constants.PSEED_DECIMALS),
+      ethers.utils.formatUnits(patron.pSeedBalance, Constants.PSEED_DECIMALS),
     );
     const pSeedBalance = `${Math.floor(pSeedAmount).toLocaleString()} pSEED`;
     return pSeedPrice == null

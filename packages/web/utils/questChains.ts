@@ -29,16 +29,16 @@ import playtwitter from 'assets/academy/play-twitter.png';
 import playbookwriter from 'assets/academy/playbook-writer.png';
 import player from 'assets/academy/player.png';
 import riteofpassage from 'assets/academy/riteofpassage.png';
-import submitPlaybook from 'assets/academy/submit-playbook.png';
+import submitPlaybook from 'assets/academy/submit-playbook.webp';
 import team from 'assets/academy/team.png';
 import time from 'assets/academy/time.png';
 import web3builder from 'assets/academy/web3builder.png';
-import { Provider, Signer } from 'ethers';
+import { ethers, Signer } from 'ethers';
 
 export const getQuestChainContract = (
   address: string,
   version: string,
-  signer: Provider | Signer,
+  signer: ethers.providers.Provider | Signer,
 ):
   | contracts.V1.QuestChain
   | contracts.V0.QuestChain
