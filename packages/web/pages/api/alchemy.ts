@@ -1,20 +1,23 @@
-import { Alchemy, Network } from 'alchemy-sdk';
+import { Network } from 'alchemy-sdk';
+import { CONFIG } from 'config';
 import { isAddress } from 'ethers';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { AlchemyMultichainClient } from './alchemy-multichain-client';
 
 const config = {
-  apiKey: process.env.NEXT_PUBLIC_ALCHEMY_MAINNET,
+  apiKey: CONFIG.alchemyAPIKey,
   network: Network.ETH_MAINNET,
 };
 
+const NFTS_PER_PAGE = 5;
+
 const overrides = {
   [Network.MATIC_MAINNET]: {
-    apiKey: process.env.NEXT_PUBLIC_ALCHEMY_MATIC,
+    apiKey: CONFIG.alchemyAPIKey,
   },
   [Network.OPT_MAINNET]: {
-    apiKey: process.env.NEXT_PUBLIC_ALCHEMY_OPTIMISM,
+    apiKey: CONFIG.alchemyAPIKey,
   },
 };
 
@@ -28,15 +31,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const mainnetNfts = await alchemy
         .forNetwork(Network.ETH_MAINNET)
-        .nft.getNftsForOwner(owner as string, { pageSize: 5 });
+        .nft.getNftsForOwner(owner as string, { pageSize: NFTS_PER_PAGE });
 
       const maticNfts = await alchemy
         .forNetwork(Network.MATIC_MAINNET)
-        .nft.getNftsForOwner(owner as string, { pageSize: 5 });
+        .nft.getNftsForOwner(owner as string, { pageSize: NFTS_PER_PAGE });
 
       const optimismNfts = await alchemy
         .forNetwork(Network.OPT_MAINNET)
-        .nft.getNftsForOwner(owner as string, { pageSize: 5 });
+        .nft.getNftsForOwner(owner as string, { pageSize: NFTS_PER_PAGE });
 
       return res.json({ mainnetNfts, maticNfts, optimismNfts });
     } catch (err) {
