@@ -41,7 +41,7 @@ export const getLeagueCutoff = (
     pSeedHolders.length <= indexOfLastPatronInLeague
       ? MIN_PATRON_PSEEDS
       : parseFloat(
-          ethers.formatUnits(
+          ethers.utils.formatUnits(
             pSeedHolders[indexOfLastPatronInLeague].pSeedBalance,
             Constants.PSEED_DECIMALS,
           ),
@@ -52,7 +52,10 @@ export const getLeagueCutoff = (
 
 export const getPatronPSeedHoldings = (pSeedHolder: TokenBalancesFragment) => {
   const pSeedBalance = parseFloat(
-    ethers.formatUnits(pSeedHolder.pSeedBalance, Constants.PSEED_DECIMALS),
+    ethers.utils.formatUnits(
+      pSeedHolder.pSeedBalance,
+      Constants.PSEED_DECIMALS,
+    ),
   );
   return pSeedBalance;
 };

@@ -1,6 +1,6 @@
 import { did, Maybe } from '@metafam/utils';
 import { Client as W3SClient } from '@web3-storage/w3up-client';
-import { BrowserProvider, JsonRpcProvider } from 'ethers';
+import { ethers } from 'ethers';
 import {
   clearDIDSessionCache,
   clearToken,
@@ -22,7 +22,7 @@ import { errorHandler } from 'utils/errorHandler';
 import { useAccount, useDisconnect } from 'wagmi';
 
 export type Web3ContextType = {
-  provider: Maybe<BrowserProvider>;
+  provider: Maybe<ethers.providers.Web3Provider>;
   address: Maybe<string>;
   chainId: Maybe<string>;
   authToken: Maybe<string>;
@@ -30,7 +30,7 @@ export type Web3ContextType = {
   connecting: boolean;
   connected: boolean;
   w3storage: Maybe<W3SClient>;
-  updateWeb3State: (prov: BrowserProvider) => Promise<void>;
+  updateWeb3State: (prov: ethers.providers.Web3Provider) => Promise<void>;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
@@ -46,7 +46,7 @@ export const Web3Context = createContext<Web3ContextType>({
 });
 
 export async function getExistingAuth(
-  ethersProvider: BrowserProvider,
+  ethersProvider: ethers.providers.Web3Provider,
   connectedAddress: string,
 ): Promise<Maybe<string>> {
   const token = getTokenFromStore();
@@ -63,7 +63,7 @@ export async function getExistingAuth(
 }
 
 export async function authenticateWallet(
-  ethersProvider: BrowserProvider,
+  ethersProvider: ethers.providers.Web3Provider,
   addr: string,
 ): Promise<string> {
   const token = await did.createToken(ethersProvider, addr);
@@ -76,7 +76,7 @@ type Web3ContextProviderOptions = PropsWithChildren<{
 }>;
 
 type Web3State = {
-  provider: Maybe<BrowserProvider>;
+  provider: Maybe<ethers.providers.Web3Provider>;
   address: Maybe<string>;
   chainId: Maybe<string>;
   authToken: Maybe<string>;
@@ -125,7 +125,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   }, [resetUrqlClient, disconnectWagmi]);
 
   const updateWeb3State = useCallback(
-    async (web3Provider: BrowserProvider) => {
+    async (web3Provider: ethers.providers.Web3Provider) => {
       const network = chain?.id;
       if (!web3Provider || !userAddress || !network) return;
       let token = await getExistingAuth(web3Provider, userAddress);

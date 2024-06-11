@@ -3,7 +3,7 @@ import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { composeDBDefinition, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
-import { BrowserProvider } from 'ethers';
+import { ethers } from 'ethers';
 import { cacheDIDSession, getCachedDIDSession } from 'lib/auth';
 import { CeramicError } from 'lib/errors';
 import { useWeb3 } from 'lib/hooks/useWeb3';
@@ -45,24 +45,27 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     setAuthenticated(false);
   }, []);
 
-  const createSession = useCallback(async (prov: BrowserProvider) => {
-    const addr = await (await prov.getSigner()).getAddress();
+  const createSession = useCallback(
+    async (prov: ethers.providers.Web3Provider) => {
+      const addr = await (await prov.getSigner()).getAddress();
 
-    // use did:pkh
-    let session = await getCachedDIDSession();
-    if (!session || (session.hasSession && session.isExpired)) {
-      const accountId = await getAccountId(prov.provider, addr.toLowerCase());
-      const authMethod = await EthereumWebAuth.getAuthMethod(
-        prov.provider,
-        accountId,
-      );
-      session = await DIDSession.authorize(authMethod, {
-        resources: composeDBClient.resources,
-      });
-      cacheDIDSession(session);
-    }
-    composeDBClient?.setDID(session.did);
-  }, []);
+      // use did:pkh
+      let session = await getCachedDIDSession();
+      if (!session || (session.hasSession && session.isExpired)) {
+        const accountId = await getAccountId(prov.provider, addr.toLowerCase());
+        const authMethod = await EthereumWebAuth.getAuthMethod(
+          prov.provider,
+          accountId,
+        );
+        session = await DIDSession.authorize(authMethod, {
+          resources: composeDBClient.resources,
+        });
+        cacheDIDSession(session);
+      }
+      composeDBClient?.setDID(session.did);
+    },
+    [],
+  );
 
   const connect = useCallback(async () => {
     if (provider == null || connecting) return;

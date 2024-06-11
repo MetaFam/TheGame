@@ -25,7 +25,7 @@ export const NETWORK_INFO: NetworkInfo = {
     label: 'Ethereum',
     symbol: 'ETH',
     explorer: 'https://etherscan.io',
-    rpc: `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MAINNET}`,
+    rpc: `https://eth-mainnet.g.alchemy.com/v2/${CONFIG.alchemyAPIKey}`,
   },
   [GOERLI]: {
     chainId: GOERLI,
@@ -49,7 +49,7 @@ export const NETWORK_INFO: NetworkInfo = {
     label: 'Polygon',
     symbol: 'MATIC',
     explorer: 'https://polygonscan.com',
-    rpc: `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MATIC}`,
+    rpc: `https://polygon-mainnet.g.alchemy.com/v2/${CONFIG.alchemyAPIKey}`,
   },
   [MUMBAI]: {
     chainId: MUMBAI,
@@ -84,4 +84,4 @@ export function getHexChainId(chain?: string): string {
   }
 }
 
-export const getNumberId = (chainId: string): number => parseInt(chainId, 16)
+export const getNumberId = (chainId: string): number => Number(chainId);

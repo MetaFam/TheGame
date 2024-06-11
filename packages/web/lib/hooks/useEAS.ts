@@ -1,7 +1,7 @@
 import {
   EAS,
   SchemaEncoder,
-  SchemaRegistry,
+  TransactionSigner,
 } from '@ethereum-attestation-service/eas-sdk';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
@@ -24,8 +24,29 @@ export const useEAS = () => {
   useEffect(() => {
     const connectEAS = async () => {
       const signer = await provider?.getSigner();
+      const txSigner = {
+        async estimateGas(tx: ethers.providers.TransactionRequest) {
+          const v6TX = tx;
+          v6TX.to = tx.to ?? undefined;
+          return (await signer?.estimateGas(v6TX))?.toBigInt();
+        },
+        sendTransaction(tx: ethers.providers.TransactionRequest) {
+          return signer?.sendTransaction(tx);
+        },
+        call(tx: ethers.providers.TransactionRequest) {
+          return signer?.call(tx);
+        },
+        resolveName(name: string) {
+          return signer?.resolveName(name);
+        },
+        getAddress() {
+          return signer?.getAddress();
+        },
+      };
       if (signer) {
-        eas.connect(signer);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        eas.connect(txSigner);
       }
       setConnectedEAS(eas);
     };
@@ -82,7 +103,7 @@ export const useEAS = () => {
         }
       }
     `;
-      const checkSumAddress = ethers.getAddress(recipient);
+      const checkSumAddress = ethers.utils.getAddress(recipient);
 
       // Define the GraphQL endpoint
       const endpoint = 'https://optimism.easscan.org/graphql';
