@@ -23,13 +23,13 @@ const config = createConfig(
     chains: [optimism, polygon, mainnet],
     transports: {
       [optimism.id]: http(
-        `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+        `https://opt-mainnet.g.alchemy.com/v2/${CONFIG.alchemyAPIKey}`,
       ),
       [mainnet.id]: http(
-        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+        `https://eth-mainnet.g.alchemy.com/v2/${CONFIG.alchemyAPIKey}`,
       ),
       [polygon.id]: http(
-        `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+        `https://polygon-mainnet.g.alchemy.com/v2/${CONFIG.alchemyAPIKey}`,
       ),
     },
 
