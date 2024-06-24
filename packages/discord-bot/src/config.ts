@@ -55,9 +55,5 @@ export const CONFIG: IConfig = {
     process.env.DISCORD_API_BASE_URL,
     'https://discord.com/api/v8',
   ),
-  discourseInstanceUrl: parseEnv(
-    process.env.DISCOURSE_INSTANCE_URL,
-    'https://forum.metagame.wtf',
-  ),
   botName: 'MetaGameBot',
 };
