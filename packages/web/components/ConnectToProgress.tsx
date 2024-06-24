@@ -95,7 +95,7 @@ export const ConnectToProgress: React.FC<{
                   With an{' '}
                   <MetaLink
                     isExternal
-                    href="https://wiki.metagame.wtf/docs/great-houses/house-of-ethereum"
+                    href="https://metagame.wtf/academy/wtf-is-ethereum"
                     color="pink.400"
                     textDecor="underline"
                   >
