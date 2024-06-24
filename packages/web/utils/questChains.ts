@@ -93,7 +93,7 @@ export const QuestChainsPlaybooks = {
   BRIDGEBUILDERS_PATH: 'bridgebuilders-path',
   DESIGNERS_PATH: 'designers-path',
   WTF_IS_ETHEREUM: 'wtf-is-ethereum',
-  WTF_ARE_DAOS: 'wtf-are-das',
+  WTF_ARE_DAOS: 'wtf-are-daos',
   WTF_IS_DEFI: 'wtf-is-defi',
   WTF_ARE_NFTS: 'wtf-are-nfts',
   WTF_ARE_DAPPS: 'wtf-are-dapps',
@@ -252,7 +252,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Rite of Passage',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'The entry point. Ready to join MetaGame?!',
     image: riteofpassage.src,
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
@@ -264,7 +264,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: "Player's Path",
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Want to become a player? Players are active contributors to MetaGame.',
     image: player.src,
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
@@ -276,7 +276,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: "Patron's Path",
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'This is a path of becoming a patron of MetaGame - a passive contributor.',
     image: patron.src,
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
@@ -288,7 +288,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: "Guilder's Path",
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'This is a path for those who want to join guilds through MetaGame.',
     image: guilder.src,
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
@@ -300,7 +300,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: "Builder's Path",
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'This is a path for those who wish to join MetaGame as developers - the most highly needed & incentivized role.',
     image: builder.src,
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
@@ -312,7 +312,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: "Bridgebuilder's Path",
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Oath of the Bridgebuilder is a path of network weavers & business developers, with the goal of building a more interconnected ecosystem.',
     image: bridgebuilder.src,
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
@@ -324,7 +324,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: "Designer's Path",
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Designer in this case is referring mainly to those designing UX/UI.',
     image: designer.src,
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
@@ -336,7 +336,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'WTF is Ethereum?',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'A high level overview of the importance of this technology.',
     image: ethereum.src,
     category: QuestChainsCategories.WEB3_BASICS,
     seedsEarned: 42069,
@@ -348,7 +348,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'WTF are DAOs?',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Short for “Decentralized Autonomous Organizations” - DAOs are a new type of organization, enabled by the blockchain technology.',
     image: daos.src,
     category: QuestChainsCategories.WEB3_BASICS,
     seedsEarned: 42069,
@@ -360,7 +360,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'WTF is DeFi?',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Decentralized Finance is the creation of a whole new financial system, now built on smart contracts & blockchains.',
     image: defi.src,
     category: QuestChainsCategories.WEB3_BASICS,
     seedsEarned: 42069,
@@ -372,7 +372,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'WTF are NFTs?',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'NFT stands for Non-Fungible Token.',
     image: nfts.src,
     category: QuestChainsCategories.WEB3_BASICS,
     seedsEarned: 42069,
@@ -384,7 +384,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'WTF are DApps?',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Decentralized apps are censorship resistant, have no single point of failure and are generally publicly owned & open source.',
     image: dapps.src,
     category: QuestChainsCategories.WEB3_BASICS,
     seedsEarned: 42069,
@@ -396,7 +396,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Become a Web3 Developer',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'This playbook should turn you from a Web2 developer into a Web3 developer in no time.',
     image: web3builder.src,
     category: QuestChainsCategories.WEB3_BASICS,
     seedsEarned: 42069,
@@ -408,7 +408,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'WTF is Game B?',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      ' - to establish an omni-win society.',
     image: gameb.src,
     category: QuestChainsCategories.META,
     seedsEarned: 42069,
@@ -420,7 +420,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'WTF is Metacrisis?',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Metacrisis is the ultimate crisis - a crisis of crises.',
     image: metacrisis.src,
     category: QuestChainsCategories.META,
     seedsEarned: 42069,
@@ -432,7 +432,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Meditations on Moloch',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Moloch is a metaphorical embodiment of the forces driving humanity towards self-destruction.',
     image: moloch.src,
     category: QuestChainsCategories.META,
     seedsEarned: 42069,
@@ -444,7 +444,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Choose Good Quests',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'In the most simple terms possible: a good quest makes the future better than our world today.',
     image: goodquests.src,
     category: QuestChainsCategories.META,
     seedsEarned: 42069,
@@ -456,7 +456,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Meme Driven Organizations',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Another way to describe meme driven organizations that you might have heard of - is purpose driven organizations.',
     image: memedriven.src,
     category: QuestChainsCategories.META,
     seedsEarned: 42069,
@@ -468,7 +468,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Become The Best Contributor In Any DAO',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Teaching DAO beginners how to become the best DAO contributor in any DAO they join.',
     image: bestdaocontributor.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -480,7 +480,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Starting DAOs 101',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Mostly focused on building a project in Web3 through the eyes of peth.',
     image: daosummoner.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -492,7 +492,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: ' ',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'A playbook for anyone who wants to build an impactful network.',
     image: impactnetworks.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -504,7 +504,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Using Coordinape To Reward Contributors',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Coordinape is a platform for DAOs to easily and fairly distribute resources to contributors.',
     image: coordinape.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -516,7 +516,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Effective Meetings With Holacracy',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Holacracy is one of the most well known frameworks for running organizations in a decentralized way by combining two systems of authority that organizations usually choose between: autocracy & consensus-building.',
     image: effectivemeetingrunner.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -528,7 +528,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Entering DAOs as a Writer',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'A roadmap to finding your way into a DAO as a writer.',
     image: daowriter.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -540,7 +540,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Building Successful Teams',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Learn the recipe for building great teams.',
     image: team.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -552,7 +552,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Embrace The Ticking Clock',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Recognize the value of the time we have left and seize every opportunity to learn, grow, and keep our minds active.',
     image: time.src,
     category: QuestChainsCategories.SELF_ACTUALIZATION,
     seedsEarned: 42069,
@@ -564,7 +564,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Know Your Biases',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Some of the most well known cognitive biases, straight from the menu.',
     image: biases.src,
     category: QuestChainsCategories.SELF_ACTUALIZATION,
     seedsEarned: 42069,
@@ -576,7 +576,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Understanding Imposter Syndrome',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Are you an impostor? Find out here.',
     image: imposter.src,
     category: QuestChainsCategories.SELF_ACTUALIZATION,
     seedsEarned: 42069,
@@ -588,7 +588,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Journaling Like Dickie Bush',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Journaling is the single most powerful habit for personal growth.',
     image: journaling.src,
     category: QuestChainsCategories.SELF_ACTUALIZATION,
     seedsEarned: 42069,
@@ -600,7 +600,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'How to Play Twitter',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Playbook about playing Twitter as an MMO-RPG.',
     image: playtwitter.src,
     category: QuestChainsCategories.RANDOM,
     seedsEarned: 42069,
@@ -612,7 +612,7 @@ export const QuestChainPlaybooksDetails: Record<
     chainId: '0xa',
     title: 'Master Your Browser Tabs',
     description:
-      'Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text Some Text ',
+      'Dear modern human, struggling to keep up with your tabs.',
     image: mastertabs.src,
     category: QuestChainsCategories.RANDOM,
     seedsEarned: 42069,
@@ -624,7 +624,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0x90e19287d453a7a7125f399e23dadf95b21f1efa',
     title: 'Submit a Playbook',
     description:
-      'This is a questline for those interested in filling up The Academy with more useful content.',
+      'Playbook for those who want to help fill up The Academy with more useful playbooks',
     image: playbookwriter.src,
     difficulty: Difficulty.EASY,
     time: Time.SHORT,
