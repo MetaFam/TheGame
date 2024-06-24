@@ -12,7 +12,6 @@ interface IConfig {
   discordBotClientSecret: string;
   sourceCredLedgerBranch: string;
   discordApiBaseUrl: string;
-  discourseInstanceUrl: string;
   botName: string;
 }
 
