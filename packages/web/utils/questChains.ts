@@ -102,7 +102,7 @@ export const QuestChainsPlaybooks = {
   WTF_IS_GAMEB: 'wtf-is-gameb',
   WTF_IS_METACRISIS: 'wtf-is-metacrisis',
   MEDITATIONS_ON_MOLOCH: 'meditations-on-moloch',
-  POLITICAL_METAMODERNISM-BRIDGING_DIVIDES: 'political-metamodernism',
+  'POLITICAL_METAMODERNISM-BRIDGING_DIVIDES': 'political-metamodernism',
   CHOOSE_GOOD_QUESTS: 'choose-good-quests',
   MEME_DRIVEN_ORGANIZATIONS: 'meme-driven-organizations',
   BECOME_THE_BEST_DAO_CONTRIBUTOR: 'become-the-best-dao-contributor',
@@ -441,7 +441,7 @@ export const QuestChainPlaybooksDetails: Record<
     type: PathPlaybookTypes.PLAYBOOK,
   },
   //     https://app.questchains.xyz/optimism/political-metamodernism
-  [QuestChainsPlaybooks.POLITICAL_METAMODERNISM-BRIDGING_DIVIDES]: {
+  [QuestChainsPlaybooks['POLITICAL_METAMODERNISM-BRIDGING_DIVIDES']]: {
     address: '0x828d70b4f4991b8a219ba959be0e04d090e5be71',
     chainId: '0xa',
     title: 'Political Metamodernism: Bridging Divides',
