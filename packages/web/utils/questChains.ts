@@ -33,6 +33,7 @@ import submitPlaybook from 'assets/academy/submit-playbook.webp';
 import team from 'assets/academy/team.png';
 import time from 'assets/academy/time.png';
 import web3builder from 'assets/academy/web3builder.png';
+import metamodernist from 'assets/academy/metamodernist.png';
 import { ethers, Signer } from 'ethers';
 
 export const getQuestChainContract = (
@@ -101,6 +102,7 @@ export const QuestChainsPlaybooks = {
   WTF_IS_GAMEB: 'wtf-is-gameb',
   WTF_IS_METACRISIS: 'wtf-is-metacrisis',
   MEDITATIONS_ON_MOLOCH: 'meditations-on-moloch',
+  POLITICAL_METAMODERNISM-BRIDGING_DIVIDES: 'political-metamodernism',
   CHOOSE_GOOD_QUESTS: 'choose-good-quests',
   MEME_DRIVEN_ORGANIZATIONS: 'meme-driven-organizations',
   BECOME_THE_BEST_DAO_CONTRIBUTOR: 'become-the-best-dao-contributor',
@@ -434,6 +436,18 @@ export const QuestChainPlaybooksDetails: Record<
     description:
       'Moloch is a metaphorical embodiment of the forces driving humanity towards self-destruction.',
     image: moloch.src,
+    category: QuestChainsCategories.META,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  //     https://app.questchains.xyz/optimism/political-metamodernism
+  [QuestChainsPlaybooks.POLITICAL_METAMODERNISM-BRIDGING_DIVIDES]: {
+    address: '0x828d70b4f4991b8a219ba959be0e04d090e5be71',
+    chainId: '0xa',
+    title: 'Political Metamodernism: Bridging Divides',
+    description:
+      'In short, political metamodernism should help us transcend the left/right political divide to pragmatically build societies that work, rather than societies based on wishful ideologies of the 19th century.',
+    image: metamodernist.src,
     category: QuestChainsCategories.META,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
