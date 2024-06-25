@@ -98,19 +98,10 @@ const Custom404: FC = () => {
           <Box pt={5}>
             <MetaSecondaryButton
               width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
-              onClick={() => router.push('/learn/wiki')}
+              onClick={() => router.push('/academy')}
             >
-              Wiki
+              dAcademy
             </MetaSecondaryButton>
-          </Box>
-          <Box pt={5}>
-            <Link href="https://forum.metagame.wtf">
-              <MetaSecondaryButton
-                width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
-              >
-                Forum
-              </MetaSecondaryButton>
-            </Link>
           </Box>
           <Box pt={5}>
             <Link href="https://chat.metagame.wtf">

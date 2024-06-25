@@ -76,19 +76,6 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
             )}
           </VStack>
         </Flex>
-
-        <Box>
-          <Flex justifyContent="space-between">
-            <VStack spacing={1} align="stretch">
-              <Text textStyle="caption">Barrier of Entry</Text>
-              <Text fontStyle="italic">Coming soon…</Text>
-            </VStack>
-            <VStack spacing={1} align="stretch">
-              <Text textStyle="caption">Contact</Text>
-              <GuildLinksSmall {...{ guild }} />
-            </VStack>
-          </Flex>
-        </Box>
       </MetaTileBody>
     </MetaTile>
   </Link>

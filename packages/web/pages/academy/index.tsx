@@ -45,7 +45,7 @@ const AcademyPage: React.FC = () => {
   return (
     <PageContainer>
       <HeadComponent
-        title="Academy"
+        title="dAcademy"
         description="MetaGame is a Massive Online Coordination Game! The Academy is full of Paths and Playbooks to help you find your way and level up in MetaGame & life."
         url="https://metagame.wtf/academy"
       />
@@ -64,7 +64,7 @@ const AcademyPage: React.FC = () => {
             textAlign="center"
             w={{ base: 'full', xl: ' full' }}
           >
-            The Academy
+            dAcademy
           </Heading>
           <Text
             fontSize={{ base: 'md', '2xl': 'xl' }}

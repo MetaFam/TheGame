@@ -12,7 +12,6 @@ interface IConfig {
   discordBotClientSecret: string;
   sourceCredLedgerBranch: string;
   discordApiBaseUrl: string;
-  discourseInstanceUrl: string;
   botName: string;
 }
 
@@ -54,10 +53,6 @@ export const CONFIG: IConfig = {
   discordApiBaseUrl: parseEnv(
     process.env.DISCORD_API_BASE_URL,
     'https://discord.com/api/v8',
-  ),
-  discourseInstanceUrl: parseEnv(
-    process.env.DISCOURSE_INSTANCE_URL,
-    'https://forum.metagame.wtf',
   ),
   botName: 'MetaGameBot',
 };
