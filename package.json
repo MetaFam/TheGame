@@ -4,7 +4,7 @@
   "license": "GPL-3.0",
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "private": true,
   "scripts": {
@@ -93,18 +93,18 @@
     "prettier": "2.7.1",
     "standard-version": "9.3.2",
     "ts-jest": "^29.0.3",
-    "typescript": "^5.0.0",
+    "typescript": "^5.5.2",
     "wait-on": "6.0.1"
   },
   "resolutions": {
-    "@ceramicnetwork/common": "2.31.1",
     "did-resolver": "4.1.0",
     "dids": "4.0.4",
-    "graphql": "16.5.0",
+    "graphql": "16.9.0",
     "multihashes": "4.0.3",
-    "node-gyp": "10.0.1",
-    "better-sqlite3": "9.4.5",
-    "nan": "2.18.0"
+    "nan": "2.18.0",
+    "strip-ansi-cjs": "8.0.0",
+    "string-width": "7.1.0",
+    "wide-align": "1.1.5"
   },
   "browserslist": [
     "defaults",

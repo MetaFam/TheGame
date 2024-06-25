@@ -15,7 +15,7 @@
     "analyze-bundle": "ANALYZE=true next build"
   },
   "dependencies": {
-    "@composedb/client": "^0.4.4",
+    "@composedb/client": "^0.7.1",
     "@didtools/pkh-ethereum": "^0.0.3",
     "@ethereum-attestation-service/eas-sdk": "^1.5.0",
     "@graphql-codegen/cli": "^3.3.1",
@@ -43,7 +43,7 @@
     "did-session": "^2.0.0",
     "ethers": "5.7.2",
     "googleapis": "^122.0.0",
-    "graphql": "16.5.0",
+    "graphql": "^16.9.0",
     "html-metadata-parser": "2.0.4",
     "html-react-parser": "2.0.0",
     "iron-session": "^8.0.1",
@@ -78,7 +78,7 @@
     "web3modal": "^1.9.12"
   },
   "devDependencies": {
-    "@composedb/types": "^0.4.0",
+    "@composedb/types": "^0.7.1",
     "@next/bundle-analyzer": "^14.1.0",
     "@next/eslint-plugin-next": "^12.3.1",
     "@types/busboy": "1.5.0",

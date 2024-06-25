@@ -6,7 +6,11 @@
     "outDir": "dist/",
     "tsBuildInfoFile": "dist/.tsbuildinfo",
     "rootDir": "src/",
-    "composite": true
+    "composite": true,
+    "module": "ESNext", // required
+    "target": "ESNext", // required
+    "emitDecoratorMetadata": false, // required
+    "experimentalDecorators": true // required
   },
   "references": [{ "path": "../utils" }],
   "include": ["./src/**/*.ts"]

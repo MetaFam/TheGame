@@ -28,7 +28,7 @@ export interface DiscordAuthorizedUser {
 export interface PartialGuild {
   id: Snowflake;
   name: string;
-  icon: string | null | undefined;
+  icon?: string | null;
   owner_id: Snowflake;
   features: string[];
   roles: PartialRole[];
