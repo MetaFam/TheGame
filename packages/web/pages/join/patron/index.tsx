@@ -18,7 +18,9 @@ import { WhatsTheProduct } from 'components/Patron/Join/WhatsTheProduct';
 import { WhoArePatrons } from 'components/Patron/Join/WhoArePatrons';
 import { PatronList } from 'components/Patron/PatronList';
 import { HeadComponent } from 'components/Seo';
+import { TokenBalancesFragment } from 'graphql/autogen/types';
 import { getPatrons, getPSeedHolders, getPSeedPrice } from 'graphql/getPatrons';
+import { Patron } from 'graphql/types';
 import { InferGetStaticPropsType } from 'next';
 import React, { lazy, useRef } from 'react';
 import { PATRONS_PER_RANK } from 'utils/patronHelpers';
@@ -28,17 +30,31 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async () => {
-  const patrons = await getPatrons();
+  let patrons: Array<Patron> = [];
+  try {
+    patrons = await getPatrons();
+  } catch (error) {
+    console.error('Error fetching patrons:', error);
+  }
 
   const rankedPatronCount = PATRONS_PER_RANK.reduce(
     (total, current) => total + current,
     0,
   );
-  const pSeedHolders = await getPSeedHolders(rankedPatronCount);
-  const pSeedPrice = await getPSeedPrice().catch((error) => {
-    console.error('Error fetching pSeed price', error);
-    return null;
-  });
+
+  let pSeedHolders: Array<TokenBalancesFragment> = [];
+  try {
+    pSeedHolders = await getPSeedHolders(rankedPatronCount);
+  } catch (error) {
+    console.error('Error fetching pSeed holders:', error);
+  }
+
+  let pSeedPrice = null;
+  try {
+    pSeedPrice = await getPSeedPrice();
+  } catch (error) {
+    console.error('Error fetching pSeed price:', error);
+  }
 
   return {
     props: {
@@ -79,7 +95,7 @@ const PatronsJoinLanding: React.FC<Props> = ({
       <HeadComponent
         title="Join as a Patron!"
         description="MetaGame is a Massive Online Coordination Game! Join as a Patron to help us grow it."
-        url="https://my.metagame.wtf/join/patron"
+        url="https://metagame.wtf/join/patron"
       />
       <Container w="100%" maxW="6xl">
         <Heading

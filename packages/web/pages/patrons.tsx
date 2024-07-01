@@ -23,23 +23,33 @@ const PageContainer = lazy(() => import('components/Container'));
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-  /**
-   * Get all the Patrons
-   * (MetaGame rules say there can be 150 max, so we'll limit the query to that many)
-   */
-  const patronsLimit = 150;
-  const patrons = await getPatrons(patronsLimit);
-  const pSeedPrice = await getPSeedPrice().catch((error) => {
-    console.error('Error fetching pSeed price', error);
-    return null;
-  });
-  return {
-    props: {
-      patrons,
-      pSeedPrice,
-    },
-    revalidate: 1,
-  };
+  try {
+    /**
+     * Get all the Patrons
+     * (MetaGame rules say there can be 150 max, so we'll limit the query to that many)
+     */
+    const patronsLimit = 150;
+    const patrons = await getPatrons(patronsLimit);
+    const pSeedPrice = await getPSeedPrice().catch((error) => {
+      console.error('Error fetching pSeed price', error);
+      return null;
+    });
+    return {
+      props: {
+        patrons,
+        pSeedPrice,
+      },
+      revalidate: 1,
+    };
+  } catch (error) {
+    console.error('Error Fetching Patrons', error);
+    return {
+      props: {
+        patrons: [],
+        pSeedPrice: null,
+      },
+    };
+  }
 };
 
 const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
@@ -117,7 +127,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
       <HeadComponent
         title="Patrons"
         description="MetaGame is a Massive Online Coordination Game! MetaGame’s Patrons enable us to succeed by helping us with funds."
-        url="https://my.metagame.wtf/patrons"
+        url="https://metagame.wtf/patrons"
       />
 
       {/* This is mostly here as a placeholder for the back to top link, but screenreaders will read out the heading
@@ -149,10 +159,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
           </Text>
         </Center>
 
-        <PatronList
-          patrons={patrons.slice(0, visible)}
-          pSeedPrice={pSeedPrice}
-        />
+        <PatronList patrons={patrons.slice(0, visible)} {...{ pSeedPrice }} />
 
         {/* Load More button */}
         {renderLoadMoreButton()}

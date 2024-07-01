@@ -112,14 +112,8 @@ const searchPlayers = async (
     )
     .toPromise();
 
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
-
-  return data.player as Array<Player>;
+  if (error) throw error;
+  return (data?.player as Array<Player>) ?? [];
 };
 
 export const getPSeedHolders = async (
@@ -132,14 +126,8 @@ export const getPSeedHolders = async (
     )
     .toPromise();
 
-  if (!data || !data.pSeedHolders) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
-
-  return data.pSeedHolders;
+  if (error) throw error;
+  return data?.pSeedHolders ?? [];
 };
 
 export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {

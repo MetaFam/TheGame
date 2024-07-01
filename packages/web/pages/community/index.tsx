@@ -10,6 +10,7 @@ import {
 } from '@metafam/ds';
 import { getPatrons, getPSeedPrice } from 'graphql/getPatrons';
 import { getGuilds } from 'graphql/queries/guild';
+import { Patron } from 'graphql/types';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import GuildsPage from 'pages/guilds';
@@ -23,12 +24,19 @@ const PageContainer = lazy(() => import('components/Container'));
 
 export const getStaticProps = async () => {
   const patronsLimit = 150;
-  const patrons = await getPatrons(patronsLimit);
+  let patrons: Array<Patron> = [];
+  try {
+    patrons = await getPatrons(patronsLimit);
+  } catch (error) {
+    console.error('Error fetching patrons:', error);
+  }
 
-  const pSeedPrice = await getPSeedPrice().catch((error) => {
-    console.error('Error fetching pSeed price', error);
-    return null;
-  });
+  let pSeedPrice = null;
+  try {
+    pSeedPrice = await getPSeedPrice();
+  } catch (error) {
+    console.error('Error fetching pSeed price:', error);
+  }
 
   return {
     props: {
