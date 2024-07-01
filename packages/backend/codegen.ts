@@ -58,39 +58,39 @@ const config = {
         typesPrefix: 'DaoHaus',
       },
     },
-    'src/lib/autogen/seedgraph-sdk.ts': {
-      schema: 'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
-      documents: [
-        'src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts',
-      ],
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typescript-graphql-request',
-        { add: { content: '/* eslint-disable */' } },
-      ],
-      config: {
-        avoidOptionals: true,
-        dedupeOperationSuffix: true,
-      },
-    },
-    'src/lib/autogen/balancerpolygon-sdk.ts': {
-      schema:
-        'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2',
-      documents: [
-        'src/handlers/remote-schemas/resolvers/balancerPolygon/**/(!(*.d)).ts',
-      ],
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typescript-graphql-request',
-        { add: { content: '/* eslint-disable */' } },
-      ],
-      config: {
-        avoidOptionals: true,
-        dedupeOperationSuffix: true,
-      },
-    },
+    // 'src/lib/autogen/seedgraph-sdk.ts': {
+    //   schema: 'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
+    //   documents: [
+    //     'src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts',
+    //   ],
+    //   plugins: [
+    //     'typescript',
+    //     'typescript-operations',
+    //     'typescript-graphql-request',
+    //     { add: { content: '/* eslint-disable */' } },
+    //   ],
+    //   config: {
+    //     avoidOptionals: true,
+    //     dedupeOperationSuffix: true,
+    //   },
+    // },
+    // 'src/lib/autogen/balancerpolygon-sdk.ts': {
+    //   schema:
+    //     'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2',
+    //   documents: [
+    //     'src/handlers/remote-schemas/resolvers/balancerPolygon/**/(!(*.d)).ts',
+    //   ],
+    //   plugins: [
+    //     'typescript',
+    //     'typescript-operations',
+    //     'typescript-graphql-request',
+    //     { add: { content: '/* eslint-disable */' } },
+    //   ],
+    //   config: {
+    //     avoidOptionals: true,
+    //     dedupeOperationSuffix: true,
+    //   },
+    // },
   },
 };
 

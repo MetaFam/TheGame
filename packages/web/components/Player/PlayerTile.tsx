@@ -40,7 +40,7 @@ type Props = {
 export const PlayerTile: React.FC<Props> = ({
   player,
   isPatron = false,
-  pSeedPrice,
+  pSeedPrice = null,
   showSeasonalXP,
   index,
 }) => {
@@ -76,7 +76,7 @@ export const PlayerTile: React.FC<Props> = ({
     <Link role="group" _hover={{ textDecoration: 'none' }} href={linkURL}>
       <MetaTile minW={'300px'} height="full" width="full" cursor="pointer">
         <MetaTileHeader>
-          {isPatron && typeof index === 'number' && pSeedPrice ? (
+          {isPatron ? (
             <PatronRank patron={player as Patron} {...{ pSeedPrice, index }} />
           ) : (
             <PlayerRank {...{ player, showSeasonalXP }} />

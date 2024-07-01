@@ -61,7 +61,7 @@ export const updatePlayerFromComposeDB = async (
   try {
     ({ did } = await Caip10Link.fromAccount(
       composeDBClient.context.ceramic,
-      // mainnet; the site prompts them to switch if necessary
+      // optimism; the site prompts them to switch if necessary
       `${ethereumAddress.toLowerCase()}@eip155:10`,
     ));
 

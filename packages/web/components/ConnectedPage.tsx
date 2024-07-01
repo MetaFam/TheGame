@@ -4,6 +4,7 @@ import { ConnectKitButton } from 'connectkit';
 import { Player } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useMounted, useUser } from 'lib/hooks';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { useAccount } from 'wagmi';
@@ -14,21 +15,29 @@ export const ConnectedPage: React.FC<{
   page: PlayerPageType;
   label?: string;
 }> = ({ page: Page, label = 'this page' }) => {
+  const debug = !!useRouter().query.debug;
   const { address, isConnected, isConnecting } = useAccount();
   const [player, setPlayer] = useState<Maybe<Player>>(null);
   const { user, fetching, error } = useUser();
   const mounted = useMounted();
 
-  useEffect(() => {
-    if (!address) return;
-    function getPeople() {
-      if (address) {
-        return getPlayer(address);
-      }
-      throw new Error('No address');
-    }
-    getPeople().then(setPlayer);
-  }, [address]);
+  if (debug) {
+    // eslint-disable-next-line no-console
+    console.debug({
+      useAddress: {
+        address,
+        isConnected,
+        isConnecting,
+      },
+      player,
+      useUser: {
+        user,
+        fetching,
+        error,
+      },
+      mounted,
+    });
+  }
 
   if (!mounted || (!isConnecting && !isConnected)) {
     return (

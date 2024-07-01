@@ -13,6 +13,6 @@ app.get('/healthz', (_: Request, res: Response) => {
 
 app.listen(CONFIG.port, () => {
   discordClientPromise.then(() => {
-    console.log(`Discord bot started on port ${CONFIG.port}`);
+    console.info(`Discord bot started on port ${CONFIG.port}.`);
   });
 });

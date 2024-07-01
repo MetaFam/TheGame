@@ -41,6 +41,7 @@ export default async (req: Request, res: Response): Promise<void> => {
     });
     const modelInstanceDoc = await composeDBClient.context.loadDoc(nodeId);
 
+    if (!modelInstanceDoc) throw new Error('`modelInstanceDoc` not defined.');
     const { controller } = modelInstanceDoc.metadata;
 
     // There is probably a better way to do this...

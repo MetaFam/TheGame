@@ -1,7 +1,8 @@
 import { Message, Snowflake } from 'discord.js';
 
+import { CONFIG } from './config';
+
 export const getDiscordId = (targetParameter: string): Snowflake => {
-  // Parse the targetParameter
   // desktop/web user if starts with <@! and ends with >
   // mobile user if starts with <@ and ends with >
   if (targetParameter.startsWith('<@!') && targetParameter.endsWith('>')) {
@@ -12,7 +13,7 @@ export const getDiscordId = (targetParameter: string): Snowflake => {
     return targetParameter.slice(2, targetParameter.length - 1);
   }
 
-  throw new Error('Unexpected argument for targetParameter');
+  throw new Error(`Unexpected argument for \`targetParameter\`: “${targetParameter}”.`);
 };
 
 export const replyWithUnexpectedError = (
@@ -20,10 +21,11 @@ export const replyWithUnexpectedError = (
 ): Promise<Message> => {
   let reply = `The octo is sad 😢, as there was an unexpected error.`;
 
-  const feedbackChannel =
-    message.guild?.channels?.cache.get('794214722639101992');
-  if (feedbackChannel) {
-    reply += ` Let us know what happened in ${feedbackChannel.toString()}`;
+  const feedbackChannel = (
+    message.guild?.channels?.cache.get(CONFIG.feedbackChannel)
+  );
+  if(feedbackChannel) {
+    reply += `\n\nLet us know what happened in ${feedbackChannel.toString()}.`;
   }
 
   return message.reply(reply);

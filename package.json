@@ -53,7 +53,7 @@
   ],
   "devDependencies": {
     "@apollo/rover": "^0.18.0",
-    "@composedb/cli": "^0.4.4",
+    "@composedb/cli": "^0.7.1",
     "@graphql-codegen/add": "^5.0.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/introspection": "^4.0.0",
@@ -63,11 +63,13 @@
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@graphql-codegen/typescript-urql": "^4.0.0",
+    "@types/create-hash": "^1.2.6",
     "@types/jest": "^29.2.1",
     "@types/node": "^20.8.6",
     "@types/node-fetch": "^2.6.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/secp256k1": "^4.0.6",
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "^6.6.0",
@@ -93,17 +95,12 @@
     "prettier": "2.7.1",
     "standard-version": "9.3.2",
     "ts-jest": "^29.0.3",
-    "typescript": "^5.0.0",
+    "typescript": "^5.5.2",
     "wait-on": "6.0.1"
   },
   "resolutions": {
-    "@ceramicnetwork/common": "2.31.1",
-    "did-resolver": "4.1.0",
-    "dids": "4.0.4",
-    "graphql": "16.5.0",
+    "graphql": "16.9.0",
     "multihashes": "4.0.3",
-    "node-gyp": "10.0.1",
-    "better-sqlite3": "9.4.5",
     "nan": "2.18.0"
   },
   "browserslist": [

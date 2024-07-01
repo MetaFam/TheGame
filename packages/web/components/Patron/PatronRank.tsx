@@ -8,7 +8,7 @@ import { PATRON_RANKS, PATRONS_PER_RANK } from 'utils/patronHelpers';
 
 type Props = {
   patron: Patron;
-  index: number;
+  index?: number;
   pSeedPrice: Maybe<number>;
 };
 
@@ -16,7 +16,10 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
   const player = patron as Player;
 
   const patronRank = useMemo(
-    () => computeRank(index, PATRONS_PER_RANK, PATRON_RANKS),
+    () =>
+      typeof index !== 'number'
+        ? 'Unknown'
+        : computeRank(index, PATRONS_PER_RANK, PATRON_RANKS),
     [index],
   );
 

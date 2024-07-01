@@ -15,8 +15,13 @@
 
 Run `yarn dev`.
 
-## Docker Commands
+## Local Docker
 
-To build: from the repository root: `docker build -f docker/discord-bot/Dockerfile -t discord-bot .`
+To build: from the repository root: `yarn docker:build`
 
-To run: `docker run discord-bot`
+To run: `docker run gcr.io/metagame-thegame/discord-bot:latest`
+
+## Delopying to Google’s Cloud Run
+
+1. `docker push gcr.io/metagame-thegame/discord-bot:latest`
+2. Set up a Cloud Run instance & select the image from the Container Registry.

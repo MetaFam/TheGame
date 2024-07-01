@@ -29,22 +29,28 @@ export const useUser = ({
   fetching: boolean;
   error?: Error;
 } => {
+  const debug = !!useRouter().query.debug;
   const { isConnected, isConnecting, address } = useAccount();
   const router = useRouter();
   const [player, setPlayer] = useState<Maybe<Player>>(null);
 
   useEffect(() => {
-    if (!address) return;
-    function getPeople() {
-      if (address) {
-        return getPlayer(address);
-      }
-      throw new Error('No address');
-    }
-    getPeople().then(setPlayer);
-  }, [address]);
+    // eslint-disable-next-line no-console
+    if (debug) console.debug({ getPerson: address });
 
-  const [hydratedPlayer, setHydratedPlayer] = useState<Player | null>(null);
+    if (!address) return;
+    const getPerson = async () => {
+      if (!address) throw new Error('No address.');
+      return getPlayer(address);
+    };
+    getPerson().then((person) => {
+      // eslint-disable-next-line no-console
+      if (debug) console.debug({ getPlayer: person });
+      setPlayer(person);
+    });
+  }, [address, debug]);
+
+  const [hydratedPlayer, setHydratedPlayer] = useState<Maybe<Player>>(null);
 
   const hasuraUser = useMemo(
     () => (player && isConnected ? (player as Player) : null),
@@ -56,6 +62,7 @@ export const useUser = ({
     fetching: composeDBFetching,
     error: composeDBError,
   } = useGetPlayerProfileFromComposeDB(hasuraUser?.ceramicProfileId);
+
   useEffect(() => {
     if (hasuraUser) {
       if (hasuraUser.ceramicProfileId == null || !!composeDBError) {

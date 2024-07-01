@@ -27,6 +27,7 @@ export const authHandler = async (
 ): Promise<void> => {
   try {
     const token = getHeaderToken(req);
+    console.info(`Token for request: ${token}.`);
     if (!token) {
       res.json(unauthorizedVariables);
       return;
@@ -42,11 +43,11 @@ export const authHandler = async (
     const { limiter } = req.app.locals;
     const { id, created } = await getOrCreatePlayerId(claim.iss, limiter);
 
-    if (created) {
-      console.debug(
-        `Created and Authorized playerId: ${id} with address: ${claim.iss}`,
-      );
-    }
+    console.info(
+      `${
+        created ? 'Created and ' : ''
+      }Authorized playerId: ${id} with address: ${claim.iss}`,
+    );
 
     const hasuraVariables = {
       'X-Hasura-Role': 'player',
