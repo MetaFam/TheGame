@@ -22,6 +22,7 @@ import journaling from 'assets/academy/journaling.png';
 import mastertabs from 'assets/academy/master-tabs.png';
 import memedriven from 'assets/academy/memedriven.png';
 import metacrisis from 'assets/academy/metacrisis.png';
+import metamodernist from 'assets/academy/metamodernist.png';
 import moloch from 'assets/academy/moloch.png';
 import nfts from 'assets/academy/nfts.png';
 import patron from 'assets/academy/patron.png';
@@ -33,7 +34,6 @@ import submitPlaybook from 'assets/academy/submit-playbook.webp';
 import team from 'assets/academy/team.png';
 import time from 'assets/academy/time.png';
 import web3builder from 'assets/academy/web3builder.png';
-import metamodernist from 'assets/academy/metamodernist.png';
 import { ethers, Signer } from 'ethers';
 
 export const getQuestChainContract = (
@@ -253,8 +253,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0xc5893dcab9ad32fa47923febde89883c62bffbd6',
     chainId: '0xa',
     title: 'Rite of Passage',
-    description:
-      'The entry point. Ready to join MetaGame?!',
+    description: 'The entry point. Ready to join MetaGame?!',
     image: riteofpassage.src,
     category: QuestChainsCategories.FOR_METAGAME,
     seedsEarned: 42069,
@@ -337,8 +336,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0x5aad789c5181fa3068518d59e60817ca3c3e7754',
     chainId: '0xa',
     title: 'WTF is Ethereum?',
-    description:
-      'A high level overview of the importance of this technology.',
+    description: 'A high level overview of the importance of this technology.',
     image: ethereum.src,
     category: QuestChainsCategories.WEB3_BASICS,
     seedsEarned: 42069,
@@ -373,8 +371,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0x74c866082a74c029938da9031dd55c3786ae1caa',
     chainId: '0xa',
     title: 'WTF are NFTs?',
-    description:
-      'NFT stands for Non-Fungible Token.',
+    description: 'NFT stands for Non-Fungible Token.',
     image: nfts.src,
     category: QuestChainsCategories.WEB3_BASICS,
     seedsEarned: 42069,
@@ -409,8 +406,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0x848b32e47185ea6fa2296c257fc58b9afd879eeb',
     chainId: '0xa',
     title: 'WTF is Game B?',
-    description:
-      ' - to establish an omni-win society.',
+    description: ' - to establish an omni-win society.',
     image: gameb.src,
     category: QuestChainsCategories.META,
     seedsEarned: 42069,
@@ -421,8 +417,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0x4799184e21e179a245196ee8d59fda63757364d9',
     chainId: '0xa',
     title: 'WTF is Metacrisis?',
-    description:
-      'Metacrisis is the ultimate crisis - a crisis of crises.',
+    description: 'Metacrisis is the ultimate crisis - a crisis of crises.',
     image: metacrisis.src,
     category: QuestChainsCategories.META,
     seedsEarned: 42069,
@@ -541,8 +536,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0xeacd78de315757ba9fc7ddcc1d016f67249ad86b',
     chainId: '0xa',
     title: 'Entering DAOs as a Writer',
-    description:
-      'A roadmap to finding your way into a DAO as a writer.',
+    description: 'A roadmap to finding your way into a DAO as a writer.',
     image: daowriter.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -553,8 +547,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0xe186c31013f0c1d09734fc5c084305e4913c6fae',
     chainId: '0xa',
     title: 'Building Successful Teams',
-    description:
-      'Learn the recipe for building great teams.',
+    description: 'Learn the recipe for building great teams.',
     image: team.src,
     category: QuestChainsCategories.HOW_TO_DAO,
     seedsEarned: 42069,
@@ -589,8 +582,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0xe769e5a126715780e90aba9ea8df89eb1a828d18',
     chainId: '0xa',
     title: 'Understanding Imposter Syndrome',
-    description:
-      'Are you an impostor? Find out here.',
+    description: 'Are you an impostor? Find out here.',
     image: imposter.src,
     category: QuestChainsCategories.SELF_ACTUALIZATION,
     seedsEarned: 42069,
@@ -613,8 +605,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0xb324e5a5b72c3cd25c2515e44d3e6e06e1b3ed32',
     chainId: '0xa',
     title: 'How to Play Twitter',
-    description:
-      'Playbook about playing Twitter as an MMO-RPG.',
+    description: 'Playbook about playing Twitter as an MMO-RPG.',
     image: playtwitter.src,
     category: QuestChainsCategories.RANDOM,
     seedsEarned: 42069,
@@ -625,8 +616,7 @@ export const QuestChainPlaybooksDetails: Record<
     address: '0x6725a0d903d74589f66c97b2836744bdab25c06a',
     chainId: '0xa',
     title: 'Master Your Browser Tabs',
-    description:
-      'Dear modern human, struggling to keep up with your tabs.',
+    description: 'Dear modern human, struggling to keep up with your tabs.',
     image: mastertabs.src,
     category: QuestChainsCategories.RANDOM,
     seedsEarned: 42069,
