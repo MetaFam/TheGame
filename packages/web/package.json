@@ -24,7 +24,7 @@
     "@metafam/ds": "0.2.0",
     "@metafam/utils": "1.0.1",
     "@orbisclub/orbis-sdk": "^0.4.40",
-    "@quest-chains/sdk": "0.2.9",
+    "@quest-chains/sdk": "^0.2.12",
     "@react-spring/web": "9.4.3",
     "@tanstack/react-query": "^5.22.2",
     "@types/luxon": "^3.3.2",

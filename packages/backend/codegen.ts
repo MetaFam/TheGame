@@ -59,7 +59,9 @@ const config = {
       },
     },
     'src/lib/autogen/seedgraph-sdk.ts': {
-      schema: 'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
+      // schema: `https://gateway-arbitrum.network.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/7LxrQZvdYe1NYKen6wuLtCaZqRTL9PhTQHRaHJPYDeCu`,
+      schema:
+        'https://api.studio.thegraph.com/query/42037/metagame-seed-pseed/version/latest',
       documents: [
         'src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts',
       ],
@@ -75,8 +77,7 @@ const config = {
       },
     },
     'src/lib/autogen/balancerpolygon-sdk.ts': {
-      schema:
-        'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-polygon-v2',
+      schema: `https://gateway-arbitrum.network.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/H9oPAbXnobBRq1cB3HDmbZ1E8MWQyJYQjT1QDJMrdbNp`,
       documents: [
         'src/handlers/remote-schemas/resolvers/balancerPolygon/**/(!(*.d)).ts',
       ],
