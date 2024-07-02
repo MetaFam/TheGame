@@ -36,7 +36,7 @@ export const getPlayer = async (
   noCache?: boolean,
 ): Promise<Maybe<Player>> => {
   let response;
-  if (/^0x[0-9a-z]{40}$/i.test(username)) {
+  if (/^0x[0-9a-f]{40}$/i.test(username)) {
     response = await client
       .query<GetPlayerForAddressQuery, GetPlayerForAddressQueryVariables>(
         addressQuery,
@@ -54,9 +54,7 @@ export const getPlayer = async (
   }
 
   const { data, error } = response;
-
   if (error) throw error;
-
   const [player] = data?.player ?? [];
   return (player as Player) ?? null;
 };

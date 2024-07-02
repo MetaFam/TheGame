@@ -5918,9 +5918,10 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
 
-"@quest-chains/sdk@0.2.9":
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/@quest-chains/sdk/-/sdk-0.2.9.tgz#12f4eac0bac91966a48f8ffda273b59c2a0d1455"
+"@quest-chains/sdk@^0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@quest-chains/sdk/-/sdk-0.2.12.tgz#d31026a7de4ffc93959b83610423ad4d22c7aae7"
+  integrity sha512-1pG5iCN0DqV0BZDU/RZgkapUnuOVnqh9HrxWMCj3hvwSMbmvjCvySC0l5PY1G5Lzp9l6Ok2A3/LgeNGxlcqN/A==
   dependencies:
     ajv "^8.11.0"
     axios "^1.1.1"
