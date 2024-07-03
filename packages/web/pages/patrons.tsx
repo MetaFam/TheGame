@@ -102,7 +102,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
    * (or X could overflow and print 60 of 43)
    */
   function renderShowingXOfYItems() {
-    const showingXOf = visible >= totalItems ? totalItems : visible;
+    const showingXOf = Math.min(visible, totalItems);
     const showingYOf = totalItems;
 
     return (
@@ -117,7 +117,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
       <HeadComponent
         title="Patrons"
         description="MetaGame is a Massive Online Coordination Game! MetaGame’s Patrons enable us to succeed by helping us with funds."
-        url="https://my.metagame.wtf/patrons"
+        url="https://metagame.wtf/patrons"
       />
 
       {/* This is mostly here as a placeholder for the back to top link, but screenreaders will read out the heading
@@ -149,10 +149,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
           </Text>
         </Center>
 
-        <PatronList
-          patrons={patrons.slice(0, visible)}
-          pSeedPrice={pSeedPrice}
-        />
+        <PatronList patrons={patrons.slice(0, visible)} {...{ pSeedPrice }} />
 
         {/* Load More button */}
         {renderLoadMoreButton()}
