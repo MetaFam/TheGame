@@ -74,6 +74,7 @@ export const CONFIG: IConfig = {
   get seedGraphURL() {
     return parseEnv(
       process.env.SEED_GRAPH_URL,
+      // 'https://api.studio.thegraph.com/query/42037/metagame-seed-pseed/version/latest',
       `https://gateway-arbitrum.network.thegraph.com/api/${this.theGraphAPIToken}/subgraphs/id/7LxrQZvdYe1NYKen6wuLtCaZqRTL9PhTQHRaHJPYDeCu`,
     );
   },

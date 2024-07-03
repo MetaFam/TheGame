@@ -3,7 +3,7 @@ import { Maybe } from '@metafam/utils';
 import { LeagueCardItem } from 'components/Patron/Join/LeagueCardItem';
 import { PerksCard } from 'components/Patron/Join/PerksCard';
 import { PerksHeader } from 'components/Patron/Join/PerksHeader';
-import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
+import { PlayerRank_Enum, PSeedHolder } from 'graphql/autogen/types';
 import {
   getLeagueCount,
   getLeagueCutoff,
@@ -103,7 +103,7 @@ type PerkType = {
 
 type Props = {
   pSeedPrice: Maybe<number>;
-  pSeedHolders: TokenBalancesFragment[];
+  pSeedHolders: Array<PSeedHolder>;
 };
 
 export const RankedLeagues: React.FC<Props> = ({
