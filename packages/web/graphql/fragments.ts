@@ -157,8 +157,9 @@ export const QuestCompletionFragment = /* GraphQL */ `
 
 export const TokenBalancesFragment = /* GraphQL */ `
   fragment TokenBalancesFragment on TokenBalances {
-    address: id
-    pSeedBalance
+    id
+    pSEED
+    SEED
   }
 `;
 

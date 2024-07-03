@@ -10,7 +10,7 @@ import {
 } from '@metafam/ds';
 import type { Maybe } from '@metafam/utils';
 import BlueArrow from 'assets/patron/blue-arrow.webp';
-import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
+import { PlayerRank_Enum, PSeedHolder } from 'graphql/autogen/types';
 import {
   getLeagueCount,
   getLeagueCutoff,
@@ -149,7 +149,7 @@ const PerksHeader = ({ title, count, pSeeds, amountUsd }: PerksProps) => {
 
 type Props = {
   pSeedPrice: Maybe<number>;
-  pSeedHolders: TokenBalancesFragment[];
+  pSeedHolders: Array<PSeedHolder>;
 };
 
 const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {

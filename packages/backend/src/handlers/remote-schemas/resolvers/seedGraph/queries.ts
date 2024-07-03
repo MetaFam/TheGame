@@ -1,6 +1,4 @@
-import { gql } from 'graphql-request';
-
-export const GetTokenBalances = gql`
+export const GetTokenBalances = /* GraphQL */ `
   query GetTokenBalances($address: ID!) {
     account(id: $address) {
       id
@@ -14,7 +12,7 @@ export const GetTokenBalances = gql`
   }
 `;
 
-export const GetTopPSeedHoldersQuery = gql`
+export const GetTopPSeedHoldersQuery = /* GraphQL */ `
   query GetTopPSeedHolders($limit: Int) {
     tokenBalances(
       orderBy: amount
@@ -28,15 +26,10 @@ export const GetTopPSeedHoldersQuery = gql`
       }
       first: $limit
     ) {
-      amount
-      token {
-        name
-        symbol
-        id
-      }
       account {
         id
       }
+      amount
     }
   }
 `;

@@ -556,6 +556,10 @@ type Moloch {
   totalShares: String!
   version: String
 }
+type PSeedHolder {
+  balance: Float!
+  id: ID!
+}
 type PSeedInfo {
   priceUsd: String
 }
@@ -897,9 +901,9 @@ type SyncBalancesOutput {
   tokenReturns: [TokenReturn]
 }
 type TokenBalances {
+  SEED: Float!
   id: ID!
-  pSeedBalance: String!
-  seedBalance: String!
+  pSEED: Float!
 }
 type TokenReturn {
   added: [BalanceOutput]
@@ -4767,7 +4771,7 @@ type query_root {
   getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
   getPSeedInfo: PSeedInfo
   getTokenBalances(address: String): TokenBalances
-  getTopPSeedHolders(limit: Int): [TokenBalances!]
+  getTopPSeedHolders(limit: Int): [PSeedHolder]
   """
   fetch data from the table: "guild"
   """

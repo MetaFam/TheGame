@@ -67,10 +67,7 @@ export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
             fontSize={['sm', 'xs']}
             fontWeight="bold"
           >
-            {parseInt(
-              amountToDecimal(pSeedBalance || '0', Constants.PSEED_DECIMALS),
-              10,
-            ).toLocaleString()}
+            {pSeedBalance?.toFixed(0).toLocaleString() ?? '¿?'}
           </Text>
         </HStack>
       </Tooltip>
