@@ -119,6 +119,8 @@ jobs:
     needs: [env]
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
       - name: Run `hasura metadata reload`
         uses: browniefed/hasura-runner@master
         with:
