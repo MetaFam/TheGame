@@ -124,7 +124,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Testing ENV
-        run: echo "Hasura Host = ${{needs.env.outputs.HASURA_HOST}}"
+        run: echo "Hasura Secret = ${{needs.env.outputs.HASURA_ADMIN_SECRET}}"
       - name: Run `hasura metadata reload`
         uses: browniefed/hasura-runner@master
         with:
