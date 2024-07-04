@@ -131,7 +131,8 @@ jobs:
           args: metadata reload
         env:
           HASURA_ENDPOINT: https://${{needs.env.outputs.HASURA_HOST}}
-          HASURA_ADMIN_SECRET: ${{needs.env.outputs.HASURA_ADMIN_SECRET}}
+          # HASURA_ADMIN_SECRET: ${{needs.env.outputs.HASURA_ADMIN_SECRET}}
+          HASURA_ADMIN_SECRET: ${{secrets.HASURA_DEV_SECRET}}
           PATH_TO_HASURA_PROJECT_ROOT: ./hasura
 
   build-frontend:
