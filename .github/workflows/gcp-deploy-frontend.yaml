@@ -128,7 +128,7 @@ jobs:
         env:
           HASURA_ENDPOINT: ${{needs.env.outputs.GRAPHQL_URL}}
           HASURA_ADMIN_SECRET: ${{needs.env.outputs.HASURA_ADMIN_SECRET}}
-          HASURA_WORKDIR: hasura
+          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
 
   build-frontend:
     name: Build Frontend Container Image
