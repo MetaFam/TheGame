@@ -120,12 +120,12 @@ jobs:
 
     steps:
       - name: Run `hasura metadata reload`
-        uses: tibotiber/hasura-action@master
+        uses: browniefed/hasura-runner@master
         with:
           args: metadata reload
         env:
-          HASURA_ENDPOINT: ${{needs.env.GRAPHQL_URL}}
-          HASURA_ADMIN_SECRET: ${{needs.env.HASURA_ADMIN_SECRET }}
+          HASURA_ENDPOINT: ${{needs.env.outputs.GRAPHQL_URL}}
+          HASURA_ADMIN_SECRET: ${{needs.env.outputs.HASURA_ADMIN_SECRET }}
 
   build-frontend:
     name: Build Frontend Container Image
