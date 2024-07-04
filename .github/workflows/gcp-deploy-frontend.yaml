@@ -123,13 +123,23 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Run `hasura metadata reload`
+      - name: Run `hasura metadata reload` on ${{needs.env.outputs.HASURA_HOST}}
+        if: ${{github.ref_name == 'master'}}
         uses: browniefed/hasura-runner@master
         with:
           args: metadata reload
         env:
           HASURA_ENDPOINT: https://${{needs.env.outputs.HASURA_HOST}}
-          HASURA_GRAPHQL_ADMIN_SECRET: ${{github.ref_name == 'master' && ${{secrets.HASURA_PROD_SECRET}} || ${{secrets.HASURA_DEV_SECRET}}}}
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{secrets.HASURA_PROD_SECRET}}
+          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
+      - name: Run `hasura metadata reload` on ${{needs.env.outputs.HASURA_HOST}}
+        if: ${{github.ref_name != 'master'}}
+        uses: browniefed/hasura-runner@master
+        with:
+          args: metadata reload
+        env:
+          HASURA_ENDPOINT: https://${{needs.env.outputs.HASURA_HOST}}
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{secrets.HASURA_DEV_SECRET}}
           PATH_TO_HASURA_PROJECT_ROOT: ./hasura
 
   build-frontend:
