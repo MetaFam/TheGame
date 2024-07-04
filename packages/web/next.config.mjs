@@ -13,12 +13,7 @@ const withBundleAnalyzer = createBundleAnalyzerConfig({
 
 export default withBundleAnalyzer({
   async redirects() {
-    return [
-      {
-        source: '/',
-        destination: 'https://enter.metagame.wtf',
-        permanent: false,
-      },
+    const redirs = [
       {
         source: '/community/join/patrons',
         destination: '/join/patron',
@@ -75,6 +70,14 @@ export default withBundleAnalyzer({
         permanent: false,
       },
     ];
+    if(process.env.NODE_ENV === 'production') {
+      redirs.push({
+        source: '/',
+        destination: 'https://enter.metagame.wtf',
+        permanent: false,
+      })
+    }
+    return redirs;
   },
   async rewrites() {
     return [

@@ -1,30 +1,35 @@
-import { gql } from 'graphql-request';
-
-export const GetTokenBalances = gql`
+export const GetTokenBalances = /* GraphQL */ `
   query GetTokenBalances($address: ID!) {
-    userToken(id: $address) {
+    account(id: $address) {
       id
-      seedBalance
-      pSeedBalance
+      balances {
+        amount
+        token {
+          symbol
+        }
+      }
     }
   }
 `;
 
-export const GetTopPSeedHoldersQuery = gql`
+export const GetTopPSeedHoldersQuery = /* GraphQL */ `
   query GetTopPSeedHolders($limit: Int) {
-    userTokens(
-      orderBy: pSeedBalance
+    tokenBalances(
+      orderBy: amount
       orderDirection: desc
       where: {
-        pSeedBalance_gt: "0"
-        # filter out this contract address
-        address_not: "0xbaf60086da36033b458b892e2432958e219f4ed6"
+        account_not_in: [
+          "0x012546d756867d4a88cd3322bbb72d787e49ebf3"
+          "0xba12222222228d8ba445958a75a0704d566bf2c8"
+        ]
+        token_: { id: "0x8a8fcd351ed553fc75aecbc566a32f94471f302e" }
       }
       first: $limit
     ) {
-      id
-      seedBalance
-      pSeedBalance
+      account {
+        id
+      }
+      amount
     }
   }
 `;

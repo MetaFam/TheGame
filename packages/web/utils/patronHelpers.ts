@@ -1,6 +1,6 @@
 import { Constants } from '@metafam/utils';
 import { ethers } from 'ethers';
-import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
+import { PlayerRank_Enum, PSeedHolder } from 'graphql/autogen/types';
 
 export const PATRON_RANKS = [
   PlayerRank_Enum.Diamond,
@@ -22,7 +22,7 @@ export const getLeagueCount = (rank: PlayerRank_Enum) => {
 
 export const getLeagueCutoff = (
   rank: PlayerRank_Enum,
-  pSeedHolders: TokenBalancesFragment[],
+  pSeedHolders: Array<PSeedHolder>,
 ) => {
   if (pSeedHolders == null || pSeedHolders.length === 0) {
     return 0;
@@ -42,7 +42,7 @@ export const getLeagueCutoff = (
       ? MIN_PATRON_PSEEDS
       : parseFloat(
           ethers.utils.formatUnits(
-            pSeedHolders[indexOfLastPatronInLeague].pSeedBalance,
+            pSeedHolders[indexOfLastPatronInLeague].balance,
             Constants.PSEED_DECIMALS,
           ),
         );
@@ -50,12 +50,4 @@ export const getLeagueCutoff = (
   return pSeedCutoff;
 };
 
-export const getPatronPSeedHoldings = (pSeedHolder: TokenBalancesFragment) => {
-  const pSeedBalance = parseFloat(
-    ethers.utils.formatUnits(
-      pSeedHolder.pSeedBalance,
-      Constants.PSEED_DECIMALS,
-    ),
-  );
-  return pSeedBalance;
-};
+export const getPatronPSeedHoldings = (holder: PSeedHolder) => holder.balance;

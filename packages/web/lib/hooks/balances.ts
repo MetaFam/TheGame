@@ -1,21 +1,20 @@
-import { useGetpSeedBalanceQuery } from '../../graphql/autogen/types';
+import { useGetPSeedBalanceQuery } from '../../graphql/autogen/types';
 import { useUser } from './index';
 
 interface PSeedBalanceHook {
-  pSeedBalance: string | null;
+  pSeedBalance: number | null;
   fetching: boolean;
 }
 export const usePSeedBalance: () => PSeedBalanceHook = () => {
   const { user } = useUser();
 
-  const [{ data, fetching }] = useGetpSeedBalanceQuery({
+  const [{ data, fetching }] = useGetPSeedBalanceQuery({
     variables: {
       address: user?.ethereumAddress ?? '',
     },
     pause: !user?.ethereumAddress,
   });
-  const pSeedBalance =
-    (user?.ethereumAddress && data?.getTokenBalances?.pSeedBalance) ?? null;
+  const pSeedBalance = data?.getTokenBalances?.pSEED ?? null;
 
   return { pSeedBalance, fetching };
 };

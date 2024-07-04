@@ -13,7 +13,7 @@ import {
 } from 'graphql/autogen/types';
 
 export type Patron = Player & {
-  pSeedBalance: string;
+  pSeedBalance: number;
 };
 
 export type Skill = {

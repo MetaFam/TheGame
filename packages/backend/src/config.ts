@@ -7,12 +7,14 @@ interface IConfig {
   nodeEnv: string;
   graphqlURL: string;
   frontendURL: string;
+  theGraphAPIToken?: string;
   hasuraAdminURL: string;
-  daoHausGraphqlURL: string;
-  daoHausPolygonGraphqlURL: string;
-  daoHausXdaiGraphqlURL: string;
-  daoHausMetadataUrl: string;
-  seedGraphqlURL: string;
+  daoHausGraphURL: string;
+  daoHausPolygonGraphURL: string;
+  daoHausXDAIGraphURL: string;
+  daoHausMetadataURL: string;
+  seedGraphURL: string;
+  balancerPolygonGraphURL: string;
   githubAPIToken: string;
   adminKey: string;
   infuraId: string;
@@ -21,7 +23,7 @@ interface IConfig {
   ceramicURL: string;
 }
 
-function parseEnv<T extends string | number>(
+function parseEnv<T extends string | number | undefined>(
   v: string | undefined,
   defaultValue: T,
 ): T {
@@ -46,31 +48,42 @@ export const CONFIG: IConfig = {
     return 'http://localhost:8080/v1/graphql';
   })(),
   frontendURL: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
+  theGraphAPIToken: parseEnv(process.env.THE_GRAPH_API_TOKEN, undefined),
   hasuraAdminURL: parseEnv(
     process.env.HASURA_ADMIN_URL,
     'https://api.metagame.wtf/console',
   ),
-  daoHausGraphqlURL: parseEnv(
-    process.env.DAOHAUS_GRAPHQL_URL,
-    `https://gateway.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/9uvKq57ZiNCdT9uZ6xaFhp3yYczTM4Fgr7CJHM6tdX9H`,
-  ),
-  daoHausPolygonGraphqlURL: parseEnv(
-    process.env.DAOHAUS_POLYGON_GRAPHQL_URL,
+  get daoHausGraphURL() {
+    return parseEnv(
+      process.env.DAOHAUS_GRAPH_URL,
+      `https://gateway.thegraph.com/api/${this.theGraphAPIToken}/subgraphs/id/9uvKq57ZiNCdT9uZ6xaFhp3yYczTM4Fgr7CJHM6tdX9H`,
+    );
+  },
+  daoHausPolygonGraphURL: parseEnv(
+    process.env.DAOHAUS_POLYGON_GRAPH_URL,
     'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus-matic',
   ),
-  daoHausXdaiGraphqlURL: parseEnv(
-    process.env.DAOHAUS_XDAI_GRAPHQL_URL,
+  daoHausXDAIGraphURL: parseEnv(
+    process.env.DAOHAUS_XDAI_GRAPH_URL,
     'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus-xdai',
   ),
-  daoHausMetadataUrl: parseEnv(
+  daoHausMetadataURL: parseEnv(
     process.env.DAOHAUS_METADATA_URL,
     'https://data.daohaus.club/dao',
   ),
-  // See https://thegraph.com/hosted-service/subgraph/tenfinney/polygon-seeds
-  seedGraphqlURL: parseEnv(
-    process.env.SEED_GRAPHQL_URL,
-    'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
-  ),
+  get seedGraphURL() {
+    return parseEnv(
+      process.env.SEED_GRAPH_URL,
+      // 'https://api.studio.thegraph.com/query/42037/metagame-seed-pseed/version/latest',
+      `https://gateway-arbitrum.network.thegraph.com/api/${this.theGraphAPIToken}/subgraphs/id/7LxrQZvdYe1NYKen6wuLtCaZqRTL9PhTQHRaHJPYDeCu`,
+    );
+  },
+  get balancerPolygonGraphURL() {
+    return parseEnv(
+      process.env.BALANCER_POLYGON_GRAPH_URL,
+      `https://gateway-arbitrum.network.thegraph.com/api/${this.theGraphAPIToken}/subgraphs/id/H9oPAbXnobBRq1cB3HDmbZ1E8MWQyJYQjT1QDJMrdbNp`,
+    );
+  },
   githubAPIToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   adminKey: parseEnv(
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,

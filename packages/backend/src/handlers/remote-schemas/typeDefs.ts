@@ -1,13 +1,11 @@
-import { gql } from 'graphql-request';
-
-export const typeDefs = gql`
+export const typeDefs = /* GraphQL */ `
   scalar uuid
 
   type Query {
     getDaoHausMemberships(memberAddress: String): [Member!]!
     getBrightIdStatus(contextId: uuid): BrightIdStatus
     getTokenBalances(address: String): TokenBalances
-    getTopPSeedHolders(limit: Int): [TokenBalances!]
+    getTopPSeedHolders(limit: Int): [PSeedHolder]
     getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
     getDiscordServerMemberRoles(
       guildId: uuid!
@@ -55,8 +53,13 @@ export const typeDefs = gql`
 
   type TokenBalances {
     id: ID!
-    seedBalance: String!
-    pSeedBalance: String!
+    SEED: Float!
+    pSEED: Float!
+  }
+
+  type PSeedHolder {
+    id: ID!
+    balance: Float!
   }
 
   type PSeedInfo {

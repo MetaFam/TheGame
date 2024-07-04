@@ -1,27 +1,28 @@
 import {
   GetPatronsQuery,
   GetPatronsQueryVariables,
-  GetpSeedHoldersQuery,
-  GetpSeedHoldersQueryVariables,
+  GetPSeedHoldersQuery,
+  GetPSeedHoldersQueryVariables,
   GetPSeedPriceQuery,
   GetPSeedPriceQueryVariables,
   Player,
+  PSeedHolder,
   SearchPatronsQuery,
   SearchPatronsQueryVariables,
-  TokenBalancesFragment as TokenBalancesFragmentType,
 } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
-import { PlayerFragment, TokenBalancesFragment } from 'graphql/fragments';
+import { PlayerFragment } from 'graphql/fragments';
 import { Patron } from 'graphql/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `
-  query GetpSeedBalance($address: String!) {
+  query GetPSeedBalance($address: String!) {
     getTokenBalances(address: $address) {
-      ...TokenBalancesFragment
+      id
+      SEED
+      pSEED
     }
   }
-  ${TokenBalancesFragment}
 `;
 
 const patronsQuery = /* GraphQL */ `
@@ -59,12 +60,12 @@ const searchPatronsQuery = /* GraphQL */ `
 `;
 
 const pSeedHoldersQuery = /* GraphQL */ `
-  query GetpSeedHolders($limit: Int) {
+  query GetPSeedHolders($limit: Int) {
     pSeedHolders: getTopPSeedHolders(limit: $limit) {
-      ...TokenBalancesFragment
+      id
+      balance
     }
   }
-  ${TokenBalancesFragment}
 `;
 
 const getPSeedPriceQuery = /* GraphQL */ `
@@ -86,14 +87,8 @@ const getPlayersFromAddresses = async (
     })
     .toPromise();
 
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
-
-  return data.player as Array<Player>;
+  if (error) throw error;
+  return (data?.player ?? []) as Array<Player>;
 };
 
 const searchPlayers = async (
@@ -112,57 +107,38 @@ const searchPlayers = async (
     )
     .toPromise();
 
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
-
-  return data.player as Array<Player>;
+  if (error) throw error;
+  return (data?.player ?? []) as Array<Player>;
 };
 
-export const getPSeedHolders = async (
-  limit: number,
-): Promise<Array<TokenBalancesFragmentType>> => {
+export const getPSeedHolders = async (limit: number) => {
   const { data, error } = await client
-    .query<GetpSeedHoldersQuery, GetpSeedHoldersQueryVariables>(
+    .query<GetPSeedHoldersQuery, GetPSeedHoldersQueryVariables>(
       pSeedHoldersQuery,
       { limit },
     )
     .toPromise();
 
-  if (!data || !data.pSeedHolders) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
-
-  return data.pSeedHolders;
+  if (error) throw error;
+  return (data?.pSeedHolders ?? []).filter((h) => !!h) as Array<PSeedHolder>;
 };
 
-export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
-  const tokenBalances: Array<TokenBalancesFragmentType> = await getPSeedHolders(
+export const getPatrons = async (limit = 50) => {
+  const holders = await getPSeedHolders(limit);
+
+  const players = await getPlayersFromAddresses(
+    holders.map(({ id }) => id),
     limit,
   );
 
-  const players: Array<Player> = await getPlayersFromAddresses(
-    tokenBalances.map(({ address }) => address),
-    limit,
-  );
-
-  const patrons: Array<Patron> = tokenBalances.reduce<Array<Patron>>(
-    (res, u) => {
-      const player = players.find((p) => p.ethereumAddress === u.address);
-      if (player) {
-        const patron = { ...player, pSeedBalance: u.pSeedBalance } as Patron;
-        res.push(patron);
-      }
-      return res;
-    },
-    [],
-  );
+  const patrons: Array<Patron> = holders.reduce<Array<Patron>>((res, u) => {
+    const player = players.find((p) => p.ethereumAddress === u.id);
+    if (player) {
+      const patron = { ...player, pSeedBalance: u.balance } as Patron;
+      res.push(patron);
+    }
+    return res;
+  }, []);
 
   return patrons;
 };
@@ -182,35 +158,27 @@ export const getPSeedPrice = async (): Promise<number> => {
     throw new Error('Could not determine pSeed USD value.');
   }
 
-  return parseFloat(data.getPSeedInfo.priceUsd);
+  return Number(data.getPSeedInfo.priceUsd);
 };
 
-export const searchPatrons = async (
-  search: string,
-  limit?: number,
-): Promise<Array<Patron>> => {
-  const totalPatrons = 150;
-  const tokenBalances: Array<TokenBalancesFragmentType> = await getPSeedHolders(
-    totalPatrons,
-  );
+export const searchPatrons = async (search: string, limit?: number) => {
+  const maxPatrons = 150;
+  const holders = await getPSeedHolders(maxPatrons);
 
   const players: Array<Player> = await searchPlayers(
-    tokenBalances.map(({ address }) => address),
+    holders.map(({ id }) => id),
     search,
-    limit ?? totalPatrons,
+    limit ?? maxPatrons,
   );
 
-  const patrons: Array<Patron> = tokenBalances.reduce<Array<Patron>>(
-    (res, u) => {
-      const player = players.find((p) => p.ethereumAddress === u.address);
-      if (player) {
-        const patron = { ...player, pSeedBalance: u.pSeedBalance } as Patron;
-        res.push(patron);
-      }
-      return res;
-    },
-    [],
-  );
+  const patrons: Array<Patron> = [];
+  holders.forEach((hold) => {
+    const player = players.find((p) => p.ethereumAddress === hold.id);
+    if (player) {
+      const patron = { ...player, pSeedBalance: hold.balance };
+      patrons.push(patron);
+    }
+  });
 
   return patrons;
 };

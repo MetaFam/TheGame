@@ -25,14 +25,10 @@ export function transformCooldownForBackend(
   return cooldown * 60 * 60;
 }
 
-export const isAllowedToCreateQuest = (balance?: Maybe<string>): boolean => {
-  const bal = balance ?? '0';
-  const { PSEED_DECIMALS: pSEEDDecimals, PSEED_FOR_QUEST: pSEEDForQuest } =
-    Constants;
-  const minPSEEDBalance = new BN(pSEEDForQuest);
-  const decimalPSEEDBalance = amountToDecimal(bal, pSEEDDecimals);
-
-  return new BN(decimalPSEEDBalance).gte(minPSEEDBalance);
+export const isAllowedToCreateQuest = (balance?: Maybe<number>): boolean => {
+  const { PSEED_FOR_QUEST: pSEEDForQuest } = Constants;
+  if (balance == null) return false;
+  return balance >= pSEEDForQuest;
 };
 
 // TODO factorize this with backend
