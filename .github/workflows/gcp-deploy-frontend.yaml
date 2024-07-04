@@ -81,6 +81,8 @@ jobs:
       GOOGLE_CAL_PROJECT_NUMBER: ${{env.GOOGLE_CAL_PROJECT_NUMBER}}
       GOOGLE_CAL_CLIENT_EMAIL: ${{env.GOOGLE_CAL_CLIENT_EMAIL}}
       GOOGLE_CAL_CALENDAR_ID: ${{env.GOOGLE_CAL_CALENDAR_ID}}
+      HASURA_HOST: ${{env.HASURA_HOST}}
+      HASURA_ADMIN_SECRET: ${{env.HASURA_ADMIN_SECRET}}
 
     steps:
       - name: First Interpolation of Variables
