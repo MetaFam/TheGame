@@ -126,7 +126,7 @@ jobs:
         with:
           args: metadata reload
         env:
-          HASURA_ENDPOINT: ${{needs.env.outputs.GRAPHQL_URL}}
+          HASURA_ENDPOINT: https://${{needs.env.outputs.HASURA_HOST}}
           HASURA_ADMIN_SECRET: ${{needs.env.outputs.HASURA_ADMIN_SECRET}}
           PATH_TO_HASURA_PROJECT_ROOT: ./hasura
 
