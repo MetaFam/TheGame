@@ -92,10 +92,12 @@ jobs:
               echo "APP_ENV=production" >> $GITHUB_ENV
               echo "HASURA_HOST=api.metagame.wtf" >> $GITHUB_ENV
               echo "FRONTEND_URL=https://metagame.wtf" >> $GITHUB_ENV
+              echo "HASURA_ADMIN_SECRET=${{secrets.HASURA_PROD_SECRET}}" >> $GITHUB_ENV
           else
               echo "APP_ENV=test" >> $GITHUB_ENV
               echo "HASURA_HOST=api-staging.metagame.wtf" >> $GITHUB_ENV
               echo "FRONTEND_URL=https://test.metagame.wtf" >> $GITHUB_ENV
+              echo "HASURA_ADMIN_SECRET=${{secrets.HASURA_DEV_SECRET}}" >> $GITHUB_ENV
           fi
       - name: Those Variables May Now Be Interpolated
         id: second
@@ -111,10 +113,24 @@ jobs:
           echo "FRONTEND_TAG=\
           ${{env.DOCKER_PATH}}/frontend:${{github.ref_name}}" >> $GITHUB_ENV
 
+  hasura-metadata:
+    name: Update Hasura Metadata
+    runs-on: ubuntu-latest
+    needs: [env]
+
+    steps:
+      - name: Run `hasura metadata reload`
+        uses: browniefed/hasura-runner@master
+        with:
+          args: metadata reload
+        env:
+          HASURA_ENDPOINT: ${{needs.env.GRAPHQL_URL}}
+          HASURA_ADMIN_SECRET: ${{needs.env.HASURA_ADMIN_SECRET }}
+
   build-frontend:
     name: Build Frontend Container Image
     runs-on: ubuntu-latest
-    needs: [env]
+    needs: [env, hasura-metadata]
 
     steps:
       - name: Set Up Docker Buildx
