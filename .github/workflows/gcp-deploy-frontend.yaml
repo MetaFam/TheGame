@@ -120,7 +120,7 @@ jobs:
 
     steps:
       - name: Run `hasura metadata reload`
-        uses: browniefed/hasura-runner@master
+        uses: tibotiber/hasura-action@master
         with:
           args: metadata reload
         env:
