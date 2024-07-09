@@ -30,7 +30,6 @@ import playtwitter from 'assets/academy/play-twitter.webp';
 import playbookwriter from 'assets/academy/playbook-writer.webp';
 import player from 'assets/academy/player.webp';
 import riteofpassage from 'assets/academy/riteofpassage.webp';
-import submitPlaybook from 'assets/academy/submit-playbook.webp';
 import team from 'assets/academy/team.webp';
 import time from 'assets/academy/time.webp';
 import web3builder from 'assets/academy/web3builder.webp';

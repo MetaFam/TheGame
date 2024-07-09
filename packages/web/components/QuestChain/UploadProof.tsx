@@ -1,23 +1,24 @@
 import {
+  chakra,
   Stack,
   StatusedSubmitButton,
   Text,
   ToastId,
-  Tooltip,
   useDisclosure,
   useToast,
   UseToastOptions,
 } from '@metafam/ds';
-import { contracts, graphql, helpers } from '@quest-chains/sdk';
+import { graphql, helpers } from '@quest-chains/sdk';
 import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { MarkdownEditor } from 'components/MarkdownEditor';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
 import { useEthersProvider } from 'lib/hooks/useEthersProvider';
 import { useInputText } from 'lib/hooks/useInputText';
+import { useRouter } from 'next/router';
 import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
-import { getHexChainId, getNumberId, NETWORK_INFO } from 'utils/networks';
+import { getHexChainId, NETWORK_INFO } from 'utils/networks';
 import {
   Metadata,
   metadataUploader,
@@ -25,41 +26,43 @@ import {
 } from 'utils/questChains';
 import { useAccount } from 'wagmi';
 
+type ToastInfo = {
+  close: boolean;
+  id: ToastId;
+};
+
 export const UploadProof: React.FC<{
   refresh: () => void;
   questId: string;
   name: string;
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
-  const { provider, clients: viemClients } = useEthersProvider();
+  const { clients: viemClients } = useEthersProvider();
   const { onClose } = useDisclosure();
   const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
+  const debug = !!useRouter().query.debug;
 
   const toast = useToast({ isClosable: true });
-  const toastIdRef = useRef<ToastId>();
+  const lastToast = useRef<ToastInfo>();
 
   const addToast = useCallback(
     (options: UseToastOptions) => {
-      if (toastIdRef.current) {
-        toast.close(toastIdRef.current);
+      if (lastToast.current?.close) {
+        toast.close(lastToast.current.id);
       }
-      toastIdRef.current = toast(options);
+      lastToast.current = {
+        close: options.duration === null,
+        id: toast(options),
+      };
     },
-    [toast, toastIdRef],
+    [toast],
   );
 
   const [isSubmitting, setSubmitting] = useState(false);
-
   const [proofDescRef, setProofDescription] = useInputText();
-
-  const dropFilesProps = useDropFiles();
-
-  const { files } = dropFilesProps;
-
-  const dropImageProps = useDropImage();
-
-  const { imageFile } = dropImageProps;
+  const { files } = useDropFiles();
+  const { imageFile } = useDropImage();
 
   const onModalClose = useCallback(() => {
     onClose();
@@ -70,43 +73,69 @@ export const UploadProof: React.FC<{
 
   const onSubmit = useCallback(async () => {
     try {
-      if (!chainId || !provider || !proofDescRef.current) return;
+      if (!chainId) throw new Error('Missing chain id.');
+      if (!proofDescRef.current) throw new Error('Proof description is empty.');
 
       setSubmitting(true);
+
+      const filesCount = files.length + (imageFile ? 1 : 0);
+
       addToast({
-        description: 'Uploading metadata to IPFS via web3.storage.',
+        description: `Uploading ${filesCount} file${
+          filesCount !== 1 ? 's' : ''
+        } to IPFS at Web3.Storage.`,
         duration: null,
       });
 
       const [filesHash, imageHash] = await Promise.all([
-        files.length ? await metadataUploader.uploadFiles(files) : null,
+        files.length > 0 ? await metadataUploader.uploadFiles(files) : null,
         imageFile ? await metadataUploader.uploadFiles([imageFile]) : null,
       ]);
 
-      const quest = questChain.quests.find((q) => q.id === questId);
+      const quest = questChain.quests.find(({ id }) => id === questId);
 
       if (!quest) {
         throw new Error(`Quest "${questId}" not found.`);
       }
 
-      const metadata: Metadata = {
-        name: `Submission: QuestChain - ${questChain.name} - Quest - ${questId}. ${name} User - ${address}`,
-        description: proofDescRef.current,
-        image_url: imageHash ? `ipfs://${imageHash}` : undefined,
-        external_url: filesHash ? `ipfs://${filesHash}` : undefined,
-      };
-
-      const hash = await metadataUploader.uploadMetadata(metadata);
-      const details = `ipfs://${hash}`;
       addToast({
-        description:
-          'Waiting for Confirmation - Confirm the transaction in your Wallet',
+        description: 'Uploading metadata to IPFS via web3.storage.',
         duration: null,
       });
 
+      const metadata: Metadata = {
+        name: `Submission: QuestChain — ${questChain.name}; Quest — ${questId}. ${name} User — ${address}.`,
+        description: proofDescRef.current,
+      };
+      if (imageHash) metadata.image_url = `ipfs://${imageHash}`;
+      if (filesHash) metadata.external_url = `ipfs://${filesHash}`;
+
+      // eslint-disable-next-line no-console
+      if (debug) console.debug({ metadata });
+
+      const hash = await metadataUploader.uploadMetadata(metadata);
+      const details = `ipfs://${hash}`;
+
+      addToast({
+        description: (
+          <Text>
+            Wrote metadata to{' '}
+            <chakra.a href={details} color="purple.600" target="_blank">
+              {details}
+            </chakra.a>
+            .{'\n\n'}
+            Waiting for Confirmation: Confirm the transaction in your wallet.'
+          </Text>
+        ),
+        duration: 3_000,
+      });
+
+      // eslint-disable-next-line no-console
+      if (debug) console.debug({ quest });
+
       const txHash = await contract.write.submitProofs(
-        [quest.questId],
-        [details],
+        [[BigInt(quest.questId)], [details]],
+        { account: address },
       );
       addToast({
         description: 'Transaction submitted. Waiting for 1 block confirmation.',
@@ -125,7 +154,7 @@ export const UploadProof: React.FC<{
         Number(receipt.blockNumber),
       );
       addToast({
-        description: `Successfully submitted proof`,
+        description: `Successfully submitted proof.`,
         duration: 5000,
       });
       onModalClose();
@@ -135,7 +164,8 @@ export const UploadProof: React.FC<{
         description:
           (error as { error?: Error }).error?.message ??
           (error as Error).message,
-        duration: 2000,
+        status: 'error',
+        duration: 10_000,
       });
       console.error({ error });
       errorHandler(error as Error);
@@ -144,16 +174,16 @@ export const UploadProof: React.FC<{
     setSubmitting(false);
   }, [
     chainId,
-    provider,
     proofDescRef,
-    addToast,
     files,
     imageFile,
+    addToast,
     questChain.quests,
     questChain.name,
     questId,
     name,
     address,
+    debug,
     contract.write,
     viemClients.public,
     onModalClose,
@@ -172,7 +202,7 @@ export const UploadProof: React.FC<{
         value={proofDescRef.current}
         onChange={setProofDescription}
       />
-      {getNumberId(questChain.chainId) !== chainId ? (
+      {Number(questChain.chainId) !== chainId ? (
         <SwitchNetworkButton chainId={questChain.chainId} />
       ) : (
         <StatusedSubmitButton
@@ -184,12 +214,12 @@ export const UploadProof: React.FC<{
                 description: `Wrong chain, please switch to ${
                   NETWORK_INFO[questChain.chainId].label
                 }.`,
-                duration: 2_000,
+                duration: 8_000,
               });
             } else if (!proofDescRef.current) {
               addToast({
                 description: 'Proof description cannot be empty.',
-                duration: 2_000,
+                duration: 8_000,
               });
             } else {
               onSubmit();

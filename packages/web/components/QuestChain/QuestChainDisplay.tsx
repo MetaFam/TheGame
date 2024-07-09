@@ -535,7 +535,7 @@ const QuestChainDisplay: React.FC<Props> = ({
                     questChain,
                     name: questName,
                     onSuccess: refresh,
-                    completed: questChain.quests.filter((q) => !q.paused)
+                    completed: questChain.quests.filter(({ paused: p }) => !p)
                       .length,
                   }}
                 />
