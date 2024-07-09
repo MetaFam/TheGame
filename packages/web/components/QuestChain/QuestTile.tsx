@@ -47,11 +47,11 @@ export const QuestTile: React.FC<{
     }
   };
 
-  const onNextStep = () => {
+  const gotoNextStep = () => {
     setActiveItem(Math.min(activeItem + 1, lastIndex));
   };
 
-  const onPrevStep = () => {
+  const gotoPrevStep = () => {
     setActiveItem(Math.max(0, activeItem - 1));
   };
 
@@ -128,7 +128,11 @@ export const QuestTile: React.FC<{
             </Box>
             <Box w="100%">
               <UploadProofButton
-                {...{ questId, name, questChain, questStatus, refresh }}
+                onComplete={() => {
+                  gotoNextStep();
+                  refresh();
+                }}
+                {...{ questId, name, questChain, questStatus }}
               />
               {isMobile && (
                 <HStack
@@ -138,10 +142,7 @@ export const QuestTile: React.FC<{
                 >
                   <Box>
                     <MetaButton
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onPrevStep();
-                      }}
+                      onClick={gotoPrevStep}
                       size="sm"
                       borderRadius="full"
                       aria-label="Previous Step"
@@ -153,10 +154,7 @@ export const QuestTile: React.FC<{
                   </Box>
                   <Box>
                     <MetaButton
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onNextStep();
-                      }}
+                      onClick={gotoNextStep}
                       size="sm"
                       borderRadius="full"
                       aria-label="Next Step"
