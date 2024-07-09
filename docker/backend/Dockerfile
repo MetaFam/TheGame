@@ -16,7 +16,9 @@ COPY packages/backend/*.json ./packages/backend/
 COPY packages/utils/*.json ./packages/utils/
 COPY packages/discord-bot/*.json ./packages/discord-bot/
 
-RUN yarn install --pure-lockfile
+RUN corepack enable
+RUN yarn set version berry
+RUN yarn install --immutable
 
 # Dev environment doesn't run this stage or beyond
 FROM base as build
