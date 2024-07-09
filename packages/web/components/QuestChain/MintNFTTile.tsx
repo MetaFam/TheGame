@@ -17,6 +17,8 @@ import {
   useQuestChainContract,
 } from 'utils/questChains';
 
+import { ToastInfo } from './UploadProof';
+
 type MintNFTTileProps = {
   name: QuestChainType;
   questChain: graphql.QuestChainInfoFragment;
@@ -33,16 +35,19 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
   const { viemClients, chainId, address } = useWeb3();
 
   const toast = useToast({ isClosable: true });
-  const toastIdRef = useRef<ToastId>();
+  const lastToast = useRef<ToastInfo>();
 
   const addToast = useCallback(
     (options: UseToastOptions) => {
-      if (toastIdRef.current) {
-        toast.close(toastIdRef.current);
+      if (lastToast.current?.close) {
+        toast.close(lastToast.current.id);
       }
-      toastIdRef.current = toast(options);
+      lastToast.current = {
+        close: options.duration === null,
+        id: toast(options),
+      };
     },
-    [toast, toastIdRef],
+    [toast],
   );
 
   const [isMinting, setMinting] = useState(false);

@@ -26,17 +26,17 @@ import {
 } from 'utils/questChains';
 import { useAccount } from 'wagmi';
 
-type ToastInfo = {
+export type ToastInfo = {
   close: boolean;
   id: ToastId;
 };
 
 export const UploadProof: React.FC<{
-  refresh: () => void;
   questId: string;
   name: string;
   questChain: graphql.QuestChainInfoFragment;
-}> = ({ refresh, questId, name, questChain }) => {
+  onComplete?: (successful: boolean) => void;
+}> = ({ questId, name, questChain, onComplete }) => {
   const { clients: viemClients } = useEthersProvider();
   const { onClose } = useDisclosure();
   const { chainId, address, chain } = useAccount();
@@ -158,7 +158,7 @@ export const UploadProof: React.FC<{
         duration: 5000,
       });
       onModalClose();
-      refresh();
+      onComplete?.(true);
     } catch (error) {
       addToast({
         description:
@@ -169,6 +169,7 @@ export const UploadProof: React.FC<{
       });
       console.error({ error });
       errorHandler(error as Error);
+      onComplete?.(false);
     }
 
     setSubmitting(false);
@@ -187,7 +188,7 @@ export const UploadProof: React.FC<{
     contract.write,
     viemClients.public,
     onModalClose,
-    refresh,
+    onComplete,
   ]);
 
   return (
@@ -214,11 +215,13 @@ export const UploadProof: React.FC<{
                 description: `Wrong chain, please switch to ${
                   NETWORK_INFO[questChain.chainId].label
                 }.`,
+                status: 'warning',
                 duration: 8_000,
               });
             } else if (!proofDescRef.current) {
               addToast({
                 description: 'Proof description cannot be empty.',
+                status: 'error',
                 duration: 8_000,
               });
             } else {

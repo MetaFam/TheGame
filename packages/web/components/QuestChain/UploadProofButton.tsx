@@ -9,7 +9,7 @@ type UploadProofButtonProps = {
   name: string;
   questId: string;
   questStatus: graphql.Status | null;
-  refresh: () => void;
+  onComplete?: (successful: boolean) => void;
 };
 
 export const UploadProofButton: React.FC<UploadProofButtonProps> = ({
@@ -17,7 +17,7 @@ export const UploadProofButton: React.FC<UploadProofButtonProps> = ({
   questId,
   name,
   questChain,
-  refresh,
+  onComplete,
 }) => {
   const bgColor = useMemo(() => {
     switch (questStatus) {
@@ -45,7 +45,7 @@ export const UploadProofButton: React.FC<UploadProofButtonProps> = ({
     <Flex mt={5}>
       {!questStatus ||
       [graphql.Status.Init, graphql.Status.Fail].includes(questStatus) ? (
-        <UploadProof {...{ questId, name, questChain, refresh }} />
+        <UploadProof {...{ questId, name, questChain, onComplete }} />
       ) : (
         <Box>
           <Box
