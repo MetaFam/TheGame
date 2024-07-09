@@ -19,10 +19,17 @@ import React, {
   useState,
 } from 'react';
 import { errorHandler } from 'utils/errorHandler';
+import { PublicClient, WalletClient } from 'viem';
 import { useAccount, useDisconnect } from 'wagmi';
+
+export type ViemClients = {
+  wallet: WalletClient;
+  public: PublicClient;
+};
 
 export type Web3ContextType = {
   provider: Maybe<ethers.providers.Web3Provider>;
+  viemClients: Maybe<ViemClients>;
   address: Maybe<string>;
   chainId: Maybe<string>;
   authToken: Maybe<string>;
@@ -35,6 +42,7 @@ export type Web3ContextType = {
 
 export const Web3Context = createContext<Web3ContextType>({
   provider: null,
+  viemClients: null,
   address: null,
   chainId: null,
   authToken: null,
@@ -77,6 +85,7 @@ type Web3ContextProviderOptions = PropsWithChildren<{
 
 type Web3State = {
   provider: Maybe<ethers.providers.Web3Provider>;
+  viemClients: Maybe<ViemClients>;
   address: Maybe<string>;
   chainId: Maybe<string>;
   authToken: Maybe<string>;
@@ -90,6 +99,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   const [{ provider, chainId, address, authToken }, setWeb3State] =
     useState<Web3State>({
       provider: null,
+      viemClients: null,
       address: null,
       chainId: null,
       authToken: null,
@@ -97,9 +107,9 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     });
   const [connecting, setConnecting] = useState(false);
 
-  const wagmiProvider = useEthersProvider();
+  const { provider: wagmiProvider, clients: viemClients } = useEthersProvider();
   const { chain, address: userAddress } = useAccount();
-  const { disconnect: disconnectWagmi } = useDisconnect();
+  const { disconnect: disconnectWAGMI } = useDisconnect();
 
   const w3storage = useW3upClient();
 
@@ -109,12 +119,13 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   );
 
   const disconnect = useCallback(() => {
-    disconnectWagmi();
+    disconnectWAGMI();
     clearWalletConnect();
     clearToken();
     clearDIDSessionCache();
     setWeb3State({
       provider: null,
+      viemClients: null,
       address: null,
       chainId: null,
       authToken: null,
@@ -122,7 +133,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     });
     setConnecting(false);
     resetUrqlClient?.();
-  }, [resetUrqlClient, disconnectWagmi]);
+  }, [resetUrqlClient, disconnectWAGMI]);
 
   const updateWeb3State = useCallback(
     async (web3Provider: ethers.providers.Web3Provider) => {
@@ -138,13 +149,14 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
       setWeb3State({
         provider: web3Provider,
+        viemClients: viemClients ?? null,
         chainId: networkId,
         address: userAddress,
         authToken: token,
         w3storage,
       });
     },
-    [w3storage, userAddress, chain?.id],
+    [chain?.id, userAddress, viemClients, w3storage],
   );
 
   useEffect(() => {
@@ -162,6 +174,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     <Web3Context.Provider
       value={{
         provider,
+        viemClients: viemClients ?? null,
         disconnect,
         connected,
         connecting,

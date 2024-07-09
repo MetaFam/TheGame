@@ -18,8 +18,7 @@ const eas = new EAS(easContractAddress);
 
 export const useEAS = () => {
   const [connectedEAS, setConnectedEAS] = useState<EAS | null>(null);
-  const provider = useEthersProvider({ chainId: 10 });
-  const { address } = useWeb3();
+  const { address, provider } = useWeb3();
 
   useEffect(() => {
     const connectEAS = async () => {

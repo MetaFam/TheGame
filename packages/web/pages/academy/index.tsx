@@ -26,7 +26,11 @@ const PageContainer = lazy(() => import('components/Container'));
 
 const AcademyPage: React.FC = () => {
   const carouselGap =
-    useBreakpointValue({ base: 8, md: 8, xl: 24, '2xl': 32 }) || 32;
+    useBreakpointValue({
+      base: 8,
+      xl: 24,
+      '2xl': 32,
+    }) || 32;
   const cardMinWidth =
     useBreakpointValue({
       base: '9.75rem',
@@ -37,16 +41,14 @@ const AcademyPage: React.FC = () => {
   const itemsOnScreen = useBreakpointValue({
     base: 2,
     md: 3,
-    lg: 3,
     xl: 4,
-    '2xl': 4,
   });
 
   return (
     <PageContainer>
       <HeadComponent
         title="dAcademy"
-        description="MetaGame is a Massive Online Coordination Game! The Academy is full of Paths and Playbooks to help you find your way and level up in MetaGame & life."
+        description="MetaGame is a Massive Online Coordination Game! The dAcademy is full of Paths and Playbooks to help you find your way and level up in MetaGame & life."
         url="https://metagame.wtf/academy"
       />
       <VStack
@@ -62,7 +64,7 @@ const AcademyPage: React.FC = () => {
             fontWeight="600"
             fontSize={{ base: '4xl', '2xl': '6xl' }}
             textAlign="center"
-            w={{ base: 'full', xl: ' full' }}
+            w="full"
           >
             dAcademy
           </Heading>
@@ -77,29 +79,24 @@ const AcademyPage: React.FC = () => {
           </Text>
         </VStack>
 
-        {Object.entries(QuestChainsCategoriesDetails).map((category, i) => {
-          if (category[1].name === 'all') return null;
+        {Object.entries(QuestChainsCategoriesDetails).map(([, info], i) => {
           const {
             name: categoryName,
             title: categoryTitle,
             description,
-          } = category[1];
+          } = info;
           const categoryItems = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
-          ).filter(
-            ([, { category: cat }]) => cat === categoryName && cat !== 'all',
-          );
+          ).filter(([, { category: cat }]) => cat === categoryName);
 
-          const allItem = Object.entries(
+          const allItems = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
           ).filter(([, { category: cat }]) => cat === 'all');
-          if (allItem.length > 0 && category) {
-            categoryItems.push(allItem[0]);
-          }
+          categoryItems.concat(allItems);
 
           return (
             <VStack
-              key={category[1].name}
+              key={info.name}
               spacing={{ base: 4, xl: 0 }}
               w="full"
               alignItems="left"
@@ -113,11 +110,11 @@ const AcademyPage: React.FC = () => {
                 >
                   {categoryTitle}
                 </Heading>
-                {description ? (
+                {description && (
                   <Text fontSize={{ base: 'md', '2xl': 'lg' }} maxW="3xl">
                     {description}
                   </Text>
-                ) : null}
+                )}
               </VStack>
               {categoryItems.length > 0 ? (
                 <Box
@@ -134,7 +131,7 @@ const AcademyPage: React.FC = () => {
                     xl: 'translateX(-2rem)',
                     '2xl': 'translateX(-5rem)',
                   }}
-                  p={{ base: 0, md: '0.5rem', xl: '1rem' }}
+                  py={{ base: 0, md: '0.5rem', xl: '1rem' }}
                   px={{
                     base: '1.25rem',
                     md: '0.5rem',
@@ -142,8 +139,7 @@ const AcademyPage: React.FC = () => {
                     '2xl': '5rem',
                   }}
                   mx="auto"
-                  overflowY="hidden"
-                  overflowX="hidden"
+                  overflow="hidden"
                 >
                   <Carousel
                     gap={carouselGap}
@@ -235,7 +231,7 @@ const Card: React.FC<CardProps> = ({
         <Text
           p={0}
           fontSize={{ base: 'xs', lg: 'xl', '2xl': '3xl' }}
-          fontWeight={{ base: 900, xl: 900 }}
+          fontWeight={900}
           textShadow={{ base: '0 0 0.5rem rgba(0,0,0,0.8)' }}
           align="center"
           noOfLines={4}

@@ -44,13 +44,16 @@ import { BsArrowRight, BsCheck } from 'react-icons/bs';
 import { QuestChainType } from 'utils/questChains';
 
 type Props = {
-  inputQuestChain: graphql.QuestChainInfoFragment;
+  questChain: graphql.QuestChainInfoFragment;
   name: QuestChainType;
 };
 
 const PageContainer = lazy(() => import('components/Container'));
 
-const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
+const QuestChainDisplay: React.FC<Props> = ({
+  questChain: inputQuestChain,
+  name,
+}) => {
   const { address } = useWeb3();
   const { user } = useUser();
   const toast = useToast();
@@ -114,9 +117,8 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
 
   const handleQuestClick = (questId: React.SetStateAction<string>) => {
     setSelected(questId);
-    // Check if the markdownViewerRef is set and scroll it into view
     if (markdownViewerRef.current !== null) {
-      (markdownViewerRef.current as any).scrollIntoView({ behavior: 'smooth' });
+      markdownViewerRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -130,7 +132,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
 
         if (pin.error) {
           toast({
-            title: 'Error pinning quest chain!',
+            title: 'Error Pinning Quest Chain',
             description: pin.error.message,
             status: 'error',
             duration: 9000,
@@ -139,7 +141,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
         } else {
           setIsPinned(true);
           toast({
-            title: 'Quest Chain pinned!',
+            title: 'Quest Chain Pinned',
             description: (
               <chakra.a
                 href={`https://discord.com/channels/629411177947987986/1045714403351339018`}
@@ -147,7 +149,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                 rel="noreferrer"
                 style={{ textDecoration: 'underline' }}
               >
-                You can now see this quest chain on your Dashboard. Join the
+                You can now see this Quest Chain on your Dashboard. Join the
                 conversation on Discord.
               </chakra.a>
             ),
@@ -168,13 +170,13 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
     if (user && questChain) {
       try {
         const pin = await deletePlayerQuestchainPin({
-          playerId: user?.id,
+          playerId: user.id,
           questchainId: `${questChain.address}-${questChain.name}`,
         });
 
         if (pin.error) {
           toast({
-            title: 'Error unpinning quest chain!',
+            title: 'Error Unpinning Quest Chain',
             description: pin.error.message,
             status: 'error',
             duration: 9000,
@@ -183,8 +185,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
         } else {
           setIsPinned(false);
           toast({
-            title: 'Quest Chain unpinned!',
-
+            title: 'Quest Chain Unpinned',
             description:
               'The quest chain has been removed from your Dashboard.',
             status: 'success',
@@ -218,7 +219,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
   if (!questChain) {
     return (
       <PageContainer>
-        <Text> Quest Chain not found! </Text>
+        <Text>Quest Chain not found!</Text>
       </PageContainer>
     );
   }
@@ -243,7 +244,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
             href={`https://app.questchains.xyz/profile/${creator}`}
             target="_blank"
           >
-            {`${creator?.slice(0, 4)}...${creator?.slice(-2)}`}
+            {`${creator?.slice(0, 4)}…${creator?.slice(-2)}`}
           </MetaLink>
         </Box>
         <Flex
@@ -279,18 +280,18 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           <Box w={{ base: 'full', lg: 338 }} mt={{ base: 5, lg: 0 }}>
             {isMobile ? (
               <HStack w="full">
-                <ChainStats progress={progress} isMobile={isMobile} />
+                <ChainStats {...{ progress, isMobile }} />
                 <IconButton
                   variant="outline"
                   aria-label="Pin"
                   icon={<Image src={Pin.src} alt="Pin" w={5} h={5} />}
-                  onClick={() => handlePinPlayerQuestchain()}
+                  onClick={handlePinPlayerQuestchain}
                   isRound
                   backgroundColor={isPinned ? 'purple.500' : ''}
                   justifyContent="center"
                   ml={4}
                 />
-                <Tooltip label="Coming soon">
+                <Tooltip label="Coming Soon">
                   <IconButton
                     variant="outline"
                     aria-label="Seed"
@@ -307,9 +308,9 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                   isRound
                   justifyContent="center"
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.href}`);
+                    navigator.clipboard.writeText(window.location.href);
                     toast({
-                      title: 'Copied to clipboard!',
+                      title: 'Copied to Clipboard',
                       description: 'Share this link with your friends!',
                       status: 'success',
                       duration: 4000,
@@ -335,7 +336,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                 >
                   {isPinned ? 'Unpin' : 'Pin'}
                 </Button>
-                <Tooltip label="Coming soon">
+                <Tooltip label="Coming Soon">
                   <Button
                     variant="outline"
                     w="full"
@@ -354,9 +355,9 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                     <Image src={Share.src} alt="Share" w={5} h={5} mr={2} />
                   }
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.href}`);
+                    navigator.clipboard.writeText(window.location.href);
                     toast({
-                      title: 'Copied to clipboard!',
+                      title: 'Copied to Clipboard',
                       description: 'Share this link with your friends!',
                       status: 'success',
                       duration: 4000,
@@ -383,7 +384,6 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
         <Spinner my={20} />
       ) : (
         <Flex w="full" gap={8} direction={{ base: 'column', md: 'row' }}>
-          {/* content */}
           <Flex
             direction="column"
             height="fit-content"
