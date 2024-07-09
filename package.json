@@ -97,7 +97,6 @@
     "wait-on": "6.0.1"
   },
   "resolutions": {
-    "@ceramicnetwork/common": "2.31.1",
     "did-resolver": "4.1.0",
     "dids": "4.0.4",
     "graphql": "16.5.0",

@@ -129,6 +129,7 @@ export const QuestTile: React.FC<{
             <Box w="100%">
               <UploadProofButton
                 onComplete={() => {
+                  console.debug('Called `onComplete`.')
                   gotoNextStep();
                   refresh();
                 }}

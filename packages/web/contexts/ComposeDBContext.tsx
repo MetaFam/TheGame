@@ -34,7 +34,7 @@ const composeDBClient = new ComposeClient({
 export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const { chainId, provider } = useWeb3();
+  const { chainId, address, provider } = useWeb3();
   const [connecting, setConnecting] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -47,12 +47,11 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
 
   const createSession = useCallback(
     async (prov: ethers.providers.Web3Provider) => {
-      const addr = await (await prov.getSigner()).getAddress();
-
-      // use did:pkh
+      if (!address) throw new Error('No address when creating ComposeDB session.');
+      
       let session = await getCachedDIDSession();
       if (!session || (session.hasSession && session.isExpired)) {
-        const accountId = await getAccountId(prov.provider, addr.toLowerCase());
+        const accountId = await getAccountId(prov.provider, address.toLowerCase());
         const authMethod = await EthereumWebAuth.getAuthMethod(
           prov.provider,
           accountId,
@@ -64,7 +63,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
       }
       composeDBClient?.setDID(session.did);
     },
-    [],
+    [address],
   );
 
   const connect = useCallback(async () => {
