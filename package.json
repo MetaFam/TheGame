@@ -53,7 +53,7 @@
   ],
   "devDependencies": {
     "@apollo/rover": "^0.18.0",
-    "@composedb/cli": "^0.4.4",
+    "@composedb/cli": "^0.7.1",
     "@graphql-codegen/add": "^5.0.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/introspection": "^4.0.0",
@@ -97,8 +97,6 @@
     "wait-on": "6.0.1"
   },
   "resolutions": {
-    "did-resolver": "4.1.0",
-    "dids": "4.0.4",
     "graphql": "16.5.0",
     "multihashes": "4.0.3",
     "node-gyp": "10.0.1",
@@ -114,5 +112,5 @@
     "tslib": "^2.4.0",
     "uuid": "8.3.2"
   },
-  "packageManager": "yarn@1.19.0"
+  "packageManager": "yarn@4.3.1"
 }

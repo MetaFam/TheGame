@@ -24,7 +24,7 @@ services:
       HASURA_GRAPHQL_DEV_MODE: ${HASURA_GRAPHQL_DEV_MODE:-false}
 
   database:
-    image: postgres:12
+    image: postgres:16
     volumes:
       - database:/var/lib/postgresql/data
     ports:

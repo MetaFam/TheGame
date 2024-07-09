@@ -19,8 +19,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@ceramicnetwork/stream-caip10-link": "^2.26.1",
-    "@composedb/client": "^0.4.4",
+    "@ceramicnetwork/stream-caip10-link": "^5.15.0",
+    "@composedb/client": "^0.7.1",
     "@graphql-tools/schema": "8.3.2",
     "@metafam/discord-bot": "0.1.0",
     "@metafam/utils": "1.0.1",

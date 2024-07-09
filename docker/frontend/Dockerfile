@@ -26,7 +26,9 @@ COPY packages/web/graphql ./packages/web/graphql/
 COPY packages/utils/*.json ./packages/utils/
 COPY packages/design-system/*.json ./packages/design-system/
 
-RUN yarn install --pure-lockfile
+RUN corepack enable
+RUN yarn set version berry
+RUN yarn install --immutable
 
 FROM base AS build
 
