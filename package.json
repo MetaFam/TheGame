@@ -52,7 +52,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@apollo/rover": "^0.18.0",
+    "@apollo/rover": "^0.23.0",
     "@composedb/cli": "^0.7.1",
     "@graphql-codegen/add": "^5.0.0",
     "@graphql-codegen/cli": "^5.0.0",
