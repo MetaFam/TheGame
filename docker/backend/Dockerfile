@@ -7,18 +7,18 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends --reinstall ca-certificates
 
 # Install dependencies for dev and prod
-COPY package.json .
-COPY lerna.json .
-COPY yarn.lock .
-COPY schema.graphql .
-COPY tsconfig.base.json .
+COPY package.json ./
+COPY lerna.json ./
+COPY yarn.lock ./
+COPY schema.graphql ./
+COPY tsconfig.base.json ./
 COPY packages/backend/*.json ./packages/backend/
 COPY packages/utils/*.json ./packages/utils/
 COPY packages/discord-bot/*.json ./packages/discord-bot/
 
 RUN corepack enable
 RUN yarn set version berry
-RUN yarn install --immutable
+RUN yarn install # --immutable
 
 # Dev environment doesn't run this stage or beyond
 FROM base as build

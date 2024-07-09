@@ -28,7 +28,7 @@ COPY packages/design-system/*.json ./packages/design-system/
 
 RUN corepack enable
 RUN yarn set version berry
-RUN yarn install --immutable
+RUN yarn install # --immutable
 
 FROM base AS build
 
