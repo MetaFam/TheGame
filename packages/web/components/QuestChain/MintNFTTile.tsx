@@ -133,7 +133,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
       <StatusedSubmitButton
         isLoading={isMinting}
         onClick={onMint}
-        label="MINT YOUR NFT"
+        label="Mint Your NFT"
       />
     </VStack>
   );

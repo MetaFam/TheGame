@@ -32,8 +32,10 @@ const QuestChainPathPage: React.FC<Props> = ({ questChain, name }) => {
   return (
     <PageContainer maxW="96rem" alignSelf="center">
       <HeadComponent
-        title={questChain.name ?? 'Untitled Quest Chain'}
-        description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
+        title={questChain.name ?? '𝕌𝕟𝕥𝕚𝕥𝕝𝕖𝕕 Quest Chain'}
+        description={
+          questChain.description || 'MetaGame has some epic quests going on!'
+        }
         url={`https://metagame.wtf/academy/${name}`}
       />
 
