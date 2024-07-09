@@ -1,7 +1,7 @@
 import { Contract, ethers } from 'ethers';
 
 export async function getSignature(
-  provider: ethers.providers.Web3Provider,
+  provider: ethers.BrowserProvider,
   msg: string,
 ): Promise<string> {
   const signer = await provider.getSigner();
@@ -19,7 +19,7 @@ enum WalletType {
 
 async function getWalletType(
   address: string,
-  provider: ethers.providers.Web3Provider,
+  provider: ethers.BrowserProvider,
 ): Promise<WalletType> {
   const code = await new Promise((resolve, reject) => {
     const seconds = 45;
@@ -44,20 +44,20 @@ export async function verifySignature(
   address: string,
   message: string,
   signature: string,
-  provider: ethers.providers.Web3Provider,
+  provider: ethers.BrowserProvider,
 ): Promise<boolean> {
   const walletType = await getWalletType(address, provider);
 
   if (walletType === WalletType.EOA) {
-    const recoveredAddress = ethers.utils.verifyMessage(message, signature);
+    const recoveredAddress = ethers.verifyMessage(message, signature);
     return address === recoveredAddress;
   }
 
   // Smart wallet
-  const msgBytes = ethers.utils.toUtf8Bytes(message);
-  const hexMsg = ethers.utils.hexlify(msgBytes);
-  const hexArray = ethers.utils.arrayify(hexMsg);
-  const hashMsg = ethers.utils.hashMessage(hexArray);
+  const msgBytes = ethers.toUtf8Bytes(message);
+  const hexMsg = ethers.hexlify(msgBytes);
+  const hexArray = ethers.toBeArray(hexMsg);
+  const hashMsg = ethers.hashMessage(hexArray);
 
   const contract = new Contract(address, smartWalletABI, provider);
   try {

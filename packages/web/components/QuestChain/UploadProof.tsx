@@ -138,24 +138,20 @@ export const UploadProof: React.FC<{
         { account: address },
       );
       addToast({
-        description: 'Transaction submitted. Waiting for 1 block confirmation.',
+        description: `Transaction ${txHash} submitted. Waiting for 1 block confirmation.`,
         duration: null,
       });
-      const receipt = await viemClients.public.waitForTransactionReceipt({
-        hash: txHash,
-      });
+      const receipt = await viemClients.public.waitForTransactionReceipt({ hash: txHash });
       addToast({
-        description:
-          'Transaction confirmed. Waiting for The Graph to index the transaction data.',
+        description: (
+          'Transaction confirmed. Waiting for The Graph to index the transaction data.'
+        ),
         duration: null,
       });
-      await helpers.waitUntilSubgraphIndexed(
-        `${chainId}`,
-        Number(receipt.blockNumber),
-      );
+      await helpers.waitUntilSubgraphIndexed(`${chainId}`, Number(receipt.blockNumber));
       addToast({
         description: `Successfully submitted proof.`,
-        duration: 5000,
+        duration: 5_000,
       });
       onModalClose();
       onComplete?.(true);
@@ -169,6 +165,8 @@ export const UploadProof: React.FC<{
       });
       console.error({ error });
       errorHandler(error as Error);
+      // eslint-disable-next-line no-console
+      if(debug) console.debug('Calling onComplete(false) from UploadProof')
       onComplete?.(false);
     }
 

@@ -600,6 +600,18 @@
     multiformats "^11.0.1"
     uint8arrays "^4.0.3"
 
+"@ceramicnetwork/codecs@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@ceramicnetwork/codecs/-/codecs-1.14.0.tgz#1cd2c97029d14491dea75a77199bf845903e1c0b"
+  integrity sha512-UElVFFIHWHGc/cr5pZxQTfd7DJIf95cFtADTFQ+O78c+X+OOO323F40KLCP+vuwooyiVbGArHiaU5WsrHCz7bg==
+  dependencies:
+    "@ceramicnetwork/streamid" "^2.17.0"
+    cartonne "^2.1.1"
+    codeco "^1.1.0"
+    dag-jose "^4.0.0"
+    multiformats "^11.0.1"
+    uint8arrays "^4.0.3"
+
 "@ceramicnetwork/codecs@^1.6.1", "@ceramicnetwork/codecs@^1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/codecs/-/codecs-1.7.0.tgz#5ec0897adfb4409713da4a3b78c3f9bfcaac78a1"
@@ -610,12 +622,36 @@
     multiformats "^11.0.1"
     uint8arrays "^4.0.3"
 
-"@ceramicnetwork/common@2.31.1", "@ceramicnetwork/common@^2.24.0", "@ceramicnetwork/common@^2.32.0":
+"@ceramicnetwork/common@^2.24.0":
   version "2.31.1"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/common/-/common-2.31.1.tgz#617e1eda721d416b18e97b4bd52612021ab529e3"
   integrity sha512-AkwFVWoxaswQ0pvzuwWJMX8rN1y+lPUfrXMUhva7UGUlWpYtTwGeI+DmyvRe4CrrVk3uFxVcfH5kTDJ+C+NtJA==
   dependencies:
     "@ceramicnetwork/codecs" "^1.6.1"
+    "@ceramicnetwork/streamid" "^2.17.0"
+    "@didtools/cacao" "^2.1.0"
+    "@didtools/pkh-ethereum" "^0.1.0"
+    "@didtools/pkh-solana" "^0.1.0"
+    "@didtools/pkh-stacks" "^0.1.0"
+    "@didtools/pkh-tezos" "^0.2.1"
+    "@stablelib/random" "^1.0.1"
+    caip "~1.1.0"
+    cross-fetch "^3.1.4"
+    flat "^5.0.2"
+    it-first "^1.0.7"
+    jet-logger "1.2.2"
+    lodash.clonedeep "^4.5.0"
+    logfmt "^1.3.2"
+    multiformats "^11.0.1"
+    rxjs "^7.5.2"
+    uint8arrays "^4.0.3"
+
+"@ceramicnetwork/common@^2.32.0":
+  version "2.39.0"
+  resolved "https://registry.yarnpkg.com/@ceramicnetwork/common/-/common-2.39.0.tgz#7c1349b2aa5892bef74569504d6686c4a8aaff7c"
+  integrity sha512-NB/6XzPqualWK5Kyti664VHhJug3Z8XDFNpYxM0dLz13lgtNnLWUt6xFG0I7chB0ecbhexanKRE/dh7Ltjczvw==
+  dependencies:
+    "@ceramicnetwork/codecs" "^1.14.0"
     "@ceramicnetwork/streamid" "^2.17.0"
     "@didtools/cacao" "^2.1.0"
     "@didtools/pkh-ethereum" "^0.1.0"
@@ -11960,42 +11996,6 @@ ethers@5.6.9:
     "@ethersproject/web" "5.6.1"
     "@ethersproject/wordlists" "5.6.1"
 
-ethers@5.7.2, ethers@^5.7.1:
-  version "5.7.2"
-  resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
-  integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
-  dependencies:
-    "@ethersproject/abi" "5.7.0"
-    "@ethersproject/abstract-provider" "5.7.0"
-    "@ethersproject/abstract-signer" "5.7.0"
-    "@ethersproject/address" "5.7.0"
-    "@ethersproject/base64" "5.7.0"
-    "@ethersproject/basex" "5.7.0"
-    "@ethersproject/bignumber" "5.7.0"
-    "@ethersproject/bytes" "5.7.0"
-    "@ethersproject/constants" "5.7.0"
-    "@ethersproject/contracts" "5.7.0"
-    "@ethersproject/hash" "5.7.0"
-    "@ethersproject/hdnode" "5.7.0"
-    "@ethersproject/json-wallets" "5.7.0"
-    "@ethersproject/keccak256" "5.7.0"
-    "@ethersproject/logger" "5.7.0"
-    "@ethersproject/networks" "5.7.1"
-    "@ethersproject/pbkdf2" "5.7.0"
-    "@ethersproject/properties" "5.7.0"
-    "@ethersproject/providers" "5.7.2"
-    "@ethersproject/random" "5.7.0"
-    "@ethersproject/rlp" "5.7.0"
-    "@ethersproject/sha2" "5.7.0"
-    "@ethersproject/signing-key" "5.7.0"
-    "@ethersproject/solidity" "5.7.0"
-    "@ethersproject/strings" "5.7.0"
-    "@ethersproject/transactions" "5.7.0"
-    "@ethersproject/units" "5.7.0"
-    "@ethersproject/wallet" "5.7.0"
-    "@ethersproject/web" "5.7.1"
-    "@ethersproject/wordlists" "5.7.0"
-
 ethers@^5.2.0:
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.0.tgz#0055da174b9e076b242b8282638bc94e04b39835"
@@ -12031,6 +12031,42 @@ ethers@^5.2.0:
     "@ethersproject/web" "5.7.0"
     "@ethersproject/wordlists" "5.7.0"
 
+ethers@^5.7.1:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
+  integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
+  dependencies:
+    "@ethersproject/abi" "5.7.0"
+    "@ethersproject/abstract-provider" "5.7.0"
+    "@ethersproject/abstract-signer" "5.7.0"
+    "@ethersproject/address" "5.7.0"
+    "@ethersproject/base64" "5.7.0"
+    "@ethersproject/basex" "5.7.0"
+    "@ethersproject/bignumber" "5.7.0"
+    "@ethersproject/bytes" "5.7.0"
+    "@ethersproject/constants" "5.7.0"
+    "@ethersproject/contracts" "5.7.0"
+    "@ethersproject/hash" "5.7.0"
+    "@ethersproject/hdnode" "5.7.0"
+    "@ethersproject/json-wallets" "5.7.0"
+    "@ethersproject/keccak256" "5.7.0"
+    "@ethersproject/logger" "5.7.0"
+    "@ethersproject/networks" "5.7.1"
+    "@ethersproject/pbkdf2" "5.7.0"
+    "@ethersproject/properties" "5.7.0"
+    "@ethersproject/providers" "5.7.2"
+    "@ethersproject/random" "5.7.0"
+    "@ethersproject/rlp" "5.7.0"
+    "@ethersproject/sha2" "5.7.0"
+    "@ethersproject/signing-key" "5.7.0"
+    "@ethersproject/solidity" "5.7.0"
+    "@ethersproject/strings" "5.7.0"
+    "@ethersproject/transactions" "5.7.0"
+    "@ethersproject/units" "5.7.0"
+    "@ethersproject/wallet" "5.7.0"
+    "@ethersproject/web" "5.7.1"
+    "@ethersproject/wordlists" "5.7.0"
+
 ethers@^6.11.1:
   version "6.11.1"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.11.1.tgz#96aae00b627c2e35f9b0a4d65c7ab658259ee6af"
@@ -12043,6 +12079,19 @@ ethers@^6.11.1:
     aes-js "4.0.0-beta.5"
     tslib "2.4.0"
     ws "8.5.0"
+
+ethers@^6.13.1:
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.13.1.tgz#2b9f9c7455cde9d38b30fe6589972eb083652961"
+  integrity sha512-hdJ2HOxg/xx97Lm9HdCWk949BfYqYWpyw4//78SiwOLgASyfrNszfMUNB2joKjvGUdwhHfaiMMFFwacVVoLR9A==
+  dependencies:
+    "@adraffy/ens-normalize" "1.10.1"
+    "@noble/curves" "1.2.0"
+    "@noble/hashes" "1.3.2"
+    "@types/node" "18.15.13"
+    aes-js "4.0.0-beta.5"
+    tslib "2.4.0"
+    ws "8.17.1"
 
 ethjs-unit@0.1.6:
   version "0.1.6"
@@ -21991,6 +22040,11 @@ ws@7.5.3:
 ws@8.13.0, ws@^8.12.0, ws@^8.13.0, ws@^8.2.3, ws@^8.4.0:
   version "8.13.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.13.0.tgz#9a9fb92f93cf41512a0735c8f4dd09b8a1211cd0"
+
+ws@8.17.1:
+  version "8.17.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.17.1.tgz#9293da530bb548febc95371d90f9c878727d919b"
+  integrity sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==
 
 ws@8.5.0:
   version "8.5.0"

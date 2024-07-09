@@ -21,7 +21,7 @@
     "@datamodels/identity-profile-basic": "^0.2.0",
     "bignumber.js": "^9.1.0",
     "cids": "^1.1.9",
-    "ethers": "5.7.2",
+    "ethers": "^6.13.1",
     "imgix-core-js": "2.3.2",
     "js-base64": "3.7.2",
     "node-fetch": "3.2.1",

@@ -33,7 +33,7 @@ export const authHandler = async (
     }
     const claim = await did.verifyToken(
       token,
-      mainnetProvider as unknown as ethers.providers.Web3Provider,
+      mainnetProvider as unknown as ethers.BrowserProvider,
     );
     if (!claim) {
       throw new Error('Invalid token');
