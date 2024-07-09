@@ -589,7 +589,7 @@ export const QuestChainPlaybooksDetails: QuestChainListing = {
     difficulty: Difficulty.EASY,
     time: Time.SHORT,
     category: QuestChainsCategories.ALL,
-    seedsEarned: 42069,
+    seedsEarned: 420_69,
     type: PathPlaybookTypes.PLAYBOOK,
   },
 } as const;

@@ -40,6 +40,10 @@ export function useEthersProvider({
         chain,
         transport: custom(window.ethereum),
       }),
+      mainnet: createPublicClient({
+        chain: mainnet,
+        transport: http(),
+      }),
     }),
     [chain],
   );

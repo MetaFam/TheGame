@@ -25,6 +25,7 @@ import { useAccount, useDisconnect } from 'wagmi';
 export type ViemClients = {
   wallet: WalletClient;
   public: PublicClient;
+  mainnet: PublicClient;
 };
 
 export type Web3ContextType = {
