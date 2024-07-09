@@ -44,14 +44,8 @@ export const UploadProofButton: React.FC<UploadProofButtonProps> = ({
   return (
     <Flex mt={5}>
       {!questStatus ||
-      questStatus === graphql.Status.Init ||
-      questStatus === graphql.Status.Fail ? (
-        <UploadProof
-          questId={questId}
-          name={name}
-          questChain={questChain}
-          refresh={refresh}
-        />
+      [graphql.Status.Init, graphql.Status.Fail].includes(questStatus) ? (
+        <UploadProof {...{ questId, name, questChain, refresh }} />
       ) : (
         <Box>
           <Box

@@ -58,7 +58,7 @@ export const ChainStats: React.FC<{
     </Text>
     <Flex w="full" justifyContent="space-between" h={6} alignItems="center">
       <Tooltip
-        label="The yellow bar represents quests that are currently being reviewed, while the blue bar indicates completed quests"
+        label="The yellow bar represents quests that are currently being reviewed, while the blue bar indicates completed quests."
         hasArrow
       >
         <Flex

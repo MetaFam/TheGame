@@ -19,7 +19,8 @@ import {
 
 /**
  * This page merges Paths & Playbooks into one page.
- * @returns All of the paths, playbooks, and great houses categorised in a single page.
+ * @returns All of the paths, playbooks, and great houses categorised
+ *          in a single page.
  */
 
 const PageContainer = lazy(() => import('components/Container'));

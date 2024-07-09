@@ -36,7 +36,8 @@ export const QuestTile: React.FC<{
 
   const isSelected = activeItem === index;
   const isFirst = activeItem === 0;
-  const isLast = activeItem === questChain.quests.length - 1;
+  const lastIndex = questChain.quests.length - 1;
+  const isLast = activeItem === lastIndex;
 
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const onClick = () => {
@@ -47,15 +48,11 @@ export const QuestTile: React.FC<{
   };
 
   const onNextStep = () => {
-    if (activeItem < questChain.quests.length - 1) {
-      setActiveItem(activeItem + 1);
-    }
+    setActiveItem(Math.min(activeItem + 1, lastIndex));
   };
 
   const onPrevStep = () => {
-    if (activeItem > 0) {
-      setActiveItem(activeItem - 1);
-    }
+    setActiveItem(Math.max(0, activeItem - 1));
   };
 
   const bgColor = useMemo(() => {
@@ -103,10 +100,9 @@ export const QuestTile: React.FC<{
         h={isSelected ? '100%' : '14rem'}
         transition="all 0.2s"
         justifyContent={isSelected ? 'flex-start' : 'center'}
-        onClick={onClick}
-        cursor={cursor}
         position="relative"
         _hover={isSelected || isDragging ? {} : { bgColor: bgHoverColor }}
+        {...{ onClick, cursor }}
       >
         <Flex
           textAlign="left"
@@ -132,11 +128,7 @@ export const QuestTile: React.FC<{
             </Box>
             <Box w="100%">
               <UploadProofButton
-                questId={questId}
-                name={name}
-                questChain={questChain}
-                questStatus={questStatus}
-                refresh={refresh}
+                {...{ questId, name, questChain, questStatus, refresh }}
               />
               {isMobile && (
                 <HStack
@@ -152,7 +144,7 @@ export const QuestTile: React.FC<{
                       }}
                       size="sm"
                       borderRadius="full"
-                      aria-label="Previous step"
+                      aria-label="Previous Step"
                       p={2}
                       display={isFirst ? 'none' : 'initial'}
                     >
@@ -167,7 +159,7 @@ export const QuestTile: React.FC<{
                       }}
                       size="sm"
                       borderRadius="full"
-                      aria-label="Next step"
+                      aria-label="Next Step"
                       p={2}
                       display={isLast ? 'none' : 'initial'}
                     >
