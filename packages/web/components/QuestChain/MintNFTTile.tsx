@@ -7,14 +7,14 @@ import {
   UseToastOptions,
   VStack,
 } from '@metafam/ds';
-import { contracts, graphql, helpers } from '@quest-chains/sdk';
+import { graphql, helpers } from '@quest-chains/sdk';
 import { useWeb3 } from 'lib/hooks';
 import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import {
-  getQuestChainContract,
   QuestChainPlaybooksDetails,
   QuestChainType,
+  useQuestChainContract,
 } from 'utils/questChains';
 
 type MintNFTTileProps = {
@@ -30,10 +30,10 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
   completed,
   onSuccess,
 }) => {
-  const { provider, chainId, address } = useWeb3();
+  const { viemClients, chainId, address } = useWeb3();
 
-  const toast = useToast();
-  const toastIdRef = useRef<ToastId | undefined>(undefined);
+  const toast = useToast({ isClosable: true });
+  const toastIdRef = useRef<ToastId>();
 
   const addToast = useCallback(
     (options: UseToastOptions) => {
@@ -46,43 +46,46 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
   );
 
   const [isMinting, setMinting] = useState(false);
+  const contract = useQuestChainContract(questChain.address);
   const onMint = useCallback(async () => {
-    if (!chainId || questChain.chainId !== chainId || !address || !provider)
-      return;
-    setMinting(true);
-    addToast({
-      description:
-        'Waiting for Confirmation - Confirm the transaction in your Wallet',
-      duration: null,
-      isClosable: true,
-    });
     try {
-      const contract = getQuestChainContract(
-        questChain.address,
-        questChain.version,
-        await provider.getSigner(),
-      );
+      if (!chainId || questChain.chainId !== chainId) {
+        throw new Error(`Wrong chain id: "${chainId}".`);
+      }
+      if (!address) {
+        throw new Error('No client address found.');
+      }
+      if (!viemClients?.public) {
+        throw new Error('Viem public client not initialized.');
+      }
 
-      const tx = await (questChain.version === '0'
-        ? (contract as contracts.V0.QuestChain).mintToken(address)
-        : (contract as contracts.V1.QuestChain).mintToken());
+      setMinting(true);
       addToast({
-        description: 'Transaction submitted. Waiting for 1 block confirmation',
+        description:
+          'Waiting for Confirmation: Confirm the transaction in your wallet.',
         duration: null,
-        isClosable: true,
       });
-      const receipt = await tx.wait(1);
+
+      const txHash = await contract.write.mintToken();
+      addToast({
+        description: 'Transaction submitted. Waiting for 1 block confirmation.',
+        duration: null,
+      });
+      const receipt = await viemClients.public.waitForTransactionReceipt({
+        hash: txHash,
+      });
       addToast({
         description:
           'Transaction confirmed. Waiting for The Graph to index the transaction data.',
         duration: null,
-        isClosable: true,
       });
-      await helpers.waitUntilSubgraphIndexed(chainId, receipt.blockNumber);
+      await helpers.waitUntilSubgraphIndexed(
+        chainId,
+        Number(receipt.blockNumber),
+      );
       addToast({
-        description: `Successfully minted your NFT`,
-        duration: 5000,
-        isClosable: true,
+        description: `Successfully minted your NFT.`,
+        duration: 5_000,
       });
       onSuccess?.();
     } catch (error) {
@@ -90,14 +93,21 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
         description:
           (error as { error?: Error }).error?.message ??
           (error as Error).message,
-        duration: 2000,
-        isClosable: true,
+        duration: 7_000,
       });
       errorHandler(error as Error);
     } finally {
       setMinting(false);
     }
-  }, [onSuccess, questChain, address, chainId, provider, addToast]);
+  }, [
+    chainId,
+    questChain.chainId,
+    address,
+    viemClients?.public,
+    addToast,
+    contract.write,
+    onSuccess,
+  ]);
 
   const details = QuestChainPlaybooksDetails[name];
   const image = details?.image;

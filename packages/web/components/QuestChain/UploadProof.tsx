@@ -19,9 +19,9 @@ import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { getHexChainId, getNumberId, NETWORK_INFO } from 'utils/networks';
 import {
-  getQuestChainContract,
   Metadata,
   metadataUploader,
+  useQuestChainContract,
 } from 'utils/questChains';
 import { useAccount } from 'wagmi';
 
@@ -31,13 +31,13 @@ export const UploadProof: React.FC<{
   name: string;
   questChain: graphql.QuestChainInfoFragment;
 }> = ({ refresh, questId, name, questChain }) => {
-  const provider = useEthersProvider();
+  const { provider, clients: viemClients } = useEthersProvider();
   const { onClose } = useDisclosure();
   const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();
 
-  const toast = useToast();
-  const toastIdRef = useRef<ToastId | undefined>(undefined);
+  const toast = useToast({ isClosable: true });
+  const toastIdRef = useRef<ToastId>();
 
   const addToast = useCallback(
     (options: UseToastOptions) => {
@@ -66,29 +66,31 @@ export const UploadProof: React.FC<{
     setIsSubmittingProof(false);
   }, [onClose, setIsSubmittingProof]);
 
-  const onSubmit = useCallback(async () => {
-    if (!chainId || !provider || !proofDescRef.current) return;
+  const contract = useQuestChainContract(questChain.address);
 
-    setSubmitting(true);
-    addToast({
-      description: 'Uploading metadata to IPFS via web3.storage',
-      duration: null,
-      isClosable: true,
-    });
+  const onSubmit = useCallback(async () => {
     try {
+      if (!chainId || !provider || !proofDescRef.current) return;
+
+      setSubmitting(true);
+      addToast({
+        description: 'Uploading metadata to IPFS via web3.storage.',
+        duration: null,
+      });
+
       const [filesHash, imageHash] = await Promise.all([
-        files.length ? await metadataUploader.uploadFiles(files) : '',
-        imageFile ? await metadataUploader.uploadFiles([imageFile]) : '',
+        files.length ? await metadataUploader.uploadFiles(files) : null,
+        imageFile ? await metadataUploader.uploadFiles([imageFile]) : null,
       ]);
 
       const quest = questChain.quests.find((q) => q.id === questId);
 
       if (!quest) {
-        throw new Error('Quest not found');
+        throw new Error(`Quest "${questId}" not found.`);
       }
 
       const metadata: Metadata = {
-        name: `Submission - QuestChain - ${questChain.name} - Quest - ${questId}. ${name} User - ${address}`,
+        name: `Submission: QuestChain - ${questChain.name} - Quest - ${questId}. ${name} User - ${address}`,
         description: proofDescRef.current,
         image_url: imageHash ? `ipfs://${imageHash}` : undefined,
         external_url: filesHash ? `ipfs://${filesHash}` : undefined,
@@ -100,41 +102,31 @@ export const UploadProof: React.FC<{
         description:
           'Waiting for Confirmation - Confirm the transaction in your Wallet',
         duration: null,
-        isClosable: true,
       });
 
-      const contract = getQuestChainContract(
-        questChain.address,
-        questChain.version,
-        await provider.getSigner(),
+      const txHash = await contract.write.submitProofs(
+        [quest.questId],
+        [details],
       );
-
-      const tx = await (questChain.version === '0'
-        ? (contract as contracts.V0.QuestChain).submitProof(
-            quest.questId,
-            details,
-          )
-        : (contract as contracts.V1.QuestChain).submitProofs(
-            [quest.questId],
-            [details],
-          ));
       addToast({
-        description: 'Transaction submitted. Waiting for 1 block confirmation',
+        description: 'Transaction submitted. Waiting for 1 block confirmation.',
         duration: null,
-        isClosable: true,
       });
-      const receipt = await tx.wait(1);
+      const receipt = await viemClients.public.waitForTransactionReceipt({
+        hash: txHash,
+      });
       addToast({
         description:
           'Transaction confirmed. Waiting for The Graph to index the transaction data.',
         duration: null,
-        isClosable: true,
       });
-      await helpers.waitUntilSubgraphIndexed(`${chainId}`, receipt.blockNumber);
+      await helpers.waitUntilSubgraphIndexed(
+        `${chainId}`,
+        Number(receipt.blockNumber),
+      );
       addToast({
         description: `Successfully submitted proof`,
         duration: 5000,
-        isClosable: true,
       });
       onModalClose();
       refresh();
@@ -144,27 +136,26 @@ export const UploadProof: React.FC<{
           (error as { error?: Error }).error?.message ??
           (error as Error).message,
         duration: 2000,
-        isClosable: true,
       });
-      console.error(error);
+      console.error({ error });
       errorHandler(error as Error);
     }
 
     setSubmitting(false);
   }, [
     chainId,
-    questChain.name,
-    questChain.address,
-    questChain.version,
-    questChain.quests,
     provider,
     proofDescRef,
     addToast,
     files,
     imageFile,
+    questChain.quests,
+    questChain.name,
     questId,
     name,
     address,
+    contract.write,
+    viemClients.public,
     onModalClose,
     refresh,
   ]);
@@ -190,23 +181,19 @@ export const UploadProof: React.FC<{
           onClick={() => {
             if (!chainId || getHexChainId(chain?.name) !== questChain.chainId) {
               addToast({
-                description: `Wrong Chain, please switch to ${
+                description: `Wrong chain, please switch to ${
                   NETWORK_INFO[questChain.chainId].label
-                }`,
-                duration: 2000,
-                isClosable: true,
+                }.`,
+                duration: 2_000,
               });
-              return;
-            }
-            if (!proofDescRef.current) {
+            } else if (!proofDescRef.current) {
               addToast({
-                description: 'Proof description cannot be empty',
-                duration: 2000,
-                isClosable: true,
+                description: 'Proof description cannot be empty.',
+                duration: 2_000,
               });
-              return;
+            } else {
+              onSubmit();
             }
-            onSubmit();
           }}
           {...{ status: isSubmitting ? 'Submitting…' : null }}
         />

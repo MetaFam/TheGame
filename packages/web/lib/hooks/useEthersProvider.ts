@@ -1,30 +1,56 @@
 import { ethers } from 'ethers';
-import { useEffect, useState } from 'react';
-import type { Account, Chain, Client, Transport } from 'viem';
-import { Config, useConnectorClient } from 'wagmi';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  type Chain,
+  type Client,
+  createPublicClient,
+  createWalletClient,
+  custom,
+  http,
+} from 'viem';
+import { mainnet, optimism } from 'viem/chains';
 
-export function clientToProvider(client: Client<Transport, Chain, Account>) {
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
+export function clientToProvider(client: Client) {
   const { chain, transport } = client;
+  if (!chain) throw new Error('No chain found in Viem client.');
   const network = {
     chainId: chain.id,
     name: chain.name,
-    ensAddress: chain.contracts?.ensRegistry?.address,
+    ensAddress: mainnet.contracts.ensRegistry.address,
   };
-  const provider = new ethers.providers.Web3Provider(transport, network);
-  return provider;
+  return new ethers.providers.Web3Provider(transport, network);
 }
 
-/** Hook to convert a Viem Client to an ethers.js Signer. */
-export function useEthersProvider({ chainId }: { chainId?: number } = {}) {
-  const { data: client } = useConnectorClient<Config>({ chainId });
+export function useEthersProvider({
+  chain = optimism,
+}: { chain?: Chain } = {}) {
+  const clients = useMemo(
+    () => ({
+      public: createPublicClient({
+        chain,
+        transport: http(),
+      }),
+      wallet: createWalletClient({
+        chain,
+        transport: custom(window.ethereum),
+      }),
+    }),
+    [chain],
+  );
   const [provider, setProvider] = useState<ethers.providers.Web3Provider>();
   useEffect(() => {
     const getProvider = async () => {
-      if (client) {
-        setProvider(await clientToProvider(client));
+      if (clients.public) {
+        setProvider(await clientToProvider(clients.public));
       }
     };
     getProvider();
-  }, [client]);
-  return provider;
+  }, [clients]);
+  return { provider, clients };
 }

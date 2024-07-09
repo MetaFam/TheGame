@@ -20,14 +20,11 @@ type Props = {
 
 const PageContainer = lazy(() => import('components/Container'));
 
-const QuestChainPathPage: React.FC<Props> = ({
-  questChain: inputQuestChain,
-  name,
-}) => {
-  if (!inputQuestChain) {
+const QuestChainPathPage: React.FC<Props> = ({ questChain, name }) => {
+  if (!questChain) {
     return (
       <PageContainer>
-        <Text> Quest Chain not found! </Text>
+        <Text>Quest Chain not found!</Text>
       </PageContainer>
     );
   }
@@ -35,12 +32,12 @@ const QuestChainPathPage: React.FC<Props> = ({
   return (
     <PageContainer maxW="96rem" alignSelf="center">
       <HeadComponent
-        title={inputQuestChain.name ?? 'Untitled Quest Chain'}
+        title={questChain.name ?? 'Untitled Quest Chain'}
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://metagame.wtf/academy"
+        url={`https://metagame.wtf/academy/${name}`}
       />
 
-      <QuestChainDisplay inputQuestChain={inputQuestChain} name={name} />
+      <QuestChainDisplay {...{ questChain, name }} />
     </PageContainer>
   );
 };
@@ -56,10 +53,10 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
   fallback: false,
 });
 
-export const getStaticProps = async (
-  context: GetStaticPropsContext<QueryParams>,
-) => {
-  const questchain = context.params?.questchain;
+export const getStaticProps = async ({
+  params,
+}: GetStaticPropsContext<QueryParams>) => {
+  const { questchain } = params ?? {};
   if (!questchain) {
     return {
       redirect: {
@@ -71,9 +68,12 @@ export const getStaticProps = async (
 
   let questChain: graphql.QuestChainInfoFragment | null = null;
   try {
-    const info = QuestChainPathsAndPlaybooksDetails[questchain];
+    const info =
+      QuestChainPathsAndPlaybooksDetails[
+        questchain as keyof typeof QuestChainPathsAndPlaybooksDetails
+      ];
     if (!info) {
-      throw new Error(`Quest chain "${questchain}" not found.`);
+      throw new Error(`Quest Chain, "${questchain}", not found.`);
     }
     questChain = await getQuestChainInfo(info.chainId, info.address);
   } catch (error) {

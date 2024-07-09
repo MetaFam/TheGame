@@ -1,74 +1,51 @@
-import { Values } from '@metafam/utils';
-import { contracts, metadata } from '@quest-chains/sdk';
-import bestdaocontributor from 'assets/academy/best-dao-contributor.png';
-import biases from 'assets/academy/biases.png';
-import bridgebuilder from 'assets/academy/bridgebuilder.png';
-import builder from 'assets/academy/builder.png';
-import coordinape from 'assets/academy/coordinape.png';
-import daos from 'assets/academy/daos.png';
-import daosummoner from 'assets/academy/daosummoner.png';
-import daowriter from 'assets/academy/daowriter.png';
-import dapps from 'assets/academy/dapps.png';
-import defi from 'assets/academy/defi.png';
-import designer from 'assets/academy/designer.png';
-import effectivemeetingrunner from 'assets/academy/effective-meeting-runner.png';
-import ethereum from 'assets/academy/ethereum.png';
-import gameb from 'assets/academy/gameb.png';
-import goodquests from 'assets/academy/goodquests.png';
-import guilder from 'assets/academy/guilder.png';
-import impactnetworks from 'assets/academy/impact-networks.png';
-import imposter from 'assets/academy/imposter.png';
-import journaling from 'assets/academy/journaling.png';
-import mastertabs from 'assets/academy/master-tabs.png';
-import memedriven from 'assets/academy/memedriven.png';
-import metacrisis from 'assets/academy/metacrisis.png';
-import metamodernist from 'assets/academy/metamodernist.png';
-import moloch from 'assets/academy/moloch.png';
-import nfts from 'assets/academy/nfts.png';
-import patron from 'assets/academy/patron.png';
-import playtwitter from 'assets/academy/play-twitter.png';
-import playbookwriter from 'assets/academy/playbook-writer.png';
-import player from 'assets/academy/player.png';
-import riteofpassage from 'assets/academy/riteofpassage.png';
+import type { Values } from '@metafam/utils';
+import { metadata } from '@quest-chains/sdk';
+import bestdaocontributor from 'assets/academy/best-dao-contributor.webp';
+import biases from 'assets/academy/biases.webp';
+import bridgebuilder from 'assets/academy/bridgebuilder.webp';
+import builder from 'assets/academy/builder.webp';
+import coordinape from 'assets/academy/coordinape.webp';
+import daos from 'assets/academy/daos.webp';
+import daosummoner from 'assets/academy/daosummoner.webp';
+import daowriter from 'assets/academy/daowriter.webp';
+import dapps from 'assets/academy/dapps.webp';
+import defi from 'assets/academy/defi.webp';
+import designer from 'assets/academy/designer.webp';
+import effectivemeetingrunner from 'assets/academy/effective-meeting-runner.webp';
+import ethereum from 'assets/academy/ethereum.webp';
+import gameb from 'assets/academy/gameb.webp';
+import goodquests from 'assets/academy/goodquests.webp';
+import guilder from 'assets/academy/guilder.webp';
+import impactnetworks from 'assets/academy/impact-networks.webp';
+import imposter from 'assets/academy/imposter.webp';
+import journaling from 'assets/academy/journaling.webp';
+import mastertabs from 'assets/academy/master-tabs.webp';
+import memedriven from 'assets/academy/memedriven.webp';
+import metacrisis from 'assets/academy/metacrisis.webp';
+import metamodernist from 'assets/academy/metamodernist.webp';
+import moloch from 'assets/academy/moloch.webp';
+import nfts from 'assets/academy/nfts.webp';
+import patron from 'assets/academy/patron.webp';
+import playtwitter from 'assets/academy/play-twitter.webp';
+import playbookwriter from 'assets/academy/playbook-writer.webp';
+import player from 'assets/academy/player.webp';
+import riteofpassage from 'assets/academy/riteofpassage.webp';
 import submitPlaybook from 'assets/academy/submit-playbook.webp';
-import team from 'assets/academy/team.png';
-import time from 'assets/academy/time.png';
-import web3builder from 'assets/academy/web3builder.png';
-import { ethers, Signer } from 'ethers';
+import team from 'assets/academy/team.webp';
+import time from 'assets/academy/time.webp';
+import web3builder from 'assets/academy/web3builder.webp';
+import questChainsABI from 'contracts/QuestChains.instance.abi.json' assert { type: 'json' };
+import { useWeb3 } from 'lib/hooks';
+import { getContract } from 'viem';
 
-export const getQuestChainContract = (
-  address: string,
-  version: string,
-  signer: ethers.providers.Provider | Signer,
-):
-  | contracts.V1.QuestChain
-  | contracts.V0.QuestChain
-  | contracts.V2.QuestChain => {
-  if (version === '0') {
-    return contracts.V0.QuestChain__factory.connect(
-      address,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      signer,
-    ) as contracts.V0.QuestChain;
-  }
-  if (version === '1') {
-    return contracts.V1.QuestChain__factory.connect(
-      address,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      signer,
-    ) as contracts.V1.QuestChain;
-  }
-  if (version === '2') {
-    return contracts.V2.QuestChain__factory.connect(
-      address,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      signer,
-    ) as contracts.V2.QuestChain;
-  }
-  throw new Error('Unsupported Quest Chain version');
+export const useQuestChainContract = (address: string) => {
+  const { viemClients } = useWeb3();
+  if (!viemClients) throw new Error('No Viem client found.');
+  return getContract({
+    abi: questChainsABI,
+    address: address as `0x${string}`,
+    client: viemClients,
+  });
 };
 
 // Playbook Categories
@@ -81,7 +58,7 @@ export const QuestChainsCategories = {
   WELLBEING_SELF_IMPROVEMENT: 'wellbeing-self-improvement',
   RANDOM: 'random',
   ALL: 'all',
-};
+} as const;
 
 // Playbook Playbooks
 export const QuestChainsPlaybooks = {
@@ -119,21 +96,21 @@ export const QuestChainsPlaybooks = {
   JOURNALING_LIKE_DICKIE_BUSH: 'journaling-like-dickie-bush',
   HOW_TO_PLAY_TWITTER: 'how-to-play-twitter',
   MASTER_YOUR_BROWSER_TABS: 'master-your-browser-tabs',
-};
+} as const;
 
 // Playbook Difficulty
 export const Difficulty = {
   EASY: 'Easy',
   MEDIUM: 'Medium',
   HARD: 'Hard',
-};
+} as const;
 
 // Playbook Time
 export const Time = {
   SHORT: 'Short',
   MEDIUM: 'Medium',
   LONG: 'Long',
-};
+} as const;
 
 export type QuestChainType =
   | Values<typeof QuestChainsPlaybooks>
@@ -150,7 +127,7 @@ type QuestChainCategoryInfo = {
 
 export const PathPlaybookTypes = {
   PLAYBOOK: 'playbook',
-};
+} as const;
 
 export type PathPlaybookType = Values<typeof PathPlaybookTypes>;
 
@@ -166,6 +143,9 @@ type QuestChainInfo = {
   seedsEarned?: number;
   type: PathPlaybookType;
 };
+type QuestChainListing = {
+  [key: string]: QuestChainInfo;
+};
 
 export type QuestChainDetailsType = Values<typeof QuestChainsPlaybooks>;
 
@@ -173,15 +153,12 @@ export type QuestChainDetails = QuestChainInfo;
 
 export const QuestChainPlaybooks = Object.keys(
   QuestChainsPlaybooks,
-) as QuestChainType[];
+) as Array<QuestChainType>;
 export const QuestChainCategories = Object.keys(
   QuestChainsCategories,
-) as QuestChainType[];
+) as Array<QuestChainType>;
 
-export const QuestChainsCategoriesDetails: Record<
-  QuestChainType,
-  QuestChainCategoryInfo
-> = {
+export const QuestChainsCategoriesDetails = {
   [QuestChainsCategories.FOR_METAGAME]: {
     name: QuestChainsCategories.FOR_METAGAME,
     title: 'For MetaGame',
@@ -226,28 +203,7 @@ export const QuestChainsCategoriesDetails: Record<
   },
 };
 
-export const QuestChainSubmitAPlaybookDetails: Record<
-  QuestChainType,
-  QuestChainInfo
-> = {
-  [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
-    chainId: '0xa',
-    address: '0x90e19287d453a7a7125f399e23dadf95b21f1efa',
-    title: 'Submit a Playbook',
-    description:
-      'This is a questline for those interested in filling up The Academy with more useful content.',
-    image: submitPlaybook.src,
-    difficulty: Difficulty.EASY,
-    time: Time.SHORT,
-    category: QuestChainsCategories.ALL,
-    seedsEarned: 42069,
-    type: PathPlaybookTypes.PLAYBOOK,
-  },
-};
-export const QuestChainPlaybooksDetails: Record<
-  QuestChainType,
-  QuestChainInfo
-> = {
+export const QuestChainPlaybooksDetails: QuestChainListing = {
   // https://app.questchains.xyz/optimism/rite-of-passage
   [QuestChainsPlaybooks.RITE_OF_PASSAGE]: {
     address: '0xc5893dcab9ad32fa47923febde89883c62bffbd6',
@@ -636,15 +592,9 @@ export const QuestChainPlaybooksDetails: Record<
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
-  [QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK]: {
-    ...QuestChainSubmitAPlaybookDetails[QuestChainsPlaybooks.SUBMIT_A_PLAYBOOK],
-  },
-};
+} as const;
 
-export const QuestChainPathsAndPlaybooksDetails: Record<
-  QuestChainDetailsType,
-  QuestChainDetails
-> = {
+export const QuestChainPathsAndPlaybooksDetails = {
   ...QuestChainPlaybooksDetails,
 };
 
