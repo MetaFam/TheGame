@@ -29,7 +29,7 @@
     "test": "lerna run test --parallel --",
     "test:full": "yarn lint && yarn typecheck && yarn test",
     "clean": "lerna clean",
-    "clean:libndist": "CMD='rm -rf node_modules/ packages/*/node_modules/ packages/*/dist/ packages/web/.next/' && echo \"$CMD\" && eval $CMD",
+    "clean:libndist": "CMD='rm -rf node_modules/ packages/*/node_modules/ packages/*/dist/ packages/web/.next/' && echo \"$CMD\" && sh -c \"eval $CMD\"",
     "clean:autogen": "find -type d -name autogen -exec rm -rfv '{}' \\; || true",
     "clean:full": "yarn clean:libndist && yarn clean:autogen",
     "format": "prettier --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\"",
@@ -51,6 +51,11 @@
   "workspaces": [
     "packages/*"
   ],
+  "dependencies": {
+    "dag-jose": "^4.0.0",
+    "tslib": "^2.4.0",
+    "uuid": "8.3.2"
+  },
   "devDependencies": {
     "@apollo/rover": "^0.23.0",
     "@composedb/cli": "^0.7.1",
@@ -105,10 +110,5 @@
     "defaults",
     "not IE 11"
   ],
-  "dependencies": {
-    "dag-jose": "^4.0.0",
-    "tslib": "^2.4.0",
-    "uuid": "8.3.2"
-  },
   "packageManager": "yarn@4.3.1"
 }

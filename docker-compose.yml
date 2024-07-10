@@ -39,6 +39,8 @@ services:
       context: .
       dockerfile: ./docker/backend/Dockerfile
       target: base
+      args:
+        CACHEBUST: ${CACHEBUST:-$(date +%s)}
     command: yarn backend:dev
     ports:
       - 4000:4000
