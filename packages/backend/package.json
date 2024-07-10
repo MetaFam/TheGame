@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node --trace-warnings dist/index.js",
     "build": "yarn generate && tsc -b",
-    "dev": "tsc --build && concurrently 'tsc --watch --preserveWatchOutput' nodemon",
+    "dev": "nodemon",
     "typecheck": "tsc --noEmit --pretty",
     "precommit": "yarn typecheck",
     "generate": "graphql-code-generator --debug && yarn fix:daohaus-types",

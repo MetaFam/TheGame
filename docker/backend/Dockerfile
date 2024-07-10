@@ -1,12 +1,15 @@
 FROM node:20-slim as base
 WORKDIR /usr/src/app
 
+# varying arg to prevent caching
+ARG CACHEBUST
+ARG DEBUG
+
 # Install dependencies not included in the slim image
 RUN apt-get update && \
     apt-get install -y --no-install-recommends g++ make python3 git openssl && \
     apt-get install -y --no-install-recommends --reinstall ca-certificates
 
-# Install dependencies for dev and prod
 COPY package.json ./
 COPY lerna.json ./
 COPY yarn.lock ./
@@ -18,9 +21,12 @@ COPY packages/discord-bot/*.json ./packages/discord-bot/
 
 RUN corepack enable
 RUN yarn set version berry
+RUN yarn config set nodeLinker node-modules
 RUN yarn install # --immutable
 
-# Dev environment doesn't run this stage or beyond
+# RUN set -x && echo $CACHEBUST && ls -la
+
+# Dev environment doesn't run beyond here
 FROM base as build
 
 # Copy source files
@@ -43,7 +49,10 @@ ENV THE_GRAPH_API_TOKEN $THE_GRAPH_API_TOKEN
 RUN yarn backend:build
 
 # Delete devDependencies
-RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
+RUN corepack enable
+RUN yarn set version berry
+RUN yarn install # --immutable
+# RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
 FROM node:20-slim as app
