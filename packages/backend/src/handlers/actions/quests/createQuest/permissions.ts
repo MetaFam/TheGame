@@ -2,7 +2,7 @@ import { Constants, numbers } from '@metafam/utils';
 
 import { getERC20Contract, polygonProvider } from '../../../../lib/ethereum.js';
 
-const { BN, amountToDecimal } = numbers;
+const { amountToDecimal } = numbers;
 
 /**
  * As a first iteration, we only allow people to create quests if they hold more that 100 pSEED tokens
@@ -17,13 +17,13 @@ export async function isAllowedToCreateQuest(
   );
   const pSEEDBalance = await pSEEDContract.balanceOf(playerAddress);
   const pSEEDDecimals = await pSEEDContract.decimals();
-  const minimumPooledSeedBalance = new BN(Constants.PSEED_FOR_QUEST);
+  const minimumPooledSeedBalance = BigInt(Constants.PSEED_FOR_QUEST);
   const pSEEDBalanceInDecimal = amountToDecimal(
     pSEEDBalance.toString(),
     pSEEDDecimals,
   );
 
-  const allowed = new BN(pSEEDBalanceInDecimal).gte(minimumPooledSeedBalance);
+  const allowed = BigInt(pSEEDBalanceInDecimal) >= minimumPooledSeedBalance;
 
   return allowed;
 }

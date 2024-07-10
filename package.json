@@ -1,7 +1,7 @@
 {
   "name": "@metafam/the-game",
   "version": "0.2.0",
-  "license": "GPL-3.0",
+  "license": "GPL-2.0",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -43,10 +43,10 @@
     "web": "yarn --cwd packages/web/",
     "ds": "yarn --cwd packages/design-system/",
     "release": "standard-version",
-    "composedb:create-composite": "composedb composite:create packages/utils/schema/user-profile.graphql -o packages/utils/schema/user-profile-composite.json",
-    "composedb:create-definition": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/schema/user-profile-definition.json",
-    "composedb:graphql-generate": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/src/graphql/composeDBDefinition.ts",
-    "composedb:graphql-server": "composedb graphql:server --graphiql packages/utils/schema/user-profile-definition.json"
+    "composedb:create-composite": "composedb composite:create packages/utils/schema/user-profile.graphql --output packages/utils/schema/user-profile-composite.json",
+    "composedb:create-definition": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/schema/user-profile-definition.json --ceramic-url=https://ceramic.metagame.wtf",
+    "composedb:graphql-generate": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/src/graphql/composeDBDefinition.ts --ceramic-url=https://ceramic.metagame.wtf",
+    "composedb:graphql-server": "composedb graphql:server --graphiql packages/utils/schema/user-profile-definition.json --ceramic-url=https://ceramic.metagame.wtf"
   },
   "workspaces": [
     "packages/*"
@@ -54,24 +54,22 @@
   "devDependencies": {
     "@apollo/rover": "^0.23.0",
     "@composedb/cli": "^0.7.1",
-    "@graphql-codegen/add": "^5.0.0",
-    "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/introspection": "^4.0.0",
-    "@graphql-codegen/typescript": "^4.0.1",
-    "@graphql-codegen/typescript-graphql-request": "^5.0.0",
-    "@graphql-codegen/typescript-operations": "^4.0.1",
-    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
-    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@graphql-codegen/add": "^5.0.3",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/introspection": "^4.0.3",
+    "@graphql-codegen/typescript": "^4.0.9",
+    "@graphql-codegen/typescript-graphql-request": "^6.2.0",
+    "@graphql-codegen/typescript-operations": "^4.2.3",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
+    "@graphql-codegen/typescript-resolvers": "^4.2.1",
     "@graphql-codegen/typescript-urql": "^4.0.0",
     "@types/jest": "^29.2.1",
     "@types/node": "^20.8.6",
-    "@types/node-fetch": "^2.6.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "^6.6.0",
-    "caniuse-lite": "^1.0.30001383",
     "concurrently": "7.0.0",
     "env-cmd": "10.1.0",
     "eslint": "^8.39.0",

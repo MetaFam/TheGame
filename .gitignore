@@ -56,3 +56,4 @@ tsconfig.tsbuildinfo
 # Ceramic daemon
 ipfs
 packages/backend/uploads/
+*.key

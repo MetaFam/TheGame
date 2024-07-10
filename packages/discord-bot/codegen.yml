@@ -13,7 +13,7 @@ generates:
       - add:
           content:
             - '/* eslint-disable */'
-            - 'import type { DocumentNode } from "graphql/language/ast";'
+            # - 'import type { DocumentNode } from "graphql/language/ast";'
     config:
       immutableTypes: true
       scalars:

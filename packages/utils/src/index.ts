@@ -14,7 +14,6 @@ export * from './extendedProfileTypes.js';
 export { definition as composeDBDefinition } from './graphql/composeDBDefinition.js';
 export * from './imageHelpers.js';
 export * from './linkHelpers.js';
-export * from './networkHelpers.js';
 export * as numbers from './numbers.js';
 export * from './promiseHelpers.js';
 export * from './rankHelpers.js';

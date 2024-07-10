@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
 
 import { Guild, Player, Player_Role } from '../../lib/autogen/hasura-sdk.js';
 import { syncDiscordGuildMembers } from '../actions/guild/sync.js';
@@ -15,14 +14,14 @@ const TRIGGERS = {
   syncDiscordGuildMembers,
 };
 
-type Payload = TriggerPayload<Player> &
+export type Payload = TriggerPayload<Player> &
   TriggerPayload<Guild> &
   TriggerPayload<Player_Role>;
 
 export const triggerHandler = async (
-  req: Request<ParamsDictionary, never, Payload>,
+  req: Request & { body: Payload, app: { locals: Record<string, unknown> } },
   res: Response,
-): Promise<void> => {
+) => {
   try {
     const role = req.body.event?.session_variables?.['x-hasura-role'];
     if (role !== 'admin') {
