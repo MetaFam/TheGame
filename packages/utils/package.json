@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
-  "license": "GPL-3.0-only",
+  "license": "GPL-2.0",
   "private": true,
   "scripts": {
     "start": "yarn dev",
@@ -23,9 +23,11 @@
     "ethers": "^6.13.1",
     "imgix-core-js": "2.3.2",
     "js-base64": "3.7.2",
-    "uuid": "8.3.2"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@composedb/types": "^0.7.1",
+    "@types/uuid": "^10.0.0",
     "key-did-provider-ed25519": "^2.0.1",
     "key-did-resolver": "^2.1.3"
   }

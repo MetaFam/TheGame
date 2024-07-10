@@ -1,5 +1,7 @@
 import { createDiscordClient } from '@metafam/discord-bot';
-import { GuildBasedChannel, Role, TextChannel } from 'discord.js';
+import {
+  ChannelType, GuildBasedChannel, PermissionFlagsBits, Role, TextChannel,
+} from 'discord.js';
 import showdown from 'showdown';
 
 import { client } from '../../../../lib/hasuraClient.js';
@@ -16,11 +18,9 @@ export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] =
 
     if (discordGuild != null) {
       await discordGuild.roles.fetch();
-      return discordGuild.roles.cache.map((role: Role) => ({
-        id: role.id,
-        position: role.position,
-        name: role.name,
-      }));
+      return discordGuild.roles.cache.map(({ id, position, name }) => (
+        { id, position, name }
+      ));
     }
 
     return [];
@@ -52,11 +52,9 @@ export const getDiscordServerMemberRoles: QueryResolvers['getDiscordServerMember
 
         // these are returned in descending order by position
         // (meaning, most significant role is first)
-        return member.roles.cache.map((role: Role) => ({
-          id: role.id,
-          position: role.position,
-          name: role.name,
-        }));
+        return member.roles.cache.map(({ id, position, name }) => (
+          { id, position, name }
+        ));
       }
     } catch (err) {
       console.error({ err });
@@ -75,16 +73,17 @@ export const getGuildDiscordAnnouncements: QueryResolvers['getGuildDiscordAnnoun
         // This is necessary to populate 'me' to get our own permissions in this server.
         // It also seems to be necessary to populate the "channels" cache used below
         await discordGuild.members.fetch();
-        const viewChannelPerm =
-          discordGuild.me?.permissions.has('VIEW_CHANNEL');
+        const viewChannelPerm = (
+          discordGuild.members.me?.permissions.has(PermissionFlagsBits.ViewChannel)
+        );
         if (!viewChannelPerm) {
           console.warn(
-            `Guild (id=${guildDiscordId}) does not have the VIEW_CHANNEL permission, skipping announcement fetching...`,
+            `Guild (id=${guildDiscordId}) does not have the VIEW_CHANNEL permission, skipping announcement fetching…`,
           );
           return [];
         }
         const newsChannels = discordGuild.channels.cache.filter(
-          (channel: GuildBasedChannel) => channel.type === 'GUILD_NEWS',
+          ({ type }) => type === ChannelType.GuildAnnouncement
         );
 
         if (newsChannels.size > 0) {

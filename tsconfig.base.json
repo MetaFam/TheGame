@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
+    "module": "NodeNext",
     "lib": ["ESNext", "DOM"],
 
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
     "jsx": "react",
     "allowJs": true,
 
@@ -22,7 +22,7 @@
 
     "forceConsistentCasingInFileNames": true,
 
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
 

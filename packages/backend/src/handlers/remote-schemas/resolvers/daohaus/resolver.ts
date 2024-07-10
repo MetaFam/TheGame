@@ -1,4 +1,4 @@
-import { fetch, imageLink } from '@metafam/utils';
+import { imageLink } from '@metafam/utils';
 
 import { CONFIG } from '../../../../config.js';
 import { getClient } from '../../../../lib/daoHausClient.js';
