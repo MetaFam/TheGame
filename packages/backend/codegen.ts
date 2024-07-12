@@ -8,17 +8,18 @@ const config = {
   generates: {
     'src/handlers/remote-schemas/autogen/types.ts': {
       schema: 'src/handlers/remote-schemas/typeDefs.ts',
-      plugins: [
-        'typescript',
-        'typescript-resolvers',
-        { add: { content: '/* eslint-disable */' } },
-      ],
-      config: {
-        noSchemaStitching: true,
-        avoidOptionals: true,
-        maybeValue:
-          'T extends PromiseLike<infer U> ? Promise<U | null> : T | null | undefined',
-      },
+      
+      // plugins: [
+      //   'typescript',
+      //   'typescript-resolvers',
+      //   { add: { content: '/* eslint-disable */' } },
+      // ],
+      // config: {
+      //   noSchemaStitching: true,
+      //   avoidOptionals: true,
+      //   maybeValue:
+      //     'T extends PromiseLike<infer U> ? Promise<U | null> : T | null | undefined',
+      // },
     },
     'src/lib/autogen/hasura-sdk.ts': {
       schema: '../../schema.graphql',

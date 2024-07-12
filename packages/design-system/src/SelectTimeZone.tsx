@@ -9,7 +9,7 @@ import TimeZoneSelect, { allTimezones } from 'react-timezone-select';
 import spacetime from 'spacetime';
 import informal from 'spacetime-informal';
 
-import { chakraesqueStyles } from './theme';
+import { chakraesqueStyles } from './theme/index.js';
 
 export type LabeledValue<T> = Required<{ label?: string; value?: T }>;
 export type LabeledOptions<T> = GroupBase<LabeledValue<T>>;

@@ -24,7 +24,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@metafam/utils": "1.0.1",
+    "@metafam/utils": "workspace:*",
     "discord.js": "^14.15.3",
     "dotenv": "16.0.0",
     "express": "4.17.3",

@@ -12,6 +12,7 @@ import { mainnet, optimism } from 'viem/chains';
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ethereum?: any;
   }
 }
@@ -24,7 +25,7 @@ export function clientToProvider(client: Client) {
     name: chain.name,
     ensAddress: mainnet.contracts.ensRegistry.address,
   };
-  return new ethers.providers.Web3Provider(transport, network);
+  return new ethers.BrowserProvider(transport, network);
 }
 
 export function useEthersProvider({
@@ -47,7 +48,7 @@ export function useEthersProvider({
     }),
     [chain],
   );
-  const [provider, setProvider] = useState<ethers.providers.Web3Provider>();
+  const [provider, setProvider] = useState<ethers.BrowserProvider>();
   useEffect(() => {
     const getProvider = async () => {
       if (clients.public) {
