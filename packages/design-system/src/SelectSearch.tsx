@@ -6,8 +6,8 @@ import Select, {
   StylesConfig,
 } from 'react-select';
 
-import { LabeledValue } from './SelectTimeZone';
-import { searchSelectStyles, selectStyles, theme } from './theme';
+import { LabeledValue } from './SelectTimeZone.js';
+import { searchSelectStyles, selectStyles, theme } from './theme/index.js';
 
 export const SelectSearch = <T extends LabeledValue<string>>({
   styles: incomingStyles = {},

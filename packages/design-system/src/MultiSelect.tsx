@@ -6,7 +6,7 @@ import Select, {
   StylesConfig,
 } from 'react-select';
 
-import { multiSelectStyles } from './theme';
+import { multiSelectStyles } from './theme/index.js';
 
 export const MultiSelect = React.forwardRef(
   (

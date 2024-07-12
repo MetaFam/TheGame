@@ -15,6 +15,7 @@
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
     "docker:dev": "DOCKER_BUILDKIT=1 docker compose up --build",
+    "docker:debug": "docker compose --progress=plain up --build",
     "build": "lerna run --concurrency 1 --stream build",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --include-dependencies",
     "web:build": "lerna run build --scope @metafam/web --include-dependencies --stream",
@@ -59,15 +60,6 @@
   "devDependencies": {
     "@apollo/rover": "^0.23.0",
     "@composedb/cli": "^0.7.1",
-    "@graphql-codegen/add": "^5.0.3",
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/introspection": "^4.0.3",
-    "@graphql-codegen/typescript": "^4.0.9",
-    "@graphql-codegen/typescript-graphql-request": "^6.2.0",
-    "@graphql-codegen/typescript-operations": "^4.2.3",
-    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
-    "@graphql-codegen/typescript-resolvers": "^4.2.1",
-    "@graphql-codegen/typescript-urql": "^4.0.0",
     "@types/jest": "^29.2.1",
     "@types/node": "^20.8.6",
     "@types/react": "^18.0.21",
@@ -100,7 +92,7 @@
     "wait-on": "6.0.1"
   },
   "resolutions": {
-    "graphql": "16.5.0",
+    "graphql": "16.9.0",
     "multihashes": "4.0.3",
     "node-gyp": "10.0.1",
     "better-sqlite3": "9.4.5",

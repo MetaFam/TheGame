@@ -229,6 +229,6 @@ export {
   multiSelectStyles,
   searchSelectStyles,
   selectStyles,
-} from './theme';
+} from './theme/index.js';
 export * from './typography.js';
 export * from './ViewAllButton.js';

@@ -19,11 +19,13 @@
     "@ceramicnetwork/http-client": "^2.15.0",
     "@datamodels/identity-accounts-crypto": "^0.2.0",
     "@datamodels/identity-profile-basic": "^0.2.0",
+    "@wagmi/core": "^2.11.7",
     "cids": "^1.1.9",
     "ethers": "^6.13.1",
     "imgix-core-js": "2.3.2",
     "js-base64": "3.7.2",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "viem": "^2.17.3"
   },
   "devDependencies": {
     "@composedb/types": "^0.7.1",
