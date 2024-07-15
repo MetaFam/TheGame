@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Mutation_RootUpdateQuestCompletionArgs as QuestCompletionArgs } from '#lib/autogen/hasura-sdk.js';
+
 import { updateCompletion } from './updateCompletion.js';
 
 export const updateCompletionHandler = async (

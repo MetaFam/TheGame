@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useState } from 'react';
 
-export const useOnScreen = (ref: RefObject<HTMLDivElement>): boolean => {
+export const useOnScreen = (ref: RefObject<HTMLDivElement>) => {
   const [isIntersecting, setIntersecting] = useState(false);
 
   useEffect(() => {

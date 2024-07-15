@@ -12,10 +12,10 @@ import { ConnectKitButton } from 'connectkit';
 import { useAccount } from 'wagmi';
 
 import LogoImage from '#assets/new_logo_svg.svg';
-import { SwitchNetworkButton } from '#components/SwitchNetworkButton';
 import { useUser } from '#lib/hooks';
 
 import { MetaLink } from './Link';
+import { SwitchNetworkButton } from './SwitchNetworkButton';
 
 export const MetaGameLogo = () => (
   <Flex justify="center" align="center">

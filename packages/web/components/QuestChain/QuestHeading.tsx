@@ -4,6 +4,7 @@ import {
   Flex,
   HStack,
   Image,
+  MarkdownViewer,
   Stack,
   Text,
   Tooltip,
@@ -13,7 +14,6 @@ import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import moment from 'moment';
 
-import { MarkdownViewer } from '#components/MarkdownViewer';
 import { QuestChainType } from '#utils/questChains';
 
 import { MetaLink } from '../Link';

@@ -2,7 +2,7 @@ import { Flex } from '@metafam/ds';
 import type { PropsWithChildren } from 'react';
 import React, { KeyboardEventHandler, useState } from 'react';
 
-import { useCarouselContext } from './CarouselContext.js';
+import { useCarouselContext } from './CarouselContext';
 
 type ItemProps = PropsWithChildren<{ index: number }>;
 

@@ -1,7 +1,7 @@
-import { Input, Text, VStack } from '@metafam/ds';
+import {
+  Input, MarkdownEditor, MarkdownViewer, Text, VStack,
+} from '@metafam/ds';
 
-import { MarkdownEditor } from '#components/MarkdownEditor';
-import { MarkdownViewer } from '#components/MarkdownViewer';
 import { BoxMetadata } from '#utils/boxTypes';
 
 type CustomTextSectionProps = {

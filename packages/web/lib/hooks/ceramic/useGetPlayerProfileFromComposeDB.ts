@@ -3,6 +3,7 @@ import {
   composeDBToHasuraProfile,
   Maybe,
 } from '@metafam/utils';
+import { ExecutionResult } from 'graphql';
 import { useEffect, useState } from 'react';
 
 import { Player } from '#graphql/autogen/hasura-sdk';
@@ -34,7 +35,7 @@ export const useGetPlayerProfileFromComposeDB = (
       const query = buildPlayerProfileQuery(ceramicProfileNodeId);
       composeDBClient
         .executeQuery(query)
-        .then((response) => {
+        .then((response: ExecutionResult) => {
           const composeDBProfileData =
             response.data as ComposeDBProfileQueryResult;
           if (composeDBProfileData?.node != null) {

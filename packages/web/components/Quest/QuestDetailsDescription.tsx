@@ -1,7 +1,6 @@
-import { Box, Prose } from '@metafam/ds';
+import { Box, MarkdownViewer as Markdown, Prose } from '@metafam/ds';
 import { isSGML } from '@metafam/utils';
 
-import { MarkdownViewer as Markdown } from '#components/MarkdownViewer';
 import { QuestFragment } from '#graphql/autogen/hasura-sdk';
 import { safelyParseNChakrifyHtml } from '#utils/stringHelpers';
 

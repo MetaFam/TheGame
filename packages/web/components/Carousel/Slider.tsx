@@ -11,7 +11,7 @@ import React, { useEffect } from 'react';
 
 import { useBoundingRect } from '#lib/hooks/useBoundingRect';
 
-import { useCarouselContext } from './CarouselContext.js';
+import { useCarouselContext } from './CarouselContext';
 
 export const Slider: React.FC<PropsWithChildren> = ({ children }) => {
   const {

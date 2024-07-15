@@ -6,6 +6,7 @@ import {
   Grid,
   HStack,
   IconButton,
+  MarkdownViewer,
   MeetWithWalletIcon,
   MetaButton,
   MetaTag,
@@ -22,7 +23,6 @@ import { FaClock, FaGlobe } from 'react-icons/fa';
 
 import { FlexContainer } from '#components/Container';
 import { EditProfileModal } from '#components/EditProfileModal';
-import { MarkdownViewer } from '#components/MarkdownViewer';
 import { PlayerAvatar } from '#components/Player/PlayerAvatar';
 import { PlayerContacts as Contacts } from '#components/Player/PlayerContacts';
 import { PlayerHeroTile } from '#components/Player/Section/PlayerHeroTile';

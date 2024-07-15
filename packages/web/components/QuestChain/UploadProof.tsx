@@ -1,5 +1,6 @@
 import {
   chakra,
+  MarkdownEditor,
   Stack,
   StatusedSubmitButton,
   Text,
@@ -19,10 +20,9 @@ import {
 import { useAccount } from 'wagmi';
 
 import { useCarouselContext } from '#components/Carousel/CarouselContext';
-import { MarkdownEditor } from '#components/MarkdownEditor';
 import { SwitchNetworkButton } from '#components/SwitchNetworkButton';
 import { useDropFiles, useDropImage } from '#lib/hooks/useDropFiles';
-import { useEthersProvider, useViemClients } from '#lib/hooks/useEthersProvider';
+import { useViemClients } from '#lib/hooks/useEthersProvider';
 import { useInputText } from '#lib/hooks/useInputText';
 import { errorHandler } from '#utils/errorHandler';
 import { getHexChainId, NETWORK_INFO } from '#utils/networks';

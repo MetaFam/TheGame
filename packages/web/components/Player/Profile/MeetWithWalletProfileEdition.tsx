@@ -150,6 +150,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
     player?.id,
     player?.profile?.timeZone,
     toast,
+    viemClients,
   ]);
 
   const disconnect = useCallback(async () => {

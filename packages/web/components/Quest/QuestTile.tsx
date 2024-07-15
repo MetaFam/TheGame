@@ -4,6 +4,7 @@ import {
   Heading,
   LinkBox,
   LinkOverlay,
+  MarkdownViewer as Markdown,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
@@ -16,7 +17,6 @@ import { httpLink, isSGML } from '@metafam/utils';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React, { PropsWithChildren } from 'react';
 
-import { MarkdownViewer as Markdown } from '#components/MarkdownViewer';
 import { QuestTileImage } from '#components/Quest/QuestTileImage';
 import { SkillsTags } from '#components/Quest/Skills';
 import { QuestFragment, Skill } from '#graphql/autogen/hasura-sdk';

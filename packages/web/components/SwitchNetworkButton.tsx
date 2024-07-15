@@ -40,3 +40,5 @@ export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
     </Tooltip>
   );
 };
+
+export default SwitchNetworkButton;

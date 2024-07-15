@@ -29,10 +29,11 @@ import {
 import { DateTime } from 'luxon';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { MetaLink } from '#components/Link';
 import type { GroupedEventsType } from '#lib/hooks/useCalendar';
 import { useCalendar } from '#lib/hooks/useCalendar';
 import { safelyParseContent } from '#utils/stringHelpers';
+
+import { MetaLink } from '../Link';
 
 const loadMoreButtonStyles: ButtonProps = {
   display: 'flex',

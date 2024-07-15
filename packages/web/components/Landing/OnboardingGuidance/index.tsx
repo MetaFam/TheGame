@@ -3,6 +3,7 @@ import {
   Container,
   Flex,
   Heading,
+  MarkdownViewer,
   MetaButton,
   MetaTile,
   MetaTileBody,
@@ -13,7 +14,6 @@ import {
 } from '@metafam/ds';
 import { useRouter } from 'next/router';
 
-import { MarkdownViewer } from '#components/MarkdownViewer';
 import { SquareImage } from '#components/SquareImage';
 import { guidanceDetails, Role } from '#utils/guidanceData';
 

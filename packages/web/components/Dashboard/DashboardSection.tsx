@@ -2,19 +2,19 @@ import { Flex, IconButton } from '@metafam/ds';
 import React, { forwardRef, LegacyRef, ReactElement } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-import { Calendar } from '#components/Dashboard/Calendar';
-import { LatestContent } from '#components/Dashboard/LatestContent';
-import { Leaderboard } from '#components/Dashboard/Leaderboard';
-import { Seed } from '#components/Dashboard/Seed';
-import { CustomTextSection } from '#components/Section/CustomTextSection';
-import { EmbeddedUrl } from '#components/Section/EmbeddedUrlSection';
 import { Player } from '#graphql/autogen/hasura-sdk';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from '#utils/boxTypes';
 import { isBoxResizable } from '#utils/layoutHelpers';
 
+import { CustomTextSection } from '../Section/CustomTextSection';
+import { EmbeddedUrl } from '../Section/EmbeddedUrlSection';
+import { Calendar } from './Calendar';
+import { LatestContent } from './LatestContent';
+import { Leaderboard } from './Leaderboard';
 import { QuestChainsPinned } from './QuestChainsPinned';
 import { DashboardQuestsCompleted } from './QuestsCompleted';
 import { DashboardQuestsCreated } from './QuestsCreated';
+import { Seed } from './Seed';
 
 type Props = {
   type: BoxType;

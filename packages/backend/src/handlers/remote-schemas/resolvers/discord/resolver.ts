@@ -1,6 +1,6 @@
 import { createDiscordClient } from '@metafam/discord-bot';
 import {
-  ChannelType, GuildBasedChannel, PermissionFlagsBits, Role, TextChannel,
+  ChannelType, PermissionFlagsBits, TextChannel,
 } from 'discord.js';
 import showdown from 'showdown';
 

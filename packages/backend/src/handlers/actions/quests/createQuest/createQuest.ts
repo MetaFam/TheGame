@@ -5,6 +5,7 @@ import {
   QuestRepetition_Enum,
 } from '#lib/autogen/hasura-sdk.js';
 import { client } from '#lib/hasuraClient.js';
+
 import { isAllowedToCreateQuest } from './permissions.js';
 
 export async function createQuest(
@@ -51,8 +52,8 @@ export async function createQuest(
     },
   };
 
-  const { insert_quest } = await client.CreateQuest({ objects: questInput });
-  const { returning: [{ id }] } = insert_quest ?? { returning: [] };
+  const { insert_quest: insertQuest } = await client.CreateQuest({ objects: questInput });
+  const { returning: [{ id }] } = insertQuest ?? { returning: [] };
 
   if(id == null) {
     throw new Error('Failed to retrieve quest id.');

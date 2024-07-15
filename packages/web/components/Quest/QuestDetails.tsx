@@ -3,6 +3,7 @@ import {
   Flex,
   Heading,
   HStack,
+  MarkdownViewer as Markdown,
   MetaButton,
   MetaTile,
   MetaTileBody,
@@ -23,7 +24,6 @@ import {
 import moment from 'moment';
 
 import BackgroundImage from '#assets/quests/quest.webp';
-import { MarkdownViewer as Markdown } from '#components/MarkdownViewer';
 import { SquareImage } from '#components/SquareImage';
 import { useUser } from '#lib/hooks';
 import { safelyParseNChakrifyHtml } from '#utils/stringHelpers';
