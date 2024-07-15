@@ -7,7 +7,8 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { SetupOptions } from 'utils/setupOptions';
+
+import { SetupOptions } from '#utils/setupOptions';
 
 const urlPrefix = '/profile/setup/';
 

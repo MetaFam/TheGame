@@ -1,15 +1,16 @@
 import { Text } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
-import QuestChainDisplay from 'components/QuestChain/QuestChainDisplay';
-import { HeadComponent } from 'components/Seo';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import React, { lazy } from 'react';
-import { errorHandler } from 'utils/errorHandler';
 import {
   QuestChainPathsAndPlaybooksDetails,
   QuestChains,
   QuestChainType,
 } from 'utils/questChains';
+
+import QuestChainDisplay from '#components/QuestChain/QuestChainDisplay';
+import { HeadComponent } from '#components/Seo';
+import { errorHandler } from '#utils/errorHandler';
 
 const { getQuestChainInfo } = graphql;
 

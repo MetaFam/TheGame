@@ -11,10 +11,11 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { MarkdownViewer } from 'components/MarkdownViewer';
-import { SquareImage } from 'components/SquareImage';
 import { useRouter } from 'next/router';
-import { guidanceDetails, Role } from 'utils/guidanceData';
+
+import { MarkdownViewer } from '#components/MarkdownViewer';
+import { SquareImage } from '#components/SquareImage';
+import { guidanceDetails, Role } from '#utils/guidanceData';
 
 import { upDownShortAnimation } from '../animations';
 

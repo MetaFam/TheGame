@@ -4,11 +4,12 @@ import { composeDBDefinition, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
 import { ethers } from 'ethers';
-import { cacheDIDSession, getCachedDIDSession } from 'lib/auth';
-import { CeramicError } from 'lib/errors';
-import { useWeb3 } from 'lib/hooks/useWeb3';
 import { createContext, PropsWithChildren, useCallback, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
+
+import { cacheDIDSession, getCachedDIDSession } from '#lib/auth';
+import { CeramicError } from '#lib/errors';
+import { useWeb3 } from '#lib/hooks/useWeb3';
+import { errorHandler } from '#utils/errorHandler';
 
 export type ComposeDBContextType = {
   composeDBClient: Maybe<ComposeClient>;
@@ -46,7 +47,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   }, []);
 
   const createSession = useCallback(
-    async (prov: ethers.providers.Web3Provider) => {
+    async (prov: ethers.BrowserProvider) => {
       if (!address) throw new Error('No address when creating ComposeDB session.');
       
       let session = await getCachedDIDSession();

@@ -1,11 +1,12 @@
 import { ComposeDBProfile, Maybe } from '@metafam/utils';
-import { useLinkOwnCeramicNodeMutation } from 'graphql/autogen/types';
+import { useCallback, useState } from 'react';
+
+import { useLinkOwnCeramicNodeMutation } from '#graphql/autogen/hasura-sdk';
 import {
   ComposeDBCreateProfileResponseData,
   ComposeDBMutationValues,
-} from 'graphql/types';
-import { CeramicError, handleCeramicAuthenticationError } from 'lib/errors';
-import { useCallback, useState } from 'react';
+} from '#graphql/types';
+import { CeramicError, handleCeramicAuthenticationError } from '#lib/errors';
 
 import { useUser } from '../useUser';
 import { useComposeDB } from './useComposeDB';

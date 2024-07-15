@@ -4,13 +4,12 @@ import {
 } from 'discord.js';
 import showdown from 'showdown';
 
-import { client } from '../../../../lib/hasuraClient.js';
-import { QueryResolvers } from '../../autogen/types.js';
+import { client } from '#lib/hasuraClient.js';
 
 const { Converter } = showdown;
 
-export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] =
-  async (_, { guildDiscordId }) => {
+export const getGuildDiscordRoles =
+  async (_: unknown, { guildDiscordId }: { guildDiscordId: string }) => {
     if (!guildDiscordId) return [];
 
     const discordClient = await createDiscordClient();
@@ -26,8 +25,11 @@ export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] =
     return [];
   };
 
-export const getDiscordServerMemberRoles: QueryResolvers['getDiscordServerMemberRoles'] =
-  async (_, { guildId, playerId }) => {
+export const getDiscordServerMemberRoles = (
+  async (
+    _: unknown,
+    { guildId, playerId }: { guildId: string, playerId: string }
+  ) => {
     const getGuildPlayerResponse = await client.GetGuildPlayerDiscordIds({
       guildId,
       playerId,
@@ -60,10 +62,11 @@ export const getDiscordServerMemberRoles: QueryResolvers['getDiscordServerMember
       console.error({ err });
     }
     return [];
-  };
+  }
+)
 
-export const getGuildDiscordAnnouncements: QueryResolvers['getGuildDiscordAnnouncements'] =
-  async (_, { guildDiscordId }) => {
+export const getGuildDiscordAnnouncements =
+  async (_: unknown, { guildDiscordId }: { guildDiscordId: string }) => {
     if (!guildDiscordId) return [];
 
     try {

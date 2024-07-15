@@ -19,7 +19,7 @@
     "typecheck": "tsc --pretty",
     "prepare": "yarn build",
     "precommit": "yarn typecheck",
-    "generate": "graphql-code-generator",
+    "generate": "graphql-codegen",
     "fix:lint": "eslint --fix",
     "test": "jest --passWithNoTests"
   },

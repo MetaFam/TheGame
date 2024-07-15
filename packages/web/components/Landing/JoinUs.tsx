@@ -8,15 +8,16 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/sections/section-7.webp';
-import { FullPageContainer } from 'components/Container';
-import { StartButton } from 'components/Landing/StartButton';
-import { MetaLink } from 'components/Link';
-import { useMotionDetector } from 'lib/hooks/useMotionDetector';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
 import Script from 'next/script';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
+
+import BackgroundImage from '#assets/landing/sections/section-7.webp';
+import { FullPageContainer } from '#components/Container';
+import { StartButton } from '#components/Landing/StartButton';
+import { MetaLink } from '#components/Link';
+import { useMotionDetector } from '#lib/hooks/useMotionDetector';
+import { useOnScreen } from '#lib/hooks/useOnScreen';
 
 import { LandingFooter } from './LandingFooter';
 import { LandingPageSectionProps } from './landingSection';

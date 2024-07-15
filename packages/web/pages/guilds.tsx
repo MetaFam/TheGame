@@ -1,9 +1,10 @@
 import { Center, Link, Text, VStack } from '@metafam/ds';
-import { GuildList } from 'components/Guild/GuildList';
-import { HeadComponent } from 'components/Seo';
-import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
 import React, { lazy } from 'react';
+
+import { GuildList } from '#components/Guild/GuildList';
+import { HeadComponent } from '#components/Seo';
+import { getGuilds } from '#graphql/queries/guild';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

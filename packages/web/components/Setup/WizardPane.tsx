@@ -12,13 +12,14 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { ConnectToProgress } from 'components/ConnectToProgress';
-import { FlexContainer } from 'components/Container';
-import { HeadComponent } from 'components/Seo';
-import { useSetupFlow } from 'contexts/SetupContext';
-import { useWeb3 } from 'lib/hooks';
 import React, { ReactElement, ReactNode, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
+
+import { ConnectToProgress } from '#components/ConnectToProgress';
+import { FlexContainer } from '#components/Container';
+import { HeadComponent } from '#components/Seo';
+import { useSetupFlow } from '#contexts/SetupContext';
+import { useWeb3 } from '#lib/hooks';
 
 export type MaybeModalProps = {
   buttonLabel?: string | ReactElement;

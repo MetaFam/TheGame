@@ -1,8 +1,9 @@
 import type { AvatarProps } from '@metafam/ds';
-import { RoundImage } from 'components/RoundImage';
-import type { Player } from 'graphql/autogen/types';
-import type { GuildPlayer } from 'graphql/types';
-import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
+
+import { RoundImage } from '#components/RoundImage';
+import type { Player } from '#graphql/autogen/hasura-sdk';
+import type { GuildPlayer } from '#graphql/types';
+import { useProfileImageOnload } from '#lib/hooks/useProfileImageOnload';
 
 type PlayerProfilePictureProps = AvatarProps & {
   player?: Player | GuildPlayer;

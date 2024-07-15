@@ -13,13 +13,14 @@ import {
   VStack,
 } from '@metafam/ds';
 import { httpLink, isSGML } from '@metafam/utils';
-import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
-import { QuestTileImage } from 'components/Quest/QuestTileImage';
-import { SkillsTags } from 'components/Quest/Skills';
-import { QuestFragment, Skill } from 'graphql/autogen/types';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import React, { PropsWithChildren } from 'react';
-import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
+
+import { MarkdownViewer as Markdown } from '#components/MarkdownViewer';
+import { QuestTileImage } from '#components/Quest/QuestTileImage';
+import { SkillsTags } from '#components/Quest/Skills';
+import { QuestFragment, Skill } from '#graphql/autogen/hasura-sdk';
+import { safelyParseNChakrifyHtml } from '#utils/stringHelpers';
 
 export const TileHeading: React.FC<PropsWithChildren> = ({ children }) => (
   <Text as="h3" textStyle="caption">

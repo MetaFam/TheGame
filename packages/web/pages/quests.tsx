@@ -17,20 +17,21 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
-import { QuestFilter } from 'components/Quest/QuestFilter';
-import { QuestList } from 'components/Quest/QuestList';
-import { questListDescriptionCss } from 'components/Quest/QuestListDescriptionCss';
-import { HeadComponent } from 'components/Seo';
-import { PlayerRole } from 'graphql/autogen/types';
-import { getSSRClient } from 'graphql/client';
-import { getQuests } from 'graphql/getQuests';
-import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
-import { usePSeedBalance } from 'lib/hooks/balances';
-import { useQuestFilter } from 'lib/hooks/quests';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React, { lazy, useMemo } from 'react';
-import { isAllowedToCreateQuest } from 'utils/questHelpers';
+
+import { QuestFilter } from '#components/Quest/QuestFilter';
+import { QuestList } from '#components/Quest/QuestList';
+import { questListDescriptionCss } from '#components/Quest/QuestListDescriptionCss';
+import { HeadComponent } from '#components/Seo';
+import { PlayerRole } from '#graphql/autogen/hasura-sdk';
+import { getSSRClient } from '#graphql/client';
+import { getQuests } from '#graphql/getQuests';
+import { getPlayerRoles } from '#graphql/queries/enums/getRoles';
+import { usePSeedBalance } from '#lib/hooks/balances';
+import { useQuestFilter } from '#lib/hooks/quests';
+import { isAllowedToCreateQuest } from '#utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

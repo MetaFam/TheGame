@@ -1,8 +1,9 @@
 import { BoxedNextImage, MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { Player } from 'graphql/autogen/types';
 import React, { useMemo } from 'react';
-import { BoxTypes } from 'utils/boxTypes';
+
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { BoxTypes } from '#utils/boxTypes';
 
 type Props = {
   player: Player;

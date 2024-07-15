@@ -1,6 +1,6 @@
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { LinkType_Enum, Player } from 'graphql/autogen/types';
-import { BoxTypes } from 'utils/boxTypes';
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { LinkType_Enum, Player } from '#graphql/autogen/hasura-sdk';
+import { BoxTypes } from '#utils/boxTypes';
 
 import { Attestations } from './Attestations';
 

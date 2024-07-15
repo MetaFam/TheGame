@@ -17,8 +17,6 @@
   },
   "dependencies": {
     "@ceramicnetwork/http-client": "^2.15.0",
-    "@datamodels/identity-accounts-crypto": "^0.2.0",
-    "@datamodels/identity-profile-basic": "^0.2.0",
     "@wagmi/core": "^2.11.7",
     "cids": "^1.1.9",
     "ethers": "^6.13.1",

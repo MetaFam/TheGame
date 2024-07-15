@@ -3,7 +3,7 @@ import {
   QuestFragment,
   useGetQuestGuildsQuery,
   useGetQuestsQuery,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 import { useCallback, useState } from 'react';
 
 import { defaultQueryVariables } from '../../graphql/getQuests';

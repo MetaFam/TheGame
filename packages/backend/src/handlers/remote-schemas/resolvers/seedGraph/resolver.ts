@@ -1,6 +1,4 @@
-import { Maybe } from '@metafam/utils';
-
-import { seedGraphClient } from '../../../../lib/seedGraphClient.js';
+import { seedGraphClient } from '#lib/seedGraphClient.js';
 
 export type Balances = {
   id: string;

@@ -12,10 +12,11 @@ import {
   LinkType_Enum,
   Player,
   useAddPlayerLinkMutation,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { BoxMetadata } from 'utils/boxTypes';
+
+import { BoxMetadata } from '#utils/boxTypes';
 
 export interface PlayerLinkFormInputs {
   name: string;

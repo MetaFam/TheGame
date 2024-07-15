@@ -8,9 +8,10 @@ import {
   VStack,
 } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
-import { useCarouselContext } from 'components/Carousel/CarouselContext';
-import { MarkdownViewer } from 'components/MarkdownViewer';
 import React, { useMemo } from 'react';
+
+import { useCarouselContext } from '#components/Carousel/CarouselContext';
+import { MarkdownViewer } from '#components/MarkdownViewer';
 
 import { UploadProofButton } from './UploadProofButton';
 

@@ -1,13 +1,8 @@
 import { Flex, Heading, LoadingState, Stack, useToast } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { CompletionForm } from 'components/Quest/CompletionForm';
 import {
   CreateQuestCompletionInput,
   useCreateQuestCompletionMutation,
-} from 'graphql/autogen/types';
-import { getSSRClient } from 'graphql/client';
-import { getQuest } from 'graphql/getQuest';
-import { useUser } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -17,6 +12,12 @@ import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import { lazy } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
+
+import { MetaLink } from '#components/Link';
+import { CompletionForm } from '#components/Quest/CompletionForm';
+import { getSSRClient } from '#graphql/client';
+import { getQuest } from '#graphql/getQuest';
+import { useUser } from '#lib/hooks';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

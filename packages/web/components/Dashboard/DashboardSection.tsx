@@ -1,15 +1,16 @@
 import { Flex, IconButton } from '@metafam/ds';
-import { Calendar } from 'components/Dashboard/Calendar';
-import { LatestContent } from 'components/Dashboard/LatestContent';
-import { Leaderboard } from 'components/Dashboard/Leaderboard';
-import { Seed } from 'components/Dashboard/Seed';
-import { CustomTextSection } from 'components/Section/CustomTextSection';
-import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
-import { Player } from 'graphql/autogen/types';
 import React, { forwardRef, LegacyRef, ReactElement } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
-import { isBoxResizable } from 'utils/layoutHelpers';
+
+import { Calendar } from '#components/Dashboard/Calendar';
+import { LatestContent } from '#components/Dashboard/LatestContent';
+import { Leaderboard } from '#components/Dashboard/Leaderboard';
+import { Seed } from '#components/Dashboard/Seed';
+import { CustomTextSection } from '#components/Section/CustomTextSection';
+import { EmbeddedUrl } from '#components/Section/EmbeddedUrlSection';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from '#utils/boxTypes';
+import { isBoxResizable } from '#utils/layoutHelpers';
 
 import { QuestChainsPinned } from './QuestChainsPinned';
 import { DashboardQuestsCompleted } from './QuestsCompleted';

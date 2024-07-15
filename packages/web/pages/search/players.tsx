@@ -1,13 +1,14 @@
 import { Text, VStack } from '@metafam/ds';
-import { PlayerList } from 'components/Player/PlayerList';
-import SearchFilters from 'components/SearchFilters';
-import { HeadComponent } from 'components/Seo';
-import { usePlayerFilter } from 'lib/hooks/player/players';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRouter } from 'next/router';
 import { MorePlayers } from 'pages/players';
 import { lazy, useEffect, useMemo, useRef } from 'react';
-import { GlobalFilters } from 'utils/GlobalSearch';
+
+import { PlayerList } from '#components/Player/PlayerList';
+import SearchFilters from '#components/SearchFilters';
+import { HeadComponent } from '#components/Seo';
+import { usePlayerFilter } from '#lib/hooks/player/players';
+import { useOnScreen } from '#lib/hooks/useOnScreen';
+import { GlobalFilters } from '#utils/GlobalSearch';
 
 const PageContainer = lazy(() => import('components/Container'));
 

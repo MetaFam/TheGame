@@ -9,14 +9,15 @@ import {
   Text,
   UnorderedList,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { CompletionStatusTag } from 'components/Quest/QuestTags';
+import React, { useMemo, useState } from 'react';
+
+import { MetaLink } from '#components/Link';
+import { CompletionStatusTag } from '#components/Quest/QuestTags';
 import {
   QuestCompletionStatus_Enum,
   useGetCompletedQuestsByPlayerQuery,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import React, { useMemo, useState } from 'react';
+} from '#graphql/autogen/hasura-sdk';
+import { useUser } from '#lib/hooks';
 
 type StatusOption = { value: string; label: string };
 

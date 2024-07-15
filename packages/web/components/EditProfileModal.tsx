@@ -37,11 +37,7 @@ import {
   Maybe,
   Player,
   useInsertCacheInvalidationMutation,
-} from 'graphql/autogen/types';
-import { getPlayer } from 'graphql/getPlayer';
-import { PlayerProfile } from 'graphql/types';
-import { useWeb3 } from 'lib/hooks';
-import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
+} from 'graphql/autogen/hasura-sdk';
 import React, {
   createRef,
   ReactElement,
@@ -51,10 +47,15 @@ import React, {
   useState,
 } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { errorHandler } from 'utils/errorHandler';
-import { getImageDimensions } from 'utils/imageHelpers';
-import { isEmpty } from 'utils/objectHelpers';
-import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
+
+import { getPlayer } from '#graphql/getPlayer';
+import { PlayerProfile } from '#graphql/types';
+import { useWeb3 } from '#lib/hooks';
+import { useSaveToComposeDB } from '#lib/hooks/ceramic/useSaveToComposeDB';
+import { errorHandler } from '#utils/errorHandler';
+import { getImageDimensions } from '#utils/imageHelpers';
+import { isEmpty } from '#utils/objectHelpers';
+import { hasuraToComposeDBProfile } from '#utils/playerHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
 import { EditAvatarImage } from './Player/Profile/EditAvatarImage';

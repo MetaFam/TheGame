@@ -3,12 +3,13 @@ import {
   composeDBToHasuraProfile,
   Maybe,
 } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
-import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
-import { ComposeDBProfileQueryResult } from 'graphql/types';
-import { CeramicError } from 'lib/errors';
 import { useEffect, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { buildPlayerProfileQuery } from '#graphql/composeDB/queries/profile';
+import { ComposeDBProfileQueryResult } from '#graphql/types';
+import { CeramicError } from '#lib/errors';
+import { errorHandler } from '#utils/errorHandler';
 
 import { useComposeDB } from './useComposeDB';
 

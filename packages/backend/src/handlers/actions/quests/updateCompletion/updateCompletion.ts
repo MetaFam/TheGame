@@ -2,7 +2,7 @@ import { createDiscordClient } from '@metafam/discord-bot';
 import { Constants } from '@metafam/utils';
 import { TextChannel } from 'discord.js';
 
-import { CONFIG } from '../../../../config.js';
+import { CONFIG } from '#config.js';
 import {
   QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
@@ -10,8 +10,8 @@ import {
   QuestStatus_Enum,
   UpdateQuestCompletionInput,
   UpdateQuestCompletionOutput,
-} from '../../../../lib/autogen/hasura-sdk.js';
-import { client } from '../../../../lib/hasuraClient.js';
+} from '#lib/autogen/hasura-sdk.js';
+import { client } from '#lib/hasuraClient.js';
 
 export async function updateCompletion(
   playerId: string,

@@ -1,10 +1,11 @@
 import { Avatar, HStack, Text } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { CompletionStatusTag } from 'components/Quest/QuestTags';
-import { Player, QuestCompletionStatus_Enum } from 'graphql/autogen/types';
-import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import moment from 'moment';
+
+import { MetaLink } from '#components/Link';
+import { CompletionStatusTag } from '#components/Quest/QuestTags';
+import { Player, QuestCompletionStatus_Enum } from '#graphql/autogen/hasura-sdk';
+import { usePlayerName } from '#lib/hooks/player/usePlayerName';
+import { usePlayerURL } from '#lib/hooks/player/usePlayerURL';
 
 type Props = {
   player: Player;

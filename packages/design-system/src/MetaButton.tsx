@@ -6,8 +6,8 @@ type RefProps = { ref?: React.Ref<HTMLButtonElement> };
 export type MetaButtonProps = PropsWithChildren<ButtonProps & LinkProps & RefProps>;
 
 export const MetaButton = (
-  React.forwardRef<HTMLButtonElement>(
-    ({ children, ...props }: MetaButtonProps, ref) => {
+  React.forwardRef<HTMLButtonElement, MetaButtonProps>(
+    ({ children, ...props }, ref) => {
       const args = props;
       if (args.href) {
         args.as = 'a';

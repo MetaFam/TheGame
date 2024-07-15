@@ -1,21 +1,14 @@
 {
   "name": "@metafam/ds",
   "version": "0.2.0",
+  "license": "GPL-2.0",
   "type": "module",
   "main": "dist/ds.js",
   "types": "dist/index.d.ts",
-  "sideEffects": false,
-  "exports": {
-    ".": {
-      "import": "./dist/ds.js"
-    }
-  },
   "files": [
     "dist/",
     "src/"
   ],
-  "module": "dist/ds.js",
-  "license": "MIT",
   "scripts": {
     "typecheck": "tsc --pretty",
     "build": "vite build && tsc --emitDeclarationOnly",
@@ -45,7 +38,7 @@
     "chakra-ui-markdown-renderer": "^4.1.0",
     "city-timezones": "1.2.0",
     "framer-motion": "^11.3.2",
-    "next": "^13.3.0",
+    "next": "^13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-font-loader": "^1.1.0",
@@ -55,7 +48,7 @@
     "react-timezone-select": "^1.4.0",
     "spacetime": "^7.6.0",
     "spacetime-informal": "0.6.1",
-    "vanilla-tilt": "1.7.3"
+    "vanilla-tilt": "^1.8.1"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.4",

@@ -2,7 +2,7 @@ import { useToast } from '@metafam/ds';
 import { useCallback } from 'react';
 import { CombinedError } from 'urql';
 
-import { CONFIG } from '../config.js';
+import { CONFIG } from '#config';
 
 export const errorHandler = (error: Error | CombinedError): void => {
   // eslint-disable-next-line no-console

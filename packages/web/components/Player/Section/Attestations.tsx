@@ -6,10 +6,11 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
-import { Player } from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks';
-import { useEAS } from 'lib/hooks/useEAS';
 import React, { useEffect, useState } from 'react';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { useWeb3 } from '#lib/hooks';
+import { useEAS } from '#lib/hooks/useEAS';
 
 const MAX_DESC_LEN = 420; // characters
 

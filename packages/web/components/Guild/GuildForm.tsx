@@ -9,25 +9,12 @@ import {
   MetaButton,
   MultiSelect,
   Select,
+  SelectOption,
   Spinner,
   Text,
   Textarea,
   VStack,
 } from '@metafam/ds';
-import { SelectOption } from '@metafam/ds/src/MultiSelect';
-import FileOpenIcon from 'assets/file-open-icon.svg';
-import { Field, FieldDescription } from 'components/Forms/Field';
-import { MetaLink } from 'components/Link';
-import { ethers } from 'ethers';
-import {
-  DiscordRole,
-  GuildDaoInput,
-  GuildFragment,
-  GuildType_Enum,
-  Maybe,
-  useGetGuildMetadataQuery,
-} from 'graphql/autogen/types';
-import { useImageReader } from 'lib/hooks/useImageReader';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -36,7 +23,21 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
-import { optimizedImage } from 'utils/imageHelpers';
+import { isAddress } from 'viem';
+
+import FileOpenIcon from '#assets/file-open-icon.svg';
+import { Field, FieldDescription } from '#components/Forms/Field';
+import { MetaLink } from '#components/Link';
+import {
+  DiscordRole,
+  GuildDaoInput,
+  GuildFragment,
+  GuildType_Enum,
+  Maybe,
+  useGetGuildMetadataQuery,
+} from '#graphql/autogen/hasura-sdk';
+import { useImageReader } from '#lib/hooks/useImageReader';
+import { optimizedImage } from '#utils/imageHelpers';
 
 const validations = {
   guildname: {
@@ -59,7 +60,7 @@ const validations = {
   },
   daoAddress: {
     required: true,
-    validate: (address: string) => ethers.utils.isAddress(address),
+    validate: (address: string) => isAddress(address),
   },
   daoNetwork: {
     required: true,
@@ -543,7 +544,7 @@ export const GuildForm: React.FC<Props> = ({
                   {...{ control }}
                   rules={validations.discordAdminRoles}
                   render={({ field }) => (
-                    <MultiSelect isMulti options={roleOptions} {...field} />
+                    <MultiSelect options={roleOptions} {...field} />
                   )}
                 />
                 <FieldDescription>
@@ -567,7 +568,7 @@ export const GuildForm: React.FC<Props> = ({
                   {...{ control }}
                   rules={validations.discordMembershipRoles}
                   render={({ field }) => (
-                    <MultiSelect isMulti options={roleOptions} {...field} />
+                    <MultiSelect options={roleOptions} {...field} />
                   )}
                 />
                 <FieldDescription>

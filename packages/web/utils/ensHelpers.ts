@@ -1,6 +1,7 @@
 import { CONFIG } from 'config';
 import { ethers } from 'ethers';
-import { getPlayer } from 'graphql/getPlayer';
+
+import { getPlayer } from '#graphql/getPlayer';
 
 const { mainnetRPC } = CONFIG;
 

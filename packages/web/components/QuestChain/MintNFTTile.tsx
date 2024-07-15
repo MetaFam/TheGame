@@ -8,14 +8,15 @@ import {
   VStack,
 } from '@metafam/ds';
 import { graphql, helpers } from '@quest-chains/sdk';
-import { useWeb3 } from 'lib/hooks';
 import React, { useCallback, useRef, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
 import {
   QuestChainPlaybooksDetails,
   QuestChainType,
   useQuestChainContract,
 } from 'utils/questChains';
+
+import { useWeb3 } from '#lib/hooks';
+import { errorHandler } from '#utils/errorHandler';
 
 import { ToastInfo } from './UploadProof';
 

@@ -25,25 +25,13 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import LogoImage from 'assets/new_logo_svg.svg';
-import SearchIcon from 'assets/search-icon.svg';
-import { MetaLink } from 'components/Link';
-import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
-import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
 import { ConnectKitButton } from 'connectkit';
 import {
   GuildFragment,
   Player,
   PlayerFragment,
   SearchQuestsQuery,
-} from 'graphql/autogen/types';
-import { searchPatrons } from 'graphql/getPatrons';
-import { searchPlayers } from 'graphql/getPlayers';
-import { searchQuests } from 'graphql/getQuests';
-import { searchGuilds } from 'graphql/queries/guild';
-import { Patron } from 'graphql/types';
-import { useMounted, useUser, useWeb3 } from 'lib/hooks';
-import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
+} from 'graphql/autogen/hasura-sdk';
 import { useRouter } from 'next/router';
 import React, {
   FormEventHandler,
@@ -54,13 +42,26 @@ import React, {
 } from 'react';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
-import { menuIcons } from 'utils/menuIcons';
-import { MenuSectionLinks } from 'utils/menuLinks';
 import {
   getPlayerName,
   getPlayerURL,
   getPlayerUsername,
 } from 'utils/playerHelpers';
+
+import LogoImage from '#assets/new_logo_svg.svg';
+import SearchIcon from '#assets/search-icon.svg';
+import { MetaLink } from '#components/Link';
+import { DesktopNavLinks } from '#components/MegaMenu/DesktopNavLinks';
+import { DesktopPlayerStats } from '#components/MegaMenu/DesktopPlayerStats';
+import { searchPatrons } from '#graphql/getPatrons';
+import { searchPlayers } from '#graphql/getPlayers';
+import { searchQuests } from '#graphql/getQuests';
+import { searchGuilds } from '#graphql/queries/guild';
+import { Patron } from '#graphql/types';
+import { useMounted, useUser, useWeb3 } from '#lib/hooks';
+import { useProfileImageOnload } from '#lib/hooks/useProfileImageOnload';
+import { menuIcons } from '#utils/menuIcons';
+import { MenuSectionLinks } from '#utils/menuLinks';
 
 type LogoProps = {
   link: string;

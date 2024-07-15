@@ -11,11 +11,12 @@ import {
 import {
   CreateQuestCompletionInput,
   QuestFragment,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { URIRegexp } from 'utils/questHelpers';
+
+import { URIRegexp } from '#utils/questHelpers';
 
 type Props = {
   quest: QuestFragment;

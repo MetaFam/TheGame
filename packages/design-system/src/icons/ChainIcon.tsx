@@ -2,9 +2,9 @@ import { IconProps } from '@chakra-ui/icons';
 import { Tooltip } from '@chakra-ui/react';
 import React from 'react';
 
-import { EthereumIcon } from './EthereumIcon';
-import { GnosisIcon } from './GnosisIcon';
-import { PolygonIcon } from './PolygonIcon';
+import { EthereumIcon } from './EthereumIcon.js';
+import { GnosisIcon } from './GnosisIcon.js';
+import { PolygonIcon } from './PolygonIcon.js';
 
 type Props = {
   chain?: string;
