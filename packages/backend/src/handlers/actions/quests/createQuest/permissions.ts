@@ -6,7 +6,8 @@ import { polygon } from 'viem/chains';
 const { amountToDecimal } = numbers;
 
 /**
- * As a first iteration, we only allow people to create quests if they hold more that 100 pSEED tokens
+ * As a first iteration, we only allow people to
+ * create quests if they hold more that 100 pSEED tokens
  */
 
 export async function isAllowedToCreateQuest(
@@ -20,12 +21,12 @@ export async function isAllowedToCreateQuest(
     Constants.PSEED_ADDRESS,
     polygonClient,
   );
-  const pSEEDBalance = await pSEEDContract.balanceOf(playerAddress);
-  const pSEEDDecimals = await pSEEDContract.decimals();
+  const pSEEDBalance = await pSEEDContract.read.balanceOf([playerAddress]);
+  const pSEEDDecimals = await pSEEDContract.read.decimals();
   const minimumPooledSeedBalance = BigInt(Constants.PSEED_FOR_QUEST);
   const pSEEDBalanceInDecimal = amountToDecimal(
-    pSEEDBalance.toString(),
-    pSEEDDecimals,
+    pSEEDBalance as string,
+    pSEEDDecimals as number,
   );
 
   const allowed = BigInt(pSEEDBalanceInDecimal) >= minimumPooledSeedBalance;
