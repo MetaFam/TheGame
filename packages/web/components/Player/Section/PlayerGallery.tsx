@@ -15,10 +15,11 @@ import {
   useDisclosure,
   ViewAllButton,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { Player } from 'graphql/autogen/types';
-import { useNFTCollectibles } from 'lib/hooks/alchemy';
-import { BoxTypes } from 'utils/boxTypes';
+
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { useNFTCollectibles } from '#lib/hooks/alchemy';
+import { BoxTypes } from '#utils/boxTypes';
 
 const GalleryItem: React.FC<{ nft: any }> = ({ nft }) => (
   <Box display="flex">

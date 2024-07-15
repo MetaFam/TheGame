@@ -24,15 +24,15 @@ export const useEAS = () => {
     const connectEAS = async () => {
       const signer = await provider?.getSigner();
       const txSigner = {
-        async estimateGas(tx: ethers.providers.TransactionRequest) {
+        async estimateGas(tx: ethers.TransactionRequest) {
           const v6TX = tx;
           v6TX.to = tx.to ?? undefined;
-          return (await signer?.estimateGas(v6TX))?.toBigInt();
+          return await signer?.estimateGas(v6TX);
         },
-        sendTransaction(tx: ethers.providers.TransactionRequest) {
+        sendTransaction(tx: ethers.TransactionRequest) {
           return signer?.sendTransaction(tx);
         },
-        call(tx: ethers.providers.TransactionRequest) {
+        call(tx: ethers.TransactionRequest) {
           return signer?.call(tx);
         },
         resolveName(name: string) {
@@ -102,7 +102,7 @@ export const useEAS = () => {
         }
       }
     `;
-      const checkSumAddress = ethers.utils.getAddress(recipient);
+      const checkSumAddress = ethers.getAddress(recipient);
 
       // Define the GraphQL endpoint
       const endpoint = 'https://optimism.easscan.org/graphql';

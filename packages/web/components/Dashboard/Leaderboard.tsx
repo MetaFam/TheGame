@@ -11,13 +11,14 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+import React, { useMemo, useState } from 'react';
+
 import {
   OptionType,
   SortOption,
   sortOptionsMap,
   usePlayerFilter,
-} from 'lib/hooks/player/players';
-import React, { useMemo, useState } from 'react';
+} from '#lib/hooks/player/players';
 
 import { LeaderboardLink } from './LeaderboardLink';
 

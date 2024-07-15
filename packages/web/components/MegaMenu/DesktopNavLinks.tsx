@@ -12,9 +12,10 @@ import {
   MenuButton,
   MenuList,
 } from '@metafam/ds';
-import { DesktopMenuItem } from 'components/MegaMenu/DesktopMenuItem';
 import { useRouter } from 'next/router';
-import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
+
+import { DesktopMenuItem } from '#components/MegaMenu/DesktopMenuItem';
+import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from '#utils/menuLinks';
 
 // Nav links on desktop -- text and links from utils/menuLinks.ts
 export const DesktopNavLinks: React.FC<FlexProps> = (props) => {

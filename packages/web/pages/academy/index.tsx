@@ -8,14 +8,15 @@ import {
   useBreakpointValue,
   VStack,
 } from '@metafam/ds';
-import { Carousel } from 'components/Carousel';
-import { MetaLink } from 'components/Link';
-import { HeadComponent } from 'components/Seo';
 import React, { lazy } from 'react';
 import {
   QuestChainPathsAndPlaybooksDetails,
   QuestChainsCategoriesDetails,
 } from 'utils/questChains';
+
+import { Carousel } from '#components/Carousel';
+import { MetaLink } from '#components/Link';
+import { HeadComponent } from '#components/Seo';
 
 /**
  * This page merges Paths & Playbooks into one page.

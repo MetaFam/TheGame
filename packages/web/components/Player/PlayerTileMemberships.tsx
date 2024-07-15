@@ -1,5 +1,6 @@
 import { MetaTag, Text, VStack, Wrap, WrapItem } from '@metafam/ds';
-import { GuildMembership } from 'graphql/getMemberships';
+
+import { GuildMembership } from '#graphql/getMemberships';
 
 type Props = {
   memberships: Array<GuildMembership>;

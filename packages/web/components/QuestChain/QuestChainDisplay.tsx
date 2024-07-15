@@ -16,23 +16,14 @@ import {
 } from '@metafam/ds';
 import { imageLink, Maybe } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
-import Pin from 'assets/pin.svg';
-import Seed from 'assets/seed.svg';
-import Share from 'assets/share.svg';
-import { MetaLink } from 'components/Link';
-import { MarkdownViewer } from 'components/MarkdownViewer';
-import { MintNFTTile } from 'components/QuestChain/MintNFTTile';
 import {
   ChainStats,
   PlayersFinished,
 } from 'components/QuestChain/QuestHeading';
-import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
 import {
   useDeletePlayerQuestchainPinMutation,
   useInsertPlayerQuestchainPinMutation,
-} from 'graphql/autogen/types';
-import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
-import { useUser, useWeb3 } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import {
   useLatestQuestChainData,
   useLatestQuestStatusesForUserAndChainData,
@@ -41,7 +32,17 @@ import {
 } from 'lib/hooks/questChains';
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { BsArrowRight, BsCheck } from 'react-icons/bs';
-import { QuestChainType } from 'utils/questChains';
+
+import Pin from '#assets/pin.svg';
+import Seed from '#assets/seed.svg';
+import Share from '#assets/share.svg';
+import { MetaLink } from '#components/Link';
+import { MarkdownViewer } from '#components/MarkdownViewer';
+import { MintNFTTile } from '#components/QuestChain/MintNFTTile';
+import { UploadProofButton } from '#components/QuestChain/UploadProofButton';
+import { getPlayerPinnedQuestchains } from '#graphql/queries/player';
+import { useUser, useWeb3 } from '#lib/hooks';
+import { QuestChainType } from '#utils/questChains';
 
 type Props = {
   questChain: graphql.QuestChainInfoFragment;

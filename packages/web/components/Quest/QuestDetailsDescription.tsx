@@ -1,8 +1,9 @@
 import { Box, Prose } from '@metafam/ds';
 import { isSGML } from '@metafam/utils';
-import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
-import { QuestFragment } from 'graphql/autogen/types';
-import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
+
+import { MarkdownViewer as Markdown } from '#components/MarkdownViewer';
+import { QuestFragment } from '#graphql/autogen/hasura-sdk';
+import { safelyParseNChakrifyHtml } from '#utils/stringHelpers';
 
 type Props = {
   quest: QuestFragment;

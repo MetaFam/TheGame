@@ -1,8 +1,9 @@
 import { Flex, HStack, Image, MetaTheme, Text, Tooltip } from '@metafam/ds';
 import { Constants, numbers } from '@metafam/utils';
-import SeedMarket from 'assets/seed-icon.svg';
-import XPStar from 'assets/xp-star.svg';
-import { usePSeedBalance } from 'lib/hooks/balances';
+
+import SeedMarket from '#assets/seed-icon.svg';
+import XPStar from '#assets/xp-star.svg';
+import { usePSeedBalance } from '#lib/hooks/balances';
 
 const { amountToDecimal } = numbers;
 

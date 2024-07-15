@@ -10,7 +10,7 @@ import {
   PlayerRank_Enum,
   Profile,
   SkillCategory_Enum,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 
 export type Patron = Player & {
   pSeedBalance: number;

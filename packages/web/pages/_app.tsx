@@ -1,22 +1,23 @@
-import 'assets/custom-markdown-editor.scss';
+import '#assets/custom-markdown-editor.scss';
 import 'react-markdown-editor-lite/lib/index.css';
 
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Animocto from 'assets/animocto.svg';
-import { MegaMenu } from 'components/MegaMenu';
 import { CONFIG } from 'config';
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
-import { ComposeDBContextProvider } from 'contexts/ComposeDBContext';
-import { Web3ContextProvider } from 'contexts/Web3Context';
-import { wrapUrqlClient } from 'graphql/client';
-import { useMounted } from 'lib/hooks';
 import Head from 'next/head';
 import Image from 'next/image';
 import Script from 'next/script';
 import { WithUrqlProps } from 'next-urql';
 import { createConfig, http, WagmiProvider } from 'wagmi';
 import { mainnet, optimism, polygon } from 'wagmi/chains';
+
+import Animocto from '#assets/animocto.svg';
+import { MegaMenu } from '#components/MegaMenu';
+import { ComposeDBContextProvider } from '#contexts/ComposeDBContext';
+import { Web3ContextProvider } from '#contexts/Web3Context';
+import { wrapUrqlClient } from '#graphql/client';
+import { useMounted } from '#lib/hooks';
 
 const config = createConfig(
   getDefaultConfig({

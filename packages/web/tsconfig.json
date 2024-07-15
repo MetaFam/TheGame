@@ -1,19 +1,43 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "baseUrl": ".",
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
     "jsx": "preserve",
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "#lib/*": ["./lib/*"],
+      "#utils/*": ["./utils/*"],
+      "#components/*": ["./components/*"],
+      "#graphql/*": ["./graphql/*"],
+      "#contexts/*": ["./contexts/*"],
+      "#assets/*": ["./assets/*"],
+    },
   },
   "references": [
-    { "path": "../utils/tsconfig.json" },
-    { "path": "../design-system/tsconfig.build.json" }
+    {
+      "path": "../utils/tsconfig.json"
+    },
+    {
+      "path": "../design-system/tsconfig.build.json"
+    }
   ],
-  "include": ["**/*.mjs", "**/*.ts", "**/*.tsx", "**/*.json", "next-env.d.ts"],
-  "exclude": ["out", ".next", "node_modules"],
-  "plugins": [{ "name": "next" }]
+  "include": [
+    "**/*.mjs",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json",
+    "next-env.d.ts"
+  ],
+  "exclude": [
+    "out",
+    ".next",
+    "node_modules"
+  ],
 }

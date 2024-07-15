@@ -1,14 +1,15 @@
 import { Box, Container, Text, useBreakpointValue } from '@metafam/ds';
-import BackgroundImage5xl from 'assets/landing/sections/section-2.jpg';
-import BackgroundImageMobile from 'assets/landing/sections/section-2.sm.jpg';
-import BackgroundImage2xl from 'assets/landing/sections/section-2-2xl.jpg';
-import BackgroundImage4xl from 'assets/landing/sections/section-2-4xl.jpg';
-import BackgroundImageLg from 'assets/landing/sections/section-2-lg.jpg';
-import { FullPageContainer } from 'components/Container';
-import { MetaLink } from 'components/Link';
-import { useMotionDetector } from 'lib/hooks/useMotionDetector';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useRef } from 'react';
+
+import BackgroundImage5xl from '#assets/landing/sections/section-2.jpg';
+import BackgroundImageMobile from '#assets/landing/sections/section-2.sm.jpg';
+import BackgroundImage2xl from '#assets/landing/sections/section-2-2xl.jpg';
+import BackgroundImage4xl from '#assets/landing/sections/section-2-4xl.jpg';
+import BackgroundImageLg from '#assets/landing/sections/section-2-lg.jpg';
+import { FullPageContainer } from '#components/Container';
+import { MetaLink } from '#components/Link';
+import { useMotionDetector } from '#lib/hooks/useMotionDetector';
+import { useOnScreen } from '#lib/hooks/useOnScreen';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';

@@ -11,9 +11,10 @@ import {
   Th,
 } from '@metafam/ds';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
-import { MetaLink } from 'components/Link';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+
+import { MetaLink } from '#components/Link';
 
 const heading: Components['h1'] = (props) => {
   const { level } = props;

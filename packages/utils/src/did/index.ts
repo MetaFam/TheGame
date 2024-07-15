@@ -1,8 +1,10 @@
-import { signMessage, verifyMesage } from '@wagmi/core';
+import { signMessage, verifyMessage } from '@wagmi/core';
 import { ethers } from 'ethers';
 import { Base64 } from 'js-base64';
 import { v4 as uuidv4 } from 'uuid';
+import { Client, PublicClient, WalletClient } from 'viem';
 
+import { wagmiMainnetConfig } from '../constants.js';
 import { verifySignature } from '../ethereumHelper.js';
 import { Maybe } from '../extendedProfileTypes.js';
 
@@ -18,29 +20,36 @@ type Claim = {
   tid: string;
 };
 
-export async function createToken(userAddress: string) {
-  const iat = +new Date();
+export async function createToken(walletClient: WalletClient) {
+  const iat = new Date().getTime();
+
+  const { account } = walletClient
+  if(!account) {
+    throw new Error('No account found in Viem signing client.')
+  }
 
   const claim = {
     iat,
     exp: iat + tokenDuration,
-    iss: userAddress,
+    iss: account.address,
     aud: 'the-game',
     tid: uuidv4(),
   };
 
   const serializedClaim = JSON.stringify(claim);
-  const msgToSign = `${WELCOME_MESSAGE}${serializedClaim}`;
-  const proof = await signMessage(msgToSign);
+  const message = `${WELCOME_MESSAGE}${serializedClaim}`;
+  const proof = await walletClient.signMessage({ account, message });
 
   return Base64.encode(JSON.stringify([proof, serializedClaim]));
 }
 
-export async function verifyToken(
+export async function verifyToken({
+  token, connectedAddress, publicClient,
+}: {
   token: string,
-  provider: ethers.BrowserProvider,
   connectedAddress?: string,
-): Promise<Maybe<Claim>> {
+  publicClient: PublicClient,
+}): Promise<Maybe<Claim>> {
   const rawToken = Base64.decode(token);
   const [proof, rawClaim] = JSON.parse(rawToken);
   const claim: Claim = JSON.parse(rawClaim);
@@ -52,12 +61,14 @@ export async function verifyToken(
     );
   }
 
-  const msgToVerify = `${WELCOME_MESSAGE}${rawClaim}`;
-  const valid = await verifySignature(claimant, msgToVerify, proof);
+  const message = `${WELCOME_MESSAGE}${rawClaim}`;
+  const valid = await publicClient.verifyMessage({
+    address: claimant as `0x${string}`,
+    message,
+    signature: proof,
+  });
 
-  if (!valid) {
-    throw new Error('Invalid Signature');
-  }
+  if (!valid) throw new Error('Invalid token signature.');
 
   return claim;
 }

@@ -7,16 +7,17 @@ import {
   Stack,
   Text,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Section/ProfileSection';
 import {
   Player,
   QuestCompletionFragment,
   QuestCompletionStatus_Enum,
-} from 'graphql/autogen/types';
-import { getCompletedQuestsByPlayerQuery } from 'graphql/getQuests';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useEffect, useState } from 'react';
-import { BoxTypes } from 'utils/boxTypes';
-import { errorHandler } from 'utils/errorHandler';
+
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { getCompletedQuestsByPlayerQuery } from '#graphql/getQuests';
+import { BoxTypes } from '#utils/boxTypes';
+import { errorHandler } from '#utils/errorHandler';
 
 type Props = {
   player: Player;

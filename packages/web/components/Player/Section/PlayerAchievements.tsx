@@ -1,9 +1,10 @@
 import { HStack, Text } from '@metafam/ds';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { Player } from 'graphql/autogen/types';
 import React from 'react';
 import { FaMedal } from 'react-icons/fa';
-import { BoxTypes } from 'utils/boxTypes';
+
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { BoxTypes } from '#utils/boxTypes';
 
 // TODO Fake data
 type Props = {

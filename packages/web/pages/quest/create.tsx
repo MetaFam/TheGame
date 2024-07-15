@@ -1,20 +1,21 @@
 import { Heading, useToast } from '@metafam/ds';
-import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
-import { HeadComponent } from 'components/Seo';
 import {
   QuestRepetition_ActionEnum,
   useCreateQuestMutation,
-} from 'graphql/autogen/types';
-import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
-import { getSkills } from 'graphql/queries/enums/getSkills';
-import { getGuilds } from 'graphql/queries/guild';
-import { useUser, useWeb3 } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import { lazy } from 'react';
-import { transformCooldownForBackend } from 'utils/questHelpers';
-import { parseSkills } from 'utils/skillHelpers';
+
+import { CreateQuestFormInputs, QuestForm } from '#components/Quest/QuestForm';
+import { HeadComponent } from '#components/Seo';
+import { getPlayerRoles } from '#graphql/queries/enums/getRoles';
+import { getSkills } from '#graphql/queries/enums/getSkills';
+import { getGuilds } from '#graphql/queries/guild';
+import { useUser, useWeb3 } from '#lib/hooks';
+import { transformCooldownForBackend } from '#utils/questHelpers';
+import { parseSkills } from '#utils/skillHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

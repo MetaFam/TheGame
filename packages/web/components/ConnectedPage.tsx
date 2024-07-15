@@ -1,12 +1,13 @@
 import { Center, Flex, Link, Spinner, Stack, Text } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { ConnectKitButton } from 'connectkit';
-import { Player } from 'graphql/autogen/types';
-import { getPlayer } from 'graphql/getPlayer';
-import { useMounted, useUser } from 'lib/hooks';
 import { useEffect, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
 import { useAccount } from 'wagmi';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { getPlayer } from '#graphql/getPlayer';
+import { useMounted, useUser } from '#lib/hooks';
+import { errorHandler } from '#utils/errorHandler';
 
 type PlayerPageType = React.FC<{ player: Maybe<Player> }>;
 

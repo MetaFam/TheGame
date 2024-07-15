@@ -8,22 +8,14 @@ import Select, {
 
 import { multiSelectStyles } from './theme/index.js';
 
-export const MultiSelect = React.forwardRef(
-  (
-    props: Props<unknown, boolean, GroupBase<unknown>>,
-    ref:
-      | ((
-          instance: SelectInstance<unknown, boolean, GroupBase<unknown>> | null,
-        ) => void)
-      | MutableRefObject<SelectInstance<
-          unknown,
-          boolean,
-          GroupBase<unknown>
-        > | null>
-      | null,
-  ) => (
+export const MultiSelect = React.forwardRef<
+  SelectInstance<unknown, boolean, GroupBase<unknown>>,
+  { options: Array<any> }
+>(
+  (props, ref) => (
     <Select
       styles={multiSelectStyles as StylesConfig}
+      isMulti={true}
       {...props}
       {...{ ref }}
     />

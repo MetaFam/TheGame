@@ -9,22 +9,23 @@ import {
   UseToastOptions,
 } from '@metafam/ds';
 import { graphql, helpers } from '@quest-chains/sdk';
-import { useCarouselContext } from 'components/Carousel/CarouselContext';
-import { MarkdownEditor } from 'components/MarkdownEditor';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
-import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
-import { useEthersProvider } from 'lib/hooks/useEthersProvider';
-import { useInputText } from 'lib/hooks/useInputText';
 import { useRouter } from 'next/router';
 import React, { useCallback, useRef, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
-import { getHexChainId, NETWORK_INFO } from 'utils/networks';
 import {
   Metadata,
   metadataUploader,
   useQuestChainContract,
 } from 'utils/questChains';
 import { useAccount } from 'wagmi';
+
+import { useCarouselContext } from '#components/Carousel/CarouselContext';
+import { MarkdownEditor } from '#components/MarkdownEditor';
+import { SwitchNetworkButton } from '#components/SwitchNetworkButton';
+import { useDropFiles, useDropImage } from '#lib/hooks/useDropFiles';
+import { useEthersProvider, useViemClients } from '#lib/hooks/useEthersProvider';
+import { useInputText } from '#lib/hooks/useInputText';
+import { errorHandler } from '#utils/errorHandler';
+import { getHexChainId, NETWORK_INFO } from '#utils/networks';
 
 export type ToastInfo = {
   close: boolean;
@@ -37,7 +38,7 @@ export const UploadProof: React.FC<{
   questChain: graphql.QuestChainInfoFragment;
   onComplete?: (successful: boolean) => void;
 }> = ({ questId, name, questChain, onComplete }) => {
-  const { clients: viemClients } = useEthersProvider();
+  const viemClients = useViemClients();
   const { onClose } = useDisclosure();
   const { chainId, address, chain } = useAccount();
   const { setIsSubmittingProof } = useCarouselContext();

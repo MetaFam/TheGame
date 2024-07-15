@@ -12,7 +12,7 @@ import {
   Link,
   Player,
   useDeletePlayerLinkMutation,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useEffect, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 

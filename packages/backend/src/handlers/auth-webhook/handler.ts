@@ -1,15 +1,20 @@
 import { did, Maybe } from '@metafam/utils';
-import { ethers } from 'ethers';
 import { Request, Response } from 'express';
+import { createPublicClient, http } from 'viem'
+import { mainnet } from 'viem/chains'
 
-import { mainnetProvider } from '../../lib/ethereum.js';
 import { getOrCreatePlayerId } from './users.js';
 
 const unauthorizedVariables = {
   'X-Hasura-Role': 'public',
 };
 
-function getHeaderToken(req: Request): Maybe<string> {
+const publicClient = createPublicClient({
+  chain: mainnet,
+  transport: http(),
+})
+
+function getHeaderToken(req: Request) {
   const authHeader = req.headers.authorization;
   if (!authHeader) return null;
   if (!authHeader.startsWith('Bearer')) {
@@ -31,12 +36,12 @@ export const authHandler = async (
       res.json(unauthorizedVariables);
       return;
     }
-    const claim = await did.verifyToken(
+    const claim = await did.verifyToken({
       token,
-      mainnetProvider as unknown as ethers.BrowserProvider,
-    );
+      publicClient,
+    });
     if (!claim) {
-      throw new Error('Invalid token');
+      throw new Error('Invalid token.');
     }
 
     const { limiter } = req.app.locals;

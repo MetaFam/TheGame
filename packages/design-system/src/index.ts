@@ -204,7 +204,7 @@ export {
   MetaTilePathPlaybook,
   MetaTilePlaybook,
 } from './MetaTile.js';
-export { MultiSelect } from './MultiSelect.js';
+export { MultiSelect, type SelectOption } from './MultiSelect.js';
 export { ResponsiveText } from './ResponsiveText.js';
 export { metaFilterSelectStyles, SelectSearch } from './SelectSearch.js';
 export type {

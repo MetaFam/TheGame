@@ -1,5 +1,6 @@
-import { PlayerStart } from 'components/Player/PlayerStart';
 import React, { lazy } from 'react';
+
+import { PlayerStart } from '#components/Player/PlayerStart';
 
 export const getStaticProps = async () => ({
   props: {

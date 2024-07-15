@@ -1,4 +1,5 @@
-import { useGetPSeedBalanceQuery } from '../../graphql/autogen/types';
+import { useGetPSeedBalanceQuery } from '#graphql/autogen/hasura-sdk';
+
 import { useUser } from './index';
 
 interface PSeedBalanceHook {

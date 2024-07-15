@@ -8,15 +8,16 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Section/ProfileSection';
+import React, { useMemo } from 'react';
+
+import { ProfileSection } from '#components/Section/ProfileSection';
 import {
   GuildFragment,
   useGetAdministeredGuildsQuery,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import React, { useMemo } from 'react';
-import { BoxTypes } from 'utils/boxTypes';
-import { optimizedImage } from 'utils/imageHelpers';
+} from '#graphql/autogen/hasura-sdk';
+import { useUser } from '#lib/hooks';
+import { BoxTypes } from '#utils/boxTypes';
+import { optimizedImage } from '#utils/imageHelpers';
 
 type Props = {
   guild: GuildFragment;

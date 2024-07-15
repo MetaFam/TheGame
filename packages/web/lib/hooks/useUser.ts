@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import { Maybe } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
-import { getPlayer } from 'graphql/getPlayer';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { RequestPolicy } from 'urql';
 import { useAccount } from 'wagmi';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { getPlayer } from '#graphql/getPlayer';
 
 import {
   hydratePlayerProfile,

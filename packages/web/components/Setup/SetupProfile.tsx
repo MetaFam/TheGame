@@ -1,12 +1,13 @@
 import { useDisclosure, useToast } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
-import { ComposeDBPromptModal } from 'components/Player/Profile/ComposeDBPromptModal';
-import { SetupHeader } from 'components/Setup/SetupHeader';
-import { useSetupFlow } from 'contexts/SetupContext';
-import { useUser } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, { lazy, PropsWithChildren, useCallback, useEffect } from 'react';
-import { errorHandler } from 'utils/errorHandler';
+
+import { FlexContainer } from '#components/Container';
+import { ComposeDBPromptModal } from '#components/Player/Profile/ComposeDBPromptModal';
+import { SetupHeader } from '#components/Setup/SetupHeader';
+import { useSetupFlow } from '#contexts/SetupContext';
+import { useUser } from '#lib/hooks';
+import { errorHandler } from '#utils/errorHandler';
 
 const PageContainer = lazy(() => import('components/Container'));
 

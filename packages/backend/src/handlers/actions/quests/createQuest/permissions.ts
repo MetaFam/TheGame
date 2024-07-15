@@ -1,6 +1,7 @@
+import { getERC20Contract } from '#lib/ethereum.js';
 import { Constants, numbers } from '@metafam/utils';
-
-import { getERC20Contract, polygonProvider } from '../../../../lib/ethereum.js';
+import { createPublicClient, http } from 'viem';
+import { polygon } from 'viem/chains';
 
 const { amountToDecimal } = numbers;
 
@@ -9,11 +10,15 @@ const { amountToDecimal } = numbers;
  */
 
 export async function isAllowedToCreateQuest(
-  playerAddress: string,
-): Promise<boolean> {
+  playerAddress: `0x${string}`,
+) {
+  const polygonClient = createPublicClient({
+    chain: polygon,
+    transport: http(),
+  });
   const pSEEDContract = getERC20Contract(
     Constants.PSEED_ADDRESS,
-    polygonProvider,
+    polygonClient,
   );
   const pSEEDBalance = await pSEEDContract.balanceOf(playerAddress);
   const pSEEDDecimals = await pSEEDContract.decimals();

@@ -12,20 +12,21 @@ import {
   VStack,
   Wrap,
 } from '@metafam/ds';
-import LinkIcon from 'components/Player/Section/LinkIcon';
-import { ProfileSection } from 'components/Section/ProfileSection';
+import React, { useEffect, useMemo, useState } from 'react';
+import { FaExternalLinkAlt, FaGlobe } from 'react-icons/fa';
+
+import LinkIcon from '#components/Player/Section/LinkIcon';
+import { ProfileSection } from '#components/Section/ProfileSection';
 import {
   GuildFragment,
   LinkType_Enum,
   useDeleteGuildLinkMutation,
   useGetAdministeredGuildsQuery,
   useGetGuildLinksNoCacheMutation,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import React, { useEffect, useMemo, useState } from 'react';
-import { FaExternalLinkAlt, FaGlobe } from 'react-icons/fa';
-import { BoxTypes } from 'utils/boxTypes';
-import { getDAOLink } from 'utils/daoHelpers';
+} from '#graphql/autogen/hasura-sdk';
+import { useUser } from '#lib/hooks';
+import { BoxTypes } from '#utils/boxTypes';
+import { getDAOLink } from '#utils/daoHelpers';
 
 import { AddGuildLink } from './Links/AddGuildLink';
 import { EditGuildLink, GuildLink, GuildLinkList } from './Links/EditGuildLink';

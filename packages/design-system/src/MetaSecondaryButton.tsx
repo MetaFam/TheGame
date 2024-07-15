@@ -7,9 +7,9 @@ type MetaSecondaryButtonProps = PropsWithChildren<
   ButtonProps & LinkProps & RefProps
 >;
 
-export const MetaSecondaryButton: React.FC<MetaSecondaryButtonProps> =
-  React.forwardRef<HTMLButtonElement>(
-    ({ children, ...props }: MetaSecondaryButtonProps, ref) => (
+export const MetaSecondaryButton =
+  React.forwardRef<HTMLButtonElement, MetaSecondaryButtonProps>(
+    ({ children, ...props }, ref) => (
       <Button
         colorScheme="secondaryBlue"
         textTransform="uppercase"

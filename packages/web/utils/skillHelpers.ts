@@ -1,4 +1,4 @@
-import { PlayerSkillFragment } from 'graphql/autogen/types';
+import { PlayerSkillFragment } from '#graphql/autogen/hasura-sdk';
 
 export type SkillMap = {
   [category: string]: CategoryOption;

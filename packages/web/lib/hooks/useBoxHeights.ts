@@ -1,6 +1,7 @@
 import { Maybe } from '@metafam/utils';
 import { useEffect, useState } from 'react';
-import { getBoxKey } from 'utils/boxTypes';
+
+import { getBoxKey } from '#utils/boxTypes';
 
 export const useBoxHeights = (items: Array<Maybe<HTMLElement>>) => {
   const [heights, setHeights] = useState<Record<string, number>>({});

@@ -9,13 +9,14 @@ import {
   ComposeDBImageMetadata,
   composeDBProfileFieldAvatar,
 } from '@metafam/utils';
-import OctoAvatar from 'assets/graphics/octo-avatar.svg';
-import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
-import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
-import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
-import { optimizedImage } from 'utils/imageHelpers';
+
+import OctoAvatar from '#assets/graphics/octo-avatar.svg';
+import { useGetOwnProfileFieldFromComposeDB } from '#lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from '#lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
+import { FileReaderData, useImageReader } from '#lib/hooks/useImageReader';
+import { optimizedImage } from '#utils/imageHelpers';
 
 import { useShowToastOnQueryError } from './SetupProfile';
 import { WizardPane } from './WizardPane';

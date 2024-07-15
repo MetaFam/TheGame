@@ -1,5 +1,5 @@
-import { GetPlayerRolesQuery } from 'graphql/autogen/types';
-import { client } from 'graphql/client';
+import { GetPlayerRolesQuery } from '#graphql/autogen/hasura-sdk';
+import { client } from '#graphql/client';
 
 export const GetPlayerTypes = /* GraphQL */ `
   query GetPlayerRoles {

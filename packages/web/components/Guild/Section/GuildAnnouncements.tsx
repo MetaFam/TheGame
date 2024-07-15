@@ -11,13 +11,14 @@ import {
   useDisclosure,
   VStack,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Section/ProfileSection';
+import React, { useState } from 'react';
+
+import { ProfileSection } from '#components/Section/ProfileSection';
 import {
   GuildFragment,
   useGetGuildAnnouncementsQuery,
-} from 'graphql/autogen/types';
-import React, { useState } from 'react';
-import { BoxTypes } from 'utils/boxTypes';
+} from '#graphql/autogen/hasura-sdk';
+import { BoxTypes } from '#utils/boxTypes';
 
 type Props = {
   guild: GuildFragment;

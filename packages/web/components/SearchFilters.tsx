@@ -1,6 +1,7 @@
 import { Box, Text, VStack, Wrap } from '@metafam/ds';
 import { useRouter } from 'next/router';
-import { GlobalFilters } from 'utils/GlobalSearch';
+
+import { GlobalFilters } from '#utils/GlobalSearch';
 
 const FilterItems = [
   {

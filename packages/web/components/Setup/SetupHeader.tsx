@@ -6,11 +6,12 @@ import {
   ResponsiveText,
   Text,
 } from '@metafam/ds';
-import LogoImage from 'assets/new_logo_svg.svg';
-import { FlexContainer } from 'components/Container';
-import { useSetupFlow } from 'contexts/SetupContext';
-import { useWeb3 } from 'lib/hooks';
 import React, { ReactElement } from 'react';
+
+import LogoImage from '#assets/new_logo_svg.svg';
+import { FlexContainer } from '#components/Container';
+import { useSetupFlow } from '#contexts/SetupContext';
+import { useWeb3 } from '#lib/hooks';
 
 export const SetupHeader: React.FC = () => {
   const {

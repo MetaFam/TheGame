@@ -14,15 +14,18 @@
     "precommit": "yarn typecheck",
     "analyze-bundle": "ANALYZE=true next build"
   },
+  "imports": {
+    "#*": [
+      "./*",
+      "./*.ts",
+      "./*/index.ts"
+    ]
+  },
   "dependencies": {
-    "@composedb/client": "^0.4.4",
     "@didtools/pkh-ethereum": "^0.0.3",
     "@ethereum-attestation-service/eas-sdk": "^1.5.0",
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.3.2",
     "@metafam/ds": "workspace:*",
     "@metafam/utils": "workspace:*",
-    "@orbisclub/orbis-sdk": "^0.4.40",
     "@quest-chains/sdk": "^0.2.12",
     "@react-spring/web": "9.4.3",
     "@tanstack/react-query": "^5.22.2",
@@ -37,12 +40,12 @@
     "connectkit": "^1.7.1",
     "copy-to-clipboard": "3.3.1",
     "deep-equal": "2.0.5",
-    "did-session": "^2.0.0",
+    "did-session": "^4.0.0",
     "ethers": "^6.13.1",
     "googleapis": "^122.0.0",
     "graphql": "16.9.0",
     "html-metadata-parser": "2.0.4",
-    "html-react-parser": "2.0.0",
+    "html-react-parser": "^5.1.10",
     "iron-session": "^8.0.1",
     "isomorphic-dompurify": "^0.19.0",
     "jdenticon": "3.2.0",
@@ -70,12 +73,13 @@
     "siwe": "^2.1.4",
     "swr": "2.0.3",
     "urql": "^4.0.6",
-    "viem": "2.7.16",
-    "wagmi": "^2.5.7",
+    "viem": "^2.17.3",
+    "wagmi": "^2.10.10",
     "web3modal": "^1.9.12"
   },
   "devDependencies": {
-    "@composedb/types": "^0.4.0",
+    "@composedb/cli": "^0.7.1",
+    "@composedb/types": "^0.7.1",
     "@next/bundle-analyzer": "^14.1.0",
     "@next/eslint-plugin-next": "^12.3.1",
     "@types/busboy": "1.5.0",

@@ -28,7 +28,7 @@ export function clientToProvider(client: Client) {
   return new ethers.BrowserProvider(transport, network);
 }
 
-export function useEthersProvider({
+export function useViemClients({
   chain = optimism,
 }: { chain?: Chain } = {}) {
   const clients = useMemo(
@@ -37,17 +37,31 @@ export function useEthersProvider({
         chain,
         transport: http(),
       }),
-      wallet: createWalletClient({
-        chain,
-        transport: custom(window.ethereum),
-      }),
       mainnet: createPublicClient({
         chain: mainnet,
         transport: http(),
       }),
+      get wallet() {
+        if(!window.ethereum) {
+          throw new Error('No `window.ethereum`.')
+        }
+        return createWalletClient({
+          chain,
+          transport: custom(window.ethereum),
+        })
+      }
     }),
     [chain],
   );
+  
+  return clients;
+}
+
+
+export function useEthersProvider({
+  chain = optimism,
+}: { chain?: Chain } = {}) {
+  const clients = useViemClients({ chain });
   const [provider, setProvider] = useState<ethers.BrowserProvider>();
   useEffect(() => {
     const getProvider = async () => {
@@ -57,5 +71,5 @@ export function useEthersProvider({
     };
     getProvider();
   }, [clients]);
-  return { provider, clients };
+  return provider;
 }

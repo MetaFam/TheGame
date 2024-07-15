@@ -6,36 +6,37 @@ const config = {
   overwrite: true,
   require: ['ts-node/register'],
   generates: {
-    'src/handlers/remote-schemas/autogen/types.ts': {
-      schema: 'src/handlers/remote-schemas/typeDefs.ts',
-      
-      // plugins: [
-      //   'typescript',
-      //   'typescript-resolvers',
-      //   { add: { content: '/* eslint-disable */' } },
-      // ],
-      // config: {
-      //   noSchemaStitching: true,
-      //   avoidOptionals: true,
-      //   maybeValue:
-      //     'T extends PromiseLike<infer U> ? Promise<U | null> : T | null | undefined',
-      // },
-    },
+    // 'src/handlers/remote-schemas/autogen/': {
+    //   schema: 'src/handlers/remote-schemas/typeDefs.ts',
+    //   preset: 'client',
+    //   plugins: [
+    //   //   'typescript',
+    //   //   'typescript-resolvers',
+    //     { add: { content: '/* eslint-disable */' } },
+    //   ],
+    //   // config: {
+    //   //   noSchemaStitching: true,
+    //   //   avoidOptionals: true,
+    //   //   maybeValue:
+    //   //     'T extends PromiseLike<infer U> ? Promise<U | null> : T | null | undefined',
+    //   // },
+    // },
     'src/lib/autogen/hasura-sdk.ts': {
       schema: '../../schema.graphql',
       documents: ['src/handlers/graphql/**/(!(*.d)).ts'],
+      // preset: 'client',
       plugins: [
         'typescript',
         'typescript-operations',
         'typescript-graphql-request',
-        { add: { content: '/* eslint-disable */' } },
+      //   { add: { content: '/* eslint-disable */' } },
       ],
       config: {
         immutableTypes: true,
-        scalars: {
-          account_type:
-            "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE | DEWORK'",
-        },
+      //   scalars: {
+      //     account_type:
+      //       "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE | DEWORK'",
+      //   },
         dedupeOperationSuffix: true,
       },
     },
@@ -46,12 +47,13 @@ const config = {
       documents: [
         'src/handlers/remote-schemas/resolvers/daohaus/**/(!(*.d)).ts',
       ],
+      // preset: 'client',
       plugins: [
         'typescript',
         'typescript-operations',
         'typescript-graphql-request',
         'typescript-resolvers',
-        { add: { content: '/* eslint-disable */' } },
+      //   { add: { content: '/* eslint-disable */' } },
       ],
       config: {
         avoidOptionals: true,
@@ -66,27 +68,29 @@ const config = {
       documents: [
         'src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts',
       ],
+      // preset: 'client',
       plugins: [
         'typescript',
         'typescript-operations',
         'typescript-graphql-request',
-        { add: { content: '/* eslint-disable */' } },
+        // { add: { content: '/* eslint-disable */' } },
       ],
       config: {
         avoidOptionals: true,
         dedupeOperationSuffix: true,
       },
     },
-    'src/lib/autogen/balancerpolygon-sdk.ts': {
+    'src/lib/autogen/balancer-sdk.ts': {
       schema: `https://gateway-arbitrum.network.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/H9oPAbXnobBRq1cB3HDmbZ1E8MWQyJYQjT1QDJMrdbNp`,
       documents: [
         'src/handlers/remote-schemas/resolvers/balancerPolygon/**/(!(*.d)).ts',
       ],
+      // preset: 'client',
       plugins: [
         'typescript',
         'typescript-operations',
         'typescript-graphql-request',
-        { add: { content: '/* eslint-disable */' } },
+      //   { add: { content: '/* eslint-disable */' } },
       ],
       config: {
         avoidOptionals: true,

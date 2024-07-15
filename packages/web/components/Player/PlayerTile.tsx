@@ -14,17 +14,18 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import type { Maybe } from '@metafam/utils';
-import { PatronRank } from 'components/Patron/PatronRank';
-import { PlayerContacts } from 'components/Player/PlayerContacts';
-import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
-import { SkillsTags } from 'components/Quest/Skills';
-import type { Player, Skill } from 'graphql/autogen/types';
-import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
-import type { Patron } from 'graphql/types';
-import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import React, { useCallback, useEffect, useState } from 'react';
-import { getPlayerDescription } from 'utils/playerHelpers';
+
+import { PatronRank } from '#components/Patron/PatronRank';
+import { PlayerContacts } from '#components/Player/PlayerContacts';
+import { PlayerProfilePicture } from '#components/Player/PlayerProfilePicture';
+import { SkillsTags } from '#components/Quest/Skills';
+import type { Player, Skill } from '#graphql/autogen/hasura-sdk';
+import { getAllMemberships, GuildMembership } from '#graphql/getMemberships';
+import type { Patron } from '#graphql/types';
+import { usePlayerName } from '#lib/hooks/player/usePlayerName';
+import { usePlayerURL } from '#lib/hooks/player/usePlayerURL';
+import { getPlayerDescription } from '#utils/playerHelpers';
 
 import { PlayerRank } from './PlayerRank';
 import { DAOMembershipSmall } from './Section/PlayerLinks/PlayerMemberships';

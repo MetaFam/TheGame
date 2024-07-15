@@ -16,16 +16,17 @@ import {
   useToast,
 } from '@metafam/ds';
 import { ComposeDBProfile, profileMapping } from '@metafam/utils';
-import { MetaLink } from 'components/Link';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
-import { Player } from 'graphql/autogen/types';
-import { CeramicError } from 'lib/errors';
-import { useWeb3 } from 'lib/hooks';
-import { useComputeComposeDBImageMetadata } from 'lib/hooks/ceramic/useComputeComposeDBImageMetadata';
-import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
-import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
+
+import { MetaLink } from '#components/Link';
+import { SwitchNetworkButton } from '#components/SwitchNetworkButton';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { CeramicError } from '#lib/errors';
+import { useWeb3 } from '#lib/hooks';
+import { useComputeComposeDBImageMetadata } from '#lib/hooks/ceramic/useComputeComposeDBImageMetadata';
+import { useSaveToComposeDB } from '#lib/hooks/ceramic/useSaveToComposeDB';
+import { errorHandler } from '#utils/errorHandler';
+import { hasuraToComposeDBProfile } from '#utils/playerHelpers';
 
 export type ComposeDBPromptModalProps = {
   player: Player;

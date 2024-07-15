@@ -10,13 +10,20 @@
   "license": "GPL-2.0",
   "type": "module",
   "main": "dist/index.js",
+  "imports": {
+    "#*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*/index.ts"
+    ]
+  },
   "scripts": {
-    "start": "node --trace-warnings dist/index.js",
+    "start": "node --trace-warnings -r tsconfig-paths/register dist/index.js",
     "build": "yarn generate && tsc -b",
     "dev": "nodemon",
     "typecheck": "tsc --noEmit --pretty",
     "precommit": "yarn typecheck",
-    "generate": "graphql-code-generator --debug && yarn fix:daohaus-types",
+    "generate": "graphql-codegen --debug && yarn fix:daohaus-types",
     "fix:daohaus-types": "bash -c 'export OUT=src/lib/autogen/daohaus-sdk.ts && awk \"!/MolochVersion = .molochVersion/\" $OUT > $OUT.filtered && mv $OUT.filtered $OUT'",
     "fix:lint": "eslint --fix",
     "test": "jest --passWithNoTests"
@@ -25,8 +32,6 @@
     "@ceramicnetwork/http-client": "^5.16.0",
     "@ceramicnetwork/stream-caip10-link": "^5.15.0",
     "@composedb/client": "^0.7.1",
-    "@datamodels/identity-accounts-crypto": "^0.2.0",
-    "@datamodels/identity-profile-basic": "^0.2.0",
     "@graphql-tools/schema": "^10.0.4",
     "@metafam/discord-bot": "workspace:*",
     "@metafam/utils": "workspace:*",
@@ -42,7 +47,8 @@
     "graphql-request": "^7.1.0",
     "graphql-tag": "^2.12.6",
     "showdown": "^2.1.0",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "viem": "^2.17.3"
   },
   "devDependencies": {
     "@composedb/types": "^0.7.1",
@@ -57,10 +63,11 @@
     "nock": "13.2.4",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.3"
   },
   "nodemonConfig": {
-    "exec": "node --inspect=0.0.0.0:4322 --loader ts-node/esm src/index.ts",
+    "exec": "node --inspect=0.0.0.0:4322 --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"ts-node/esm\", pathToFileURL(\"./\"));' --trace-warnings src/index.ts",
     "watch": [
       ".",
       "../discord-bot",

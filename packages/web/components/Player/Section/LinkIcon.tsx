@@ -1,5 +1,4 @@
 import { Box } from '@metafam/ds';
-import { LinkType_Enum, Maybe } from 'graphql/autogen/types';
 import {
   FaDiscord,
   FaGithub,
@@ -8,6 +7,8 @@ import {
   FaTwitter,
   FaYoutube,
 } from 'react-icons/fa';
+
+import { LinkType_Enum, Maybe } from '#graphql/autogen/hasura-sdk';
 
 const LinkIcon = ({ type }: { type: Maybe<LinkType_Enum> | undefined }) => {
   if (!type) return <></>;

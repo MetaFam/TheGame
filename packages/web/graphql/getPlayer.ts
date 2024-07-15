@@ -5,7 +5,7 @@ import {
   GetPlayerForUsernameQueryVariables,
   Maybe,
   Player,
-} from './autogen/types';
+} from './autogen/hasura-sdk';
 import { client } from './client';
 import { PlayerDaoMembershipFragment, PlayerFragment } from './fragments';
 

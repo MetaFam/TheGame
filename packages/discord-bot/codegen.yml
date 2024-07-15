@@ -1,19 +1,19 @@
 overwrite: true
 require:
   - ts-node/register
+schema: '../../schema.graphql'
 generates:
-  ./src/__generated__/hasura-sdk.ts:
-    schema: '../../schema.graphql'
+  ./src/autogen/hasura-sdk.ts:
     documents:
       - ./src/graphql/**/(!(*.d)).ts
     plugins:
       - typescript
       - typescript-operations
       - typescript-graphql-request
-      - add:
-          content:
-            - '/* eslint-disable */'
-    config:
-      immutableTypes: true
-      scalars:
-        account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"
+    #   - add:
+    #       content:
+    #         - '/* eslint-disable */'
+    # config:
+    #   immutableTypes: true
+    #   scalars:
+    #     account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"

@@ -11,11 +11,12 @@ import {
   ModalOverlay,
   Text,
 } from '@metafam/ds';
-import { UnverifiedGuildForm } from 'components/Guild/UnverifiedGuildForm';
-import { GuildSearchBar } from 'components/GuildSearchBar';
-import { Player, useAddUnverifiedGuildMutation } from 'graphql/autogen/types';
 import React, { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
+
+import { UnverifiedGuildForm } from '#components/Guild/UnverifiedGuildForm';
+import { GuildSearchBar } from '#components/GuildSearchBar';
+import { Player, useAddUnverifiedGuildMutation } from '#graphql/autogen/hasura-sdk';
 
 import { GuildListingSmall, SmallGuild } from './GuildListing';
 

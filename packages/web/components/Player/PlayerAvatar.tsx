@@ -1,10 +1,11 @@
 import { Avatar, AvatarProps, useToast } from '@metafam/ds';
-import { Player } from 'graphql/autogen/types';
-import { GuildPlayer } from 'graphql/types';
-import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
 import React from 'react';
-import { hasImage } from 'utils/playerHelpers';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { GuildPlayer } from '#graphql/types';
+import { usePlayerName } from '#lib/hooks/player/usePlayerName';
+import { useProfileImageOnload } from '#lib/hooks/useProfileImageOnload';
+import { hasImage } from '#utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & {
   player?: Player | GuildPlayer;
