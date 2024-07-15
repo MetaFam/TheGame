@@ -10,34 +10,23 @@
     "jsx": "preserve",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "plugins": [{ "name": "next" }],
-    "paths": {
-      "#lib/*": ["./lib/*"],
-      "#utils/*": ["./utils/*"],
-      "#components/*": ["./components/*"],
-      "#graphql/*": ["./graphql/*"],
-      "#contexts/*": ["./contexts/*"],
-      "#assets/*": ["./assets/*"],
-    },
+    "plugins": [{ "name": "next" }]
   },
   "references": [
-    {
-      "path": "../utils/tsconfig.json"
-    },
-    {
-      "path": "../design-system/tsconfig.build.json"
-    }
+    { "path": "../utils/tsconfig.json" },
+    { "path": "../design-system/tsconfig.build.json" }
   ],
   "include": [
     "**/*.mjs",
-    "**/*.ts",
+    "*/**/*.ts",
+    "config.ts",
     "**/*.tsx",
     "**/*.json",
     "next-env.d.ts"
   ],
   "exclude": [
-    "out",
-    ".next",
-    "node_modules"
+    "out/",
+    ".next/",
+    "node_modules/"
   ],
 }

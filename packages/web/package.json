@@ -18,10 +18,13 @@
     "#*": [
       "./*",
       "./*.ts",
-      "./*/index.ts"
+      "./*.tsx",
+      "./*/index.ts",
+      "./*/index.tsx"
     ]
   },
   "dependencies": {
+    "@composedb/client": "^0.7.1",
     "@didtools/pkh-ethereum": "^0.0.3",
     "@ethereum-attestation-service/eas-sdk": "^1.5.0",
     "@metafam/ds": "workspace:*",

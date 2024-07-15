@@ -8,6 +8,7 @@ import {
   Image as ChakraImage,
   Link,
   LoadingState,
+  MarkdownViewer,
   MetaHeading,
   Stack,
   Tab,
@@ -23,7 +24,6 @@ import React, { lazy, useEffect, useRef, useState } from 'react';
 import { HiOutlineMinusCircle, HiOutlinePlusCircle } from 'react-icons/hi';
 
 import Background from '#assets/seeds/background.png';
-import { MarkdownViewer } from '#components/MarkdownViewer';
 import { Plant } from '#components/Seeds/Plant';
 import { Trade } from '#components/Seeds/Trade';
 import { Water } from '#components/Seeds/Water';

@@ -6,6 +6,7 @@ import {
   HStack,
   IconButton,
   Image,
+  MarkdownViewer,
   Spinner,
   Stack,
   Text,
@@ -36,8 +37,6 @@ import { BsArrowRight, BsCheck } from 'react-icons/bs';
 import Pin from '#assets/pin.svg';
 import Seed from '#assets/seed.svg';
 import Share from '#assets/share.svg';
-import { MetaLink } from '#components/Link';
-import { MarkdownViewer } from '#components/MarkdownViewer';
 import { MintNFTTile } from '#components/QuestChain/MintNFTTile';
 import { UploadProofButton } from '#components/QuestChain/UploadProofButton';
 import { getPlayerPinnedQuestchains } from '#graphql/queries/player';

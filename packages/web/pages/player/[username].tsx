@@ -1,22 +1,8 @@
 import { ComposeClient } from '@composedb/client';
 import { Box, Flex, LoadingState, useDisclosure } from '@metafam/ds';
 import { composeDBDefinition, Maybe } from '@metafam/utils';
-import {
-  ALL_BOXES,
-  DEFAULT_PLAYER_LAYOUT_DATA,
-} from 'components/Player/Section/config';
-import { CONFIG } from 'config';
-import {
-  PlayerHydrationContextProvider,
-  usePlayerHydrationContext,
-} from 'contexts/PlayerHydrationContext';
-import {
-  Player,
-  useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
-} from 'graphql/autogen/hasura-sdk';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
-import Page404 from 'pages/404';
 import React, {
   lazy,
   ReactElement,
@@ -26,16 +12,24 @@ import React, {
   useState,
 } from 'react';
 import useSWR from 'swr';
-import {
-  getPlayerBackgroundFull,
-  getPlayerBannerFull,
-  getPlayerDescription,
-} from 'utils/playerHelpers';
 
 import { EditableGridLayout } from '#components/EditableGridLayout';
 import { PlayerSection } from '#components/Player/PlayerSection';
 import { ComposeDBPromptModal } from '#components/Player/Profile/ComposeDBPromptModal';
+import {
+  ALL_BOXES,
+  DEFAULT_PLAYER_LAYOUT_DATA,
+} from '#components/Player/Section/config';
 import { HeadComponent } from '#components/Seo';
+import { CONFIG } from '#config';
+import {
+  PlayerHydrationContextProvider,
+  usePlayerHydrationContext,
+} from '#contexts/PlayerHydrationContext';
+import {
+  Player,
+  useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
+} from '#graphql/autogen/hasura-sdk';
 import { buildPlayerProfileQuery } from '#graphql/composeDB/queries/profile';
 import { getPlayer } from '#graphql/getPlayer';
 import { getTopPlayerUsernames } from '#graphql/getPlayers';
@@ -46,8 +40,14 @@ import { usePlayerName } from '#lib/hooks/player/usePlayerName';
 import { usePlayerURL } from '#lib/hooks/player/usePlayerURL';
 import { useEAS } from '#lib/hooks/useEAS';
 import { useProfileImageOnload } from '#lib/hooks/useProfileImageOnload';
+import Page404 from '#pages/404';
 import { DisplayOutput, LayoutData } from '#utils/boxTypes';
 import { getENSAndPlayer } from '#utils/ensHelpers';
+import {
+  getPlayerBackgroundFull,
+  getPlayerBannerFull,
+  getPlayerDescription,
+} from '#utils/playerHelpers';
 
 export type PlayerPageProps = {
   player: Maybe<Player>;

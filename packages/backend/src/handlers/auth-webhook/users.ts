@@ -1,6 +1,7 @@
 import Bottleneck from 'bottleneck';
 
 import { client } from '#lib/hasuraClient.js';
+
 import { cacheProfile } from '../actions/composeDB/cacheHelper.js';
 
 async function createPlayer(ethAddress: string, limiter: Bottleneck) {

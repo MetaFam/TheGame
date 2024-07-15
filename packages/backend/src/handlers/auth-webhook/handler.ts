@@ -1,4 +1,4 @@
-import { did, Maybe } from '@metafam/utils';
+import { did } from '@metafam/utils';
 import { Request, Response } from 'express';
 import { createPublicClient, http } from 'viem'
 import { mainnet } from 'viem/chains'

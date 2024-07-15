@@ -2,6 +2,7 @@ import {
   Box,
   Flex,
   HStack,
+  MarkdownViewer,
   MetaButton,
   Text,
   useBreakpointValue,
@@ -11,7 +12,6 @@ import { graphql } from '@quest-chains/sdk';
 import React, { useMemo } from 'react';
 
 import { useCarouselContext } from '#components/Carousel/CarouselContext';
-import { MarkdownViewer } from '#components/MarkdownViewer';
 
 import { UploadProofButton } from './UploadProofButton';
 
@@ -130,7 +130,6 @@ export const QuestTile: React.FC<{
             <Box w="100%">
               <UploadProofButton
                 onComplete={() => {
-                  console.debug('Called `onComplete`.')
                   gotoNextStep();
                   refresh();
                 }}

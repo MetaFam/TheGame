@@ -19,7 +19,6 @@ import React, {
 import { PublicClient, WalletClient } from 'viem';
 import { useAccount, useDisconnect } from 'wagmi';
 
-import { client } from '#graphql/client';
 import { useEthersProvider, useViemClients } from '#lib/hooks/useEthersProvider';
 import { useW3upClient } from '#lib/hooks/useW3';
 import { errorHandler } from '#utils/errorHandler';

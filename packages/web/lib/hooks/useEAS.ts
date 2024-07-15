@@ -27,7 +27,7 @@ export const useEAS = () => {
         async estimateGas(tx: ethers.TransactionRequest) {
           const v6TX = tx;
           v6TX.to = tx.to ?? undefined;
-          return await signer?.estimateGas(v6TX);
+          return signer?.estimateGas(v6TX);
         },
         sendTransaction(tx: ethers.TransactionRequest) {
           return signer?.sendTransaction(tx);

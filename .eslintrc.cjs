@@ -14,12 +14,15 @@ module.exports = {
     tsconfigRootDir: __dirname,
     ecmaVersion: 6,
   },
-  ignorePatterns: ['packages/web/next.config.js', '**/jest.config.js'],
+  ignorePatterns: [
+    '**/codegen.ts',
+    '**/next.config.mjs',
+    '**/vite.config.ts',
+    '**/jest.config.js',
+  ],
   plugins: ['simple-import-sort'],
   settings: {
-    'import/resolver': {
-      typescript: {},
-    },
+    'import/resolver': { typescript: {} },
   },
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',

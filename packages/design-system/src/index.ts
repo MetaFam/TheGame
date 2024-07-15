@@ -1,3 +1,5 @@
+export { MarkdownEditor } from './MarkdownEditor/index.js';
+export { MarkdownViewer } from './MarkdownViewer/index.js';
 export {
   AddIcon,
   ArrowBackIcon,
