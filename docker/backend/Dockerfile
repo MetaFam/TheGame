@@ -51,7 +51,7 @@ RUN yarn backend:build
 # Delete devDependencies
 RUN corepack enable
 RUN yarn set version berry
-RUN yarn install --production # --immutable
+RUN yarn workspaces focus @metafam/backend --production # --immutable
 # RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
