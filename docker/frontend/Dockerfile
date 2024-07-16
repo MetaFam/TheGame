@@ -28,6 +28,7 @@ COPY packages/design-system/*.json ./packages/design-system/
 
 RUN corepack enable
 RUN yarn set version berry
+RUN yarn config set nodeLinker node-modules
 RUN yarn install # --immutable
 
 FROM base AS build
@@ -87,8 +88,12 @@ ENV GCAL_CLIENT_EMAIL=$GCAL_CLIENT_EMAIL
 ENV GCAL_PROJECT_NUMBER=$GCAL_PROJECT_NUMBER
 
 ONBUILD RUN yarn web:build
-# Delete devDependencies
-ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
+
+ONBUILD RUN corepack enable
+ONBUILD RUN yarn set version berry
+ONBUILD RUN yarn config set nodeLinker node-modules
+ONBUILD RUN yarn workspaces focus @metafam/web --production # --immutable
+# ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 FROM build AS build-development
 ONBUILD RUN yarn web:deps:build
