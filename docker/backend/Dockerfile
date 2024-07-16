@@ -20,7 +20,6 @@ COPY packages/utils/*.json ./packages/utils/
 COPY packages/discord-bot/*.json ./packages/discord-bot/
 
 RUN corepack enable
-RUN yarn set version berry
 RUN yarn config set nodeLinker node-modules
 RUN yarn install # --immutable
 
@@ -50,7 +49,6 @@ RUN yarn backend:build
 
 # Delete devDependencies
 RUN corepack enable
-RUN yarn set version berry
 RUN yarn workspaces focus @metafam/backend --production # --immutable
 # RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
@@ -72,5 +70,7 @@ COPY --from=build /usr/src/app/packages/utils/node_modules ./packages/utils/node
 
 COPY --from=build /usr/src/app/packages/discord-bot/package.json ./packages/discord-bot/package.json
 COPY --from=build /usr/src/app/packages/discord-bot/dist ./packages/discord-bot/dist
+
+RUN corepack enable
 
 CMD ["yarn", "backend", "start"]
