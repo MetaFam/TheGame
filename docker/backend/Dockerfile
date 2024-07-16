@@ -1,4 +1,4 @@
-FROM node:20-slim as base
+FROM node:20-slim AS base
 WORKDIR /usr/src/app
 
 # varying arg to prevent caching
@@ -27,7 +27,7 @@ RUN yarn install # --immutable
 # RUN set -x && echo $CACHEBUST && ls -la
 
 # Dev environment doesn't run beyond here
-FROM base as build
+FROM base AS build
 
 # Copy source files
 COPY packages/backend ./packages/backend/
@@ -41,9 +41,9 @@ ARG GRAPHQL_DOMAIN=onrender.com
 ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 ARG THE_GRAPH_API_TOKEN=unspecified
 
-ENV GRAPHQL_URL $GRAPHQL_URL
-ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
-ENV THE_GRAPH_API_TOKEN $THE_GRAPH_API_TOKEN
+ENV GRAPHQL_URL=$GRAPHQL_URL
+ENV HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret
+ENV THE_GRAPH_API_TOKEN=$THE_GRAPH_API_TOKEN
 
 # Build
 RUN yarn backend:build
@@ -55,7 +55,7 @@ RUN yarn workspaces focus @metafam/backend --production # --immutable
 # RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
-FROM node:20-slim as app
+FROM node:20-slim AS app
 WORKDIR /app
 
 # Copy necessary files into the stage
@@ -64,7 +64,7 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 
 COPY --from=build /usr/src/app/packages/backend/package.json ./packages/backend/package.json
 COPY --from=build /usr/src/app/packages/backend/dist ./packages/backend/dist
-COPY --from=build /usr/src/app/packages/backend/node_modules ./packages/backend/node_modules
+# COPY --from=build /usr/src/app/packages/backend/node_modules ./packages/backend/node_modules
 
 COPY --from=build /usr/src/app/packages/utils/package.json ./packages/utils/package.json
 COPY --from=build /usr/src/app/packages/utils/dist ./packages/utils/dist
