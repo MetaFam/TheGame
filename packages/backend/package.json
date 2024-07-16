@@ -18,7 +18,7 @@
     ]
   },
   "scripts": {
-    "start": "node --trace-warnings -r tsconfig-paths/register dist/index.js",
+    "start": "node --trace-warnings dist/index.js",
     "build": "yarn generate && tsc -b",
     "dev": "nodemon",
     "typecheck": "tsc --noEmit --pretty",
