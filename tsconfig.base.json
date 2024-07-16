@@ -49,6 +49,7 @@
     "**/dist/",
     "**/*.mjs",
     "**/coverage/",
-    "**/jest.config.js"
+    "**/jest.config.js",
+    "**/eslint.config.js"
   ]
 }

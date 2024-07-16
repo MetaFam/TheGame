@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const config = {
+export default {
   overwrite: true,
   require: ['ts-node/register'],
   generates: {
@@ -98,6 +98,4 @@ const config = {
       },
     },
   },
-};
-
-export default config;
+}
