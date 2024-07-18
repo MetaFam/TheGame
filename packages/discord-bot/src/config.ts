@@ -55,8 +55,8 @@ export const CONFIG: IConfig = {
   ),
   frontendURL: parseEnv('FRONTEND_URL', { defaultValue: 'http://localhost:3000' }),
   githubAPIToken: parseEnv('GITHUB_API_TOKEN'),
-  botToken: parseEnv('DISCORD_BOT_TOKEN', { error: true }),
-  botSecret: parseEnv('DISCORD_BOT_CLIENT_SECRET', { error: true }),
+  botToken: parseEnv('DISCORD_BOT_TOKEN'),
+  botSecret: parseEnv('DISCORD_BOT_CLIENT_SECRET'),
   apiBaseURL: parseEnv(
     'DISCORD_API_BASE_URL',
     { defaultValue: 'https://discord.com/api/v10' },
