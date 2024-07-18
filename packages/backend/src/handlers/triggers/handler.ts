@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
-import { Guild, Player, Player_Role } from '../../lib/autogen/hasura-sdk.js';
+import { Guild, Player, Player_Role } from '#lib/autogen/hasura-sdk';
+
 import { syncDiscordGuildMembers } from '../actions/guild/sync.js';
 import { cacheComposeDBProfile } from './cacheComposeDBProfile.js';
 import { playerRankUpdated } from './playerRankUpdated.js';

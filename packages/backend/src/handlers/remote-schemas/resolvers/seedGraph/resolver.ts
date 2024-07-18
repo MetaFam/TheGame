@@ -1,4 +1,4 @@
-import { seedGraphClient } from '#lib/seedGraphClient.js';
+import { seedGraphClient } from '#lib/seedGraphClient';
 
 export type Balances = {
   id: string;

@@ -2,7 +2,7 @@ import { Constants, numbers } from '@metafam/utils';
 import { createPublicClient, http } from 'viem';
 import { polygon } from 'viem/chains';
 
-import { getERC20Contract } from '#lib/ethereum.js';
+import { getERC20Contract } from '#lib/ethereum';
 
 const { amountToDecimal } = numbers;
 

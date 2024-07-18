@@ -16,7 +16,6 @@ COPY packages/discord-bot/*.json ./packages/discord-bot/
 COPY packages/utils/*.json ./packages/utils/
 
 RUN corepack enable
-RUN yarn set version berry
 RUN yarn config set nodeLinker node-modules
 RUN yarn install # --immutable
 
@@ -38,7 +37,6 @@ ENV HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret
 RUN yarn discord-bot build
 
 RUN corepack enable
-RUN yarn set version berry
 RUN yarn config set nodeLinker node-modules
 RUN yarn workspaces focus @metafam/discord-bot --production # --immutable
 # RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline

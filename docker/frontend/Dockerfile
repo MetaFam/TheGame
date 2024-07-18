@@ -27,7 +27,6 @@ COPY packages/utils/*.json ./packages/utils/
 COPY packages/design-system/*.json ./packages/design-system/
 
 RUN corepack enable
-RUN yarn set version berry
 RUN yarn config set nodeLinker node-modules
 RUN yarn install # --immutable
 
@@ -44,14 +43,14 @@ FROM build AS build-production
 
 # Each ENV below must have an ARG as well to be available at runtime
 ARG APP_ENV
-ARG GRAPHQL_URL https://api.metagame.wtf/v1/graphql
-ARG FRONTEND_URL https://metagame.wtf
+ARG GRAPHQL_URL=https://api.metagame.wtf/v1/graphql
+ARG FRONTEND_URL=https://metagame.wtf
 ARG IMGIX_TOKEN
 ARG YOUTUBE_API_KEY
 ARG HONEYBADGER_API_KEY
 ARG GOOGLE_ANALYTICS_ID
 ARG USERBACK_TOKEN
-ARG CERAMIC_URL https://ceramic.metagame.wtf
+ARG CERAMIC_URL=https://ceramic.metagame.wtf
 ARG WEB3_STORAGE_TOKEN
 ARG OPENSEA_API_KEY
 ARG GCAL_CALENDAR_ID
@@ -106,18 +105,18 @@ WORKDIR /app
 
 # Copy necessary files into the stage
 COPY --from=built /usr/src/app/package.json ./
-COPY --from=built /usr/src/app/node_modules/ node_modules/
+COPY --from=built /usr/src/app/node_modules/ ./
 
 # Copy the built web app
 FROM app AS copy-production
 ONBUILD COPY --from=built /usr/src/app/packages/utils/package.json packages/utils/
-ONBUILD COPY --from=built /usr/src/app/packages/utils/dist/ packages/utils/dist/
+ONBUILD COPY --from=built /usr/src/app/packages/utils/dist packages/utils/
 ONBUILD COPY --from=built /usr/src/app/packages/design-system/package.json packages/design-system/
-ONBUILD COPY --from=built /usr/src/app/packages/design-system/dist/ packages/design-system/dist/
+ONBUILD COPY --from=built /usr/src/app/packages/design-system/dist packages/design-system/
 ONBUILD COPY --from=built /usr/src/app/packages/web/package.json packages/web/
-ONBUILD COPY --from=built /usr/src/app/packages/web/node_modules/ packages/web/node_modules/
-ONBUILD COPY --from=built /usr/src/app/packages/web/public/ packages/web/public/
-ONBUILD COPY --from=built /usr/src/app/packages/web/.next/ packages/web/.next/
+ONBUILD COPY --from=built /usr/src/app/packages/web/node_modules packages/web/
+ONBUILD COPY --from=built /usr/src/app/packages/web/public packages/web/
+ONBUILD COPY --from=built /usr/src/app/packages/web/.next packages/web/
 
 ONBUILD CMD ["yarn", "web", "start"]
 
@@ -126,9 +125,9 @@ FROM app AS copy-development
 ONBUILD COPY --from=built /usr/src/app/schema.graphql ./
 ONBUILD COPY --from=built /usr/src/app/tsconfig*.json ./
 ONBUILD COPY --from=built /usr/src/app/lerna.json ./
-ONBUILD COPY --from=built /usr/src/app/packages/design-system/ packages/design-system/
-ONBUILD COPY --from=built /usr/src/app/packages/utils/ packages/utils/
-ONBUILD COPY --from=built /usr/src/app/packages/web/ packages/web/
+ONBUILD COPY --from=built /usr/src/app/packages/design-system packages/
+ONBUILD COPY --from=built /usr/src/app/packages/utils packages/
+ONBUILD COPY --from=built /usr/src/app/packages/web packages/
 
 ONBUILD RUN rm -rf packages/design-system/dist/
 ONBUILD RUN rm -rf packages/web/.next/

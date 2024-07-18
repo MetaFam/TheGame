@@ -1,8 +1,8 @@
 import { imageLink } from '@metafam/utils';
 
-import { CONFIG } from '#config.js';
-import { getClient } from '#lib/daoHausClient.js';
-import { client } from '#lib/hasuraClient.js';
+import { CONFIG } from '#config';
+import { getClient } from '#lib/daoHausClient';
+import { client } from '#lib/hasuraClient';
 
 type DAOMetadata = {
   contractAddress: string

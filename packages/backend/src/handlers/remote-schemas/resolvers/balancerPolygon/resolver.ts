@@ -1,7 +1,7 @@
 import { Constants } from '@metafam/utils';
 
-import { GetPoolTokenDataQuery } from '#lib/autogen/balancer-sdk.js';
-import { balancerPolygonGraphClient } from '#lib/balancerPolygonClient.js';
+import { GetPoolTokenDataQuery } from '#lib/autogen/balancer-sdk';
+import { balancerPolygonGraphClient } from '#lib/balancerPolygonClient';
 
 export type PSeedInfo = {
   priceUsd: number
