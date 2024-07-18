@@ -1,6 +1,6 @@
 import Bottleneck from 'bottleneck';
 
-import { Player } from '../../lib/autogen/hasura-sdk.js';
+import { Player } from '#lib/autogen/hasura-sdk';
 import { queueRecache } from '../actions/composeDB/cacheHelper.js';
 import { TriggerPayload } from './types.js';
 

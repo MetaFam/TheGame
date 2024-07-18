@@ -1,6 +1,7 @@
 import express from 'express';
 
-import { asyncHandlerWrapper } from '../lib/apiHelpers.js';
+import { asyncHandlerWrapper } from '#lib/apiHelpers';
+
 import { actionRoutes } from './actions/routes.js';
 import { authHandler } from './auth-webhook/handler.js';
 import { remoteSchemaRoutes } from './remote-schemas/routes.js';

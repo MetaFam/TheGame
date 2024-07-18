@@ -4,9 +4,10 @@ import {
 } from '@metafam/discord-bot';
 import { Constants } from '@metafam/utils';
 
-import { CONFIG } from '../../config.js';
-import { Player_Role } from '../../lib/autogen/hasura-sdk.js';
-import { client } from '../../lib/hasuraClient.js';
+import { CONFIG } from '#config';
+import { Player_Role } from '#lib/autogen/hasura-sdk';
+import { client } from '#lib/hasuraClient';
+
 import { TriggerPayload } from './types.js';
 
 type RoleIds = { [role: string]: string };

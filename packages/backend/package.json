@@ -10,12 +10,12 @@
   "license": "GPL-2.0",
   "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "imports": {
-    "#*": [
-      "./src/*",
-      "./src/*.ts",
-      "./src/*/index.ts"
-    ]
+    "#*": {
+      "development": "./src/*.ts",
+      "default": "./dist/*.js"
+    }
   },
   "scripts": {
     "start": "node --trace-warnings dist/index.js",
@@ -68,7 +68,7 @@
     "typescript": "^5.5.3"
   },
   "nodemonConfig": {
-    "exec": "node --inspect=0.0.0.0:4322 --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"ts-node/esm\", pathToFileURL(\"./\"));' --trace-warnings src/index.ts",
+    "exec": "node --inspect=0.0.0.0:4322 --conditions=development --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"ts-node/esm\", pathToFileURL(\"./\"));' --trace-warnings src/index.ts",
     "watch": [
       ".",
       "../discord-bot",

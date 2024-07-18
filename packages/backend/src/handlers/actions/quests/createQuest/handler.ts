@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { Mutation_RootCreateQuestArgs } from '#lib/autogen/hasura-sdk.js';
+import { Mutation_RootCreateQuestArgs } from '#lib/autogen/hasura-sdk';
 
 import { createQuest } from './createQuest.js';
 
