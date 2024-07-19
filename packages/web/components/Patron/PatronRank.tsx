@@ -1,11 +1,11 @@
 import { Flex, MetaTag, Text } from '@metafam/ds';
 import { computeRank, Constants, Maybe } from '@metafam/utils';
-import { ethers } from 'ethers';
 import React, { useMemo } from 'react';
 
 import { Player } from '#graphql/autogen/hasura-sdk';
 import { Patron } from '#graphql/types';
 import { PATRON_RANKS, PATRONS_PER_RANK } from '#utils/patronHelpers';
+import { formatEther } from 'viem';
 
 type Props = {
   patron: Patron;
@@ -22,9 +22,8 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
   );
 
   const displayBalance = useMemo(() => {
-    const pSeedAmount = parseFloat(
-      ethers.formatUnits(patron.pSeedBalance, Constants.PSEED_DECIMALS),
-    );
+    const pSeedAmount = patron.pSeedBalance
+    console.debug({ pSeedAmount });
     const pSeedBalance = `${Math.floor(pSeedAmount).toLocaleString()} pSEED`;
     return pSeedPrice == null
       ? pSeedBalance

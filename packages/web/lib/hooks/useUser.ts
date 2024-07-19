@@ -33,19 +33,22 @@ export const useUser = ({
   const { isConnected, isConnecting, address } = useAccount();
   const router = useRouter();
   const [player, setPlayer] = useState<Maybe<Player>>(null);
+  const [hydratedPlayer, setHydratedPlayer] = useState<Maybe<Player>>(null);
 
   useEffect(() => {
     if (!address) return;
-    function getPeople() {
+    console.debug({ 'Search For': address });
+    const lookup = async () => {
       if (address) {
-        return getPlayer(address);
+        const player = await getPlayer(address.toLowerCase());
+        console.debug({ player })
+        setPlayer(player);
+      } else {
+        throw new Error('No address to look up.');
       }
-      throw new Error('No address');
     }
-    getPeople().then(setPlayer);
+    lookup()
   }, [address]);
-
-  const [hydratedPlayer, setHydratedPlayer] = useState<Player | null>(null);
 
   const hasuraUser = useMemo(
     () => (player && isConnected ? (player as Player) : null),
@@ -57,6 +60,7 @@ export const useUser = ({
     fetching: composeDBFetching,
     error: composeDBError,
   } = useGetPlayerProfileFromComposeDB(hasuraUser?.ceramicProfileId);
+
   useEffect(() => {
     if (hasuraUser) {
       if (hasuraUser.ceramicProfileId == null || !!composeDBError) {

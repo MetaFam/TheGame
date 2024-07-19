@@ -493,11 +493,8 @@ const HeaderSearchBar = (props: HeaderSearchBarProps) => {
 };
 
 export const MegaMenuHeader: React.FC = () => {
-  const { connected, connecting } = useWeb3();
   const router = useRouter();
   const { user, fetching } = useUser();
-  const mounted = useMounted();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
 
@@ -614,8 +611,12 @@ export const MegaMenuHeader: React.FC = () => {
             >
               <ConnectKitButton.Custom>
                 {({ isConnected, isConnecting, show }) =>
-                  isConnected && !isConnecting && !!user ? (
-                    <DesktopPlayerStats player={user} />
+                  isConnected ? (
+                    !!user ? (
+                      <DesktopPlayerStats player={user} />
+                    ) : (
+                      <Text>Missing User</Text>
+                    )
                   ) : (
                     <Button
                       w="100%"
@@ -623,7 +624,7 @@ export const MegaMenuHeader: React.FC = () => {
                       textTransform="uppercase"
                       fontWeight="600"
                       onClick={show}
-                      isLoading={connecting || fetching}
+                      isLoading={isConnecting || fetching}
                       colorScheme="pink"
                       fontSize="1rem"
                     >
