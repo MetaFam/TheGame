@@ -105,7 +105,7 @@ export const UploadProof: React.FC<{
       });
 
       const metadata: Metadata = {
-        name: `Submission: QuestChain — ${questChain.name}; Quest — ${questId}. ${name} User — ${address}.`,
+        name: `Submission - QuestChain - ${questChain.name} - Quest - ${questId} - ${name} User - ${address}`,
         description: proofDescRef.current,
       };
       if (imageHash) metadata.image_url = `ipfs://${imageHash}`;

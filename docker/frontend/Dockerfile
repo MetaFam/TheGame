@@ -11,7 +11,7 @@ FROM node:20-slim AS base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
-RUN apt-get update && apt-get install -y --no-install-recommends g++ make python3 git ca-certificates
+RUN apt update && apt install -y --no-install-recommends g++ make python3 git ca-certificates
 
 # Install dependencies for dev and prod
 COPY package.json ./
@@ -19,16 +19,17 @@ COPY lerna.json ./
 COPY yarn.lock ./
 COPY schema.graphql ./
 COPY tsconfig.*json ./
-COPY .eslintrc.cjs ./
 COPY packages/web/*.json ./packages/web/
 COPY packages/web/codegen.ts ./packages/web/
-COPY packages/web/graphql ./packages/web/graphql/
 COPY packages/utils/*.json ./packages/utils/
 COPY packages/design-system/*.json ./packages/design-system/
+# Needed for an immutable `yarn install`
+COPY packages/discord-bot/*.json ./packages/discord-bot/
+COPY packages/backend/*.json ./packages/backend/
 
 RUN corepack enable
 RUN yarn config set nodeLinker node-modules
-RUN yarn install # --immutable
+RUN yarn install --immutable
 
 FROM base AS build
 
@@ -88,16 +89,10 @@ ENV GCAL_PROJECT_NUMBER=$GCAL_PROJECT_NUMBER
 
 ONBUILD RUN yarn web:build
 
-ONBUILD RUN corepack enable
-ONBUILD RUN yarn set version berry
-ONBUILD RUN yarn config set nodeLinker node-modules
-ONBUILD RUN yarn workspaces focus @metafam/web --production # --immutable
-# ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
-
 FROM build AS build-development
 ONBUILD RUN yarn web:deps:build
 
-FROM "build-$TARGET" as built
+FROM "build-$TARGET" AS built
 
 # New stage including only necessary files
 FROM node:20-slim AS app
@@ -105,18 +100,32 @@ WORKDIR /app
 
 # Copy necessary files into the stage
 COPY --from=built /usr/src/app/package.json ./
-COPY --from=built /usr/src/app/node_modules/ ./
+# COPY --from=built /usr/src/app/node_modules/ ./
 
 # Copy the built web app
 FROM app AS copy-production
+
+# ARG CACHEBUST
+
 ONBUILD COPY --from=built /usr/src/app/packages/utils/package.json packages/utils/
-ONBUILD COPY --from=built /usr/src/app/packages/utils/dist packages/utils/
+ONBUILD COPY --from=built /usr/src/app/packages/utils/dist/ packages/utils/dist/
 ONBUILD COPY --from=built /usr/src/app/packages/design-system/package.json packages/design-system/
-ONBUILD COPY --from=built /usr/src/app/packages/design-system/dist packages/design-system/
+ONBUILD COPY --from=built /usr/src/app/packages/design-system/dist/ packages/design-system/dist/
 ONBUILD COPY --from=built /usr/src/app/packages/web/package.json packages/web/
-ONBUILD COPY --from=built /usr/src/app/packages/web/node_modules packages/web/
-ONBUILD COPY --from=built /usr/src/app/packages/web/public packages/web/
-ONBUILD COPY --from=built /usr/src/app/packages/web/.next packages/web/
+# ONBUILD COPY --from=built /usr/src/app/packages/web/node_modules packages/web/
+ONBUILD COPY --from=built /usr/src/app/packages/web/public/ packages/web/public/
+ONBUILD COPY --from=built /usr/src/app/packages/web/.next/ packages/web/.next/
+
+ONBUILD RUN apt update && apt install -y --no-install-recommends git ca-certificates
+
+ONBUILD RUN ls -la packages/*/
+
+ONBUILD RUN corepack enable
+ONBUILD RUN yarn config set nodeLinker node-modules
+ONBUILD RUN yarn workspaces focus @metafam/web --production # --immutable
+# ONBUILD RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
+
+ONBUILD RUN ls -la packages/*/
 
 ONBUILD CMD ["yarn", "web", "start"]
 
@@ -125,9 +134,9 @@ FROM app AS copy-development
 ONBUILD COPY --from=built /usr/src/app/schema.graphql ./
 ONBUILD COPY --from=built /usr/src/app/tsconfig*.json ./
 ONBUILD COPY --from=built /usr/src/app/lerna.json ./
-ONBUILD COPY --from=built /usr/src/app/packages/design-system packages/
-ONBUILD COPY --from=built /usr/src/app/packages/utils packages/
-ONBUILD COPY --from=built /usr/src/app/packages/web packages/
+ONBUILD COPY --from=built /usr/src/app/packages/design-system/ packages/
+ONBUILD COPY --from=built /usr/src/app/packages/utils/ packages/
+ONBUILD COPY --from=built /usr/src/app/packages/web/ packages/
 
 ONBUILD RUN rm -rf packages/design-system/dist/
 ONBUILD RUN rm -rf packages/web/.next/
