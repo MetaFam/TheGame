@@ -11,6 +11,7 @@ import {
 import React, { lazy } from 'react';
 import {
   QuestChainPathsAndPlaybooksDetails,
+  QuestChainsCategories,
   QuestChainsCategoriesDetails,
 } from 'utils/questChains';
 
@@ -93,8 +94,8 @@ const AcademyPage: React.FC = () => {
 
           const allItems = Object.entries(
             QuestChainPathsAndPlaybooksDetails,
-          ).filter(([, { category: cat }]) => cat === 'all');
-          categoryItems.concat(allItems);
+          ).filter(([, { category: cat }]) => cat === QuestChainsCategories.ALL);
+          categoryItems.push(...allItems);
 
           return (
             <VStack
@@ -188,8 +189,8 @@ const AcademyPage: React.FC = () => {
                     Why not{' '}
                     <MetaLink href="https://chat.metagame.wtf/" isExternal>
                       join the Discord
-                    </MetaLink>{' '}
-                    and find out how to create one and get it added!
+                    </MetaLink>,{' '}
+                    find out how to create one, and get it added!
                   </Text>
                 </Box>
               )}

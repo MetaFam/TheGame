@@ -72,8 +72,10 @@ export async function getExistingAuth(
   }
 }
 
-export async function authenticateWallet(client: WalletClient) {
-  const token = await did.createToken(client);
+export async function authenticateWallet(
+  { client, signer }: { client: WalletClient, signer: `0x${string}` }
+) {
+  const token = await did.createToken({ client, account: signer });
   setTokenInStore(token);
   return token;
 }
@@ -137,24 +139,37 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
   const updateWeb3State = useCallback(
     async () => {
-      const network = chain?.id;
-      if (!viemClients || !userAddress || !network) return;
-      let token = await getExistingAuth(viemClients.public, userAddress);
+      try {
+        const network = chain?.id;
 
-      if (!token) {
-        token = await authenticateWallet(viemClients.wallet);
+        if(!userAddress) {
+          throw new Error('No user address set in authentication.')
+        }
+        if(!network) {
+          throw new Error('No network configured in authentication.')
+        }
+
+        let token = await getExistingAuth(viemClients.public, userAddress);
+
+        if (!token) {
+          token = await authenticateWallet(
+            { client: viemClients.wallet, signer: userAddress }
+          );
+        }
+
+        const networkId = `0x${network.toString(16)}`;
+
+        setWeb3State({
+          provider: wagmiProvider ?? null,
+          viemClients: viemClients ?? null,
+          chainId: networkId,
+          address: userAddress,
+          authToken: token,
+          w3storage,
+        });
+      } catch (err) {
+        console.warn(`Error Authenticating: ${(err as Error).message}`);
       }
-
-      const networkId = `0x${network.toString(16)}`;
-
-      setWeb3State({
-        provider: wagmiProvider ?? null,
-        viemClients: viemClients ?? null,
-        chainId: networkId,
-        address: userAddress,
-        authToken: token,
-        w3storage,
-      });
     },
     [chain?.id, userAddress, viemClients, w3storage, wagmiProvider],
   );
