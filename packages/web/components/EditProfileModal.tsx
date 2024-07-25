@@ -249,7 +249,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     }
   };
 
-  if (chainId !== '0xa') {
+  if (chainId !== 10) {
     return (
       <Modal {...{ isOpen, onClose }}>
         <ModalOverlay />

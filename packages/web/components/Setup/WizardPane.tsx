@@ -80,7 +80,7 @@ export const WizardPane = <T,>({
     }
   }, [current, defaultValues, dirtyFields, field, resetField]);
 
-  const wrongChain = chainId != null && chainId !== '0xa';
+  const wrongChain = chainId != null && chainId !== 10;
   if ((!connecting && !connected) || wrongChain) {
     return <WalletNotConnected {...{ wrongChain }} />;
   }

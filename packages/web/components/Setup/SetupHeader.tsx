@@ -28,7 +28,7 @@ export const SetupHeader: React.FC = () => {
   );
 
   const { connected, chainId } = useWeb3();
-  if (!connected || chainId !== '0xa') return null;
+  if (!connected || chainId !== 10) return null;
 
   return (
     <Grid templateColumns={templateColumns.join(' ')} gap={[1, 4]} w="full">

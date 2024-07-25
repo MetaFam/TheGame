@@ -317,7 +317,7 @@ export const EditableGridLayout: React.FC<Props> = ({
               borderRadius="lg"
               transition="boxShadow 0.2s 0.3s ease"
               id={key}
-              {...{ key }}
+              key={key}
             >
               {type === BoxTypes.ADD_NEW_BOX ? (
                 <AddBoxSection

@@ -7,11 +7,10 @@ import { useAccount } from 'wagmi';
 
 import { Player } from '#graphql/autogen/hasura-sdk';
 import { getPlayer } from '#graphql/getPlayer';
-
 import {
   hydratePlayerProfile,
   useGetPlayerProfileFromComposeDB,
-} from './ceramic/useGetPlayerProfileFromComposeDB';
+} from '#lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 
 type UseUserOpts = {
   redirectTo?: string;
@@ -37,11 +36,10 @@ export const useUser = ({
 
   useEffect(() => {
     if (!address) return;
-    console.debug({ 'Search For': address });
     const lookup = async () => {
       if (address) {
-        const player = await getPlayer(address.toLowerCase());
-        console.debug({ player })
+        const player = await getPlayer(address);
+        console.debug({ addie: address, player })
         setPlayer(player);
       } else {
         throw new Error('No address to look up.');

@@ -27,6 +27,7 @@ import { useComputeComposeDBImageMetadata } from '#lib/hooks/ceramic/useComputeC
 import { useSaveToComposeDB } from '#lib/hooks/ceramic/useSaveToComposeDB';
 import { errorHandler } from '#utils/errorHandler';
 import { hasuraToComposeDBProfile } from '#utils/playerHelpers';
+import { useEthersProvider } from '#lib/hooks/useEthersProvider';
 
 export type ComposeDBPromptModalProps = {
   player: Player;
@@ -43,7 +44,10 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
   onClose,
   handleMigrationCompleted,
 }) => {
-  const toast = useToast();
+  const toast = useToast({
+    isClosable: true,
+    duration: 12000,
+  });
   const [status, setStatus] = useState(initialStatus);
   const { chainId } = useWeb3();
 
@@ -83,8 +87,14 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
     }
   }, [saveStatus]);
 
+  const provider = useEthersProvider()
   const onClick = useCallback(async () => {
     if (!player.profile) {
+      toast({
+        title: 'ComposeDB Migration Failed',
+        description: `Your player record has no profile.`,
+        status: 'error',
+      });
       return;
     }
     try {
@@ -98,11 +108,9 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
       handleMigrationCompleted(streamID);
       onClose();
       toast({
-        title: 'ComposeDB migration complete',
+        title: 'ComposeDB Migration Complete',
         description: `Your profile streamID is ${streamID}`,
         status: 'success',
-        isClosable: true,
-        duration: 12000,
       });
     } catch (err) {
       const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
@@ -110,8 +118,6 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
         title: heading,
         description: (err as Error).message,
         status: 'error',
-        isClosable: true,
-        duration: 12000,
       });
       errorHandler(err as Error);
       setStatus(initialStatus);
@@ -201,7 +207,7 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
           </Center>
         </ModalBody>
         <ModalFooter justifyContent="center">
-          {chainId === '0xa' ? (
+          {chainId === 10 ? (
             <MetaButton disabled={!areImagesLoaded} {...{ onClick }}>
               {status}
             </MetaButton>

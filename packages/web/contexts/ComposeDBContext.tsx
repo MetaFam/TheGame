@@ -5,11 +5,12 @@ import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
 import { ethers } from 'ethers';
 import { createContext, PropsWithChildren, useCallback, useState } from 'react';
+import { useAccount } from 'wagmi';
 
 import { cacheDIDSession, getCachedDIDSession } from '#lib/auth';
 import { CeramicError } from '#lib/errors';
-import { useWeb3 } from '#lib/hooks/useWeb3';
 import { errorHandler } from '#utils/errorHandler';
+import { useEthersProvider, useViemClients } from '#lib/hooks/useEthersProvider';
 
 export type ComposeDBContextType = {
   composeDBClient: Maybe<ComposeClient>;
@@ -35,7 +36,8 @@ const composeDBClient = new ComposeClient({
 export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const { chainId, address, provider } = useWeb3();
+  const { address, chain } = useAccount()
+  const provider = useEthersProvider();
   const [connecting, setConnecting] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -52,9 +54,9 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
       
       let session = await getCachedDIDSession();
       if (!session || (session.hasSession && session.isExpired)) {
-        const accountId = await getAccountId(prov.provider, address.toLowerCase());
+        const accountId = await getAccountId(prov, address.toLowerCase());
         const authMethod = await EthereumWebAuth.getAuthMethod(
-          prov.provider,
+          prov,
           accountId,
         );
         session = await DIDSession.authorize(authMethod, {
@@ -62,15 +64,16 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
         });
         cacheDIDSession(session);
       }
-      composeDBClient?.setDID(session.did);
+      composeDBClient.setDID(session.did);
     },
     [address],
   );
 
   const connect = useCallback(async () => {
-    if (provider == null || connecting) return;
-    if (chainId !== '0xa') {
-      throw new CeramicError('ComposeDB should be used on Optimism only');
+    if (provider == null) throw new Error('No provider available when connecting ComposeDB.')
+    if(connecting) return;
+    if (chain?.id !== 10) {
+      throw new CeramicError('ComposeDB should be used on Optimism only.');
     }
 
     setConnecting(true);
@@ -78,12 +81,12 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     try {
       await createSession(provider);
 
-      provider.on('accountsChanged', async () => {
-        await disconnect();
-      });
-      provider.on('chainChanged', () => {
-        createSession(provider);
-      });
+      // provider.on('accountsChanged', async () => {
+      //   await disconnect();
+      // });
+      // provider.on('chainChanged', () => {
+      //   createSession(provider);
+      // });
       setAuthenticated(true);
     } catch (error) {
       console.error('ComposeDB connect() Error', error); // eslint-disable-line no-console
@@ -92,7 +95,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     } finally {
       setConnecting(false);
     }
-  }, [connecting, createSession, disconnect, provider, chainId]);
+  }, [createSession, disconnect, provider]);
 
   return (
     <ComposeDBContext.Provider

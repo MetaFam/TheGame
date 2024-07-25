@@ -25,7 +25,7 @@ export const PlayerStart: React.FC = () => {
   }, [connected, user, fetching]);
 
   const canRedirect = useMemo(
-    () => connected && !fetching && chainId === '0xa',
+    () => connected && !fetching && chainId === 10,
     [connected, fetching, chainId],
   );
 

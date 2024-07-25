@@ -17,7 +17,7 @@ import React, {
   useState,
 } from 'react';
 import { PublicClient, WalletClient } from 'viem';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useAccount, useAccountEffect, useDisconnect } from 'wagmi';
 
 import { useEthersProvider, useViemClients } from '#lib/hooks/useEthersProvider';
 import { useW3upClient } from '#lib/hooks/useW3';
@@ -32,8 +32,8 @@ export type ViemClients = {
 export type Web3ContextType = {
   provider: Maybe<ethers.BrowserProvider>;
   viemClients: Maybe<ViemClients>;
-  address: Maybe<string>;
-  chainId: Maybe<string>;
+  address: Maybe<`0x${string}`>;
+  chainId: Maybe<number>;
   authToken: Maybe<string>;
   disconnect: () => void;
   connecting: boolean;
@@ -87,8 +87,8 @@ type Web3ContextProviderOptions = PropsWithChildren<{
 type Web3State = {
   provider: Maybe<ethers.BrowserProvider>;
   viemClients: Maybe<ViemClients>;
-  address: Maybe<string>;
-  chainId: Maybe<string>;
+  address: Maybe<`0x${string}`>;
+  chainId: Maybe<number>;
   authToken: Maybe<string>;
   w3storage: Maybe<W3SClient>;
 };
@@ -107,6 +107,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       w3storage: null,
     });
   const [connecting, setConnecting] = useState(false);
+  const setAuthToken = (token: string) => setWeb3State((s) => ({ ...s, authToken: token }));
 
   const viemClients = useViemClients();
   const wagmiProvider = useEthersProvider();
@@ -137,32 +138,40 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     resetUrqlClient?.();
   }, [resetUrqlClient, disconnectWAGMI]);
 
+  useAccountEffect({
+    onDisconnect: disconnect,
+    onConnect: async ({ address }) => {
+      console.debug({ Connected: address, authToken });
+      if(!authToken && viemClients?.wallet) {
+        const token = await authenticateWallet({ client: viemClients.wallet, signer: address })
+        setAuthToken(token);
+      }
+    },
+  });
+
+
   const updateWeb3State = useCallback(
     async () => {
       try {
-        const network = chain?.id;
-
         if(!userAddress) {
           throw new Error('No user address set in authentication.')
         }
-        if(!network) {
+        if(!chain) {
           throw new Error('No network configured in authentication.')
         }
 
         let token = await getExistingAuth(viemClients.public, userAddress);
 
-        if (!token) {
-          token = await authenticateWallet(
-            { client: viemClients.wallet, signer: userAddress }
-          );
-        }
-
-        const networkId = `0x${network.toString(16)}`;
+        // if (!token) {
+        //   token = await authenticateWallet(
+        //     { client: viemClients.wallet, signer: userAddress }
+        //   );
+        // }
 
         setWeb3State({
           provider: wagmiProvider ?? null,
           viemClients: viemClients ?? null,
-          chainId: networkId,
+          chainId: chain.id,
           address: userAddress,
           authToken: token,
           w3storage,
