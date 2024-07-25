@@ -150,9 +150,11 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
     [user, fetching, player.id],
   );
 
-  const handleMigrationCompleted = useCallback(
-    (streamID: string) => {
-      hydrateFromComposeDB(streamID);
+  const onCompleted = useCallback(
+    (streamId: Maybe<string>) => {
+      if(streamId) {
+        hydrateFromComposeDB(streamId);
+      }
     },
     [hydrateFromComposeDB],
   );
@@ -237,7 +239,7 @@ const PlayerPageContent: React.FC<{ ens?: string }> = ({ ens }) => {
       {isOwnProfile && user?.profile && !user.ceramicProfileId ? (
         <ComposeDBPromptModal
           player={user}
-          {...{ isOpen, handleMigrationCompleted, onClose }}
+          {...{ isOpen, onCompleted, onClose }}
         />
       ) : null}
     </PageContainer>

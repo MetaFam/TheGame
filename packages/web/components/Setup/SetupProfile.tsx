@@ -18,7 +18,7 @@ export const SetupProfile: React.FC<PropsWithChildren> = ({ children }) => {
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const { user } = useUser();
 
-  const handleMigrationCompleted = useCallback(() => {
+  const onCompleted = useCallback(() => {
     router.push('/me');
   }, [router]);
 
@@ -31,7 +31,7 @@ export const SetupProfile: React.FC<PropsWithChildren> = ({ children }) => {
       {user?.profile && !user.ceramicProfileId ? (
         <ComposeDBPromptModal
           player={user}
-          {...{ isOpen, handleMigrationCompleted, onClose }}
+          {...{ isOpen, onCompleted, onClose }}
         />
       ) : null}
     </PageContainer>

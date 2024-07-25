@@ -90,7 +90,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     } finally {
       setConnecting(false);
     }
-  }, [createSession, disconnect ]);
+  }, [createSession, disconnect]);
 
   return (
     <ComposeDBContext.Provider
