@@ -15,7 +15,7 @@ import {
   UnorderedList,
   useToast,
 } from '@metafam/ds';
-import { ComposeDBProfile, profileMapping } from '@metafam/utils';
+import { ComposeDBProfile, Maybe, profileMapping } from '@metafam/utils';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { MetaLink } from '#components/Link';
@@ -24,31 +24,26 @@ import { Player } from '#graphql/autogen/hasura-sdk';
 import { CeramicError } from '#lib/errors';
 import { useWeb3 } from '#lib/hooks';
 import { useComputeComposeDBImageMetadata } from '#lib/hooks/ceramic/useComputeComposeDBImageMetadata';
-import { useSaveToComposeDB } from '#lib/hooks/ceramic/useSaveToComposeDB';
-import { errorHandler } from '#utils/errorHandler';
+import { EmptyProfileError, useSaveToComposeDB } from '#lib/hooks/ceramic/useSaveToComposeDB';
 import { hasuraToComposeDBProfile } from '#utils/playerHelpers';
-import { useEthersProvider } from '#lib/hooks/useEthersProvider';
 
 export type ComposeDBPromptModalProps = {
   player: Player;
   isOpen: boolean;
   onClose: () => void;
-  handleMigrationCompleted: (streamID: string) => void;
+  onCompleted: (streamID: Maybe<string>) => void;
 };
-
-const initialStatus = 'Loading profile image data…';
 
 export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
   player,
   isOpen,
   onClose,
-  handleMigrationCompleted,
+  onCompleted,
 }) => {
   const toast = useToast({
     isClosable: true,
     duration: 12000,
   });
-  const [status, setStatus] = useState(initialStatus);
   const { chainId } = useWeb3();
 
   const { imageMetadata: profileImageMetadata } =
@@ -65,9 +60,20 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
     return isAvatarLoaded && isBackgroundLoaded;
   }, [backgroundImageMetadata, player.profile, profileImageMetadata]);
 
+  const prompt = {
+    migrateProfile: 'Port your profile data:',
+    loadImages: 'Loading profile image data…',
+    pushing: 'Pushing data to Ceramic…',
+    authenticating: 'Authenticating DID…',
+    get initial() {
+      return areImagesLoaded ? this.migrateProfile : this.loadImages;
+    }
+  }
+  const [status, setStatus] = useState(prompt.initial);
+  
   useEffect(() => {
     if (areImagesLoaded) {
-      setStatus('Port your profile data');
+      setStatus(prompt.migrateProfile);
     }
   }, [areImagesLoaded]);
 
@@ -75,7 +81,7 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
 
   const persist = useCallback(
     (values: ComposeDBProfile) => {
-      setStatus('Pushing Data to Ceramic…');
+      setStatus(prompt.pushing);
       return saveToComposeDB(values);
     },
     [saveToComposeDB],
@@ -83,11 +89,10 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
 
   useEffect(() => {
     if (saveStatus === 'authenticating') {
-      setStatus('Authenticating DID…');
+      setStatus(prompt.authenticating);
     }
   }, [saveStatus]);
 
-  const provider = useEthersProvider()
   const onClick = useCallback(async () => {
     if (!player.profile) {
       toast({
@@ -97,34 +102,49 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
       });
       return;
     }
+    let failure = null
+    let streamId = null
     try {
       const composeDBPayload = hasuraToComposeDBProfile(player.profile, {
         profileImageURL: profileImageMetadata,
         backgroundImageURL: backgroundImageMetadata,
       });
 
-      const streamID = await persist(composeDBPayload);
+      streamId = await persist(composeDBPayload);
 
-      handleMigrationCompleted(streamID);
-      onClose();
       toast({
         title: 'ComposeDB Migration Complete',
-        description: `Your profile streamID is ${streamID}`,
+        description: `Your profile stream id is "${streamId}".`,
         status: 'success',
       });
+      failure = false
     } catch (err) {
-      const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
-      toast({
-        title: heading,
-        description: (err as Error).message,
-        status: 'error',
-      });
-      errorHandler(err as Error);
-      setStatus(initialStatus);
+      if(err instanceof EmptyProfileError) {
+        failure = false
+        toast({
+          title: 'ComposeDB Migration Skipped',
+          description: err.message,
+          status: 'info',
+        });
+      } else {
+        failure = true
+        const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
+        toast({
+          title: heading,
+          description: (err as Error).message,
+          status: 'error',
+        });
+        setStatus(prompt.initial);
+      }
+    } finally {
+      if(!failure) {
+        onCompleted(streamId);
+        onClose();
+      }
     }
   }, [
     backgroundImageMetadata,
-    handleMigrationCompleted,
+    onCompleted,
     onClose,
     persist,
     player.profile,
