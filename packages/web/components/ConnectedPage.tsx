@@ -7,7 +7,6 @@ import { useAccount } from 'wagmi';
 import { Player } from '#graphql/autogen/hasura-sdk';
 import { getPlayer } from '#graphql/getPlayer';
 import { useMounted, useUser } from '#lib/hooks';
-import { errorHandler } from '#utils/errorHandler';
 
 type PlayerPageType = React.FC<{ player: Maybe<Player> }>;
 
@@ -15,21 +14,9 @@ export const ConnectedPage: React.FC<{
   page: PlayerPageType;
   label?: string;
 }> = ({ page: Page, label = 'this page' }) => {
-  const { address, isConnected, isConnecting } = useAccount();
-  const [player, setPlayer] = useState<Maybe<Player>>(null);
-  const { user, fetching, error } = useUser();
+  const { isConnected, isConnecting } = useAccount();
+  const { user: player } = useUser()
   const mounted = useMounted();
-
-  useEffect(() => {
-    if (!address) return;
-    function getPeople() {
-      if (address) {
-        return getPlayer(address);
-      }
-      throw new Error('No address');
-    }
-    getPeople().then(setPlayer);
-  }, [address]);
 
   if (!mounted || (!isConnecting && !isConnected)) {
     return (
@@ -41,35 +28,19 @@ export const ConnectedPage: React.FC<{
     );
   }
 
-  if (isConnecting || fetching) {
+  if (isConnecting) {
     return (
       <Center h="100vh">
         <Stack align="center">
-          <Text fontSize="xl">
-            {isConnecting ? 'Connecting…' : 'Fetching User…'}
-          </Text>
+          <Text fontSize="xl">Connecting…</Text>
           <Spinner thickness="0.25rem" color="whiteAlpha" size="xl" />
         </Stack>
       </Center>
     );
   }
 
-  if (address && player) {
+  if (player) {
     return <Page {...{ player }} />;
-  }
-
-  if (error) {
-    errorHandler(error);
-    return (
-      <Center h="100vh">
-        <Stack align="center">
-          <Text>
-            Error Loading User: <q>{error.message}</q>
-          </Text>
-          <ConnectKitButton />
-        </Stack>
-      </Center>
-    );
   }
 
   return (

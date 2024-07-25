@@ -47,6 +47,7 @@ import {
   getPlayerURL,
   getPlayerUsername,
 } from 'utils/playerHelpers';
+import { useAccount } from 'wagmi';
 
 import LogoImage from '#assets/new_logo_svg.svg';
 import SearchIcon from '#assets/search-icon.svg';
@@ -62,6 +63,8 @@ import { useMounted, useUser, useWeb3 } from '#lib/hooks';
 import { useProfileImageOnload } from '#lib/hooks/useProfileImageOnload';
 import { menuIcons } from '#utils/menuIcons';
 import { MenuSectionLinks } from '#utils/menuLinks';
+import { authenticateWallet } from '#contexts/Web3Context';
+import { useViemClients } from '#lib/hooks/useEthersProvider';
 
 type LogoProps = {
   link: string;
@@ -610,12 +613,12 @@ export const MegaMenuHeader: React.FC = () => {
               w="15%"
             >
               <ConnectKitButton.Custom>
-                {({ isConnected, isConnecting, show }) =>
+                {({ isConnected, isConnecting, show }) => (
                   isConnected ? (
                     !!user ? (
                       <DesktopPlayerStats player={user} />
                     ) : (
-                      <Text>Missing User</Text>
+                      <Button onClick={show}>Missing User Record</Button>
                     )
                   ) : (
                     <Button
@@ -631,7 +634,7 @@ export const MegaMenuHeader: React.FC = () => {
                       Connect Wallet
                     </Button>
                   )
-                }
+                )}
               </ConnectKitButton.Custom>
             </Box>
           </Flex>

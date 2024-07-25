@@ -7,9 +7,8 @@ import {
   ComposeDBMutationValues,
 } from '#graphql/types';
 import { CeramicError, handleCeramicAuthenticationError } from '#lib/errors';
-
-import { useUser } from '../useUser';
-import { useComposeDB } from './useComposeDB';
+import { useUser } from '#lib/hooks/useUser';
+import { useComposeDB } from '#lib/hooks/ceramic/useComposeDB';
 
 export type SaveToComposeDBStatus = 'authenticating' | 'querying' | undefined;
 
@@ -27,9 +26,7 @@ export const useSaveToComposeDB = () => {
   // This is likely causing the warning "Cannot update a component while
   // rendering a different component"
   const { user } = useUser({ requestPolicy: 'network-only' });
-
   const [, linkNode] = useLinkOwnCeramicNodeMutation();
-
   const [status, setStatus] = useState<SaveToComposeDBStatus>();
 
   const save = useCallback(
@@ -40,16 +37,12 @@ export const useSaveToComposeDB = () => {
         );
       }
       if (!user) {
-        throw new Error('No wallet connected');
+        throw new Error('No wallet connected.');
       }
 
       if (!composeDBClient.context.isAuthenticated()) {
-        try {
-          setStatus('authenticating');
-          await connect();
-        } catch (err) {
-          handleCeramicAuthenticationError(err as Error);
-        }
+        setStatus('authenticating');
+        await connect();
       }
 
       // determine if this is a create or update query
@@ -64,6 +57,8 @@ export const useSaveToComposeDB = () => {
       }
       setStatus('querying');
 
+      console.debug({ mutationQuery, mutationPayload })
+
       // execute the mutation
       const response = await composeDBClient.executeQuery(
         mutationQuery,
@@ -73,6 +68,8 @@ export const useSaveToComposeDB = () => {
       if (response.errors) {
         throw response.errors[0];
       }
+
+      console.debug({ pfId: user.ceramicProfileId, response })
 
       // if a node was just created, persist in Hasura
       if (!user.ceramicProfileId) {

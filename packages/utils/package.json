@@ -29,6 +29,7 @@
     "@composedb/types": "^0.7.1",
     "@types/uuid": "^10.0.0",
     "key-did-provider-ed25519": "^2.0.1",
-    "key-did-resolver": "^2.1.3"
+    "key-did-resolver": "^2.1.3",
+    "typescript": "^5.5.3"
   }
 }

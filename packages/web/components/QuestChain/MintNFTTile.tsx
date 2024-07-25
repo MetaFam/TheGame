@@ -55,8 +55,8 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
   const contract = useQuestChainContract(questChain.address);
   const onMint = useCallback(async () => {
     try {
-      if (!chainId || questChain.chainId !== chainId) {
-        throw new Error(`Wrong chain id: "${chainId}".`);
+      if (!chainId || Number(questChain.chainId) !== chainId) {
+        throw new Error(`Wrong chain id: "${chainId}" when wanting "${questChain.chainId}".`);
       }
       if (!address) {
         throw new Error('No client address found.');
@@ -86,7 +86,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
         duration: null,
       });
       await helpers.waitUntilSubgraphIndexed(
-        chainId,
+        `0x${chainId.toString(16)}`,
         Number(receipt.blockNumber),
       );
       addToast({

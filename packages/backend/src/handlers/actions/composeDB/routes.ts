@@ -1,9 +1,8 @@
 import express from 'express';
 
 import { asyncHandlerWrapper } from '#lib/apiHelpers';
-
-import linkProfileNode from './linkProfileNode/handler.js';
-import updateSingleProfileHandler from './updateSingleProfile/handler.js';
+import linkProfileNode from '#handlers/actions/composeDB/linkProfileNode/handler';
+import updateSingleProfileHandler from '#handlers/actions/composeDB/updateSingleProfile/handler';
 
 export const routes = express.Router();
 

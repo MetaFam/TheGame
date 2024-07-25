@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { createPublicClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 
-import { getOrCreatePlayerId } from './users.js';
+import { getOrCreatePlayerId } from '#handlers/auth-webhook/users';
 
 const unauthorizedVariables = {
   'X-Hasura-Role': 'public',

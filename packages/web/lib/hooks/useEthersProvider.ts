@@ -25,7 +25,16 @@ export function clientToProvider(client: Client) {
     name: chain.name,
     ensAddress: mainnet.contracts.ensRegistry.address,
   };
-  return new ethers.BrowserProvider(transport, network);
+  const provider = (
+    new ethers.BrowserProvider(transport, network) as
+    ethers.BrowserProvider & { request: (args: { method: string, params: Array<unknown> }) => void }
+  )
+  provider.request = async ({ method, params }: { method: string, params: Array<unknown>}) => {
+    const response = await provider.send(method, params ?? [])
+    console.debug({ req: method, params, response })
+    return response
+  }
+  return provider;
 }
 
 export function useViemClients({
@@ -65,8 +74,8 @@ export function useEthersProvider({
   const [provider, setProvider] = useState<ethers.BrowserProvider>();
   useEffect(() => {
     const getProvider = async () => {
-      if (clients.public) {
-        setProvider(await clientToProvider(clients.public));
+      if (clients.wallet) {
+        setProvider(await clientToProvider(clients.wallet));
       }
     };
     getProvider();

@@ -13,7 +13,7 @@ type Props = {
   pSeedPrice: Maybe<number>;
 };
 
-export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
+export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice: price }) => {
   const player = patron as Player;
 
   const patronRank = useMemo(
@@ -22,15 +22,14 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
   );
 
   const displayBalance = useMemo(() => {
-    const pSeedAmount = patron.pSeedBalance
-    console.debug({ pSeedAmount });
-    const pSeedBalance = `${Math.floor(pSeedAmount).toLocaleString()} pSEED`;
-    return pSeedPrice == null
-      ? pSeedBalance
-      : `$${(pSeedAmount * pSeedPrice).toLocaleString(undefined, {
+    const { pSeedBalance: balance } = patron
+    const display = `${Math.floor(balance).toLocaleString()} pSEED`;
+    return price == null
+      ? display
+      : `$${(balance * price).toLocaleString(undefined, {
           maximumFractionDigits: 0,
         })}`;
-  }, [patron, pSeedPrice]);
+  }, [patron, price]);
 
   return (
     <Flex
