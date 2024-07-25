@@ -37,7 +37,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const { address, chain } = useAccount()
-  const provider = useEthersProvider();
+  const clients = useViemClients();
   const [connecting, setConnecting] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -49,28 +49,25 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   }, []);
 
   const createSession = useCallback(
-    async (prov: ethers.BrowserProvider) => {
+    async () => {
       if (!address) throw new Error('No address when creating ComposeDB session.');
       
-      let session = await getCachedDIDSession();
-      if (!session || (session.hasSession && session.isExpired)) {
-        const accountId = await getAccountId(prov, address.toLowerCase());
-        const authMethod = await EthereumWebAuth.getAuthMethod(
-          prov,
-          accountId,
-        );
-        session = await DIDSession.authorize(authMethod, {
-          resources: composeDBClient.resources,
-        });
-        cacheDIDSession(session);
-      }
-      composeDBClient.setDID(session.did);
+      const accountId = await getAccountId(clients.wallet, address.toLowerCase());
+      const authMethod = await EthereumWebAuth.getAuthMethod(
+        clients.wallet,
+        accountId,
+      );
+      const session = await DIDSession.get(accountId, authMethod, {
+        resources: composeDBClient.resources,
+      });
+      // composeDBClient.setDID(session.did);
+      composeDBClient.context.ceramic.setDID(session.did);
+      console.debug({ 'Auth’d': session.did.id, Parent: session.did.parent })
     },
-    [address],
+    [address, clients.wallet, composeDBClient]
   );
 
   const connect = useCallback(async () => {
-    if (provider == null) throw new Error('No provider available when connecting ComposeDB.')
     if(connecting) return;
     if (chain?.id !== 10) {
       throw new CeramicError('ComposeDB should be used on Optimism only.');
@@ -79,7 +76,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     setConnecting(true);
 
     try {
-      await createSession(provider);
+      await createSession();
 
       // provider.on('accountsChanged', async () => {
       //   await disconnect();
@@ -95,7 +92,7 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     } finally {
       setConnecting(false);
     }
-  }, [createSession, disconnect, provider]);
+  }, [createSession, disconnect ]);
 
   return (
     <ComposeDBContext.Provider
