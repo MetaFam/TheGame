@@ -6,8 +6,8 @@ import {
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 
-import { useEthersProvider } from './useEthersProvider';
-import { useWeb3 } from './useWeb3';
+import { useEthersProvider } from '#lib/hooks/useEthersProvider';
+import { useWeb3 } from '#lib/hooks/useWeb3';
 
 // EAS Schema https://optimism.easscan.org/schema/view/0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1
 
@@ -18,7 +18,8 @@ const eas = new EAS(easContractAddress);
 
 export const useEAS = () => {
   const [connectedEAS, setConnectedEAS] = useState<EAS | null>(null);
-  const { address, provider } = useWeb3();
+  const provider = useEthersProvider();
+  const { address } = useWeb3();
 
   useEffect(() => {
     const connectEAS = async () => {
