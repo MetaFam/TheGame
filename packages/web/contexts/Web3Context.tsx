@@ -1,13 +1,6 @@
 import { did, Maybe } from '@metafam/utils';
 import { Client as W3SClient } from '@web3-storage/w3up-client';
 import { ethers } from 'ethers';
-import {
-  clearDIDSessionCache,
-  clearToken,
-  clearWalletConnect,
-  getTokenFromStore,
-  setTokenInStore,
-} from 'lib/auth';
 import React, {
   createContext,
   PropsWithChildren,
@@ -19,7 +12,14 @@ import React, {
 import { PublicClient, WalletClient } from 'viem';
 import { useAccount, useAccountEffect, useDisconnect } from 'wagmi';
 
-import { useEthersProvider, useViemClients } from '#lib/hooks/useEthersProvider';
+import {
+  clearDIDSessionCache,
+  clearToken,
+  clearWalletConnect,
+  getTokenFromStore,
+  setTokenInStore,
+} from '#lib/auth';
+import { useViemClients } from '#lib/hooks/useEthersProvider';
 import { useW3upClient } from '#lib/hooks/useW3';
 import { errorHandler } from '#utils/errorHandler';
 
@@ -30,7 +30,6 @@ export type ViemClients = {
 };
 
 export type Web3ContextType = {
-  provider: Maybe<ethers.BrowserProvider>;
   viemClients: Maybe<ViemClients>;
   address: Maybe<`0x${string}`>;
   chainId: Maybe<number>;
@@ -39,11 +38,9 @@ export type Web3ContextType = {
   connecting: boolean;
   connected: boolean;
   w3storage: Maybe<W3SClient>;
-  updateWeb3State: (prov: ethers.BrowserProvider) => Promise<void>;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
-  provider: null,
   viemClients: null,
   address: null,
   chainId: null,
@@ -52,7 +49,6 @@ export const Web3Context = createContext<Web3ContextType>({
   connecting: false,
   connected: false,
   w3storage: null,
-  updateWeb3State: async () => undefined,
 });
 
 export async function getExistingAuth(
@@ -85,7 +81,6 @@ type Web3ContextProviderOptions = PropsWithChildren<{
 }>;
 
 type Web3State = {
-  provider: Maybe<ethers.BrowserProvider>;
   viemClients: Maybe<ViemClients>;
   address: Maybe<`0x${string}`>;
   chainId: Maybe<number>;
@@ -97,28 +92,26 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
   children,
 }) => {
-  const [{ provider, chainId, address, authToken }, setWeb3State] =
+  const [{ chainId, address, authToken }, setWeb3State] =
     useState<Web3State>({
-      provider: null,
       viemClients: null,
       address: null,
       chainId: null,
-      authToken: null,
+      authToken: getTokenFromStore(),
       w3storage: null,
     });
   const [connecting, setConnecting] = useState(false);
   const setAuthToken = (token: string) => setWeb3State((s) => ({ ...s, authToken: token }));
 
   const viemClients = useViemClients();
-  const wagmiProvider = useEthersProvider();
   const { chain, address: userAddress } = useAccount();
   const { disconnect: disconnectWAGMI } = useDisconnect();
 
   const w3storage = useW3upClient();
 
   const connected = useMemo(
-    () => !!provider && !!address && !!chainId && !!authToken && !connecting,
-    [provider, address, authToken, chainId, connecting],
+    () => !!viemClients.wallet && !!address && !!chainId && !!authToken && !connecting,
+    [viemClients.wallet, address, authToken, chainId, connecting],
   );
 
   const disconnect = useCallback(() => {
@@ -127,7 +120,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     clearToken();
     clearDIDSessionCache();
     setWeb3State({
-      provider: null,
       viemClients: null,
       address: null,
       chainId: null,
@@ -169,7 +161,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         // }
 
         setWeb3State({
-          provider: wagmiProvider ?? null,
           viemClients: viemClients ?? null,
           chainId: chain.id,
           address: userAddress,
@@ -180,12 +171,12 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         console.warn(`Error Authenticating: ${(err as Error).message}`);
       }
     },
-    [chain?.id, userAddress, viemClients, w3storage, wagmiProvider],
+    [chain?.id, userAddress, viemClients, w3storage],
   );
 
   useEffect(() => {
     updateWeb3State();
-  }, [chain, userAddress, wagmiProvider, updateWeb3State]);
+  }, [chain, userAddress, updateWeb3State]);
 
   if (!authToken && connected) {
     console.warn('`authToken` unset when connected.');
@@ -194,7 +185,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   return (
     <Web3Context.Provider
       value={{
-        provider,
         viemClients: viemClients ?? null,
         disconnect,
         connected,
@@ -203,7 +193,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         authToken,
         chainId,
         w3storage,
-        updateWeb3State,
       }}
     >
       {children}

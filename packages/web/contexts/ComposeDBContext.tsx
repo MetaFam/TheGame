@@ -1,16 +1,15 @@
+import { CeramicClient } from "@ceramicnetwork/http-client";
 import { ComposeClient } from '@composedb/client';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { composeDBDefinition, Maybe } from '@metafam/utils';
-import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
-import { ethers } from 'ethers';
-import { createContext, PropsWithChildren, useCallback, useState } from 'react';
+import { createContext, PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
-import { cacheDIDSession, getCachedDIDSession } from '#lib/auth';
+import { CONFIG } from '#config';
 import { CeramicError } from '#lib/errors';
 import { errorHandler } from '#utils/errorHandler';
-import { useEthersProvider, useViemClients } from '#lib/hooks/useEthersProvider';
+import { useViemClients } from '#lib/hooks/useEthersProvider';
 
 export type ComposeDBContextType = {
   composeDBClient: Maybe<ComposeClient>;
@@ -28,19 +27,20 @@ export const ComposeDBContext = createContext<ComposeDBContextType>({
   authenticated: false,
 });
 
-const composeDBClient = new ComposeClient({
-  ceramic: CONFIG.ceramicURL,
-  definition: composeDBDefinition,
-});
-
 export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const { address, chain } = useAccount()
-  const clients = useViemClients();
+  const { wallet } = useViemClients();
   const [connecting, setConnecting] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
-
+  const composeDBClient = useMemo(() => (
+    new ComposeClient({
+      ceramic: new CeramicClient(CONFIG.ceramicURL),
+      definition: composeDBDefinition,
+    })
+  ), [])
+  
   const disconnect = useCallback(async () => {
     if (composeDBClient === null) return;
 
@@ -52,19 +52,17 @@ export const ComposeDBContextProvider: React.FC<PropsWithChildren> = ({
     async () => {
       if (!address) throw new Error('No address when creating ComposeDB session.');
       
-      const accountId = await getAccountId(clients.wallet, address.toLowerCase());
+      const accountId = await getAccountId(wallet, address);
       const authMethod = await EthereumWebAuth.getAuthMethod(
-        clients.wallet,
-        accountId,
+        wallet, accountId,
       );
       const session = await DIDSession.get(accountId, authMethod, {
         resources: composeDBClient.resources,
       });
-      // composeDBClient.setDID(session.did);
-      composeDBClient.context.ceramic.setDID(session.did);
-      console.debug({ 'Auth’d': session.did.id, Parent: session.did.parent })
+      composeDBClient.setDID(session.did); // sets DID on Ceramic instance
+      console.debug({ 'Auth’d': session.did.id, CDB: composeDBClient.did?.id, Parent: session.did.parent })
     },
-    [address, clients.wallet, composeDBClient]
+    [address, wallet, composeDBClient]
   );
 
   const connect = useCallback(async () => {

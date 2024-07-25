@@ -6,7 +6,7 @@ import {
   ComposeDBCreateProfileResponseData,
   ComposeDBMutationValues,
 } from '#graphql/types';
-import { CeramicError, handleCeramicAuthenticationError } from '#lib/errors';
+import { CeramicError } from '#lib/errors';
 import { useUser } from '#lib/hooks/useUser';
 import { useComposeDB } from '#lib/hooks/ceramic/useComposeDB';
 
@@ -45,6 +45,8 @@ export const useSaveToComposeDB = () => {
         await connect();
       }
 
+      console.debug({ premutation: composeDBClient.did?.id, pfId: user.ceramicProfileId })
+
       // determine if this is a create or update query
       const mutationQuery = buildQuery(user.ceramicProfileId);
       const mutationPayload: ComposeDBMutationValues = {
@@ -68,8 +70,6 @@ export const useSaveToComposeDB = () => {
       if (response.errors) {
         throw response.errors[0];
       }
-
-      console.debug({ pfId: user.ceramicProfileId, response })
 
       // if a node was just created, persist in Hasura
       if (!user.ceramicProfileId) {
