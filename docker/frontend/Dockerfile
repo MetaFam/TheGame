@@ -118,8 +118,6 @@ ONBUILD COPY --from=built /usr/src/app/packages/web/.next/ packages/web/.next/
 
 ONBUILD RUN apt update && apt install -y --no-install-recommends git ca-certificates
 
-ONBUILD RUN ls -la packages/*/
-
 ONBUILD RUN corepack enable
 ONBUILD RUN yarn config set nodeLinker node-modules
 ONBUILD RUN yarn workspaces focus @metafam/web --production # --immutable
