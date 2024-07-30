@@ -79,6 +79,7 @@ COPY --from=build /usr/src/app/packages/discord-bot/dist/ ./packages/discord-bot
 
 RUN corepack enable 
 RUN yarn config set nodeLinker node-modules
+RUN yarn -v
 RUN yarn workspaces focus @metafam/backend --production # --immutable
 RUN yarn cache clean
 
