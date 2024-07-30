@@ -3,7 +3,7 @@ import React from 'react';
 
 type MarkdownViewerProps = { children?: string | null; color?: string };
 
-const Viewer = dynamic(() => import('./MarkdownViewer'), {
+const Viewer = dynamic(() => import('./MarkdownViewer.js'), {
   ssr: false,
 });
 

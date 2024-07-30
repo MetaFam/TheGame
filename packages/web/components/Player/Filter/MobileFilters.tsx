@@ -20,9 +20,6 @@ import {
   timeZonesFilter,
   TimeZoneType,
 } from '@metafam/ds';
-import { SkillCategory_Enum } from 'graphql/autogen/types';
-import { SkillColors } from 'graphql/types';
-import { PlayerAggregates, sortOptions } from 'lib/hooks/player/players';
 import React, {
   useCallback,
   useEffect,
@@ -30,7 +27,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { SkillOption } from 'utils/skillHelpers';
+
+import { SkillCategory_Enum } from '#graphql/autogen/hasura-sdk';
+import { SkillColors } from '#graphql/types';
+import { PlayerAggregates, sortOptions } from '#lib/hooks/player/players';
+import { SkillOption } from '#utils/skillHelpers';
 
 type ValueType = { value: string; label: string };
 type CategoryValueType = {

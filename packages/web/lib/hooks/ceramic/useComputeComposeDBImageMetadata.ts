@@ -3,9 +3,10 @@ import {
   HasuraImageFieldKey,
   Maybe,
 } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
 import { useEffect, useState } from 'react';
-import { computeImageMetadata, optimizedImage } from 'utils/imageHelpers';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { computeImageMetadata, optimizedImage } from '#utils/imageHelpers';
 
 export const useComputeComposeDBImageMetadata = (
   player: Player,

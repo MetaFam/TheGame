@@ -1,10 +1,11 @@
 import { Container, Flex, Text, useBreakpointValue } from '@metafam/ds';
-import BackgroundImageDesktop from 'assets/landing/sections/section-3.jpg';
-import BackgroundImageMobile from 'assets/landing/sections/section-3.sm.jpg';
-import { FullPageContainer } from 'components/Container';
-import { useMotionDetector } from 'lib/hooks/useMotionDetector';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useRef } from 'react';
+
+import BackgroundImageDesktop from '#assets/landing/sections/section-3.jpg';
+import BackgroundImageMobile from '#assets/landing/sections/section-3.sm.jpg';
+import { FullPageContainer } from '#components/Container';
+import { useMotionDetector } from '#lib/hooks/useMotionDetector';
+import { useOnScreen } from '#lib/hooks/useOnScreen';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';

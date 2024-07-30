@@ -1,7 +1,8 @@
 import { Box, Flex } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { LeagueCardItem } from 'components/Patron/Join/LeagueCardItem';
-import { PerksHeader } from 'components/Patron/Join/PerksHeader';
+
+import { LeagueCardItem } from '#components/Patron/Join/LeagueCardItem';
+import { PerksHeader } from '#components/Patron/Join/PerksHeader';
 
 type Props = {
   title: string;

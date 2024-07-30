@@ -1,9 +1,10 @@
 import {
   GetSkillsQuery,
   PlayerSkillFragment as PlayerSkillFragmentType,
-} from 'graphql/autogen/types';
-import { client } from 'graphql/client';
-import { PlayerSkillFragment } from 'graphql/fragments';
+} from 'graphql/autogen/hasura-sdk';
+
+import { client } from '#graphql/client';
+import { PlayerSkillFragment } from '#graphql/fragments';
 
 const skillsQuery = /* GraphQL */ `
   query GetSkills {

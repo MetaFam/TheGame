@@ -4,8 +4,8 @@ import {
   Quest_Completion_Insert_Input,
   QuestRepetition_Enum,
   QuestStatus_Enum,
-} from '../../../../lib/autogen/hasura-sdk.js';
-import { client } from '../../../../lib/hasuraClient.js';
+} from '#lib/autogen/hasura-sdk';
+import { client } from '#lib/hasuraClient';
 
 export async function createCompletion(
   playerId: string,

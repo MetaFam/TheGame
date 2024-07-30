@@ -6,9 +6,10 @@ import {
   IconButton,
   VStack,
 } from '@metafam/ds';
-import { useBoundingRect } from 'lib/hooks/useBoundingRect';
 import type { PropsWithChildren } from 'react';
 import React, { useEffect } from 'react';
+
+import { useBoundingRect } from '#lib/hooks/useBoundingRect';
 
 import { useCarouselContext } from './CarouselContext';
 

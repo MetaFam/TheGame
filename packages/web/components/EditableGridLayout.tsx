@@ -16,10 +16,7 @@ import {
   useToast,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { AddBoxSection } from 'components/Section/AddBoxSection';
 import deepEquals from 'deep-equal';
-import { GuildFragment, Player } from 'graphql/autogen/types';
-import { useBoxHeights } from 'lib/hooks/useBoxHeights';
 import React, {
   useCallback,
   useEffect,
@@ -37,7 +34,6 @@ import {
   gridSX,
   LayoutData,
 } from 'utils/boxTypes';
-import { errorHandler } from 'utils/errorHandler';
 import {
   addBoxToLayouts,
   disableAddBox,
@@ -48,6 +44,11 @@ import {
   removeBoxFromLayouts,
   updatedLayouts,
 } from 'utils/layoutHelpers';
+
+import { AddBoxSection } from '#components/Section/AddBoxSection';
+import { GuildFragment, Player } from '#graphql/autogen/hasura-sdk';
+import { useBoxHeights } from '#lib/hooks/useBoxHeights';
+import { errorHandler } from '#utils/errorHandler';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -316,7 +317,7 @@ export const EditableGridLayout: React.FC<Props> = ({
               borderRadius="lg"
               transition="boxShadow 0.2s 0.3s ease"
               id={key}
-              {...{ key }}
+              key={key}
             >
               {type === BoxTypes.ADD_NEW_BOX ? (
                 <AddBoxSection

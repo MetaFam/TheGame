@@ -24,21 +24,22 @@ import {
   ViewAllButton,
   VStack,
 } from '@metafam/ds';
-import { LinkGuild } from 'components/Player/PlayerGuild';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import {
   Player,
   useDeleteGuildMemberMutation,
   useRewriteDaoOrderMutation,
   useRewriteGuildOrderMutation,
-} from 'graphql/autogen/types';
-import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
-import { BoxTypes } from 'utils/boxTypes';
-import { getDAOLink } from 'utils/daoHelpers';
-import { optimizedImage } from 'utils/imageHelpers';
+
+import { LinkGuild } from '#components/Player/PlayerGuild';
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { usePlayerHydrationContext } from '#contexts/PlayerHydrationContext';
+import { getAllMemberships, GuildMembership } from '#graphql/getMemberships';
+import { BoxTypes } from '#utils/boxTypes';
+import { getDAOLink } from '#utils/daoHelpers';
+import { optimizedImage } from '#utils/imageHelpers';
 
 import { AddPlayerGuild } from '../MembershipModals/AddPlayerGuild';
 import { DAOListingProps, GuildListing } from '../MembershipModals/GuildListing';

@@ -1,7 +1,8 @@
 import { AspectRatio, Box, LoadingState } from '@metafam/ds';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { LIMIT, URL } from 'utils/LatestContentHelpers';
+
+import { useOnScreen } from '#lib/hooks/useOnScreen';
+import { LIMIT, URL } from '#utils/LatestContentHelpers';
 
 interface Video {
   id: string;

@@ -8,14 +8,15 @@ import {
   Text,
   UnorderedList,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
+import React, { useState } from 'react';
+
+import { MetaLink } from '#components/Link';
 import {
   Player,
   QuestCompletionStatus_Enum,
   useGetQuestsWithCompletionsQuery,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import React, { useState } from 'react';
+} from '#graphql/autogen/hasura-sdk';
+import { useUser } from '#lib/hooks';
 
 import { QuestCompletionItem } from './QuestCompletionItem';
 

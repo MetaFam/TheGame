@@ -1,6 +1,7 @@
 import { Container } from '@metafam/ds';
-import { FullPageContainer } from 'components/Container';
-import { GameContextProvider } from 'contexts/GameContext';
+
+import { FullPageContainer } from '#components/Container';
+import { GameContextProvider } from '#contexts/GameContext';
 
 import { OnboardingGame } from './OnboardingGame';
 import { Rain } from './OnboardingGame/Rain';

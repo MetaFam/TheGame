@@ -15,13 +15,11 @@ import {
   Tooltip,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
-import SearchIcon from 'assets/search-icon.svg';
 import {
   GuildFragment,
   Player,
   useAddGuildMemberMutation,
-} from 'graphql/autogen/types';
-import { searchGuilds } from 'graphql/queries/guild';
+} from 'graphql/autogen/hasura-sdk';
 import { useRouter } from 'next/router';
 import React, {
   FormEventHandler,
@@ -33,6 +31,9 @@ import React, {
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
+
+import SearchIcon from '#assets/search-icon.svg';
+import { searchGuilds } from '#graphql/queries/guild';
 
 interface OptionProps {
   id: string;

@@ -1,9 +1,10 @@
 import { Image, ListItem, OrderedList, Stack, Text, VStack } from '@metafam/ds';
-import GuildsImage from 'assets/landing/guilds.webp';
-import PatronsImage from 'assets/landing/patrons.webp';
-import PlayersImage from 'assets/landing/players.webp';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useRef } from 'react';
+
+import GuildsImage from '#assets/landing/guilds.webp';
+import PatronsImage from '#assets/landing/patrons.webp';
+import PlayersImage from '#assets/landing/players.webp';
+import { useOnScreen } from '#lib/hooks/useOnScreen';
 
 type CardProps = {
   title: string;

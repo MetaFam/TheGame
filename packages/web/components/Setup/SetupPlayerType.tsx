@@ -8,12 +8,13 @@ import {
   Text,
 } from '@metafam/ds';
 import { composeDBProfileFieldExplorerType } from '@metafam/utils';
-import { ExplorerType } from 'graphql/autogen/types';
-import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
-import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
-import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+
+import { ExplorerType } from '#graphql/autogen/hasura-sdk';
+import { getExplorerTypes } from '#graphql/queries/enums/getExplorerTypes';
+import { useGetOwnProfileFieldFromComposeDB } from '#lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from '#lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 
 import { useShowToastOnQueryError } from './SetupProfile';
 import { MaybeModalProps, WizardPane } from './WizardPane';

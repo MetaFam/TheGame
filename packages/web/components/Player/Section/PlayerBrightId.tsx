@@ -14,11 +14,12 @@ import {
   useDisclosure,
   VStack,
 } from '@metafam/ds';
-import { Player } from 'graphql/autogen/types';
-import { useUser, useWeb3 } from 'lib/hooks';
-import { useBrightIdStatus, useBrightIdUpdated } from 'lib/hooks/brightId';
 import React, { useEffect, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { useUser, useWeb3 } from '#lib/hooks';
+import { useBrightIdStatus, useBrightIdUpdated } from '#lib/hooks/brightId';
 
 type Props = { player: Player };
 

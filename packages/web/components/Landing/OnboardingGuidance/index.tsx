@@ -3,6 +3,7 @@ import {
   Container,
   Flex,
   Heading,
+  MarkdownViewer,
   MetaButton,
   MetaTile,
   MetaTileBody,
@@ -11,10 +12,10 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { MarkdownViewer } from 'components/MarkdownViewer';
-import { SquareImage } from 'components/SquareImage';
 import { useRouter } from 'next/router';
-import { guidanceDetails, Role } from 'utils/guidanceData';
+
+import { SquareImage } from '#components/SquareImage';
+import { guidanceDetails, Role } from '#utils/guidanceData';
 
 import { upDownShortAnimation } from '../animations';
 

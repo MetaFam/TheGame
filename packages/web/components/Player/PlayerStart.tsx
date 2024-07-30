@@ -1,9 +1,10 @@
 import { LoadingState } from '@metafam/ds';
-import { ConnectToProgress } from 'components/ConnectToProgress';
-import { FlexContainer } from 'components/Container';
-import { useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo } from 'react';
+
+import { ConnectToProgress } from '#components/ConnectToProgress';
+import { FlexContainer } from '#components/Container';
+import { useUser, useWeb3 } from '#lib/hooks';
 
 export const PlayerStart: React.FC = () => {
   const router = useRouter();
@@ -24,7 +25,7 @@ export const PlayerStart: React.FC = () => {
   }, [connected, user, fetching]);
 
   const canRedirect = useMemo(
-    () => connected && !fetching && chainId === '0xa',
+    () => connected && !fetching && chainId === 10,
     [connected, fetching, chainId],
   );
 

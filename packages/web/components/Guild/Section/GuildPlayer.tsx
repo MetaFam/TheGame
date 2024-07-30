@@ -1,8 +1,9 @@
 import { Box, Heading, HStack, Link, Text } from '@metafam/ds';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { GuildPlayer } from 'graphql/types';
-import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+
+import { PlayerAvatar } from '#components/Player/PlayerAvatar';
+import { GuildPlayer } from '#graphql/types';
+import { usePlayerName } from '#lib/hooks/player/usePlayerName';
+import { usePlayerURL } from '#lib/hooks/player/usePlayerURL';
 
 type GuildPlayerProps = {
   player: GuildPlayer;

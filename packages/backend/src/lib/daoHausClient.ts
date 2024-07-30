@@ -13,7 +13,7 @@ export function getClient(chain: string): Sdk {
   const gqlClient = clients.get(chain);
   if (!gqlClient) {
     throw new Error(
-      `The '${chain}' chain is unrecognized, unable to create GQL Client`,
+      `The '${chain}' chain is unrecognized, unable to create GQL Client.`,
     );
   }
 

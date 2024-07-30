@@ -9,10 +9,11 @@ import {
   PSeedHolder,
   SearchPatronsQuery,
   SearchPatronsQueryVariables,
-} from 'graphql/autogen/types';
-import { client } from 'graphql/client';
-import { PlayerFragment } from 'graphql/fragments';
-import { Patron } from 'graphql/types';
+} from 'graphql/autogen/hasura-sdk';
+
+import { client } from '#graphql/client';
+import { PlayerFragment } from '#graphql/fragments';
+import { Patron } from '#graphql/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `

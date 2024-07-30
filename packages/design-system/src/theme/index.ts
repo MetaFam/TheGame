@@ -2,10 +2,10 @@ import { extendTheme } from '@chakra-ui/react';
 import { withProse } from '@nikolovlazar/chakra-ui-prose';
 import { GroupBase, StylesConfig } from 'react-select';
 
-import { isBackdropFilterSupported } from '../compatibilityHelpers';
-import { colors } from './colors';
-import { menuTheme } from './menu';
-import { textStyles } from './texts';
+import { isBackdropFilterSupported } from '../compatibilityHelpers.js';
+import { colors } from './colors.js';
+import { menuTheme } from './menu.js';
+import { textStyles } from './texts.js';
 
 const modalContentStyles = isBackdropFilterSupported()
   ? {

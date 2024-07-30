@@ -13,9 +13,13 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
-import FileOpenIcon from 'assets/file-open-icon.svg';
-import { Field, FieldDescription } from 'components/Forms/Field';
-import { ethers } from 'ethers';
+import React, { useCallback, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { CombinedError } from 'urql';
+import { isAddress } from 'viem';
+
+import FileOpenIcon from '#assets/file-open-icon.svg';
+import { Field, FieldDescription } from '#components/Forms/Field';
 import {
   AddUnverifiedGuildMutation,
   AddUnverifiedGuildMutationVariables,
@@ -26,13 +30,10 @@ import {
   Player,
   useAddGuildLinkMutation,
   useAddGuildMemberMutation,
-} from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks';
-import { useImageReader } from 'lib/hooks/useImageReader';
-import React, { useCallback, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { CombinedError } from 'urql';
-import { errorHandler } from 'utils/errorHandler';
+} from '#graphql/autogen/hasura-sdk';
+import { useWeb3 } from '#lib/hooks';
+import { useImageReader } from '#lib/hooks/useImageReader';
+import { errorHandler } from '#utils/errorHandler';
 
 export type NewUnverifiedGuild = {
   error?: CombinedError;
@@ -54,7 +55,7 @@ const validations = {
   },
   daoAddress: {
     required: true,
-    validate: (address: string) => ethers.utils.isAddress(address),
+    validate: (address: string) => isAddress(address),
   },
   daoNetwork: {
     required: true,

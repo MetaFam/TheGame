@@ -22,10 +22,10 @@ import {
   ValueContainerProps,
 } from 'react-select';
 
-import { DropDownIcon } from './icons/DropDownIcon';
-import { MetaTag } from './MetaTag';
-import { SelectSearch } from './SelectSearch';
-import { LabeledValue, timeZonesFilter, TimeZoneType } from './SelectTimeZone';
+import { DropDownIcon } from './icons/DropDownIcon.js';
+import { MetaTag } from './MetaTag.js';
+import { SelectSearch } from './SelectSearch.js';
+import { LabeledValue, timeZonesFilter, TimeZoneType } from './SelectTimeZone.js';
 
 export const MetaSelect: React.FC<SelectProps> = (props) => (
   <Select

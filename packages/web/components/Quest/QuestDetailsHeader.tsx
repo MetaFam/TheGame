@@ -15,19 +15,20 @@ import {
   useDisclosure,
   useToast,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import {
   Quest,
   QuestFragment,
   QuestStatus_Enum,
   useUpdateQuestMutation,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+} from 'graphql/autogen/hasura-sdk';
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
+
+import { MetaLink } from '#components/Link';
+import { PlayerAvatar } from '#components/Player/PlayerAvatar';
+import { useUser } from '#lib/hooks';
+import { usePlayerName } from '#lib/hooks/player/usePlayerName';
+import { usePlayerURL } from '#lib/hooks/player/usePlayerURL';
 
 import { RepetitionTag, StatusTag } from './QuestTags';
 

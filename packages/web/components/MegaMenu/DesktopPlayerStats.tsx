@@ -10,12 +10,13 @@ import {
   MenuList,
   Profile,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { XPSeedsBalance } from 'components/MegaMenu/XPSeedsBalance';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { Player } from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks';
-import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+
+import { MetaLink } from '#components/Link';
+import { XPSeedsBalance } from '#components/MegaMenu/XPSeedsBalance';
+import { PlayerAvatar } from '#components/Player/PlayerAvatar';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { useWeb3 } from '#lib/hooks';
+import { usePlayerURL } from '#lib/hooks/player/usePlayerURL';
 
 type PlayerStatsProps = {
   player: Player;

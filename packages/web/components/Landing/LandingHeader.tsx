@@ -15,12 +15,7 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
-import OctoBg from 'assets/baby_octo.webp';
-import MetaGameLogo from 'assets/new_logo_svg.svg';
-import { MetaLink } from 'components/Link';
-import { Socials } from 'components/SocialLinks';
 import { SetStateAction } from 'jotai';
-import { get, set } from 'lib/store';
 import React, {
   Dispatch,
   ReactNode,
@@ -30,6 +25,12 @@ import React, {
 } from 'react';
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
+
+import OctoBg from '#assets/baby_octo.webp';
+import MetaGameLogo from '#assets/new_logo_svg.svg';
+import { MetaLink } from '#components/Link';
+import { Socials } from '#components/SocialLinks';
+import { get, set } from '#lib/store';
 
 import { AnimatedWaves, upDownAnimation } from './animations';
 import { LandingConnectButton } from './LandingConnectButton';

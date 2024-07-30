@@ -17,11 +17,12 @@ import {
   PlayerRole,
   QuestFragment,
   QuestStatus_Enum,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import { QueryVariableSetter, QuestAggregates } from 'lib/hooks/quests';
-import { useIsSticky } from 'lib/hooks/useIsSticky';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useRef, useState } from 'react';
+
+import { useUser } from '#lib/hooks';
+import { QueryVariableSetter, QuestAggregates } from '#lib/hooks/quests';
+import { useIsSticky } from '#lib/hooks/useIsSticky';
 
 type Props = {
   quests: Array<QuestFragment>;

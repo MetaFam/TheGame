@@ -7,17 +7,18 @@ import {
   VStack,
 } from '@metafam/ds';
 import { ethereumHelper, Maybe } from '@metafam/utils';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import {
   AccountType_Enum,
   Player,
   useInsertPlayerAccountMutation,
   useRemovePlayerAccountMutation,
-} from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
-import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
+
+import { usePlayerHydrationContext } from '#contexts/PlayerHydrationContext';
+import { useWeb3 } from '#lib/hooks/useWeb3';
+import { errorHandler } from '#utils/errorHandler';
+import { getPlayerMeetwithWalletCalendarUrl } from '#utils/playerHelpers';
 
 interface MeetWithWalletProps {
   player?: Maybe<Player>;
@@ -38,7 +39,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
   const [calendarUrl, setCalendarUrl] = useState('');
   const toast = useToast();
 
-  const { provider } = useWeb3();
+  const { viemClients } = useWeb3();
 
   const [, insertAccount] = useInsertPlayerAccountMutation();
   const [, removeAccount] = useRemovePlayerAccountMutation();
@@ -81,7 +82,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
 
     let calURL = calendarUrl;
 
-    if (accountStatus === AccountStatus.NotCreated && provider != null) {
+    if (accountStatus === AccountStatus.NotCreated && !!viemClients) {
       try {
         const sigMessageResult = await (
           await fetch(`/api/integrations/meetwithwallet/${address}`, {
@@ -91,7 +92,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const signature = await ethereumHelper.getSignature(
-          provider,
+          viemClients.wallet,
           sigMessageResult.message,
           // ['meetwithwallet.xyz'],
         );
@@ -131,7 +132,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
       hydrateFromHasura();
     } else {
       toast({
-        title: 'Could not link your account',
+        title: 'Could Not Link Your Account',
         description: result.error?.message,
         status: 'error',
         isClosable: true,
@@ -148,8 +149,8 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
     insertAccount,
     player?.id,
     player?.profile?.timeZone,
-    provider,
     toast,
+    viemClients,
   ]);
 
   const disconnect = useCallback(async () => {

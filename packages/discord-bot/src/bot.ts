@@ -1,53 +1,99 @@
-import 'reflect-metadata';
+import fs from 'node:fs';
+import path from 'node:path';
 
-import { dirname, importx, isESM } from '@discordx/importer';
-// Use the Client that is provided by discordx NOT discord.js
-import { Intents, Message } from 'discord.js';
-import { Client } from 'discordx';
+import {
+  ChatInputCommandInteraction,
+  Client,
+  Collection,
+  Events,
+  GatewayIntentBits,
+  Interaction,
+} from 'discord.js';
 
 import { CONFIG } from './config.js';
 
-const thisDir = isESM ? dirname(import.meta.url) : __dirname;
-
-async function initDiscordBot(): Promise<Client> {
-  await importx(
-    // Within a docker container: We are using tsc, so we want to load the compiled files.
-    // For local dev, we are transpiling: Load the .ts files.
-    process.env.RUNTIME_ENV === 'docker'
-      ? `${thisDir}/discord/**/*.js`
-      : `${thisDir}/discord/**/!(*.d).ts`,
-  );
-
-  const client = new Client({
-    intents: [
-      Intents.FLAGS.GUILDS,
-      Intents.FLAGS.GUILD_MESSAGES, // required for simple commands it seems
-      Intents.FLAGS.GUILD_MEMBERS,
-    ],
-    silent: false,
-    simpleCommand: {
-      prefix: '!mg ',
-      responses: {
-        notFound: (command: Message<boolean>) => {
-          command.reply(`${CONFIG.botName} doesn't recognize that command.`);
-        },
-      },
-    },
-    botGuilds:
-      process.env.RUNTIME_ENV === 'docker' ? undefined : ['808834438196494387'],
-  });
-
-  client.once('ready', async () => {
-    // make sure all guilds are in cache
-    await client.guilds.fetch();
-  });
-
-  client.on('messageCreate', (message) => {
-    client.executeCommand(message);
-  });
-
-  await client.login(CONFIG.discordBotToken);
-  return client;
+export type Command = {
+  name: string
+  execute: (interaction: ChatInputCommandInteraction) => Promise<void>
 }
 
-export { initDiscordBot };
+export class CommandedClient extends Client {
+  commands: Collection<string, Command> = new Collection();
+
+  async executeCommand(interaction: Interaction) {
+    if (!interaction.isChatInputCommand()) return;
+
+    const { commandName } = interaction
+    const command = this.commands.get(commandName);
+  
+    if(!command) {
+      console.error(`No command named “${commandName}” was found.`);
+      return;
+    }
+  
+    try {
+      await command.execute(interaction);
+    } catch(error) {
+      console.error((error as Error).message)
+      const content = `There was an error while executing the ${commandName} command!`
+      const method = interaction.replied || interaction.deferred ? 'followUp' : 'reply';
+      await interaction[method]({ content, ephemeral: true })
+    }
+  }
+}
+
+export async function createDiscordClient() {
+  const client = new CommandedClient({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages, // required
+      GatewayIntentBits.GuildMembers,
+    ],
+  })
+  await client.login(CONFIG.botToken)
+  return client
+}
+
+export async function initDiscordBot(): Promise<Client> {
+  const client = await createDiscordClient();
+
+  try {
+    const commandsPath = (
+      path.join(process.cwd(), CONFIG.inDocker ? 'dist' : 'src', 'commands')
+    )
+    const commands = fs.readdirSync(commandsPath)
+    const ext = CONFIG.inDocker ? '.js' : '.ts';
+
+    await Promise.all(commands.map(async (cmd) => {
+      if(!cmd.endsWith(ext)) return;
+      const cmdPath = path.join(commandsPath, cmd);
+      const command = await import(cmdPath);
+      const presents = await Promise.all(
+        ['name', 'execute'].map((prop) => {
+          const present = prop in command;
+          if(!present) {
+            console.warn(`The command at ${cmdPath} is missing a required property: “${prop}”.`);
+          }
+          return present;
+        })
+      )
+      if(presents.every(Boolean)) {
+        console.debug(`Loaded command: ${cmdPath}.`);
+        client.commands.set(command.name, command);
+      }
+    }))
+
+    client.once(Events.ClientReady, async () => {
+      await client.guilds.fetch();
+      const count = client.guilds.cache.size;
+      console.debug(`Fetched ${count} guild${count === 1 ? '' : 's'}.`)
+    })
+
+    client.on(Events.InteractionCreate, async (interaction) => {
+      client.executeCommand(interaction);
+    })
+  } catch(error) {
+    console.error((error as Error).message)
+  }
+  return client
+}

@@ -12,12 +12,6 @@ import {
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import { animated, useSpring } from '@react-spring/web';
-import OctoBg from 'assets/baby_octo.webp';
-import { LandingConnectButton } from 'components/Landing/LandingConnectButton';
-import { MetaLink } from 'components/Link';
-import { useGame } from 'contexts/GameContext';
-import { useMotionDetector } from 'lib/hooks/useMotionDetector';
-import { get } from 'lib/store';
 import React, {
   Dispatch,
   SetStateAction,
@@ -25,10 +19,17 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { errorHandler } from 'utils/errorHandler';
-import { formatAddress } from 'utils/playerHelpers';
 import { optimism } from 'viem/chains';
 import { useAccount } from 'wagmi';
+
+import OctoBg from '#assets/baby_octo.webp';
+import { LandingConnectButton } from '#components/Landing/LandingConnectButton';
+import { MetaLink } from '#components/Link';
+import { useGame } from '#contexts/GameContext';
+import { useMotionDetector } from '#lib/hooks/useMotionDetector';
+import { get } from '#lib/store';
+import { errorHandler } from '#utils/errorHandler';
+import { formatAddress } from '#utils/playerHelpers';
 
 import { ChievMetadata, useMetadata } from './nft';
 

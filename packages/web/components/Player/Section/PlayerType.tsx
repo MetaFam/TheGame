@@ -1,10 +1,11 @@
 import { Text } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { ExplorerType, Player } from 'graphql/autogen/types';
-import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
 import React, { useEffect, useState } from 'react';
-import { BoxTypes } from 'utils/boxTypes';
+
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { ExplorerType, Player } from '#graphql/autogen/hasura-sdk';
+import { getExplorerTypes } from '#graphql/queries/enums/getExplorerTypes';
+import { BoxTypes } from '#utils/boxTypes';
 
 type Props = {
   player: Player;

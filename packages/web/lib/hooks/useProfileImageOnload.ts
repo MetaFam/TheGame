@@ -1,7 +1,8 @@
-import { Player } from 'graphql/autogen/types';
-import { GuildPlayer } from 'graphql/types';
 import { useEffect, useMemo, useState } from 'react';
-import { getPlayerImage } from 'utils/playerHelpers';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { GuildPlayer } from '#graphql/types';
+import { getPlayerImage } from '#utils/playerHelpers';
 
 export const useProfileImageOnload = ({
   player,

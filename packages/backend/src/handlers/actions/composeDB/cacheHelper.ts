@@ -1,7 +1,7 @@
 import { Maybe } from '@metafam/utils';
 import Bottleneck from 'bottleneck';
 
-import { updatePlayerFromComposeDB } from './updatePlayerFromComposeDB.js';
+import { updatePlayerFromComposeDB } from '#handlers/actions/composeDB/updatePlayerFromComposeDB';
 
 let count = 0;
 

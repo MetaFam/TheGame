@@ -4,6 +4,7 @@ import {
   Flex,
   HStack,
   Image,
+  MarkdownViewer,
   Stack,
   Text,
   Tooltip,
@@ -11,9 +12,9 @@ import {
 } from '@metafam/ds';
 import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
-import { MarkdownViewer } from 'components/MarkdownViewer';
 import moment from 'moment';
-import { QuestChainType } from 'utils/questChains';
+
+import { QuestChainType } from '#utils/questChains';
 
 import { MetaLink } from '../Link';
 import { MintNFTTile } from './MintNFTTile';
@@ -58,7 +59,7 @@ export const ChainStats: React.FC<{
     </Text>
     <Flex w="full" justifyContent="space-between" h={6} alignItems="center">
       <Tooltip
-        label="The yellow bar represents quests that are currently being reviewed, while the blue bar indicates completed quests"
+        label="The yellow bar represents quests that are currently being reviewed, while the blue bar indicates completed quests."
         hasArrow
       >
         <Flex

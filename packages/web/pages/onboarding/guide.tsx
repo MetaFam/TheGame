@@ -1,10 +1,11 @@
-import BackgroundImage from 'assets/login-background.jpg';
-import { FullPageContainer } from 'components/Container';
-import { LandingHeader } from 'components/Landing/LandingHeader';
-import OnboardingGuidance from 'components/Landing/OnboardingGuidance';
-import { HeadComponent } from 'components/Seo';
-import { Socials } from 'components/SocialLinks';
 import { CONFIG } from 'config';
+
+import BackgroundImage from '#assets/login-background.jpg';
+import { FullPageContainer } from '#components/Container';
+import { LandingHeader } from '#components/Landing/LandingHeader';
+import OnboardingGuidance from '#components/Landing/OnboardingGuidance';
+import { HeadComponent } from '#components/Seo';
+import { Socials } from '#components/SocialLinks';
 
 export const getStaticProps = async () => ({
   props: {

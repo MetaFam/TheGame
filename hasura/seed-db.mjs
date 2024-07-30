@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import Bottleneck from 'bottleneck';
-import fetch from 'node-fetch';
 
 /* eslint-disable no-console */
 

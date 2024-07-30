@@ -11,14 +11,15 @@ import {
   Stack,
   Text,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { ConnectKitButton } from 'connectkit';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
-import { useMounted, useUser, useWeb3 } from 'lib/hooks';
-import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
 import { useAccount } from 'wagmi';
+
+import { MetaLink } from '#components/Link';
+import { PlayerAvatar } from '#components/Player/PlayerAvatar';
+import { usePlayerHydrationContext } from '#contexts/PlayerHydrationContext';
+import { useMounted, useUser, useWeb3 } from '#lib/hooks';
+import { usePlayerName } from '#lib/hooks/player/usePlayerName';
+import { usePlayerURL } from '#lib/hooks/player/usePlayerURL';
 
 import { XPSeedsBalance } from './XPSeedsBalance';
 

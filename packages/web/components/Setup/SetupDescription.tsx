@@ -1,9 +1,10 @@
 import { Flex, Textarea } from '@metafam/ds';
 import { composeDBProfileFieldDescription } from '@metafam/utils';
-import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
-import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+
+import { useGetOwnProfileFieldFromComposeDB } from '#lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from '#lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 
 import { useShowToastOnQueryError } from './SetupProfile';
 import { WizardPane } from './WizardPane';

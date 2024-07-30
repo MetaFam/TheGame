@@ -4,7 +4,7 @@ import {
   Player_Order_By,
   useGetPlayerFiltersQuery,
   useGetPlayersQuery,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 import {
   defaultQueryVariables,
   PLAYER_LIMIT,
@@ -12,7 +12,8 @@ import {
   transformToGraphQLVariables,
 } from 'graphql/getPlayers';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CategoryOption, parseSkills } from 'utils/skillHelpers';
+
+import { CategoryOption, parseSkills } from '#utils/skillHelpers';
 
 export type QueryVariableValue = Maybe<
   SortOption | string | number | Array<string>

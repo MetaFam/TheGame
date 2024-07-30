@@ -7,7 +7,6 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
 import {
   Player,
   Quest,
@@ -15,10 +14,12 @@ import {
   QuestCompletionStatus_Enum,
   QuestWithCompletionFragment,
   useUpdateQuestCompletionMutation,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+
+import { MetaLink } from '#components/Link';
+import { useUser } from '#lib/hooks';
 
 import { QuestCompletionsItem } from './QuestCompletionsItem';
 

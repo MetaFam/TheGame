@@ -10,12 +10,13 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { GuildFragment } from 'graphql/autogen/types';
-import { getGuildPlayers } from 'graphql/queries/guild';
-import { GuildPlayer } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
-import { BoxTypes } from 'utils/boxTypes';
+
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { GuildFragment } from '#graphql/autogen/hasura-sdk';
+import { getGuildPlayers } from '#graphql/queries/guild';
+import { GuildPlayer } from '#graphql/types';
+import { BoxTypes } from '#utils/boxTypes';
 
 import { GuildPlayerComponent } from './GuildPlayer';
 

@@ -1,8 +1,5 @@
 import { Center, SelectTimeZone, Text } from '@metafam/ds';
 import { composeDBProfileFieldTimeZone } from '@metafam/utils';
-import { useMounted } from 'lib/hooks';
-import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
-import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useEffect } from 'react';
 import {
   Controller,
@@ -10,6 +7,10 @@ import {
   useForm,
   useFormContext,
 } from 'react-hook-form';
+
+import { useMounted } from '#lib/hooks';
+import { useGetOwnProfileFieldFromComposeDB } from '#lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from '#lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 
 import { useShowToastOnQueryError } from './SetupProfile';
 import { WizardPane } from './WizardPane';

@@ -9,9 +9,9 @@ import {
   GuildFragment,
   GuildStatus_Enum,
   SyncGuildMembersMutation,
-} from '../../../lib/autogen/hasura-sdk.js';
-import { client } from '../../../lib/hasuraClient.js';
-import { GuildRow, toGuild, TriggerPayload } from '../../triggers/types.js';
+} from '#lib/autogen/hasura-sdk';
+import { client } from '#lib/hasuraClient';
+import { GuildRow, toGuild, TriggerPayload } from '#handlers/triggers/types';
 
 export const syncDiscordGuildMembers = async (
   payload: TriggerPayload<GuildRow>,

@@ -3,11 +3,12 @@ import React, { PropsWithChildren } from 'react';
 
 type LinkProps = { href?: string; target?: '_blank' };
 type RefProps = { ref?: React.Ref<HTMLButtonElement> };
-type MetaButtonProps = PropsWithChildren<ButtonProps & LinkProps & RefProps>;
-const MetaButton: React.FC<MetaButtonProps> =
-  React.forwardRef<HTMLButtonElement>(
-    ({ children, ...props }: MetaButtonProps, ref) => {
-      const args = props as LinkProps & ButtonProps;
+export type MetaButtonProps = PropsWithChildren<ButtonProps & LinkProps & RefProps>;
+
+export const MetaButton = (
+  React.forwardRef<HTMLButtonElement, MetaButtonProps>(
+    ({ children, ...props }, ref) => {
+      const args = props;
       if (args.href) {
         args.as = 'a';
       }
@@ -28,6 +29,7 @@ const MetaButton: React.FC<MetaButtonProps> =
         </Button>
       );
     },
-  );
-MetaButton.displayName = 'MetaButton';
-export { MetaButton };
+  )
+);
+
+export default MetaButton;

@@ -6,32 +6,44 @@ interface IConfig {
   port: number;
   graphqlURL: string;
   adminKey: string;
-  frontendUrl: string;
-  githubApiToken: string;
-  discordBotToken: string;
-  discordBotClientSecret: string;
-  sourceCredLedgerBranch: string;
-  discordApiBaseUrl: string;
+  frontendURL: string;
+  githubAPIToken: string;
   botName: string;
+  botGuild: string;
+  botToken: string;
+  botSecret: string;
+  feedbackChannel: string;
+  apiBaseURL: string;
+  inDocker: boolean;
 }
 
 function parseEnv<T extends string | number>(
-  v: string | undefined,
-  defaultValue: T,
-): T {
-  if (!v) return defaultValue;
-
-  if (typeof defaultValue === 'number') {
-    return Number(v) as T;
+  name: string,
+  opts?: { defaultValue?: T, error?: boolean },
+): T
+function parseEnv<T extends string | number>(
+  name: string,
+  opts?: { defaultValue?: T, error?: boolean },
+): string | number | undefined {
+  const val = process.env[name]
+  if(val == null) {
+    if(opts?.error) {
+      throw new Error(`Missing environment variable: "${name}".`);
+    }
+    return opts?.defaultValue;
   }
-  return v as T;
+
+  if(typeof opts?.defaultValue === 'number') {
+    return Number(val);
+  }
+  return val;
 }
 
 export const CONFIG: IConfig = {
-  port: parseEnv(process.env.PORT, 5000),
+  port: parseEnv('PORT', { defaultValue: 5000 }),
   graphqlURL: (() => {
     const { GRAPHQL_URL: url, GRAPHQL_HOST: host } = process.env;
-
+  
     if (url) return url;
     if (host) {
       return `https://${host}.onrender.com/v1/graphql`;
@@ -39,20 +51,18 @@ export const CONFIG: IConfig = {
     return 'http://localhost:8080/v1/graphql';
   })(),
   adminKey: parseEnv(
-    process.env.HASURA_GRAPHQL_ADMIN_SECRET,
-    'metagame_secret',
+    'HASURA_GRAPHQL_ADMIN_SECRET',
   ),
-  frontendUrl: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
-  githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
-  discordBotToken: parseEnv(process.env.DISCORD_BOT_TOKEN, ''),
-  discordBotClientSecret: parseEnv(process.env.DISCORD_BOT_CLIENT_SECRET, ''),
-  sourceCredLedgerBranch: parseEnv(
-    process.env.SOURCECRED_LEDGER_BRANCH,
-    'staging', // Just so we dont mess up the master ledger in case people are testing locally
+  frontendURL: parseEnv('FRONTEND_URL', { defaultValue: 'http://localhost:3000' }),
+  githubAPIToken: parseEnv('GITHUB_API_TOKEN'),
+  botToken: parseEnv('DISCORD_BOT_TOKEN'),
+  botSecret: parseEnv('DISCORD_BOT_CLIENT_SECRET'),
+  apiBaseURL: parseEnv(
+    'DISCORD_API_BASE_URL',
+    { defaultValue: 'https://discord.com/api/v10' },
   ),
-  discordApiBaseUrl: parseEnv(
-    process.env.DISCORD_API_BASE_URL,
-    'https://discord.com/api/v8',
-  ),
-  botName: 'MetaGameBot',
+  botName: 'MetaGame’s Bot',
+  inDocker: process.env.RUNTIME_ENV === 'docker',
+  botGuild: parseEnv('BOT_GUILD', { defaultValue: '808834438196494387' }),
+  feedbackChannel: parseEnv('DISCORD_FEEDBACK_CHANNEL', { defaultValue: '794214722639101992' }),
 };

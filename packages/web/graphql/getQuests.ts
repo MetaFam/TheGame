@@ -14,10 +14,11 @@ import {
   SearchQuestsDocument,
   SearchQuestsQuery,
   SearchQuestsQueryVariables,
-} from 'graphql/autogen/types';
-import { client as defaultClient } from 'graphql/client';
-import { QuestCompletionFragment, QuestFragment } from 'graphql/fragments';
+} from 'graphql/autogen/hasura-sdk';
 import { Client } from 'urql';
+
+import { client as defaultClient } from '#graphql/client';
+import { QuestCompletionFragment, QuestFragment } from '#graphql/fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `

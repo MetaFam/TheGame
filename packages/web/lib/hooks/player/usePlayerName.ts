@@ -1,10 +1,11 @@
 import { Maybe } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
-import { GuildPlayer } from 'graphql/types';
 import { useCallback } from 'react';
 import useSWR from 'swr';
-import { getENSForAddress } from 'utils/ensHelpers';
-import { formatAddress, formatIfAddress } from 'utils/playerHelpers';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { GuildPlayer } from '#graphql/types';
+import { getENSForAddress } from '#utils/ensHelpers';
+import { formatAddress, formatIfAddress } from '#utils/playerHelpers';
 
 export const usePlayerName = (player?: Maybe<Player | GuildPlayer>) => {
   const username = player?.profile?.username;

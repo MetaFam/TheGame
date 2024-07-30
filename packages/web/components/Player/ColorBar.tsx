@@ -1,6 +1,4 @@
 import { Box, ChakraProps, Flex, Link, Stack, Text } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
-import type { Maybe } from 'graphql/autogen/types';
 import {
   colors,
   ColorStops,
@@ -8,6 +6,9 @@ import {
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
 import React, { ReactElement } from 'react';
+
+import { FlexContainer } from '#components/Container';
+import type { Maybe } from '#graphql/autogen/hasura-sdk';
 
 // This is just verbose, so I am pulling it out to
 // save space in the main template

@@ -1,8 +1,9 @@
 import { Box, Link } from '@metafam/ds';
-import { useAuthenticateDiscordGuildMutation } from 'graphql/autogen/types';
-import { get, remove } from 'lib/store';
 import { useRouter } from 'next/router';
 import React, { lazy,useEffect, useState } from 'react';
+
+import { useAuthenticateDiscordGuildMutation } from '#graphql/autogen/hasura-sdk';
+import { get, remove } from '#lib/store';
 
 import { discordAuthStateGuidKey } from './start';
 

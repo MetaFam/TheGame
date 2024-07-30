@@ -59,7 +59,8 @@ export const MetaTile = React.forwardRef<
 
   useEffect(() => {
     if (!noTilt && tilt.current) {
-      VanillaTilt.init(tilt.current);
+      (VanillaTilt as unknown as { init: (arg: HTMLElement) => void })
+      .init(tilt.current);
     }
   }, [noTilt]);
 
@@ -112,7 +113,8 @@ export const MetaTilePlaybook = React.forwardRef<
 
   useEffect(() => {
     if (!noTilt && tilt.current) {
-      VanillaTilt.init(tilt.current);
+      (VanillaTilt as unknown as { init: (arg: HTMLElement) => void })
+      .init(tilt.current);
     }
   }, [noTilt]);
 
@@ -196,8 +198,9 @@ export const MetaTilePathPlaybook = React.forwardRef<
     const tilt = useRef<Maybe<HTMLDivElement>>(null);
     useEffect(() => {
       if (!noTilt && tilt.current) {
-        VanillaTilt.init(tilt.current);
-      }
+        (VanillaTilt as unknown as { init: (arg: HTMLElement) => void })
+        .init(tilt.current);
+        }
     }, [noTilt]);
 
     return (

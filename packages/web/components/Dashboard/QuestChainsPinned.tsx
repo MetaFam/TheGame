@@ -1,11 +1,12 @@
 import { Flex, HStack, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
 import { ConnectKitButton } from 'connectkit';
-import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
-import { useMounted, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { GoLinkExternal } from 'react-icons/go';
 import { useAccount } from 'wagmi';
+
+import { MetaLink } from '#components/Link';
+import { getPlayerPinnedQuestchains } from '#graphql/queries/player';
+import { useMounted, useUser } from '#lib/hooks';
 
 export const QuestChainsPinned: React.FC = () => {
   const { user } = useUser();

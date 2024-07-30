@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { queueRecache } from '../cacheHelper.js';
+import { queueRecache } from '#handlers/actions/composeDB/cacheHelper';
 
 export default async (req: Request, res: Response): Promise<void> => {
   const role = req.body.session_variables['x-hasura-role'];

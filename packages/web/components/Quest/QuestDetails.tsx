@@ -3,6 +3,7 @@ import {
   Flex,
   Heading,
   HStack,
+  MarkdownViewer as Markdown,
   MetaButton,
   MetaTile,
   MetaTileBody,
@@ -12,9 +13,6 @@ import {
   VStack,
 } from '@metafam/ds';
 import { httpLink, isSGML } from '@metafam/utils';
-import BackgroundImage from 'assets/quests/quest.webp';
-import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
-import { SquareImage } from 'components/SquareImage';
 import {
   PlayerRole,
   Quest,
@@ -22,10 +20,13 @@ import {
   QuestStatus_Enum,
   QuestWithCompletionFragment,
   Skill,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import moment from 'moment';
-import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
+
+import BackgroundImage from '#assets/quests/quest.webp';
+import { SquareImage } from '#components/SquareImage';
+import { useUser } from '#lib/hooks';
+import { safelyParseNChakrifyHtml } from '#utils/stringHelpers';
 
 import { RepetitionTag, StatusTag } from './QuestTags';
 import { TileHeading } from './QuestTile';

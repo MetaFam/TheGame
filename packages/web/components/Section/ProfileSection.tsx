@@ -17,14 +17,15 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
-import { SetupPlayerLinks } from 'components/Setup/SetupPlayerLinks';
-import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
-import { EditRoles } from 'components/Setup/SetupRoles';
-import { EditSkills } from 'components/Setup/SetupSkills';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
 import React, { useCallback } from 'react';
-import { BoxType, BoxTypes } from 'utils/boxTypes';
+
+import { SetupPersonalityType } from '#components/Setup/SetupPersonalityType';
+import { SetupPlayerLinks } from '#components/Setup/SetupPlayerLinks';
+import { SetupPlayerType } from '#components/Setup/SetupPlayerType';
+import { EditRoles } from '#components/Setup/SetupRoles';
+import { EditSkills } from '#components/Setup/SetupSkills';
+import { usePlayerHydrationContext } from '#contexts/PlayerHydrationContext';
+import { BoxType, BoxTypes } from '#utils/boxTypes';
 
 import { SetupDeworkLink } from '../Setup/SetupDeworkURL';
 

@@ -6,6 +6,7 @@ import {
   HStack,
   IconButton,
   Image,
+  MarkdownViewer,
   Spinner,
   Stack,
   Text,
@@ -14,25 +15,16 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
-import { imageLink } from '@metafam/utils';
+import { imageLink, Maybe } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
-import Pin from 'assets/pin.svg';
-import Seed from 'assets/seed.svg';
-import Share from 'assets/share.svg';
-import { MetaLink } from 'components/Link';
-import { MarkdownViewer } from 'components/MarkdownViewer';
-import { MintNFTTile } from 'components/QuestChain/MintNFTTile';
 import {
   ChainStats,
   PlayersFinished,
 } from 'components/QuestChain/QuestHeading';
-import { UploadProofButton } from 'components/QuestChain/UploadProofButton';
 import {
   useDeletePlayerQuestchainPinMutation,
   useInsertPlayerQuestchainPinMutation,
-} from 'graphql/autogen/types';
-import { getPlayerPinnedQuestchains } from 'graphql/queries/player';
-import { useUser, useWeb3 } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import {
   useLatestQuestChainData,
   useLatestQuestStatusesForUserAndChainData,
@@ -41,19 +33,31 @@ import {
 } from 'lib/hooks/questChains';
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { BsArrowRight, BsCheck } from 'react-icons/bs';
-import { QuestChainType } from 'utils/questChains';
+
+import Pin from '#assets/pin.svg';
+import Seed from '#assets/seed.svg';
+import Share from '#assets/share.svg';
+import { MintNFTTile } from '#components/QuestChain/MintNFTTile';
+import { UploadProofButton } from '#components/QuestChain/UploadProofButton';
+import { getPlayerPinnedQuestchains } from '#graphql/queries/player';
+import { useUser, useWeb3 } from '#lib/hooks';
+import { QuestChainType } from '#utils/questChains';
 
 type Props = {
-  inputQuestChain: graphql.QuestChainInfoFragment;
+  questChain: graphql.QuestChainInfoFragment;
   name: QuestChainType;
 };
 
 const PageContainer = lazy(() => import('components/Container'));
 
-const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
-  const { address } = useWeb3();
+const QuestChainDisplay: React.FC<Props> = ({
+  questChain: inputQuestChain,
+  name: questName,
+}) => {
+  const { address, viemClients } = useWeb3();
   const { user } = useUser();
-  const toast = useToast();
+  const [creatorName, setCreatorName] = useState<Maybe<string>>(null);
+  const toast = useToast({ isClosable: true });
   const [, insertPlayerQuestchainPin] = useInsertPlayerQuestchainPinMutation();
   const [, deletePlayerQuestchainPin] = useDeletePlayerQuestchainPinMutation();
   const {
@@ -114,93 +118,93 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
 
   const handleQuestClick = (questId: React.SetStateAction<string>) => {
     setSelected(questId);
-    // Check if the markdownViewerRef is set and scroll it into view
     if (markdownViewerRef.current !== null) {
-      (markdownViewerRef.current as any).scrollIntoView({ behavior: 'smooth' });
+      markdownViewerRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handlePinPlayerQuestchain = async () => {
-    if (user && questChain) {
-      try {
-        const pin = await insertPlayerQuestchainPin({
-          playerId: user?.id,
-          questchainId: `${questChain.address}-${questChain.name}`,
-        });
+    try {
+      if (!user) throw new Error('User is not defined.');
+      if (!questChain) throw new Error('Quest Chain is not defined.');
 
-        if (pin.error) {
-          toast({
-            title: 'Error pinning quest chain!',
-            description: pin.error.message,
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          });
-        } else {
-          setIsPinned(true);
-          toast({
-            title: 'Quest Chain pinned!',
-            description: (
+      const pin = await insertPlayerQuestchainPin({
+        playerId: user?.id,
+        questchainId: `${questChain.address}-${questChain.name}`,
+      });
+
+      if (pin.error) {
+        toast({
+          title: 'Error Pinning Quest Chain',
+          description: pin.error.message,
+          status: 'error',
+          duration: 9_000,
+        });
+      } else {
+        setIsPinned(true);
+        toast({
+          title: 'Quest Chain Pinned',
+          description: (
+            <Text>
+              You can now see this Quest Chain on your Dashboard.{' '}
               <chakra.a
                 href={`https://discord.com/channels/629411177947987986/1045714403351339018`}
                 target="_blank"
                 rel="noreferrer"
                 style={{ textDecoration: 'underline' }}
               >
-                You can now see this quest chain on your Dashboard. Join the
-                conversation on Discord.
+                Join the conversation on Discord.
               </chakra.a>
-            ),
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-          });
-        }
-      } catch (e) {
-        console.error(e);
+            </Text>
+          ),
+          status: 'success',
+          duration: 9_000,
+        });
       }
-    } else {
-      console.error('Player or questChain not found!');
+    } catch (error) {
+      console.error({ error });
     }
   };
 
   const handleUnpinPlayerQuestchain = async () => {
-    if (user && questChain) {
-      try {
-        const pin = await deletePlayerQuestchainPin({
-          playerId: user?.id,
-          questchainId: `${questChain.address}-${questChain.name}`,
+    try {
+      if (!user) throw new Error('User is not defined.');
+      if (!questChain) throw new Error('Quest Chain is not defined.');
+
+      const pin = await deletePlayerQuestchainPin({
+        playerId: user.id,
+        questchainId: `${questChain.address}-${questChain.name}`,
+      });
+
+      if (pin.error) {
+        toast({
+          title: 'Error Unpinning Quest Chain',
+          description: pin.error.message,
+          status: 'error',
+          duration: 9_000,
         });
-
-        if (pin.error) {
-          toast({
-            title: 'Error unpinning quest chain!',
-            description: pin.error.message,
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          });
-        } else {
-          setIsPinned(false);
-          toast({
-            title: 'Quest Chain unpinned!',
-
-            description:
-              'The quest chain has been removed from your Dashboard.',
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-          });
-        }
-      } catch (e) {
-        console.error(e);
+      } else {
+        setIsPinned(false);
+        toast({
+          title: 'Quest Chain Unpinned',
+          description: 'The quest chain has been removed from your Dashboard.',
+          status: 'success',
+          duration: 9_000,
+        });
       }
-    } else {
-      console.error('Player or questChain not found!');
+    } catch (error) {
+      console.error({ error });
     }
   };
 
-  const creator = questChain?.createdBy?.id;
+  const creatorAddress = questChain?.createdBy?.id as `0x${string}`;
+  useEffect(() => {
+    if (creatorAddress) {
+      viemClients?.mainnet
+        .getEnsName({ address: creatorAddress })
+        .then((name) => setCreatorName(name));
+    }
+  }, [creatorAddress, viemClients?.mainnet]);
 
   const [selected, setSelected] = useState('introduction');
 
@@ -218,7 +222,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
   if (!questChain) {
     return (
       <PageContainer>
-        <Text> Quest Chain not found! </Text>
+        <Text>Quest Chain not found!</Text>
       </PageContainer>
     );
   }
@@ -239,12 +243,20 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
       </Button>
       <Stack>
         <Box w="100%">
-          <MetaLink
-            href={`https://app.questchains.xyz/profile/${creator}`}
-            target="_blank"
+          <Tooltip
+            hasArrow
+            placement="top"
+            label={creatorName ?? creatorAddress}
           >
-            {`${creator?.slice(0, 4)}...${creator?.slice(-2)}`}
-          </MetaLink>
+            <chakra.a
+              href={`https://app.questchains.xyz/profile/${creatorAddress}`}
+              target="_blank"
+              rel="noreferrer"
+              color="purple.200"
+            >
+              {`${creatorAddress?.slice(0, 5)}…${creatorAddress?.slice(-3)}`}
+            </chakra.a>
+          </Tooltip>
         </Box>
         <Flex
           direction={{ base: 'column', lg: 'row' }}
@@ -279,18 +291,18 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
           <Box w={{ base: 'full', lg: 338 }} mt={{ base: 5, lg: 0 }}>
             {isMobile ? (
               <HStack w="full">
-                <ChainStats progress={progress} isMobile={isMobile} />
+                <ChainStats {...{ progress, isMobile }} />
                 <IconButton
                   variant="outline"
                   aria-label="Pin"
                   icon={<Image src={Pin.src} alt="Pin" w={5} h={5} />}
-                  onClick={() => handlePinPlayerQuestchain()}
+                  onClick={handlePinPlayerQuestchain}
                   isRound
                   backgroundColor={isPinned ? 'purple.500' : ''}
                   justifyContent="center"
                   ml={4}
                 />
-                <Tooltip label="Coming soon">
+                <Tooltip label="Coming Soon">
                   <IconButton
                     variant="outline"
                     aria-label="Seed"
@@ -307,9 +319,9 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                   isRound
                   justifyContent="center"
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.href}`);
+                    navigator.clipboard.writeText(window.location.href);
                     toast({
-                      title: 'Copied to clipboard!',
+                      title: 'Copied to Clipboard',
                       description: 'Share this link with your friends!',
                       status: 'success',
                       duration: 4000,
@@ -335,7 +347,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                 >
                   {isPinned ? 'Unpin' : 'Pin'}
                 </Button>
-                <Tooltip label="Coming soon">
+                <Tooltip label="Coming Soon">
                   <Button
                     variant="outline"
                     w="full"
@@ -354,9 +366,9 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                     <Image src={Share.src} alt="Share" w={5} h={5} mr={2} />
                   }
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.href}`);
+                    navigator.clipboard.writeText(window.location.href);
                     toast({
-                      title: 'Copied to clipboard!',
+                      title: 'Copied to Clipboard',
                       description: 'Share this link with your friends!',
                       status: 'success',
                       duration: 4000,
@@ -383,7 +395,6 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
         <Spinner my={20} />
       ) : (
         <Flex w="full" gap={8} direction={{ base: 'column', md: 'row' }}>
-          {/* content */}
           <Flex
             direction="column"
             height="fit-content"
@@ -475,10 +486,9 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
             {selected !== 'introduction' && (
               <UploadProofButton
                 questId={selected}
-                name={name}
-                questChain={questChain}
+                name={questName}
                 questStatus={userStatus[selected]?.status ?? null}
-                refresh={refresh}
+                {...{ questChain, refresh }}
               />
             )}
 
@@ -523,9 +533,9 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                 <MintNFTTile
                   {...{
                     questChain,
-                    name,
+                    name: questName,
                     onSuccess: refresh,
-                    completed: questChain.quests.filter((q) => !q.paused)
+                    completed: questChain.quests.filter(({ paused: p }) => !p)
                       .length,
                   }}
                 />
@@ -535,7 +545,7 @@ const QuestChainDisplay: React.FC<Props> = ({ inputQuestChain, name }) => {
                   {questChain.token.imageUrl && (
                     <Image
                       src={imageLink(questChain.token.imageUrl)}
-                      alt="Quest Chain NFT badge"
+                      alt="Quest Chain NFT Badge"
                       maxW={300}
                     />
                   )}

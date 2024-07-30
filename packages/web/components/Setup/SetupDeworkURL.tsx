@@ -8,8 +8,9 @@ import {
   Tooltip,
   useToast,
 } from '@metafam/ds';
-import { Player, useUpsertDeworkProfileMutation } from 'graphql/autogen/types';
 import React, { useState } from 'react';
+
+import { Player, useUpsertDeworkProfileMutation } from '#graphql/autogen/hasura-sdk';
 
 export const SetupDeworkLink: React.FC<{
   onComplete: () => void;

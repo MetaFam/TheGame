@@ -1,5 +1,6 @@
 import { Image, Text, VStack } from '@metafam/ds';
-import PlayersNotFoundImage from 'assets/no-players-found.svg';
+
+import PlayersNotFoundImage from '#assets/no-players-found.svg';
 
 export const PlayersNotFound: React.FC = () => (
   <VStack

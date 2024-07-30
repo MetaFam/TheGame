@@ -1,6 +1,7 @@
 import { Avatar, Box, Link, MenuItem, Text } from '@metafam/ds';
 import { Values } from '@metafam/utils';
-import { menuIcons } from 'utils/menuIcons';
+
+import { menuIcons } from '#utils/menuIcons';
 
 type MenuItemProps = {
   title: string;

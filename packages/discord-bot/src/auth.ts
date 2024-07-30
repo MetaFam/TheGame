@@ -1,4 +1,4 @@
-import { Constants, fetch } from '@metafam/utils';
+import { Constants } from '@metafam/utils';
 import { URLSearchParams } from 'url';
 
 import { CONFIG } from './config.js';
@@ -7,23 +7,20 @@ import {
   OAuth2CodeExchangeResponse,
 } from './types.js';
 
-export const tokenRequestData = {
+const tokenRequestData = {
   client_id: Constants.DISCORD_BOT_CLIENT_ID,
-  client_secret: CONFIG.discordBotClientSecret,
+  client_secret: CONFIG.botSecret,
   grant_type: 'authorization_code',
-  redirect_uri: `${CONFIG.frontendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`,
+  redirect_uri: `${CONFIG.frontendURL}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`,
 };
 
 export const exchangeCodeForAccessToken = async (
   code: string,
 ): Promise<DiscordAccessTokenResponse> => {
-  const data = {
-    ...tokenRequestData,
-    code,
-  };
+  const data = { ...tokenRequestData, code };
 
   const discordResponse = await fetch(
-    `${CONFIG.discordApiBaseUrl}/oauth2/token`,
+    `${CONFIG.apiBaseURL}/oauth2/token`,
     {
       method: 'POST',
       body: new URLSearchParams(data),
@@ -37,9 +34,8 @@ export const exchangeCodeForAccessToken = async (
   };
 
   if (discordResponse.ok) {
-    const parsedBody =
+    response.oauthResponse =
       (await discordResponse.json()) as OAuth2CodeExchangeResponse;
-    response.oauthResponse = parsedBody;
   } else {
     response.error = discordResponse.statusText;
   }

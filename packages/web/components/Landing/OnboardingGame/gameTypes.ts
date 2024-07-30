@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Maybe } from '@metafam/utils';
-import { Web3ContextType } from 'contexts/Web3Context';
+import { Web3ContextType } from '#contexts/Web3Context';
 
 export interface GameProperties {
   name: string;

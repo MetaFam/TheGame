@@ -1,6 +1,4 @@
-import { gql } from 'graphql-request';
-
-export const GetPoolTokenData = gql`
+export const GetPoolTokenData = /* GraphQL */ `
   query GetPoolTokenData($address: Bytes!) {
     pools(where: { address: $address }) {
       id

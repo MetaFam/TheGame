@@ -14,24 +14,11 @@ import {
   Text,
 } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
-import { MetaLink } from 'components/Link';
-import { questArticleCss } from 'components/Quest/QuestArticleCss';
-import { QuestCompletions } from 'components/Quest/QuestCompletions';
-import { QuestDetailsDescription } from 'components/Quest/QuestDetailsDescription';
-// import { QuestDetails } from 'components/Quest/QuestDetails'; // Useful code in here still
-import { QuestDetailsHeader } from 'components/Quest/QuestDetailsHeader';
-import { QuestDetailsImage } from 'components/Quest/QuestDetailsImage';
-import { QuestDetailsRequirementsRewards } from 'components/Quest/QuestDetailsRequirementsRewards';
-import { HeadComponent } from 'components/Seo';
 import {
   QuestRepetition_Enum,
   QuestStatus_Enum,
   useGetQuestWithCompletionsQuery,
-} from 'graphql/autogen/types';
-import { getSSRClient } from 'graphql/client';
-import { getQuestWithCompletions } from 'graphql/getQuest';
-import { getQuestIds } from 'graphql/getQuests';
-import { useUser } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -40,7 +27,21 @@ import {
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import { lazy, useMemo } from 'react';
-import { canCompleteQuest } from 'utils/questHelpers';
+
+import { MetaLink } from '#components/Link';
+import { questArticleCss } from '#components/Quest/QuestArticleCss';
+import { QuestCompletions } from '#components/Quest/QuestCompletions';
+import { QuestDetailsDescription } from '#components/Quest/QuestDetailsDescription';
+// import { QuestDetails } from '#components/Quest/QuestDetails'; // Useful code in here still
+import { QuestDetailsHeader } from '#components/Quest/QuestDetailsHeader';
+import { QuestDetailsImage } from '#components/Quest/QuestDetailsImage';
+import { QuestDetailsRequirementsRewards } from '#components/Quest/QuestDetailsRequirementsRewards';
+import { HeadComponent } from '#components/Seo';
+import { getSSRClient } from '#graphql/client';
+import { getQuestWithCompletions } from '#graphql/getQuest';
+import { getQuestIds } from '#graphql/getQuests';
+import { useUser } from '#lib/hooks';
+import { canCompleteQuest } from '#utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

@@ -7,12 +7,13 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { Maybe } from 'graphql/autogen/types';
-import { useDelay } from 'lib/hooks/useDelay';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BoxMetadata } from 'utils/boxTypes';
-import { errorHandler } from 'utils/errorHandler';
+
+import { MetaLink } from '#components/Link';
+import { Maybe } from '#graphql/autogen/hasura-sdk';
+import { useDelay } from '#lib/hooks/useDelay';
+import { BoxMetadata } from '#utils/boxTypes';
+import { errorHandler } from '#utils/errorHandler';
 
 const metadataLink = '/api/metadata?url=';
 

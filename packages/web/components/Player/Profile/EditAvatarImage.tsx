@@ -10,11 +10,12 @@ import {
   useToast,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
-import PlayerProfileIcon from 'assets/player-profile-icon.svg';
-import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
 import { forwardRef, useCallback, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { optimizedImage } from 'utils/imageHelpers';
+
+import PlayerProfileIcon from '#assets/player-profile-icon.svg';
+import { FileReaderData, useImageReader } from '#lib/hooks/useImageReader';
+import { optimizedImage } from '#utils/imageHelpers';
 
 export type EditAvatarImageProps = {
   initialURL?: Maybe<string>;

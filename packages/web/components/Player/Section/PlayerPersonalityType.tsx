@@ -1,14 +1,15 @@
 import { Text } from '@metafam/ds';
-import { ColorBar } from 'components/Player/ColorBar';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { Player } from 'graphql/autogen/types';
 import {
   getPersonalityInfo,
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
-import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
-import { BoxTypes } from 'utils/boxTypes';
+
+import { ColorBar } from '#components/Player/ColorBar';
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { useUser } from '#lib/hooks';
+import { BoxTypes } from '#utils/boxTypes';
 
 export type PersonalityTypeProps = {
   player: Player;

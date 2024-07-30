@@ -1,8 +1,9 @@
 import dynamic from 'next/dynamic';
+import React from 'react';
 
 import { MarkdownViewer } from '../MarkdownViewer';
 
-const Editor = dynamic(() => import('./MarkdownEditor'), {
+const Editor = dynamic(() => import('./MarkdownEditor.js'), {
   ssr: false,
 });
 

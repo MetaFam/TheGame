@@ -6,7 +6,8 @@ import {
   createBoxKey,
   Positions,
 } from 'utils/boxTypes';
-import { getBoxLayoutItemDefaults } from 'utils/layoutHelpers';
+
+import { getBoxLayoutItemDefaults } from '#utils/layoutHelpers';
 
 export const ALL_BOXES = [
   BoxTypes.PLAYER_HERO,

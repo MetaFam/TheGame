@@ -20,9 +20,6 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { DesktopFilters } from 'components/Player/Filter/DesktopFilters';
-import { MobileFilters } from 'components/Player/Filter/MobileFilters';
-import { PlayersQueryVariables } from 'graphql/getPlayers';
 import {
   PlayerAggregates,
   QueryVariableSetter,
@@ -30,10 +27,14 @@ import {
   sortOptionsMap,
   useFiltersUsed,
 } from 'lib/hooks/player/players';
-import { useIsSticky } from 'lib/hooks/useIsSticky';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { getAddressForENS } from 'utils/ensHelpers';
-import { SkillOption } from 'utils/skillHelpers';
+
+import { DesktopFilters } from '#components/Player/Filter/DesktopFilters';
+import { MobileFilters } from '#components/Player/Filter/MobileFilters';
+import { PlayersQueryVariables } from '#graphql/getPlayers';
+import { useIsSticky } from '#lib/hooks/useIsSticky';
+import { getAddressForENS } from '#utils/ensHelpers';
+import { SkillOption } from '#utils/skillHelpers';
 
 const Form = chakra.form;
 

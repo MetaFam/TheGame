@@ -9,8 +9,6 @@ import {
   VStack,
 } from '@metafam/ds';
 import type { Maybe } from '@metafam/utils';
-import BlueArrow from 'assets/patron/blue-arrow.webp';
-import { PlayerRank_Enum, PSeedHolder } from 'graphql/autogen/types';
 import {
   getLeagueCount,
   getLeagueCutoff,
@@ -19,6 +17,9 @@ import {
   NUM_PATRONS,
   PATRON_RANKS,
 } from 'utils/patronHelpers';
+
+import BlueArrow from '#assets/patron/blue-arrow.webp';
+import { PlayerRank_Enum, PSeedHolder } from '#graphql/autogen/hasura-sdk';
 
 import { LeagueCardItem } from './LeagueCardItem';
 

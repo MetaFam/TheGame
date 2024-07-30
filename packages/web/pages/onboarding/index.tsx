@@ -1,8 +1,9 @@
-import { LandingHeader } from 'components/Landing/LandingHeader';
-import { Onboard } from 'components/Landing/Onboard';
-import { HeadComponent } from 'components/Seo';
-import { SocialsDesktop } from 'components/SocialLinks';
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';
+
+import { LandingHeader } from '#components/Landing/LandingHeader';
+import { Onboard } from '#components/Landing/Onboard';
+import { HeadComponent } from '#components/Seo';
+import { SocialsDesktop } from '#components/SocialLinks';
 
 export const getStaticProps = async () => ({
   props: {

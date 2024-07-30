@@ -1,14 +1,15 @@
 import { Box, Flex, IconButton } from '@metafam/ds';
-import { GuildAnnouncements } from 'components/Guild/Section/GuildAnnouncements';
-import { GuildHero } from 'components/Guild/Section/GuildHero';
-import { GuildLinks } from 'components/Guild/Section/GuildLinks';
-import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
-import { CustomTextSection } from 'components/Section/CustomTextSection';
-import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
-import { GuildFragment } from 'graphql/autogen/types';
 import React, { forwardRef, LegacyRef, ReactElement } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BoxTypes, createBoxKey, DisplayComponent } from 'utils/boxTypes';
+
+import { GuildAnnouncements } from '#components/Guild/Section/GuildAnnouncements';
+import { GuildHero } from '#components/Guild/Section/GuildHero';
+import { GuildLinks } from '#components/Guild/Section/GuildLinks';
+import { GuildPlayers } from '#components/Guild/Section/GuildPlayers';
+import { CustomTextSection } from '#components/Section/CustomTextSection';
+import { EmbeddedUrl } from '#components/Section/EmbeddedUrlSection';
+import { GuildFragment } from '#graphql/autogen/hasura-sdk';
+import { BoxTypes, createBoxKey, DisplayComponent } from '#utils/boxTypes';
 
 const GuildSectionInner: React.FC<
   DisplayComponent & { guild: GuildFragment }

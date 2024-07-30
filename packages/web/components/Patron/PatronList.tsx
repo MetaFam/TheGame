@@ -1,8 +1,9 @@
 import { SimpleGrid } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { PlayerTile } from 'components/Player/PlayerTile';
-import { Player } from 'graphql/autogen/types';
-import { Patron } from 'graphql/types';
+
+import { PlayerTile } from '#components/Player/PlayerTile';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { Patron } from '#graphql/types';
 
 type Props = {
   patrons: Array<Patron>;

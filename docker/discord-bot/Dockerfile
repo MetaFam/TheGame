@@ -1,4 +1,4 @@
-FROM node:20-slim as base
+FROM node:20-slim AS base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
@@ -15,10 +15,12 @@ COPY tsconfig.base.json .
 COPY packages/discord-bot/*.json ./packages/discord-bot/
 COPY packages/utils/*.json ./packages/utils/
 
-RUN yarn install --pure-lockfile
+RUN corepack enable
+RUN yarn config set nodeLinker node-modules
+RUN yarn install # --immutable
 
 # Dev environment doesn't run this stage or beyond
-FROM base as build
+FROM base AS build
 
 # Copy source files
 COPY packages/discord-bot ./packages/discord-bot/
@@ -28,14 +30,16 @@ COPY packages/@types ./packages/@types/
 # Set env vars
 ARG GRAPHQL_HOST
 
-ENV GRAPHQL_URL https://$GRAPHQL_HOST.onrender.com/v1/graphql
-ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
+ENV GRAPHQL_URL=https://$GRAPHQL_HOST.onrender.com/v1/graphql
+ENV HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret
 
 # Build
 RUN yarn discord-bot build
 
-# Delete devDependencies
-RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
+RUN corepack enable
+RUN yarn config set nodeLinker node-modules
+RUN yarn workspaces focus @metafam/discord-bot --production # --immutable
+# RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
 FROM node:20-slim as app

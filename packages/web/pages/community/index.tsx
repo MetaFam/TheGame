@@ -8,14 +8,15 @@ import {
   Tabs,
   VStack,
 } from '@metafam/ds';
-import { getPatrons, getPSeedPrice } from 'graphql/getPatrons';
-import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import GuildsPage from 'pages/guilds';
 import PatronsPage from 'pages/patrons';
 import Players from 'pages/players';
 import React, { lazy, useEffect, useState } from 'react';
+
+import { getPatrons, getPSeedPrice } from '#graphql/getPatrons';
+import { getGuilds } from '#graphql/queries/guild';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

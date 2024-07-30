@@ -1,9 +1,10 @@
 import { Box } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { Player } from 'graphql/autogen/types';
-import { usePlayerName } from 'lib/hooks/player/usePlayerName';
-import { usePlayerURL } from 'lib/hooks/player/usePlayerURL';
+
+import { MetaLink } from '#components/Link';
+import { PlayerAvatar } from '#components/Player/PlayerAvatar';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { usePlayerName } from '#lib/hooks/player/usePlayerName';
+import { usePlayerURL } from '#lib/hooks/player/usePlayerURL';
 
 type Props = {
   position: number;

@@ -6,7 +6,7 @@ import { Constants } from '@metafam/utils';
 import { TextChannel } from 'discord.js';
 import { Request, Response } from 'express';
 
-import { CONFIG } from '../../../config.js';
+import { CONFIG } from '#config';
 import {
   Dao_Player,
   Guild_Set_Input,
@@ -15,8 +15,8 @@ import {
   GuildInfoInput,
   GuildStatus_Enum,
   GuildType_Enum,
-} from '../../../lib/autogen/hasura-sdk.js';
-import { client } from '../../../lib/hasuraClient.js';
+} from '#lib/autogen/hasura-sdk';
+import { client } from '#lib/hasuraClient';
 
 type GuildDao = GuildDaoInput & { guildId: string };
 type ExistingGuildDao = GuildDaoInput & { id: string };

@@ -5,14 +5,15 @@ import {
   GetQuestWithCompletionsDocument,
   GetQuestWithCompletionsQuery,
   GetQuestWithCompletionsQueryVariables,
-} from 'graphql/autogen/types';
-import { client as defaultClient } from 'graphql/client';
+} from 'graphql/autogen/hasura-sdk';
 import {
   PlayerFragment,
   QuestFragment,
   QuestWithCompletionFragment,
 } from 'graphql/fragments';
 import { Client } from 'urql';
+
+import { client as defaultClient } from '#graphql/client';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `

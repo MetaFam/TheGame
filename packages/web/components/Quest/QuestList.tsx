@@ -1,6 +1,7 @@
 import { Box, SimpleGrid, Text } from '@metafam/ds';
-import { QuestTile } from 'components/Quest/QuestTile';
-import { QuestFragment } from 'graphql/autogen/types';
+
+import { QuestTile } from '#components/Quest/QuestTile';
+import { QuestFragment } from '#graphql/autogen/hasura-sdk';
 
 type Props = {
   quests: QuestFragment[];

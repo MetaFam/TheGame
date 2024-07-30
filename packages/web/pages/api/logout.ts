@@ -1,8 +1,9 @@
-import { getSession } from 'lib/ironSession';
 import {
   NextApiRequest as NextAPIRequest,
   NextApiResponse as NextAPIResponse,
 } from 'next';
+
+import { getSession } from '#lib/ironSession';
 
 const handler = async (
   req: NextAPIRequest,

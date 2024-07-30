@@ -1,7 +1,8 @@
-import { SetupAvailability } from 'components/Setup/SetupAvailability';
-import { SetupProfile } from 'components/Setup/SetupProfile';
-import { SetupContextProvider } from 'contexts/SetupContext';
 import { InferGetStaticPropsType } from 'next';
+
+import { SetupAvailability } from '#components/Setup/SetupAvailability';
+import { SetupProfile } from '#components/Setup/SetupProfile';
+import { SetupContextProvider } from '#contexts/SetupContext';
 
 export const getStaticProps = async () => ({
   props: {

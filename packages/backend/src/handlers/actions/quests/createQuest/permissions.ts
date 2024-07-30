@@ -1,29 +1,36 @@
 import { Constants, numbers } from '@metafam/utils';
+import { createPublicClient, http } from 'viem';
+import { polygon } from 'viem/chains';
 
-import { getERC20Contract, polygonProvider } from '../../../../lib/ethereum.js';
+import { getERC20Contract } from '#lib/ethereum';
 
-const { BN, amountToDecimal } = numbers;
+const { amountToDecimal } = numbers;
 
 /**
- * As a first iteration, we only allow people to create quests if they hold more that 100 pSEED tokens
+ * As a first iteration, we only allow people to
+ * create quests if they hold more that 100 pSEED tokens
  */
 
 export async function isAllowedToCreateQuest(
-  playerAddress: string,
-): Promise<boolean> {
+  playerAddress: `0x${string}`,
+) {
+  const polygonClient = createPublicClient({
+    chain: polygon,
+    transport: http(),
+  });
   const pSEEDContract = getERC20Contract(
     Constants.PSEED_ADDRESS,
-    polygonProvider,
+    polygonClient,
   );
-  const pSEEDBalance = await pSEEDContract.balanceOf(playerAddress);
-  const pSEEDDecimals = await pSEEDContract.decimals();
-  const minimumPooledSeedBalance = new BN(Constants.PSEED_FOR_QUEST);
+  const pSEEDBalance = await pSEEDContract.read.balanceOf([playerAddress]);
+  const pSEEDDecimals = await pSEEDContract.read.decimals();
+  const minimumPooledSeedBalance = BigInt(Constants.PSEED_FOR_QUEST);
   const pSEEDBalanceInDecimal = amountToDecimal(
-    pSEEDBalance.toString(),
-    pSEEDDecimals,
+    pSEEDBalance as string,
+    pSEEDDecimals as number,
   );
 
-  const allowed = new BN(pSEEDBalanceInDecimal).gte(minimumPooledSeedBalance);
+  const allowed = BigInt(pSEEDBalanceInDecimal) >= minimumPooledSeedBalance;
 
   return allowed;
 }

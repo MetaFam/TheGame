@@ -1,9 +1,10 @@
 import { Stack } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
-import { MegaMenuFooter } from 'components/MegaMenu/MegaMenuFooter';
-import { MegaMenuHeader } from 'components/MegaMenu/MegaMenuHeader';
 import type { PropsWithChildren } from 'react';
 import React, { useEffect, useState } from 'react';
+
+import BackgroundImage from '#assets/main-background.jpg';
+import { MegaMenuFooter } from '#components/MegaMenu/MegaMenuFooter';
+import { MegaMenuHeader } from '#components/MegaMenu/MegaMenuHeader';
 
 type Props = PropsWithChildren<{ hide?: boolean }>;
 

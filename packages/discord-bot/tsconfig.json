@@ -3,9 +3,11 @@
   "display": "MetaGame's Discord Bot",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
     "outDir": "dist/",
-    "tsBuildInfoFile": "dist/.tsbuildinfo",
     "rootDir": "src/",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
     "composite": true
   },
   "references": [{ "path": "../utils" }],

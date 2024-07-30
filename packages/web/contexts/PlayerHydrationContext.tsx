@@ -1,9 +1,3 @@
-import { Player } from 'graphql/autogen/types';
-import { buildPlayerProfileQuery } from 'graphql/composeDB/queries/profile';
-import { getPlayer } from 'graphql/getPlayer';
-import { ComposeDBProfileQueryResult } from 'graphql/types';
-import { useComposeDB } from 'lib/hooks/ceramic/useComposeDB';
-import { hydratePlayerProfile } from 'lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 import {
   createContext,
   PropsWithChildren,
@@ -12,6 +6,13 @@ import {
   useEffect,
   useState,
 } from 'react';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { buildPlayerProfileQuery } from '#graphql/composeDB/queries/profile';
+import { getPlayer } from '#graphql/getPlayer';
+import { ComposeDBProfileQueryResult } from '#graphql/types';
+import { useComposeDB } from '#lib/hooks/ceramic/useComposeDB';
+import { hydratePlayerProfile } from '#lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 
 export type PlayerHydrationContextType = {
   hydratedPlayer: Player;

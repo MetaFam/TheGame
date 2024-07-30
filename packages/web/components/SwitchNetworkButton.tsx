@@ -1,8 +1,9 @@
 import { Button, MetaMaskIcon, Tooltip } from '@metafam/ds';
-import { useWeb3 } from 'lib/hooks';
 import React, { useCallback, useState } from 'react';
-import { NETWORK_INFO } from 'utils/networks';
 import { useSwitchChain } from 'wagmi';
+
+import { useWeb3 } from '#lib/hooks';
+import { NETWORK_INFO } from '#utils/networks';
 
 export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
   chainId = '0xa',
@@ -39,3 +40,5 @@ export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
     </Tooltip>
   );
 };
+
+export default SwitchNetworkButton;

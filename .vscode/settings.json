@@ -1,5 +1,6 @@
 {
     "githubPullRequests.ignoredPullRequestBranches": [
         "develop"
-    ]
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -1,9 +1,5 @@
-import { Box, Container, Flex, Heading, Text, VStack } from '@metafam/ds';
+  import { Box, Container, Flex, Heading, Text, VStack } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { LeagueCardItem } from 'components/Patron/Join/LeagueCardItem';
-import { PerksCard } from 'components/Patron/Join/PerksCard';
-import { PerksHeader } from 'components/Patron/Join/PerksHeader';
-import { PlayerRank_Enum, PSeedHolder } from 'graphql/autogen/types';
 import {
   getLeagueCount,
   getLeagueCutoff,
@@ -12,6 +8,11 @@ import {
   NUM_PATRONS,
   PATRON_RANKS,
 } from 'utils/patronHelpers';
+
+import { LeagueCardItem } from '#components/Patron/Join/LeagueCardItem';
+import { PerksCard } from '#components/Patron/Join/PerksCard';
+import { PerksHeader } from '#components/Patron/Join/PerksHeader';
+import { PlayerRank_Enum, PSeedHolder } from '#graphql/autogen/hasura-sdk';
 
 const AllPatronsList = [
   'Membership & a vote in MetaGame',

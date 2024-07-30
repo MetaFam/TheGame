@@ -1,6 +1,7 @@
 import { Box, Button, Image, Link, Text, VStack } from '@metafam/ds';
-import Balancer from 'assets/seeds/balancer-plant.png';
 import { GoLinkExternal } from 'react-icons/go';
+
+import Balancer from '#assets/seeds/balancer-plant.png';
 
 export const Plant: React.FC = () => (
   <VStack spacing={4} my={8}>

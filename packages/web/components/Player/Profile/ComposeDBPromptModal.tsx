@@ -15,35 +15,35 @@ import {
   UnorderedList,
   useToast,
 } from '@metafam/ds';
-import { ComposeDBProfile, profileMapping } from '@metafam/utils';
-import { MetaLink } from 'components/Link';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
-import { Player } from 'graphql/autogen/types';
-import { CeramicError } from 'lib/errors';
-import { useWeb3 } from 'lib/hooks';
-import { useComputeComposeDBImageMetadata } from 'lib/hooks/ceramic/useComputeComposeDBImageMetadata';
-import { useSaveToComposeDB } from 'lib/hooks/ceramic/useSaveToComposeDB';
+import { ComposeDBProfile, Maybe, profileMapping } from '@metafam/utils';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
-import { hasuraToComposeDBProfile } from 'utils/playerHelpers';
+
+import { MetaLink } from '#components/Link';
+import { SwitchNetworkButton } from '#components/SwitchNetworkButton';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { CeramicError } from '#lib/errors';
+import { useWeb3 } from '#lib/hooks';
+import { useComputeComposeDBImageMetadata } from '#lib/hooks/ceramic/useComputeComposeDBImageMetadata';
+import { EmptyProfileError, useSaveToComposeDB } from '#lib/hooks/ceramic/useSaveToComposeDB';
+import { hasuraToComposeDBProfile } from '#utils/playerHelpers';
 
 export type ComposeDBPromptModalProps = {
   player: Player;
   isOpen: boolean;
   onClose: () => void;
-  handleMigrationCompleted: (streamID: string) => void;
+  onCompleted: (streamID: Maybe<string>) => void;
 };
-
-const initialStatus = 'Loading profile image data…';
 
 export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
   player,
   isOpen,
   onClose,
-  handleMigrationCompleted,
+  onCompleted,
 }) => {
-  const toast = useToast();
-  const [status, setStatus] = useState(initialStatus);
+  const toast = useToast({
+    isClosable: true,
+    duration: 12000,
+  });
   const { chainId } = useWeb3();
 
   const { imageMetadata: profileImageMetadata } =
@@ -60,9 +60,20 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
     return isAvatarLoaded && isBackgroundLoaded;
   }, [backgroundImageMetadata, player.profile, profileImageMetadata]);
 
+  const prompt = {
+    migrateProfile: 'Port your profile data:',
+    loadImages: 'Loading profile image data…',
+    pushing: 'Pushing data to Ceramic…',
+    authenticating: 'Authenticating DID…',
+    get initial() {
+      return areImagesLoaded ? this.migrateProfile : this.loadImages;
+    }
+  }
+  const [status, setStatus] = useState(prompt.initial);
+  
   useEffect(() => {
     if (areImagesLoaded) {
-      setStatus('Port your profile data');
+      setStatus(prompt.migrateProfile);
     }
   }, [areImagesLoaded]);
 
@@ -70,7 +81,7 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
 
   const persist = useCallback(
     (values: ComposeDBProfile) => {
-      setStatus('Pushing Data to Ceramic…');
+      setStatus(prompt.pushing);
       return saveToComposeDB(values);
     },
     [saveToComposeDB],
@@ -78,46 +89,62 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
 
   useEffect(() => {
     if (saveStatus === 'authenticating') {
-      setStatus('Authenticating DID…');
+      setStatus(prompt.authenticating);
     }
   }, [saveStatus]);
 
   const onClick = useCallback(async () => {
     if (!player.profile) {
+      toast({
+        title: 'ComposeDB Migration Failed',
+        description: `Your player record has no profile.`,
+        status: 'error',
+      });
       return;
     }
+    let failure = null
+    let streamId = null
     try {
       const composeDBPayload = hasuraToComposeDBProfile(player.profile, {
         profileImageURL: profileImageMetadata,
         backgroundImageURL: backgroundImageMetadata,
       });
 
-      const streamID = await persist(composeDBPayload);
+      streamId = await persist(composeDBPayload);
 
-      handleMigrationCompleted(streamID);
-      onClose();
       toast({
-        title: 'ComposeDB migration complete',
-        description: `Your profile streamID is ${streamID}`,
+        title: 'ComposeDB Migration Complete',
+        description: `Your profile stream id is "${streamId}".`,
         status: 'success',
-        isClosable: true,
-        duration: 12000,
       });
+      failure = false
     } catch (err) {
-      const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
-      toast({
-        title: heading,
-        description: (err as Error).message,
-        status: 'error',
-        isClosable: true,
-        duration: 12000,
-      });
-      errorHandler(err as Error);
-      setStatus(initialStatus);
+      if(err instanceof EmptyProfileError) {
+        failure = false
+        toast({
+          title: 'ComposeDB Migration Skipped',
+          description: err.message,
+          status: 'info',
+        });
+      } else {
+        failure = true
+        const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
+        toast({
+          title: heading,
+          description: (err as Error).message,
+          status: 'error',
+        });
+        setStatus(prompt.initial);
+      }
+    } finally {
+      if(!failure) {
+        onCompleted(streamId);
+        onClose();
+      }
     }
   }, [
     backgroundImageMetadata,
-    handleMigrationCompleted,
+    onCompleted,
     onClose,
     persist,
     player.profile,
@@ -200,7 +227,7 @@ export const ComposeDBPromptModal: React.FC<ComposeDBPromptModalProps> = ({
           </Center>
         </ModalBody>
         <ModalFooter justifyContent="center">
-          {chainId === '0xa' ? (
+          {chainId === 10 ? (
             <MetaButton disabled={!areImagesLoaded} {...{ onClick }}>
               {status}
             </MetaButton>

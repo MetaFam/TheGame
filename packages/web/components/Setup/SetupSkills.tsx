@@ -9,15 +9,11 @@ import {
   Text,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { useSetupFlow } from 'contexts/SetupContext';
 import {
   Player,
   SkillCategory_Enum,
   useUpdatePlayerSkillsMutation,
-} from 'graphql/autogen/types';
-import { getSkills } from 'graphql/queries/enums/getSkills';
-import { SkillColors } from 'graphql/types';
-import { useMounted, useUser } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   FormProvider,
@@ -25,7 +21,12 @@ import {
   useFormContext,
   UseFormSetValue,
 } from 'react-hook-form';
-import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
+
+import { useSetupFlow } from '#contexts/SetupContext';
+import { getSkills } from '#graphql/queries/enums/getSkills';
+import { SkillColors } from '#graphql/types';
+import { useMounted, useUser } from '#lib/hooks';
+import { CategoryOption, parseSkills, SkillOption } from '#utils/skillHelpers';
 
 import { MaybeModalProps, WizardPane } from './WizardPane';
 

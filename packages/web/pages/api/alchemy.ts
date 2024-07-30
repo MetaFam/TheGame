@@ -1,7 +1,7 @@
 import { Network } from 'alchemy-sdk';
 import { CONFIG } from 'config';
-import { ethers } from 'ethers';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { isAddress } from 'viem';
 
 import { AlchemyMultichainClient } from './alchemy-multichain-client';
 
@@ -27,7 +27,7 @@ const alchemy = new AlchemyMultichainClient(config, overrides);
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { owner } = req.query;
   if (!owner) return res.status(400).json({ error: `Missing Owner Address` });
-  if (req.method === 'GET' && ethers.utils.isAddress(owner as string)) {
+  if (req.method === 'GET' && isAddress(owner as string)) {
     try {
       const mainnetNfts = await alchemy
         .forNetwork(Network.ETH_MAINNET)
@@ -47,7 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const msg = (err as Error).message;
       return res.status(status).json({ error: msg });
     }
-  } else if (!ethers.utils.isAddress(owner as string)) {
+  } else if (!isAddress(owner as string)) {
     return res.status(400).json({ error: `Invalid Owner Address` });
   } else {
     return res

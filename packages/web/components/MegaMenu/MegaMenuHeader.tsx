@@ -25,25 +25,13 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import LogoImage from 'assets/new_logo_svg.svg';
-import SearchIcon from 'assets/search-icon.svg';
-import { MetaLink } from 'components/Link';
-import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
-import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
 import { ConnectKitButton } from 'connectkit';
 import {
   GuildFragment,
   Player,
   PlayerFragment,
   SearchQuestsQuery,
-} from 'graphql/autogen/types';
-import { searchPatrons } from 'graphql/getPatrons';
-import { searchPlayers } from 'graphql/getPlayers';
-import { searchQuests } from 'graphql/getQuests';
-import { searchGuilds } from 'graphql/queries/guild';
-import { Patron } from 'graphql/types';
-import { useMounted, useUser, useWeb3 } from 'lib/hooks';
-import { useProfileImageOnload } from 'lib/hooks/useProfileImageOnload';
+} from 'graphql/autogen/hasura-sdk';
 import { useRouter } from 'next/router';
 import React, {
   FormEventHandler,
@@ -54,13 +42,29 @@ import React, {
 } from 'react';
 import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 import { debounceTime, filter, shareReplay, switchMap } from 'rxjs/operators';
-import { menuIcons } from 'utils/menuIcons';
-import { MenuSectionLinks } from 'utils/menuLinks';
 import {
   getPlayerName,
   getPlayerURL,
   getPlayerUsername,
 } from 'utils/playerHelpers';
+import { useAccount } from 'wagmi';
+
+import LogoImage from '#assets/new_logo_svg.svg';
+import SearchIcon from '#assets/search-icon.svg';
+import { MetaLink } from '#components/Link';
+import { DesktopNavLinks } from '#components/MegaMenu/DesktopNavLinks';
+import { DesktopPlayerStats } from '#components/MegaMenu/DesktopPlayerStats';
+import { searchPatrons } from '#graphql/getPatrons';
+import { searchPlayers } from '#graphql/getPlayers';
+import { searchQuests } from '#graphql/getQuests';
+import { searchGuilds } from '#graphql/queries/guild';
+import { Patron } from '#graphql/types';
+import { useMounted, useUser, useWeb3 } from '#lib/hooks';
+import { useProfileImageOnload } from '#lib/hooks/useProfileImageOnload';
+import { menuIcons } from '#utils/menuIcons';
+import { MenuSectionLinks } from '#utils/menuLinks';
+import { authenticateWallet } from '#contexts/Web3Context';
+import { useViemClients } from '#lib/hooks/useEthersProvider';
 
 type LogoProps = {
   link: string;
@@ -492,11 +496,8 @@ const HeaderSearchBar = (props: HeaderSearchBarProps) => {
 };
 
 export const MegaMenuHeader: React.FC = () => {
-  const { connected, connecting } = useWeb3();
   const router = useRouter();
   const { user, fetching } = useUser();
-  const mounted = useMounted();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
 
@@ -612,9 +613,13 @@ export const MegaMenuHeader: React.FC = () => {
               w="15%"
             >
               <ConnectKitButton.Custom>
-                {({ isConnected, isConnecting, show }) =>
-                  isConnected && !isConnecting && !!user ? (
-                    <DesktopPlayerStats player={user} />
+                {({ isConnected, isConnecting, show }) => (
+                  isConnected ? (
+                    !!user ? (
+                      <DesktopPlayerStats player={user} />
+                    ) : (
+                      <Button onClick={show}>Missing User Record</Button>
+                    )
                   ) : (
                     <Button
                       w="100%"
@@ -622,14 +627,14 @@ export const MegaMenuHeader: React.FC = () => {
                       textTransform="uppercase"
                       fontWeight="600"
                       onClick={show}
-                      isLoading={connecting || fetching}
+                      isLoading={isConnecting || fetching}
                       colorScheme="pink"
                       fontSize="1rem"
                     >
                       Connect Wallet
                     </Button>
                   )
-                }
+                )}
               </ConnectKitButton.Custom>
             </Box>
           </Flex>

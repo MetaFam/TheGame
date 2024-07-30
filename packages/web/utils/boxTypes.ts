@@ -1,8 +1,9 @@
 import { Maybe, Values } from '@metafam/utils';
-import { GuildFragment, Player } from 'graphql/autogen/types';
 import { JSXElementConstructor, ReactElement, RefAttributes } from 'react';
 import { Layouts } from 'react-grid-layout';
-import { hashCode } from 'utils/stringHelpers';
+
+import { GuildFragment, Player } from '#graphql/autogen/hasura-sdk';
+import { hashCode } from '#utils/stringHelpers';
 
 export const BoxTypes = {
   // Player Profile Boxes

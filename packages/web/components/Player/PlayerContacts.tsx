@@ -1,7 +1,8 @@
 import { IconButton, MetaTileLinkWrapper, Wrap, WrapItem } from '@metafam/ds';
-import { linkButtonProps } from 'components/Guild/Section/GuildLinks';
-import { Player } from 'graphql/autogen/types';
 import { FaGithub, FaTwitter } from 'react-icons/fa';
+
+import { linkButtonProps } from '#components/Guild/Section/GuildLinks';
+import { Player } from '#graphql/autogen/hasura-sdk';
 
 import { PlayerBrightId } from './Section/PlayerBrightId';
 

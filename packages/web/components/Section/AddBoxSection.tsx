@@ -18,10 +18,11 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { SetupPlayerLinks } from 'components/Setup/SetupPlayerLinks';
-import { GuildFragment, Player } from 'graphql/autogen/types';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
+
+import { SetupPlayerLinks } from '#components/Setup/SetupPlayerLinks';
+import { GuildFragment, Player } from '#graphql/autogen/hasura-sdk';
+import { BoxMetadata, BoxType, BoxTypes } from '#utils/boxTypes';
 
 import { CustomTextSectionMetadata } from './CustomTextSection';
 import { EmbeddedUrlMetadata } from './EmbeddedUrlSection';

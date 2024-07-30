@@ -8,9 +8,10 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
-import { LinkType_Enum, useAddGuildLinkMutation } from 'graphql/autogen/types';
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
+
+import { LinkType_Enum, useAddGuildLinkMutation } from '#graphql/autogen/hasura-sdk';
 
 export interface GuildLinkFormInputs {
   name: string;

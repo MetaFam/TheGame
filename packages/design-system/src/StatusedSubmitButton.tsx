@@ -2,7 +2,7 @@ import { ButtonProps, Flex, Spinner, Text } from '@chakra-ui/react';
 import { Maybe } from '@metafam/utils';
 import React, { ReactElement } from 'react';
 
-import { MetaButton } from './MetaButton';
+import { MetaButton } from './MetaButton.jsx';
 
 type StatusedSubmitProps = {
   label?: Maybe<string | ReactElement>;

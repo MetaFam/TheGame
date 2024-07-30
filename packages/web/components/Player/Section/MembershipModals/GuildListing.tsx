@@ -12,9 +12,6 @@ import {
   Text,
   Tooltip,
 } from '@metafam/ds';
-import { LinkGuild } from 'components/Player/PlayerGuild';
-import { Exact, GuildType_Enum, InputMaybe } from 'graphql/autogen/types';
-import { GuildMembership } from 'graphql/getMemberships';
 import React, { useMemo } from 'react';
 import {
   BsEyeFill,
@@ -24,8 +21,12 @@ import {
 } from 'react-icons/bs';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 import { MdDragHandle, MdOutlineRemoveCircleOutline } from 'react-icons/md';
-import { getDAOLink } from 'utils/daoHelpers';
-import { optimizedImage } from 'utils/imageHelpers';
+
+import { LinkGuild } from '#components/Player/PlayerGuild';
+import { Exact, GuildType_Enum, InputMaybe } from '#graphql/autogen/hasura-sdk';
+import { GuildMembership } from '#graphql/getMemberships';
+import { getDAOLink } from '#utils/daoHelpers';
+import { optimizedImage } from '#utils/imageHelpers';
 
 export type SmallGuild = Exact<{
   id: string;

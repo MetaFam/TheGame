@@ -3,7 +3,7 @@ import { Optional } from '@metafam/utils';
 import {
   GetPlayerDeworkUsernameQuery,
   GetPlayerDeworkUsernameQueryVariables,
-} from './autogen/types';
+} from './autogen/hasura-sdk';
 import { client } from './client';
 
 const playerDeworkUsernameQuery = /* GraphQL */ `

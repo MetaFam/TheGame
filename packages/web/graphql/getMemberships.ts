@@ -4,7 +4,7 @@ import {
   GetPlayerGuildsQuery,
   GetPlayerGuildsQueryVariables,
   Player,
-} from './autogen/types';
+} from './autogen/hasura-sdk';
 import { client } from './client';
 
 const daoMembershipsQuery = /* GraphQL */ `

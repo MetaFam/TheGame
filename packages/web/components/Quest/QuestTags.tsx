@@ -3,9 +3,10 @@ import {
   QuestCompletionStatus_Enum,
   QuestRepetition_Enum,
   QuestStatus_Enum,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 import moment from 'moment';
-import { QuestRepetitionHint } from 'utils/questHelpers';
+
+import { QuestRepetitionHint } from '#utils/questHelpers';
 
 export const RepetitionColors: Record<QuestRepetition_Enum, string> = {
   [QuestRepetition_Enum.Recurring]: 'cyan.700',

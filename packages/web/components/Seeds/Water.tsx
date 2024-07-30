@@ -9,14 +9,15 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import SeedsIcon from 'assets/seeds/plant.svg';
-import WaterDrops1 from 'assets/seeds/WaterDrops1.png';
-import WaterDrops2 from 'assets/seeds/WaterDrops2.png';
-import WaterDrops3 from 'assets/seeds/WaterDrops3.png';
-import WaterDrops4 from 'assets/seeds/WaterDrops4.png';
-import WaterDrops5 from 'assets/seeds/WaterDrops5.png';
 import React, { useEffect, useState } from 'react';
 import { GoLinkExternal } from 'react-icons/go';
+
+import SeedsIcon from '#assets/seeds/plant.svg';
+import WaterDrops1 from '#assets/seeds/WaterDrops1.png';
+import WaterDrops2 from '#assets/seeds/WaterDrops2.png';
+import WaterDrops3 from '#assets/seeds/WaterDrops3.png';
+import WaterDrops4 from '#assets/seeds/WaterDrops4.png';
+import WaterDrops5 from '#assets/seeds/WaterDrops5.png';
 
 export const Water: React.FC = () => {
   const amounts = [8, 50, 100, 1000, 'Custom amount'];

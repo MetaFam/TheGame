@@ -1,4 +1,6 @@
-// DRY
+import { createConfig,http } from '@wagmi/core'
+import { mainnet, sepolia } from '@wagmi/core/chains'
+
 export const WEB_PATH_JOIN_GUILD = 'join/guild';
 
 export const DISCORD_BOT_CLIENT_ID = '804609082308034560';
@@ -30,3 +32,8 @@ export const PSEED_DECIMALS = 18;
 export const PSEED_FOR_QUEST = APP_ENV === 'production' ? 100 : 0;
 
 export const PLAUSIBLE_DATA_DOMAIN = 'metagame.wtf';
+
+export const wagmiMainnetConfig = createConfig({
+  chains: [mainnet],
+  transports: { [mainnet.id]: http() },
+})

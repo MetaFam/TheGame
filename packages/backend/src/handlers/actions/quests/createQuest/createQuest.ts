@@ -3,8 +3,9 @@ import {
   CreateQuestOutput,
   Quest_Insert_Input,
   QuestRepetition_Enum,
-} from '../../../../lib/autogen/hasura-sdk.js';
-import { client } from '../../../../lib/hasuraClient.js';
+} from '#lib/autogen/hasura-sdk';
+import { client } from '#lib/hasuraClient';
+
 import { isAllowedToCreateQuest } from './permissions.js';
 
 export async function createQuest(
@@ -18,21 +19,23 @@ export async function createQuest(
     | undefined;
 
   if (questRepetition === QuestRepetition_Enum.Recurring && !quest.cooldown) {
-    throw new Error('Recurring quests need to have a cooldown');
+    throw new Error('Recurring quests need to have a cooldown.');
   }
   if (questRepetition !== QuestRepetition_Enum.Recurring && quest.cooldown) {
-    throw new Error('Non recurring quests cannot have a cooldown');
+    throw new Error('Non-recurring quests cannot have a cooldown.');
   }
 
   const playerData = await client.GetPlayer({ playerId });
-  const ethAddress = playerData.player_by_pk?.ethereumAddress;
+  const ethAddress = (
+    playerData.player_by_pk?.ethereumAddress as `0x${string}`
+  );
   if (!ethAddress) {
-    throw new Error('Ethereum address not found for player');
+    throw new Error('Ethereum address not found for player.');
   }
 
   const allowed = await isAllowedToCreateQuest(ethAddress);
   if (!allowed) {
-    throw new Error('Player not allowed to create quests');
+    throw new Error('Player not allowed to create quests.');
   }
 
   const { skillIds, roleIds, ...questValues } = quest;
@@ -49,10 +52,12 @@ export async function createQuest(
     },
   };
 
-  const data = await client.CreateQuest({ objects: questInput });
+  const { insert_quest: insertQuest } = await client.CreateQuest({ objects: questInput });
+  const { returning: [{ id }] } = insertQuest ?? { returning: [] };
 
-  return {
-    success: true,
-    quest_id: data.insert_quest?.returning[0].id,
-  };
+  if(id == null) {
+    throw new Error('Failed to retrieve quest id.');
+  }
+
+  return { success: true, quest_id: id };
 }

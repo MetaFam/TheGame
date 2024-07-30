@@ -1,10 +1,11 @@
 import { Box, MetaButton } from '@metafam/ds';
-import { Links } from 'components/Player/Section/Links';
-import { AddPlayerLink } from 'components/Player/Section/PlayerLinks/AddPlayerLink';
-import { EditPlayerLink } from 'components/Player/Section/PlayerLinks/EditPlayerLink';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
-import { Link, Player } from 'graphql/autogen/types';
 import React, { useCallback, useState } from 'react';
+
+import { Links } from '#components/Player/Section/Links';
+import { AddPlayerLink } from '#components/Player/Section/PlayerLinks/AddPlayerLink';
+import { EditPlayerLink } from '#components/Player/Section/PlayerLinks/EditPlayerLink';
+import { usePlayerHydrationContext } from '#contexts/PlayerHydrationContext';
+import { Link, Player } from '#graphql/autogen/hasura-sdk';
 
 const SetupPlayerLinks: React.FC<{
   onComplete?: () => void;
