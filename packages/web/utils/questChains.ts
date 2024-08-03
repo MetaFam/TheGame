@@ -77,6 +77,7 @@ export const QuestChainsCategories = {
   META: 'meta',
   WEB3_BASICS: 'web3-basics',
   HOW_TO_DAO: 'how-to-dao',
+  REGEN: 'regen',
   SELF_ACTUALIZATION: 'self-actualization',
   WELLBEING_SELF_IMPROVEMENT: 'wellbeing-self-improvement',
   RANDOM: 'random',
@@ -214,7 +215,7 @@ export const QuestChainsCategoriesDetails: Record<
     name: QuestChainsCategories.SELF_ACTUALIZATION,
     title: 'Self-actualization & Wellbeing',
     description:
-      'Another one we are weak in; open to anything regarding personal wellbeing & self-improvement.',
+      'Open to anything regarding personal wellbeing & self-improvement.',
     image: '',
   },
   [QuestChainsCategories.RANDOM]: {
@@ -222,6 +223,13 @@ export const QuestChainsCategoriesDetails: Record<
     title: 'Random Game META',
     description:
       'Most effective tactics available for using different platforms & games of life.',
+    image: '',
+  },
+  [QuestChainsCategories.REGEN]: {
+    name: QuestChainsCategories.REGEN,
+    title: 'Regen & ReFi',
+    description:
+      'Coming Soon! Become a Regen, learn about ReFi',
     image: '',
   },
 };
