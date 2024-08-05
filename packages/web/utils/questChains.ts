@@ -76,6 +76,7 @@ export const QuestChainsCategories = {
   FOR_METAGAME: 'for-metagame',
   META: 'meta',
   WEB3_BASICS: 'web3-basics',
+  BUILD_ON_OPTIMISM: 'build-on-optimism',
   HOW_TO_DAO: 'how-to-dao',
   REGEN: 'regen',
   SELF_ACTUALIZATION: 'self-actualization',
@@ -202,6 +203,13 @@ export const QuestChainsCategoriesDetails: Record<
     title: 'Web3 in General',
     description:
       'Here you will learn the basics of Web3 as well as how to get involved in building it.',
+    image: '',
+  },
+  [QuestChainsCategories.Build_On_Optimism]: {
+    name: QuestChainsCategories.Build_On_Optimism,
+    title: 'Building on Optimism',
+    description:
+      'Get started Building on Optimism.',
     image: '',
   },
   [QuestChainsCategories.HOW_TO_DAO]: {
