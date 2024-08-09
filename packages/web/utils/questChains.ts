@@ -34,6 +34,7 @@ import submitPlaybook from 'assets/academy/submit-playbook.webp';
 import team from 'assets/academy/team.png';
 import time from 'assets/academy/time.png';
 import web3builder from 'assets/academy/web3builder.png';
+import buildingOnOptimism from 'assets/academy/Building-on-optimism.png';
 import { ethers, Signer } from 'ethers';
 
 export const getQuestChainContract = (
@@ -95,6 +96,7 @@ export const QuestChainsPlaybooks = {
   BUILDERS_PATH: 'builders-path',
   BRIDGEBUILDERS_PATH: 'bridgebuilders-path',
   DESIGNERS_PATH: 'designers-path',
+  BUILD_ON_OPTIMISM: 'building-on-optimism',
   WTF_IS_ETHEREUM: 'wtf-is-ethereum',
   WTF_ARE_DAOS: 'wtf-are-daos',
   WTF_IS_DEFI: 'wtf-is-defi',
@@ -205,8 +207,8 @@ export const QuestChainsCategoriesDetails: Record<
       'Here you will learn the basics of Web3 as well as how to get involved in building it.',
     image: '',
   },
-  [QuestChainsCategories.Build_On_Optimism]: {
-    name: QuestChainsCategories.Build_On_Optimism,
+  [QuestChainsCategories.BUILD_ON_OPTIMISM]: {
+    name: QuestChainsCategories.BUILD_ON_OPTIMISM,
     title: 'Building on Optimism',
     description:
       'Get started Building on Optimism.',
@@ -344,6 +346,18 @@ export const QuestChainPlaybooksDetails: Record<
       'Designer in this case is referring mainly to those designing UX/UI.',
     image: designer.src,
     category: QuestChainsCategories.FOR_METAGAME,
+    seedsEarned: 42069,
+    type: PathPlaybookTypes.PLAYBOOK,
+  },
+  // https://app.questchains.xyz/optimism/building-on-optimism
+   [QuestChainsPlaybooks.BUILD_ON_OPTIMISM]: {
+    address: '0xa3988cef200b3ae24b8e125ffba37872cc65ac7e',
+    chainId: '0xa',
+    title: "Building on Optimism",
+    description:
+      'A quick overview of Optimism. A playbook for Building on Optimism..',
+    image: Building-on-optimism.src,
+    category: QuestChainsCategories.BUILD_ON_OPTIMISM,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
