@@ -23,7 +23,7 @@
     "dev": "nodemon",
     "typecheck": "tsc --noEmit --pretty",
     "precommit": "yarn typecheck",
-    "generate": "yarn dlx graphql-codegen && yarn fix:daohaus-types",
+    "generate": "graphql-codegen && yarn fix:daohaus-types",
     "fix:daohaus-types": "bash -c 'export OUT=src/lib/autogen/daohaus-sdk.ts && awk \"!/MolochVersion = .molochVersion/\" $OUT > $OUT.filtered && mv $OUT.filtered $OUT'",
     "fix:lint": "eslint --fix",
     "test": "jest --passWithNoTests"
@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@composedb/types": "^0.7.1",
+    "@graphql-codegen/cli": "^5.0.2",
     "@types/bluebird": "3.5.36",
     "@types/body-parser": "1.19.2",
     "@types/cors": "2.8.12",
