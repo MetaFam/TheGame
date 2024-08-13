@@ -1,12 +1,13 @@
 import { Layouts } from 'react-grid-layout';
+
 import {
   BoxType,
   BoxTypes,
   ChakraSize,
   createBoxKey,
   Positions,
-} from 'utils/boxTypes';
-import { getBoxLayoutItemDefaults } from 'utils/layoutHelpers';
+} from '#utils/boxTypes';
+import { getBoxLayoutItemDefaults } from '#utils/layoutHelpers';
 
 export const ALL_BOXES = [
   BoxTypes.PLAYER_HERO,

@@ -14,8 +14,8 @@ import {
   Guild_Metadata_Insert_Input,
   GuildStatus_Enum,
   GuildType_Enum,
-} from '../../../../lib/autogen/hasura-sdk.js';
-import { client } from '../../../../lib/hasuraClient.js';
+} from '#lib/autogen/hasura-sdk';
+import { client } from '#lib/hasuraClient';
 
 export const handleOAuthCallback = async (
   req: Request,

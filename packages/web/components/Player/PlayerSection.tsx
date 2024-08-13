@@ -1,23 +1,24 @@
 import { Box, Flex, IconButton } from '@metafam/ds';
-import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
-import { PlayerCompletedQuests } from 'components/Player/Section/PlayerCompletedQuests';
-import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
-import { PlayerHero } from 'components/Player/Section/PlayerHero';
-import { PlayerMemberships } from 'components/Player/Section/PlayerLinks/PlayerMemberships';
-import { PlayerPersonalityType } from 'components/Player/Section/PlayerPersonalityType';
-import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
-import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
-import { PlayerType } from 'components/Player/Section/PlayerType';
-import { CustomTextSection } from 'components/Section/CustomTextSection';
-import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
-import { Player } from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
 import React, { forwardRef, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
+
+import { PlayerAchievements } from '#components/Player/Section/PlayerAchievements';
+import { PlayerCompletedQuests } from '#components/Player/Section/PlayerCompletedQuests';
+import { PlayerGallery } from '#components/Player/Section/PlayerGallery';
+import { PlayerHero } from '#components/Player/Section/PlayerHero';
+import { PlayerMemberships } from '#components/Player/Section/PlayerLinks/PlayerMemberships';
+import { PlayerPersonalityType } from '#components/Player/Section/PlayerPersonalityType';
+import { PlayerRoles } from '#components/Player/Section/PlayerRoles';
+import { PlayerSkills } from '#components/Player/Section/PlayerSkills';
+import { PlayerType } from '#components/Player/Section/PlayerType';
+import { CustomTextSection } from '#components/Section/CustomTextSection';
+import { EmbeddedUrl } from '#components/Section/EmbeddedUrlSection';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { useUser } from '#lib/hooks';
+import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from '#utils/boxTypes';
 
 import { PlayerDework } from './Section/PlayerDework';
-// import { PlayerEAS } from './Section/PlayerEAS';
+import { PlayerEAS } from './Section/PlayerEAS';
 import { PlayerLinks } from './Section/PlayerLinks';
 
 type Props = {
@@ -59,8 +60,8 @@ const PlayerSectionInner: React.FC<
       return <PlayerAchievements {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_COMPLETED_QUESTS:
       return <PlayerCompletedQuests {...{ player, isOwnProfile, editing }} />;
-    // case BoxTypes.PLAYER_ATTESTATIONS:
-    //   return <PlayerEAS {...{ player, isOwnProfile, editing }} />
+    case BoxTypes.PLAYER_ATTESTATIONS:
+      return <PlayerEAS {...{ player, isOwnProfile, editing }} />
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;

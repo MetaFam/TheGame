@@ -6,6 +6,7 @@ import {
   Grid,
   HStack,
   IconButton,
+  MarkdownViewer,
   MeetWithWalletIcon,
   MetaButton,
   MetaTag,
@@ -17,21 +18,21 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { FlexContainer } from 'components/Container';
-import { EditProfileModal } from 'components/EditProfileModal';
-import { MarkdownViewer } from 'components/MarkdownViewer';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
-import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { usePlayerHydrationContext } from 'contexts/PlayerHydrationContext';
-import { Player } from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import { usePlayerName } from 'lib/hooks/player/usePlayerName';
 import React, { useMemo } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
-import { BoxTypes } from 'utils/boxTypes';
-import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
+
+import { FlexContainer } from '#components/Container';
+import { EditProfileModal } from '#components/EditProfileModal';
+import { PlayerAvatar } from '#components/Player/PlayerAvatar';
+import { PlayerContacts as Contacts } from '#components/Player/PlayerContacts';
+import { PlayerHeroTile } from '#components/Player/Section/PlayerHeroTile';
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { usePlayerHydrationContext } from '#contexts/PlayerHydrationContext';
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { useUser } from '#lib/hooks';
+import { usePlayerName } from '#lib/hooks/player/usePlayerName';
+import { BoxTypes } from '#utils/boxTypes';
+import { getPlayerMeetwithWalletCalendarUrl } from '#utils/playerHelpers';
 
 type HeroProps = {
   player: Player;

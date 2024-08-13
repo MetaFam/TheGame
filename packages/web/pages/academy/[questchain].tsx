@@ -1,15 +1,16 @@
 import { Text } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
-import QuestChainDisplay from 'components/QuestChain/QuestChainDisplay';
-import { HeadComponent } from 'components/Seo';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import React, { lazy } from 'react';
-import { errorHandler } from 'utils/errorHandler';
 import {
   QuestChainPathsAndPlaybooksDetails,
   QuestChains,
   QuestChainType,
 } from 'utils/questChains';
+
+import QuestChainDisplay from '#components/QuestChain/QuestChainDisplay';
+import { HeadComponent } from '#components/Seo';
+import { errorHandler } from '#utils/errorHandler';
 
 const { getQuestChainInfo } = graphql;
 
@@ -20,14 +21,11 @@ type Props = {
 
 const PageContainer = lazy(() => import('components/Container'));
 
-const QuestChainPathPage: React.FC<Props> = ({
-  questChain: inputQuestChain,
-  name,
-}) => {
-  if (!inputQuestChain) {
+const QuestChainPathPage: React.FC<Props> = ({ questChain, name }) => {
+  if (!questChain) {
     return (
       <PageContainer>
-        <Text> Quest Chain not found! </Text>
+        <Text>Quest Chain not found!</Text>
       </PageContainer>
     );
   }
@@ -35,12 +33,14 @@ const QuestChainPathPage: React.FC<Props> = ({
   return (
     <PageContainer maxW="96rem" alignSelf="center">
       <HeadComponent
-        title={inputQuestChain.name ?? 'Untitled Quest Chain'}
-        description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://metagame.wtf/academy"
+        title={questChain.name ?? '𝕌𝕟𝕥𝕚𝕥𝕝𝕖𝕕 Quest Chain'}
+        description={
+          questChain.description || 'MetaGame has some epic quests going on!'
+        }
+        url={`https://metagame.wtf/academy/${name}`}
       />
 
-      <QuestChainDisplay inputQuestChain={inputQuestChain} name={name} />
+      <QuestChainDisplay {...{ questChain, name }} />
     </PageContainer>
   );
 };
@@ -56,10 +56,10 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
   fallback: false,
 });
 
-export const getStaticProps = async (
-  context: GetStaticPropsContext<QueryParams>,
-) => {
-  const questchain = context.params?.questchain;
+export const getStaticProps = async ({
+  params,
+}: GetStaticPropsContext<QueryParams>) => {
+  const { questchain } = params ?? {};
   if (!questchain) {
     return {
       redirect: {
@@ -71,9 +71,12 @@ export const getStaticProps = async (
 
   let questChain: graphql.QuestChainInfoFragment | null = null;
   try {
-    const info = QuestChainPathsAndPlaybooksDetails[questchain];
+    const info =
+      QuestChainPathsAndPlaybooksDetails[
+        questchain as keyof typeof QuestChainPathsAndPlaybooksDetails
+      ];
     if (!info) {
-      throw new Error(`Quest chain "${questchain}" not found.`);
+      throw new Error(`Quest Chain, "${questchain}", not found.`);
     }
     questChain = await getQuestChainInfo(info.chainId, info.address);
   } catch (error) {

@@ -15,7 +15,6 @@ import {
   VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
-import CoinGeckoLogo from 'assets/attribution/coingecko-logo-text.webp';
 import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
@@ -24,6 +23,8 @@ import {
   GradientDefs,
   LineSeries,
 } from 'react-vis';
+
+import CoinGeckoLogo from '#assets/attribution/coingecko-logo-text.webp';
 import {
   findHighLowPrice,
   HighLowType,
@@ -31,8 +32,8 @@ import {
   ticker,
   volIncreased,
   volumeChange,
-} from 'utils/dashboardHelpers';
-import { errorHandler } from 'utils/errorHandler';
+} from '#utils/dashboardHelpers';
+import { errorHandler } from '#utils/errorHandler';
 
 const SEED_TOKEN_ID = 'metagame';
 export const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/';

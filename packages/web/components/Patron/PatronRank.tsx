@@ -1,10 +1,11 @@
 import { Flex, MetaTag, Text } from '@metafam/ds';
 import { computeRank, Constants, Maybe } from '@metafam/utils';
-import { ethers } from 'ethers';
-import { Player } from 'graphql/autogen/types';
-import { Patron } from 'graphql/types';
 import React, { useMemo } from 'react';
-import { PATRON_RANKS, PATRONS_PER_RANK } from 'utils/patronHelpers';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { Patron } from '#graphql/types';
+import { PATRON_RANKS, PATRONS_PER_RANK } from '#utils/patronHelpers';
+import { formatEther } from 'viem';
 
 type Props = {
   patron: Patron;
@@ -12,7 +13,7 @@ type Props = {
   pSeedPrice: Maybe<number>;
 };
 
-export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
+export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice: price }) => {
   const player = patron as Player;
 
   const patronRank = useMemo(
@@ -21,16 +22,14 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
   );
 
   const displayBalance = useMemo(() => {
-    const pSeedAmount = parseFloat(
-      ethers.utils.formatUnits(patron.pSeedBalance, Constants.PSEED_DECIMALS),
-    );
-    const pSeedBalance = `${Math.floor(pSeedAmount).toLocaleString()} pSEED`;
-    return pSeedPrice == null
-      ? pSeedBalance
-      : `$${(pSeedAmount * pSeedPrice).toLocaleString(undefined, {
+    const { pSeedBalance: balance } = patron
+    const display = `${Math.floor(balance).toLocaleString()} pSEED`;
+    return price == null
+      ? display
+      : `$${(balance * price).toLocaleString(undefined, {
           maximumFractionDigits: 0,
         })}`;
-  }, [patron, pSeedPrice]);
+  }, [patron, price]);
 
   return (
     <Flex

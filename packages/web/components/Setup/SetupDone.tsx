@@ -6,11 +6,12 @@ import {
   Text,
   useToast,
 } from '@metafam/ds';
-import { ConnectToProgress, MetaGameLogo } from 'components/ConnectToProgress';
-import { FlexContainer } from 'components/Container';
-import { MetaLink } from 'components/Link';
-import { PlayerTile } from 'components/Player/PlayerTile';
-import { useUser, useWeb3 } from 'lib/hooks';
+
+import { ConnectToProgress, MetaGameLogo } from '#components/ConnectToProgress';
+import { FlexContainer } from '#components/Container';
+import { MetaLink } from '#components/Link';
+import { PlayerTile } from '#components/Player/PlayerTile';
+import { useUser, useWeb3 } from '#lib/hooks';
 
 export const SetupDone: React.FC = () => {
   const { user } = useUser();

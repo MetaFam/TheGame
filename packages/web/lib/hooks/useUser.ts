@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
 import { Maybe } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
-import { getPlayer } from 'graphql/getPlayer';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { RequestPolicy } from 'urql';
 import { useAccount } from 'wagmi';
 
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { getPlayer } from '#graphql/getPlayer';
 import {
   hydratePlayerProfile,
   useGetPlayerProfileFromComposeDB,
-} from './ceramic/useGetPlayerProfileFromComposeDB';
+} from '#lib/hooks/ceramic/useGetPlayerProfileFromComposeDB';
 
 type UseUserOpts = {
   redirectTo?: string;
@@ -32,19 +32,21 @@ export const useUser = ({
   const { isConnected, isConnecting, address } = useAccount();
   const router = useRouter();
   const [player, setPlayer] = useState<Maybe<Player>>(null);
+  const [hydratedPlayer, setHydratedPlayer] = useState<Maybe<Player>>(null);
 
   useEffect(() => {
     if (!address) return;
-    function getPeople() {
+    const lookup = async () => {
       if (address) {
-        return getPlayer(address);
+        const player = await getPlayer(address);
+        console.debug({ addie: address, player })
+        setPlayer(player);
+      } else {
+        throw new Error('No address to look up.');
       }
-      throw new Error('No address');
     }
-    getPeople().then(setPlayer);
+    lookup()
   }, [address]);
-
-  const [hydratedPlayer, setHydratedPlayer] = useState<Player | null>(null);
 
   const hasuraUser = useMemo(
     () => (player && isConnected ? (player as Player) : null),
@@ -56,6 +58,7 @@ export const useUser = ({
     fetching: composeDBFetching,
     error: composeDBError,
   } = useGetPlayerProfileFromComposeDB(hasuraUser?.ceramicProfileId);
+
   useEffect(() => {
     if (hasuraUser) {
       if (hasuraUser.ceramicProfileId == null || !!composeDBError) {

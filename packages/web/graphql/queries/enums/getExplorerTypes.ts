@@ -1,5 +1,5 @@
-import { ExplorerType, GetExplorerTypesQuery } from 'graphql/autogen/types';
-import { client } from 'graphql/client';
+import { ExplorerType, GetExplorerTypesQuery } from '#graphql/autogen/hasura-sdk';
+import { client } from '#graphql/client';
 
 export const GetExplorerTypes = /* GraphQL */ `
   query GetExplorerTypes {

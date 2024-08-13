@@ -1,9 +1,10 @@
 import { Flex, Skeleton, Text, TimeZoneOptions, VStack } from '@metafam/ds';
-import { PlayerList } from 'components/Player/PlayerList';
-import { PlayersQueryVariables } from 'graphql/getPlayers';
-import { usePlayerFilter } from 'lib/hooks/player/players';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+
+import { PlayerList } from '#components/Player/PlayerList';
+import { PlayersQueryVariables } from '#graphql/getPlayers';
+import { usePlayerFilter } from '#lib/hooks/player/players';
+import { useOnScreen } from '#lib/hooks/useOnScreen';
 
 import { PlayersLoading } from './PlayersLoading';
 

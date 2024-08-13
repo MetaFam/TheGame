@@ -1,23 +1,24 @@
 import { Heading, LoadingState, useToast } from '@metafam/ds';
-import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import {
   GuildFragment,
   PlayerRole,
   QuestFragment,
   useUpdateQuestMutation,
-} from 'graphql/autogen/types';
-import { getSSRClient } from 'graphql/client';
-import { getQuest } from 'graphql/getQuest';
-import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
-import { getSkills } from 'graphql/queries/enums/getSkills';
-import { getGuilds } from 'graphql/queries/guild';
-import { useUser, useWeb3 } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import DefaultQuestImage from 'public/assets/QuestsDefaultImage_900x900.jpg';
 import { lazy } from 'react';
-import { transformCooldownForBackend } from 'utils/questHelpers';
-import { CategoryOption, parseSkills } from 'utils/skillHelpers';
+
+import { CreateQuestFormInputs, QuestForm } from '#components/Quest/QuestForm';
+import { getSSRClient } from '#graphql/client';
+import { getQuest } from '#graphql/getQuest';
+import { getPlayerRoles } from '#graphql/queries/enums/getRoles';
+import { getSkills } from '#graphql/queries/enums/getSkills';
+import { getGuilds } from '#graphql/queries/guild';
+import { useUser, useWeb3 } from '#lib/hooks';
+import { transformCooldownForBackend } from '#utils/questHelpers';
+import { CategoryOption, parseSkills } from '#utils/skillHelpers';
 
 type Props = {
   image: string;

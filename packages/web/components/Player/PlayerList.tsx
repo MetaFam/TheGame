@@ -1,6 +1,7 @@
 import { SimpleGrid } from '@metafam/ds';
-import { PlayerTile } from 'components/Player/PlayerTile';
-import { Player } from 'graphql/autogen/types';
+
+import { PlayerTile } from '#components/Player/PlayerTile';
+import { Player } from '#graphql/autogen/hasura-sdk';
 
 type Props = {
   players: Player[];

@@ -1,6 +1,7 @@
 import { SimpleGrid } from '@metafam/ds';
-import { GuildTile } from 'components/Guild/GuildTile';
-import { GuildFragment } from 'graphql/autogen/types';
+
+import { GuildTile } from '#components/Guild/GuildTile';
+import { GuildFragment } from '#graphql/autogen/hasura-sdk';
 
 type Props = {
   guilds: GuildFragment[];

@@ -1,4 +1,4 @@
-import { PlayerDaoMembershipFragment, PlayerFragment } from 'graphql/fragments';
+import { PlayerDaoMembershipFragment, PlayerFragment } from '#graphql/fragments';
 
 export const getMeQuery = /* GraphQL */ `
   query GetMe {

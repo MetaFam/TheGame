@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import fetch from 'node-fetch'
-
 /* eslint-disable no-console */
 
 const TARGET_GRAPHQL_URL = (

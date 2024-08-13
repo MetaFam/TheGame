@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
+  chakra,
   Code,
   Divider,
   Heading,
@@ -9,9 +10,9 @@ import {
   Table,
   Text,
   Th,
-} from '@metafam/ds';
+} from '@chakra-ui/react';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
-import { MetaLink } from 'components/Link';
+import React from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -31,7 +32,7 @@ const heading: Components['h1'] = (props) => {
 
 const markdownTheme: Components = {
   a: ({ href, ...props }) => (
-    <MetaLink color="cyan" isExternal href={href ?? '#'} {...props} />
+    <chakra.a color="cyan" target="_blank" href={href ?? '#'} {...props} />
   ),
   h1: heading,
   h2: heading,

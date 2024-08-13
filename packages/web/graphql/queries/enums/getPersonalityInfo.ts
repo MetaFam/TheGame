@@ -1,11 +1,12 @@
 import { Maybe } from '@metafam/utils';
-import AmbitionAltImg from 'assets/colors/Ambition.svg';
-import BalanceAltImg from 'assets/colors/Balance.svg';
-import ChaosAltImg from 'assets/colors/Chaos.svg';
-import JusticeAltImg from 'assets/colors/Justice.svg';
-import WisdomAltImg from 'assets/colors/Wisdom.svg';
-import { client } from 'graphql/client';
-import { PersonalityOption } from 'graphql/types';
+
+import AmbitionAltImg from '#assets/colors/Ambition.svg';
+import BalanceAltImg from '#assets/colors/Balance.svg';
+import ChaosAltImg from '#assets/colors/Chaos.svg';
+import JusticeAltImg from '#assets/colors/Justice.svg';
+import WisdomAltImg from '#assets/colors/Wisdom.svg';
+import { client } from '#graphql/client';
+import { PersonalityOption } from '#graphql/types';
 
 const AspectsQuery = /* GraphQL */ `
   query GetAspects {

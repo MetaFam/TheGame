@@ -2,15 +2,16 @@ import {
   ALL_BOXES,
   DEFAULT_DASHBOARD_LAYOUT_DATA,
 } from 'components/Dashboard/config';
-import { DashboardSection } from 'components/Dashboard/DashboardSection';
-import { EditableGridLayout } from 'components/EditableGridLayout';
 import {
   Player,
   useUpdatePlayerDashboardLayoutMutation as useUpdateLayout,
-} from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import React, { lazy, useCallback, useMemo } from 'react';
-import { DisplayOutput, LayoutData } from 'utils/boxTypes';
+
+import { DashboardSection } from '#components/Dashboard/DashboardSection';
+import { EditableGridLayout } from '#components/EditableGridLayout';
+import { useUser } from '#lib/hooks';
+import { DisplayOutput, LayoutData } from '#utils/boxTypes';
 
 const PageContainer = lazy(() => import('components/Container'));
 

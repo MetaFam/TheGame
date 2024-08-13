@@ -1,14 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES6",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": true,
+    "module": "ESNext",
     "composite": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+    "rootDir": "src/",
+    "outDir": "dist/",
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
   "include": ["src/**/*"]
 }

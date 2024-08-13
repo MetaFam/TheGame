@@ -6,8 +6,8 @@ import {
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 
-import { useEthersProvider } from './useEthersProvider';
-import { useWeb3 } from './useWeb3';
+import { useEthersProvider } from '#lib/hooks/useEthersProvider';
+import { useWeb3 } from '#lib/hooks/useWeb3';
 
 // EAS Schema https://optimism.easscan.org/schema/view/0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1
 
@@ -18,22 +18,22 @@ const eas = new EAS(easContractAddress);
 
 export const useEAS = () => {
   const [connectedEAS, setConnectedEAS] = useState<EAS | null>(null);
-  const provider = useEthersProvider({ chainId: 10 });
+  const provider = useEthersProvider();
   const { address } = useWeb3();
 
   useEffect(() => {
     const connectEAS = async () => {
       const signer = await provider?.getSigner();
       const txSigner = {
-        async estimateGas(tx: ethers.providers.TransactionRequest) {
+        async estimateGas(tx: ethers.TransactionRequest) {
           const v6TX = tx;
           v6TX.to = tx.to ?? undefined;
-          return (await signer?.estimateGas(v6TX))?.toBigInt();
+          return signer?.estimateGas(v6TX);
         },
-        sendTransaction(tx: ethers.providers.TransactionRequest) {
+        sendTransaction(tx: ethers.TransactionRequest) {
           return signer?.sendTransaction(tx);
         },
-        call(tx: ethers.providers.TransactionRequest) {
+        call(tx: ethers.TransactionRequest) {
           return signer?.call(tx);
         },
         resolveName(name: string) {
@@ -63,7 +63,7 @@ export const useEAS = () => {
     const encodedData = schemaEncoder.encodeData([
       { name: 'attestation', value: message, type: 'string' },
       { name: 'timeCreated', value: timeRightNow, type: 'string' },
-      { name: 'xp', value: xp ?? '0', type: 'string' },
+      { name: 'xp', value: xp ?? '¿?', type: 'string' },
     ]);
     const tx = await eas.attest({
       schema: schemaUID,
@@ -82,28 +82,28 @@ export const useEAS = () => {
     async function fetchData() {
       // Define the GraphQL query
       const query = `
-      query Attestations($recipient: String!) {
-        attestations(
-          where: {
-            schemaId: { equals: "0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1" }
-            recipient: { equals: $recipient }
+        query Attestations($recipient: String!) {
+          attestations(
+            where: {
+              schemaId: { equals: "0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1" }
+              recipient: { equals: $recipient }
+            }
+            take: 25
+          ) {
+            id
+            attester
+            recipient
+            refUID
+            revocable
+            revocationTime
+            expirationTime
+            data
+            schemaId
+            timeCreated
           }
-          take: 25
-        ) {
-          id
-          attester
-          recipient
-          refUID
-          revocable
-          revocationTime
-          expirationTime
-          data
-          schemaId
-          timeCreated
         }
-      }
-    `;
-      const checkSumAddress = ethers.utils.getAddress(recipient);
+      `;
+      const checkSumAddress = ethers.getAddress(recipient);
 
       // Define the GraphQL endpoint
       const endpoint = 'https://optimism.easscan.org/graphql';

@@ -1,6 +1,7 @@
 import { MetaTag, SelectSearch, Tooltip, Wrap, WrapItem } from '@metafam/ds';
-import { PlayerRole } from 'graphql/autogen/types';
-import { RoleOption } from 'utils/roleHelpers';
+
+import { PlayerRole } from '#graphql/autogen/hasura-sdk';
+import { RoleOption } from '#utils/roleHelpers';
 
 export type SetupRolesProps = {
   roleChoices: Array<PlayerRole>;

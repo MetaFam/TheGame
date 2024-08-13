@@ -14,10 +14,11 @@ import {
   SearchPlayersDocument,
   SearchPlayersQuery,
   SearchPlayersQueryVariables,
-} from 'graphql/autogen/types';
-import { client as defaultClient } from 'graphql/client';
-import { PlayerFragment, PlayerSkillFragment } from 'graphql/fragments';
+} from 'graphql/autogen/hasura-sdk';
 import { Client } from 'urql';
+
+import { client as defaultClient } from '#graphql/client';
+import { PlayerFragment, PlayerSkillFragment } from '#graphql/fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `

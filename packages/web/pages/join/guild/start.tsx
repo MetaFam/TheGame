@@ -9,9 +9,10 @@ import {
 } from '@metafam/ds';
 import { Constants, generateUUID } from '@metafam/utils';
 import { CONFIG } from 'config';
-import { useUser } from 'lib/hooks';
-import { get, set } from 'lib/store';
 import React, { lazy,useEffect, useState } from 'react';
+
+import { useUser } from '#lib/hooks';
+import { get, set } from '#lib/store';
 
 const discordOAuthCallbackURL = `${CONFIG.publicURL}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
 export const discordAuthStateGuidKey = 'metagame-add-guild';

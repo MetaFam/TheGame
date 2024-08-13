@@ -15,24 +15,25 @@ import {
   VStack,
 } from '@metafam/ds';
 import { httpLink, Maybe } from '@metafam/utils';
-import { FlexContainer } from 'components/Container';
-import { QuestDetailsImage } from 'components/Quest/QuestDetailsImage';
-import { RepetitionColors } from 'components/Quest/QuestTags';
-import { RolesSelect } from 'components/Quest/Roles';
-import { SkillsSelect } from 'components/Quest/Skills';
 import {
   GuildFragment,
   PlayerRole,
   QuestFragment,
   QuestRepetition_Enum,
   QuestStatus_Enum,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
-import { RoleOption } from 'utils/roleHelpers';
-import { CategoryOption, SkillOption } from 'utils/skillHelpers';
+
+import { FlexContainer } from '#components/Container';
+import { QuestDetailsImage } from '#components/Quest/QuestDetailsImage';
+import { RepetitionColors } from '#components/Quest/QuestTags';
+import { RolesSelect } from '#components/Quest/Roles';
+import { SkillsSelect } from '#components/Quest/Skills';
+import { QuestRepetitionHint, URIRegexp } from '#utils/questHelpers';
+import { RoleOption } from '#utils/roleHelpers';
+import { CategoryOption, SkillOption } from '#utils/skillHelpers';
 
 const validations = {
   title: {

@@ -1,5 +1,6 @@
 import { Flex, SimpleGrid } from '@metafam/ds';
-import { PlayerTileSkeleton } from 'components/Player/Filter/PlayerTileSkeleton';
+
+import { PlayerTileSkeleton } from '#components/Player/Filter/PlayerTileSkeleton';
 
 export const PlayersLoading: React.FC = () => (
   <SimpleGrid

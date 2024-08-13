@@ -13,17 +13,18 @@ import {
   useBreakpointValue,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { useSetupFlow } from 'contexts/SetupContext';
 import {
   Player,
   PlayerRole,
   useUpdatePlayerRolesMutation as useUpdateRoles,
-} from 'graphql/autogen/types';
-import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
-import { useUser } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
-import { isEmpty } from 'utils/objectHelpers';
+
+import { useSetupFlow } from '#contexts/SetupContext';
+import { getPlayerRoles } from '#graphql/queries/enums/getRoles';
+import { useUser } from '#lib/hooks';
+import { isEmpty } from '#utils/objectHelpers';
 
 import { MaybeModalProps, WizardPane } from './WizardPane';
 

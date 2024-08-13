@@ -1,6 +1,7 @@
 import express from 'express';
 
-import { asyncHandlerWrapper } from '../../lib/apiHelpers.js';
+import { asyncHandlerWrapper } from '#lib/apiHelpers';
+
 import { routes as composeDBRoutes } from './composeDB/routes.js';
 import { guildRoutes } from './guild/routes.js';
 import { syncAllGuildDiscordMembers } from './guild/sync.js';

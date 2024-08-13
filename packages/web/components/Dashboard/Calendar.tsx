@@ -26,12 +26,14 @@ import {
   Tooltip,
   VStack,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
-import type { GroupedEventsType } from 'lib/hooks/useCalendar';
-import { useCalendar } from 'lib/hooks/useCalendar';
 import { DateTime } from 'luxon';
 import React, { useEffect, useRef, useState } from 'react';
-import { safelyParseContent } from 'utils/stringHelpers';
+
+import type { GroupedEventsType } from '#lib/hooks/useCalendar';
+import { useCalendar } from '#lib/hooks/useCalendar';
+import { safelyParseContent } from '#utils/stringHelpers';
+
+import { MetaLink } from '../Link';
 
 const loadMoreButtonStyles: ButtonProps = {
   display: 'flex',

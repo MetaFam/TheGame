@@ -24,7 +24,7 @@ services:
       HASURA_GRAPHQL_DEV_MODE: ${HASURA_GRAPHQL_DEV_MODE:-false}
 
   database:
-    image: postgres:12
+    image: postgres:16
     volumes:
       - database:/var/lib/postgresql/data
     ports:
@@ -39,6 +39,8 @@ services:
       context: .
       dockerfile: ./docker/backend/Dockerfile
       target: base
+      args:
+        CACHEBUST: ${CACHEBUST:-$(date +%s)}
     command: yarn backend:dev
     ports:
       - 4000:4000

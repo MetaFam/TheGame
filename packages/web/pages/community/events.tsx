@@ -1,5 +1,5 @@
-import { EmbedContainer } from 'components/Container';
-import { descriptions } from 'utils/menuLinks';
+import { EmbedContainer } from '#components/Container';
+import { descriptions } from '#utils/menuLinks';
 
 const EventsPage: React.FC = () => (
   <EmbedContainer

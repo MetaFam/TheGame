@@ -1,8 +1,9 @@
 import { Optional } from '@metafam/utils';
 import { CONFIG } from 'config';
-import { Player } from 'graphql/autogen/types';
 import { useEffect, useMemo } from 'react';
-import { errorHandler } from 'utils/errorHandler';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { errorHandler } from '#utils/errorHandler';
 
 const BRIGHTID_CONTEXT = 'MetaGame';
 const DEEPLINK_ENDPOINT = `brightid://link-verification/${CONFIG.brightIdNodeURL}/${BRIGHTID_CONTEXT}`;

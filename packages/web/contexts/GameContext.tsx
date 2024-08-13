@@ -1,21 +1,15 @@
 import { Text, useToast, VStack } from '@metafam/ds';
 import { httpLink, Maybe } from '@metafam/utils';
-import { uri } from '@ucanto/core/schema/uri';
 import type {
   GameProperties,
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
-import gameJson from 'components/Landing/OnboardingGame/metagame-onboarding-game.json';
 import {
   chievContractAddress,
   chievId,
 } from 'components/Landing/OnboardingGame/nft';
-import { MetaLink } from 'components/Link';
 import ABI from 'contracts/BulkDisbursableNFTs.abi';
-import { ContractError } from 'graphql/types';
-import { useEthersProvider } from 'lib/hooks/useEthersProvider';
-import { get, remove, set } from 'lib/store';
 import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
 import React, {
@@ -25,8 +19,6 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { errorHandler } from 'utils/errorHandler';
-import { NETWORK_INFO, OPTIMISM } from 'utils/networks';
 import { optimism } from 'viem/chains';
 import {
   useAccount,
@@ -35,6 +27,14 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from 'wagmi';
+
+import gameJson from '#components/Landing/OnboardingGame/metagame-onboarding-game.json';
+import { MetaLink } from '#components/Link';
+import { ContractError } from '#graphql/types';
+import { useEthersProvider } from '#lib/hooks/useEthersProvider';
+import { get, remove, set } from '#lib/store';
+import { errorHandler } from '#utils/errorHandler';
+import { NETWORK_INFO, OPTIMISM } from '#utils/networks';
 
 export const GameContext = React.createContext<IGameContext>({
   game: {

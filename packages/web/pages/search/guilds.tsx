@@ -1,12 +1,13 @@
-import { GuildList } from 'components/Guild/GuildList';
-import { GuildNotFound } from 'components/Guild/GuildNotFound';
-import SearchFilters from 'components/SearchFilters';
-import { HeadComponent } from 'components/Seo';
-import { GuildFragment } from 'graphql/autogen/types';
-import { searchGuilds } from 'graphql/queries/guild';
 import { useRouter } from 'next/router';
 import { lazy, useEffect, useState } from 'react';
-import { GlobalFilters } from 'utils/GlobalSearch';
+
+import { GuildList } from '#components/Guild/GuildList';
+import { GuildNotFound } from '#components/Guild/GuildNotFound';
+import SearchFilters from '#components/SearchFilters';
+import { HeadComponent } from '#components/Seo';
+import { GuildFragment } from '#graphql/autogen/hasura-sdk';
+import { searchGuilds } from '#graphql/queries/guild';
+import { GlobalFilters } from '#utils/GlobalSearch';
 
 const PageContainer = lazy(() => import('components/Container'));
 

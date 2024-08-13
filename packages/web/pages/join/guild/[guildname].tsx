@@ -1,6 +1,4 @@
 import { Flex, LoadingState, MetaHeading, useToast } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
-import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import {
   GuildInfoInput,
   GuildType_ActionEnum,
@@ -8,12 +6,15 @@ import {
   useAddGuildLinkMutation,
   useGetGuildQuery,
   useUpdateGuildMutation,
-} from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { lazy,useCallback } from 'react';
-import { errorHandler } from 'utils/errorHandler';
+
+import { FlexContainer } from '#components/Container';
+import { EditGuildFormInputs, GuildForm } from '#components/Guild/GuildForm';
+import { useWeb3 } from '#lib/hooks';
+import { errorHandler } from '#utils/errorHandler';
 
 const PageContainer = lazy(() => import('components/Container'));
 

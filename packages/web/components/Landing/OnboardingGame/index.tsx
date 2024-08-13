@@ -11,10 +11,6 @@ import {
   UnorderedList,
   usePrefersReducedMotion,
 } from '@metafam/ds';
-import externalLinkIcon from 'assets/landing/external-link-icon.webp';
-import { useGame } from 'contexts/GameContext';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { get } from 'lib/store';
 import { useRouter } from 'next/router';
 import React, {
   ReactElement,
@@ -24,11 +20,16 @@ import React, {
   useState,
 } from 'react';
 import { MdDownloading, MdRestartAlt, MdWarning } from 'react-icons/md';
-import { errorHandler, useDebugErrorReports } from 'utils/errorHandler';
+
+import externalLinkIcon from '#assets/landing/external-link-icon.webp';
+import { useGame } from '#contexts/GameContext';
+import { useOnScreen } from '#lib/hooks/useOnScreen';
+import { get } from '#lib/store';
+import { errorHandler, useDebugErrorReports } from '#utils/errorHandler';
 import {
   safelyParseContent,
   safelyParseTextForTyping,
-} from 'utils/stringHelpers';
+} from '#utils/stringHelpers';
 
 import { Chiev } from './Chiev';
 import type {

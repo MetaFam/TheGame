@@ -3,12 +3,17 @@
   "display": "MyMeta's Backend",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "outDir": "dist/",
     "rootDir": "src/",
     "baseUrl": "src/",
-    "tsBuildInfoFile": "dist/.tsbuildinfo"
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
   },
   "references": [{ "path": "../utils" }, { "path": "../discord-bot" }],
   "include": ["src/**/*.ts", "src/**/*.json"],
-  "exclude": ["tests/", "dist/", "coverage/", "node_modules/"]
+  "exclude": ["tests/", "dist/", "coverage/", "node_modules/"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

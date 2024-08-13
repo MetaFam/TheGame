@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "module": "NodeNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
 
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
     "jsx": "react",
-    "allowJs": true,
+    "allowJs": false,
 
     "strict": true,
     "skipLibCheck": true,
@@ -22,7 +22,7 @@
 
     "forceConsistentCasingInFileNames": true,
 
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
 
@@ -49,6 +49,7 @@
     "**/dist/",
     "**/*.mjs",
     "**/coverage/",
-    "**/jest.config.js"
+    "**/jest.config.js",
+    "**/eslint.config.js"
   ]
 }

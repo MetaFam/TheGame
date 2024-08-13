@@ -1,7 +1,8 @@
 import { Flex, MetaTag, TagLabel, Text } from '@metafam/ds';
 import { getSeasonNum } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
-import { convertToRoman } from 'utils/formatHelpers';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { convertToRoman } from '#utils/formatHelpers';
 
 type PlayerRankProps = {
   player: Player;

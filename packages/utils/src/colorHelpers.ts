@@ -1,4 +1,4 @@
-import { Maybe } from './extendedProfileTypes';
+import { Maybe } from './extendedProfileTypes.js';
 
 export const maskFor = (disposition?: Maybe<string>) => {
   if (disposition == null) return null;

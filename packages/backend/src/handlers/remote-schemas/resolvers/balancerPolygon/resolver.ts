@@ -1,10 +1,13 @@
 import { Constants } from '@metafam/utils';
 
-import { GetPoolTokenDataQuery } from '../../../../lib/autogen/balancerpolygon-sdk.js';
-import { balancerPolygonGraphClient } from '../../../../lib/balancerPolygonClient.js';
-import { PSeedInfo, QueryResolvers } from '../../autogen/types.js';
+import { GetPoolTokenDataQuery } from '#lib/autogen/balancer-sdk';
+import { balancerPolygonGraphClient } from '#lib/balancerPolygonClient';
 
-export const getPSeedInfo: QueryResolvers['getPSeedInfo'] = async () => {
+export type PSeedInfo = {
+  priceUsd: number
+}
+
+export const getPSeedInfo = async () => {
   const poolData = await balancerPolygonGraphClient.GetPoolTokenData({
     address: Constants.PSEED_ADDRESS,
   });

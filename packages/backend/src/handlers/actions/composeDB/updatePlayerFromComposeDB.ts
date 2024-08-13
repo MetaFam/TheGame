@@ -6,12 +6,12 @@ import {
   composeDBToHasuraProfile,
 } from '@metafam/utils';
 
-import { CONFIG } from '../../../config.js';
+import { CONFIG } from '#config';
 import {
   Profile_Update_Column,
   UpdateComposeDbProfileResponse,
-} from '../../../lib/autogen/hasura-sdk.js';
-import { client } from '../../../lib/hasuraClient.js';
+} from '#lib/autogen/hasura-sdk';
+import { client } from '#lib/hasuraClient';
 
 const composeDBClient = new ComposeClient({
   ceramic: CONFIG.ceramicURL,
@@ -54,7 +54,7 @@ export const updatePlayerFromComposeDB = async (
   }
   const values = composeDBToHasuraProfile(
     modelInstanceDoc.content as ComposeDBProfile,
-  );
+  ) as { playerId: string, username: string };
 
   let did = null;
 

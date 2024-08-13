@@ -1,6 +1,7 @@
 import { Constants } from '@metafam/utils';
 import { ethers } from 'ethers';
-import { PlayerRank_Enum, PSeedHolder } from 'graphql/autogen/types';
+
+import { PlayerRank_Enum, PSeedHolder } from '#graphql/autogen/hasura-sdk';
 
 export const PATRON_RANKS = [
   PlayerRank_Enum.Diamond,
@@ -41,7 +42,7 @@ export const getLeagueCutoff = (
     pSeedHolders.length <= indexOfLastPatronInLeague
       ? MIN_PATRON_PSEEDS
       : parseFloat(
-          ethers.utils.formatUnits(
+          ethers.formatUnits(
             pSeedHolders[indexOfLastPatronInLeague].balance,
             Constants.PSEED_DECIMALS,
           ),

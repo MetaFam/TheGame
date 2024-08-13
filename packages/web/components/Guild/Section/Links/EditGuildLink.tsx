@@ -8,13 +8,14 @@ import {
   useToast,
   VStack,
 } from '@metafam/ds';
+import React, { useCallback, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+
 import {
   GuildLinksQuery,
   LinkType_Enum,
   useUpdateGuildLinkMutation,
-} from 'graphql/autogen/types';
-import React, { useCallback, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+} from '#graphql/autogen/hasura-sdk';
 
 export type GuildLinkList = GuildLinksQuery['link'];
 export type GuildLink = GuildLinkList[0];

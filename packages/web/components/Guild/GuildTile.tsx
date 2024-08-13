@@ -10,9 +10,10 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { SquareImage } from 'components/SquareImage';
-import { GuildFragment } from 'graphql/autogen/types';
-import { optimizedImage } from 'utils/imageHelpers';
+
+import { SquareImage } from '#components/SquareImage';
+import { GuildFragment } from '#graphql/autogen/hasura-sdk';
+import { optimizedImage } from '#utils/imageHelpers';
 
 import { GuildLinksSmall } from './Section/GuildLinks';
 
