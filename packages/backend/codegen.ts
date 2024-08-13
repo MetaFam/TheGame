@@ -45,7 +45,9 @@ export default {
       // schema: `https://gateway.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/GfHFdFmiSwW1PKtnDhhcxhArwtTjVuMnXxQ5XcETF1bP`,
       // v2
       // schema: `https://gateway.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/9uvKq57ZiNCdT9uZ6xaFhp3yYczTM4Fgr7CJHM6tdX9H`,
-      schema: `https://gateway-arbitrum.network.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/6x9FK3iuhVFaH9sZ39m8bKB5eckax8sjxooBPNKWWK8r`,
+      // v3 Gnosis
+      // schema: `https://gateway-arbitrum.network.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/6x9FK3iuhVFaH9sZ39m8bKB5eckax8sjxooBPNKWWK8r`,
+      schema: `https://gateway.thegraph.com/api/${process.env.THE_GRAPH_API_TOKEN}/subgraphs/id/B4YHqrAJuQ1yD2U2tqgGXWGWJVeBrD25WRus3o9jLLBJ`,
       documents: [
         'src/handlers/remote-schemas/resolvers/daohaus/**/(!(*.d)).ts',
       ],
