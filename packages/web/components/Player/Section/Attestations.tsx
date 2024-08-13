@@ -52,15 +52,15 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
 
   return (
     <div>
-      {player?.ethereumAddress.toLocaleLowerCase === address?.toLocaleLowerCase && (
+      {player?.ethereumAddress.toLowerCase() === address?.toLowerCase() && (
         <div>
           <h3>Your Attestations: ({attestations?.length})</h3>
           <VStack mt={4} mb={4} w="full">
             {attestations?.map((att, i) => {
               const attestor = att[3].value;
               const timeCreated = att[1].value.value;
-
               const attestationVal = att[0].value;
+
               return (
                 <Flex
                   direction="column"
@@ -108,81 +108,80 @@ export const Attestations: React.FC<{ player: Player }> = ({ player }) => {
       {player?.ethereumAddress.toLocaleLowerCase() !== address?.toLocaleLowerCase() && (
         <>
           <div>
-          <h3>Your Attestations: ({attestations?.length})</h3>
-          <VStack mt={4} mb={4} w="full">
-            {attestations?.map((att, i) => {
-              const attestor = att[3].value;
-              const timeCreated = att[1].value.value;
+            <h3>Your Attestations: ({attestations?.length})</h3>
+            <VStack mt={4} mb={4} w="full">
+              {attestations?.map((att, i) => {
+                const attestor = att[3].value;
+                const timeCreated = att[1].value.value;
+                const attestationVal = att[0].value;
 
-              const attestationVal = att[0].value;
-              return (
-                <Flex
-                  direction="column"
-                  key={i}
-                  justifyContent="start"
-                  alignContent="center"
-                  color={'violet'}
-                  width={'full'}
-                  px={4}
-                  py={3}
-                  background={'blackAlpha.300'}
-                  transition={'ease-in-out'}
-                  transitionDuration={'300'}
-                  _hover={{
-                    background: 'blackAlpha.500',
-                  }}
-                  _active={{
-                    background: 'blackAlpha.700',
-                  }}
-                  borderRadius={20}
-                  borderColor={'rgba(255,255,255,0.1)'}
-                  borderLeftWidth={1}
-                  borderTopWidth={1}
-                  dropShadow={`0 4 4px rgba(0,0,0,0.25)`}
-                >
-                  <Text
-                    fontSize="md"
-                    fontWeight={700}
-                    noOfLines={4}
-                    my={2}
-                    color="white"
+                return (
+                  <Flex
+                    direction="column"
+                    key={i}
+                    justifyContent="start"
+                    alignContent="center"
+                    color={'violet'}
+                    width={'full'}
+                    px={4}
+                    py={3}
+                    background={'blackAlpha.300'}
+                    transition={'ease-in-out'}
+                    transitionDuration={'300'}
+                    _hover={{
+                      background: 'blackAlpha.500',
+                    }}
+                    _active={{
+                      background: 'blackAlpha.700',
+                    }}
+                    borderRadius={20}
+                    borderColor={'rgba(255,255,255,0.1)'}
+                    borderLeftWidth={1}
+                    borderTopWidth={1}
+                    dropShadow={`0 4 4px rgba(0,0,0,0.25)`}
                   >
-                    {attestationVal.value}
-                  </Text>
-                  <Text fontSize="sm" color="white">
-                    By {attestor}
-                  </Text>
-                  <Text fontSize="sm">{timeCreated}</Text>
-                </Flex>
-              );
-            })}
-          </VStack>
-        </div>
-        <div>
-          <Textarea
-            placeholder="Attest."
-            minW="min(18em, calc(100vw - 2rem))"
-            color="white"
-            bg="dark"
-            onChange={(e) => {
-              if (e.target.value.length > MAX_DESC_LEN) {
-                return;
-              }
-              setAttestion(e.target.value);
-            }}
-            value={attestation}
-          />
-          <MetaButton
-            onClick={handleAttest}
-            disabled={isAttesting}
-            style={{ marginTop: '1em' }}
-          >
-            Attest
-          </MetaButton>
-        </div>
+                    <Text
+                      fontSize="md"
+                      fontWeight={700}
+                      noOfLines={4}
+                      my={2}
+                      color="white"
+                    >
+                      {attestationVal.value}
+                    </Text>
+                    <Text fontSize="sm" color="white">
+                      By {attestor}
+                    </Text>
+                    <Text fontSize="sm">{timeCreated}</Text>
+                  </Flex>
+                );
+              })}
+            </VStack>
+          </div>
         </>
-        
       )}
+      <div>
+        <Textarea
+          placeholder="Attest."
+          minW="min(18em, calc(100vw - 2rem))"
+          color="white"
+          bg="dark"
+          onChange={(e) => {
+            if (e.target.value.length > MAX_DESC_LEN) {
+              return;
+            }
+            setAttestion(e.target.value);
+          }}
+          value={attestation}
+        />
+        <MetaButton
+          onClick={handleAttest}
+          disabled={isAttesting}
+          style={{ marginTop: '1em' }}
+        >
+          Attest
+        </MetaButton>
+      </div>
     </div>
   );
 };

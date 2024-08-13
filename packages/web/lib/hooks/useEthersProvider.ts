@@ -66,7 +66,6 @@ export function useViemClients({
   return clients;
 }
 
-
 export function useEthersProvider({
   chain = optimism,
 }: { chain?: Chain } = {}) {

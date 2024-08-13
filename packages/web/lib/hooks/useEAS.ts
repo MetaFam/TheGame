@@ -63,7 +63,7 @@ export const useEAS = () => {
     const encodedData = schemaEncoder.encodeData([
       { name: 'attestation', value: message, type: 'string' },
       { name: 'timeCreated', value: timeRightNow, type: 'string' },
-      { name: 'xp', value: xp ?? '0', type: 'string' },
+      { name: 'xp', value: xp ?? '¿?', type: 'string' },
     ]);
     const tx = await eas.attest({
       schema: schemaUID,
@@ -82,27 +82,27 @@ export const useEAS = () => {
     async function fetchData() {
       // Define the GraphQL query
       const query = `
-      query Attestations($recipient: String!) {
-        attestations(
-          where: {
-            schemaId: { equals: "0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1" }
-            recipient: { equals: $recipient }
+        query Attestations($recipient: String!) {
+          attestations(
+            where: {
+              schemaId: { equals: "0xd4c0003240401da8b17fbe710a41e4c8e690a0afef796ab6d5871b69ac15b0d1" }
+              recipient: { equals: $recipient }
+            }
+            take: 25
+          ) {
+            id
+            attester
+            recipient
+            refUID
+            revocable
+            revocationTime
+            expirationTime
+            data
+            schemaId
+            timeCreated
           }
-          take: 25
-        ) {
-          id
-          attester
-          recipient
-          refUID
-          revocable
-          revocationTime
-          expirationTime
-          data
-          schemaId
-          timeCreated
         }
-      }
-    `;
+      `;
       const checkSumAddress = ethers.getAddress(recipient);
 
       // Define the GraphQL endpoint
