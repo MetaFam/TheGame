@@ -4,6 +4,7 @@ require:
 schema: '../../schema.graphql'
 generates:
   ./src/autogen/hasura-sdk.ts:
+    # preset: client
     documents:
       - ./src/graphql/**/(!(*.d)).ts
     plugins:
@@ -13,7 +14,14 @@ generates:
     #   - add:
     #       content:
     #         - '/* eslint-disable */'
-    # config:
-    #   immutableTypes: true
+    config:
+      withHooks: true
+      gqlImport: 'fake-tag'
+      skipTypename: true
+      dedupeOperationSuffix: true
+      dedupeFragments: true
+      documentMode: 'documentNode'
+      emitLegacyCommonJSImports: false
+      immutableTypes: true
     #   scalars:
     #     account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"
