@@ -10,7 +10,7 @@
     "start": "yarn dev",
     "build": "yarn typecheck",
     "dev": "yarn build --watch",
-    "typecheck": "tsc --pretty",
+    "typecheck": "tsc --pretty --declaration",
     "precommit": "yarn typecheck",
     "prepare": "yarn typecheck",
     "test": "jest --passWithNoTests"

@@ -45,9 +45,9 @@
     "ds": "yarn --cwd packages/design-system/",
     "release": "standard-version",
     "composedb:create-composite": "composedb composite:create packages/utils/schema/user-profile.graphql --output packages/utils/schema/user-profile-composite.json",
-    "composedb:create-definition": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/schema/user-profile-definition.json --ceramic-url=https://ceramic.metagame.wtf",
-    "composedb:graphql-generate": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/src/graphql/composeDBDefinition.ts --ceramic-url=https://ceramic.metagame.wtf",
-    "composedb:graphql-server": "composedb graphql:server --graphiql packages/utils/schema/user-profile-definition.json --ceramic-url=https://ceramic.metagame.wtf"
+    "composedb:create-definition": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/schema/user-profile-definition.json --ceramic-url=${CERAMIC_URL:-https://ceramic.metagame.wtf}",
+    "composedb:graphql-generate": "composedb composite:compile packages/utils/schema/user-profile-composite.json packages/utils/src/graphql/composeDBDefinition.ts --ceramic-url=${CERAMIC_URL:-https://ceramic.metagame.wtf}",
+    "composedb:graphql-server": "composedb graphql:server --graphiql packages/utils/schema/user-profile-definition.json --ceramic-url=${CERAMIC_URL:-https://ceramic.metagame.wtf}"
   },
   "workspaces": [
     "packages/*"

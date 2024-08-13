@@ -132,9 +132,9 @@ FROM app AS copy-development
 ONBUILD COPY --from=built /usr/src/app/schema.graphql ./
 ONBUILD COPY --from=built /usr/src/app/tsconfig*.json ./
 ONBUILD COPY --from=built /usr/src/app/lerna.json ./
-ONBUILD COPY --from=built /usr/src/app/packages/design-system/ packages/
-ONBUILD COPY --from=built /usr/src/app/packages/utils/ packages/
-ONBUILD COPY --from=built /usr/src/app/packages/web/ packages/
+ONBUILD COPY --from=built /usr/src/app/packages/design-system/ packages/design-system/
+ONBUILD COPY --from=built /usr/src/app/packages/utils/ packages/utils/
+ONBUILD COPY --from=built /usr/src/app/packages/web/ packages/web/
 
 ONBUILD RUN rm -rf packages/design-system/dist/
 ONBUILD RUN rm -rf packages/web/.next/

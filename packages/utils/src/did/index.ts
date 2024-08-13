@@ -42,10 +42,10 @@ export async function createToken(
 }
 
 export async function verifyToken({
-  token, connectedAddress, publicClient,
+  token, /*connectedAddress,*/ publicClient,
 }: {
   token: string,
-  connectedAddress?: string,
+  // connectedAddress?: string,
   publicClient: PublicClient,
 }): Promise<Maybe<Claim>> {
   const rawToken = Base64.decode(token);
@@ -53,11 +53,11 @@ export async function verifyToken({
   const claim: Claim = JSON.parse(rawClaim);
   const { iss: claimant } = claim;
 
-  if (connectedAddress != null && claimant !== connectedAddress) {
-    throw new Error(
-      `Connected address (${connectedAddress}) ≠ claim issuer (${claimant}).`,
-    );
-  }
+  // if (connectedAddress != null && claimant !== connectedAddress) {
+  //   throw new Error(
+  //     `Connected address (${connectedAddress}) ≠ claim issuer (${claimant}).`,
+  //   );
+  // }
 
   const message = `${WELCOME_MESSAGE}${rawClaim}`;
   const valid = await publicClient.verifyMessage({
