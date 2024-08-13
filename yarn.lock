@@ -6193,6 +6193,7 @@ __metadata:
     "@ceramicnetwork/stream-caip10-link": "npm:^5.15.0"
     "@composedb/client": "npm:^0.7.1"
     "@composedb/types": "npm:^0.7.1"
+    "@graphql-codegen/cli": "npm:^5.0.2"
     "@graphql-tools/schema": "npm:^10.0.4"
     "@metafam/discord-bot": "workspace:*"
     "@metafam/utils": "workspace:*"
