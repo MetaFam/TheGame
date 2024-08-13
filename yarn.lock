@@ -6232,6 +6232,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@metafam/discord-bot@workspace:packages/discord-bot"
   dependencies:
+    "@graphql-codegen/cli": "npm:^5.0.2"
     "@metafam/utils": "workspace:*"
     "@types/express": "npm:^4.17.14"
     "@types/node": "npm:18"
