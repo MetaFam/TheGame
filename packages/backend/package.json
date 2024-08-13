@@ -23,7 +23,7 @@
     "dev": "nodemon",
     "typecheck": "tsc --noEmit --pretty",
     "precommit": "yarn typecheck",
-    "generate": "graphql-codegen --debug && yarn fix:daohaus-types",
+    "generate": "yarn dlx graphql-codegen && yarn fix:daohaus-types",
     "fix:daohaus-types": "bash -c 'export OUT=src/lib/autogen/daohaus-sdk.ts && awk \"!/MolochVersion = .molochVersion/\" $OUT > $OUT.filtered && mv $OUT.filtered $OUT'",
     "fix:lint": "eslint --fix",
     "test": "jest --passWithNoTests"
@@ -65,10 +65,11 @@
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.17.0",
     "typescript": "^5.5.3"
   },
   "nodemonConfig": {
-    "exec": "node --inspect=0.0.0.0:4322 --conditions=development --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"ts-node/esm\", pathToFileURL(\"./\"));' --trace-warnings src/index.ts",
+    "exec": "tsx --conditions=development src/index.ts",
     "watch": [
       ".",
       "../discord-bot",

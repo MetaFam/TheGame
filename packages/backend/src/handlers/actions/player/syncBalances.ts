@@ -1,4 +1,4 @@
-import { getCurrentSeasonStart, Maybe } from '@metafam/utils';
+import { getCurrentSeasonStart, type Maybe } from '@metafam/utils';
 import { ethers } from 'ethers';
 import { Request, Response } from 'express';
 

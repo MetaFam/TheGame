@@ -1,4 +1,5 @@
 import { Layout, Layouts } from 'react-grid-layout';
+
 import {
   BoxMetadata,
   BoxType,
@@ -7,7 +8,7 @@ import {
   getBoxType,
   LayoutData,
   LayoutItem,
-} from 'utils/boxTypes';
+} from '#utils/boxTypes';
 
 export const GRID_ROW_HEIGHT = 32;
 export const HEIGHT_MODIFIER = 1.8;

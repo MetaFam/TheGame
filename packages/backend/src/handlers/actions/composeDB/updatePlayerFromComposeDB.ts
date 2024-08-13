@@ -54,7 +54,7 @@ export const updatePlayerFromComposeDB = async (
   }
   const values = composeDBToHasuraProfile(
     modelInstanceDoc.content as ComposeDBProfile,
-  );
+  ) as { playerId: string, username: string };
 
   let did = null;
 

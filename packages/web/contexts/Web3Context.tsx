@@ -59,7 +59,7 @@ export async function getExistingAuth(
   if (!token) return null;
 
   try {
-    await did.verifyToken({ token, publicClient, connectedAddress });
+    await did.verifyToken({ token, publicClient });
     return token;
   } catch (e) {
     errorHandler(e as Error);
