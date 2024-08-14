@@ -313,7 +313,7 @@ export const QuestChainPlaybooksDetails: QuestChainListing = {
     title: "Building on Optimism",
     description:
       'A quick overview of Optimism. A playbook for Building on Optimism..',
-    image: Building-on-optimism.src,
+    image: buildingonoptimism.src,
     category: QuestChainsCategories.BUILD_ON_OPTIMISM,
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
