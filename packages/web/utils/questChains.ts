@@ -37,7 +37,7 @@ import riteofpassage from '#assets/academy/riteofpassage.webp';
 import team from '#assets/academy/team.webp';
 import time from '#assets/academy/time.webp';
 import web3builder from '#assets/academy/web3builder.webp';
-import buildingonoptimism from '#assets/academy/buildingonoptimism.webp';
+import buildingonoptimism from '#assets/academy/buildingonop.webp';
 import { useWeb3 } from '#lib/hooks';
 
 export const useQuestChainContract = (address: string) => {
