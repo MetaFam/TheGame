@@ -1,15 +1,20 @@
-import { fetch } from '@metafam/utils';
-
-import { CONFIG } from '../../../../config.js';
-import { BrightIdStatus, QueryResolvers } from '../../autogen/types.js';
+import { CONFIG } from '#config';
 
 const CONTEXT = 'MetaGame';
 
 const ENDPOINT = `${CONFIG.brightIdAppURL}/node/v5/verifications/${CONTEXT}`;
 
-export const getBrightIdStatus: QueryResolvers['getBrightIdStatus'] = async (
-  _,
-  { contextId },
+export type BrightIdStatus = {
+  unique: boolean
+  app: string
+  context: string
+  contextids: Array<string>
+}
+
+
+export const getBrightIdStatus = async (
+  _: unknown,
+  { contextId }: { contextId: string },
 ) => {
   if (!contextId) return null;
 

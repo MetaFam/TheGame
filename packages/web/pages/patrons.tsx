@@ -11,12 +11,13 @@ import {
   VisuallyHidden,
   VStack,
 } from '@metafam/ds';
-import Octopus from 'assets/octopus.png';
-import { PatronList } from 'components/Patron/PatronList';
-import { HeadComponent } from 'components/Seo';
-import { getPatrons, getPSeedPrice } from 'graphql/getPatrons';
 import { InferGetStaticPropsType } from 'next';
 import React, { lazy, useRef, useState } from 'react';
+
+import Octopus from '#assets/octopus.png';
+import { PatronList } from '#components/Patron/PatronList';
+import { HeadComponent } from '#components/Seo';
+import { getPatrons, getPSeedPrice } from '#graphql/getPatrons';
 
 const PageContainer = lazy(() => import('components/Container'));
 

@@ -8,6 +8,7 @@ import {
   Image as ChakraImage,
   Link,
   LoadingState,
+  MarkdownViewer,
   MetaHeading,
   Stack,
   Tab,
@@ -18,15 +19,15 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import Background from 'assets/seeds/background.png';
-import { MarkdownViewer } from 'components/MarkdownViewer';
-import { Plant } from 'components/Seeds/Plant';
-import { Trade } from 'components/Seeds/Trade';
-import { Water } from 'components/Seeds/Water';
-import { HeadComponent } from 'components/Seo';
 import { useRouter } from 'next/router';
 import React, { lazy, useEffect, useRef, useState } from 'react';
 import { HiOutlineMinusCircle, HiOutlinePlusCircle } from 'react-icons/hi';
+
+import Background from '#assets/seeds/background.png';
+import { Plant } from '#components/Seeds/Plant';
+import { Trade } from '#components/Seeds/Trade';
+import { Water } from '#components/Seeds/Water';
+import { HeadComponent } from '#components/Seo';
 
 const PageContainer = lazy(() => import('components/Container'));
 

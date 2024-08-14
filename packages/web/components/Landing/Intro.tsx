@@ -11,16 +11,17 @@ import {
   Text,
   useBreakpointValue,
 } from '@metafam/ds';
-import BubbleLg from 'assets/landing/pretty/bubble-large.svg';
-import BubbleSm from 'assets/landing/pretty/bubble-small.svg';
-import BackgroundImage5xl from 'assets/landing/sections/section-1.jpg';
-import BackgroundImageMobile from 'assets/landing/sections/section-1.sm.jpg';
-import BackgroundImage2xl from 'assets/landing/sections/section-1-2xl.jpg';
-import BackgroundImage4xl from 'assets/landing/sections/section-1-4xl.jpg';
-import BackgroundImageLg from 'assets/landing/sections/section-1-lg.jpg';
-import { FullPageContainer } from 'components/Container';
-import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import React, { useEffect, useState } from 'react';
+
+import BubbleLg from '#assets/landing/pretty/bubble-large.svg';
+import BubbleSm from '#assets/landing/pretty/bubble-small.svg';
+import BackgroundImage5xl from '#assets/landing/sections/section-1.jpg';
+import BackgroundImageMobile from '#assets/landing/sections/section-1.sm.jpg';
+import BackgroundImage2xl from '#assets/landing/sections/section-1-2xl.jpg';
+import BackgroundImage4xl from '#assets/landing/sections/section-1-4xl.jpg';
+import BackgroundImageLg from '#assets/landing/sections/section-1-lg.jpg';
+import { FullPageContainer } from '#components/Container';
+import { useMotionDetector } from '#lib/hooks/useMotionDetector';
 
 import { upDownAnimation, upDownAnimationLong } from './animations';
 import { LandingPageSectionProps } from './landingSection';

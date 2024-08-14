@@ -1,3 +1,5 @@
+export { MarkdownEditor } from './MarkdownEditor/index.js';
+export { MarkdownViewer } from './MarkdownViewer/index.js';
 export {
   AddIcon,
   ArrowBackIcon,
@@ -204,7 +206,7 @@ export {
   MetaTilePathPlaybook,
   MetaTilePlaybook,
 } from './MetaTile.js';
-export { MultiSelect } from './MultiSelect.js';
+export { MultiSelect, type SelectOption } from './MultiSelect.js';
 export { ResponsiveText } from './ResponsiveText.js';
 export { metaFilterSelectStyles, SelectSearch } from './SelectSearch.js';
 export type {
@@ -229,6 +231,6 @@ export {
   multiSelectStyles,
   searchSelectStyles,
   selectStyles,
-} from './theme';
+} from './theme/index.js';
 export * from './typography.js';
 export * from './ViewAllButton.js';

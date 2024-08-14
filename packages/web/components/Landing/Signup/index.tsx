@@ -20,12 +20,13 @@ import {
   useTab,
   VStack,
 } from '@metafam/ds';
-import GuildsImg from 'assets/guilds-sun_800x800.webp';
-import PatronsImg from 'assets/patrons-sun_800x820.webp';
-import PlayerImg from 'assets/players-sun_800x822.webp';
-import { FullPageContainer } from 'components/Container';
 import { useRouter } from 'next/router';
 import React, { Ref, RefObject, useState } from 'react';
+
+import GuildsImg from '#assets/guilds-sun_800x800.webp';
+import PatronsImg from '#assets/patrons-sun_800x820.webp';
+import PlayerImg from '#assets/players-sun_800x822.webp';
+import { FullPageContainer } from '#components/Container';
 
 import { Rain } from '../OnboardingGame/Rain';
 import { PerksCard, PerksChecklist, RoleCard } from './Cards';

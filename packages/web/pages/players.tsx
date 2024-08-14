@@ -1,20 +1,21 @@
 import { Center, Link, Text, VStack } from '@metafam/ds';
-import { AdjascentTimeZonePlayers } from 'components/Player/Filter/AdjascentTimeZonePlayers';
-import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
-import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
-import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
-import { PlayerList } from 'components/Player/PlayerList';
-import { HeadComponent } from 'components/Seo';
-import { getSSRClient } from 'graphql/client';
 import {
   getPlayerFilters,
   getPlayersWithCount,
   PlayersQueryVariables,
 } from 'graphql/getPlayers';
-import { usePlayerFilter } from 'lib/hooks/player/players';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
 import React, { lazy, useEffect, useMemo, useRef } from 'react';
+
+import { AdjascentTimeZonePlayers } from '#components/Player/Filter/AdjascentTimeZonePlayers';
+import { PlayerFilter } from '#components/Player/Filter/PlayerFilter';
+import { PlayersLoading } from '#components/Player/Filter/PlayersLoading';
+import { PlayersNotFound } from '#components/Player/Filter/PlayersNotFound';
+import { PlayerList } from '#components/Player/PlayerList';
+import { HeadComponent } from '#components/Seo';
+import { getSSRClient } from '#graphql/client';
+import { usePlayerFilter } from '#lib/hooks/player/players';
+import { useOnScreen } from '#lib/hooks/useOnScreen';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

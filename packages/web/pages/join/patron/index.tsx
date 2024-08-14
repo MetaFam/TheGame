@@ -8,20 +8,21 @@ import {
   MetaButton,
   VStack,
 } from '@metafam/ds';
-// images
-import Octopus from 'assets/octopus.png';
-// components
-import { BecomePatron } from 'components/Patron/Join/BecomePatron';
-import { RankedLeagues } from 'components/Patron/Join/RankedLeagues';
-import { WateringSeeds } from 'components/Patron/Join/WateringSeeds';
-import { WhatsTheProduct } from 'components/Patron/Join/WhatsTheProduct';
-import { WhoArePatrons } from 'components/Patron/Join/WhoArePatrons';
-import { PatronList } from 'components/Patron/PatronList';
-import { HeadComponent } from 'components/Seo';
-import { getPatrons, getPSeedHolders, getPSeedPrice } from 'graphql/getPatrons';
 import { InferGetStaticPropsType } from 'next';
 import React, { lazy, useRef } from 'react';
-import { PATRONS_PER_RANK } from 'utils/patronHelpers';
+
+// images
+import Octopus from '#assets/octopus.png';
+// components
+import { BecomePatron } from '#components/Patron/Join/BecomePatron';
+import { RankedLeagues } from '#components/Patron/Join/RankedLeagues';
+import { WateringSeeds } from '#components/Patron/Join/WateringSeeds';
+import { WhatsTheProduct } from '#components/Patron/Join/WhatsTheProduct';
+import { WhoArePatrons } from '#components/Patron/Join/WhoArePatrons';
+import { PatronList } from '#components/Patron/PatronList';
+import { HeadComponent } from '#components/Seo';
+import { getPatrons, getPSeedHolders, getPSeedPrice } from '#graphql/getPatrons';
+import { PATRONS_PER_RANK } from '#utils/patronHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

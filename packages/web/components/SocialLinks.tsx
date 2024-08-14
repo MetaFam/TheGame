@@ -1,5 +1,4 @@
 import { Box, HStack, Tooltip, VStack } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
 import {
   FaDiscord,
   FaGithub,
@@ -8,6 +7,8 @@ import {
   FaTwitter,
   FaUserCircle,
 } from 'react-icons/fa';
+
+import { MetaLink } from '#components/Link';
 
 export const Socials: React.FC = () => (
   <HStack

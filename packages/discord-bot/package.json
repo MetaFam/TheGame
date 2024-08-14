@@ -3,13 +3,19 @@
   "private": true,
   "version": "0.1.0",
   "description": "",
-  "author": "",
-  "license": "ISC",
+  "author": "The MetaFam",
+  "license": "GPL-2.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=16.18.0"
+    "node": ">=20"
+  },
+  "imports": {
+    "#*": {
+      "development": "./src/*.ts",
+      "default": "./dist/*.js"
+    }
   },
   "scripts": {
     "start": "node ./dist/start.js",
@@ -19,30 +25,27 @@
     "typecheck": "tsc --pretty",
     "prepare": "yarn build",
     "precommit": "yarn typecheck",
-    "generate": "graphql-code-generator",
+    "generate": "graphql-codegen",
     "fix:lint": "eslint --fix",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@discordx/importer": "1.1.2",
-    "@metafam/utils": "1.0.1",
-    "@types/node": "18",
-    "@types/node-fetch": "2.5.10",
-    "discord.js": "13.6.0",
-    "discordx": "9.1.12",
+    "@metafam/utils": "workspace:*",
+    "discord.js": "^14.15.3",
     "dotenv": "16.0.0",
-    "ethers": "5.6.9",
     "express": "4.17.3",
-    "graphql": "16.5.0",
-    "graphql-request": "^6.1.0",
+    "graphql": "16.9.0",
+    "graphql-request": "^7.1.0",
     "graphql-tag": "2.12.6",
-    "node-fetch": "3.2.1",
-    "reflect-metadata": "0.1.13",
-    "sourcecred": "0.11.0"
+    "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
     "@types/express": "^4.17.14",
-    "nodemon": "^2.0.20"
+    "@types/node": "18",
+    "nodemon": "^2.0.20",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.3"
   },
   "nodemonConfig": {
     "exec": "node --inspect=0.0.0.0:4323 --loader ts-node/esm src/start.ts",

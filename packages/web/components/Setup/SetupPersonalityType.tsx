@@ -15,18 +15,19 @@ import {
   Maybe,
   Optional,
 } from '@metafam/utils';
-import { MetaLink } from 'components/Link';
-import { ColorBar } from 'components/Player/ColorBar';
 import {
   getPersonalityInfo,
   images as MaskImages,
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
-import { PersonalityOption } from 'graphql/types';
-import { useGetOwnProfileFieldFromComposeDB } from 'lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
-import { usePlayerSetupSaveToComposeDB } from 'lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+
+import { MetaLink } from '#components/Link';
+import { ColorBar } from '#components/Player/ColorBar';
+import { PersonalityOption } from '#graphql/types';
+import { useGetOwnProfileFieldFromComposeDB } from '#lib/hooks/ceramic/useGetOwnProfileFromComposeDB';
+import { usePlayerSetupSaveToComposeDB } from '#lib/hooks/ceramic/usePlayerSetupSaveToComposeDB';
 
 import { useShowToastOnQueryError } from './SetupProfile';
 import { MaybeModalProps, WizardPane } from './WizardPane';

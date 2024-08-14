@@ -1,6 +1,4 @@
 import { retryExchange } from '@urql/exchange-retry';
-import { CONFIG } from 'config';
-import { getTokenFromStore } from 'lib/auth';
 import { NextComponentType } from 'next';
 import {
   initUrqlClient,
@@ -18,9 +16,12 @@ import {
   ssrExchange,
 } from 'urql';
 
-const errorHasResponseTimeout = (err: CombinedError): boolean =>
+import { CONFIG } from '#config';
+import { getTokenFromStore } from '#lib/auth';
+
+const errorHasResponseTimeout = (err: CombinedError) =>
   err.graphQLErrors.length > 0 &&
-  !!err.graphQLErrors.find((e) => e.message === 'ResponseTimeout');
+  !!err.graphQLErrors.find((e: Error) => e.message === 'ResponseTimeout');
 
 const retryExchangeFunc = retryExchange({
   maxNumberAttempts: 5,
@@ -38,6 +39,14 @@ export const client = createClient({
   url: CONFIG.graphqlURL,
   suspense: false,
   exchanges: [cacheExchange, retryExchangeFunc, fetchExchange],
+  fetchOptions: () => {
+    const token = getTokenFromStore();
+    return {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : '',
+      },
+    };
+  },
 });
 
 export const getSSRClient = (): [Client, ReturnType<typeof ssrExchange>] => {
@@ -83,7 +92,7 @@ export const wrapUrqlClient = (AppOrPage: React.FC<WithUrqlProps>) =>
         exchanges: [cacheExchange, retryExchangeFunc, fetchExchange],
         fetchOptions: () => {
           const token = ctx
-            ? ctx?.req?.headers?.authorization
+            ? ctx?.req?.headers?.authorization?.replace(/^Bearer\s+/, '').trim()
             : getTokenFromStore();
           return {
             headers: {

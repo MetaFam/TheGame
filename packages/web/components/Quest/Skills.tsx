@@ -8,9 +8,10 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { Skill, SkillCategory_Enum } from 'graphql/autogen/types';
-import { SkillColors } from 'graphql/types';
-import type { CategoryOption, SkillOption } from 'utils/skillHelpers';
+
+import { Skill, SkillCategory_Enum } from '#graphql/autogen/hasura-sdk';
+import { SkillColors } from '#graphql/types';
+import type { CategoryOption, SkillOption } from '#utils/skillHelpers';
 
 export type SetupSkillsProps = {
   skillChoices: Array<CategoryOption>;

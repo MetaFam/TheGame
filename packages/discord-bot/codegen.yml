@@ -1,20 +1,27 @@
 overwrite: true
 require:
   - ts-node/register
+schema: '../../schema.graphql'
 generates:
-  ./src/__generated__/hasura-sdk.ts:
-    schema: '../../schema.graphql'
+  ./src/autogen/hasura-sdk.ts:
+    # preset: client
     documents:
       - ./src/graphql/**/(!(*.d)).ts
     plugins:
       - typescript
       - typescript-operations
       - typescript-graphql-request
-      - add:
-          content:
-            - '/* eslint-disable */'
-            - 'import type { DocumentNode } from "graphql/language/ast";'
+    #   - add:
+    #       content:
+    #         - '/* eslint-disable */'
     config:
+      withHooks: true
+      gqlImport: 'fake-tag'
+      skipTypename: true
+      dedupeOperationSuffix: true
+      dedupeFragments: true
+      documentMode: 'documentNode'
+      emitLegacyCommonJSImports: false
       immutableTypes: true
-      scalars:
-        account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"
+    #   scalars:
+    #     account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"

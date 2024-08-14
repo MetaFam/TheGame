@@ -10,8 +10,6 @@ import {
   useToast,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
-import { FileReaderData, useImageReader } from 'lib/hooks/useImageReader';
 import {
   ChangeEvent,
   DragEvent,
@@ -21,7 +19,10 @@ import {
   useState,
 } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { optimizedImage } from 'utils/imageHelpers';
+
+import { Player } from '#graphql/autogen/hasura-sdk';
+import { FileReaderData, useImageReader } from '#lib/hooks/useImageReader';
+import { optimizedImage } from '#utils/imageHelpers';
 
 import { Label } from './Label';
 

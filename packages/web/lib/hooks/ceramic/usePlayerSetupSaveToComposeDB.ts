@@ -5,12 +5,13 @@ import {
   getMimeType,
   Maybe,
 } from '@metafam/utils';
-import { useSetupFlow } from 'contexts/SetupContext';
-import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
-import { CeramicError } from 'lib/errors';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
-import { errorHandler } from 'utils/errorHandler';
-import { getImageDimensions } from 'utils/imageHelpers';
+
+import { useSetupFlow } from '#contexts/SetupContext';
+import { useInsertCacheInvalidationMutation } from '#graphql/autogen/hasura-sdk';
+import { CeramicError } from '#lib/errors';
+import { errorHandler } from '#utils/errorHandler';
+import { getImageDimensions } from '#utils/imageHelpers';
 
 import { FileReaderData } from '../useImageReader';
 import { useUser } from '../useUser';

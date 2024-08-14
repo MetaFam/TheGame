@@ -1,6 +1,7 @@
 import { LoadingState } from '@metafam/ds';
-import useFirstViewportEntry from 'lib/hooks/useFirstViewportEntry';
 import React, { Suspense, useRef } from 'react';
+
+import useFirstViewportEntry from '#lib/hooks/useFirstViewportEntry';
 
 const RenderOnViewportEntry: React.FC<any> = ({
   children,

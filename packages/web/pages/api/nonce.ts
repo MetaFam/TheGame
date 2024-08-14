@@ -1,9 +1,10 @@
-import { getSession } from 'lib/ironSession';
 import {
   NextApiRequest as NextAPIRequest,
   NextApiResponse as NextAPIResponse,
 } from 'next';
 import { generateNonce } from 'siwe';
+
+import { getSession } from '#lib/ironSession';
 
 const handler = async (
   req: NextAPIRequest,

@@ -1,4 +1,4 @@
-import {
+  import {
   Box,
   Button,
   ExternalLinkIcon,
@@ -18,11 +18,6 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import { generateUUID } from '@metafam/utils';
-import DeworkLogo from 'assets/integrationLogos/deworkLogo.png';
-import { MetaLink } from 'components/Link';
-import { ProfileSection } from 'components/Section/ProfileSection';
-import { Player, useUpsertDeworkProfileMutation } from 'graphql/autogen/types';
-import { getPlayerDeworkUsername } from 'graphql/getDeworkUsername';
 import React, {
   useCallback,
   useEffect,
@@ -31,14 +26,20 @@ import React, {
   useState,
 } from 'react';
 import { MdRefresh } from 'react-icons/md';
-import { BoxTypes } from 'utils/boxTypes';
 import {
   DeworkData,
   getDeworkData,
   type Organisation,
   processDeworkData,
 } from 'utils/dework';
-import { formatAddress } from 'utils/playerHelpers';
+
+import DeworkLogo from '#assets/integrationLogos/deworkLogo.png';
+import { MetaLink } from '#components/Link';
+import { ProfileSection } from '#components/Section/ProfileSection';
+import { Player, useUpsertDeworkProfileMutation } from '#graphql/autogen/hasura-sdk';
+import { getPlayerDeworkUsername } from '#graphql/getDeworkUsername';
+import { BoxTypes } from '#utils/boxTypes';
+import { formatAddress } from '#utils/playerHelpers';
 
 type Props = {
   player: Player;

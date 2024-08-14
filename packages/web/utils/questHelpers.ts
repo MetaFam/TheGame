@@ -4,9 +4,7 @@ import {
   QuestRepetition_Enum,
   QuestStatus_Enum,
   QuestWithCompletionFragment,
-} from 'graphql/autogen/types';
-
-const { BN, amountToDecimal } = numbers;
+} from 'graphql/autogen/hasura-sdk';
 
 export const URIRegexp = /^(\w{1,12}:)?(\/\/)\S+/;
 

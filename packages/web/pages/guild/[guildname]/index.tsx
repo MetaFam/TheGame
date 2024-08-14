@@ -1,26 +1,27 @@
 import { Flex, LoadingState } from '@metafam/ds';
-import { EditableGridLayout } from 'components/EditableGridLayout';
-import { GuildSection } from 'components/Guild/GuildSection';
 import {
   ALL_BOXES,
   DEFAULT_GUILD_LAYOUT_DATA,
 } from 'components/Guild/Section/config';
-import { HeadComponent } from 'components/Seo';
 import {
   GuildFragment,
   QuestFragment,
   QuestStatus_Enum,
   useGetAdministeredGuildsQuery,
   useUpdateGuildLayoutMutation,
-} from 'graphql/autogen/types';
-import { getQuests } from 'graphql/getQuests';
-import { getGuild, getGuildnames } from 'graphql/queries/guild';
-import { useUser } from 'lib/hooks';
+} from 'graphql/autogen/hasura-sdk';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { lazy, ReactElement, useCallback, useMemo } from 'react';
-import { BoxTypes, DisplayOutput, LayoutData } from 'utils/boxTypes';
+
+import { EditableGridLayout } from '#components/EditableGridLayout';
+import { GuildSection } from '#components/Guild/GuildSection';
+import { HeadComponent } from '#components/Seo';
+import { getQuests } from '#graphql/getQuests';
+import { getGuild, getGuildnames } from '#graphql/queries/guild';
+import { useUser } from '#lib/hooks';
+import { BoxTypes, DisplayOutput, LayoutData } from '#utils/boxTypes';
 
 type Props = { guild: GuildFragment };
 

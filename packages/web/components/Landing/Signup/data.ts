@@ -1,8 +1,8 @@
-import PatronsImg from 'assets/patrons-sun_800x820.webp';
-import PlayerImg from 'assets/players-sun_800x822.webp';
-import BabyOctopus from 'assets/quests/baby_octo.webp';
-import Octopus from 'assets/quests/octopus.webp';
-import YoungPlant from 'assets/young-plant.webp';
+import PatronsImg from '#assets/patrons-sun_800x820.webp';
+import PlayerImg from '#assets/players-sun_800x822.webp';
+import BabyOctopus from '#assets/quests/baby_octo.webp';
+import Octopus from '#assets/quests/octopus.webp';
+import YoungPlant from '#assets/young-plant.webp';
 
 export enum PerkType {
   Free = 'free',

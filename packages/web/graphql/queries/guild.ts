@@ -17,9 +17,10 @@ import {
   GuildStatus_Enum,
   SearchGuildsQuery,
   SearchGuildsQueryVariables,
-} from 'graphql/autogen/types';
-import { GuildFragment, PlayerFragment } from 'graphql/fragments';
-import { GuildPlayer } from 'graphql/types';
+} from 'graphql/autogen/hasura-sdk';
+
+import { GuildFragment, PlayerFragment } from '#graphql/fragments';
+import { GuildPlayer } from '#graphql/types';
 
 import { client } from '../client';
 

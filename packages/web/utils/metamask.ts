@@ -1,4 +1,4 @@
-import { NETWORK_INFO } from 'utils/networks';
+import { NETWORK_INFO } from '#utils/networks';
 
 import { errorHandler } from './errorHandler';
 

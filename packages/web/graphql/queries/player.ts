@@ -3,7 +3,7 @@ import {
   GetPlayerLinksQueryVariables,
   GetPlayerPinnedQuestchainsQuery,
   GetPlayerPinnedQuestchainsQueryVariables,
-} from 'graphql/autogen/types';
+} from 'graphql/autogen/hasura-sdk';
 
 import { client } from '../client';
 
