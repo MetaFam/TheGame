@@ -449,7 +449,7 @@ export const QuestChainPlaybooksDetails: QuestChainListing = {
     type: PathPlaybookTypes.PLAYBOOK,
   },
     //  https://app.questchains.xyz/optimism/how-to-play-the-creator-game
-    [QuestChainsPlaybooks.CHOOSE_GOOD_QUESTS]: {
+    [QuestChainsPlaybooks.HOW_TO_PLAY_THE_CREATOR_GAME]: {
       address: '0x3e6ed2442e06c40f6aa7c50ed5b54cd303fab98a',
       chainId: '0xa',
       title: 'How to Play the Creator Game',
