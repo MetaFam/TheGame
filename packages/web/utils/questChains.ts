@@ -38,6 +38,7 @@ import team from '#assets/academy/team.webp';
 import time from '#assets/academy/time.webp';
 import web3builder from '#assets/academy/web3builder.webp';
 import buildingonoptimism from '#assets/academy/buildingonop.webp';
+import creatorgame from '#assets/academy/creatorgame.png';
 import { useWeb3 } from '#lib/hooks';
 
 export const useQuestChainContract = (address: string) => {
@@ -86,6 +87,7 @@ export const QuestChainsPlaybooks = {
   MEDITATIONS_ON_MOLOCH: 'meditations-on-moloch',
   'POLITICAL_METAMODERNISM-BRIDGING_DIVIDES': 'political-metamodernism',
   CHOOSE_GOOD_QUESTS: 'choose-good-quests',
+  HOW_TO_PLAY_THE_CREATOR_GAME: 'how-to-play-the-creator-game',
   MEME_DRIVEN_ORGANIZATIONS: 'meme-driven-organizations',
   BECOME_THE_BEST_DAO_CONTRIBUTOR: 'become-the-best-dao-contributor',
   STARTING_DAOS_101: 'starting-daos-101',
@@ -446,6 +448,18 @@ export const QuestChainPlaybooksDetails: QuestChainListing = {
     seedsEarned: 42069,
     type: PathPlaybookTypes.PLAYBOOK,
   },
+    //  https://app.questchains.xyz/optimism/how-to-play-the-creator-game
+    [QuestChainsPlaybooks.CHOOSE_GOOD_QUESTS]: {
+      address: '0x3e6ed2442e06c40f6aa7c50ed5b54cd303fab98a',
+      chainId: '0xa',
+      title: 'How to Play the Creator Game',
+      description:
+        'If you really do want to make it work on an unconventional path, you have to spend exponentially more time thinking about the meta-game of what you’re participating in and what you’re trying to do.',
+      image: creatorgame.src,
+      category: QuestChainsCategories.SELF_ACTUALIZATION,
+      seedsEarned: 42069,
+      type: PathPlaybookTypes.PLAYBOOK,
+    },
   //  https://app.questchains.xyz/optimism/meme-driven-organizations
   [QuestChainsPlaybooks.MEME_DRIVEN_ORGANIZATIONS]: {
     address: '0xc02573e396d4a203f7bb713ec7f2f33ec38489ed',
