@@ -71,15 +71,13 @@ export const ChainStats: React.FC<{
           <Box
             bg="cyan"
             w={`${
-              (progress.total ? progress.completeCount / progress.total : 0) *
-              100
+              (progress.total ? progress.completeCount / progress.total : 0) * 100
             }%`}
           />
           <Box
             bgColor="#EFFF8F"
             w={`${
-              (progress.total ? progress.inReviewCount / progress.total : 0) *
-              100
+              (progress.total ? progress.inReviewCount / progress.total : 0) * 100
             }%`}
           />
           <Box h={2} />
