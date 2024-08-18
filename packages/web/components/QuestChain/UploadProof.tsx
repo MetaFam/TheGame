@@ -119,14 +119,17 @@ export const UploadProof: React.FC<{
 
       addToast({
         description: (
-          <Text>
-            Wrote metadata to{' '}
-            <chakra.a href={details} color="purple.600" target="_blank">
-              {details}
-            </chakra.a>
-            .{'\n\n'}
-            Waiting for Confirmation: Confirm the transaction in your wallet.'
-          </Text>
+          <Stack>
+            <Text>
+              Wrote metadata to{' '}
+              <chakra.a href={details} color="purple.600" target="_blank">
+                {details}
+              </chakra.a>.
+            </Text>
+            <Text>
+              Simulating Mint: Confirm the transaction in your wallet.
+            </Text>
+          </Stack>
         ),
         duration: 3_000,
       });
@@ -134,10 +137,20 @@ export const UploadProof: React.FC<{
       // eslint-disable-next-line no-console
       if (debug) console.debug({ quest });
 
-      const txHash = await contract.write.submitProofs(
+      if(!address) throw new Error('Missing address.')
+
+      const { request } = await contract.simulate.submitProofs(
         [[BigInt(quest.questId)], [details]],
         { account: address },
       );
+      
+      // eslint-disable-next-line no-console
+      if(debug) console.debug({ request })
+
+      const txHash = await viemClients.wallet.writeContract(
+        request as typeof request & { account: string }
+      );
+      
       addToast({
         description: `Transaction ${txHash} submitted. Waiting for 1 block confirmation.`,
         duration: null,
@@ -149,7 +162,7 @@ export const UploadProof: React.FC<{
         ),
         duration: null,
       });
-      await helpers.waitUntilSubgraphIndexed(`${chainId}`, Number(receipt.blockNumber));
+      await helpers.waitUntilSubgraphIndexed(`0x${chainId.toString(16)}`, Number(receipt.blockNumber));
       addToast({
         description: `Successfully submitted proof.`,
         duration: 5_000,
