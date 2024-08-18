@@ -72,7 +72,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
         duration: null,
       });
 
-      const txHash = await contract.write.mintToken();
+      const txHash = await contract.write.mintToken([], { account: address });
       addToast({
         description: 'Transaction submitted. Waiting for 1 block confirmation.',
         duration: null,

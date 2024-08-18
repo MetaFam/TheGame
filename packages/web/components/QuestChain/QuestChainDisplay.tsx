@@ -254,7 +254,7 @@ const QuestChainDisplay: React.FC<Props> = ({
               rel="noreferrer"
               color="purple.200"
             >
-              {`${creatorAddress?.slice(0, 5)}…${creatorAddress?.slice(-3)}`}
+              {creatorName ? creatorName : `${creatorAddress?.slice(0, 5)}…${creatorAddress?.slice(-3)}`}
             </chakra.a>
           </Tooltip>
         </Box>
