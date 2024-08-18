@@ -26,8 +26,6 @@ import { useViemClients } from '#lib/hooks/useEthersProvider';
 import { useInputText } from '#lib/hooks/useInputText';
 import { errorHandler } from '#utils/errorHandler';
 import { getHexChainId, NETWORK_INFO } from '#utils/networks';
-import { a } from '@react-spring/web';
-import { SimulateContractReturnType } from 'viem';
 
 export type ToastInfo = {
   close: boolean;
