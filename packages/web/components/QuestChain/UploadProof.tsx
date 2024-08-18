@@ -27,6 +27,7 @@ import { useInputText } from '#lib/hooks/useInputText';
 import { errorHandler } from '#utils/errorHandler';
 import { getHexChainId, NETWORK_INFO } from '#utils/networks';
 import { a } from '@react-spring/web';
+import { SimulateContractReturnType } from 'viem';
 
 export type ToastInfo = {
   close: boolean;
@@ -148,7 +149,9 @@ export const UploadProof: React.FC<{
       // eslint-disable-next-line no-console
       if(debug) console.debug({ request })
 
-      const txHash = await viemClients.wallet.writeContract(request);
+      const txHash = await viemClients.wallet.writeContract(
+        request as typeof request & { account: string }
+      );
       
       addToast({
         description: `Transaction ${txHash} submitted. Waiting for 1 block confirmation.`,
