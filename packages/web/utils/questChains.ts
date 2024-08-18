@@ -38,7 +38,7 @@ import team from '#assets/academy/team.webp';
 import time from '#assets/academy/time.webp';
 import web3builder from '#assets/academy/web3builder.webp';
 import buildingonoptimism from '#assets/academy/buildingonop.webp';
-import creatorgame from '#assets/academy/creatorgame.png';
+import creatorgame from '#assets/academy/creatorgame.webp';
 import { useWeb3 } from '#lib/hooks';
 
 export const useQuestChainContract = (address: string) => {
