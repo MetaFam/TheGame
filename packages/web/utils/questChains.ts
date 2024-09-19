@@ -69,7 +69,7 @@ export const QuestChainsCategories = {
 export const QuestChainsPlaybooks = {
   SUBMIT_A_PLAYBOOK: 'submit-a-playbook',
   RITE_OF_PASSAGE: 'rite-of-passage',
-  PLAYERS_PATH: 'rogues-path',
+  PLAYERS_PATH: 'players-path',
   PATRONS_PATH: 'patrons-path',
   GUILDERS_PATH: 'guilders-path',
   BUILDERS_PATH: 'builders-path',
