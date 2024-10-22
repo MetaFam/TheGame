@@ -8,29 +8,13 @@ import {
   avalanche,
   bsc
 } from 'viem/chains'
-import { erc20Abi } from 'viem'
+import { getChain, erc20Abi } from 'viem'
 import fs from 'fs'
 import path from 'path'
 
-// Chain configurations
-const CHAINS = {
-  1: mainnet,
-  137: polygon,
-  10: optimism,
-  42161: arbitrum,
-  8453: base,
-  43114: avalanche,
-  56: bsc
-}
-
-// Common tokens across chains (example addresses - verify before use)
 const CHAIN_TOKENS = {
-  // Mainnet
-  1: [
-    '0xdAC17F958D2ee523a2206206994597C13D831ec7', // USDT
-    '0x6B175474E89094C44Da98b954EedeAC495271d0F', // DAI
-    '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'  // USDC
-  ],
+  [mainnet.id]: {
+  },
   // Polygon
   137: [
     '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', // USDT
@@ -195,7 +179,7 @@ if (!CHAINS[chainId]) {
 
 // Run the script
 exportBalanceCSV(walletAddress, chainId)
-  .catch(error => {
-    console.error('Script failed:', error)
-    process.exit(1)
-  })
+.catch(error => {
+  console.error('Script failed:', error)
+  process.exit(1)
+})

@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@composedb/types": "^0.7.1",
+    "@safe-global/api-kit": "^2.5.2",
     "@types/uuid": "^10.0.0",
     "key-did-provider-ed25519": "^2.0.1",
     "key-did-resolver": "^2.1.3",
