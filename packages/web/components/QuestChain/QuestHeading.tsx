@@ -104,11 +104,10 @@ export const PlayersFinished: React.FC<{
 }> = ({ numQuesters, numCompletedQuesters, updatedAt }) => (
   <HStack>
     <Text fontSize="sm" fontWeight="normal">
-      {numQuesters && numCompletedQuesters
-        ? `${Math.round(
-            (numCompletedQuesters / numQuesters) * 100,
-          )}% of players have finished this`
-        : 'No players have finished this yet'}
+      {numQuesters > 0
+        ? 
+          `${numCompletedQuesters} of ${numQuesters} participants have finished this`
+        : 'No participants have attempted this yet'}
     </Text>
 
     <Text>•</Text>
