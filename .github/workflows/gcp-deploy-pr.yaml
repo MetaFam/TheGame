@@ -498,7 +498,7 @@ jobs:
 
     steps:
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1.1.0
+        uses: google-github-actions/auth@v2.1.3
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           credentials_json: ${{secrets.GCP_SA_KEY}}
