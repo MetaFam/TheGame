@@ -40,7 +40,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
     : null;
 
   return (
-    <MetaTile minW={'300px'} height="full" width="full">
+    <MetaTile minW={'100%'} width="full" display="flex" flexDirection="column">
       <MetaTileHeader>
         <LinkBox>
           <LinkOverlay href={`/quest/${quest.id}`}>
@@ -87,7 +87,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
         </LinkBox>
       </MetaTileHeader>
 
-      <MetaTileBody pt={0}>
+      <MetaTileBody pt={0} flex="1">
         <LinkBox height="full">
           <Flex
             direction="column"
