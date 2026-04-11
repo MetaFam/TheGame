@@ -53,7 +53,7 @@ export const PlayerTile: React.FC<Props> = ({
 
   const [loading, setLoading] = useState(true);
   const daosRef = React.useRef<HTMLDivElement>(null);
-  const [limit, setLimit] = useState(12);
+  const [limit, setLimit] = useState(3);
 
   useEffect(() => {
     getAllMemberships(player).then(({ all }) => {
@@ -64,7 +64,7 @@ export const PlayerTile: React.FC<Props> = ({
 
   const handleResize = useCallback(() => {
     const width = daosRef.current?.scrollWidth;
-    setLimit(Math.max(8, Math.floor((width ?? 22) / 22)));
+    setLimit(Math.min(3, Math.max(1, Math.floor((width ?? 22) / 22))));
   }, []);
 
   useEffect(() => {
