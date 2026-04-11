@@ -16,6 +16,7 @@ export const QuestList: React.FC<Props> = ({ quests }) => (
       <SimpleGrid
         templateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr 1fr']}
         gap={{ base: 4, lg: 6, xl: 8 }}
+        autoRows="minmax(min-content, 1fr)"
         pb={24}
       >
         {quests.map((q) => (
