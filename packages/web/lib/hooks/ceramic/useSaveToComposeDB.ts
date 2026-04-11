@@ -1,6 +1,7 @@
 import { ComposeDBProfile, Maybe } from '@metafam/utils';
 import { useCallback, useState } from 'react';
 
+import { useAccount } from 'wagmi';
 import { useLinkOwnCeramicNodeMutation } from '#graphql/autogen/hasura-sdk';
 import {
   ComposeDBCreateProfileResponseData,
@@ -20,6 +21,7 @@ export class EmptyProfileError extends Error {
 
 export const useSaveToComposeDB = () => {
   const { composeDBClient, connect } = useComposeDB();
+  const { isConnected } = useAccount();
 
   // When saving to ComposeDB, it's essential that we have the most recent
   // value for user.ceramicProfileId so that we don't inadvertently create
@@ -40,13 +42,25 @@ export const useSaveToComposeDB = () => {
       if(Object.keys(values).length === 0) {
         throw new EmptyProfileError();
       }
+
+      if (!isConnected) {
+        throw new Error('Wallet is not connected. Please connect your wallet to save changes.');
+      }
+
       if (!composeDBClient) {
         throw new CeramicError(
           'Unable to connect to the Ceramic API to save changes.',
         );
       }
+
       if (!user) {
-        throw new Error('No wallet connected.');
+        throw new Error(
+          'Unable to load user profile. Please try refreshing the page or reconnecting your wallet.',
+        );
+      }
+
+      if (!user.address) {
+        throw new Error('User profile is missing wallet address information.');
       }
 
       if (!composeDBClient.context.isAuthenticated()) {
@@ -100,7 +114,7 @@ export const useSaveToComposeDB = () => {
       }
       return user.ceramicProfileId;
     },
-    [composeDBClient, connect, linkNode, user],
+    [composeDBClient, connect, linkNode, user, isConnected],
   );
 
   return { save, status };
