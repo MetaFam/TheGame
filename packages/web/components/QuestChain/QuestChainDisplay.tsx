@@ -32,7 +32,7 @@ import {
   useUserStatus,
 } from 'lib/hooks/questChains';
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';
-import { BsArrowRight, BsCheck } from 'react-icons/bs';
+import { BsArrowRight, BsCheck, BsCode } from 'react-icons/bs';
 
 import Pin from '#assets/pin.svg';
 import Seed from '#assets/seed.svg';
@@ -312,6 +312,21 @@ const QuestChainDisplay: React.FC<Props> = ({
                     isDisabled
                   />
                 </Tooltip>
+                <Tooltip label="Cookbook.dev">
+                  <IconButton
+                    variant="outline"
+                    aria-label="Cookbook"
+                    icon={<BsCode size={20} />}
+                    isRound
+                    justifyContent="center"
+                    onClick={() => {
+                      window.open(
+                        'https://cookbook.dev/recipes/optimism-playground',
+                        '_blank'
+                      );
+                    }}
+                  />
+                </Tooltip>
                 <IconButton
                   variant="outline"
                   aria-label="Share"
@@ -359,6 +374,19 @@ const QuestChainDisplay: React.FC<Props> = ({
                     Boost
                   </Button>
                 </Tooltip>
+                <Button
+                  variant="outline"
+                  w="full"
+                  leftIcon={<BsCode size={20} style={{ marginRight: 8 }} />}
+                  onClick={() => {
+                    window.open(
+                      'https://cookbook.dev/recipes/optimism-playground',
+                      '_blank'
+                    );
+                  }}
+                >
+                  Cookbook
+                </Button>
                 <Button
                   variant="outline"
                   w="full"
