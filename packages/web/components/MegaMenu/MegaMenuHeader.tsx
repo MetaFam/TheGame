@@ -604,7 +604,7 @@ export const MegaMenuHeader: React.FC = () => {
             </HStack>
             <Box
               textAlign="right"
-              display={{ base: 'none', lg: 'block' }}
+              display={{ base: 'none', md: 'block' }}
               pos="relative"
               right="0"
               left="1"
