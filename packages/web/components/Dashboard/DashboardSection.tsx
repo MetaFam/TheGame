@@ -10,7 +10,6 @@ import { CustomTextSection } from '../Section/CustomTextSection';
 import { EmbeddedUrl } from '../Section/EmbeddedUrlSection';
 import { Calendar } from './Calendar';
 import { LatestContent } from './LatestContent';
-import { Leaderboard } from './Leaderboard';
 import { QuestChainsPinned } from './QuestChainsPinned';
 import { DashboardQuestsCompleted } from './QuestsCompleted';
 import { DashboardQuestsCreated } from './QuestsCreated';
@@ -36,8 +35,6 @@ const DashboardSectionInner: React.FC<Props> = ({
       return <Seed />;
     case BoxTypes.DASHBOARD_CALENDER:
       return <Calendar />;
-    case BoxTypes.DASHBOARD_LEADERBOARD:
-      return <Leaderboard />;
     case BoxTypes.DASHBOARD_COMPLETED_QUESTS:
       return <DashboardQuestsCompleted />;
     case BoxTypes.DASHBOARD_PINNED_QUEST_CHAINS:
