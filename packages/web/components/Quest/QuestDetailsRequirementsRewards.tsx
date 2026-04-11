@@ -117,17 +117,12 @@ export const QuestDetailsRequirementsRewards: React.FC<Props> = ({ quest }) => (
         Rewards
       </Text>
 
-      <Flex justifyContent="center" gap={12}>
+      <HStack spacing={2}>
         <Box fontSize="5xl" fontWeight="600">
-          {(quest.reward || 0) * 1.5} XP
+          {quest.reward ?? '?'}
         </Box>
-        <HStack spacing={2}>
-          <Box fontSize="5xl" fontWeight="600">
-            {quest.reward ?? '?'}
-          </Box>
-          <Image src={SeedLogoSmol.src} alt="Seed logo" boxSize={46} />
-        </HStack>
-      </Flex>
+        <Image src={SeedLogoSmol.src} alt="Seed logo" boxSize={46} />
+      </HStack>
 
       <Text as="p" fontWeight="300" fontStyle="italic">
         Note: Rewards vary based on quality of outcome.
