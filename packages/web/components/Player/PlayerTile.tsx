@@ -80,7 +80,7 @@ export const PlayerTile: React.FC<Props> = ({
           {isPatron && typeof index === 'number' && pSeedPrice ? (
             <PatronRank patron={player as Patron} {...{ pSeedPrice, index }} />
           ) : (
-            <PlayerRank {...{ player, showSeasonalXP }} />
+            <PlayerRank {...{ player, showSeasonalXP, index }} />
           )}
           <PlayerProfilePicture {...{ player }} size="xl" />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
