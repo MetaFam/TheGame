@@ -7,11 +7,14 @@ import { convertToRoman } from '#utils/formatHelpers';
 type PlayerRankProps = {
   player: Player;
   showSeasonalXP?: boolean;
+  /** Optional numeric rank position (#1, #2, #3…) displayed on leaderboard cards */
+  index?: number;
 };
 
 export const PlayerRank: React.FC<PlayerRankProps> = ({
   player,
   showSeasonalXP,
+  index,
 }) => (
   <Flex
     direction="column"
@@ -26,6 +29,16 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
     zIndex={1}
   >
     <Flex flexDir="column" gap={2} zIndex={2}>
+      {index != null && (
+        <MetaTag
+          size="md"
+          color="white"
+          backgroundColor="purple.500"
+          justifyContent="center"
+        >
+          <TagLabel fontWeight="bold">#{index + 1}</TagLabel>
+        </MetaTag>
+      )}
       {player.rank && (
         <MetaTag
           backgroundColor={player.rank.toLowerCase()}

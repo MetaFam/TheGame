@@ -23,7 +23,7 @@ export const PlayerList: React.FC<Props> = ({
     {players.map((player, idx) => (
       <PlayerTile
         key={player.profile?.username ?? idx}
-        {...{ player, showSeasonalXP }}
+        {...{ player, showSeasonalXP, index: idx }}
       />
     ))}
   </SimpleGrid>
