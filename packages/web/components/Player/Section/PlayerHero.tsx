@@ -9,6 +9,12 @@ import {
   MarkdownViewer,
   MeetWithWalletIcon,
   MetaButton,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   MetaTag,
   Text,
   Tooltip,
@@ -19,7 +25,7 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import React, { useMemo } from 'react';
-import { FaClock, FaGlobe } from 'react-icons/fa';
+import { FaClock, FaGlobe, FaEnvelope } from 'react-icons/fa';
 
 import { FlexContainer } from '#components/Container';
 import { EditProfileModal } from '#components/EditProfileModal';
@@ -49,11 +55,21 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
 
   const isOwnProfile = user ? user.id === player?.id : null;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isContactOpen,
+    onOpen: onContactOpen,
+    onClose: onContactClose,
+  } = useDisclosure();
 
   const { hydrateFromComposeDB } = usePlayerHydrationContext();
 
   const mwwDomain = useMemo(
     () => getPlayerMeetwithWalletCalendarUrl(player),
+    [player],
+  );
+
+  const hasContacts = useMemo(
+    () => player?.accounts != null && player.accounts.length > 0,
     [player],
   );
 
@@ -101,16 +117,49 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing, ens }) => {
           <Emoji {...{ player }} />
         </Grid>
 
-        {mwwDomain && mwwDomain !== 'mww_remove' && (
-          <MetaButton
-            target="_blank"
-            href={`${mwwDomain}?utm_source=metafam&utm_medium=site`}
-            leftIcon={<MeetWithWalletIcon />}
-          >
-            Meet With Me
-          </MetaButton>
-        )}
+        <HStack spacing={4} mt={2}>
+          {mwwDomain && mwwDomain !== 'mww_remove' && (
+            <MetaButton
+              target="_blank"
+              href={`${mwwDomain}?utm_source=metafam&utm_medium=site`}
+              leftIcon={<MeetWithWalletIcon />}
+            >
+              Meet With Me
+            </MetaButton>
+          )}
+          {hasContacts && (
+            <MetaButton
+              leftIcon={<FaEnvelope />}
+              onClick={onContactOpen}
+              variant="outline"
+              colorScheme="cyan"
+            >
+              Contact
+            </MetaButton>
+          )}
+        </HStack>
       </VStack>
+
+      {/* Contact Modal */}
+      <Modal isOpen={isContactOpen} onClose={onContactClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Contact</ModalHeader>
+          <ModalBody>
+            <VStack spacing={4} align="stretch">
+              <Text fontSize="sm" color="blueLight">
+                Reach out via one of the following channels:
+              </Text>
+              <HStack gap={3} justify="center" flexWrap="wrap">
+                <Contacts {...{ player }} />
+              </HStack>
+            </VStack>
+          </ModalBody>
+          <ModalFooter>
+            <MetaButton onClick={onContactClose}>Close</MetaButton>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {isOwnProfile && (
         <EditProfileModal
